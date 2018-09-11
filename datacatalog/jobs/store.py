@@ -1,14 +1,11 @@
 import uuid
 from ..basestore import *
 from .fsm import JobStateMachine
-
 class JobCreateFailure(Exception):
     pass
 
-
 class JobUpdateFailure(Exception):
     pass
-
 
 class JobStore(BaseStore):
     """Create and manage job record and state"""
