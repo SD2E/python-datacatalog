@@ -1,0 +1,10 @@
+hashids>=1.2.0
+petname>=2.2
+PyMongo>=3.7.1
+jsonschema>=2.6.0
+arrow>=0.12.1
+agavepy>=0.7.1
+filetype>=1.0.1
+pytz>=2018.4
+python-slugify>=1.2.5
+transitions

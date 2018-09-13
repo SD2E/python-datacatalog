@@ -38,14 +38,14 @@ def components_to_pipeline(components):
     newcomps = sorted(comps, key=lambda k: k['id'])
     return newcomps
 
-def components_to_document(components):
+def pipeline_to_document(pipeline):
     """Generate a JSON document representing a set of pipeline components"""
-    comps = components_to_pipeline(components)
-    return json.dumps(comps, sort_keys=True, separators=(',', ':'))
+    return json.dumps(pipeline, sort_keys=True, separators=(',', ':'))
 
-def components_to_id(components):
+
+def pipeline_to_uuid(pipeline, binary=True):
     """Generate a UUID5 based on a set of pipeline components"""
-    return catalog_uuid(components_to_document(components))
+    return catalog_uuid(pipeline_to_document(pipeline), binary=binary)
 
 def components_document_to_id(components_document):
     """Generate a UUID5 based on a pipeline components document"""

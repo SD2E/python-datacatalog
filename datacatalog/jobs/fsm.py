@@ -1,5 +1,6 @@
 from transitions import Machine
 import datetime
+import inspect
 
 class JobStateMachine(object):
     """Load and manage Job state from serialized record"""
@@ -18,14 +19,15 @@ class JobStateMachine(object):
     ]
 
     def __init__(self, jobdef={}, state='created'):
+
+        self.data = {}
         ts = current_time()
-        self.job = jobdef
-
-        # Add history key if not present, assuming this is a new record
-        if 'history' not in self.job:
-            self.job['history'] = [{'created': ts}]
-
-        self.last_event = None
+        for k in jobdef:
+            self.data[k] = jobdef.get(k, None)
+        if 'history' not in self.data:
+            self.data['history'] = [{'CREATED': ts}]
+        self.data['status'] = 'CREATED'
+        self.data['last_event'] = 'CREATE'
 
         self.machine = Machine(
             model=self, states=JobStateMachine.states,
@@ -34,17 +36,22 @@ class JobStateMachine(object):
             auto_transitions=False,
             after_state_change='update_history')
 
-    def history(self):
-        return self.job.get('history', [])
+    def handle(self, event_name, opts={}):
+        eventfn = event_name.lower()
+        eventname = event_name.upper()
+        vars(self)[eventfn](opts, event=eventname)
+        return self
 
-    def update_history(self):
+    def history(self):
+        return self.data.get('history', [])
+
+    def update_history(self, opts, event_name):
         ts = current_time()
         history_entry = {}
-        history_entry[self.state] = ts
-        self.job['history'].append(history_entry)
-        self.last_event = self.state
-
-
+        history_entry[str(self.state).upper()] = ts
+        self.data['history'].append(history_entry)
+        self.data['status']: self.state
+        self.data['last_event'] = event_name
 
 def current_time():
     return datetime.datetime.utcnow()
