@@ -16,7 +16,7 @@ def get_job_instance_directory(session=None):
     return session + arrow.utcnow().format('YYYYMMDDTHHmmss') + 'Z'
 
 def get_archive_path(pipeline_id, lab_name, experiment_reference, measurement_id=None, session=None):
-    return __get_v1_archive_path(pipeline_id, lab, experiment_reference, measurement_id=None, session=session)
+    return __get_v1_archive_path(pipeline_id, lab_name, experiment_reference, measurement_id=None, session=session)
 
 def __get_v1_archive_path(pipeline_id, lab_name, experiment_reference, measurement_id=None, session=None):
     """Construct an archivePath for a pipeline job
