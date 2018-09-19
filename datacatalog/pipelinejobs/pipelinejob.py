@@ -1,6 +1,7 @@
+import copy
 from ..jobs import JobStore
 from ..jobs.utils import get_archive_path
-
+from ..dicthelpers import data_merge
 class PipelineJob(JobStore):
     def __init__(self, reactor, lab_name, experiment_reference, sample_id, measurement_id=None, data={}):
         super(PipelineJob, self).__init__(reactor.settings.pipelines,
@@ -23,16 +24,21 @@ class PipelineJob(JobStore):
                 'session': self.session}
         if measurement_id is not None:
             ARGS['measurement_id'] = measurement_id
+
+        # keep the setup params in human-readable form, injecting them into data
+        self.data = copy.copy(ARGS)
         self.path = get_archive_path(self.pipeline_uuid, **ARGS)
 
         # Utility paths
         self.agave_path = 'agave://' + self.archive_system + '/' + self.path
         self.jupyter_path = 'https://jupyter.sd2e.org/user/{User}/sd2e-community' + '/' + self.path
 
-    def setup(self, data=None):
+    def setup(self, data={}):
         # Write the initial record to the jobs collection
-
-        new_job = self.create(self.pipeline_uuid, archive_path=self.path, actor_id=self.actor_id, data=data, session=self.session)
+        setup_data = data_merge(self.data, data)
+        self.data = setup_data
+        new_job = self.create(self.pipeline_uuid, archive_path=self.path,
+                              actor_id=self.actor_id, data=self.data, session=self.session)
         self.uuid = new_job.get('_uuid')
         self.token = new_job.get('token')
         self.callback = self.__get_webhook()
