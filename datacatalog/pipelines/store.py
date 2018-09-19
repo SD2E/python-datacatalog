@@ -58,6 +58,13 @@ class PipelineStore(BaseStore):
             result = self.coll.insert_one(pipe_rec)
             result_job = self.coll.find_one({'_id': result.inserted_id})
             result_job['token'] = new_token(result_job)
+
+            # TODO factor this out into a general filter function
+            try:
+                result_job('_salt')
+            except Exception:
+                pass
+
             return result_job
         except DuplicateKeyError:
             raise DuplicatePipelineError('A pipeline with this distinct set of components already exists.')
@@ -97,6 +104,13 @@ class PipelineStore(BaseStore):
         pipe_rec = self.update_properties(pipe_rec)
         try:
             updated_rec = self.coll.find_one_and_replace({'_id': pipe_rec['_id']}, pipe_rec, return_document=ReturnDocument.AFTER)
+
+            # TODO factor this out into a general filter function
+            try:
+                updated_rec('_salt')
+            except Exception:
+                pass
+
             return updated_rec
         except Exception as exc:
             raise PipelineUpdateFailure(
