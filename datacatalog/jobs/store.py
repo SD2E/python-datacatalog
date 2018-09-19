@@ -73,6 +73,12 @@ class JobStore(BaseStore):
             new_job = self.coll.find_one({'_id': result.inserted_id})
             # inject a validation token into response
             new_job['token'] = new_token(new_job)
+
+            # TODO factor this out into a general filter function
+            try:
+                new_job.pop('_salt')
+            except Exception:
+                pass
             return new_job
         except Exception as exc:
             raise JobCreateFailure('Failed to create job for pipeline {}'.format(pipeline_uuid), exc)
@@ -116,6 +122,12 @@ class JobStore(BaseStore):
         try:
             updated_job = self.coll.find_one_and_replace({'uuid': db_job.get('uuid')}, db_job,
                 return_document=ReturnDocument.AFTER)
+
+            # TODO factor this out into a general filter function
+            try:
+                updated_job.pop('_salt')
+            except Exception:
+                pass
             return updated_job
         except Exception as exc:
             raise JobUpdateFailure('Failed up write job to database', exc)
