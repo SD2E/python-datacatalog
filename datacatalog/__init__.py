@@ -1,3 +1,5 @@
+name = "datacatalog"
+
 #from .constants import Constants, Enumerations, Mappings
 from .constants import *
 from .main import *
