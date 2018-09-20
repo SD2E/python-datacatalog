@@ -7,7 +7,7 @@ requires = [pkg for pkg in open('requirements.txt').readlines()]
 
 setuptools.setup(
     name="datacatalog",
-    version="0.1.3",
+    version="0.1.4",
     author="Matthew Vaughn",
     author_email="opensource@sd2e.org",
     description="Python package implementing essential logic for SD2 Data Catalog",
@@ -21,6 +21,8 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 2.7.12",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         'Development Status :: 4 - Beta',
