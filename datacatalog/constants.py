@@ -1,12 +1,21 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import object
+
 from uuid import uuid3, NAMESPACE_DNS
 
 DNS_FOR_NAMESPACE = 'sd2e.org'
 UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
 
-class AgaveStorageSystems():
+class AgaveStorageSystems(object):
     sde2_community = {'system_id': 'data_sde2_community',
                       'root_dir': '/work/projects/SD2E-Community/prod/data'}
-class Constants():
+class Constants(object):
     DNS_FOR_NAMESPACE = 'sd2e.org'
     MOCK_DNS_FOR_NAMESPACE = 'sd2e.club'
     UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
@@ -23,10 +32,10 @@ class Constants():
     CATALOG_MONGODB_HOST = 'catalog.sd2e.org'
     CATALOG_MONGODB_PORT = 27020
 
-class Enumerations():
+class Enumerations(object):
     LABPATHS = ('ginkgo', 'transcriptic', 'biofab', 'emerald')
     LABNAMES = ('Ginkgo', 'Transcriptic', 'UW_BIOFAB', 'Emerald')
     CHALLENGE_PROBLEMS = ('Yeast-Gates', 'Novel-Chassis')
 
-class Mappings():
+class Mappings(object):
     LABPATHS = {'ginkgo': 'Ginkgo', 'transcriptic': 'Transcriptic', 'biofab': 'UW_BIOFAB', 'emerald': 'Emerald'}

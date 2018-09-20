@@ -1,8 +1,19 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+
 import base64
-import uuid
 import bson
+import uuid
+
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
+
 from ..constants import Constants
 
 __all__ = ["generate", "mock", "validate", "catalog_uuid", "text_uuid_to_binary"]

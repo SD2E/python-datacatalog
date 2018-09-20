@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import object
 import copy
 import inspect
 import json
@@ -62,7 +70,7 @@ class DataCatalogJob(object):
                     pr[name] = value
 
         prj = self.job.as_dict()
-        for name, value in prj.items():
+        for name, value in list(prj.items()):
             if not name.startswith('__') and not inspect.ismethod(value):
                 pr[name] = value
         pr['status'] = pr['status'].upper()

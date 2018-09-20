@@ -1,6 +1,17 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+
 import uuid
+
 from ..basestore import *
 from ..identifiers.datacatalog_uuid import text_uuid_to_binary
+
 from .utils import components_to_pipeline, pipeline_to_uuid
 from .token import new_token, generate_salt, validate_token, InvalidToken
 class PipelineCreateFailure(CatalogUpdateFailure):

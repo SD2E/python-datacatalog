@@ -1,3 +1,12 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+
+from builtins import *
 from .basestore import *
 
 class FileMetadataUpdateFailure(CatalogUpdateFailure):
@@ -52,7 +61,7 @@ class FileMetadataStore(BaseStore):
         # accept attributes overrides
         if 'attributes' not in file:
             file['attributes'] = {}
-        for k, v in attributes.items():
+        for k, v in list(attributes.items()):
             file['attributes'][k] = v
         # move some top-level keys into attributes
         if 'type' in file:

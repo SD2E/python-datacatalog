@@ -1,7 +1,18 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+from builtins import object
+
 import json
 import copy
-from slugify import slugify
 import datetime
+from slugify import slugify
+
 from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE
 from .configs import CatalogStore
 from .utils import catalog_uuid, current_time, time_stamp, validate_file_to_schema
@@ -51,7 +62,7 @@ class LogStore(object):
 def safen(d):
     """Replaces $ leading character in keys with _$, making the dict safe for MongoDB"""
     new = {}
-    for k, v in d.items():
+    for k, v in list(d.items()):
         if isinstance(v, dict):
             v = safen(v)
         if isinstance(k, str):

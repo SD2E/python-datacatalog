@@ -1,8 +1,19 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import str
+from builtins import map
+from builtins import *
+
 import copy
 import datetime
-from collections import Mapping, MutableMapping
-from attrdict import AttrDict
 import jsondiff
+from attrdict import AttrDict
+from collections import Mapping, MutableMapping
 
 LISTKEYS = ['child_of']
 FILTERKEYS = ('_id', 'uuid', 'properties', 'measurements_ids',
@@ -105,9 +116,9 @@ def dict_compare(a, b):
     '''Lexically compare values of all primitives in a pair of dicts'''
     # FIXME: This is not a great implementation
     aa = '.'.join(sorted([str(v)
-                          for v in flatten(a).values() if is_primitive(v)]))
+                          for v in list(flatten(a).values()) if is_primitive(v)]))
     bb = '.'.join(sorted([str(u)
-                          for u in flatten(b).values() if is_primitive(u)]))
+                          for u in list(flatten(b).values()) if is_primitive(u)]))
     if aa == bb:
         return False
     else:
@@ -115,13 +126,13 @@ def dict_compare(a, b):
 
 def flatten(d, parent_key='', sep='_'):
     items = []
-    for k, v in d.items():
+    for k, v in list(d.items()):
         new_key = '{0}{1}{2}'.format(parent_key, sep, k) if parent_key else k
         if isinstance(v, MutableMapping):
-            items.extend(flatten(v, new_key, sep=sep).items())
+            items.extend(list(flatten(v, new_key, sep=sep).items()))
         elif isinstance(v, list):
             # apply itself to each element of the list - that's it!
-            items.append((new_key, map(flatten, v)))
+            items.append((new_key, list(map(flatten, v))))
         else:
             items.append((new_key, v))
     return dict(items)
@@ -157,7 +168,7 @@ def dict_merge(dct, merge_dct, add_keys=True):
             k: merge_dct[k]
             for k in set(dct).intersection(set(merge_dct))
         }
-    for k, v in merge_dct.items():
+    for k, v in list(merge_dct.items()):
         if (k in dct and isinstance(dct[k], dict)
                 and isinstance(merge_dct[k], Mapping)):
             dct[k] = dict_merge(dct[k], merge_dct[k], add_keys=add_keys)
@@ -215,4 +226,4 @@ def _dictcompare(a, b, section=None):
     # https://stackoverflow.com/a/48652830
     # This was not working for the comparisons I needed to make but am keeping
     # it around for reference
-    return [(c, d, g, section) if all(not isinstance(i, dict) for i in [d, g]) and d != g else None if all(not isinstance(i, dict) for i in [d, g]) and d == g else _dictcompare(d, g, c) for [c, d], [h, g] in zip(a.items(), b.items())]
+    return [(c, d, g, section) if all(not isinstance(i, dict) for i in [d, g]) and d != g else None if all(not isinstance(i, dict) for i in [d, g]) and d == g else _dictcompare(d, g, c) for [c, d], [h, g] in zip(list(a.items()), list(b.items()))]

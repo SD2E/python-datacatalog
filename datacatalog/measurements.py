@@ -1,3 +1,12 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+
 from .basestore import *
 
 class MeasurementUpdateFailure(CatalogUpdateFailure):
@@ -43,7 +52,7 @@ class MeasurementStore(BaseStore):
         # accept attributes overrides
         if 'attributes' not in measurement:
             measurement['attributes'] = {}
-        for k, v in attributes.items():
+        for k, v in list(attributes.items()):
             measurement['attributes'][k] = v
 
         # this list maintains the inheritance relationship

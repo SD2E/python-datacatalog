@@ -1,10 +1,21 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+
 import os
+import uuid
+from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
+from pprint import pprint
+
 from .. import identifiers
 from ..basestore import BaseStore, time_stamp, data_merge, ReturnDocument
+
 from .job import DataCatalogJob, new_token, validate_token, InvalidToken
-from pprint import pprint
-from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
-import uuid
 
 class JobsGenericFailure(Exception):
     pass

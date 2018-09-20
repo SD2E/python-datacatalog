@@ -1,12 +1,24 @@
-from uuid import UUID
-import petname
-import os
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+
 import arrow
 import json
+import petname
+import os
+
+from uuid import UUID
+
 from .. import identifiers
 
 ARCHIVE_PATH_VERSIONS = ['v1']
 ARCHIVE_PATH_PREFIXES = ['/products']
+ARCHIVE_PATH_VERSION = ARCHIVE_PATH_VERSIONS[0]
+ARCHIVE_PATH_PREFIX = ARCHIVE_PATH_PREFIXES[0]
 
 def get_instance_directory(session=None):
     if session is None or len(session) < 4:
@@ -26,8 +38,8 @@ def get_archive_path(pipeline_uuid, **kwargs):
     # FIXME Actually validate against known pipeline UUIDs
     identifiers.datacatalog_uuid.validate(pipeline_uuid)
 
-    version = ARCHIVE_PATH_VERSIONS[0]
-    path_els = [ARCHIVE_PATH_PREFIXES[0], version]
+    version = ARCHIVE_PATH_VERSION
+    path_els = [ARCHIVE_PATH_PREFIX, version]
 
     # FIXME Validate lab, etc. against known metadata entries
 

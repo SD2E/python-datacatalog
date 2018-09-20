@@ -1,8 +1,19 @@
-import uuid
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import *
+
 import datetime
+import json
+import uuid
+
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
-import json
+
 from .constants import Constants
 
 SCHEMA_FILE = '/schemas/default.jsonschema'

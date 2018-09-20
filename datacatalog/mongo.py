@@ -1,14 +1,23 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import bytes
+from builtins import *
+
 import base64
+from bson.binary import UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from pymongo import MongoClient, ReturnDocument, ASCENDING
 from pymongo.errors import DuplicateKeyError
-from bson.binary import UUID_SUBTYPE, OLD_UUID_SUBTYPE
 
 try:
     # Python 3.x
     from urllib.parse import quote_plus
 except ImportError:
     # Python 2.x
-    from urllib import quote_plus
+    from urllib.parse import quote_plus
 
 from .exceptions import CatalogDatabaseError
 

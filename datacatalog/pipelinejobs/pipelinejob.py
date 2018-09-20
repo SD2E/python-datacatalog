@@ -1,7 +1,16 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+
 import copy
+
+from ..dicthelpers import data_merge
 from ..jobs import JobStore
 from ..jobs.utils import get_archive_path
-from ..dicthelpers import data_merge
 class PipelineJob(JobStore):
     def __init__(self, reactor, lab_name, experiment_reference, sample_id, measurement_id=None, data={}):
         super(PipelineJob, self).__init__(reactor.settings.pipelines,
