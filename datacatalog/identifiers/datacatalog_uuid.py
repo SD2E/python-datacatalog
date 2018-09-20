@@ -47,8 +47,11 @@ def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
     """
     if text_value.startswith('/'):
         text_value = text_value[1:]
-    if text_value.startswith(Constants.STORAGE_ROOT):
-        text_value = text_value[len(Constants.STORAGE_ROOT):]
+    if text_value.startswith(Constants.UPLOADS_ROOT):
+        text_value = text_value[len(Constants.UPLOADS_ROOT):]
+    if text_value.startswith('/'):
+        text_value = text_value[1:]
+
     new_uuid = uuid.uuid5(namespace, text_value)
     if binary is False:
         return str(new_uuid)

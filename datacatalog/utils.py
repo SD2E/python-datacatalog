@@ -52,10 +52,14 @@ def catalog_uuid(filename, binary=True):
     Returns:
         new_uuid: The computable UUID in string or binary-encoded form
     """
+
     if filename.startswith('/'):
         filename = filename[1:]
-    if filename.startswith(Constants.STORAGE_ROOT):
-        filename = filename[len(Constants.STORAGE_ROOT):]
+    if filename.startswith(Constants.UPLOADS_ROOT):
+        filename = filename[len(Constants.UPLOADS_ROOT):]
+    if filename.startswith('/'):
+        filename = filename[1:]
+
     new_uuid = uuid.uuid5(Constants.UUID_NAMESPACE, filename)
     if binary is False:
         return str(new_uuid)
