@@ -23,7 +23,7 @@ class BaseStore(object):
 
         self.agave_system = CatalogStore.agave_storage_system
         self.base = CatalogStore.agave_root_dir
-        self.store = CatalogStore.store_dir + '/'
+        self.store = CatalogStore.uploads_dir + '/'
         self.coll = None
         self.name = None
         self.difflog = LogStore(mongodb, config, session)
