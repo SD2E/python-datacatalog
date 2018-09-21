@@ -7,7 +7,9 @@ from builtins import str
 from builtins import *
 
 import os
-from ..filesfixity import ReturnDocument, FileFixityStore, FileFixtyUpdateFailure, DuplicateFilenameError, DuplicateKeyError
+from ..identifiers.datacatalog_uuid import catalog_uuid
+from ..filesfixity import CatalogStore, ReturnDocument, FileFixityStore
+from ..filesfixity import FileFixtyUpdateFailure, DuplicateFilenameError, DuplicateKeyError
 from ..utils import time_stamp
 from ..dicthelpers import data_merge
 
@@ -32,11 +34,15 @@ class ProductsFixityStore(FileFixityStore):
         self.name = coll
         self.coll = self.db[coll]
         self._post_init()
+        self.store = CatalogStore.products_dir + '/'
 
     def create(self, filename, **kwargs):
+        self.filename = self.normalize(filename)
+        self.filepath = self.abspath(self.filename)
         extras = data_merge(self.DEFAULTS, kwargs)
         # TODO normalize filename
-        fixrec = FileFixityInstance(filename, **extras).sync().as_dict()
+        fixrec = FileFixityInstance(filename=self.filename,
+            filepath=self.abspath(self.filename), **extras).sync().as_dict(filters=['_filename'])
         try:
             res = self.coll.insert_one(fixrec)
             res_rec = self.coll.find_one({'_id': res.inserted_id})
@@ -49,8 +55,7 @@ class ProductsFixityStore(FileFixityStore):
                 'Failed to index {}'.format(os.path.basename(filename)), exc)
 
     def update(self, filename, **kwargs):
-        # TODO normalize filename
-
+        self.filename = self.normalize(filename)
         # fetch current record
         db_rec = self.coll.find_one({'filename': filename})
         if db_rec is None:
@@ -62,7 +67,8 @@ class ProductsFixityStore(FileFixityStore):
             except KeyError:
                 pass
         db_params = data_merge(db_params, kwargs)
-        fix_rec = FileFixityInstance(filename, **db_params).sync()
+        fix_rec = FileFixityInstance(
+            self.filename, filepath=self.abspath(self.filename), **db_params).sync().as_dict(filters=['_filename'])
         try:
             updated_rec = self.coll.find_one_and_replace(
                 {'_id': db_rec['_id']}, fix_rec,

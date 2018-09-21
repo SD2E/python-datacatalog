@@ -23,5 +23,11 @@ class CatalogAttrDict(dict):
         else:
             raise AttributeError("No such attribute: " + name)
 
-    def as_dict(self):
-        return dict(self)
+    def as_dict(self, filters=[]):
+        d = dict(self)
+        for f in filters:
+            try:
+                d.pop(f)
+            except KeyError:
+                pass
+        return d

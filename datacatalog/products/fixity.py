@@ -24,12 +24,16 @@ class FileFixityInstance(CatalogAttrDict):
               ('generated_by', False, 'generated_by', []),
               ('derived_from', False, 'derived_from', []),
               ('child_of', False, 'child_of', [])]
+    FILTERS = ['_filename']
+
     """Encapsulates the data model and business logic of a fixity record"""
 
-    def __init__(self, filename, properties={}, **kwargs):
+    def __init__(self, filename, filepath, properties={}, **kwargs):
 
         self.filename = filename
-        self.uuid = catalog_uuid(filename)
+        self._filename = filepath
+        self.uuid = catalog_uuid(self.filename)
+
         self.properties = FixityPropertySet(**properties)
         for param, mandatory, attr, default in self.PARAMS:
             try:
@@ -38,13 +42,6 @@ class FileFixityInstance(CatalogAttrDict):
                 raise ValueError(
                     'parameter "{}" is mandatory'.format(param))
             setattr(self, attr, value)
-
-    def normalize(self):
-        """This is intended to be overridden in the subclass"""
-        self.filename = self.filename
-        if not os.path.exists(self.filename):
-            raise OSError(self.filename + ' was not found or is inaccessible')
-        return self
 
     def sync(self):
         """(Re)load fixity data from disk"""
@@ -102,14 +99,14 @@ class FileFixityInstance(CatalogAttrDict):
 
     def size(self):
         """Returns size in bytes for files and 0 for directories"""
-        if os.path.isfile(self.filename):
-            gs = os.path.getsize(self.filename)
+        if os.path.isfile(self._filename):
+            gs = os.path.getsize(self._filename)
             if gs is None:
                 raise OSError(
                     'Unable to get size for {}'.format(self.filename))
             else:
                 return gs
-        elif os.path.isdir(self.filename):
+        elif os.path.isdir(self._filename):
             return 0
 
     def checksum(self):
@@ -118,11 +115,11 @@ class FileFixityInstance(CatalogAttrDict):
 
     def __checksum_sha256(self):
         """Returns sha256 checksum for a file"""
-        if not os.path.isfile(self.filename):
+        if not os.path.isfile(self._filename):
             return None
         try:
             hash_sha = hashlib.sha256()
-            with open(self.filename, "rb") as f:
+            with open(self._filename, "rb") as f:
                 for chunk in iter(lambda: f.read(131072), b""):
                     hash_sha.update(chunk)
             return hash_sha.hexdigest()
@@ -133,12 +130,12 @@ class FileFixityInstance(CatalogAttrDict):
         """Returns the file's apparent modification time. Note that only
         millisecond precision is supported, which is an inherited deficiency
         from MongoDB and the BSON specification for dates."""
-        t = os.path.getmtime(self.filename)
+        t = os.path.getmtime(self._filename)
         return msec_precision(datetime.datetime.fromtimestamp(t))
 
     def file_type(self):
         """Returns the type for a given file"""
-        return infer_filetype(self.filename).label
+        return infer_filetype(self._filename).label
 
 class FixityPropertySet(CatalogAttrDict):
     """Encapsulates a set of fixity properties"""
