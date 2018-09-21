@@ -22,9 +22,12 @@ def current_time():
     """Current UTC time
 
     Returns:
-        A ``datetime`` object
+        A ``datetime`` object rounded to millisecond precision
     """
-    return datetime.datetime.utcnow()
+    return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000)/1000)
+
+def msec_precision(datetimeval):
+    return datetime.datetime.fromtimestamp(int(datetimeval.timestamp() * 1000)/1000)
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds

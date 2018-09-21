@@ -9,7 +9,11 @@ from builtins import *
 
 import datetime
 from .basestore import *
+
 class FileFixtyUpdateFailure(CatalogUpdateFailure):
+    pass
+
+class DuplicateFilenameError(DuplicateKeyError):
     pass
 
 class FileFixityStore(BaseStore):

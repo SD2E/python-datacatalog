@@ -16,4 +16,6 @@ from .filesmetadata import FileMetadataStore, FileMetadataUpdateFailure
 from .filesfixity import FileFixityStore, FileFixtyUpdateFailure
 from .pipelines import *
 from .jobs import *
+
 from . import pipelinejobs
+from . import products

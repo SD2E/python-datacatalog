@@ -13,3 +13,4 @@ from .main import *
 from .posixhelpers import *
 from .agavehelpers import from_agave_uri, AgaveError
 from . import identifiers
+from . import filetypes
