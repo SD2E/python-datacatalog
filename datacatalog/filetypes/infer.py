@@ -20,6 +20,8 @@ def __infer_xdg_mime(filename):
     mime = Mime.get_type2(filename)
     label = mime.subtype
     if label.startswith('x-'):
+        # Offsets an annoying decision by MIME catalog holder to
+        # label types not registered with ICANN with the x- prefix
         label = str(label.replace('x-', ''))
     comment = str(mime.get_comment())
     return FileType(label, comment)
@@ -33,6 +35,7 @@ def __infer_by_rule(filename):
         ('SRAW', 'Raw proteomics file', ['\.sraw$']),
         ('MZML', 'Proteomics mzML file', ['\.mzML$']),
         ('MSF', 'Magellan storage file', ['\.msf$']),
+        ('SAMPLES', 'SD2 Samples Metadata JSON', ['^metadata-[0-9-]+.json$']),
         ('BPROV', 'Biofab Provenance JSON', ['^provenance_dump.json$']),
         ('INI', 'INI config file', ['\.ini$']),
         ('SECRETS', 'Abaco secrets file', ['^secrets.json$']),
