@@ -8,7 +8,7 @@ def infer_filetype(filename):
     fallback to using the freedesktop.org MIME catalog
     """
     if not os.path.exists(filename):
-        raise OSError('{} does not exist or is not accessible')
+        raise OSError(filename + ' does not exist or is not accessible')
     try:
         return __infer_by_rule(filename)
     except FileTypeError:
@@ -30,6 +30,10 @@ def __infer_by_rule(filename):
     # TODO: Protein Mass Spec bestiary https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518119/
     # TODO: Replace rules with local additions to local xdg mime catalog
     FILETYPES = [
+        ('BAM', 'Binary SAM', ['\.bam$']),
+        ('VCF', 'Variant Call Format', ['\.vcf$']),
+        ('BCF', 'Binary Variant Call Format', ['\.bcf$']),
+        ('SAM', 'Sequence Alignment/MAP', ['\.sam$']),
         ('FASTQ', 'FASTQ sequence file', ['\.fastq$', '\.fastq.gz$', '\.fq$', '\.fq.gz$']),
         ('FCS', 'Flow Cytometry Standard', ['\.fcs$']),
         ('SRAW', 'Raw proteomics file', ['\.sraw$']),
