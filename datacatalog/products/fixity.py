@@ -27,13 +27,10 @@ class FileFixityInstance(CatalogAttrDict):
     """Encapsulates the data model and business logic of a fixity record"""
 
     def __init__(self, filename, properties={}, **kwargs):
-        if not os.path.exists(filename):
-            raise OSError(filename + ' was not found or is inaccessible')
 
         self.filename = filename
         self.uuid = catalog_uuid(filename)
         self.properties = FixityPropertySet(**properties)
-
         for param, mandatory, attr, default in self.PARAMS:
             try:
                 value = (kwargs[param] if mandatory else kwargs.get(param, default))
@@ -42,9 +39,11 @@ class FileFixityInstance(CatalogAttrDict):
                     'parameter "{}" is mandatory'.format(param))
             setattr(self, attr, value)
 
-    def delete(self):
-        """Mark the record as deleted by 'hiding' it"""
-        self._visible = False
+    def normalize(self):
+        """This is intended to be overridden in the subclass"""
+        self.filename = self.filename
+        if not os.path.exists(self.filename):
+            raise OSError(self.filename + ' was not found or is inaccessible')
         return self
 
     def sync(self):
@@ -114,6 +113,10 @@ class FileFixityInstance(CatalogAttrDict):
             return 0
 
     def checksum(self):
+        """Returns checksum for a file"""
+        return self.__checksum_sha256()
+
+    def __checksum_sha256(self):
         """Returns sha256 checksum for a file"""
         if not os.path.isfile(self.filename):
             return None

@@ -72,3 +72,21 @@ class ProductsFixityStore(FileFixityStore):
             raise FileFixtyUpdateFailure(
                 'Failed to update index for {}'.format(os.path.basename(filename)), exc)
 
+    def delete(self, filename, force=False):
+        """Delete the record by setting to invisible. Actually delete if forced to."""
+        if not force:
+            return self.update(filename, _visible=False)
+        else:
+            try:
+                return self.coll.remove({'filename': filename})
+            except Exception:
+                raise FileFixtyUpdateFailure(
+                    'Unable to delete {}'.format(os.path.basename(filename)))
+
+    def undelete(self, filename, force=False):
+        """Undelete the record if possible"""
+        try:
+            return self.update(filename, _visible=True)
+        except FileFixtyUpdateFailure:
+            raise FileFixtyUpdateFailure(
+                'Index for file {} was not found: Perhaps it was force-deleted.'.format(os.path.basename(filename)))
