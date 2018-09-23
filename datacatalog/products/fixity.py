@@ -20,7 +20,7 @@ from ..utils import current_time, msec_precision
 # FIXME Refactor FileFixityStore to use this
 
 class FileFixityInstance(CatalogAttrDict):
-    PARAMS = [('_visible', False, '_visible', True),
+    PARAMS = [('_deleted', False, '_deleted', True),
               ('generated_by', False, 'generated_by', []),
               ('derived_from', False, 'derived_from', []),
               ('child_of', False, 'child_of', [])]

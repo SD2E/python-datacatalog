@@ -34,7 +34,7 @@ class PipelineStore(BaseStore):
         self.coll = self.db[coll]
         self._post_init()
         self.CREATE_OPTIONAL_KEYS = (
-            'accepts', 'produces', 'name', 'description', 'collections_levels', 'processing_levels')
+            'accepts', 'produces', 'name', 'description', 'collections_levels', 'processing_levels', 'pipeline_class')
 
     def update_properties(self, dbrec):
         ts = current_time()
@@ -50,7 +50,8 @@ class PipelineStore(BaseStore):
         DEFAULTS = {'accepts': [],
                     'produces': [],
                     'collections_levels': 'measurement',
-                    'processing_levels': '1'}
+                    'processing_levels': '1',
+                    'pipeline_class': 'primary-etl'}
         pipe_rec = data_merge(DEFAULTS, kwargs)
         ts = current_time()
         doc = components_to_pipeline(components)
@@ -61,7 +62,7 @@ class PipelineStore(BaseStore):
         pipe_rec['properties'] = {'created_date': ts,
                                   'modified_date': ts,
                                   'revision': 0}
-        pipe_rec['_visible'] = True
+        pipe_rec['_deleted'] = True
         pipe_rec['_uuid'] = _doc_uuid
         pipe_rec['_salt'] = generate_salt()
 
@@ -83,7 +84,7 @@ class PipelineStore(BaseStore):
             raise PipelineUpdateFailure(
                 'Failed to create pipeline record', exc)
 
-    def update(self, pipeline_uuid, token, components=None, input_types=None, output_types=None, data_processing_level=None, data_collection_level=None, name=None, description=None):
+    def update(self, pipeline_uuid, token, components=None, input_types=None, output_types=None, data_processing_level=None, data_collection_level=None, name=None, description=None, pipeline_class=None):
         ts = current_time()
         if components is not None:
             # TODO: Transparently hand off to create_pipeline
@@ -129,7 +130,7 @@ class PipelineStore(BaseStore):
 
     def delete(self, uuid, token, force=False):
         """Delete a pipeline by UUID
-        By default the record is marked as invisible. If force==True, the
+        By default the record is marked as indeleted. If force==True, the
         actual record is deleted (but this is bad for provenance)."""
         if isinstance(uuid, str):
             uuid = text_uuid_to_binary(uuid)

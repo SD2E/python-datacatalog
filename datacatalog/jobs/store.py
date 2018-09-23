@@ -75,7 +75,7 @@ class JobStore(BaseStore):
         identifiers.abaco_hashid.validate(kwargs['actor_id'])
         job_data = data_merge(DEFAULTS, kwargs)
         job_data['path'] = archive_path
-        job_data['_visible'] = True
+        job_data['_deleted'] = True
         # job definition gets validated in DataCatalogJob
         new_job = DataCatalogJob(pipeline_uuid, job_data)
         print(new_job)

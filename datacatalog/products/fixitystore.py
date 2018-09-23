@@ -24,7 +24,7 @@ class ProductsFixityStore(FileFixityStore):
                 'derived_from': [],
                 'child_of': [],
                 'properties': {},
-                '_visible': True}
+                '_deleted': True}
 
     def __init__(self, mongodb, config={}):
         super(ProductsFixityStore, self).__init__(mongodb, config={})
@@ -79,9 +79,9 @@ class ProductsFixityStore(FileFixityStore):
                 'Failed to update index for {}'.format(os.path.basename(filename)), exc)
 
     def delete(self, filename, force=False):
-        """Delete the record by setting to invisible. Actually delete if forced to."""
+        """Delete the record by setting to indeleted. Actually delete if forced to."""
         if not force:
-            return self.update(filename, _visible=False)
+            return self.update(filename, _deleted=False)
         else:
             try:
                 return self.coll.remove({'filename': filename})
@@ -92,7 +92,7 @@ class ProductsFixityStore(FileFixityStore):
     def undelete(self, filename, force=False):
         """Undelete the record if possible"""
         try:
-            return self.update(filename, _visible=True)
+            return self.update(filename, _deleted=True)
         except FileFixtyUpdateFailure:
             raise FileFixtyUpdateFailure(
                 'Index for file {} was not found: Perhaps it was force-deleted.'.format(os.path.basename(filename)))
