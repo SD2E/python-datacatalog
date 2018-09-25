@@ -7,7 +7,7 @@ standard_library.install_aliases()
 from builtins import *
 from builtins import object
 
-from .constants import *
+from .constants import Constants, AgaveSystems
 
 class CatalogStore(object):
     debug = False

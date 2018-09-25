@@ -7,14 +7,19 @@ standard_library.install_aliases()
 from builtins import *
 from builtins import object
 
+from attrdict import AttrDict
 from uuid import uuid3, NAMESPACE_DNS
 
 DNS_FOR_NAMESPACE = 'sd2e.org'
 UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
 
-class AgaveStorageSystems(object):
-    sde2_community = {'system_id': 'data_sde2_community',
-                      'root_dir': '/work/projects/SD2E-Community/prod/data'}
+class AgaveSystems(object):
+    storage = {'data-sd2e-community': {
+        'system_id': 'data-sd2e-community',
+        'aliases': ['sd2e-community', 'sd2e_community'],
+        'root_dir': '/work/projects/SD2E-Community/prod/data',
+        'pagesize': 50}}
+
 class Constants(object):
     DNS_FOR_NAMESPACE = 'sd2e.org'
     MOCK_DNS_FOR_NAMESPACE = 'sd2e.club'
@@ -27,8 +32,8 @@ class Constants(object):
     UPLOADS_ROOT = 'uploads'
     PRODUCTS_ROOT = 'products'
     REFERENCES_ROOT = 'reference'
-    CATALOG_AGAVE_STORAGE_SYSTEM = AgaveStorageSystems.sde2_community['system_id']
-    CATALOG_AGAVE_ROOT_DIR = AgaveStorageSystems.sde2_community['root_dir']
+    CATALOG_AGAVE_STORAGE_SYSTEM = 'data-sd2e-community'
+    CATALOG_AGAVE_ROOT_DIR = AgaveSystems.storage[CATALOG_AGAVE_STORAGE_SYSTEM]['root_dir']
     CATALOG_MONGODB_HOST = 'catalog.sd2e.org'
     CATALOG_MONGODB_PORT = 27020
 

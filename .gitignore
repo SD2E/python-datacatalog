@@ -5,3 +5,6 @@ secrets.json
 dist/
 *egg-info/
 build/
+env/
+settings.py
+.pytest_cache/
