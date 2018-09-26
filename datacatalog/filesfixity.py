@@ -16,6 +16,9 @@ class FileFixtyUpdateFailure(CatalogUpdateFailure):
 class DuplicateFilenameError(DuplicateKeyError):
     pass
 
+class FileFixtyNotFoundError(KeyError):
+    pass
+
 class FileFixityStore(BaseStore):
     """Create and manage fixity records
     Records are linked with FilesMetadataStore via same uuid for a given filename"""

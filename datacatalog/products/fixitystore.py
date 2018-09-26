@@ -9,7 +9,7 @@ from builtins import *
 import os
 from ..identifiers.datacatalog_uuid import catalog_uuid
 from ..filesfixity import CatalogStore, ReturnDocument, FileFixityStore
-from ..filesfixity import FileFixtyUpdateFailure, DuplicateFilenameError, DuplicateKeyError
+from ..filesfixity import FileFixtyUpdateFailure, DuplicateFilenameError, DuplicateKeyError, FileFixtyNotFoundError
 from ..utils import time_stamp
 from ..dicthelpers import data_merge
 
@@ -35,6 +35,14 @@ class ProductsFixityStore(FileFixityStore):
         self.coll = self.db[coll]
         self._post_init()
         self.store = CatalogStore.products_dir + '/'
+
+    def index(self, filename, **kwargs):
+        try:
+            return self.update(filename, **kwargs)
+        except FileFixtyNotFoundError:
+            return self.create(filename, **kwargs)
+        except Exception as exc:
+            raise FileFixtyUpdateFailure(exc)
 
     def create(self, filename, **kwargs):
         self.filename = self.normalize(filename)

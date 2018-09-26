@@ -8,11 +8,15 @@ from builtins import *
 
 import re
 import os
+from requests import HTTPError
 from agavepy.agave import Agave, AgaveError
 from .constants import AgaveSystems
 from .configs import CatalogStore
 
 DEF_STORAGE_SYSTEM = 'data-sd2e-community'
+
+class AgaveHelperException(Exception):
+    pass
 
 class AgaveHelper(object):
     def __init__(self):
@@ -22,6 +26,16 @@ class AgaveHelper(object):
             'CATALOG_ROOT_DIR', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['root_dir'])
         self.STORAGE_PAGESIZE = os.environ.get(
             'CATALOG_FILES_API_PAGESIZE', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['pagesize'])
+
+    def mapped_posix_path(self, path, storage_system=None):
+        # if storage_system is None:
+        #     storage_system = self.STORAGE_SYSTEM
+        #     prefix = AgaveSystems.storage[storage_system]['root_dir']
+        # else:
+        prefix = self.STORAGE_PREFIX
+        if path.startswith('/'):
+            path = path[1:]
+        return os.path.join(prefix, path)
 
     def paths_to_agave_uris(self, filepaths, storage_system=None):
         """Transform a list of absolute paths on a storage system to agave-canonical URIs"""
@@ -33,6 +47,82 @@ class AgaveHelper(object):
                 f = f[1:]
             uri_list.append(os.path.join('agave://', storage_system, f))
         return uri_list
+
+    def exists(self, path, storage_system=None, agave_client=None):
+        if storage_system is None:
+            storage_system = self.STORAGE_SYSTEM
+        prefix = self.STORAGE_PREFIX
+        try:
+            if os.path.exists(self.mapped_posix_path(path, storage_system)):
+                return True
+            else:
+                try:
+                    if agave_client is None:
+                        agave_client = Agave.restore()
+                    path_format = agave_client.files.list(
+                        filePath=path, systemId=storage_system, limit=2)[0].get('format', None)
+                    if path_format != 'folder':
+                        return True
+                    else:
+                        return False
+                except HTTPError as herr:
+                    if herr.response.status_code == 404:
+                        return False
+                    else:
+                        raise HTTPError(herr)
+        except Exception as exc:
+            raise AgaveHelperException('Function failed', exc)
+
+
+    def dirname(self, path, storage_system=None, agave_client=None):
+        raise NotImplementedError()
+
+    def isfile(self, path, storage_system=None, agave_client=None):
+        if storage_system is None:
+            storage_system = self.STORAGE_SYSTEM
+        prefix = self.STORAGE_PREFIX
+        try:
+            if os.path.isfile(self.mapped_posix_path(path, storage_system)):
+                return True
+            else:
+                try:
+                    if agave_client is None:
+                        agave_client = Agave.restore()
+                    path_format = agave_client.files.list(
+                        filePath=path, systemId=storage_system, limit=2)[0].get('format', None)
+                    if path_format != 'folder':
+                        return True
+                    else:
+                        return False
+                except Exception as exc:
+                    raise AgaveHelperException('Function failed', exc)
+        except AgaveHelperException as aexc:
+            raise NotImplementedError(aexc)
+
+    def isdir(self, path, storage_system=None, agave_client=None):
+        if storage_system is None:
+            storage_system = self.STORAGE_SYSTEM
+        prefix = self.STORAGE_PREFIX
+        try:
+            if os.path.isdir(self.mapped_posix_path(path, storage_system)):
+                return True
+            else:
+                try:
+                    if agave_client is None:
+                        agave_client = Agave.restore()
+                    path_format = agave_client.files.list(
+                        filePath=path, systemId=storage_system, limit=2)[0].get('format', None)
+                    if path_format == 'folder':
+                        return True
+                    else:
+                        return False
+                except Exception as exc:
+                    raise AgaveHelperException('Function failed', exc)
+        except AgaveHelperException as aexc:
+            raise NotImplementedError(aexc)
+
+    def islink(self, path, storage_system=None, agave_client=None):
+        raise NotImplementedError()
 
     def listdir(self, path, recurse, storage_system=None, agave_client=None, directories=True):
         """Return a list containing the names of the entries in the directory
