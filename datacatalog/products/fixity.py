@@ -20,14 +20,12 @@ from ..utils import current_time, msec_precision
 # FIXME Refactor FileFixityStore to use this
 
 class FileFixityInstance(CatalogAttrDict):
+    """Encapsulates the data model and business logic of a fixity record"""
     PARAMS = [('_deleted', False, '_deleted', True),
               ('generated_by', False, 'generated_by', []),
               ('derived_from', False, 'derived_from', []),
               ('child_of', False, 'child_of', [])]
     FILTERS = ['_filename']
-
-    """Encapsulates the data model and business logic of a fixity record"""
-
     def __init__(self, filename, filepath, properties={}, **kwargs):
 
         self.filename = filename
@@ -156,14 +154,3 @@ class FixityPropertySet(CatalogAttrDict):
                 raise ValueError(
                     'parameter "{}" is mandatory'.format(param))
             setattr(self, attr, value)
-
-
-# class GeneratedBySet(CatalogMembersList):
-#     def __init__(self, generated_by):
-#         super(GeneratedBySet, self).__init__(generated_by)
-
-
-# class GeneratedFromSet(CatalogMembersList):
-#     def __init__(self, generated_from):
-#         super(GeneratedFromSet, self).__init__(generated_from)
-

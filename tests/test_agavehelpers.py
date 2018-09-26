@@ -6,16 +6,33 @@ from . import datacatalog
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-# def test_from_agave_uri():
-#     asys, apath, afile = datacatalog.agavehelpers.from_agave_uri(
-#         'agave://data/taco/cabana.txt')
-#     assert asys == 'data'
-#     assert apath == '/taco'
-#     assert afile == 'cabana.txt'
-
 def test_listdir_posix(monkeypatch):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
-    monkeypatch.setenv('CATALOG_STORAGE_PREFIX', os.path.join(PARENT, 'virtual_filesystem'))
+    monkeypatch.setenv('CATALOG_STORAGE_PREFIX', os.path.join(PARENT, 'tests/virtual_filesystem'))
     monkeypatch.setenv('CATALOG_STORAGE_PAGESIZE', 50)
-    ls = datacatalog.agavehelpers.__listdir_agave_posix('/uploads', recurse=True, storage_system='virtual_filesystem', directories=True)
-    assert ls == []
+    h = datacatalog.agavehelpers.AgaveHelper()
+    listing = h.listdir_agave_posix('/sample/tacc-cloud/agavehelpers/upload', recurse=True, storage_system='virtual_filesystem', directories=True)
+    assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
+
+def test_listdir_agave(monkeypatch):
+    h = datacatalog.agavehelpers.AgaveHelper()
+    listing = h.listdir_agave_native(
+        '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
+    assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
+
+def test_listdir(monkeypatch):
+    monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
+    monkeypatch.setenv('CATALOG_STORAGE_PREFIX', os.path.join(
+        PARENT, 'tests/virtual_filesystem'))
+    monkeypatch.setenv('CATALOG_STORAGE_PAGESIZE', 50)
+    h = datacatalog.agavehelpers.AgaveHelper()
+    listing = h.listdir(
+        '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
+    assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
+
+def test_from_agave_uri():
+    asys, apath, afile = datacatalog.agavehelpers.from_agave_uri(
+        'agave://data/taco/cabana.txt')
+    assert asys == 'data'
+    assert apath == '/taco'
+    assert afile == 'cabana.txt'
