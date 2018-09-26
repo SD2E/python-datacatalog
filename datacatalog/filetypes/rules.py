@@ -35,5 +35,5 @@ def infer(filename):
     for label, comment, globs in FILETYPES:
         for g in globs:
             if re.compile(g, re.IGNORECASE).search(filename):
-                return FileType(label, comment)
+                return FileType(label=label, comment=comment)
     raise FileTypeError('File matched no rules')

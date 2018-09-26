@@ -19,9 +19,9 @@ class AgaveHelper(object):
         self.STORAGE_SYSTEM = os.environ.get(
             'CATALOG_STORAGE_SYSTEM', CatalogStore.agave_storage_system)
         self.STORAGE_PREFIX = os.environ.get(
-            'CATALOG_STORAGE_PREFIX', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['root_dir'])
+            'CATALOG_ROOT_DIR', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['root_dir'])
         self.STORAGE_PAGESIZE = os.environ.get(
-            'CATALOG_STORAGE_PAGESIZE', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['pagesize'])
+            'CATALOG_FILES_API_PAGESIZE', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['pagesize'])
 
     def paths_to_agave_uris(self, filepaths, storage_system=None):
         """Transform a list of absolute paths on a storage system to agave-canonical URIs"""

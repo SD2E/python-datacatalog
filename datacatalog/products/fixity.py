@@ -26,10 +26,13 @@ class FileFixityInstance(CatalogAttrDict):
               ('derived_from', False, 'derived_from', []),
               ('child_of', False, 'child_of', [])]
     FILTERS = ['_filename']
-    def __init__(self, filename, filepath, properties={}, **kwargs):
+    def __init__(self, filename, filepath=None, properties={}, **kwargs):
 
         self.filename = filename
-        self._filename = filepath
+        if filepath is not None:
+            self._filename = filepath
+        else:
+            self._filename = filename
         self.uuid = catalog_uuid(self.filename)
 
         self.properties = FixityPropertySet(**properties)

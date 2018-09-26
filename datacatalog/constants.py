@@ -7,6 +7,8 @@ standard_library.install_aliases()
 from builtins import *
 from builtins import object
 
+import os
+
 from attrdict import AttrDict
 from uuid import uuid3, NAMESPACE_DNS
 
@@ -32,10 +34,12 @@ class Constants(object):
     UPLOADS_ROOT = 'uploads'
     PRODUCTS_ROOT = 'products'
     REFERENCES_ROOT = 'reference'
-    CATALOG_AGAVE_STORAGE_SYSTEM = 'data-sd2e-community'
-    CATALOG_AGAVE_ROOT_DIR = AgaveSystems.storage[CATALOG_AGAVE_STORAGE_SYSTEM]['root_dir']
-    CATALOG_MONGODB_HOST = 'catalog.sd2e.org'
-    CATALOG_MONGODB_PORT = 27020
+    CATALOG_AGAVE_STORAGE_SYSTEM = os.environ.get(
+        'CATALOG_STORAGE_SYSTEM', 'data-sd2e-community')
+    CATALOG_AGAVE_ROOT_DIR = os.environ.get(
+        'CATALOG_ROOT_DIR', AgaveSystems.storage[CATALOG_AGAVE_STORAGE_SYSTEM]['root_dir'])
+    CATALOG_MONGODB_HOST = os.environ.get('CATALOG_MONGODB_HOST', 'catalog.sd2e.org')
+    CATALOG_MONGODB_PORT = os.environ.get('CATALOG_MONGODB_PORT', 27020)
 
 class Enumerations(object):
     LABPATHS = ('ginkgo', 'transcriptic', 'biofab', 'emerald')

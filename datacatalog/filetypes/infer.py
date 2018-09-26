@@ -14,5 +14,5 @@ def infer_filetype(filename):
     except FileTypeError:
         return mime.infer(filename)
     except Exception as exc:
-        raise FileTypeError('Failed to infer file type', exc)
+        raise FileTypeError('Failed to infer type for {}'.format(filename), exc)
 
