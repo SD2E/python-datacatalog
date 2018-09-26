@@ -28,6 +28,14 @@ def new_token(pipe_def):
 
 def validate_token(token, pipeline_uuid=None, salt=None, permissive=False):
     # Values for pipeline_uuid and salt are sourced from database
+
+    # Skip in local testing mode
+    try:
+        if int(os.environ.get('LOCALONLY')) == 1:
+            return True
+    except Exception:
+        pass
+
     token_data = {'pipeline_uuid': pipeline_uuid,
                   'salt': salt}
     valid_token = get_token(**token_data)

@@ -14,6 +14,8 @@ from ..identifiers.datacatalog_uuid import text_uuid_to_binary
 
 from .utils import components_to_pipeline, pipeline_to_uuid
 from .token import new_token, generate_salt, validate_token, InvalidToken
+from .pipeline import Pipeline
+
 class PipelineCreateFailure(CatalogUpdateFailure):
     pass
 
@@ -33,125 +35,81 @@ class PipelineStore(BaseStore):
         self.name = coll
         self.coll = self.db[coll]
         self._post_init()
-        self.CREATE_OPTIONAL_KEYS = (
-            'accepts', 'produces', 'name', 'description', 'collections_levels', 'processing_levels', 'pipeline_class')
 
-    def update_properties(self, dbrec):
-        ts = current_time()
-        properties = dbrec.get('properties', {})
-        properties['created_date'] = properties.get('created_date', ts)
-        if properties.get('modified_date', ts) >= ts:
-            properties['modified_date'] = ts
-        properties['revision'] = properties.get('revision', 0) + 1
-        dbrec['properties'] = data_merge(dbrec['properties'], properties)
-        return dbrec
-
-    def create(self, components, **kwargs):
-        DEFAULTS = {'accepts': [],
-                    'produces': [],
-                    'collections_levels': 'measurement',
-                    'processing_levels': '1',
-                    'pipeline_class': 'primary-etl'}
-        pipe_rec = data_merge(DEFAULTS, kwargs)
-        ts = current_time()
-        doc = components_to_pipeline(components)
-        doc_uuid = pipeline_to_uuid(doc)
-        _doc_uuid = pipeline_to_uuid(doc, binary=False)
-        pipe_rec['uuid'] = doc_uuid
-        pipe_rec['components'] = doc
-        pipe_rec['properties'] = {'created_date': ts,
-                                  'modified_date': ts,
-                                  'revision': 0}
-        pipe_rec['_deleted'] = True
-        pipe_rec['_uuid'] = _doc_uuid
-        pipe_rec['_salt'] = generate_salt()
+    def create(self, **kwargs):
+        pipe_rec = Pipeline(**kwargs)
+        pipe_rec.create(**kwargs)
 
         try:
             result = self.coll.insert_one(pipe_rec)
-            result_job = self.coll.find_one({'_id': result.inserted_id})
-            result_job['token'] = new_token(result_job)
-
-            # TODO factor this out into a general filter function
-            try:
-                result_job('_salt')
-            except Exception:
-                pass
-
-            return result_job
+            result_pipe = self.coll.find_one({'_id': result.inserted_id})
+            result_pipe['token'] = new_token(result_pipe)
+            return filter_dict(result_pipe, pipe_rec.FILTERS)
         except DuplicateKeyError:
             raise DuplicatePipelineError('A pipeline with this distinct set of components already exists.')
         except Exception as exc:
             raise PipelineUpdateFailure(
                 'Failed to create pipeline record', exc)
 
-    def update(self, pipeline_uuid, token, components=None, input_types=None, output_types=None, data_processing_level=None, data_collection_level=None, name=None, description=None, pipeline_class=None):
-        ts = current_time()
-        if components is not None:
-            # TODO: Transparently hand off to create_pipeline
-            raise PipelineUpdateFailure('Cannot update the list of components in a pipeline')
-        if isinstance(pipeline_uuid, str):
+    def update_pipeline(self, pipeline_uuid, update_token, **kwargs):
+        print('UPDATE PIPELINE')
+        if isinstance(uuid, str):
             pipeline_uuid = text_uuid_to_binary(pipeline_uuid)
 
-        # fetch current record
-        pipe_rec = self.coll.find_one({'uuid': pipeline_uuid})
-        if pipe_rec is None:
-            raise PipelineUpdateFailure('No pipeline with UUID {}'.format(pipeline_uuid))
+        pipe_db = self.coll.find_one({'_uuid': pipeline_uuid})
+        if pipe_db is None:
+            raise PipelineUpdateFailure('No pipeline exists with UUID {}. Try create()'.format(pipeline_uuid))
 
-        # token is pipeline-specific
         try:
-            validate_token(token, pipeline_uuid=pipe_rec['_uuid'],
-            salt=pipe_rec['_salt'], permissive=False)
+            validate_token(update_token, pipeline_uuid=pipe_db['_uuid'],
+                salt=pipe_db['_salt'], permissive=False)
         except InvalidToken as exc:
             raise PipelineUpdateFailure(exc)
 
-        new_pipe_rec = {'uuid': pipeline_uuid,
-                        'accepts': input_types,
-                        'produces': output_types,
-                        'levels': {'collections': [data_collection_level],
-                                   'processing': str(data_processing_level)},
-                        'name': name,
-                        'description': description}
-        pipe_rec, jdiff = data_merge_diff(pipe_rec, new_pipe_rec)
-        self.log(pipeline_uuid, jdiff)
-        pipe_rec = self.update_properties(pipe_rec)
+        # Initialize with database contents
+        pipe_rec = Pipeline(**pipe_db)
+        # Update with body
+        pipe_rec.update(**kwargs)
+        # TODO - return a diff doc containing _informative_ changes
+        # Do the actual database write
         try:
-            updated_rec = self.coll.find_one_and_replace({'_id': pipe_rec['_id']}, pipe_rec, return_document=ReturnDocument.AFTER)
+            updated_pipe = self.coll.find_one_and_replace(
+                {'_id': pipe_rec['_id']}, pipe_rec, return_document=ReturnDocument.AFTER)
+            return filter_dict(updated_pipe, pipe_rec.FILTERS)
 
-            # TODO factor this out into a general filter function
-            try:
-                updated_rec('_salt')
-            except Exception:
-                pass
-
-            return updated_rec
         except Exception as exc:
             raise PipelineUpdateFailure(
                 'Failed to update pipeline {}'.format(pipeline_uuid), exc)
 
-    def delete(self, uuid, token, force=False):
-        """Delete a pipeline by UUID
-        By default the record is marked as indeleted. If force==True, the
-        actual record is deleted (but this is bad for provenance)."""
-        if isinstance(uuid, str):
-            uuid = text_uuid_to_binary(uuid)
+    def delete(self, pipeline_uuid, update_token, force=False):
+        """Delete a pipeline by its UUID
+        By default the record is marked as _deleted. If force==True, the
+        record is physically deleted (but this is bad for provenance)."""
+        if force is False:
+            body = {'_deleted': True}
+            return self.update_pipeline(pipeline_uuid, update_token, **body)
 
-        # fetch current record
-        pipe_rec = self.coll.find_one({'uuid': uuid})
+        # We did not branch to the update() action, proceed with hard delete
+        if isinstance(pipeline_uuid, str):
+            pipeline_uuid = text_uuid_to_binary(pipeline_uuid)
+        pipe_rec = self.coll.find_one({'uuid': pipeline_uuid})
         if pipe_rec is None:
-            raise PipelineUpdateFailure(
-                'No pipeline with UUID {}'.format(uuid))
+            raise PipelineUpdateFailure('No pipeline exists with UUID {}. Maybe it was force-deleted?'.format(pipeline_uuid))
 
-        # token is pipeline-specific
         try:
-            validate_token(token, pipeline_uuid=pipe_rec['_uuid'],
-            salt=pipe_rec['_salt'], permissive=False)
+            validate_token(update_token, pipeline_uuid=pipe_rec['_uuid'], salt=pipe_rec['_salt'], permissive=False)
         except InvalidToken as exc:
             raise PipelineUpdateFailure(exc)
 
-        if force:
-            try:
-                return self.coll.remove({'uuid': uuid})
-            except Exception as exc:
-                raise PipelineUpdateFailure(
-                    'Failed to delete pipeline {}'.format(uuid), exc)
+        try:
+            return self.coll.remove({'uuid': pipeline_uuid})
+        except Exception as exc:
+            raise PipelineUpdateFailure(
+                'Failed to delete pipeline {}'.format(uuid), exc)
+
+    def undelete(self, pipeline_uuid, update_token):
+        """Un-delete a pipeline by its UUID if it has only been marked as
+        deleted rather than being physically removed from the database."""
+        body = {'_deleted': False}
+        return self.update_pipeline(pipeline_uuid, update_token, **body)
 
