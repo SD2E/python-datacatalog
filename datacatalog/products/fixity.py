@@ -14,20 +14,22 @@ import os
 
 from ..catalog import CatalogAttrDict
 from ..filetypes import infer_filetype
-from ..identifiers.datacatalog_uuid import catalog_uuid
+from ..identifiers.datacatalog_uuid import catalog_uuid, text_uuid_to_binary
 from ..utils import current_time, msec_precision
 
 # FIXME Refactor FileFixityStore to use this
 
 class FileFixityInstance(CatalogAttrDict):
     """Encapsulates the data model and business logic of a fixity record"""
-    PARAMS = [('_deleted', False, '_deleted', True),
+    PARAMS = [('level', False, 'level', 0),
+              ('_deleted', False, '_deleted', True),
               ('generated_by', False, 'generated_by', []),
               ('derived_from', False, 'derived_from', []),
               ('child_of', False, 'child_of', [])]
     FILTERS = ['_filename']
-    def __init__(self, filename, filepath=None, properties={}, **kwargs):
+    COMPARES = ['file_modified', 'size', 'checksum', 'file_type']
 
+    def __init__(self, filename, filepath=None, properties={}, **kwargs):
         self.filename = filename
         if filepath is not None:
             self._filename = filepath
@@ -46,13 +48,12 @@ class FileFixityInstance(CatalogAttrDict):
 
     def sync(self):
         """(Re)load fixity data from disk"""
-        COMPARES = ['file_modified', 'size', 'checksum', 'file_type']
 
         ts = current_time()
         was_modified = False
 
         initial_vals = {}
-        for c in COMPARES:
+        for c in self.COMPARES:
             try:
                 initial_vals[c] = getattr(self.properties, c)
             except AttributeError:
@@ -68,7 +69,7 @@ class FileFixityInstance(CatalogAttrDict):
         if self.properties.created_date is None:
             self.properties.created_date = ts
 
-        for c in COMPARES:
+        for c in self.COMPARES:
             if getattr(self.properties, c) != initial_vals[c]:
                 was_modified = True
                 break
