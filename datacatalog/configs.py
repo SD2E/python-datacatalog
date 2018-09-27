@@ -18,8 +18,8 @@ class CatalogStore(object):
     products_dir = Constants.PRODUCTS_ROOT
     references_dir = Constants.REFERENCES_ROOT
     collections = {'updates': 'updates',
-                   'fixity': 'files',
-                   'files': 'datafiles',
+                   'fixity': 'datafiles',
+                   'files': 'files',
                    'challenges': 'challenges',
                    'experiments': 'experiments',
                    'samples': 'samples',
