@@ -19,3 +19,4 @@ from .jobs import *
 
 from . import pipelinejobs
 from . import products
+from . import references
