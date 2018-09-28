@@ -11,6 +11,7 @@ import copy
 from ..dicthelpers import data_merge
 from ..jobs import JobStore
 from ..jobs.utils import get_archive_path
+
 class PipelineJob(JobStore):
     def __init__(self, reactor, lab_name, experiment_reference, sample_id, measurement_id=None, data={}):
         super(PipelineJob, self).__init__(reactor.settings.pipelines,
@@ -98,3 +99,32 @@ class PipelineJob(JobStore):
         uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
             api_server, self.__manager, self.__nonce, self.token, self.uuid)
         return uri
+
+
+class CustomPipelineJob(PipelineJob):
+    def __init__(self, reactor, custom_path, data={}):
+        super(CustomPipelineJob, self).__init__(reactor, lab_name='noop',
+                                                experiment_reference='noop',
+                                                sample_id='noop',
+                                                measurement_id='noop',
+                                                data=data)
+        self.uuid = None
+        self.actor_id = reactor.uid
+        self.pipeline_uuid = reactor.settings.pipelines.pipeline_uuid
+        self.data = data
+        # Temporararily use a static value
+        self.archive_system = 'data-sd2e-community'
+        self.__manager = reactor.settings.pipelines.job_manager_id
+        self.__nonce = reactor.settings.pipelines.updates_nonce
+
+        # Accept setup params in human-readable form, injecting them into data
+        self.data = data
+
+        # Set up custom archive_path
+        if custom_path.startswith('/'):
+            custom_path = custom_path[1:]
+        self.path = custom_path
+
+        # Utility paths
+        self.agave_path = 'agave://' + self.archive_system + '/' + self.path
+        self.jupyter_path = 'https://jupyter.sd2e.org/user/{User}/sd2e-community' + '/' + self.path
