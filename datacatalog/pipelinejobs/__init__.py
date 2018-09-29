@@ -7,3 +7,4 @@ standard_library.install_aliases()
 from builtins import *
 
 from .pipelinejob import PipelineJob, CustomPipelineJob
+from . import clients
