@@ -12,6 +12,7 @@ from ..dicthelpers import data_merge
 from ..jobs import JobStore
 from ..jobs.utils import get_archive_path
 
+# FIXME Add unit tests
 class PipelineJob(JobStore):
     def __init__(self, reactor, lab_name, experiment_reference, sample_id, measurement_id=None, data={}):
         super(PipelineJob, self).__init__(reactor.settings.pipelines,
@@ -19,6 +20,7 @@ class PipelineJob(JobStore):
                                           session=reactor.nickname)
         self.uuid = None
         self.actor_id = reactor.uid
+        self.execution_id = reactor.execid
         self.pipeline_uuid = reactor.settings.pipelines.pipeline_uuid
         self.data = data
         # Temporararily use a static value
@@ -39,16 +41,18 @@ class PipelineJob(JobStore):
         self.data = copy.copy(ARGS)
         self.path = get_archive_path(self.pipeline_uuid, **ARGS)
 
+        # FIXME Factor these into template-driven functions
         # Utility paths
         self.agave_path = 'agave://' + self.archive_system + '/' + self.path
         self.jupyter_path = 'https://jupyter.sd2e.org/user/{User}/sd2e-community' + '/' + self.path
 
+    # FIXME Use getattr and setattr
     def setup(self, data={}):
         # Write the initial record to the jobs collection
         setup_data = data_merge(self.data, data)
         self.data = setup_data
         new_job = self.create(self.pipeline_uuid, archive_path=self.path,
-                              actor_id=self.actor_id, data=self.data, session=self.session)
+                              actor_id=self.actor_id, execution_id=self.execution_id, data=self.data, session=self.session)
         self.uuid = new_job.get('_uuid')
         self.token = new_job.get('token')
         self.callback = self.__get_webhook()
@@ -59,6 +63,7 @@ class PipelineJob(JobStore):
         self.delete_job(self.uuid, force=True)
         pass
 
+    # FIXME Use getattr and setattr
     def run(self, data=None):
         if self.uuid is not None:
             running_job = self.handle_event(
@@ -67,6 +72,7 @@ class PipelineJob(JobStore):
             self.job = running_job
             return self
 
+    # FIXME Use getattr and setattr
     def update(self, data=None):
         if self.uuid is not None:
             updated_job = self.handle_event(
@@ -83,6 +89,7 @@ class PipelineJob(JobStore):
             self.job = failed_job
             return self
 
+    # FIXME Use getattr and setattr
     def get_status(self):
         # This only returns the status set inside Job
         # Eventually, be able to poll the database to get the actual records's status field
@@ -100,7 +107,8 @@ class PipelineJob(JobStore):
             api_server, self.__manager, self.__nonce, self.token, self.uuid)
         return uri
 
-
+# FIXME I think there's duplicate code from the parent class in here
+# FIXME Add unit tests
 class CustomPipelineJob(PipelineJob):
     def __init__(self, reactor, custom_path, data={}):
         super(CustomPipelineJob, self).__init__(reactor, lab_name='noop',
@@ -110,6 +118,7 @@ class CustomPipelineJob(PipelineJob):
                                                 data=data)
         self.uuid = None
         self.actor_id = reactor.uid
+        self.execution_id = reactor.execid
         self.pipeline_uuid = reactor.settings.pipelines.pipeline_uuid
         self.data = data
         # Temporararily use a static value

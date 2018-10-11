@@ -53,7 +53,6 @@ class JobStore(BaseStore):
             'data', 'session', 'actor_id']
         self.EVENT_OPTIONAL_KEYS = ['data']
 
-
     def create(self, pipeline_uuid, archive_path, **kwargs):
         """Create and return a new job instance
         Parameters:
@@ -68,11 +67,19 @@ class JobStore(BaseStore):
         """
         DEFAULTS = {'data': {},
                     'session': None,
-                    'actor_id': None}
+                    'actor_id': None,
+                    'execution_id': None}
         # Validate pipeline_uuid
         self.validate_pipeline_id(pipeline_uuid)
-        # Validate actor_id
+        # Validate actor_id and execution_id
+        # In the future, decide if jobs MUST be created by Actors. If not
+        # then the data model should migrate to using to 'agent' and 'task'
+        # which are the terms used in the Log Aggregation framework
         identifiers.abaco_hashid.validate(kwargs['actor_id'])
+        try:
+            identifiers.abaco_hashid.validate(kwargs['execution_id'])
+        except Exception:
+            pass
         job_data = data_merge(DEFAULTS, kwargs)
         job_data['path'] = archive_path
         job_data['_deleted'] = True
@@ -93,7 +100,6 @@ class JobStore(BaseStore):
             return new_job
         except Exception as exc:
             raise JobCreateFailure('Failed to create job for pipeline {}'.format(pipeline_uuid), exc)
-
 
     def handle_event(self, job_uuid, event, token, **kwargs):
         """Accept and process a job state-transition event
@@ -132,7 +138,7 @@ class JobStore(BaseStore):
             raise JobUpdateFailure('Failed to change the job state', exc)
         try:
             updated_job = self.coll.find_one_and_replace({'uuid': db_job.get('uuid')}, db_job,
-                return_document=ReturnDocument.AFTER)
+                                                         return_document=ReturnDocument.AFTER)
 
             # TODO factor this out into a general filter function
             try:
