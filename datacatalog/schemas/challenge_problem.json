@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "additionalProperties": true,
+    "description": "SD2 Challenge Problem",
+    "title": "Challenge Problem",
+    "type": "object",
+    "definitions": {
+        "challenge_problem": {
+            "description": "An enumerated identifier for a topic of investigation",
+            "type": "string",
+            "enum": [
+                "YEAST_GATES",
+                "NOVEL_CHASSIS",
+                "RIBOSWITCHES",
+                "CELL_STATE",
+                "UNKNOWN"
+            ]
+        },
+        "challenge_problem_uuid": {
+            "description": "UUID5 of 'challenge_problem' namespaced to 'sd2e.org' with typed prefix",
+            "type": "string",
+            "format": "uri",
+            "pattern": "^urn:uuid:001"
+        }
+    },
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "identifier": {},
+        "challenge_problem": {
+            "description": "An enumerated identifier for a topic of investigation",
+            "enum": [
+                "YEAST_GATES",
+                "NOVEL_CHASSIS",
+                "RIBOSWITCHES",
+                "CELL_STATE",
+                "UNKNOWN"
+            ],
+            "type": "string"
+        },
+        "uuid": {
+            "type": "string",
+            "description": "Computed UUID5 representation of 'challenge_problem'"
+        },
+        "child_of": {}
+    },
+    "required": [
+        "identifier"
+    ]
+}
