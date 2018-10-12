@@ -14,49 +14,81 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
-from constants import Constants
+from .constants import Constants
+from .datacatalog_uuidtype import UUIDTYPES
 
-__all__ = ["generate", "mock", "validate", "catalog_uuid", "text_uuid_to_binary"]
+class TypedUUID(object):
+    def __init__(self, *args):
+        self.key = args[0]
+        self.prefix = args[1]
+        self.title = args[2]
+    def __len__(self):
+        return len(self.prefix)
 
-def generate(text_value=None, binary=True):
+UUIDType = dict()
+for uuidt, prefix, title in UUIDTYPES:
+    UUIDType[uuidt] = TypedUUID(uuidt, prefix, title)
+
+def validate_type(type_string):
+    """Ensure that the provided type string is valid"""
+    if type_string.lower() in list(UUIDType.keys()):
+        return True
+    else:
+        raise ValueError('{} is not a known Catalog UUIDType'.format(type_string))
+
+def generate(text_value=None, uuid_type=None, binary=True):
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary)
+    return catalog_uuid(text_value, uuid_type, binary)
 
 def random_uuid5(binary=True):
     text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
     return catalog_uuid(text_value, binary, namespace=Constants.UUID_NAMESPACE)
 
-def mock(text_value=None, binary=True):
+def mock(text_value=None, uuid_type=None, binary=True):
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_MOCK_NAMESPACE)
+    return catalog_uuid(text_value, uuid_type, binary, namespace=Constants.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
     return validate_uuid5(uuid_string, permissive=permissive)
 
-def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
-    """Returns a UUID5 in the prescribed namespace
-    This function will either a text UUID or a BSON-encoded binary UUID,
-    depending on the optional value ``binary``.
+def get_uuidtype(query_uuid):
+    """Determine the datacatalog.identifiers.UUIDType for a UUID
+
+    Params:
+    query_uuid: accepts either a string representation of UUID or a UUUD object
+
+    Returns:
+    UUIDType:string
+    """
+    if isinstance(query_uuid, uuid.UUID):
+        query_uuid = str(query_uuid)
+    uuid_end = query_uuid[:3].lower()
+    for t, v in UUIDType.items():
+        if uuid_end == v.prefix:
+            return t
+    raise ValueError('{} is not a known UUIDType'.format(query_uuid))
+
+def catalog_uuid(text_value, uuid_type, binary=True, namespace=Constants.UUID_NAMESPACE):
+    """Returns a typed UUID5 in the prescribed namespace
+
     Args:
-        text_value (string) nominally, a file path, but can be any str
+        text_value:string - a text string to encode as UUID hash
+        type:string - a known datacatalog UUIDType
         binary (bool): whether to encode result as BSON binary
     Returns:
         new_uuid: The hash UUID in string or binary-encoded form
     """
-    if text_value.startswith('/'):
-        text_value = text_value[1:]
-    if text_value.startswith(Constants.UPLOADS_ROOT):
-        text_value = text_value[len(Constants.UPLOADS_ROOT):]
-    if text_value.startswith('/'):
-        text_value = text_value[1:]
 
+    uuidtype_tag = UUIDType[uuid_type].prefix
     new_uuid = uuid.uuid5(namespace, text_value)
+    new_typed_uuid= uuid.UUID(uuidtype_tag + new_uuid.hex[len(uuidtype_tag):])
+
     if binary is False:
-        return str(new_uuid)
+        return str(new_typed_uuid)
     else:
-        return Binary(new_uuid.bytes, OLD_UUID_SUBTYPE)
+        return Binary(new_typed_uuid.bytes, OLD_UUID_SUBTYPE)
 
 def text_uuid_to_binary(text_uuid):
     try:

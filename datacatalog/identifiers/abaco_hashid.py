@@ -9,7 +9,7 @@ from builtins import *
 import uuid
 from hashids import Hashids
 
-from ..constants import Constants
+from constants import Constants
 
 __all__ = ["generate", "validate", "mock"]
 

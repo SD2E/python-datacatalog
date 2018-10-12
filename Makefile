@@ -9,3 +9,8 @@ build:
 clean:
 	rm -rf build *egg-info dist
 
+schemas-build: schemas-clean
+	python scripts/build_schemas.py
+
+schemas-clean:
+	rm -rf schemas/*.jsonschema
