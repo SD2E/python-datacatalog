@@ -1,5 +1,6 @@
 import importlib
-# from .. import identifiers
+
+PRIMITIVES = ['identifiers', 'filetypes']
 
 def dynamic_import(module, package=None):
     print(module, package)
@@ -12,9 +13,8 @@ def get_all_schemas():
     return schemas
 
 def get_primitives():
-    PACKAGES = ['identifiers', 'filetypes']
     primitives = dict()
-    for pkg in PACKAGES:
+    for pkg in PRIMITIVES:
         m = dynamic_import(pkg + '.schemas')
         package_primitives = m.get_schemas()
         primitives = {**primitives, **package_primitives}
