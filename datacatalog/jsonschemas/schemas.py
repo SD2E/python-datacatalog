@@ -28,8 +28,6 @@ def get_schemas():
 
 def get_primitives():
     primitives = dict()
-    return primitives
-
     for pkg in PRIMITIVES:
         m = dynamic_import(pkg + '.schemas')
         package_primitives = m.get_schemas()
