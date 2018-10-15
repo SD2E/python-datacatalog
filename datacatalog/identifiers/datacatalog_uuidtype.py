@@ -1,5 +1,5 @@
 UUIDTYPES = [('generic', '100', 'Catalog Object'),
-             ('challenge', '101', 'Challenge Problem'),
+             ('challenge_problem', '101', 'Challenge Problem'),
              ('experiment', '102', 'Experiment Reference'),
              ('sample', '103', 'Sample'),
              ('measurement', '104', 'Measurement'),

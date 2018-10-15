@@ -1,0 +1,68 @@
+{
+    "title": "Base Store",
+    "type": "object",
+    "description": "Base MongoDB-backed Store",
+    "additionalProperties": true,
+    "properties": {
+        "tenant": {
+            "description": "TACC.cloud tenant",
+            "type": "string",
+            "value": "sd2e",
+            "enum": [
+                "3dem",
+                "designsafe",
+                "iplantc.org",
+                "irec",
+                "portals",
+                "vdjserver.org",
+                "sd2e",
+                "sgci",
+                "tacc.prod"
+            ],
+            "readOnly": true
+        },
+        "project": {
+            "description": "Project within specified TACC.cloud tenant",
+            "type": "string",
+            "value": "SD2",
+            "readOnly": true
+        },
+        "owner": {
+            "type": "string",
+            "value": "admin",
+            "readOnly": true,
+            "description": "Username that created or owns the record"
+        },
+        "uuid": {
+            "$ref": "https://sd2e.github.io/python-datacatalog/schemas/generic_uuid.json"
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "_properties": {
+            "type": "object",
+            "revision": {
+                "type": "number"
+            },
+            "created_date": {
+                "type": "string",
+                "format": "date-time"
+            },
+            "modified_date": {
+                "type": "string",
+                "format": "date-time"
+            }
+        }
+    },
+    "required": [
+        "uuid",
+        "tenant",
+        "project"
+    ],
+    "_filename": "basestore",
+    "__collection": "basestores",
+    "__indexes": []
+}

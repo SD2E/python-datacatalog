@@ -7,7 +7,7 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from .basestore import *
+from basestore import *
 
 class ExperimentUpdateFailure(CatalogUpdateFailure):
     pass

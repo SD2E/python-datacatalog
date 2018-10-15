@@ -8,10 +8,10 @@ from builtins import *
 
 name = "datacatalog"
 
-from . import constants
+# from . import constants
+# from .main import *
 
 # # from .constants import *
-# from .main import *
 # from .posixhelpers import *
 # from .agavehelpers import from_agave_uri, AgaveError
 # from . import identifiers

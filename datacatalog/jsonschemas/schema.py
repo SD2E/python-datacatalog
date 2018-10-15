@@ -43,19 +43,19 @@ class JSONSchemaBaseObject(object):
             schema_id = schema_id + '.json'
         setattr(self, '_id', schema_id)
 
-    def to_dict(self):
+    def to_dict(self, filt='_'):
         my_dict = dict()
         for key, mandatory, param, default, keyfix in self.PARAMS:
-            if not key.startswith('_') and default is not None:
+            if not key.startswith(filt) and default is not None:
                 my_dict[keyfix + key] = getattr(self, param, None)
         for key in self.__dict__:
-            if not key.startswith('_'):
+            if not key.startswith(filt):
                 if key not in my_dict:
                     my_dict[key] = getattr(self, key, None)
         return my_dict
 
     def to_jsonschema(self, **kwargs):
-        my_json = json.dumps(self.to_dict(), indent=INDENT, sort_keys=SORT_KEYS)
+        my_json = json.dumps(self.to_dict(filt='_'), indent=INDENT, sort_keys=SORT_KEYS)
         return my_json
 
 def camel_to_snake(name):
