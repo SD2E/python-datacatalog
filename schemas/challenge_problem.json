@@ -52,7 +52,9 @@
     },
     "aliases": {
       "description": "Alias identifiers for the challenge problem",
-      "items": "string",
+      "items": {
+        "type": "string"
+      },
       "type": "array"
     },
     "child_of": {
@@ -68,7 +70,6 @@
     },
     "id": {
       "description": "Canonical string identifier for the challenge problem",
-      "enum": [],
       "type": "string"
     },
     "title": {

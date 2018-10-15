@@ -52,7 +52,9 @@
     },
     "aliases": {
       "description": "Alias identifiers for the experimental reference",
-      "items": "string",
+      "items": {
+        "type": "string"
+      },
       "type": "array"
     },
     "child_of": {
@@ -69,7 +71,6 @@
     },
     "id": {
       "description": "Canonical string identifier for the experimental reference",
-      "enum": [],
       "type": "string"
     },
     "title": {

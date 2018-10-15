@@ -7,7 +7,9 @@
         "aliases": {
             "description": "Alias identifiers for the experimental reference",
             "type": "array",
-            "items": "string"
+            "items": {
+                "type": "string"
+            }
         },
         "title": {
             "type": "string",
@@ -15,8 +17,7 @@
         },
         "id": {
             "description": "Canonical string identifier for the experimental reference",
-            "type": "string",
-            "enum": []
+            "type": "string"
         },
         "url": {
             "description": "URI containing complete experimental reference",
