@@ -4,34 +4,37 @@
     "description": "Base MongoDB-backed Store",
     "additionalProperties": true,
     "properties": {
-        "tenant": {
-            "description": "TACC.cloud tenant",
-            "type": "string",
-            "value": "sd2e",
-            "enum": [
-                "3dem",
-                "designsafe",
-                "iplantc.org",
-                "irec",
-                "portals",
-                "vdjserver.org",
-                "sd2e",
-                "sgci",
-                "tacc.prod"
-            ],
-            "readOnly": true
-        },
-        "project": {
-            "description": "Project within specified TACC.cloud tenant",
-            "type": "string",
-            "value": "SD2",
-            "readOnly": true
-        },
-        "owner": {
-            "type": "string",
-            "value": "admin",
-            "readOnly": true,
-            "description": "Username that created or owns the record"
+        "_admin": {
+            "type": "object",
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "type": "string",
+                "value": "sd2e",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "type": "string",
+                "value": "SD2",
+                "readOnly": true
+            },
+            "owner": {
+                "type": "string",
+                "value": "admin",
+                "readOnly": true,
+                "description": "Username that created or owns the record"
+            }
         },
         "uuid": {
             "$ref": "https://sd2e.github.io/python-datacatalog/schemas/generic_uuid.json"
@@ -58,9 +61,7 @@
         }
     },
     "required": [
-        "uuid",
-        "tenant",
-        "project"
+        "uuid"
     ],
     "_filename": "basestore",
     "__collection": "basestores",

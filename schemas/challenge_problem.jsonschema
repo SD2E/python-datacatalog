@@ -4,6 +4,38 @@
   "additionalProperties": true,
   "description": "Challenge Problem Reference",
   "properties": {
+    "_admin": {
+      "owner": {
+        "description": "Username that created or owns the record",
+        "readOnly": true,
+        "type": "string",
+        "value": "admin"
+      },
+      "project": {
+        "description": "Project within specified TACC.cloud tenant",
+        "readOnly": true,
+        "type": "string",
+        "value": "SD2"
+      },
+      "tenant": {
+        "description": "TACC.cloud tenant",
+        "enum": [
+          "3dem",
+          "designsafe",
+          "iplantc.org",
+          "irec",
+          "portals",
+          "vdjserver.org",
+          "sd2e",
+          "sgci",
+          "tacc.prod"
+        ],
+        "readOnly": true,
+        "type": "string",
+        "value": "sd2e"
+      },
+      "type": "object"
+    },
     "_properties": {
       "created_date": {
         "format": "date-time",
@@ -38,35 +70,6 @@
       "description": "Canonical string identifier for the challenge problem",
       "enum": [],
       "type": "string"
-    },
-    "owner": {
-      "description": "Username that created or owns the record",
-      "readOnly": true,
-      "type": "string",
-      "value": "admin"
-    },
-    "project": {
-      "description": "Project within specified TACC.cloud tenant",
-      "readOnly": true,
-      "type": "string",
-      "value": "SD2"
-    },
-    "tenant": {
-      "description": "TACC.cloud tenant",
-      "enum": [
-        "3dem",
-        "designsafe",
-        "iplantc.org",
-        "irec",
-        "portals",
-        "vdjserver.org",
-        "sd2e",
-        "sgci",
-        "tacc.prod"
-      ],
-      "readOnly": true,
-      "type": "string",
-      "value": "sd2e"
     },
     "title": {
       "description": "Human-readable title for the challenge problem",
