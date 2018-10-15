@@ -37,7 +37,7 @@
             }
         },
         "uuid": {
-            "$ref": "https://sd2e.github.io/python-datacatalog/schemas/generic_uuid.json"
+            "$ref": "generic_uuid.json"
         },
         "child_of": {
             "type": "array",

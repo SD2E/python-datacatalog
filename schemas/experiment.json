@@ -1,8 +1,8 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem.json",
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": true,
-  "description": "Challenge Problem Reference",
+  "description": "Experiment Reference",
   "properties": {
     "_admin": {
       "owner": {
@@ -51,48 +51,49 @@
       "type": "object"
     },
     "aliases": {
-      "description": "Alias identifiers for the challenge problem",
+      "description": "Alias identifiers for the experimental reference",
       "items": "string",
       "type": "array"
     },
     "child_of": {
       "items": {
+        "$ref": "challenge_problem_uuid.json",
         "type": "string"
       },
       "type": "array"
     },
     "created": {
-      "description": "When the challenge problem reference document was created",
+      "description": "When the reference document was created",
       "format": "date-time",
       "type": "string"
     },
     "id": {
-      "description": "Canonical string identifier for the challenge problem",
+      "description": "Canonical string identifier for the experimental reference",
       "enum": [],
       "type": "string"
     },
     "title": {
-      "description": "Human-readable title for the challenge problem",
+      "description": "Human-readable title for the experimental reference",
       "type": "string"
     },
     "updated": {
-      "description": "When the challenge problem reference document was last updated",
+      "description": "When the reference document was last updated",
       "format": "date-time",
       "type": "string"
     },
     "url": {
-      "description": "URI containing complete challenge problem",
+      "description": "URI containing complete experimental reference",
       "format": "uri",
       "type": "string"
     },
     "uuid": {
-      "$ref": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_uuid.json"
+      "$ref": "experiment_uuid.json"
     }
   },
   "required": [
     "id",
     "uuid"
   ],
-  "title": "Challenge Problem",
+  "title": "Experiment",
   "type": "object"
 }

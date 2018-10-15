@@ -34,12 +34,12 @@
             "format": "date-time"
         },
         "uuid": {
-            "$ref": "https://sd2e.github.io/python-datacatalog/schemas/experiment_uuid.json"
+            "$ref": "experiment_uuid.json"
         },
         "child_of": {
             "type": "array",
             "items": {
-                "$ref": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_uuid.json"
+                "$ref": "challenge_problem_uuid.json"
             }
         }
     },

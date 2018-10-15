@@ -9,6 +9,6 @@ sys.path.append(PARENT)
 from datacatalog.jsonschemas import get_all_schemas
 
 for fname, schema in get_all_schemas().items():
-    destpath = os.path.join(DESTDIR, fname + '.jsonschema')
+    destpath = os.path.join(DESTDIR, fname + '.json')
     with open(destpath, 'w+') as j:
         j.write(schema)

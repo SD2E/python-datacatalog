@@ -34,7 +34,7 @@
             "format": "date-time"
         },
         "uuid": {
-            "$ref": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_uuid.json"
+            "$ref": "challenge_problem_uuid.json"
         }
     },
     "required": [
