@@ -38,7 +38,9 @@
         }
     },
     "required": [
-        "id"
+        "id",
+        "uuid",
+        "title"
     ],
     "_filename": "challenge_problem",
     "__collection": "challenges",

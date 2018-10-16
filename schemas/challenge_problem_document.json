@@ -91,7 +91,9 @@
     }
   },
   "required": [
-    "id"
+    "id",
+    "uuid",
+    "title"
   ],
   "title": "Challenge Problem",
   "type": "object"

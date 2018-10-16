@@ -1,0 +1,12 @@
+{
+    "document": {
+        "properties": [
+            "measurements"
+        ]
+    },
+    "object": {
+        "properties": [
+            "meep"
+        ]
+    }
+}

@@ -44,7 +44,7 @@ class JSONSchemaBaseObject(object):
             schema_id = schema_id + '.json'
         setattr(self, '_id', schema_id)
 
-    def to_dict(self, private_prefix='_'):
+    def to_dict(self, private_prefix='_', **kwargs):
         my_dict = dict()
         for key, mandatory, param, default, keyfix in self.PARAMS:
             if not key.startswith(private_prefix) and default is not None:

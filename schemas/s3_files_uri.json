@@ -1,9 +1,0 @@
-{
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/s3_files_uri.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "S3-canonical URI reference",
-  "pattern": "^s3://",
-  "title": "S3 Files Uri",
-  "type": "string"
-}

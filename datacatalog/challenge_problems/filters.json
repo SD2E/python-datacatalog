@@ -1,6 +1,7 @@
 {
     "object": {
         "properties": [
+            "uuid",
             "_admin",
             "_properties",
             "child_of"

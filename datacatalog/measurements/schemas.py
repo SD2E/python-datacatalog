@@ -1,4 +1,5 @@
-from .basestore import DocumentSchema as Doc
+from .store import MeasurementDocument as Doc
+from pprint import pprint
 
 def get_schemas():
     schemas = dict()

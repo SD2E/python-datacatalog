@@ -13,6 +13,7 @@ import json
 import copy
 import datetime
 
+from pprint import pprint
 from slugify import slugify
 
 from configs import CatalogStore
@@ -38,7 +39,7 @@ class DocumentSchema(JSONSchemaBaseObject):
             if os.path.isfile(filtersfile):
                 filtersj = json.load(open(filtersfile, 'r'))
             elif os.path.isfile(class_filtersfile):
-                filtersj = json.load(open(class_schemafile, 'r'))
+                filtersj = json.load(open(class_filtersfile, 'r'))
             else:
                 filtersj = dict()
 
@@ -49,20 +50,38 @@ class DocumentSchema(JSONSchemaBaseObject):
         super(DocumentSchema, self).__init__(**params)
         self.update_id()
 
-    def to_dict(self, private_prefix='_', document=False):
-        my_dict = super(DocumentSchema, self).to_dict(private_prefix)
+    def to_dict(self, private_prefix='_', document=False, **kwargs):
+        my_dict = super(DocumentSchema, self).to_dict(private_prefix, **kwargs)
+        filters = getattr(self, '_filters', {})
+        print('FILTERS: {}'.format(filters))
+        filt_type = 'document'
+        if document is False:
+            filt_type = 'object'
+        props_to_filter = filters.get(filt_type, {}).get('properties', [])
+        #pprint(props_to_filter)
         resp_dict = dict()
-        filter_list = getattr(self, '_filters', {}).get('properties', [])
+
         for k, v in my_dict.items():
-            # Filter
-            if document is True:
-                if k == 'properties':
-                    props = dict()
-                    for pk, pv in v.items():
-                        if pk not in filter_list:
-                            props[pk] = pv
-                    v = props
+            # print('KEY: ' + k)
+            # pprint(v)
+            # Filter 'properties'
+            if k == 'properties':
+                filtered_props = dict()
+                for pk, pv in v.items():
+                    if pk not in props_to_filter:
+                        filtered_props[pk] = pv
+                v = filtered_props
             resp_dict[k] = v
+            # Filter 'required'
+            if k == 'required':
+                for pk in props_to_filter:
+                    try:
+                        resp_dict['required'].remove(pk)
+                    except ValueError:
+                        pass
+                    except Exception:
+                        raise
+
         return resp_dict
 
     def collection(self):

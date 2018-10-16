@@ -16,6 +16,11 @@
       "format": "date-time",
       "type": "string"
     },
+    "id": {
+      "$ref": "challenge_problem_id.json",
+      "description": "Canonical string identifier for the challenge problem",
+      "type": "string"
+    },
     "title": {
       "description": "Human-readable title for the challenge problem",
       "type": "string"
@@ -31,7 +36,8 @@
     }
   },
   "required": [
-    "id"
+    "id",
+    "title"
   ],
   "title": "Challenge Problem",
   "type": "object"

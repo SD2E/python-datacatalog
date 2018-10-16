@@ -5,10 +5,11 @@ import inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-SCHEMAS = ['basestore', 'challenge_problems', 'experiments', 'samples']
-PRIMITIVES = ['definitions', 'filetypes', 'identifiers']
+SCHEMAS = ['basestore', 'challenge_problems']
+# SCHEMAS = ['basestore', 'challenge_problems', 'experiments', 'samples', 'measurements']
+# PRIMITIVES = ['definitions', 'filetypes', 'identifiers']
 # PRIMITIVES = ['definitions']
-
+PRIMITIVES = []
 
 def dynamic_import(module, package=None):
     print(module, package)
