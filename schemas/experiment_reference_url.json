@@ -1,9 +1,0 @@
-{
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment_reference_url.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "An experiment reference url, e.g. google drive link",
-  "pattern": "^https://docs.google.com/document",
-  "title": "Experiment Reference Url",
-  "type": "string"
-}

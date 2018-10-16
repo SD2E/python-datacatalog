@@ -1,0 +1,12 @@
+from .store import SampleDocument as Doc
+from pprint import pprint
+
+def get_schemas():
+    schemas = dict()
+    d = Doc()
+    fname = getattr(d, '_filename')
+    document_schema = d.to_jsonschema(document=False)
+    object_schema = d.to_jsonschema(document=True)
+    schemas[fname] = object_schema
+    schemas[fname + '_document'] = document_schema
+    return schemas

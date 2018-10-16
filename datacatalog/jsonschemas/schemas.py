@@ -5,7 +5,7 @@ import inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-SCHEMAS = ['basestore', 'challenge_problems', 'experiments']
+SCHEMAS = ['basestore', 'challenge_problems', 'experiments', 'samples']
 PRIMITIVES = ['definitions', 'filetypes', 'identifiers']
 # PRIMITIVES = ['definitions']
 
