@@ -37,8 +37,8 @@
             }
         },
         "id": {
-            "type": "string",
-            "description": "An identifier for a given document"
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
         },
         "uuid": {
             "$ref": "generic_uuid.json"

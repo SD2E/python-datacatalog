@@ -44,7 +44,9 @@
         }
     },
     "required": [
-        "id"
+        "id",
+        "uuid",
+        "child_of"
     ],
     "_filename": "experiment",
     "__collection": "experiments",
