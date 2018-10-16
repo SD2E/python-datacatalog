@@ -1,0 +1,10 @@
+{
+    "description": "An input state for a strain circuit. Currently only encodes two input states.",
+    "enum": [
+        "00",
+        "01",
+        "10",
+        "11"
+    ],
+    "type": "string"
+}

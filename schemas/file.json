@@ -1,0 +1,38 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "A file for a measurement",
+  "properties": {
+    "file_id": {
+      "description": "File id, internal to experimental facility or data provider",
+      "type": "string"
+    },
+    "level": {
+      "$ref": "processing_level.json"
+    },
+    "name": {
+      "description": "Filename",
+      "pattern": ".*\\..*",
+      "type": "string"
+    },
+    "state": {
+      "description": "Raw or processed state",
+      "enum": [
+        "PROCESSED",
+        "RAW"
+      ],
+      "type": "string"
+    },
+    "type": {
+      "$ref": "filetype_label.json",
+      "description": "Enumerated file type"
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ],
+  "title": "File",
+  "type": "object"
+}

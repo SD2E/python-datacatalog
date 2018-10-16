@@ -1,0 +1,18 @@
+{
+    "additionalProperties": false,
+    "description": "A growth or measurement temperature",
+    "properties": {
+        "unit": {
+            "$ref": "temperature_unit.json"
+        },
+        "value": {
+            "description": "Numeric value",
+            "type": "number"
+        }
+    },
+    "required": [
+        "unit",
+        "value"
+    ],
+    "type": "object"
+}

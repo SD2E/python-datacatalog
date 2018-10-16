@@ -1,0 +1,30 @@
+import json
+import os
+import sys
+from jsonschemas import JSONSchemaBaseObject
+
+HERE = os.path.abspath(__file__)
+PARENT = os.path.dirname(HERE)
+
+def get_schemas():
+    jsondocs = build_from_jsondocs()
+    schemas = jsondocs
+    return schemas
+
+def build_from_jsondocs():
+    schemas = dict()
+    docs_dir = os.path.join(PARENT, 'jsondocs')
+    for jdoc in os.listdir(docs_dir):
+        if jdoc.endswith('.json'):
+            filename = os.path.basename(jdoc).lower().replace('.json', '')
+            filepath = os.path.join(docs_dir, jdoc)
+            loaded_jsondoc = json.load(open(filepath, 'r'))
+            # Synthesize a title if not present
+            if not 'title' in loaded_jsondoc:
+                loaded_jsondoc['title'] = filename.replace('_', ' ').title()
+            # This is the filename, sans extension, for the schema document
+            if not '_filename' in loaded_jsondoc:
+                loaded_jsondoc['_filename'] = filename
+            schema = JSONSchemaBaseObject(**loaded_jsondoc).to_jsonschema()
+            schemas[filename] = schema
+    return schemas

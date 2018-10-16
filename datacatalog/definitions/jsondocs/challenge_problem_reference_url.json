@@ -1,0 +1,9 @@
+{
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_reference_url.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A challenge problem reference url, e.g. Google Drive link",
+    "pattern": "^https://docs.google.com/document",
+    "title": "Challenge Problem Reference Url",
+    "type": "string"
+}

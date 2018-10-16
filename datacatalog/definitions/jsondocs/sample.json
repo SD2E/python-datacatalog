@@ -1,0 +1,103 @@
+{
+    "additionalProperties": false,
+    "description": "A lab sample and its metadata",
+    "properties": {
+        "TMT_channel": {
+            "description": "TMT tag/channel for proteomics",
+            "type": "string"
+        },
+        "contents": {
+            "description": "list of media/component references, will be mapped by SBH librarian",
+            "items": {
+                "$ref": "#/definitions/media_component"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "control_for": {
+            "description": "list of samples this sample controls for",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "control_type": {
+            "description": "enumerated control type",
+            "enum": [
+                "BASELINE",
+                "BASELINE_MEDIA_PR",
+                "EMPTY_VECTOR",
+                "HIGH_FITC",
+                "TREATMENT_1",
+                "TREATMENT_2"
+            ],
+            "type": "string"
+        },
+        "inoculation_density": {
+            "$ref": "#/definitions/optical_density",
+            "description": "target inoculation density"
+        },
+        "measurements": {
+            "description": "measurements for a sample",
+            "items": {
+                "$ref": "#/definitions/measurement"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "replicate": {
+            "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
+            "type": "integer"
+        },
+        "sample_id": {
+            "description": "sample id, internal to lab",
+            "type": "string"
+        },
+        "standard_attributes": {
+            "additionalProperties": false,
+            "description": "additional attributes used by standard enumerations",
+            "properties": {
+                "bead_batch": {
+                    "description": "For the BEAD_FLUORESCENCE standard, the bead batch used",
+                    "type": "string"
+                },
+                "bead_model": {
+                    "description": "For the BEAD_FLUORESCENCE standard, the bead model used",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "standard_for": {
+            "description": "list of samples this sample is a standard for",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "standard_type": {
+            "description": "enumerated standard type",
+            "enum": [
+                "BEAD_FLUORESCENCE",
+                "BEAD_SIZE",
+                "FLUORESCEIN",
+                "LUDOX",
+                "WATER"
+            ],
+            "type": "string"
+        },
+        "strain": {
+            "$ref": "#/definitions/mapped_name",
+            "description": "strain reference, will be mapped by SBH Librarian"
+        },
+        "temperature": {
+            "$ref": "#/definitions/temperature"
+        }
+    },
+    "required": [
+        "sample_id"
+    ],
+    "type": "object"
+}

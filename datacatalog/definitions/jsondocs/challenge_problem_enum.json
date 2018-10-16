@@ -1,0 +1,11 @@
+{
+    "description": "Challenge problem enumeration",
+    "enum": [
+        "YEAST_GATES",
+        "NOVEL_CHASSIS",
+        "RIBOSWITCHES",
+        "CELL_STATE",
+        "UNKNOWN"
+    ],
+    "type": "string"
+}

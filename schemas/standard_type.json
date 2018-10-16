@@ -1,0 +1,15 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/standard_type.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "enumerated standard type",
+  "enum": [
+    "BEAD_FLUORESCENCE",
+    "BEAD_SIZE",
+    "WATER",
+    "LUDOX",
+    "FLUORESCEIN"
+  ],
+  "title": "Standard Type",
+  "type": "string"
+}

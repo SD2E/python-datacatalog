@@ -5,5 +5,5 @@
   "description": "UUID5 with DNS namespacing",
   "pattern": "^(uri:urn:)?111[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
   "title": "Redash Dashboard UUID",
-  "type": "string"
+  "type": "object"
 }

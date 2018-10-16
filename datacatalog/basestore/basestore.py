@@ -22,6 +22,7 @@ from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, Dupli
 from .exceptions import *
 
 class DocumentSchema(JSONSchemaBaseObject):
+    """Document interface for a JSON schema-informed document"""
     def __init__(self, **kwargs):
         modfile = inspect.getfile(self.__class__)
         try:
@@ -41,6 +42,7 @@ class DocumentSchema(JSONSchemaBaseObject):
         pass
 
 class BaseStore(object):
+    """Storage interface for JSON schema-informed documents"""
     TYPED_UUID_TYPE = 'generic'
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 

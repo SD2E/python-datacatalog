@@ -6,7 +6,9 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 
 SCHEMAS = ['basestore', 'challenge_problems', 'experiments']
-PRIMITIVES = ['identifiers', 'filetypes']
+PRIMITIVES = ['definitions', 'filetypes', 'identifiers']
+# PRIMITIVES = ['definitions']
+
 
 def dynamic_import(module, package=None):
     print(module, package)

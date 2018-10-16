@@ -1,0 +1,10 @@
+{
+    "description": "unit of fluid measurement",
+    "enum": [
+        "%",
+        "M",
+        "X",
+        "g/L"
+    ],
+    "type": "string"
+}

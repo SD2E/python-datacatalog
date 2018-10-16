@@ -1,0 +1,8 @@
+{
+    "description": "RNA-Seq library preparation method",
+    "type": "string",
+    "enum": [
+        "NORMAL",
+        "MINIATURIZED"
+    ]
+}

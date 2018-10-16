@@ -762,5 +762,5 @@
     "ZOO"
   ],
   "title": "File Type Label",
-  "type": "string"
+  "type": "object"
 }

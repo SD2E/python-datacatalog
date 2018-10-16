@@ -5,7 +5,7 @@
     "additionalProperties": true,
     "properties": {
         "aliases": {
-            "description": "Alias identifiers for the challenge problem",
+            "description": "Identifying aliases for the challenge problem",
             "type": "array",
             "items": {
                 "type": "string"
@@ -17,12 +17,11 @@
         },
         "id": {
             "description": "Canonical string identifier for the challenge problem",
-            "type": "string"
+            "$ref": "challenge_problem_enum.json"
         },
         "url": {
             "description": "URI containing complete challenge problem",
-            "type": "string",
-            "format": "uri"
+            "$ref": "challenge_problem_reference_url.json"
         },
         "created": {
             "description": "When the challenge problem reference document was created",

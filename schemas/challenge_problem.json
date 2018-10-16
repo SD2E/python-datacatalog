@@ -6,7 +6,7 @@
   "properties": {
     "_admin": {
       "owner": {
-        "description": "Username that created or owns the record",
+        "description": "TACC.cloud username that created or manages the record",
         "readOnly": true,
         "type": "string",
         "value": "admin"
@@ -51,7 +51,7 @@
       "type": "object"
     },
     "aliases": {
-      "description": "Alias identifiers for the challenge problem",
+      "description": "Identifying aliases for the challenge problem",
       "items": {
         "type": "string"
       },
@@ -69,8 +69,8 @@
       "type": "string"
     },
     "id": {
-      "description": "Canonical string identifier for the challenge problem",
-      "type": "string"
+      "$ref": "challenge_problem_enum.json",
+      "description": "Canonical string identifier for the challenge problem"
     },
     "title": {
       "description": "Human-readable title for the challenge problem",
@@ -82,9 +82,8 @@
       "type": "string"
     },
     "url": {
-      "description": "URI containing complete challenge problem",
-      "format": "uri",
-      "type": "string"
+      "$ref": "challenge_problem_reference_url.json",
+      "description": "URI containing complete challenge problem"
     },
     "uuid": {
       "$ref": "challenge_problem_uuid.json"

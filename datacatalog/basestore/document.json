@@ -33,7 +33,7 @@
                 "type": "string",
                 "value": "admin",
                 "readOnly": true,
-                "description": "Username that created or owns the record"
+                "description": "TACC.cloud username that created or manages the record"
             }
         },
         "uuid": {

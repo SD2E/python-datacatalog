@@ -1,0 +1,54 @@
+{
+    "title": "SamplesMetadata",
+    "type": "object",
+    "description": "Samples Metadata generated representation",
+    "additionalProperties": false,
+    "properties": {
+        "aliases": {
+            "description": "Alias identifiers for the experimental reference",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "title": {
+            "type": "string",
+            "description": "Human-readable title for the experimental reference"
+        },
+        "id": {
+            "description": "Canonical string identifier for the experimental reference",
+            "type": "string"
+        },
+        "url": {
+            "description": "URI containing complete experimental reference",
+            "type": "string",
+            "format": "uri"
+        },
+        "created": {
+            "description": "When the reference document was created",
+            "type": "string",
+            "format": "date-time"
+        },
+        "updated": {
+            "description": "When the reference document was last updated",
+            "type": "string",
+            "format": "date-time"
+        },
+        "uuid": {
+            "$ref": "experiment_uuid.json"
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "$ref": "challenge_problem_uuid.json"
+            }
+        }
+    },
+    "required": [
+        "id",
+        "uuid"
+    ],
+    "_filename": "experiment",
+    "__collection": "experiments",
+    "__indexes": []
+}
