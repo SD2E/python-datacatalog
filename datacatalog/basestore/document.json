@@ -36,6 +36,10 @@
                 "description": "TACC.cloud username that created or manages the record"
             }
         },
+        "id": {
+            "type": "string",
+            "description": "An identifier for a given document"
+        },
         "uuid": {
             "$ref": "generic_uuid.json"
         },
@@ -61,7 +65,7 @@
         }
     },
     "required": [
-        "uuid"
+        "id"
     ],
     "_filename": "basestore",
     "__collection": "basestores",

@@ -17,12 +17,11 @@
         },
         "id": {
             "description": "Canonical string identifier for the experimental reference",
-            "type": "string"
+            "$ref": "experiment_id.json"
         },
         "url": {
             "description": "URI containing complete experimental reference",
-            "type": "string",
-            "format": "uri"
+            "$ref": "experiment_url.json"
         },
         "created": {
             "description": "When the reference document was created",
@@ -45,8 +44,7 @@
         }
     },
     "required": [
-        "id",
-        "uuid"
+        "id"
     ],
     "_filename": "experiment",
     "__collection": "experiments",

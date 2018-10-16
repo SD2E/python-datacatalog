@@ -6,7 +6,6 @@ class FileTypeError(ValueError):
 
 class FileType(AttrDict):
     def __init__(self, mimetype=None, label=None, comment=None):
-        print(label, comment)
         if mimetype is not None and isinstance(mimetype, MIMEtype):
             label = mimetype.subtype
             if label.startswith('x-'):

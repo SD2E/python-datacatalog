@@ -1,10 +1,11 @@
-import os
-import sys
-# from jsonschemas import JSONSchemaBaseObject
-
-from .store import ExperimentDocument
+from .store import ExperimentDocument as Doc
 
 def get_schemas():
-    d = ExperimentDocument()
+    schemas = dict()
+    d = Doc()
     fname = getattr(d, '_filename')
-    return {fname: d.to_jsonschema()}
+    document_schema = d.to_jsonschema()
+    object_schema = d.to_jsonschema(document=True)
+    schemas[fname] = object_schema
+    schemas[fname + '_document'] = document_schema
+    return schemas

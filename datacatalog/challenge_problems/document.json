@@ -17,11 +17,11 @@
         },
         "id": {
             "description": "Canonical string identifier for the challenge problem",
-            "$ref": "challenge_problem_enum.json"
+            "$ref": "challenge_problem_id.json"
         },
         "url": {
             "description": "URI containing complete challenge problem",
-            "$ref": "challenge_problem_reference_url.json"
+            "$ref": "challenge_problem_url.json"
         },
         "created": {
             "description": "When the challenge problem reference document was created",
@@ -38,8 +38,7 @@
         }
     },
     "required": [
-        "id",
-        "uuid"
+        "id"
     ],
     "_filename": "challenge_problem",
     "__collection": "challenges",

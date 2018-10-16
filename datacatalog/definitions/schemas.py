@@ -7,11 +7,12 @@ HERE = os.path.abspath(__file__)
 PARENT = os.path.dirname(HERE)
 
 def get_schemas():
-    jsondocs = build_from_jsondocs()
-    schemas = jsondocs
+    jsondocs = build_jsondocs()
+    templated_jsondocs = build_templates()
+    schemas = {**jsondocs, **templated_jsondocs}
     return schemas
 
-def build_from_jsondocs():
+def build_jsondocs():
     schemas = dict()
     docs_dir = os.path.join(PARENT, 'jsondocs')
     for jdoc in os.listdir(docs_dir):
@@ -27,4 +28,8 @@ def build_from_jsondocs():
                 loaded_jsondoc['_filename'] = filename
             schema = JSONSchemaBaseObject(**loaded_jsondoc).to_jsonschema()
             schemas[filename] = schema
+    return schemas
+
+def build_templates():
+    schemas = dict()
     return schemas

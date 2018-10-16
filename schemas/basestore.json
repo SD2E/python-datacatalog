@@ -4,64 +4,16 @@
   "additionalProperties": true,
   "description": "Base MongoDB-backed Store",
   "properties": {
-    "_admin": {
-      "owner": {
-        "description": "TACC.cloud username that created or manages the record",
-        "readOnly": true,
-        "type": "string",
-        "value": "admin"
-      },
-      "project": {
-        "description": "Project within specified TACC.cloud tenant",
-        "readOnly": true,
-        "type": "string",
-        "value": "SD2"
-      },
-      "tenant": {
-        "description": "TACC.cloud tenant",
-        "enum": [
-          "3dem",
-          "designsafe",
-          "iplantc.org",
-          "irec",
-          "portals",
-          "vdjserver.org",
-          "sd2e",
-          "sgci",
-          "tacc.prod"
-        ],
-        "readOnly": true,
-        "type": "string",
-        "value": "sd2e"
-      },
-      "type": "object"
-    },
-    "_properties": {
-      "created_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "modified_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "revision": {
-        "type": "number"
-      },
-      "type": "object"
-    },
-    "child_of": {
-      "items": {
-        "type": "string"
-      },
-      "type": "array"
+    "id": {
+      "description": "An identifier for a given document",
+      "type": "string"
     },
     "uuid": {
       "$ref": "generic_uuid.json"
     }
   },
   "required": [
-    "uuid"
+    "id"
   ],
   "title": "Base Store",
   "type": "object"
