@@ -1,0 +1,48 @@
+{
+    "title": "Challenge Problem",
+    "type": "object",
+    "description": "Challenge Problem Reference",
+    "additionalProperties": true,
+    "properties": {
+        "aliases": {
+            "description": "Identifying aliases for the challenge problem",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "title": {
+            "type": "string",
+            "description": "Human-readable title for the challenge problem"
+        },
+        "id": {
+            "description": "Canonical string identifier for the challenge problem",
+            "$ref": "challenge_problem_id.json"
+        },
+        "url": {
+            "description": "URI containing complete challenge problem",
+            "$ref": "challenge_problem_url.json"
+        },
+        "created": {
+            "description": "When the challenge problem reference document was created",
+            "type": "string",
+            "format": "date-time"
+        },
+        "updated": {
+            "description": "When the challenge problem reference document was last updated",
+            "type": "string",
+            "format": "date-time"
+        },
+        "uuid": {
+            "$ref": "challenge_problem_uuid.json"
+        }
+    },
+    "required": [
+        "id",
+        "uuid",
+        "title"
+    ],
+    "_filename": "challenge_problem",
+    "__collection": "challenges",
+    "__indexes": []
+}

@@ -1,0 +1,10 @@
+{
+    "description": "A data processing level",
+    "enum": [
+        "0",
+        "1",
+        "2",
+        "3"
+    ],
+    "type": "string"
+}

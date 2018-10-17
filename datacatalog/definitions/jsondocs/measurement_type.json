@@ -1,0 +1,10 @@
+{
+    "description": "Enumerated measurement type",
+    "type": "string",
+    "enum": [
+        "FLOW",
+        "RNA_SEQ",
+        "PLATE_READER",
+        "PROTEOMICS"
+    ]
+}

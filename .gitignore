@@ -8,3 +8,5 @@ build/
 env/
 settings.py
 .pytest_cache/
+config.yml
+service_account.json

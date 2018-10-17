@@ -1,0 +1,18 @@
+{
+    "description": "Unit of temporal measurement",
+    "enum": [
+        "day",
+        "femtosecond",
+        "hour",
+        "microsecond",
+        "millisecond",
+        "minute",
+        "month",
+        "nanosecond",
+        "picosecond",
+        "second",
+        "week",
+        "year"
+    ],
+    "type": "string"
+}

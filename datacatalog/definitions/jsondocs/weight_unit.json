@@ -1,0 +1,8 @@
+{
+    "description": "Uunit of dry weight measurement",
+    "enum": [
+        "%",
+        "g"
+    ],
+    "type": "string"
+}

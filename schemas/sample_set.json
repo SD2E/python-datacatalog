@@ -1,0 +1,39 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/sample_set.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "Describes a set of samples produced by an experimental facility or data provider",
+  "properties": {
+    "challenge_problem": {
+      "$ref": "challenge_problem_id.json"
+    },
+    "experiment_reference": {
+      "$ref": "experiment_reference.json"
+    },
+    "experiment_reference_url": {
+      "$ref": "experiment_url.json"
+    },
+    "id": {
+      "$ref": "identifier.json",
+      "description": "String identifier for the sample set"
+    },
+    "lab": {
+      "$ref": "lab.json"
+    },
+    "samples": {
+      "items": {
+        "$ref": "sample.json"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "challenge_problem",
+    "experiment_reference",
+    "lab",
+    "samples"
+  ],
+  "title": "SampleSet",
+  "type": "object"
+}

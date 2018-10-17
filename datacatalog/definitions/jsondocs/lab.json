@@ -1,0 +1,9 @@
+{
+    "description": "Identifying key for a specific experimental facilty",
+    "enum": [
+        "Ginkgo",
+        "Transcriptic",
+        "UW_BIOFAB"
+    ],
+    "type": "string"
+}

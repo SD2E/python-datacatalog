@@ -1,0 +1,5 @@
+{
+    "description": "S3-canonical URI reference",
+    "pattern": "^s3://",
+    "type": "string"
+}

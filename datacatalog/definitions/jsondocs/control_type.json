@@ -1,0 +1,12 @@
+{
+    "description": "Enumerated control type",
+    "type": "string",
+    "enum": [
+        "HIGH_FITC",
+        "EMPTY_VECTOR",
+        "BASELINE",
+        "TREATMENT_1",
+        "TREATMENT_2",
+        "BASELINE_MEDIA_PR"
+    ]
+}

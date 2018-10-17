@@ -1,0 +1,99 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": true,
+  "description": "Challenge Problem Reference",
+  "properties": {
+    "_admin": {
+      "owner": {
+        "description": "TACC.cloud username that created or manages the record",
+        "readOnly": true,
+        "type": "string",
+        "value": "admin"
+      },
+      "project": {
+        "description": "Project within specified TACC.cloud tenant",
+        "readOnly": true,
+        "type": "string",
+        "value": "SD2"
+      },
+      "tenant": {
+        "description": "TACC.cloud tenant",
+        "enum": [
+          "3dem",
+          "designsafe",
+          "iplantc.org",
+          "irec",
+          "portals",
+          "vdjserver.org",
+          "sd2e",
+          "sgci",
+          "tacc.prod"
+        ],
+        "readOnly": true,
+        "type": "string",
+        "value": "sd2e"
+      },
+      "type": "object"
+    },
+    "_properties": {
+      "created_date": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "modified_date": {
+        "format": "date-time",
+        "type": "string"
+      },
+      "revision": {
+        "type": "number"
+      },
+      "type": "object"
+    },
+    "aliases": {
+      "description": "Identifying aliases for the challenge problem",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "child_of": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "created": {
+      "description": "When the challenge problem reference document was created",
+      "format": "date-time",
+      "type": "string"
+    },
+    "id": {
+      "$ref": "challenge_problem_id.json",
+      "description": "Canonical string identifier for the challenge problem"
+    },
+    "title": {
+      "description": "Human-readable title for the challenge problem",
+      "type": "string"
+    },
+    "updated": {
+      "description": "When the challenge problem reference document was last updated",
+      "format": "date-time",
+      "type": "string"
+    },
+    "url": {
+      "$ref": "challenge_problem_url.json",
+      "description": "URI containing complete challenge problem"
+    },
+    "uuid": {
+      "$ref": "challenge_problem_uuid.json"
+    }
+  },
+  "required": [
+    "id",
+    "uuid",
+    "title"
+  ],
+  "title": "Challenge Problem",
+  "type": "object"
+}

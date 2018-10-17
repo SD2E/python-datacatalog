@@ -1,0 +1,11 @@
+{
+    "description": "enumerated standard type",
+    "type": "string",
+    "enum": [
+        "BEAD_FLUORESCENCE",
+        "BEAD_SIZE",
+        "WATER",
+        "LUDOX",
+        "FLUORESCEIN"
+    ]
+}

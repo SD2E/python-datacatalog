@@ -1,0 +1,7 @@
+{
+    "description": "Unit of measurement for optical density",
+    "enum": [
+        "od600"
+    ],
+    "type": "string"
+}

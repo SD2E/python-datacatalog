@@ -14,7 +14,7 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
-from ..constants import Constants
+from constants import Constants
 
 __all__ = ["generate", "mock", "validate", "catalog_uuid", "text_uuid_to_binary"]
 
