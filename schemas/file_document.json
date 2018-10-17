@@ -70,10 +70,6 @@
       },
       "type": "array"
     },
-    "file_id": {
-      "description": "File id (internal to experimental facility or data provider)",
-      "type": "string"
-    },
     "filename": {
       "description": "Filename",
       "pattern": ".*\\..*",
@@ -81,7 +77,8 @@
     },
     "id": {
       "$ref": "identifier.json",
-      "description": "Distinguishing identifier for the specified document"
+      "description": "File id (internal to experimental facility or data provider)",
+      "type": "string"
     },
     "level": {
       "$ref": "processing_level.json"
@@ -91,7 +88,7 @@
       "description": "Enumerated file type"
     },
     "uuid": {
-      "$ref": "generic_uuid.json"
+      "$ref": "file_uuid.json"
     }
   },
   "required": [
@@ -100,6 +97,6 @@
     "uuid",
     "child_of"
   ],
-  "title": "Base Store",
+  "title": "File",
   "type": "object"
 }
