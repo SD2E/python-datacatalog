@@ -55,6 +55,11 @@
     ],
     "type": "object",
     "_filename": "measurement",
+    "__uuid_type": "measurement",
     "__collection": "measurements",
-    "__indexes": []
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "id"
+    ]
 }

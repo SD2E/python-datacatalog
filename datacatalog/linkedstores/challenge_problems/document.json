@@ -43,6 +43,11 @@
         "title"
     ],
     "_filename": "challenge_problem",
+    "__uuid_type": "challenge_problem",
     "__collection": "challenges",
-    "__indexes": []
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "id"
+    ]
 }

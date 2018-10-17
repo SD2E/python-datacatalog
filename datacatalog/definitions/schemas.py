@@ -21,10 +21,10 @@ def build_jsondocs():
             filepath = os.path.join(docs_dir, jdoc)
             loaded_jsondoc = json.load(open(filepath, 'r'))
             # Synthesize a title if not present
-            if not 'title' in loaded_jsondoc:
+            if 'title' not in loaded_jsondoc:
                 loaded_jsondoc['title'] = filename.replace('_', ' ').title()
             # This is the filename, sans extension, for the schema document
-            if not '_filename' in loaded_jsondoc:
+            if '_filename' not in loaded_jsondoc:
                 loaded_jsondoc['_filename'] = filename
             schema = JSONSchemaBaseObject(**loaded_jsondoc).to_jsonschema()
             schemas[filename] = schema

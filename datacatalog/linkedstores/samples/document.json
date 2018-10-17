@@ -96,5 +96,10 @@
     "type": "object",
     "_filename": "sample",
     "__collection": "samples",
-    "__indexes": []
+    "__uuid_type": "sample",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "id"
+    ]
 }

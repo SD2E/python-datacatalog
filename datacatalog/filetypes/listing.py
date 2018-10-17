@@ -12,6 +12,7 @@ def listall(filter_attrname=None):
         return big_list
     else:
         filtered_listing = [l.get(filter_attrname) for l in big_list]
+        filtered_listing = list(set(filtered_listing))
         filtered_listing = sorted(filtered_listing)
         return filtered_listing
 

@@ -68,6 +68,10 @@
         "id"
     ],
     "_filename": "basestore",
+    "__uuid_type": "generic",
     "__collection": "basestores",
-    "__indexes": []
+    "__indexes": [],
+    "__identifiers": [
+        "id"
+    ]
 }

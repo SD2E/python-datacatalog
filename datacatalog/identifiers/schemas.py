@@ -9,13 +9,13 @@ class CatalogUUID(JSONSchemaBaseObject):
         # self.format = 'uri'
         self.pattern = '^(uri:urn:)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
         self._filename = 'CatalogUUID'
-        self._type = 'string'
+        self.type = 'string'
         self.update_id()
 
     def update_id(self):
         schema_id = self.BASEREF + self._filename + '_uuid.json'
         schema_id = schema_id.lower()
-        setattr(self, '_id', schema_id)
+        setattr(self, 'id', schema_id)
 
 class TypedCatalogUUID(CatalogUUID):
     def __init__(self, **kwargs):

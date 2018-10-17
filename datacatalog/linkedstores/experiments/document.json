@@ -49,6 +49,11 @@
         "child_of"
     ],
     "_filename": "experiment",
+    "__uuid_type": "experiment",
     "__collection": "experiments",
-    "__indexes": []
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "id"
+    ]
 }
