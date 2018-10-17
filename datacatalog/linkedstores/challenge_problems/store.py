@@ -6,7 +6,12 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from basestore import *
+import inspect
+import json
+import os
+import sys
+
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema
 from dicthelpers import data_merge
 from pprint import pprint
 
@@ -25,7 +30,7 @@ class ChallengeDocument(DocumentSchema):
                 parent_schemafile = os.path.join(os.path.dirname(parent_modfile), 'document.json')
                 pschemaj = json.load(open(parent_schemafile, 'r'))
                 schemaj = data_merge(pschemaj, schemaj)
-        except:
+        except Exception:
             raise
         params = {**schemaj, **kwargs}
         super(ChallengeDocument, self).__init__(**params)
@@ -33,6 +38,7 @@ class ChallengeDocument(DocumentSchema):
 
 class ChallengeStore(BaseStore):
     TYPED_UUID_TYPE = 'challenge_problem'
+
     def __init__(self, mongodb, config, session=None, **kwargs):
         super(ChallengeStore, self).__init__(mongodb, config, session)
         self.schema = ChallengeDocument(**kwargs).to_dict()

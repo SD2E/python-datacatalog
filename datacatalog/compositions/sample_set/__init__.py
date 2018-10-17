@@ -1,2 +1,1 @@
-import basestore
-import dicthelpers
+from .. import basestore

@@ -1,2 +1,2 @@
-import basestore
 import dicthelpers
+from linkedstores import basestore

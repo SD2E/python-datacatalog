@@ -1,8 +1,12 @@
 {
     "additionalProperties": false,
+    "title": "File",
     "description": "An uploaded or generated file",
     "properties": {
-        "file_id": {
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "id": {
             "description": "File id (internal to experimental facility or data provider)",
             "type": "string"
         },

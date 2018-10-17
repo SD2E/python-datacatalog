@@ -6,7 +6,12 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from basestore import *
+import inspect
+import json
+import os
+import sys
+
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema
 from dicthelpers import data_merge
 from pprint import pprint
 
@@ -33,6 +38,7 @@ class FileDocument(DocumentSchema):
 
 class FileStore(BaseStore):
     TYPED_UUID_TYPE = 'file'
+
     def __init__(self, mongodb, config, session=None, **kwargs):
         super(FileStore, self).__init__(mongodb, config, session)
         self.schema = FileDocument(**kwargs).to_dict()

@@ -6,14 +6,19 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from basestore import *
+import inspect
+import json
+import os
+import sys
+
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema
 from dicthelpers import data_merge
 from pprint import pprint
 
-class SampleUpdateFailure(CatalogUpdateFailure):
+class ExperimentUpdateFailure(CatalogUpdateFailure):
     pass
 
-class SampleDocument(DocumentSchema):
+class ExperimentDocument(DocumentSchema):
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()
         try:
@@ -28,16 +33,17 @@ class SampleDocument(DocumentSchema):
         except:
             raise
         params = {**schemaj, **kwargs}
-        super(SampleDocument, self).__init__(**params)
+        super(ExperimentDocument, self).__init__(**params)
         self.update_id()
 
-class SampleStore(BaseStore):
-    TYPED_UUID_TYPE = 'sample'
+class ExperimentStore(BaseStore):
+    TYPED_UUID_TYPE = 'experiment'
+
     def __init__(self, mongodb, config, session=None, **kwargs):
         super(ExperimentStore, self).__init__(mongodb, config, session)
         self.schema = ExperimentDocument(**kwargs).to_dict()
 
-        coll = self.collections.get('samples')
+        coll = self.collections.get('experiments')
         if self.debug:
             coll = '_'.join([coll, str(time_stamp(rounded=True))])
         self.name = coll

@@ -12,7 +12,6 @@ import inspect
 import json
 import copy
 import datetime
-import copy
 
 from pprint import pprint
 from slugify import slugify
@@ -25,6 +24,7 @@ from .exceptions import *
 
 class DocumentSchema(JSONSchemaBaseObject):
     """Document interface for a JSON schema-informed document"""
+
     def __init__(self, **kwargs):
         modfile = inspect.getfile(self.__class__)
         try:
@@ -90,6 +90,7 @@ class DocumentSchema(JSONSchemaBaseObject):
 class BaseStore(object):
     """Storage interface for JSON schema-informed documents"""
     TYPED_UUID_TYPE = 'generic'
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 
         if isinstance(config.get('debug', None), bool):

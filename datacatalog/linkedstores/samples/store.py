@@ -6,14 +6,19 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from basestore import *
+import inspect
+import json
+import os
+import sys
+
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema
 from dicthelpers import data_merge
 from pprint import pprint
 
-class MeasurementUpdateFailure(CatalogUpdateFailure):
+class SampleUpdateFailure(CatalogUpdateFailure):
     pass
 
-class MeasurementDocument(DocumentSchema):
+class SampleDocument(DocumentSchema):
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()
         try:
@@ -28,16 +33,17 @@ class MeasurementDocument(DocumentSchema):
         except:
             raise
         params = {**schemaj, **kwargs}
-        super(MeasurementDocument, self).__init__(**params)
+        super(SampleDocument, self).__init__(**params)
         self.update_id()
 
-class MeasurementStore(BaseStore):
-    TYPED_UUID_TYPE = 'measurement'
-    def __init__(self, mongodb, config, session=None, **kwargs):
-        super(MeasurementStore, self).__init__(mongodb, config, session)
-        self.schema = MeasurementDocument(**kwargs).to_dict()
+class SampleStore(BaseStore):
+    TYPED_UUID_TYPE = 'sample'
 
-        coll = self.collections.get('measurements')
+    def __init__(self, mongodb, config, session=None, **kwargs):
+        super(ExperimentStore, self).__init__(mongodb, config, session)
+        self.schema = ExperimentDocument(**kwargs).to_dict()
+
+        coll = self.collections.get('samples')
         if self.debug:
             coll = '_'.join([coll, str(time_stamp(rounded=True))])
         self.name = coll

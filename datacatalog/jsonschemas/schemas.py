@@ -9,11 +9,11 @@ parentdir = os.path.dirname(currentdir)
 
 UNMANAGED_SCHEMAS = []
 PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
-STORE_SCHEMAS = ['basestore', 'challenge_problems', 'experiments', 'samples', 'measurements', 'files']
+STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problems', 'linkedstores.experiments', 'linkedstores.samples', 'linkedstores.measurements', 'linkedstores.files']
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 
 SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]
-# SCHEMAS = [COMPOSED_SCHEMAS]
+# SCHEMAS = [STORE_SCHEMAS]
 
 def dynamic_import(module, package=None):
     print(module, package)
