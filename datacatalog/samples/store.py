@@ -31,14 +31,6 @@ class SampleDocument(DocumentSchema):
         super(SampleDocument, self).__init__(**params)
         self.update_id()
 
-    def to_dict(self, private_prefix='_', document=False):
-        my_dict = super(SampleDocument, self).to_dict(private_prefix, document)
-        # In standalone document mode, measurements are not embededed as subdoc
-        # but instead are linked via the child_of relationship
-        if document is True:
-            del my_dict['properties']['measurements']
-        return my_dict
-
 class SampleStore(BaseStore):
     TYPED_UUID_TYPE = 'sample'
     def __init__(self, mongodb, config, session=None, **kwargs):

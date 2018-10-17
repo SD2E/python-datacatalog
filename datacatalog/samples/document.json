@@ -23,7 +23,7 @@
             "type": "array"
         },
         "control_type": {
-            "description": "enumerated control type",
+            "description": "Enumerated control type",
             "$ref": "control_type.json"
         },
         "inoculation_density": {
@@ -31,7 +31,7 @@
             "description": "Target inoculation density"
         },
         "measurements": {
-            "description": "measurements for a sample",
+            "description": "Measurements for a sample",
             "items": {
                 "$ref": "measurement.json"
             },
@@ -89,6 +89,7 @@
     },
     "required": [
         "id",
+        "uuid",
         "measurements"
     ],
     "title": "Sample",

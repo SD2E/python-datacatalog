@@ -1,0 +1,22 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/time_unit.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "Unit of temporal measurement",
+  "enum": [
+    "day",
+    "femtosecond",
+    "hour",
+    "microsecond",
+    "millisecond",
+    "minute",
+    "month",
+    "nanosecond",
+    "picosecond",
+    "second",
+    "week",
+    "year"
+  ],
+  "title": "Time Unit",
+  "type": "string"
+}

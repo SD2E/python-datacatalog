@@ -6,14 +6,14 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
-from basestore import DocumentSchema
+from basestore import *
 from dicthelpers import data_merge
 from pprint import pprint
 
-class MetaObjectUpdateFailure(CatalogUpdateFailure):
+class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
-class MetadataDocument(DocumentSchema):
+class FileDocument(DocumentSchema):
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()
         try:
@@ -28,5 +28,18 @@ class MetadataDocument(DocumentSchema):
         except:
             raise
         params = {**schemaj, **kwargs}
-        super(MetadataDocument, self).__init__(**params)
+        super(FileDocument, self).__init__(**params)
         self.update_id()
+
+class FileStore(BaseStore):
+    TYPED_UUID_TYPE = 'file'
+    def __init__(self, mongodb, config, session=None, **kwargs):
+        super(FileStore, self).__init__(mongodb, config, session)
+        self.schema = FileDocument(**kwargs).to_dict()
+
+        coll = self.collections.get('files')
+        if self.debug:
+            coll = '_'.join([coll, str(time_stamp(rounded=True))])
+        self.name = coll
+        self.coll = self.db[coll]
+        self._post_init()

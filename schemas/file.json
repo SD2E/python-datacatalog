@@ -1,0 +1,34 @@
+{
+  "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "An uploaded or generated file",
+  "properties": {
+    "file_id": {
+      "description": "File id (internal to experimental facility or data provider)",
+      "type": "string"
+    },
+    "filename": {
+      "description": "Filename",
+      "pattern": ".*\\..*",
+      "type": "string"
+    },
+    "id": {
+      "$ref": "identifier.json",
+      "description": "Distinguishing identifier for the specified document"
+    },
+    "level": {
+      "$ref": "processing_level.json"
+    },
+    "type": {
+      "$ref": "filetype_label.json",
+      "description": "Enumerated file type"
+    }
+  },
+  "required": [
+    "filename",
+    "type"
+  ],
+  "title": "Base Store",
+  "type": "object"
+}

@@ -8,8 +8,6 @@
         ]
     },
     "document": {
-        "properties": [
-            "measurements"
-        ]
+        "properties": []
     }
 }

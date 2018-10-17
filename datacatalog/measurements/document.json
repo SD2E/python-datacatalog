@@ -39,11 +39,18 @@
         },
         "timepoint": {
             "$ref": "time_point.json"
+        },
+        "child_of": {
+            "items": {
+                "$ref": "sample_uuid.json"
+            },
+            "type": "array"
         }
     },
     "required": [
         "id",
         "files",
+        "uuid",
         "measurement_type"
     ],
     "type": "object",

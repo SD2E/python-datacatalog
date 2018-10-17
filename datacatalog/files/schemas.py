@@ -1,4 +1,5 @@
-from .store import ExperimentDocument as Doc
+from .store import FileDocument as Doc
+from pprint import pprint
 
 def get_schemas():
     schemas = dict()
@@ -10,4 +11,3 @@ def get_schemas():
     schemas[fname] = object_schema
     schemas[fname + '_document'] = document_schema
     return schemas
-

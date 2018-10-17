@@ -1,0 +1,51 @@
+{
+    "additionalProperties": false,
+    "description": "An uploaded or generated file",
+    "properties": {
+        "file_id": {
+            "description": "File id (internal to experimental facility or data provider)",
+            "type": "string"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "filename": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "type": {
+            "description": "Enumerated file type",
+            "$ref": "filetype_label.json"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "filename",
+        "type",
+        "uuid",
+        "child_of"
+    ],
+    "type": "object",
+    "_filename": "file",
+    "__collection": "files",
+    "__indexes": []
+}

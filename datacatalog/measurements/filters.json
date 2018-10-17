@@ -9,7 +9,7 @@
     },
     "document": {
         "properties": [
-            "measurements"
+            "files"
         ]
     }
 }

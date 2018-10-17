@@ -31,23 +31,6 @@ class MeasurementDocument(DocumentSchema):
         super(MeasurementDocument, self).__init__(**params)
         self.update_id()
 
-    def to_dict(self, private_prefix='_', document=False):
-        my_dict = super(MeasurementDocument, self).to_dict(private_prefix, document)
-        # In standalone document mode, files are not embededed as subdoc
-        # but instead are linked via the child_of relationship
-        if document is False:
-            for f in ['files']:
-                try:
-                    del my_dict['properties'][f]
-                except Exception:
-                    pass
-                # filter out requirement for files, too
-                try:
-                    my_dict['required'].remove(f)
-                except Exception:
-                    pass
-        return my_dict
-
 class MeasurementStore(BaseStore):
     TYPED_UUID_TYPE = 'measurement'
     def __init__(self, mongodb, config, session=None, **kwargs):

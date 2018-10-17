@@ -12,6 +12,7 @@ import inspect
 import json
 import copy
 import datetime
+import copy
 
 from pprint import pprint
 from slugify import slugify
@@ -53,17 +54,13 @@ class DocumentSchema(JSONSchemaBaseObject):
     def to_dict(self, private_prefix='_', document=False, **kwargs):
         my_dict = super(DocumentSchema, self).to_dict(private_prefix, **kwargs)
         filters = getattr(self, '_filters', {})
-        print('FILTERS: {}'.format(filters))
         filt_type = 'document'
-        if document is False:
+        if document == False:
             filt_type = 'object'
         props_to_filter = filters.get(filt_type, {}).get('properties', [])
-        #pprint(props_to_filter)
         resp_dict = dict()
 
         for k, v in my_dict.items():
-            # print('KEY: ' + k)
-            # pprint(v)
             # Filter 'properties'
             if k == 'properties':
                 filtered_props = dict()
@@ -81,7 +78,6 @@ class DocumentSchema(JSONSchemaBaseObject):
                         pass
                     except Exception:
                         raise
-
         return resp_dict
 
     def collection(self):
