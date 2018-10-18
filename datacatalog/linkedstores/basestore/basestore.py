@@ -49,6 +49,11 @@ class BaseStore(object):
         # This is a correlation string, akin to Reactor.nickname
         self.session = session
 
+        self._mongodb = mongodb
+        self.db = None
+        self.coll = None
+        self.logcoll = None
+
         # setup based on schema extended properties
         schema = DocumentSchema(**kwargs)
         self.schema = schema.to_dict()
@@ -56,24 +61,24 @@ class BaseStore(object):
         self.name = schema.get_collection()
         self.uuid_type = schema.get_uuid_type()
 
-        # database connection
-        self.db = db_connection(mongodb)
-        self.coll = self.db[self.name]
-        self.logcoll = self.db['updates']
-
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
         self.base = CatalogStore.agave_root_dir
         self.store = CatalogStore.uploads_dir + '/'
         # Initialize
-        self._post_init()
-
-        # self.difflog = LogStore(mongodb, config, session)
+        # self._post_init()
 
     def get_identifiers(self):
         return getattr(self, 'identifiers')
 
-    def _post_init(self):
+    def get_uuid_type(self):
+        return getattr(self, 'uuid_type')
+
+    def setup(self):
+        # Database connection and init
+        setattr(self, 'db', db_connection(self._mongodb))
+        setattr(self, 'coll', self.db[self.name])
+        setattr(self, 'logcoll', self.db['updates'])
         if self.coll is not None:
             try:
                 self.coll.create_index([('uuid', ASCENDING)], unique=True)
