@@ -15,11 +15,13 @@ import datetime
 
 from pprint import pprint
 from slugify import slugify
+from jsondiff import diff
 
 from configs import CatalogStore
 from jsonschemas import JSONSchemaBaseObject
-from identifiers import typed_uuid
-from utils import time_stamp
+from utils import time_stamp, current_time
+from tokens import generate_salt, get_token, validate_token
+from identifiers.typed_uuid import catalog_uuid
 
 from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 from .exceptions import *
@@ -28,6 +30,8 @@ from .documentschema import DocumentSchema
 
 class BaseStore(object):
     """Storage interface for JSON schema-informed documents"""
+    PROPERTIES_TEMPLATE = {'_properties': {'created_date': None, 'revision': 0, 'modified_date': None}}
+    TOKEN_FIELDS = ('uuid', '_admin')
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 
@@ -49,6 +53,7 @@ class BaseStore(object):
         # database connection
         self.db = db_connection(mongodb)
         self.coll = self.db[self.name]
+        self.logcoll = self.db['updates']
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
@@ -77,7 +82,7 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Qquery failed', exc)
 
-    def query_by_identifier(self, **kwargs):
+    def find_one_by_id(self, **kwargs):
         try:
             resp = None
             for identifier in self.get_identifiers():
@@ -94,15 +99,173 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
-    def delete_by_identifier(self, **kwargs):
+    def set__properties(self, record, updated=False):
+        ts = current_time()
+        # Amend record with _properties if needed
+        if '_properties' not in record:
+            record['_properties'] = {'created_date': ts,
+                                     'modified_date': ts,
+                                     'revision': 0}
+        elif updated is True:
+            record['_properties']['modified_date'] = ts
+            record['_properties']['revision'] = record['_properties']['revision'] + 1
+        return record
+
+    def set__admin(self, record):
+        # Stubbed-in support for multitenancy, projects, and ownership
+        if '_admin' not in record:
+            record['_admin'] = {'owner': self._owner,
+                                'project': self._project,
+                                'tenant': self._tenant}
+        return record
+
+    def set__salt(self, record):
+        # Stubbed-in support for update token
+        if '_salt' not in record:
+            record['_salt'] = generate_salt
+        return record
+
+    def set__private_keys(self, record, updated=False):
+        record = self.set__properties(record, updated)
+        record = self.set__admin(record)
+        record = self.set__salt(record)
+        return record
+
+    def get_diff(source, target):
+        ts = current_time()
+        docs = [copy.deepcopy(source), copy.deepcopy(target)]
+
+        if 'uuid' in source:
+            document_uuid = source.get('uuid')
+        else:
+            raise KeyError('Source document must have a "uuid" key')
+
+        if '_admin' in source:
+            document__admin = source.get('_admin')
+        else:
+            document__admin = None
+
+        for doc in docs:
+            # Filter out specific top-level keys
+            for filt in ('uuid', '_id'):
+                if filt in doc:
+                    del doc[filt]
+            # Filter out _private top-level keys
+            for key in list(doc.keys()):
+                if key.startswith('_'):
+                    del doc[key]
+
+        delta = diff(docs[0], docs[1], syntax='explicit', dump=True)
+        delta_dict = json.loads(delta)
+        diff_doc = {'uuid': document_uuid, 'date': ts, 'diff': delta_dict}
+        if document__admin is not None:
+            diff_doc['_admin'] = document__admin
+
+        return diff_doc
+
+    def get_token_fields(self, record_dict):
+        token_fields = list()
+        for key in self.TOKEN_FIELDS:
+            if key in record_dict:
+                token_fields.append(record_dict.get(key))
+        return token_fields
+
+    def add_update_document(self, document_dict, uuid=None, token=None):
+        doc_id = None
+        doc_uuid = uuid
+        document = copy.deepcopy(document_dict)
+        # FIXME: Implement optional validation against self.schema
+
         try:
-            for identifier in self.get_identifiers():
-                query = dict()
+            # FIXME Define the field used for typed_uuid in schema and use here
+            doc_id = document_dict.get('id')
+        except KeyError:
+            raise CatalogError('Cannot add a document without "id"')
+
+        # Validate UUID
+        if 'uuid' in document_dict:
+            if doc_uuid != document_dict['uuid']:
+                raise CatalogError('document_dict.uuid and uuid parameter cannot be different')
+
+        # Assign a Typed_UUID5 if one is not specified
+        if 'uuid' not in document_dict:
+            doc_uuid = catalog_uuid(doc_id, self.uuid_type, False)
+            document['uuid'] = doc_uuid
+
+        # Attempt to fetch the record using identifiers in schema
+        db_record = self.find_one_by_id(**document)
+
+        # Add or upodate based on result
+        if db_record is None:
+
+            # Decorate the document with our _private keys
+            db_record = self.set__private_keys(document, update=False)
+            try:
+                result = self.coll.insert_one(db_record)
+                resp = self.coll.find_one({'_id': result.inserted_id})
+                if resp is not None:
+                    diff_record = self.get_diff({}, db_record, action='create')
+                    try:
+                        self.logcoll.insert_one(diff_record)
+                    except Exception:
+                        # Ignore log failures for now
+                        pass
+                # Issue and return an update token, even though most of the
+                # tooling does not yet use it
+                token = get_token(db_record['_salt'], self.get_token_fields(db_record))
+                resp['_update_token'] = token
+                return resp
+            except Exception as exc:
+                raise CatalogError('Failed to write document', exc)
+        else:
+
+            # Validate record x token
+            # Note: validate_token() always returns True as of 10-19-2018
+            try:
+                validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
+            except ValueError as verr:
+                raise CatalogError('Invalid token', verr)
+
+            # Update
+            diff_record = self.get_diff(db_record, document, action='update')
+            if diff_record['diff'] != {}:
+                # Transfer _private and identifier fields to document
+                for key in list(db_record.keys()):
+                    if key.startswith('_') or key in ('uuid', '_id'):
+                        document[key] = db_record[key]
+                # Update _properties
+                document = self.set__properties(document, updated=True)
+                # Update the record
+                uprec = self.coll.find_one_and_replace(
+                    {'_id': document['_id']}, document,
+                    return_document=ReturnDocument.AFTER)
                 try:
-                    query[identifier] = kwargs.get(identifier)
-                except KeyError:
+                    self.logcoll.insert_one(diff_record)
+                except Exception:
+                    # Ignore log failures for now
                     pass
-                if query != {}:
-                    self.coll.remove(query)
-        except Exception as exc:
-            raise CatalogError('Delete failed', exc)
+                return uprec
+
+    def delete_document(self, uuid, token=None):
+        db_record = self.coll.find_one({'uuid': uuid})
+        if db_record is None:
+            raise CatalogError('No document found with uuid {}'.format(uuid))
+        else:
+            # Validate record x token
+            # Note: validate_token() always returns True as of 10-19-2018
+            try:
+                validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
+            except ValueError as verr:
+                raise CatalogError('Invalid token', verr)
+            # Create log entry
+            diff_record = self.get_diff(db_record, {}, action='delete')
+            deletion_resp = None
+            try:
+                deletion_resp = self.coll.remove({'uuid': uuid})
+                try:
+                    self.logcoll.insert_one(diff_record)
+                except Exception:
+                    pass
+                return deletion_resp
+            except Exception as exc:
+                raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)

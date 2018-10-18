@@ -22,6 +22,7 @@ class TypedUUID(object):
         self.key = args[0]
         self.prefix = args[1]
         self.title = args[2]
+
     def __len__(self):
         return len(self.prefix)
 
@@ -70,7 +71,7 @@ def get_uuidtype(query_uuid):
             return t
     raise ValueError('{} is not a known UUIDType'.format(query_uuid))
 
-def catalog_uuid(text_value, uuid_type, binary=True, namespace=Constants.UUID_NAMESPACE):
+def catalog_uuid(text_value, uuid_type='generic', binary=True, namespace=Constants.UUID_NAMESPACE):
     """Returns a typed UUID5 in the prescribed namespace
 
     Args:
@@ -83,7 +84,7 @@ def catalog_uuid(text_value, uuid_type, binary=True, namespace=Constants.UUID_NA
 
     uuidtype_tag = UUIDType[uuid_type].prefix
     new_uuid = uuid.uuid5(namespace, text_value)
-    new_typed_uuid= uuid.UUID(uuidtype_tag + new_uuid.hex[len(uuidtype_tag):])
+    new_typed_uuid = uuid.UUID(uuidtype_tag + new_uuid.hex[len(uuidtype_tag):])
 
     if binary is False:
         return str(new_typed_uuid)

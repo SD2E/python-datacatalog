@@ -3,7 +3,7 @@ import re
 
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-INDENT = 2
+INDENT = 4
 SORT_KEYS = True
 
 class JSONSchemaBaseObject(object):
@@ -55,8 +55,6 @@ class JSONSchemaBaseObject(object):
             fullkey = keyfix + key
             if not key.startswith(private_prefix) and default is not None:
                 my_dict[fullkey] = getattr(self, param, None)
-                # if keyfix == '$':
-                #     print(fullkey)
         for key in self.__dict__:
             refkey = '$' + key
             if not key.startswith(private_prefix):
@@ -67,7 +65,6 @@ class JSONSchemaBaseObject(object):
     def to_jsonschema(self, **kwargs):
         my_json = json.dumps(self.to_dict(**kwargs), indent=INDENT, sort_keys=SORT_KEYS)
         return my_json
-
 
 def camel_to_snake(name):
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
