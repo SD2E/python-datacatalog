@@ -50,8 +50,8 @@
     "required": [
         "id",
         "files",
-        "uuid",
-        "measurement_type"
+        "measurement_type",
+        "child_of"
     ],
     "type": "object",
     "_filename": "measurement",

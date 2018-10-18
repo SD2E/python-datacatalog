@@ -39,7 +39,6 @@
     },
     "required": [
         "id",
-        "uuid",
         "title"
     ],
     "_filename": "challenge_problem",

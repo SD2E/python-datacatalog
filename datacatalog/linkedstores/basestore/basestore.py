@@ -17,13 +17,14 @@ from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
 
-from configs import CatalogStore
+from constants import CatalogStore
 from jsonschemas import JSONSchemaBaseObject
 from utils import time_stamp, current_time
 from tokens import generate_salt, get_token, validate_token
 from identifiers.typed_uuid import catalog_uuid
+from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 
-from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
+# from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 from .exceptions import *
 from .exceptions import CatalogError
 from .documentschema import DocumentSchema
@@ -59,6 +60,8 @@ class BaseStore(object):
         self.agave_system = CatalogStore.agave_storage_system
         self.base = CatalogStore.agave_root_dir
         self.store = CatalogStore.uploads_dir + '/'
+        # Initialize
+        self._post_init()
 
         # self.difflog = LogStore(mongodb, config, session)
 
@@ -131,6 +134,9 @@ class BaseStore(object):
         record = self.set__salt(record)
         return record
 
+    def get_typed_uuid(self, identifier_string, binary=False):
+        return catalog_uuid(identifier_string, self.uuid_type, binary)
+
     def get_diff(source, target):
         ts = current_time()
         docs = [copy.deepcopy(source), copy.deepcopy(target)]
@@ -189,7 +195,7 @@ class BaseStore(object):
 
         # Assign a Typed_UUID5 if one is not specified
         if 'uuid' not in document_dict:
-            doc_uuid = catalog_uuid(doc_id, self.uuid_type, False)
+            doc_uuid = self.get_typed_uuid(doc_id, False)
             document['uuid'] = doc_uuid
 
         # Attempt to fetch the record using identifiers in schema

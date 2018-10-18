@@ -89,8 +89,8 @@
     },
     "required": [
         "id",
-        "uuid",
-        "measurements"
+        "measurements",
+        "child_of"
     ],
     "title": "Sample",
     "type": "object",

@@ -45,12 +45,12 @@
     "required": [
         "filename",
         "type",
-        "uuid",
         "child_of"
     ],
     "type": "object",
     "_filename": "file",
     "__uuid_type": "file",
+    "__uuid_field": "filename",
     "__collection": "files",
     "__indexes": [],
     "__identifiers": [
