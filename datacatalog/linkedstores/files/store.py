@@ -11,41 +11,27 @@ import json
 import os
 import sys
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
 from dicthelpers import data_merge
 from pprint import pprint
 
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
-class FileDocument(DocumentSchema):
+class FileDocument(HeritableDocumentSchema):
     def __init__(self, inheritance=True, **kwargs):
-        schemaj = dict()
-        try:
-            modfile = inspect.getfile(self.__class__)
-            schemafile = os.path.join(os.path.dirname(modfile), 'document.json')
-            schemaj = json.load(open(schemafile, 'r'))
-            if inheritance is True:
-                parent_modfile = inspect.getfile(self.__class__.__bases__[0])
-                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), 'document.json')
-                pschemaj = json.load(open(parent_schemafile, 'r'))
-                schemaj = data_merge(pschemaj, schemaj)
-        except:
-            raise
-        params = {**schemaj, **kwargs}
-        super(FileDocument, self).__init__(**params)
+        super(FileDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
+
 class FileStore(BaseStore):
-    TYPED_UUID_TYPE = 'file'
-
-    def __init__(self, mongodb, config, session=None, **kwargs):
+    def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(FileStore, self).__init__(mongodb, config, session)
-        self.schema = FileDocument(**kwargs).to_dict()
-
-        coll = self.collections.get('files')
-        if self.debug:
-            coll = '_'.join([coll, str(time_stamp(rounded=True))])
-        self.name = coll
-        self.coll = self.db[coll]
-        self._post_init()
+        # setup based on schema extended properties
+        schema = FileDocument(**kwargs)
+        setattr(self, 'name', schema.get_collection())
+        setattr(self, 'schema', schema.to_dict())
+        setattr(self, 'identifiers', schema.get_identifiers())
+        setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'uuid_field', schema.get_uuid_field())
+        self.setup()

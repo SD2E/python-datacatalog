@@ -33,4 +33,5 @@ class MeasurementStore(BaseStore):
         setattr(self, 'schema', schema.to_dict())
         setattr(self, 'identifiers', schema.get_identifiers())
         setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'uuid_field', schema.get_uuid_field())
         self.setup()

@@ -60,6 +60,7 @@ class BaseStore(object):
         self.identifiers = schema.get_identifiers()
         self.name = schema.get_collection()
         self.uuid_type = schema.get_uuid_type()
+        self.uuid_field = schema.get_uuid_field()
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
@@ -73,6 +74,9 @@ class BaseStore(object):
 
     def get_uuid_type(self):
         return getattr(self, 'uuid_type')
+
+    def get_uuid_field(self):
+        return getattr(self, 'uuid_field')
 
     def setup(self):
         # Database connection and init
@@ -96,7 +100,7 @@ class BaseStore(object):
         try:
             return self.coll.find(query)
         except Exception as exc:
-            raise CatalogError('Qquery failed', exc)
+            raise CatalogError('Query failed', exc)
 
     def find_one_by_id(self, **kwargs):
         try:
@@ -198,11 +202,11 @@ class BaseStore(object):
         document = copy.deepcopy(document_dict)
         # FIXME: Implement optional validation against self.schema
 
+        uuid_key = self.get_uuid_field()
         try:
-            # FIXME Define the field used for typed_uuid in schema and use here
-            doc_id = document_dict.get('id')
+            doc_id = document_dict.get(self.get_uuid_field())
         except KeyError:
-            raise CatalogError('Cannot add a document without "id"')
+            raise CatalogError('Document lacks identifying key "{}"'.format(uuid_key))
 
         # Validate UUID
         if 'uuid' in document_dict:
