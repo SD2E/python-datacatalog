@@ -1,37 +1,37 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/mapped_name.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "properties": {
-    "agave_uri": {
-      "$ref": "agave_files_uri.json",
-      "description": "A SD2 Agave API files reference (optional)"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/mapped_name.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "agave_uri": {
+            "$ref": "agave_files_uri.json",
+            "description": "A SD2 Agave API files reference (optional)"
+        },
+        "circuit": {
+            "$ref": "circuit.json",
+            "description": "A logic circuit enum for this sbh_uri, if available (e.g. a strain)"
+        },
+        "input_state": {
+            "$ref": "input_state.json",
+            "description": "An input state enum for this sbh_uri, if available (e.g. a strain)"
+        },
+        "lab_id": {
+            "description": "The original value specified by the provider",
+            "pattern": "^name\\.(uw_biofab|ginkgo|transcriptic)",
+            "type": "string"
+        },
+        "label": {
+            "description": "Unique, human-readable string",
+            "type": "string"
+        },
+        "sbh_uri": {
+            "$ref": "sd2_synbiohub_uri.json",
+            "description": "A SD2 SynBioHub reference"
+        }
     },
-    "circuit": {
-      "$ref": "circuit.json",
-      "description": "A logic circuit enum for this sbh_uri, if available (e.g. a strain)"
-    },
-    "input_state": {
-      "$ref": "input_state.json",
-      "description": "An input state enum for this sbh_uri, if available (e.g. a strain)"
-    },
-    "lab_id": {
-      "description": "The original value specified by the provider",
-      "pattern": "^name\\.(uw_biofab|ginkgo|transcriptic)",
-      "type": "string"
-    },
-    "label": {
-      "description": "Unique, human-readable string",
-      "type": "string"
-    },
-    "sbh_uri": {
-      "$ref": "sd2_synbiohub_uri.json",
-      "description": "A SD2 SynBioHub reference"
-    }
-  },
-  "required": [
-    "lab_id"
-  ],
-  "title": "Mapped Name",
-  "type": "object"
+    "required": [
+        "lab_id"
+    ],
+    "title": "Mapped Name",
+    "type": "object"
 }

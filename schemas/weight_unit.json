@@ -1,12 +1,12 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/weight_unit.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "Uunit of dry weight measurement",
-  "enum": [
-    "%",
-    "g"
-  ],
-  "title": "Weight Unit",
-  "type": "string"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/weight_unit.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Uunit of dry weight measurement",
+    "enum": [
+        "%",
+        "g"
+    ],
+    "title": "Weight Unit",
+    "type": "string"
 }

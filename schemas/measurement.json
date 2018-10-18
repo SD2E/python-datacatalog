@@ -1,54 +1,54 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/measurement.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "A measurement for a sample, including links to its output file(s)",
-  "properties": {
-    "channel": {
-      "description": "For flow cytometry, the name of the channel used by this measurement",
-      "type": "string"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/measurement.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A measurement for a sample, including links to its output file(s)",
+    "properties": {
+        "channel": {
+            "description": "For flow cytometry, the name of the channel used by this measurement",
+            "type": "string"
+        },
+        "files": {
+            "description": "File relative path and descriptive metadata",
+            "items": {
+                "$ref": "file.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "A localized, unique measurement id relating a given sample to one or more files",
+            "type": "string"
+        },
+        "instrument_configuration": {
+            "description": "A configuration (e.g. cytometer configuration)",
+            "type": "string"
+        },
+        "measurement_group_id": {
+            "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
+            "type": "string"
+        },
+        "measurement_name": {
+            "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
+            "type": "string"
+        },
+        "measurement_type": {
+            "$ref": "measurement_type.json"
+        },
+        "reference_sequence": {
+            "$ref": "agave_files_uri.json",
+            "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff"
+        },
+        "timepoint": {
+            "$ref": "time_point.json"
+        }
     },
-    "files": {
-      "description": "File relative path and descriptive metadata",
-      "items": {
-        "$ref": "file.json"
-      },
-      "minItems": 1,
-      "type": "array"
-    },
-    "id": {
-      "$ref": "identifier.json",
-      "description": "A localized, unique measurement id relating a given sample to one or more files",
-      "type": "string"
-    },
-    "instrument_configuration": {
-      "description": "A configuration (e.g. cytometer configuration)",
-      "type": "string"
-    },
-    "measurement_group_id": {
-      "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
-      "type": "string"
-    },
-    "measurement_name": {
-      "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
-      "type": "string"
-    },
-    "measurement_type": {
-      "$ref": "measurement_type.json"
-    },
-    "reference_sequence": {
-      "$ref": "agave_files_uri.json",
-      "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff"
-    },
-    "timepoint": {
-      "$ref": "time_point.json"
-    }
-  },
-  "required": [
-    "id",
-    "files",
-    "measurement_type"
-  ],
-  "title": "Base Store",
-  "type": "object"
+    "required": [
+        "id",
+        "files",
+        "measurement_type"
+    ],
+    "title": "Base Store",
+    "type": "object"
 }

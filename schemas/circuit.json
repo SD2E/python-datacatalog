@@ -1,16 +1,16 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/circuit.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "Enumerated logic circuit, e.g for yeast_gates CP",
-  "enum": [
-    "AND",
-    "NAND",
-    "NOR",
-    "OR",
-    "XNOR",
-    "XOR"
-  ],
-  "title": "Circuit",
-  "type": "string"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/circuit.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Enumerated logic circuit, e.g for yeast_gates CP",
+    "enum": [
+        "AND",
+        "NAND",
+        "NOR",
+        "OR",
+        "XNOR",
+        "XOR"
+    ],
+    "title": "Circuit",
+    "type": "string"
 }

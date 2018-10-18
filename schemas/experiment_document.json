@@ -1,100 +1,99 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": true,
-  "description": "Experiment Reference",
-  "properties": {
-    "_admin": {
-      "owner": {
-        "description": "TACC.cloud username that created or manages the record",
-        "readOnly": true,
-        "type": "string",
-        "value": "admin"
-      },
-      "project": {
-        "description": "Project within specified TACC.cloud tenant",
-        "readOnly": true,
-        "type": "string",
-        "value": "SD2"
-      },
-      "tenant": {
-        "description": "TACC.cloud tenant",
-        "enum": [
-          "3dem",
-          "designsafe",
-          "iplantc.org",
-          "irec",
-          "portals",
-          "vdjserver.org",
-          "sd2e",
-          "sgci",
-          "tacc.prod"
-        ],
-        "readOnly": true,
-        "type": "string",
-        "value": "sd2e"
-      },
-      "type": "object"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "description": "Experiment Reference",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "description": "TACC.cloud username that created or manages the record",
+                "readOnly": true,
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "aliases": {
+            "description": "Alias identifiers for the experimental reference",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "child_of": {
+            "items": {
+                "$ref": "challenge_problem_uuid.json",
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "description": "When the reference document was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "id": {
+            "$ref": "experiment_id.json",
+            "description": "Canonical string identifier for the experimental reference"
+        },
+        "title": {
+            "description": "Human-readable title for the experimental reference",
+            "type": "string"
+        },
+        "updated": {
+            "description": "When the reference document was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "url": {
+            "$ref": "experiment_url.json",
+            "description": "URI containing complete experimental reference"
+        },
+        "uuid": {
+            "$ref": "experiment_uuid.json"
+        }
     },
-    "_properties": {
-      "created_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "modified_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "revision": {
-        "type": "number"
-      },
-      "type": "object"
-    },
-    "aliases": {
-      "description": "Alias identifiers for the experimental reference",
-      "items": {
-        "type": "string"
-      },
-      "type": "array"
-    },
-    "child_of": {
-      "items": {
-        "$ref": "challenge_problem_uuid.json",
-        "type": "string"
-      },
-      "type": "array"
-    },
-    "created": {
-      "description": "When the reference document was created",
-      "format": "date-time",
-      "type": "string"
-    },
-    "id": {
-      "$ref": "experiment_id.json",
-      "description": "Canonical string identifier for the experimental reference"
-    },
-    "title": {
-      "description": "Human-readable title for the experimental reference",
-      "type": "string"
-    },
-    "updated": {
-      "description": "When the reference document was last updated",
-      "format": "date-time",
-      "type": "string"
-    },
-    "url": {
-      "$ref": "experiment_url.json",
-      "description": "URI containing complete experimental reference"
-    },
-    "uuid": {
-      "$ref": "experiment_uuid.json"
-    }
-  },
-  "required": [
-    "id",
-    "uuid",
-    "child_of"
-  ],
-  "title": "Experiment",
-  "type": "object"
+    "required": [
+        "id",
+        "child_of"
+    ],
+    "title": "Experiment",
+    "type": "object"
 }

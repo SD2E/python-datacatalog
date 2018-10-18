@@ -1,13 +1,13 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/lab.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "Identifying key for a specific experimental facilty",
-  "enum": [
-    "Ginkgo",
-    "Transcriptic",
-    "UW_BIOFAB"
-  ],
-  "title": "Lab",
-  "type": "string"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/lab.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Identifying key for a specific experimental facilty",
+    "enum": [
+        "Ginkgo",
+        "Transcriptic",
+        "UW_BIOFAB"
+    ],
+    "title": "Lab",
+    "type": "string"
 }

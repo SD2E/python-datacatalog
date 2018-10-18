@@ -1,102 +1,101 @@
 {
-  "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "additionalProperties": false,
-  "description": "An uploaded or generated file",
-  "properties": {
-    "_admin": {
-      "owner": {
-        "description": "TACC.cloud username that created or manages the record",
-        "readOnly": true,
-        "type": "string",
-        "value": "admin"
-      },
-      "project": {
-        "description": "Project within specified TACC.cloud tenant",
-        "readOnly": true,
-        "type": "string",
-        "value": "SD2"
-      },
-      "tenant": {
-        "description": "TACC.cloud tenant",
-        "enum": [
-          "3dem",
-          "designsafe",
-          "iplantc.org",
-          "irec",
-          "portals",
-          "vdjserver.org",
-          "sd2e",
-          "sgci",
-          "tacc.prod"
-        ],
-        "readOnly": true,
-        "type": "string",
-        "value": "sd2e"
-      },
-      "type": "object"
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "An uploaded or generated file",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "description": "TACC.cloud username that created or manages the record",
+                "readOnly": true,
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "filename": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "File id (internal to experimental facility or data provider)",
+            "type": "string"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "type": {
+            "$ref": "filetype_label.json",
+            "description": "Enumerated file type"
+        },
+        "uuid": {
+            "$ref": "file_uuid.json"
+        }
     },
-    "_properties": {
-      "created_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "modified_date": {
-        "format": "date-time",
-        "type": "string"
-      },
-      "revision": {
-        "type": "number"
-      },
-      "type": "object"
-    },
-    "child_of": {
-      "items": {
-        "anyOf": [
-          {
-            "$ref": "measurement_uuid.json"
-          },
-          {
-            "$ref": "sample_uuid.json"
-          },
-          {
-            "$ref": "experiment_uuid.json"
-          },
-          {
-            "$ref": "job_uuid.json"
-          }
-        ],
-        "type": "string"
-      },
-      "type": "array"
-    },
-    "filename": {
-      "description": "Filename",
-      "pattern": ".*\\..*",
-      "type": "string"
-    },
-    "id": {
-      "$ref": "identifier.json",
-      "description": "File id (internal to experimental facility or data provider)",
-      "type": "string"
-    },
-    "level": {
-      "$ref": "processing_level.json"
-    },
-    "type": {
-      "$ref": "filetype_label.json",
-      "description": "Enumerated file type"
-    },
-    "uuid": {
-      "$ref": "file_uuid.json"
-    }
-  },
-  "required": [
-    "filename",
-    "type",
-    "uuid",
-    "child_of"
-  ],
-  "title": "File",
-  "type": "object"
+    "required": [
+        "filename",
+        "type",
+        "child_of"
+    ],
+    "title": "File",
+    "type": "object"
 }
