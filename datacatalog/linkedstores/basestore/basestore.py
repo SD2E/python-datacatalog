@@ -12,6 +12,7 @@ import inspect
 import json
 import copy
 import datetime
+import base64
 
 from pprint import pprint
 from slugify import slugify
@@ -35,6 +36,10 @@ class BaseStore(object):
     TOKEN_FIELDS = ('uuid', '_admin')
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
+
+        self._tenant = 'sd2e'
+        self._project = 'SD2E-Community'
+        self._owner = 'sd2eadm'
 
         if isinstance(config.get('debug', None), bool):
             self.debug = config.get('debug')
@@ -64,6 +69,9 @@ class BaseStore(object):
         self._post_init()
 
         # self.difflog = LogStore(mongodb, config, session)
+
+    def get_identifiers(self):
+        return getattr(self, 'identifiers')
 
     def _post_init(self):
         if self.coll is not None:
@@ -96,9 +104,9 @@ class BaseStore(object):
                     pass
                 if query != {}:
                     resp = self.coll.find(query)
-                    if resp is not None:
-                        break
-            return resp
+                if resp is not None:
+                    break
+                return resp
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
@@ -125,7 +133,7 @@ class BaseStore(object):
     def set__salt(self, record):
         # Stubbed-in support for update token
         if '_salt' not in record:
-            record['_salt'] = generate_salt
+            record['_salt'] = generate_salt()
         return record
 
     def set__private_keys(self, record, updated=False):
@@ -137,14 +145,13 @@ class BaseStore(object):
     def get_typed_uuid(self, identifier_string, binary=False):
         return catalog_uuid(identifier_string, self.uuid_type, binary)
 
-    def get_diff(source, target):
+    def get_diff(self, source={}, target={}, action='update'):
         ts = current_time()
         docs = [copy.deepcopy(source), copy.deepcopy(target)]
+        document_uuid = source.get('uuid', target.get('uuid', None))
 
-        if 'uuid' in source:
-            document_uuid = source.get('uuid')
-        else:
-            raise KeyError('Source document must have a "uuid" key')
+        if document_uuid is None:
+            raise KeyError('Unable to find "uuid" in source or target')
 
         if '_admin' in source:
             document__admin = source.get('_admin')
@@ -162,8 +169,12 @@ class BaseStore(object):
                     del doc[key]
 
         delta = diff(docs[0], docs[1], syntax='explicit', dump=True)
-        delta_dict = json.loads(delta)
-        diff_doc = {'uuid': document_uuid, 'date': ts, 'diff': delta_dict}
+
+        delta_dict = json.dumps(json.loads(delta), indent=0, separators=(',', ':'))
+        # Pack the diff into base64 because mongo can't deal with keys
+        # containing $ or . characters. It also compacts
+        delta_enc = base64.urlsafe_b64encode(delta_dict.encode('utf-8'))
+        diff_doc = {'uuid': document_uuid, 'date': ts, 'diff': delta_enc, 'action': action}
         if document__admin is not None:
             diff_doc['_admin'] = document__admin
 
@@ -199,18 +210,18 @@ class BaseStore(object):
             document['uuid'] = doc_uuid
 
         # Attempt to fetch the record using identifiers in schema
-        db_record = self.find_one_by_id(**document)
+        db_record = self.coll.find_one({'uuid': doc_uuid})
 
         # Add or upodate based on result
         if db_record is None:
 
             # Decorate the document with our _private keys
-            db_record = self.set__private_keys(document, update=False)
+            db_record = self.set__private_keys(document, updated=False)
             try:
                 result = self.coll.insert_one(db_record)
                 resp = self.coll.find_one({'_id': result.inserted_id})
                 if resp is not None:
-                    diff_record = self.get_diff({}, db_record, action='create')
+                    diff_record = self.get_diff(source=dict(), target=db_record, action='create')
                     try:
                         self.logcoll.insert_one(diff_record)
                     except Exception:
@@ -233,7 +244,7 @@ class BaseStore(object):
                 raise CatalogError('Invalid token', verr)
 
             # Update
-            diff_record = self.get_diff(db_record, document, action='update')
+            diff_record = self.get_diff(source=db_record, target=document, action='update')
             if diff_record['diff'] != {}:
                 # Transfer _private and identifier fields to document
                 for key in list(db_record.keys()):
@@ -243,8 +254,9 @@ class BaseStore(object):
                 document = self.set__properties(document, updated=True)
                 # Update the record
                 uprec = self.coll.find_one_and_replace(
-                    {'_id': document['_id']}, document,
+                    {'uuid': document['uuid']}, document,
                     return_document=ReturnDocument.AFTER)
+                self.logcoll.insert_one(diff_record)
                 try:
                     self.logcoll.insert_one(diff_record)
                 except Exception:
@@ -264,7 +276,7 @@ class BaseStore(object):
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
             # Create log entry
-            diff_record = self.get_diff(db_record, {}, action='delete')
+            diff_record = self.get_diff(source=db_record, target=dict(), action='delete')
             deletion_resp = None
             try:
                 deletion_resp = self.coll.remove({'uuid': uuid})

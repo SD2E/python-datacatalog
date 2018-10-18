@@ -14,3 +14,9 @@ schemas-build: schemas-clean
 
 schemas-clean:
 	rm -rf schemas/*.jsonschema
+
+mongodb-up:
+	cd docker && docker-compose up -d --force-recreate --quiet-pull
+
+mongodb-down:
+	cd docker && docker-compose down
