@@ -296,3 +296,70 @@ class BaseStore(object):
                 return deletion_resp
             except Exception as exc:
                 raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)
+
+    def add_link(self, uuid, linked_uuid, relation='child_of', token=None):
+        """Add a new linkage to another document"""
+        rels = list()
+        try:
+            doc = self.query({'uuid': uuid})
+            if doc is not None:
+                if relation in list(doc.keys()):
+                    rels = doc.get(relation)
+                    if linked_uuid not in rels:
+                        rels.append(linked_uuid)
+                        rels = sorted(rels)
+                # Create relation if allowed by schema
+                elif relation in list(self.schema['properties'].keys()):
+                    rels = [linked_uuid]
+                else:
+                    raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
+
+                # write
+                doc[relation] = rels
+                resp = self.add_update_document(doc, uuid=uuid, token=token)
+                return resp
+            else:
+                raise CatalogError('No document found with UUID {}'.format(uuid))
+        except Exception as exc:
+            raise
+
+    def remove_link(self, uuid, linked_uuid, relation='child_of', token=None):
+        """Remove a linkage with another document"""
+        rels = list()
+        try:
+            doc = self.query({'uuid': uuid})
+            if doc is not None:
+                if relation in list(doc.keys()):
+                    rels = doc.get(relation)
+                    try:
+                        rels.remove(linked_uuid)
+                    except ValueError:
+                        pass
+                # Create empty relation if supported by schema
+                elif relation in list(self.schema['properties'].keys()):
+                    rels = list()
+                else:
+                    raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
+
+                # write
+                doc[relation] = rels
+                resp = self.add_update_document(doc, uuid=uuid, token=token)
+                return resp
+            else:
+                raise CatalogError('No document found with UUID {}'.format(uuid))
+        except Exception as exc:
+            raise
+
+    def get_links(self, uuid, relation='child_of'):
+        """Return list UUIDs for linked documents"""
+        doc = self.query({'uuid': uuid})
+        if doc is not None:
+            if relation in list(doc.keys()):
+                return doc.get(relation)
+            if relation in list(self.schema['properties'].keys()):
+                # The relationship could exist as per the schema but is not defined
+                return list()
+            else:
+                raise CatalogError(
+                    'Relationship "{}" not available in document {}'.format(
+                        relation, uuid))
