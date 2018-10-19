@@ -5,9 +5,11 @@
     "description": "Fixity record for an uploaded or generated file",
     "properties": {
         "checksum": {
+            "$comment": "Computed automatically",
             "type": "string"
         },
         "created": {
+            "$comment": "Computed automatically",
             "format": "date-time",
             "type": "string"
         },
@@ -24,17 +26,21 @@
             "$ref": "processing_level.json"
         },
         "size": {
+            "$comment": "Computed automatically",
             "type": "integer"
         },
         "type": {
+            "$comment": "Computed automatically",
             "$ref": "filetype_label.json",
             "description": "Enumerated file type"
         },
         "updated": {
+            "$comment": "Computed automatically",
             "format": "date-time",
             "type": "string"
         },
         "version": {
+            "$comment": "Computed automatically",
             "type": "integer"
         }
     },

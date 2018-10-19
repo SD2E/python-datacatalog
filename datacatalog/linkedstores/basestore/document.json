@@ -32,8 +32,8 @@
             "owner": {
                 "type": "string",
                 "value": "admin",
-                "readOnly": true,
-                "description": "TACC.cloud username that created or manages the record"
+                "description": "TACC.cloud username that created or manages the record",
+                "$comment": "Computed automatically"
             }
         },
         "id": {
@@ -52,15 +52,18 @@
         "_properties": {
             "type": "object",
             "revision": {
-                "type": "number"
+                "type": "number",
+                "$comment": "Computed automatically"
             },
             "created_date": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "$comment": "Computed automatically"
             },
             "modified_date": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "$comment": "Computed automatically"
             }
         }
     },

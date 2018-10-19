@@ -22,6 +22,10 @@
             "description": "Enumerated file type",
             "$ref": "filetype_label.json"
         },
+        "_deleted": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean"
+        },
         "child_of": {
             "items": {
                 "anyOf": [
@@ -34,6 +38,26 @@
                     {
                         "$ref": "experiment_uuid.json"
                     },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
                     {
                         "$ref": "job_uuid.json"
                     }

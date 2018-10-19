@@ -26,12 +26,14 @@
         "created": {
             "description": "When the challenge problem reference document was created",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "$comment": "Computed automatically"
         },
         "updated": {
             "description": "When the challenge problem reference document was last updated",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "$comment": "Computed automatically"
         },
         "uuid": {
             "$ref": "challenge_problem_uuid.json"
@@ -43,6 +45,7 @@
     ],
     "_filename": "challenge_problem",
     "__uuid_type": "challenge_problem",
+    "__uuid_field": "id",
     "__collection": "challenges",
     "__indexes": [],
     "__identifiers": [

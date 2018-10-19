@@ -4,12 +4,13 @@
             "uuid",
             "_admin",
             "_properties",
-            "child_of"
+            "child_of",
+            "generated_by",
+            "derived_from",
+            "_deleted"
         ]
     },
     "document": {
-        "properties": [
-            "files"
-        ]
+        "properties": []
     }
 }

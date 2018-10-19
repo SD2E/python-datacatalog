@@ -97,6 +97,7 @@
     "_filename": "sample",
     "__collection": "samples",
     "__uuid_type": "sample",
+    "__uuid_field": "id",
     "__indexes": [],
     "__identifiers": [
         "uuid",

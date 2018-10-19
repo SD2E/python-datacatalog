@@ -16,24 +16,34 @@
         },
         "type": {
             "description": "Enumerated file type",
-            "$ref": "filetype_label.json"
+            "$ref": "filetype_label.json",
+            "$comment": "Computed automatically"
         },
         "created": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "$comment": "Computed automatically"
         },
         "updated": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "$comment": "Computed automatically"
         },
         "version": {
-            "type": "integer"
+            "type": "integer",
+            "$comment": "Computed automatically"
         },
         "checksum": {
-            "type": "string"
+            "type": "string",
+            "$comment": "Computed automatically"
         },
         "size": {
-            "type": "integer"
+            "type": "integer",
+            "$comment": "Computed automatically"
+        },
+        "_deleted": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean"
         },
         "child_of": {
             "items": {
@@ -47,6 +57,26 @@
                     {
                         "$ref": "experiment_uuid.json"
                     },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
                     {
                         "$ref": "job_uuid.json"
                     }

@@ -26,12 +26,14 @@
         "created": {
             "description": "When the reference document was created",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "$comment": "Computed automatically"
         },
         "updated": {
             "description": "When the reference document was last updated",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "$comment": "Computed automatically"
         },
         "uuid": {
             "$ref": "experiment_uuid.json"
@@ -49,6 +51,7 @@
     ],
     "_filename": "experiment",
     "__uuid_type": "experiment",
+    "__uuid_field": "id",
     "__collection": "experiments",
     "__indexes": [],
     "__identifiers": [

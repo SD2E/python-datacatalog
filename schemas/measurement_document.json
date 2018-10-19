@@ -6,8 +6,8 @@
     "properties": {
         "_admin": {
             "owner": {
+                "$comment": "Computed automatically",
                 "description": "TACC.cloud username that created or manages the record",
-                "readOnly": true,
                 "type": "string",
                 "value": "admin"
             },
@@ -38,14 +38,17 @@
         },
         "_properties": {
             "created_date": {
+                "$comment": "Computed automatically",
                 "format": "date-time",
                 "type": "string"
             },
             "modified_date": {
+                "$comment": "Computed automatically",
                 "format": "date-time",
                 "type": "string"
             },
             "revision": {
+                "$comment": "Computed automatically",
                 "type": "number"
             },
             "type": "object"

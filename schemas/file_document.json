@@ -6,8 +6,8 @@
     "properties": {
         "_admin": {
             "owner": {
+                "$comment": "Computed automatically",
                 "description": "TACC.cloud username that created or manages the record",
-                "readOnly": true,
                 "type": "string",
                 "value": "admin"
             },
@@ -36,16 +36,23 @@
             },
             "type": "object"
         },
+        "_deleted": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean"
+        },
         "_properties": {
             "created_date": {
+                "$comment": "Computed automatically",
                 "format": "date-time",
                 "type": "string"
             },
             "modified_date": {
+                "$comment": "Computed automatically",
                 "format": "date-time",
                 "type": "string"
             },
             "revision": {
+                "$comment": "Computed automatically",
                 "type": "number"
             },
             "type": "object"
@@ -70,10 +77,30 @@
             },
             "type": "array"
         },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
         "filename": {
             "description": "Filename",
             "pattern": ".*\\..*",
             "type": "string"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
         },
         "id": {
             "$ref": "identifier.json",
