@@ -1,0 +1,117 @@
+{
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/fixity.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Fixity record for an uploaded or generated file",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "description": "TACC.cloud username that created or manages the record",
+                "readOnly": true,
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "checksum": {
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "filename": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "size": {
+            "type": "integer"
+        },
+        "type": {
+            "$ref": "filetype_label.json",
+            "description": "Enumerated file type"
+        },
+        "updated": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "version": {
+            "type": "integer"
+        }
+    },
+    "required": [
+        "filename",
+        "type",
+        "child_of"
+    ],
+    "title": "File",
+    "type": "object"
+}

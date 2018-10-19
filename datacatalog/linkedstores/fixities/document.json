@@ -1,0 +1,73 @@
+{
+    "additionalProperties": false,
+    "title": "File",
+    "description": "Fixity record for an uploaded or generated file",
+    "properties": {
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "filename": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "type": {
+            "description": "Enumerated file type",
+            "$ref": "filetype_label.json"
+        },
+        "created": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "updated": {
+            "format": "date-time",
+            "type": "string"
+        },
+        "version": {
+            "type": "integer"
+        },
+        "checksum": {
+            "type": "string"
+        },
+        "size": {
+            "type": "integer"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "filename",
+        "type",
+        "child_of"
+    ],
+    "type": "object",
+    "_filename": "fixity",
+    "__collection": "fixities",
+    "__uuid_type": "file",
+    "__uuid_field": "filename",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "filename"
+    ]
+}

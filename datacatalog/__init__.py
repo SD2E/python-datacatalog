@@ -15,6 +15,7 @@ from . import utils
 from . import mongo
 
 from . import linkedstores
+from . import pathmappings
 
 # from .main import *
 
