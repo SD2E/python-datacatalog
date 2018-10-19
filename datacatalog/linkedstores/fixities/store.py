@@ -12,12 +12,14 @@ import os
 import sys
 
 from dicthelpers import data_merge
+from pathmappings import normalize, abspath
 from pprint import pprint
 
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp, msec_precision
 from .schema import FixityDocument
 from .indexer import FixityIndexer
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
+
 
 # FixityStore is a special case, as creates and manages its records as well as
 # storing them. This is implemented in its index() method, which in turn
@@ -40,25 +42,29 @@ class FixityStore(BaseStore):
 
         # Attempt to fetch the fixity record, as we need to pass any known
         # values to the indexer for comparison to the results from sync()
-        self.filename = self.normalize(filename)
-        self.abs_filename = self.abspath(filename)
-        file_uuid = self.get_typed_uuid(self.filename, self.uuid_type)
+        self.filename = normalize(filename)
+        self.abs_filename = abspath(filename)
+        file_uuid = self.get_typed_uuid(self.filename)
 
-        db_record = self.find_one_by_id(file_uuid)
+        db_record = self.coll.find_one({'uuid': file_uuid})
         if db_record is None:
             # FIXME Find how to automate production of this template from schema
             db_record = {'filename': filename,
                          'uuid': file_uuid,
+                         'version': 0,
                          'child_of': []}
 
-        indexer = FixityIndexer(filename, schema=self.schema, **db_record).sync()
+        indexer = FixityIndexer(self.abs_filename, schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
+
         # lift over private keys to new document
         for key, value in db_record.items():
             if key.startswith('_'):
                 fixity_record[key] = value
         # Now, update (or init) those same private keys
         fixity_record = self.set__private_keys(fixity_record, indexer.updated())
+        # pprint(fixity_record)
+
         # Use basestore.Basestore for write
         resp = self.add_update_document(fixity_record, file_uuid, token=None)
         return resp

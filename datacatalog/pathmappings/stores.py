@@ -21,7 +21,10 @@ def normalize(filepath):
 def abspath(filepath, validate=False):
     # Resolve the native POSIX path for a given managed file path
     normalized_filepath = normalize(filepath)
-    store_pfx = root_prefix(filepath, path_type='native')
+    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
+        store_pfx = os.environ.get('DEBUG_STORES_NATIVE_PREFIX')
+    else:
+        store_pfx = root_prefix(filepath, path_type='native')
     absolute_path = os.path.join(store_pfx, normalized_filepath)
     if validate:
         if not os.path.exists(absolute_path):
@@ -30,7 +33,7 @@ def abspath(filepath, validate=False):
 
 def relativize(filepath, storage_system=DEFAULT_STORAGE_SYSTEM, path_type=DEFAULT_PATH_TYPE):
     if storage_system not in list(STORES.keys()):
-        raise KeyError('Unrecognizedf storage system {}'.format(storage_system))
+        raise KeyError('Unrecognized storage system {}'.format(storage_system))
     if path_type not in list(STORES[storage_system].keys()):
         raise KeyError('Unrecognized path_type: {}'.format(path_type))
     root_prefix = STORES[storage_system][path_type]

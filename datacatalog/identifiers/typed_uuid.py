@@ -71,7 +71,7 @@ def get_uuidtype(query_uuid):
             return t
     raise ValueError('{} is not a known UUIDType'.format(query_uuid))
 
-def catalog_uuid(text_value, uuid_type='generic', binary=True, namespace=Constants.UUID_NAMESPACE):
+def catalog_uuid(text_value, uuid_type='generic', namespace=Constants.UUID_NAMESPACE, binary=False):
     """Returns a typed UUID5 in the prescribed namespace
 
     Args:

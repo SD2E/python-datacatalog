@@ -118,6 +118,11 @@
         "level": {
             "$ref": "processing_level.json"
         },
+        "modified": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
         "size": {
             "$comment": "Computed automatically",
             "type": "integer"
@@ -126,11 +131,6 @@
             "$comment": "Computed automatically",
             "$ref": "filetype_label.json",
             "description": "Enumerated file type"
-        },
-        "updated": {
-            "$comment": "Computed automatically",
-            "format": "date-time",
-            "type": "string"
         },
         "uuid": {
             "$ref": "file_uuid.json"

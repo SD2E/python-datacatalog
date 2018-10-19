@@ -120,7 +120,7 @@ class BaseStore(object):
             raise CatalogError('Query failed', exc)
 
     def set__properties(self, record, updated=False):
-        ts = current_time()
+        ts = msec_precision(current_time())
         # Amend record with _properties if needed
         if '_properties' not in record:
             record['_properties'] = {'created_date': ts,
@@ -152,10 +152,10 @@ class BaseStore(object):
         return record
 
     def get_typed_uuid(self, identifier_string, binary=False):
-        return catalog_uuid(identifier_string, self.uuid_type, binary)
+        return catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
 
     def get_diff(self, source={}, target={}, action='update'):
-        ts = current_time()
+        ts = msec_precision(current_time())
         docs = [copy.deepcopy(source), copy.deepcopy(target)]
         document_uuid = source.get('uuid', target.get('uuid', None))
 
@@ -177,13 +177,26 @@ class BaseStore(object):
                 if key.startswith('_'):
                     del doc[key]
 
-        delta = diff(docs[0], docs[1], syntax='explicit', dump=True)
+        class DateTimeEncoder(json.JSONEncoder):
+            def default(self, o):
+                if isinstance(o, datetime.datetime):
+                    return o.isoformat()
+
+                return json.JSONEncoder.default(self, o)
+
+        safe_docs = list()
+        for doc in docs:
+            doc1 = json.loads(json.dumps(doc, cls=DateTimeEncoder))
+            safe_docs.append(doc1)
+
+        delta = diff(safe_docs[0], safe_docs[1], syntax='explicit', dump=True)
 
         delta_dict = json.dumps(json.loads(delta), indent=0, separators=(',', ':'))
         # Pack the diff into base64 because mongo can't deal with keys
         # containing $ or . characters. It also compacts
         delta_enc = base64.urlsafe_b64encode(delta_dict.encode('utf-8'))
         diff_doc = {'uuid': document_uuid, 'date': ts, 'diff': delta_enc, 'action': action}
+        # Lift over tenant key
         if document__admin is not None:
             diff_doc['_admin'] = document__admin
 
@@ -254,7 +267,8 @@ class BaseStore(object):
 
             # Update
             diff_record = self.get_diff(source=db_record, target=document, action='update')
-            if diff_record['diff'] != {}:
+            # b'e30=' is the base64-encoded version of {}
+            if diff_record['diff'] != b'e30=':
                 # Transfer _private and identifier fields to document
                 for key in list(db_record.keys()):
                     if key.startswith('_') or key in ('uuid', '_id'):
@@ -272,6 +286,8 @@ class BaseStore(object):
                     # Ignore log failures for now
                     pass
                 return uprec
+            else:
+                return db_record
 
     def delete_document(self, uuid, token=None):
         db_record = self.coll.find_one({'uuid': uuid})

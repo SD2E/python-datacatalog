@@ -12,6 +12,8 @@ import utils
 # import identifiers
 # import utils
 
+from .. import pathmappings
+
 from . import basestore
 from . import challenge_problems
 from . import experiments

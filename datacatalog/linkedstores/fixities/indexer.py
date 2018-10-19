@@ -3,6 +3,7 @@ import datetime
 import filetype
 import hashlib
 import os
+import sys
 
 # from ..catalog import CatalogAttrDict
 from filetypes import infer_filetype
@@ -15,6 +16,7 @@ class FixityIndexer(object):
     # FIXME Find a reliable way to parameterize the paramset from FixityDocument
     # key, attr, func, default
     PARAMS = [('filename', 'filename', False, None),
+              ('version', 'version', False, 0),
               ('type', 'type', True, None),
               ('created', 'created', True, None),
               ('modified', 'modified', True, None),
@@ -24,10 +26,10 @@ class FixityIndexer(object):
               ('uuid', 'uuid', False, None),
               ('child_of', 'child_of', False, None)]
 
-    def __init__(self, filename, **kwargs):
-        self.filename = filename
+    def __init__(self, abs_filepath, schema={}, **kwargs):
+        self.filename = kwargs.get('filename')
         # set abspath on filesystem
-        self._abspath = filename
+        self._abspath = abs_filepath
         self._updated = False
 
         for key, attr, init, default in self.PARAMS:
@@ -35,6 +37,7 @@ class FixityIndexer(object):
             if key in kwargs:
                 value = kwargs.get(key, default)
             setattr(self, attr, value)
+            # print('init.attr:value {}:{}'.format(attr, value))
 
     def sync(self):
         setattr(self, '_updated', False)
@@ -46,12 +49,16 @@ class FixityIndexer(object):
                 if new_value != old_value:
                     setattr(self, '_updated', True)
                 setattr(self, attr, new_value)
+                # print('sync.attr:value {}:{}'.format(attr, new_value))
+        if self._updated is True:
+            setattr(self, 'version', getattr(self, 'version', 0) + 1)
         return self
 
     def to_dict(self):
         my_dict = dict()
         for key, attr, init, default in self.PARAMS:
             my_dict[key] = getattr(self, attr)
+        return my_dict
 
     def updated(self):
         return getattr(self, '_updated', False)
