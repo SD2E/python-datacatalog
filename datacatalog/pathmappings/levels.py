@@ -1,21 +1,27 @@
-from . import MAPPINGS
+LEVELS = {'0': {'prefix': '/uploads/', 'store': 'data-sd2e-community'}, '1': {'prefix': '/products/', 'store': 'data-sd2e-community'}, '2': {'prefix': '/products/', 'store': 'data-sd2e-community'}, 'Reference': {'prefix': '/reference/', 'store': 'data-sd2e-community'}}
 
 def prefix_for_level(level):
     try:
-        return MAPPINGS.get(str(level))
+        return LEVELS.get(str(level)).get('prefix')
+    except KeyError:
+        raise KeyError('Processing level {} is not known'.format(level))
+
+def store_for_level(level):
+    try:
+        return LEVELS.get(str(level)).get('store')
     except KeyError:
         raise KeyError('Processing level {} is not known'.format(level))
 
 def level_for_prefix(prefix):
-    for lev, pfx in MAPPINGS.items():
-        if prefix == pfx:
+    for lev, props in LEVELS.items():
+        if prefix == props['prefix']:
             return lev
     raise KeyError('Prefix {} does not map to a processing level'.format(prefix))
 
 def level_for_filepath(filepath):
     if not filepath.startswith('/'):
         filepath = '/' + filepath
-    for lev, pfx in MAPPINGS.items():
-        if filepath.startswith(pfx):
+    for lev, props in LEVELS.items():
+        if filepath.startswith(props['prefix']):
             return lev
     raise KeyError('Path does not map to a known prefix')

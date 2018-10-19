@@ -15,13 +15,14 @@ from dicthelpers import data_merge
 from pprint import pprint
 
 from .schema import FixityDocument
+from .indexer import FixityIndexer
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
 
-# FixityStore is special since it responsible for creating the record as well as
-# storing it. This is implemented by giving it an index() method, which in turn
-# instantiates a FixityIndexer that has sync() and render() methods to capture
-# and render fixity details into a storable document.
+# FixityStore is a special case, as creates and manages its records as well as
+# storing them. This is implemented in its index() method, which in turn
+# instantiates a FixityIndexer. That object has sync() and render(), which
+# capture the latest fixity data and render it into a JSON doc.
 
 class FixityStore(BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
@@ -37,9 +38,16 @@ class FixityStore(BaseStore):
 
     def index(self, filename, **kwargs):
 
-        indexer = FixityIndexer(filename, **kwargs).sync()
+        # Attempt to fetch the fixity record, as we need to pass any known
+        # values to the indexer for comparison to the results from sync()
+        self.filename = self.normalize(filename)
+        self.abs_filename = self.abspath(filename)
+        file_uuid = self.get_typed_uuid(self.filename, self.uuid_type)
+        db_record = self.find_one_by_id(file_uuid)
+        if db_record is None:
+            db_record = {}
 
-        self.validate_filename(filename)
+        indexer = FixityIndexer(filename, schema=self.schema, **db_record).sync()
 
         # This is not great practice to modify kwargs
         gb = []

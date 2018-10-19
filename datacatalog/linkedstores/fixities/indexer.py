@@ -10,31 +10,45 @@ from pathmappings import level_for_filepath
 from .schema import FixityDocument, msec_precision
 
 class FixityIndexer(object):
-    METHOD_ATTRS = ('type', 'created', 'modified', 'size', 'checksum', 'level')
     CHECKSUM_BLOCKSIZE = 131072
     DEFAULT_SIZE = -1
+    # FIXME Find a reliable way to parameterize this from FixityDocument schema
+    # key, attr, init, default
+    PARAMS = [('filename', 'filename', False, None),
+              ('type', 'type', True, None),
+              ('created', 'created', True, None),
+              ('modified', 'modified', True, None),
+              ('size', 'size', True, None),
+              ('checksum', 'checksum', True, None),
+              ('level', 'level', True, None)]
 
     def __init__(self, filename, **kwargs):
         self.filename = filename
         # set abspath on filesystem
         self._abspath = filename
         self._updated = False
-        for m in self.METHOD_ATTRS:
+
+        for key, attr, init, default in self.PARAMS:
             value = None
-            if m in kwargs:
-                value = kwargs[m]
-            setattr(self, m, value)
+            if key in kwargs:
+                value = kwargs.get(key, default)
+            setattr(self, attr, value)
 
     def sync(self):
         setattr(self, '_updated', False)
-        for method_attr in self.METHOD_ATTRS:
-            addressable_method = getattr(self, 'get_' + method_attr)
-            old_value = getattr(self, method_attr, None)
+        for key, attr, init, default in self.PARAMS:
+            addressable_method = getattr(self, 'get_' + attr)
+            old_value = getattr(self, attr, None)
             new_value = addressable_method(self._abspath)
             if new_value != old_value:
                 setattr(self, '_updated', True)
-            setattr(self, method_attr, new_value)
+            setattr(self, attr, new_value)
         return self
+
+    def to_dict(self):
+        my_dict = dict()
+        for key, attr, init, default in self.PARAMS:
+            my_dict[key] = getattr(self, attr)
 
     def updated(self):
         return getattr(self, '_updated', False)
