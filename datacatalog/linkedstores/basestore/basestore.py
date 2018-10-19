@@ -20,7 +20,7 @@ from jsondiff import diff
 
 from constants import CatalogStore
 from jsonschemas import JSONSchemaBaseObject
-from utils import time_stamp, current_time
+from utils import time_stamp, current_time, msec_precision
 from tokens import generate_salt, get_token, validate_token
 from identifiers.typed_uuid import catalog_uuid
 from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError

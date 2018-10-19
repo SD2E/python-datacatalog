@@ -6,3 +6,5 @@
 
 # from .store import FixityDocument, FixityStore
 from .store import FixityDocument
+import filetypes
+import pathmappings

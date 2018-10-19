@@ -11,17 +11,17 @@ import json
 import os
 import sys
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
 from dicthelpers import data_merge
 from pprint import pprint
 
-class FixityUpdateFailure(CatalogUpdateFailure):
-    pass
+from .schema import FixityDocument
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
+from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
 
-class FixityDocument(HeritableDocumentSchema):
-    def __init__(self, inheritance=True, **kwargs):
-        super(FixityDocument, self).__init__(inheritance, **kwargs)
-        self.update_id()
+# FixityStore is special since it responsible for creating the record as well as
+# storing it. This is implemented by giving it an index() method, which in turn
+# instantiates a FixityIndexer that has sync() and render() methods to capture
+# and render fixity details into a storable document.
 
 class FixityStore(BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
@@ -34,3 +34,27 @@ class FixityStore(BaseStore):
         setattr(self, 'uuid_type', schema.get_uuid_type())
         setattr(self, 'uuid_field', schema.get_uuid_field())
         self.setup()
+
+    def index(self, filename, **kwargs):
+
+        indexer = FixityIndexer(filename, **kwargs).sync()
+
+        self.validate_filename(filename)
+
+        # This is not great practice to modify kwargs
+        gb = []
+        if kwargs.get('generated_by'):
+            for guid in kwargs.get('generated_by'):
+                if isinstance(guid, str):
+                    try:
+                        gb.append(text_uuid_to_binary(guid))
+                    except Exception:
+                        pass
+            kwargs['generated_by'] = gb
+
+        try:
+            return self.update(filename, **kwargs)
+        except FileFixtyNotFoundError:
+            return self.create(filename, **kwargs)
+        except Exception as exc:
+            raise FileFixtyUpdateFailure(exc)

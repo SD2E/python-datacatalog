@@ -18,3 +18,4 @@ from . import experiments
 from . import samples
 from . import measurements
 from . import files
+from . import fixities

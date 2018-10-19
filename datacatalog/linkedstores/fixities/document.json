@@ -24,7 +24,7 @@
             "type": "string",
             "$comment": "Computed automatically"
         },
-        "updated": {
+        "modified": {
             "format": "date-time",
             "type": "string",
             "$comment": "Computed automatically"
