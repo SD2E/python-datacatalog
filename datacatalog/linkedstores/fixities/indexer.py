@@ -12,15 +12,17 @@ from .schema import FixityDocument, msec_precision
 class FixityIndexer(object):
     CHECKSUM_BLOCKSIZE = 131072
     DEFAULT_SIZE = -1
-    # FIXME Find a reliable way to parameterize this from FixityDocument schema
-    # key, attr, init, default
+    # FIXME Find a reliable way to parameterize the paramset from FixityDocument
+    # key, attr, func, default
     PARAMS = [('filename', 'filename', False, None),
               ('type', 'type', True, None),
               ('created', 'created', True, None),
               ('modified', 'modified', True, None),
               ('size', 'size', True, None),
               ('checksum', 'checksum', True, None),
-              ('level', 'level', True, None)]
+              ('level', 'level', True, None),
+              ('uuid', 'uuid', False, None),
+              ('child_of', 'child_of', False, None)]
 
     def __init__(self, filename, **kwargs):
         self.filename = filename
@@ -36,13 +38,14 @@ class FixityIndexer(object):
 
     def sync(self):
         setattr(self, '_updated', False)
-        for key, attr, init, default in self.PARAMS:
-            addressable_method = getattr(self, 'get_' + attr)
-            old_value = getattr(self, attr, None)
-            new_value = addressable_method(self._abspath)
-            if new_value != old_value:
-                setattr(self, '_updated', True)
-            setattr(self, attr, new_value)
+        for key, attr, func, default in self.PARAMS:
+            if func:
+                addressable_method = getattr(self, 'get_' + attr)
+                old_value = getattr(self, attr, None)
+                new_value = addressable_method(self._abspath)
+                if new_value != old_value:
+                    setattr(self, '_updated', True)
+                setattr(self, attr, new_value)
         return self
 
     def to_dict(self):

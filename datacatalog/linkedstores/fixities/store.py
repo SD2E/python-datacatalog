@@ -43,26 +43,22 @@ class FixityStore(BaseStore):
         self.filename = self.normalize(filename)
         self.abs_filename = self.abspath(filename)
         file_uuid = self.get_typed_uuid(self.filename, self.uuid_type)
+
         db_record = self.find_one_by_id(file_uuid)
         if db_record is None:
-            db_record = {}
+            # FIXME Find how to automate production of this template from schema
+            db_record = {'filename': filename,
+                         'uuid': file_uuid,
+                         'child_of': []}
 
         indexer = FixityIndexer(filename, schema=self.schema, **db_record).sync()
-
-        # This is not great practice to modify kwargs
-        gb = []
-        if kwargs.get('generated_by'):
-            for guid in kwargs.get('generated_by'):
-                if isinstance(guid, str):
-                    try:
-                        gb.append(text_uuid_to_binary(guid))
-                    except Exception:
-                        pass
-            kwargs['generated_by'] = gb
-
-        try:
-            return self.update(filename, **kwargs)
-        except FileFixtyNotFoundError:
-            return self.create(filename, **kwargs)
-        except Exception as exc:
-            raise FileFixtyUpdateFailure(exc)
+        fixity_record = indexer.to_dict()
+        # lift over private keys to new document
+        for key, value in db_record.items():
+            if key.startswith('_'):
+                fixity_record[key] = value
+        # Now, update (or init) those same private keys
+        fixity_record = self.set__private_keys(fixity_record, indexer.updated())
+        # Use basestore.Basestore for write
+        resp = self.add_update_document(fixity_record, file_uuid, token=None)
+        return resp
