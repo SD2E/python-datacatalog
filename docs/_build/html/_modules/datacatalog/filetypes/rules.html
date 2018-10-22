@@ -1,0 +1,245 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacatalog.filetypes.rules &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines/pipelines.html">Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines/jobs.html">PipelineJobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines/reactor.html">An Example Reactor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pipelines/dashboard.html">The Pipelines Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/datacatalog.html">Data Catalog Python Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>datacatalog.filetypes.rules</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datacatalog.filetypes.rules</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">.filetype</span> <span class="k">import</span> <span class="n">FileType</span><span class="p">,</span> <span class="n">FileTypeError</span>
+
+<span class="c1"># TODO: Protein Mass Spec bestiary https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518119/</span>
+<span class="c1"># TODO: Replace rules with local additions to local xdg mime catalog</span>
+<span class="n">FILETYPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;LOG&#39;</span><span class="p">,</span> <span class="s1">&#39;Log file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.err$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.out$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;ENV&#39;</span><span class="p">,</span> <span class="s1">&#39;Environment file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.env$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.rc$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;FASTQC&#39;</span><span class="p">,</span> <span class="s1">&#39;FASTQC outputs&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;fastqc\.html$&#39;</span><span class="p">,</span> <span class="s1">&#39;fastqc\.zip$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;MULITIQC&#39;</span><span class="p">,</span> <span class="s1">&#39;FASTQC outputs&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;multiqc_report\.html$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;FASTA&#39;</span><span class="p">,</span> <span class="s1">&#39;FASTA sequence file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.fa$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fasta$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fa.gz$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fasta.gz$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;BAM&#39;</span><span class="p">,</span> <span class="s1">&#39;Binary SAM&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.bam$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;VCF&#39;</span><span class="p">,</span> <span class="s1">&#39;Variant Call Format&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.vcf$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;BCF&#39;</span><span class="p">,</span> <span class="s1">&#39;Binary Variant Call Format&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.bcf$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;SAM&#39;</span><span class="p">,</span> <span class="s1">&#39;Sequence Alignment/MAP&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.sam$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;FASTQ&#39;</span><span class="p">,</span> <span class="s1">&#39;FASTQ sequence file&#39;</span><span class="p">,</span> <span class="p">[</span>
+        <span class="s1">&#39;\.fastq$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fastq.gz$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fq$&#39;</span><span class="p">,</span> <span class="s1">&#39;\.fq.gz$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;FCS&#39;</span><span class="p">,</span> <span class="s1">&#39;Flow Cytometry Standard&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.fcs$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;SRAW&#39;</span><span class="p">,</span> <span class="s1">&#39;Raw proteomics file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.sraw$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;MZML&#39;</span><span class="p">,</span> <span class="s1">&#39;Proteomics mzML file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.mzML$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;MSF&#39;</span><span class="p">,</span> <span class="s1">&#39;Magellan storage file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.msf$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;SAMPLES&#39;</span><span class="p">,</span> <span class="s1">&#39;SD2 Samples Metadata JSON&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^metadata-[a-z0-9-]+.json$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;BPROV&#39;</span><span class="p">,</span> <span class="s1">&#39;Biofab Provenance JSON&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^provenance_dump.json$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;INI&#39;</span><span class="p">,</span> <span class="s1">&#39;INI config file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.ini$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;SECRETS&#39;</span><span class="p">,</span> <span class="s1">&#39;Abaco secrets file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^secrets.json$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;Config file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;config.rc$&#39;</span><span class="p">,</span> <span class="s1">&#39;reactor.rc$&#39;</span><span class="p">,</span> <span class="s1">&#39;config.yml$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;GIT&#39;</span><span class="p">,</span> <span class="s1">&#39;Git file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;\.git&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;JENKINS&#39;</span><span class="p">,</span> <span class="s1">&#39;Jenkins Pipeline file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^Jenkinsfile$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;DOCKERFILE&#39;</span><span class="p">,</span> <span class="s1">&#39;Docker build file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^Dockerfile$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;REQUIREMENTS&#39;</span><span class="p">,</span> <span class="s1">&#39;Python requirements file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^requirements.txt$&#39;</span><span class="p">]),</span>
+    <span class="p">(</span><span class="s1">&#39;COMPOSEFILE&#39;</span><span class="p">,</span> <span class="s1">&#39;Docker compose file&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;^docker-compose.yml$&#39;</span><span class="p">])]</span>
+
+<div class="viewcode-block" id="listall"><a class="viewcode-back" href="../../../source/datacatalog.filetypes.html#datacatalog.filetypes.rules.listall">[docs]</a><span class="k">def</span> <span class="nf">listall</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return a list of FileType objects from defined rules&quot;&quot;&quot;</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">FILETYPES</span><span class="p">:</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FileType</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">rule</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">comment</span><span class="o">=</span><span class="n">rule</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="infer"><a class="viewcode-back" href="../../../source/datacatalog.filetypes.html#datacatalog.filetypes.rules.infer">[docs]</a><span class="k">def</span> <span class="nf">infer</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="n">globs</span> <span class="ow">in</span> <span class="n">FILETYPES</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">globs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">FileType</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">comment</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="n">FileTypeError</span><span class="p">(</span><span class="s1">&#39;File matched no rules&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

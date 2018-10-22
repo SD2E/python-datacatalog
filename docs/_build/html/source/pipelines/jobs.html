@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PipelineJobs &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">PipelineJobs</a><ul>
+<li><a class="reference internal" href="#background">Background</a><ul>
+<li><a class="reference internal" href="#what-is-a-pipelinejob">What is a PipelineJob?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#create-a-pipeline">Create a Pipeline</a></li>
+<li><a class="reference internal" href="#create-a-pipelinejob">Create a PipelineJob</a><ul>
+<li><a class="reference internal" href="#extend-the-reactor-configuration-file">Extend the Reactor configuration file</a></li>
+<li><a class="reference internal" href="#add-deployment-secrets">Add deployment secrets</a></li>
+<li><a class="reference internal" href="#add-pipelinejob-code-to-reactor-py">Add PipelineJob code to reactor.py</a><ul>
+<li><a class="reference internal" href="#set-up-a-stub-pipelinejob">Set up a stub PipelineJob</a></li>
+<li><a class="reference internal" href="#instantiate-the-pipelinejob">Instantiate the PipelineJob</a></li>
+<li><a class="reference internal" href="#start-the-pipelinejob-running">Start the PipelineJob running</a></li>
+<li><a class="reference internal" href="#update-the-pipelinejob">Update the PipelineJob</a></li>
+<li><a class="reference internal" href="#chaining-operations">Chaining operations</a></li>
+<li><a class="reference internal" href="#cancel-a-pipelinejob">Cancel a PipelineJob</a></li>
+<li><a class="reference internal" href="#failing-a-pipelinejob">Failing a PipelineJob</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#deferred-updates-to-pipelinejobs">Deferred Updates to PipelineJobs</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#update-from-an-agave-job">Update from an Agave Job</a></li>
+<li><a class="reference internal" href="#update-from-a-reactor">Update from a Reactor</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>PipelineJobs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/source/pipelines/jobs.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pipelinejobs">
+<h1>PipelineJobs<a class="headerlink" href="#pipelinejobs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p>Once we have represented a distinct _pipelines_ of software parts and parameterizations, we still need to tie metadata about experimental design and inputs to specific invocations (jobs) of those pipelines and their outputs. That is handled by the PipelineJobs system, which works in tandem with Pipelines and the other parts of the Data Catalog.</p>
+<p>PipelineJobs has two components. The first is a persisent Reactor that collects and manages state information for each and every <code class="docutils literal notranslate"><span class="pre">PipelineJob</span></code>. It is addressable by web callback or direct message. The other is a client-side library
+bundled with the <a href="#id1"><span class="problematic" id="id2">``</span></a>sd2e/reactors:python` base images, which we leverage from within the coordinating Reactor in a pipeline to initiate tracking of a PipelineJob.</p>
+<div class="section" id="what-is-a-pipelinejob">
+<h3>What is a PipelineJob?<a class="headerlink" href="#what-is-a-pipelinejob" title="Permalink to this headline">¶</a></h3>
+<p>Essentially, it’s an entry in the <code class="docutils literal notranslate"><span class="pre">jobs</span></code> collection of the Data Catalog with a specifc structure and a specific usage pattern enforced and enabled by the Pipeline Jobs Manager Reactor and logic in the client-side Python <code class="docutils literal notranslate"><span class="pre">datacatalog</span></code> package.</p>
+<p>A PipelineJob has five key properties:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">pipeline_uuid</span></code> - unique ID referring to a known, active pipeline</li>
+<li><code class="docutils literal notranslate"><span class="pre">uuid</span></code> - unique ID hashed from the originating actorId and parameterization</li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code> - current state of the job</li>
+<li><code class="docutils literal notranslate"><span class="pre">history</span></code> - ordered, timestamped history of the jobs state</li>
+</ul>
+<p>Transitions among states of a PipelineJob are implemeted using a Finite State Machine. The current set of states and valid transition events is illustrated here:</p>
+<img alt="Graph of the PipelineJob Finite State Machine" class="align-right" src="../../_images/pipelinejob-fsm.png" />
+</div>
+</div>
+<div class="section" id="create-a-pipeline">
+<h2>Create a Pipeline<a class="headerlink" href="#create-a-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>Before you can leverage the Pipelines extension, you have to tell the Data Catalog
+about the pipeline you will be running. You must do this once for each unique set
+of components and fixed options. The process for registering a pipeline is
+described in detail elsewhere. For the time being let’s assume you have done it
+already and that your Pipeline <strong>UUID</strong> is <code class="docutils literal notranslate"><span class="pre">f0f417f2-ba8b-5ac4-b421-255b69553391</span></code></p>
+</div>
+<div class="section" id="create-a-pipelinejob">
+<h2>Create a PipelineJob<a class="headerlink" href="#create-a-pipelinejob" title="Permalink to this headline">¶</a></h2>
+<p>It is assumed you have experience developing and deploying using TACC’s Abaco functions-as-a-service platform and that you are using the <strong>Reactors</strong> client-side SDK embedded in the <code class="docutils literal notranslate"><span class="pre">sd2e/reactors:python2</span></code> or <code class="docutils literal notranslate"><span class="pre">sd2e/reactors:python3</span></code> base images.</p>
+<div class="section" id="extend-the-reactor-configuration-file">
+<h3>Extend the Reactor configuration file<a class="headerlink" href="#extend-the-reactor-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>Add a <code class="docutils literal notranslate"><span class="pre">pipelines</span></code> block in the file <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">pipelines</span><span class="p p-Indicator">:</span>
+  <span class="l l-Scalar l-Scalar-Plain">pipeline_uuid</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">f0f417f2-ba8b-5ac4-b421-255b69553391</span>
+  <span class="l l-Scalar l-Scalar-Plain">updates_nonce</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">~</span>
+  <span class="l l-Scalar l-Scalar-Plain">authn</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">~</span>
+  <span class="l l-Scalar l-Scalar-Plain">pipeline_manager_id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">G1p783PxpalBB</span>
+  <span class="l l-Scalar l-Scalar-Plain">job_manager_id</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">G56vjoAVzGkkq</span>
+</pre></div>
+</div>
+<p><strong>Explanation</strong>: Pipeline UUID is the unique identifier for your pipeline. The empty keys values for <code class="docutils literal notranslate"><span class="pre">update_nonce</span></code> and <code class="docutils literal notranslate"><span class="pre">authn</span></code> configure your Reactor to look for these values in the <cite>secrets.json</cite> file. The two “id” fields are Abaco <code class="docutils literal notranslate"><span class="pre">actor.id</span></code> for Reactors managed by TA4 team which implement the Pipelines system.</p>
+</div>
+<div class="section" id="add-deployment-secrets">
+<h3>Add deployment secrets<a class="headerlink" href="#add-deployment-secrets" title="Permalink to this headline">¶</a></h3>
+<p>Add the following keys to file <cite>secrets.json</cite>. Please note that the values shown below are mockups. You will need to consult a manager to get the actual values.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;_REACTOR_PIPELINES_AUTHN&quot;</span><span class="p">:</span> <span class="s2">&quot;bW9uZ29kYjovL2NlgqbVdolMjUlMjaW5nLnNkMmUub3JnOjI3MDFDJTNGTk5wQGNob21ibMjRWJTI2SCUyQiy1zdGFnIwL2FkbWluP3JlYWRQcmVmZXJlbmNlPXByaW1hcnk=&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;_REACTOR_PIPELINES_UPDATES_NONCE&quot;</span><span class="p">:</span> <span class="s2">&quot;SD2E_XqsfKLFd3nrN&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Explanation</strong>: These values override <code class="docutils literal notranslate"><span class="pre">pipelines.authn</span></code> and <code class="docutils literal notranslate"><span class="pre">pipelines.updates_nonce</span></code> from <code class="docutils literal notranslate"><span class="pre">config.yml</span></code> when the Reactor is deployed, but without committing those values to the source code or adding them to a public Docker image.</p>
+</div>
+<div class="section" id="add-pipelinejob-code-to-reactor-py">
+<h3>Add PipelineJob code to reactor.py<a class="headerlink" href="#add-pipelinejob-code-to-reactor-py" title="Permalink to this headline">¶</a></h3>
+<p><strong>Outline</strong></p>
+<ul class="simple">
+<li>Create a stub <cite>PipelineJob</cite></li>
+<li>Use its  <cite>path</cite> property to set the archivePath for present and future Reactors and Apps in the pipeline</li>
+<li>Initialize the job <cite>new_job.setup()</cite></li>
+<li>Set the job to active with <cite>new_job.run()</cite></li>
+<li>Finish your reactor’s specific processing and setup tasks</li>
+<li>Launch the additional tasks (making sure they are configured to use the callbacks system to update the job)</li>
+</ul>
+<div class="section" id="set-up-a-stub-pipelinejob">
+<h4>Set up a stub PipelineJob<a class="headerlink" href="#set-up-a-stub-pipelinejob" title="Permalink to this headline">¶</a></h4>
+<p>Import the PipelineJob class and initialize an instance of it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">datacatalog.pipelinejobs</span> <span class="kn">import</span> <span class="n">PipelineJob</span>
+
+<span class="n">rx</span> <span class="o">=</span> <span class="n">Reactor</span><span class="p">()</span>
+<span class="c1"># Note: Each must be the exact string value enumerated in the Data Catalog</span>
+<span class="c1">#       Eventually, we will add strict validation.</span>
+<span class="n">my_job</span> <span class="o">=</span> <span class="n">PipelineJob</span><span class="p">(</span><span class="n">rx</span><span class="p">,</span> <span class="s1">&#39;UW_BIOFAB&#39;</span><span class="p">,</span> <span class="s1">&#39;Yeast-Gates&#39;</span><span class="p">,</span> <span class="s1">&#39;sample.uw_biofab.133737/A2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Explanation</strong>: The <cite>my_job</cite> object now represents a job in the Data Catalog. It has five key properties.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">uuid</span></code> - The unique ID for your new job</li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code> - Any “extra” parameterization info you passed (defaults to your Reactor’s message)</li>
+<li><code class="docutils literal notranslate"><span class="pre">callback</span></code> - a template for Agave job notifications</li>
+<li><code class="docutils literal notranslate"><span class="pre">token</span></code> - a value that must be included in messages sent to the Pipeline Jobs Manager</li>
+<li><code class="docutils literal notranslate"><span class="pre">path</span></code> - Absolute path on the <code class="docutils literal notranslate"><span class="pre">data-sd2e-community</span></code> Agave storage system where outputs should be sent</li>
+</ul>
+<p>One task that nearly all Pipelines do is set up some Agave app jobs that archive their outputs to a defined location (their <code class="docutils literal notranslate"><span class="pre">archivePath</span></code>). The Pipelines data model assumes that a job’s <code class="docutils literal notranslate"><span class="pre">path</span></code> is where its outputs will reside.</p>
+<p>Note the values for <code class="docutils literal notranslate"><span class="pre">uuid</span></code> and <code class="docutils literal notranslate"><span class="pre">token</span></code>. In this section of the documentation, it is assumed that we are working with a PipelineJob entirely within the context of a single execution of a Reactor. Some pipelines are built around multiple invocations of a manager Reactor. in which case these values are needed to manage the PipelineJob in  those subsequent executions. You can use Reactor’s own <code class="docutils literal notranslate"><span class="pre">state</span></code> function to store and retrieve these values in those future executions.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go"># Example</span>
+<span class="go">print(my_job.path)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;/products/v1/beb14196-a09c-5c93-b0af-0234a8d14123/0e704c02-c1ab-5c4d-8fb9-a68399e9396d/7157e2f6-e231-5fc6-9f50-0519e183dd37/3b98ff33-d982-5cdc-9f02-5a70471e9629/solid-snake-20180913T162843Z&#39;</span>
+</pre></div>
+</div>
+<p><em>Explanation*</em>: This may seem like an unwieldy path, but keep in mind it isn’t designed to be person-readable, but rather to prevent critical results from being over-written. It also helps facilitate retrieval of pipeline jobs outputs by programmatically.</p>
+</div>
+<div class="section" id="instantiate-the-pipelinejob">
+<h4>Instantiate the PipelineJob<a class="headerlink" href="#instantiate-the-pipelinejob" title="Permalink to this headline">¶</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">setup</span></code> method creates a new entry in the Data Catalog jobs table and sets
+its status to <em>CREATED</em>.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.setup()</span>
+<span class="go">print(my_job.status)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;CREATED&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-the-pipelinejob-running">
+<h4>Start the PipelineJob running<a class="headerlink" href="#start-the-pipelinejob-running" title="Permalink to this headline">¶</a></h4>
+<p>When you are reasonably certain that the pipeline job is working as intended, go ahead and call the <code class="docutils literal notranslate"><span class="pre">run</span></code> method. Note that you can pass an arbitrary Python <code class="docutils literal notranslate"><span class="pre">dict</span></code> to be stored alonside the <code class="docutils literal notranslate"><span class="pre">RUN</span></code> event in the job history.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.run()</span>
+<span class="go"># Pass dict as argument</span>
+<span class="go">my_job.run({&#39;key1&#39;: &#39;value1&#39;})</span>
+<span class="go"># Pass dict as named parameter &quot;data&quot;</span>
+<span class="go">my_job.run(data={&#39;key1&#39;: &#39;value1&#39;})</span>
+
+<span class="go">print(my_job.status)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;RUNNING&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-the-pipelinejob">
+<h4>Update the PipelineJob<a class="headerlink" href="#update-the-pipelinejob" title="Permalink to this headline">¶</a></h4>
+<p>PipelinesJobs accept <code class="docutils literal notranslate"><span class="pre">update</span></code> events once they are in a <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> state. This will append an <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> entry to  the job’s history. Here’s an example, and an illustration of the consequence in the Data Catalog.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.update({&#39;roadrunner&#39;: &#39;meep-meep!&#39;})</span>
+</pre></div>
+</div>
+<p>If we look at the job’s database entry, we see its <code class="docutils literal notranslate"><span class="pre">history</span></code> slot looks like:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;history&quot;</span> <span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="nt">&quot;CREATE&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;date&quot;</span> <span class="p">:</span> <span class="s2">&quot;2018-09-18T01:50:15.284&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="kc">null</span>
+        <span class="p">}</span>
+    <span class="p">},{</span>
+        <span class="nt">&quot;RUN&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;date&quot;</span> <span class="p">:</span> <span class="s2">&quot;2018-09-18T01:50:15.459&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="kc">null</span>
+        <span class="p">}</span>
+    <span class="p">},{</span>
+        <span class="nt">&quot;UPDATE&quot;</span> <span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;date&quot;</span> <span class="p">:</span> <span class="s2">&quot;2018-09-18T01:50:15.573+0000&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;data&quot;</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;roadrunner&quot;</span> <span class="p">:</span> <span class="s2">&quot;meep-meep!&quot;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+   <span class="p">}]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="chaining-operations">
+<h4>Chaining operations<a class="headerlink" href="#chaining-operations" title="Permalink to this headline">¶</a></h4>
+<p>You can string  management operations together. This is handy, for example, to
+do setup and run in a single line of Python. Here’s an example:</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.setup({&#39;key1&#39;: &#39;value1&#39;}).run().update(&#39;{key2&#39;: &#39;value2&#39;})</span>
+<span class="go">print(my_job.status)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;RUNNING&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cancel-a-pipelinejob">
+<h4>Cancel a PipelineJob<a class="headerlink" href="#cancel-a-pipelinejob" title="Permalink to this headline">¶</a></h4>
+<p>You may cancel an instantiated PipelineJob. This will delete the job entry from the Data Catalog entirely. This may only be done if the job <strong>has not</strong> entered a <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> status.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.cancel()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="failing-a-pipelinejob">
+<h4>Failing a PipelineJob<a class="headerlink" href="#failing-a-pipelinejob" title="Permalink to this headline">¶</a></h4>
+<p>A job that has begun running can be terminated by sending it a <code class="docutils literal notranslate"><span class="pre">fail</span></code> event. A utility method is provided to assist in this.</p>
+<div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="go">my_job.fail()</span>
+<span class="go">print(my_job.status)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;FAILED&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="deferred-updates-to-pipelinejobs">
+<h3>Deferred Updates to PipelineJobs<a class="headerlink" href="#deferred-updates-to-pipelinejobs" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="overview">
+<h4>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h4>
+<p>The Pipelines system leverages Agave’s event-driven notification and Abaco’s rich callback support to let Agave jobs update the status of the PipelineJob created by the Reactor that spawned them. It is equally possible for other Reactors (or even future executions of the current Reactor) to update PipelineJobs as well. Rather than relying on persisent database connnections, this is accomplished this by a event system implemented in the <code class="docutils literal notranslate"><span class="pre">pipeline-jobs-manager</span></code> Reactor <a class="reference external" href="https://gitlab.sd2e.org/sd2program/pipeline-jobs-manager">(documented here)</a>.</p>
+</div>
+<div class="section" id="update-from-an-agave-job">
+<h4>Update from an Agave Job<a class="headerlink" href="#update-from-an-agave-job" title="Permalink to this headline">¶</a></h4>
+<p>Let’s assume we have a Reactor <cite>fcs-reactor</cite> that coordinates execution of an Agave job using the app <cite>fcs-etl-0.4.0u16</cite>. The Reactor already has code to generate a job definition from a template and can generate a JSON job definition that resembles this example.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;FCS ETL processing job&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;inputs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;inputData&quot;</span><span class="p">:</span> <span class="s2">&quot;agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbq4mr76ngd/3/instrument_output&quot;</span><span class="p">},</span>
+  <span class="nt">&quot;archiveSystem&quot;</span><span class="p">:</span> <span class="s2">&quot;data-sd2e-community&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;archivePath&quot;</span><span class="p">:</span> <span class="s2">&quot;/transcriptic/yeast-gates_q0/r1bbq4mr76ngd/3/processed/fcs-etl-0.4.0u2/20180710-1430-proven-pig&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;appId&quot;</span><span class="p">:</span> <span class="s2">&quot;fcs-etl-0.4.0u2&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;batchQueue&quot;</span><span class="p">:</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;maxRunTime&quot;</span><span class="p">:</span> <span class="s2">&quot;12:00:00&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;archive&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;notifications&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;notifications@sd2e.org&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;FINISHED&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;persistent&quot;</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">},{</span>
+      <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;notifications@sd2e.org&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;FAILED&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;persistent&quot;</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">}]}</span>
+</pre></div>
+</div>
+<p>We can enable this job to update a PipelineJob with one addition to <code class="docutils literal notranslate"><span class="pre">notifications</span></code>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://api.sd2e.org/actors/v2/G56vjoAVzGkkq/messages?x-nonce=SD2E_XqsfKLFd3nrN&amp;token=940a5adc78720505&amp;uuid=58fa9ec7-6c25-5525-94f3-e853335e2f17&amp;status=${STATUS}&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;persistent&quot;</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong> Actor <code class="docutils literal notranslate"><span class="pre">G56vjoAVzGkkq</span></code> is the <code class="docutils literal notranslate"><span class="pre">pipeline-jobs-manager</span></code>. The url parameters encode event and authorization details: The <code class="docutils literal notranslate"><span class="pre">x-nonce</span></code> parameter lets the job send a message to <code class="docutils literal notranslate"><span class="pre">G56vjoAVzGkkq</span></code>, <code class="docutils literal notranslate"><span class="pre">token</span></code> is a job-specific password with a duration of 72 hours, <code class="docutils literal notranslate"><span class="pre">uuid</span></code> is the job’s unique identifier, and <code class="docutils literal notranslate"><span class="pre">status</span></code> is the Agave API job status. We set <code class="docutils literal notranslate"><span class="pre">event</span></code> to <code class="docutils literal notranslate"><span class="pre">*</span></code> which means that all events from the job are sent to <code class="docutils literal notranslate"><span class="pre">pipeline-jobs-manager</span></code>, and we set <code class="docutils literal notranslate"><span class="pre">persistent</span></code> to false so that only the first instance of any job state change is transmitted. The <code class="docutils literal notranslate"><span class="pre">pipeline-jobs-manager</span></code> reactor maps Agave API job states to their relevant PipelineJob event names and processes them as such. Specifically, it sends the named event to the PipelineJob along with the entire body of the Agave jobs callback POST as the <code class="docutils literal notranslate"><span class="pre">data</span></code> payload.</p>
+</div>
+<div class="section" id="update-from-a-reactor">
+<h4>Update from a Reactor<a class="headerlink" href="#update-from-a-reactor" title="Permalink to this headline">¶</a></h4>
+<p>Updating a PipelineJob’s status from the original actor (but in a different execution) or from another actor is as simple as sending a message to <code class="docutils literal notranslate"><span class="pre">pipeline-jobs-manager</span></code>. The message must conform to (and is validated against) the <code class="docutils literal notranslate"><span class="pre">PipelineJobEvent</span></code> schema documented below. Here is an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rx</span> <span class="o">=</span> <span class="n">Reactor</span><span class="p">()</span>
+<span class="n">event_msg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="s1">&#39;58fa9ec7-6c25-5525-94f3-e853335e2f17&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;event&#39;</span><span class="p">:</span> <span class="s1">&#39;update&#39;</span><span class="p">,</span>
+   <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;key4&#39;</span><span class="p">:</span> <span class="s1">&#39;value4&#39;</span><span class="p">}</span>
+   <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="s1">&#39;940a5adc78720505&#39;</span><span class="p">}</span>
+<span class="n">rx</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="s1">&#39;G56vjoAVzGkkq&#39;</span><span class="p">,</span> <span class="n">event_msg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Explanation:</strong> Reactor <code class="docutils literal notranslate"><span class="pre">G56vjoAVzGkkq</span></code> willl handle the job management task on your behalf.</p>
+<p>The current JSON schema for PipelineJob events is as follows:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+	<span class="nt">&quot;$schema&quot;</span><span class="p">:</span> <span class="s2">&quot;http://json-schema.org/draft-06/schema#&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;PipelineJobEvent&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Send a state-change event to a PipelineJob&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+	<span class="nt">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+		<span class="nt">&quot;uuid&quot;</span><span class="p">:</span> <span class="p">{</span>
+			<span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A UUID referring to a known PipelineJob&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span>
+		<span class="p">},</span>
+		<span class="nt">&quot;event&quot;</span><span class="p">:</span> <span class="p">{</span>
+			<span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;A PipelineJob state-change event name&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;enum&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="s2">&quot;fail&quot;</span><span class="p">,</span> <span class="s2">&quot;finish&quot;</span><span class="p">,</span> <span class="s2">&quot;validate&quot;</span><span class="p">,</span> <span class="s2">&quot;validated&quot;</span><span class="p">,</span> <span class="s2">&quot;reject&quot;</span><span class="p">,</span> <span class="s2">&quot;finalize&quot;</span><span class="p">,</span> <span class="s2">&quot;retire&quot;</span><span class="p">]</span>
+		<span class="p">},</span>
+		<span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+			<span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;An object containing additional context about the event (optional)&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span>
+		<span class="p">},</span>
+		<span class="nt">&quot;token&quot;</span><span class="p">:</span> <span class="p">{</span>
+			<span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Authorization token issued when the job was created&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+			<span class="nt">&quot;minLength&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+			<span class="nt">&quot;maxLength&quot;</span><span class="p">:</span> <span class="mi">17</span>
+		<span class="p">}</span>
+	<span class="p">},</span>
+	<span class="nt">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;uuid&quot;</span><span class="p">,</span> <span class="s2">&quot;event&quot;</span><span class="p">,</span> <span class="s2">&quot;token&quot;</span><span class="p">],</span>
+	<span class="nt">&quot;additionalProperties&quot;</span><span class="p">:</span> <span class="kc">false</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

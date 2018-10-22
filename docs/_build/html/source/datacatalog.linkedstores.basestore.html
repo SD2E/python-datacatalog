@@ -1,0 +1,508 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacatalog.linkedstores.basestore package &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="datacatalog.linkedstores.challenge_problems package" href="datacatalog.linkedstores.challenge_problems.html" />
+    <link rel="prev" title="datacatalog.linkedstores package" href="datacatalog.linkedstores.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipelines.html">Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/jobs.html">PipelineJobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/reactor.html">An Example Reactor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/dashboard.html">The Pipelines Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="datacatalog.html">Data Catalog Python Package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="datacatalog.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.compositions.html">datacatalog.compositions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.definitions.html">datacatalog.definitions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.filetypes.html">datacatalog.filetypes package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.formats.html">datacatalog.formats package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.identifiers.html">datacatalog.identifiers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jobs.html">datacatalog.jobs package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jsonschemas.html">datacatalog.jsonschemas package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="datacatalog.linkedstores.html">datacatalog.linkedstores package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="datacatalog.linkedstores.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.linkedstores.html#module-datacatalog.linkedstores">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.mongo.html">datacatalog.mongo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pathmappings.html">datacatalog.pathmappings package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelinejobs.html">datacatalog.pipelinejobs package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelines.html">datacatalog.pipelines package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.products.html">datacatalog.products package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.references.html">datacatalog.references package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.stores.html">datacatalog.stores package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.tokens.html">datacatalog.tokens package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-agavehelpers-module">datacatalog.agavehelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.catalog">datacatalog.catalog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.constants">datacatalog.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.dicthelpers">datacatalog.dicthelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.exceptions">datacatalog.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-main-module">datacatalog.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.posixhelpers">datacatalog.posixhelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.utils">datacatalog.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="datacatalog.html">Data Catalog Python Package</a> &raquo;</li>
+        
+          <li><a href="datacatalog.linkedstores.html">datacatalog.linkedstores package</a> &raquo;</li>
+        
+      <li>datacatalog.linkedstores.basestore package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/datacatalog.linkedstores.basestore.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datacatalog-linkedstores-basestore-package">
+<h1>datacatalog.linkedstores.basestore package<a class="headerlink" href="#datacatalog-linkedstores-basestore-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.basestore">
+<span id="datacatalog-linkedstores-basestore-basestore-module"></span><h2>datacatalog.linkedstores.basestore.basestore module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.basestore" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore">
+<em class="property">class </em><code class="descclassname">datacatalog.linkedstores.basestore.basestore.</code><code class="descname">BaseStore</code><span class="sig-paren">(</span><em>mongodb</em>, <em>config={}</em>, <em>session=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Storage interface for JSON schema-informed documents</p>
+<dl class="attribute">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.PROPERTIES_TEMPLATE">
+<code class="descname">PROPERTIES_TEMPLATE</code><em class="property"> = {'_properties': {'created_date': None, 'modified_date': None, 'revision': 0}}</em><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.PROPERTIES_TEMPLATE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.TOKEN_FIELDS">
+<code class="descname">TOKEN_FIELDS</code><em class="property"> = ('uuid', '_admin')</em><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.TOKEN_FIELDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.add_link">
+<code class="descname">add_link</code><span class="sig-paren">(</span><em>uuid</em>, <em>linked_uuid</em>, <em>relation='child_of'</em>, <em>token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.add_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.add_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new linkage to another document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.add_update_document">
+<code class="descname">add_update_document</code><span class="sig-paren">(</span><em>document_dict</em>, <em>uuid=None</em>, <em>token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.add_update_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.add_update_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.delete_document">
+<code class="descname">delete_document</code><span class="sig-paren">(</span><em>uuid</em>, <em>token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.delete_document" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.find_one_by_id">
+<code class="descname">find_one_by_id</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.find_one_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.find_one_by_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_diff">
+<code class="descname">get_diff</code><span class="sig-paren">(</span><em>source={}</em>, <em>target={}</em>, <em>action='update'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_diff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_identifiers">
+<code class="descname">get_identifiers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_identifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_identifiers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_links">
+<code class="descname">get_links</code><span class="sig-paren">(</span><em>uuid</em>, <em>relation='child_of'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_links"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_links" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list UUIDs for linked documents</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_token_fields">
+<code class="descname">get_token_fields</code><span class="sig-paren">(</span><em>record_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_token_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_token_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_typed_uuid">
+<code class="descname">get_typed_uuid</code><span class="sig-paren">(</span><em>identifier_string</em>, <em>binary=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_typed_uuid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_typed_uuid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_field">
+<code class="descname">get_uuid_field</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_uuid_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_field" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_type">
+<code class="descname">get_uuid_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.get_uuid_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>query={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.remove_link">
+<code class="descname">remove_link</code><span class="sig-paren">(</span><em>uuid</em>, <em>linked_uuid</em>, <em>relation='child_of'</em>, <em>token=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.remove_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.remove_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a linkage with another document</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.set__admin">
+<code class="descname">set__admin</code><span class="sig-paren">(</span><em>record</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.set__admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.set__admin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.set__private_keys">
+<code class="descname">set__private_keys</code><span class="sig-paren">(</span><em>record</em>, <em>updated=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.set__private_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.set__private_keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.set__properties">
+<code class="descname">set__properties</code><span class="sig-paren">(</span><em>record</em>, <em>updated=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.set__properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.set__properties" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.set__salt">
+<code class="descname">set__salt</code><span class="sig-paren">(</span><em>record</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.set__salt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.set__salt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.basestore.BaseStore.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/basestore.html#BaseStore.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.basestore.BaseStore.setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.documentschema">
+<span id="datacatalog-linkedstores-basestore-documentschema-module"></span><h2>datacatalog.linkedstores.basestore.documentschema module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.documentschema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema">
+<em class="property">class </em><code class="descclassname">datacatalog.linkedstores.basestore.documentschema.</code><code class="descname">DocumentSchema</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">jsonschemas.schema.JSONSchemaBaseObject</span></code></p>
+<p>Document interface for a JSON schema-informed document</p>
+<dl class="attribute">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.TYPED_UUID_FIELD">
+<code class="descname">TYPED_UUID_FIELD</code><em class="property"> = 'id'</em><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.TYPED_UUID_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.TYPED_UUID_TYPE">
+<code class="descname">TYPED_UUID_TYPE</code><em class="property"> = 'generic'</em><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.TYPED_UUID_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_collection">
+<code class="descname">get_collection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the database collection that holds documents with this schema</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_identifiers">
+<code class="descname">get_identifiers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.get_identifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_identifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of top-level keys that are identifiers for this schema</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_indexes">
+<code class="descname">get_indexes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.get_indexes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the database indexes for this schema</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_uuid_field">
+<code class="descname">get_uuid_field</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.get_uuid_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_uuid_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the document key that is used to assign a TypedUUID</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_uuid_type">
+<code class="descname">get_uuid_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.get_uuid_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.get_uuid_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the TypedUUID type for documents in this schema</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="datacatalog.linkedstores.basestore.documentschema.DocumentSchema.to_dict">
+<code class="descname">to_dict</code><span class="sig-paren">(</span><em>private_prefix='_'</em>, <em>document=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/documentschema.html#DocumentSchema.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.exceptions">
+<span id="datacatalog-linkedstores-basestore-exceptions-module"></span><h2>datacatalog.linkedstores.basestore.exceptions module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.exceptions" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="datacatalog.linkedstores.basestore.exceptions.CatalogDataError">
+<em class="property">exception </em><code class="descclassname">datacatalog.linkedstores.basestore.exceptions.</code><code class="descname">CatalogDataError</code><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/exceptions.html#CatalogDataError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.exceptions.CatalogDataError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.linkedstores.basestore.exceptions.CatalogError" title="datacatalog.linkedstores.basestore.exceptions.CatalogError"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.linkedstores.basestore.exceptions.CatalogError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="datacatalog.linkedstores.basestore.exceptions.CatalogDatabaseError">
+<em class="property">exception </em><code class="descclassname">datacatalog.linkedstores.basestore.exceptions.</code><code class="descname">CatalogDatabaseError</code><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/exceptions.html#CatalogDatabaseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.exceptions.CatalogDatabaseError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.linkedstores.basestore.exceptions.CatalogError" title="datacatalog.linkedstores.basestore.exceptions.CatalogError"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.linkedstores.basestore.exceptions.CatalogError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="datacatalog.linkedstores.basestore.exceptions.CatalogError">
+<em class="property">exception </em><code class="descclassname">datacatalog.linkedstores.basestore.exceptions.</code><code class="descname">CatalogError</code><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/exceptions.html#CatalogError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.exceptions.CatalogError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="datacatalog.linkedstores.basestore.exceptions.CatalogQueryError">
+<em class="property">exception </em><code class="descclassname">datacatalog.linkedstores.basestore.exceptions.</code><code class="descname">CatalogQueryError</code><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/exceptions.html#CatalogQueryError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.exceptions.CatalogQueryError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.linkedstores.basestore.exceptions.CatalogError" title="datacatalog.linkedstores.basestore.exceptions.CatalogError"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.linkedstores.basestore.exceptions.CatalogError</span></code></a></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="datacatalog.linkedstores.basestore.exceptions.CatalogUpdateFailure">
+<em class="property">exception </em><code class="descclassname">datacatalog.linkedstores.basestore.exceptions.</code><code class="descname">CatalogUpdateFailure</code><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/exceptions.html#CatalogUpdateFailure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.exceptions.CatalogUpdateFailure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.linkedstores.basestore.exceptions.CatalogError" title="datacatalog.linkedstores.basestore.exceptions.CatalogError"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.linkedstores.basestore.exceptions.CatalogError</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.heritableschema">
+<span id="datacatalog-linkedstores-basestore-heritableschema-module"></span><h2>datacatalog.linkedstores.basestore.heritableschema module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.heritableschema" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.linkedstores.basestore.heritableschema.HeritableDocumentSchema">
+<em class="property">class </em><code class="descclassname">datacatalog.linkedstores.basestore.heritableschema.</code><code class="descname">HeritableDocumentSchema</code><span class="sig-paren">(</span><em>inheritance=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/heritableschema.html#HeritableDocumentSchema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.heritableschema.HeritableDocumentSchema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.linkedstores.basestore.documentschema.DocumentSchema" title="datacatalog.linkedstores.basestore.documentschema.DocumentSchema"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.linkedstores.basestore.documentschema.DocumentSchema</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.mongo">
+<span id="datacatalog-linkedstores-basestore-mongo-module"></span><h2>datacatalog.linkedstores.basestore.mongo module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.mongo" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.linkedstores.basestore.mongo.db_connection">
+<code class="descclassname">datacatalog.linkedstores.basestore.mongo.</code><code class="descname">db_connection</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/mongo.html#db_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.mongo.db_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an active MongoDB connection</p>
+<p>Supports two formats for <a class="reference external" href="dict:settings">dict:settings</a></p>
+<p>—
+username: &lt;uname&gt;
+password: &lt;pass&gt;
+host: &lt;host&gt;
+port: &lt;port&gt;
+database: &lt;database&gt;</p>
+<p>OR</p>
+<p>—
+authn: &lt;base64.urlsafe_b64encode(connection_string)&gt;
+database: &lt;database&gt;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.linkedstores.basestore.mongo.encode_connection_string">
+<code class="descclassname">datacatalog.linkedstores.basestore.mongo.</code><code class="descname">encode_connection_string</code><span class="sig-paren">(</span><em>conn_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/mongo.html#encode_connection_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.mongo.encode_connection_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.linkedstores.basestore.mongo.get_mongo_uri">
+<code class="descclassname">datacatalog.linkedstores.basestore.mongo.</code><code class="descname">get_mongo_uri</code><span class="sig-paren">(</span><em>settings</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/mongo.html#get_mongo_uri"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.mongo.get_mongo_uri" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore.schemas">
+<span id="datacatalog-linkedstores-basestore-schemas-module"></span><h2>datacatalog.linkedstores.basestore.schemas module<a class="headerlink" href="#module-datacatalog.linkedstores.basestore.schemas" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.linkedstores.basestore.schemas.get_schemas">
+<code class="descclassname">datacatalog.linkedstores.basestore.schemas.</code><code class="descname">get_schemas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/linkedstores/basestore/schemas.html#get_schemas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.linkedstores.basestore.schemas.get_schemas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.linkedstores.basestore">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-datacatalog.linkedstores.basestore" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datacatalog.linkedstores.challenge_problems.html" class="btn btn-neutral float-right" title="datacatalog.linkedstores.challenge_problems package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="datacatalog.linkedstores.html" class="btn btn-neutral" title="datacatalog.linkedstores package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

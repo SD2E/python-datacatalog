@@ -1,0 +1,581 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacatalog.linkedstores.basestore.basestore &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+
+  
+  <script src="../../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pipelines/pipelines.html">Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pipelines/jobs.html">PipelineJobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pipelines/reactor.html">An Example Reactor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pipelines/dashboard.html">The Pipelines Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/datacatalog.html">Data Catalog Python Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>datacatalog.linkedstores.basestore.basestore</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for datacatalog.linkedstores.basestore.basestore</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="k">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">slugify</span> <span class="k">import</span> <span class="n">slugify</span>
+<span class="kn">from</span> <span class="nn">jsondiff</span> <span class="k">import</span> <span class="n">diff</span>
+
+<span class="kn">from</span> <span class="nn">constants</span> <span class="k">import</span> <span class="n">CatalogStore</span>
+<span class="kn">from</span> <span class="nn">jsonschemas</span> <span class="k">import</span> <span class="n">JSONSchemaBaseObject</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="k">import</span> <span class="n">time_stamp</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> <span class="n">msec_precision</span>
+<span class="kn">from</span> <span class="nn">tokens</span> <span class="k">import</span> <span class="n">generate_salt</span><span class="p">,</span> <span class="n">get_token</span><span class="p">,</span> <span class="n">validate_token</span>
+<span class="kn">from</span> <span class="nn">identifiers.typed_uuid</span> <span class="k">import</span> <span class="n">catalog_uuid</span>
+<span class="kn">from</span> <span class="nn">mongo</span> <span class="k">import</span> <span class="n">db_connection</span><span class="p">,</span> <span class="n">ReturnDocument</span><span class="p">,</span> <span class="n">UUID_SUBTYPE</span><span class="p">,</span> <span class="n">ASCENDING</span><span class="p">,</span> <span class="n">DuplicateKeyError</span>
+
+<span class="c1"># from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">CatalogError</span>
+<span class="kn">from</span> <span class="nn">.documentschema</span> <span class="k">import</span> <span class="n">DocumentSchema</span>
+
+<div class="viewcode-block" id="BaseStore"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore">[docs]</a><span class="k">class</span> <span class="nc">BaseStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Storage interface for JSON schema-informed documents&quot;&quot;&quot;</span>
+    <span class="n">PROPERTIES_TEMPLATE</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_properties&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;created_date&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;revision&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;modified_date&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}}</span>
+    <span class="n">TOKEN_FIELDS</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="s1">&#39;_admin&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mongodb</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="p">{},</span> <span class="n">session</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tenant</span> <span class="o">=</span> <span class="s1">&#39;sd2e&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_project</span> <span class="o">=</span> <span class="s1">&#39;SD2E-Community&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_owner</span> <span class="o">=</span> <span class="s1">&#39;sd2eadm&#39;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># This is a correlation string, akin to Reactor.nickname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">session</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mongodb</span> <span class="o">=</span> <span class="n">mongodb</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coll</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logcoll</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># setup based on schema extended properties</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="n">DocumentSchema</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identifiers</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get_identifiers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get_collection</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uuid_type</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get_uuid_type</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uuid_field</span> <span class="o">=</span> <span class="n">schema</span><span class="o">.</span><span class="n">get_uuid_field</span><span class="p">()</span>
+
+        <span class="c1"># FIXME Integration with Agave configurations can be improved</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">agave_system</span> <span class="o">=</span> <span class="n">CatalogStore</span><span class="o">.</span><span class="n">agave_storage_system</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base</span> <span class="o">=</span> <span class="n">CatalogStore</span><span class="o">.</span><span class="n">agave_root_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="n">CatalogStore</span><span class="o">.</span><span class="n">uploads_dir</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+        <span class="c1"># Initialize</span>
+        <span class="c1"># self._post_init()</span>
+
+<div class="viewcode-block" id="BaseStore.get_identifiers"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_identifiers">[docs]</a>    <span class="k">def</span> <span class="nf">get_identifiers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;identifiers&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_uuid_type"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_uuid_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;uuid_type&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_uuid_field"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_uuid_field">[docs]</a>    <span class="k">def</span> <span class="nf">get_uuid_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;uuid_field&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.setup"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Database connection and init</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;db&#39;</span><span class="p">,</span> <span class="n">db_connection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mongodb</span><span class="p">))</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;coll&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">])</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;logcoll&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;updates&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="n">ASCENDING</span><span class="p">)],</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s1">&#39;child_of&#39;</span><span class="p">,</span> <span class="n">ASCENDING</span><span class="p">)])</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span>
+                    <span class="s1">&#39;Failed to set index on </span><span class="si">{}</span><span class="s1">.uuid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">),</span> <span class="n">exc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.query"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.query">[docs]</a>    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Query was not resolvable as dict&#39;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Query failed&#39;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.find_one_by_id"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.find_one_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">find_one_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">identifier</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_identifiers</span><span class="p">():</span>
+                <span class="n">query</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">query</span><span class="p">[</span><span class="n">identifier</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">identifier</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">if</span> <span class="n">query</span> <span class="o">!=</span> <span class="p">{}:</span>
+                    <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">resp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">return</span> <span class="n">resp</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Query failed&#39;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.set__properties"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.set__properties">[docs]</a>    <span class="k">def</span> <span class="nf">set__properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">msec_precision</span><span class="p">(</span><span class="n">current_time</span><span class="p">())</span>
+        <span class="c1"># Amend record with _properties if needed</span>
+        <span class="k">if</span> <span class="s1">&#39;_properties&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+            <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_properties&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;created_date&#39;</span><span class="p">:</span> <span class="n">ts</span><span class="p">,</span>
+                                     <span class="s1">&#39;modified_date&#39;</span><span class="p">:</span> <span class="n">ts</span><span class="p">,</span>
+                                     <span class="s1">&#39;revision&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="n">updated</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_properties&#39;</span><span class="p">][</span><span class="s1">&#39;modified_date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span>
+            <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_properties&#39;</span><span class="p">][</span><span class="s1">&#39;revision&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_properties&#39;</span><span class="p">][</span><span class="s1">&#39;revision&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">record</span></div>
+
+<div class="viewcode-block" id="BaseStore.set__admin"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.set__admin">[docs]</a>    <span class="k">def</span> <span class="nf">set__admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="c1"># Stubbed-in support for multitenancy, projects, and ownership</span>
+        <span class="k">if</span> <span class="s1">&#39;_admin&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+            <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_admin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;owner&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_owner</span><span class="p">,</span>
+                                <span class="s1">&#39;project&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="p">,</span>
+                                <span class="s1">&#39;tenant&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tenant</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">record</span></div>
+
+<div class="viewcode-block" id="BaseStore.set__salt"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.set__salt">[docs]</a>    <span class="k">def</span> <span class="nf">set__salt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="c1"># Stubbed-in support for update token</span>
+        <span class="k">if</span> <span class="s1">&#39;_salt&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">record</span><span class="p">:</span>
+            <span class="n">record</span><span class="p">[</span><span class="s1">&#39;_salt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">generate_salt</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">record</span></div>
+
+<div class="viewcode-block" id="BaseStore.set__private_keys"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.set__private_keys">[docs]</a>    <span class="k">def</span> <span class="nf">set__private_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set__properties</span><span class="p">(</span><span class="n">record</span><span class="p">,</span> <span class="n">updated</span><span class="p">)</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set__admin</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set__salt</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">record</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_typed_uuid"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_typed_uuid">[docs]</a>    <span class="k">def</span> <span class="nf">get_typed_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier_string</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">catalog_uuid</span><span class="p">(</span><span class="n">identifier_string</span><span class="p">,</span> <span class="n">uuid_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">uuid_type</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="n">binary</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_diff"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_diff">[docs]</a>    <span class="k">def</span> <span class="nf">get_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="p">{},</span> <span class="n">target</span><span class="o">=</span><span class="p">{},</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;update&#39;</span><span class="p">):</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">msec_precision</span><span class="p">(</span><span class="n">current_time</span><span class="p">())</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">source</span><span class="p">),</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">target</span><span class="p">)]</span>
+        <span class="n">document_uuid</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">document_uuid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Unable to find &quot;uuid&quot; in source or target&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;_admin&#39;</span> <span class="ow">in</span> <span class="n">source</span><span class="p">:</span>
+            <span class="n">document__admin</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_admin&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">document__admin</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+            <span class="c1"># Filter out specific top-level keys</span>
+            <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="s1">&#39;_id&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">doc</span><span class="p">[</span><span class="n">filt</span><span class="p">]</span>
+            <span class="c1"># Filter out _private top-level keys</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+                    <span class="k">del</span> <span class="n">doc</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="k">class</span> <span class="nc">DateTimeEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">o</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">)</span>
+
+        <span class="n">safe_docs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">docs</span><span class="p">:</span>
+            <span class="n">doc1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">DateTimeEncoder</span><span class="p">))</span>
+            <span class="n">safe_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc1</span><span class="p">)</span>
+
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">diff</span><span class="p">(</span><span class="n">safe_docs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">safe_docs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">syntax</span><span class="o">=</span><span class="s1">&#39;explicit&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">delta_dict</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">delta</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">))</span>
+        <span class="c1"># Pack the diff into base64 because mongo can&#39;t deal with keys</span>
+        <span class="c1"># containing $ or . characters. It also compacts</span>
+        <span class="n">delta_enc</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">delta_dict</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="n">diff_doc</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">document_uuid</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">ts</span><span class="p">,</span> <span class="s1">&#39;diff&#39;</span><span class="p">:</span> <span class="n">delta_enc</span><span class="p">,</span> <span class="s1">&#39;action&#39;</span><span class="p">:</span> <span class="n">action</span><span class="p">}</span>
+        <span class="c1"># Lift over tenant key</span>
+        <span class="k">if</span> <span class="n">document__admin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">diff_doc</span><span class="p">[</span><span class="s1">&#39;_admin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">document__admin</span>
+
+        <span class="k">return</span> <span class="n">diff_doc</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_token_fields"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_token_fields">[docs]</a>    <span class="k">def</span> <span class="nf">get_token_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_dict</span><span class="p">):</span>
+        <span class="n">token_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">TOKEN_FIELDS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">record_dict</span><span class="p">:</span>
+                <span class="n">token_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">token_fields</span></div>
+
+<div class="viewcode-block" id="BaseStore.add_update_document"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.add_update_document">[docs]</a>    <span class="k">def</span> <span class="nf">add_update_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">document_dict</span><span class="p">,</span> <span class="n">uuid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">doc_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">doc_uuid</span> <span class="o">=</span> <span class="n">uuid</span>
+        <span class="n">document</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">document_dict</span><span class="p">)</span>
+        <span class="c1"># FIXME: Implement optional validation against self.schema</span>
+
+        <span class="n">uuid_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_uuid_field</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc_id</span> <span class="o">=</span> <span class="n">document_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_uuid_field</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Document lacks identifying key &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uuid_key</span><span class="p">))</span>
+
+        <span class="c1"># Validate UUID</span>
+        <span class="k">if</span> <span class="s1">&#39;uuid&#39;</span> <span class="ow">in</span> <span class="n">document_dict</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">doc_uuid</span> <span class="o">!=</span> <span class="n">document_dict</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;document_dict.uuid and uuid parameter cannot be different&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Assign a Typed_UUID5 if one is not specified</span>
+        <span class="k">if</span> <span class="s1">&#39;uuid&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">document_dict</span><span class="p">:</span>
+            <span class="n">doc_uuid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_typed_uuid</span><span class="p">(</span><span class="n">doc_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">document</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">doc_uuid</span>
+
+        <span class="c1"># Attempt to fetch the record using identifiers in schema</span>
+        <span class="n">db_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">doc_uuid</span><span class="p">})</span>
+
+        <span class="c1"># Add or upodate based on result</span>
+        <span class="k">if</span> <span class="n">db_record</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="c1"># Decorate the document with our _private keys</span>
+            <span class="n">db_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set__private_keys</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">db_record</span><span class="p">)</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">inserted_id</span><span class="p">})</span>
+                <span class="k">if</span> <span class="n">resp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">diff_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_diff</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">target</span><span class="o">=</span><span class="n">db_record</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;create&#39;</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">logcoll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">diff_record</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="c1"># Ignore log failures for now</span>
+                        <span class="k">pass</span>
+                <span class="c1"># Issue and return an update token, even though most of the</span>
+                <span class="c1"># tooling does not yet use it</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="n">get_token</span><span class="p">(</span><span class="n">db_record</span><span class="p">[</span><span class="s1">&#39;_salt&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_token_fields</span><span class="p">(</span><span class="n">db_record</span><span class="p">))</span>
+                <span class="n">resp</span><span class="p">[</span><span class="s1">&#39;_update_token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+                <span class="k">return</span> <span class="n">resp</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Failed to write document&#39;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+
+            <span class="c1"># Validate record x token</span>
+            <span class="c1"># Note: validate_token() always returns True as of 10-19-2018</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">db_record</span><span class="p">[</span><span class="s1">&#39;_salt&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_token_fields</span><span class="p">(</span><span class="n">db_record</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">verr</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Invalid token&#39;</span><span class="p">,</span> <span class="n">verr</span><span class="p">)</span>
+
+            <span class="c1"># Update</span>
+            <span class="n">diff_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_diff</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">db_record</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">document</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;update&#39;</span><span class="p">)</span>
+            <span class="c1"># b&#39;e30=&#39; is the base64-encoded version of {}</span>
+            <span class="k">if</span> <span class="n">diff_record</span><span class="p">[</span><span class="s1">&#39;diff&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="sa">b</span><span class="s1">&#39;e30=&#39;</span><span class="p">:</span>
+                <span class="c1"># Transfer _private and identifier fields to document</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">db_record</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="s1">&#39;_id&#39;</span><span class="p">):</span>
+                        <span class="n">document</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">db_record</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="c1"># Update _properties</span>
+                <span class="n">document</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">set__properties</span><span class="p">(</span><span class="n">document</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># Update the record</span>
+                <span class="n">uprec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find_one_and_replace</span><span class="p">(</span>
+                    <span class="p">{</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">document</span><span class="p">[</span><span class="s1">&#39;uuid&#39;</span><span class="p">]},</span> <span class="n">document</span><span class="p">,</span>
+                    <span class="n">return_document</span><span class="o">=</span><span class="n">ReturnDocument</span><span class="o">.</span><span class="n">AFTER</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logcoll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">diff_record</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logcoll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">diff_record</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="c1"># Ignore log failures for now</span>
+                    <span class="k">pass</span>
+                <span class="k">return</span> <span class="n">uprec</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">db_record</span></div>
+
+<div class="viewcode-block" id="BaseStore.delete_document"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.delete_document">[docs]</a>    <span class="k">def</span> <span class="nf">delete_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">db_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">uuid</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">db_record</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;No document found with uuid </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uuid</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Validate record x token</span>
+            <span class="c1"># Note: validate_token() always returns True as of 10-19-2018</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validate_token</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">db_record</span><span class="p">[</span><span class="s1">&#39;_salt&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_token_fields</span><span class="p">(</span><span class="n">db_record</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">verr</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Invalid token&#39;</span><span class="p">,</span> <span class="n">verr</span><span class="p">)</span>
+            <span class="c1"># Create log entry</span>
+            <span class="n">diff_record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_diff</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="n">db_record</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
+            <span class="n">deletion_resp</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">deletion_resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coll</span><span class="o">.</span><span class="n">remove</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">uuid</span><span class="p">})</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logcoll</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">diff_record</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">return</span> <span class="n">deletion_resp</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Failed to delete document with uuid </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uuid</span><span class="p">),</span> <span class="n">exc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseStore.add_link"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.add_link">[docs]</a>    <span class="k">def</span> <span class="nf">add_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">linked_uuid</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="s1">&#39;child_of&#39;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add a new linkage to another document&quot;&quot;&quot;</span>
+        <span class="n">rels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">uuid</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">rels</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">relation</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">linked_uuid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">rels</span><span class="p">:</span>
+                        <span class="n">rels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">linked_uuid</span><span class="p">)</span>
+                        <span class="n">rels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">rels</span><span class="p">)</span>
+                <span class="c1"># Create relation if allowed by schema</span>
+                <span class="k">elif</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">rels</span> <span class="o">=</span> <span class="p">[</span><span class="n">linked_uuid</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{}</span><span class="s1"> not supported by document </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="n">uuid</span><span class="p">))</span>
+
+                <span class="c1"># write</span>
+                <span class="n">doc</span><span class="p">[</span><span class="n">relation</span><span class="p">]</span> <span class="o">=</span> <span class="n">rels</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_update_document</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">uuid</span><span class="o">=</span><span class="n">uuid</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">resp</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;No document found with UUID </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uuid</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="BaseStore.remove_link"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.remove_link">[docs]</a>    <span class="k">def</span> <span class="nf">remove_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">linked_uuid</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="s1">&#39;child_of&#39;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove a linkage with another document&quot;&quot;&quot;</span>
+        <span class="n">rels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">uuid</span><span class="p">})</span>
+            <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">rels</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">relation</span><span class="p">)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">rels</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">linked_uuid</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                <span class="c1"># Create empty relation if supported by schema</span>
+                <span class="k">elif</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">rels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;Relationship </span><span class="si">{}</span><span class="s1"> not supported by document </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">relation</span><span class="p">,</span> <span class="n">uuid</span><span class="p">))</span>
+
+                <span class="c1"># write</span>
+                <span class="n">doc</span><span class="p">[</span><span class="n">relation</span><span class="p">]</span> <span class="o">=</span> <span class="n">rels</span>
+                <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_update_document</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">uuid</span><span class="o">=</span><span class="n">uuid</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">resp</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span><span class="s1">&#39;No document found with UUID </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uuid</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">raise</span></div>
+
+<div class="viewcode-block" id="BaseStore.get_links"><a class="viewcode-back" href="../../../../source/datacatalog.linkedstores.basestore.html#datacatalog.linkedstores.basestore.basestore.BaseStore.get_links">[docs]</a>    <span class="k">def</span> <span class="nf">get_links</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="s1">&#39;child_of&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return list UUIDs for linked documents&quot;&quot;&quot;</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">({</span><span class="s1">&#39;uuid&#39;</span><span class="p">:</span> <span class="n">uuid</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="n">doc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">relation</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">relation</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">[</span><span class="s1">&#39;properties&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="c1"># The relationship could exist as per the schema but is not defined</span>
+                <span class="k">return</span> <span class="nb">list</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">CatalogError</span><span class="p">(</span>
+                    <span class="s1">&#39;Relationship &quot;</span><span class="si">{}</span><span class="s1">&quot; not available in document </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">relation</span><span class="p">,</span> <span class="n">uuid</span><span class="p">))</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

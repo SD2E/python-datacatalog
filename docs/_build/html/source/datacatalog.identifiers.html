@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacatalog.identifiers package &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="datacatalog.identifiers.tests package" href="datacatalog.identifiers.tests.html" />
+    <link rel="prev" title="datacatalog.formats.transcriptic package" href="datacatalog.formats.transcriptic.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipelines.html">Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/jobs.html">PipelineJobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/reactor.html">An Example Reactor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/dashboard.html">The Pipelines Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="datacatalog.html">Data Catalog Python Package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="datacatalog.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.compositions.html">datacatalog.compositions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.definitions.html">datacatalog.definitions package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.filetypes.html">datacatalog.filetypes package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.formats.html">datacatalog.formats package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">datacatalog.identifiers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.abaco_hashid">datacatalog.identifiers.abaco_hashid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.agave_appid">datacatalog.identifiers.agave_appid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.agave_uuidtype">datacatalog.identifiers.agave_uuidtype module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.constants">datacatalog.identifiers.constants module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.datacatalog_uuid">datacatalog.identifiers.datacatalog_uuid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.datacatalog_uuidtype">datacatalog.identifiers.datacatalog_uuidtype module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.exceptions">datacatalog.identifiers.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.interesting_animal">datacatalog.identifiers.interesting_animal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.schemas">datacatalog.identifiers.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers.typed_uuid">datacatalog.identifiers.typed_uuid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-datacatalog.identifiers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jobs.html">datacatalog.jobs package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jsonschemas.html">datacatalog.jsonschemas package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.linkedstores.html">datacatalog.linkedstores package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.mongo.html">datacatalog.mongo package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pathmappings.html">datacatalog.pathmappings package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelinejobs.html">datacatalog.pipelinejobs package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelines.html">datacatalog.pipelines package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.products.html">datacatalog.products package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.references.html">datacatalog.references package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.stores.html">datacatalog.stores package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.tokens.html">datacatalog.tokens package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-agavehelpers-module">datacatalog.agavehelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.catalog">datacatalog.catalog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.constants">datacatalog.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.dicthelpers">datacatalog.dicthelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.exceptions">datacatalog.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-main-module">datacatalog.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.posixhelpers">datacatalog.posixhelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.utils">datacatalog.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="datacatalog.html">Data Catalog Python Package</a> &raquo;</li>
+        
+      <li>datacatalog.identifiers package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/datacatalog.identifiers.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datacatalog-identifiers-package">
+<h1>datacatalog.identifiers package<a class="headerlink" href="#datacatalog-identifiers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datacatalog.identifiers.tests.html">datacatalog.identifiers.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.identifiers.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.identifiers.tests.html#module-datacatalog.identifiers.tests.test_typed_uuid">datacatalog.identifiers.tests.test_typed_uuid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.identifiers.tests.html#module-datacatalog.identifiers.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacatalog.identifiers.abaco_hashid">
+<span id="datacatalog-identifiers-abaco-hashid-module"></span><h2>datacatalog.identifiers.abaco_hashid module<a class="headerlink" href="#module-datacatalog.identifiers.abaco_hashid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.identifiers.abaco_hashid.generate">
+<code class="descclassname">datacatalog.identifiers.abaco_hashid.</code><code class="descname">generate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/abaco_hashid.html#generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.abaco_hashid.generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.abaco_hashid.validate">
+<code class="descclassname">datacatalog.identifiers.abaco_hashid.</code><code class="descname">validate</code><span class="sig-paren">(</span><em>text_string</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/abaco_hashid.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.abaco_hashid.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.abaco_hashid.mock">
+<code class="descclassname">datacatalog.identifiers.abaco_hashid.</code><code class="descname">mock</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/abaco_hashid.html#mock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.abaco_hashid.mock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an identifer that looks like an Abaco hashid but
+will not be guaranteed to validate</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.agave_appid">
+<span id="datacatalog-identifiers-agave-appid-module"></span><h2>datacatalog.identifiers.agave_appid module<a class="headerlink" href="#module-datacatalog.identifiers.agave_appid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.identifiers.agave_appid.validate">
+<code class="descclassname">datacatalog.identifiers.agave_appid.</code><code class="descname">validate</code><span class="sig-paren">(</span><em>text_string</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/agave_appid.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.agave_appid.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.agave_uuidtype">
+<span id="datacatalog-identifiers-agave-uuidtype-module"></span><h2>datacatalog.identifiers.agave_uuidtype module<a class="headerlink" href="#module-datacatalog.identifiers.agave_uuidtype" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacatalog.identifiers.constants">
+<span id="datacatalog-identifiers-constants-module"></span><h2>datacatalog.identifiers.constants module<a class="headerlink" href="#module-datacatalog.identifiers.constants" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.identifiers.constants.Constants">
+<em class="property">class </em><code class="descclassname">datacatalog.identifiers.constants.</code><code class="descname">Constants</code><a class="reference internal" href="../_modules/datacatalog/identifiers/constants.html#Constants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.constants.Constants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="attribute">
+<dt id="datacatalog.identifiers.constants.Constants.DNS_FOR_NAMESPACE">
+<code class="descname">DNS_FOR_NAMESPACE</code><em class="property"> = 'sd2e.org'</em><a class="headerlink" href="#datacatalog.identifiers.constants.Constants.DNS_FOR_NAMESPACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacatalog.identifiers.constants.Constants.MOCK_DNS_FOR_NAMESPACE">
+<code class="descname">MOCK_DNS_FOR_NAMESPACE</code><em class="property"> = 'sd2e.club'</em><a class="headerlink" href="#datacatalog.identifiers.constants.Constants.MOCK_DNS_FOR_NAMESPACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacatalog.identifiers.constants.Constants.UUID_MOCK_NAMESPACE">
+<code class="descname">UUID_MOCK_NAMESPACE</code><em class="property"> = UUID('ba5aacb3-8885-3a36-9c96-9e2696f19349')</em><a class="headerlink" href="#datacatalog.identifiers.constants.Constants.UUID_MOCK_NAMESPACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="datacatalog.identifiers.constants.Constants.UUID_NAMESPACE">
+<code class="descname">UUID_NAMESPACE</code><em class="property"> = UUID('54765aeb-44ca-374a-9a9f-eb4658383ee4')</em><a class="headerlink" href="#datacatalog.identifiers.constants.Constants.UUID_NAMESPACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.datacatalog_uuid">
+<span id="datacatalog-identifiers-datacatalog-uuid-module"></span><h2>datacatalog.identifiers.datacatalog_uuid module<a class="headerlink" href="#module-datacatalog.identifiers.datacatalog_uuid" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.identifiers.datacatalog_uuid.generate">
+<code class="descclassname">datacatalog.identifiers.datacatalog_uuid.</code><code class="descname">generate</code><span class="sig-paren">(</span><em>text_value=None</em>, <em>binary=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/datacatalog_uuid.html#generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.datacatalog_uuid.generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.datacatalog_uuid.mock">
+<code class="descclassname">datacatalog.identifiers.datacatalog_uuid.</code><code class="descname">mock</code><span class="sig-paren">(</span><em>text_value=None</em>, <em>binary=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/datacatalog_uuid.html#mock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.datacatalog_uuid.mock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.datacatalog_uuid.validate">
+<code class="descclassname">datacatalog.identifiers.datacatalog_uuid.</code><code class="descname">validate</code><span class="sig-paren">(</span><em>uuid_string</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/datacatalog_uuid.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.datacatalog_uuid.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.datacatalog_uuid.catalog_uuid">
+<code class="descclassname">datacatalog.identifiers.datacatalog_uuid.</code><code class="descname">catalog_uuid</code><span class="sig-paren">(</span><em>text_value</em>, <em>binary=True</em>, <em>namespace=UUID('54765aeb-44ca-374a-9a9f-eb4658383ee4')</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/datacatalog_uuid.html#catalog_uuid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.datacatalog_uuid.catalog_uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a UUID5 in the prescribed namespace
+This function will either a text UUID or a BSON-encoded binary UUID,
+depending on the optional value <code class="docutils literal notranslate"><span class="pre">binary</span></code>.
+Args:</p>
+<blockquote>
+<div>text_value (string) nominally, a file path, but can be any str
+binary (bool): whether to encode result as BSON binary</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>new_uuid: The hash UUID in string or binary-encoded form</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.datacatalog_uuid.text_uuid_to_binary">
+<code class="descclassname">datacatalog.identifiers.datacatalog_uuid.</code><code class="descname">text_uuid_to_binary</code><span class="sig-paren">(</span><em>text_uuid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/datacatalog_uuid.html#text_uuid_to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.datacatalog_uuid.text_uuid_to_binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.datacatalog_uuidtype">
+<span id="datacatalog-identifiers-datacatalog-uuidtype-module"></span><h2>datacatalog.identifiers.datacatalog_uuidtype module<a class="headerlink" href="#module-datacatalog.identifiers.datacatalog_uuidtype" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacatalog.identifiers.exceptions">
+<span id="datacatalog-identifiers-exceptions-module"></span><h2>datacatalog.identifiers.exceptions module<a class="headerlink" href="#module-datacatalog.identifiers.exceptions" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-datacatalog.identifiers.interesting_animal">
+<span id="datacatalog-identifiers-interesting-animal-module"></span><h2>datacatalog.identifiers.interesting_animal module<a class="headerlink" href="#module-datacatalog.identifiers.interesting_animal" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="datacatalog.identifiers.interesting_animal.generate">
+<code class="descclassname">datacatalog.identifiers.interesting_animal.</code><code class="descname">generate</code><span class="sig-paren">(</span><em>timestamp=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/interesting_animal.html#generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.interesting_animal.generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.interesting_animal.mock">
+<code class="descclassname">datacatalog.identifiers.interesting_animal.</code><code class="descname">mock</code><span class="sig-paren">(</span><em>timestamp=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/interesting_animal.html#mock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.interesting_animal.mock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.interesting_animal.validate">
+<code class="descclassname">datacatalog.identifiers.interesting_animal.</code><code class="descname">validate</code><span class="sig-paren">(</span><em>timestamp=True</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/interesting_animal.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.interesting_animal.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.interesting_animal.pet_name">
+<code class="descclassname">datacatalog.identifiers.interesting_animal.</code><code class="descname">pet_name</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/interesting_animal.html#pet_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.interesting_animal.pet_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.schemas">
+<span id="datacatalog-identifiers-schemas-module"></span><h2>datacatalog.identifiers.schemas module<a class="headerlink" href="#module-datacatalog.identifiers.schemas" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.identifiers.schemas.CatalogUUID">
+<em class="property">class </em><code class="descclassname">datacatalog.identifiers.schemas.</code><code class="descname">CatalogUUID</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/schemas.html#CatalogUUID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.schemas.CatalogUUID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">jsonschemas.schema.JSONSchemaBaseObject</span></code></p>
+<dl class="method">
+<dt id="datacatalog.identifiers.schemas.CatalogUUID.update_id">
+<code class="descname">update_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/schemas.html#CatalogUUID.update_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.schemas.CatalogUUID.update_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="datacatalog.identifiers.schemas.TypedCatalogUUID">
+<em class="property">class </em><code class="descclassname">datacatalog.identifiers.schemas.</code><code class="descname">TypedCatalogUUID</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/schemas.html#TypedCatalogUUID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.schemas.TypedCatalogUUID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#datacatalog.identifiers.schemas.CatalogUUID" title="datacatalog.identifiers.schemas.CatalogUUID"><code class="xref py py-class docutils literal notranslate"><span class="pre">datacatalog.identifiers.schemas.CatalogUUID</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.schemas.get_schemas">
+<code class="descclassname">datacatalog.identifiers.schemas.</code><code class="descname">get_schemas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/schemas.html#get_schemas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.schemas.get_schemas" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers.typed_uuid">
+<span id="datacatalog-identifiers-typed-uuid-module"></span><h2>datacatalog.identifiers.typed_uuid module<a class="headerlink" href="#module-datacatalog.identifiers.typed_uuid" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="datacatalog.identifiers.typed_uuid.TypedUUID">
+<em class="property">class </em><code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">TypedUUID</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#TypedUUID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.TypedUUID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.binary_uuid_to_text">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">binary_uuid_to_text</code><span class="sig-paren">(</span><em>binary_uuid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#binary_uuid_to_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.binary_uuid_to_text" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.catalog_uuid">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">catalog_uuid</code><span class="sig-paren">(</span><em>text_value</em>, <em>uuid_type='generic'</em>, <em>namespace=UUID('54765aeb-44ca-374a-9a9f-eb4658383ee4')</em>, <em>binary=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#catalog_uuid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.catalog_uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a typed UUID5 in the prescribed namespace</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>text_value:string - a text string to encode as UUID hash
+type:string - a known datacatalog UUIDType
+binary (bool): whether to encode result as BSON binary</dd>
+<dt>Returns:</dt>
+<dd>new_uuid: The hash UUID in string or binary-encoded form</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.generate">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">generate</code><span class="sig-paren">(</span><em>text_value=None</em>, <em>uuid_type=None</em>, <em>binary=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#generate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.generate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.get_uuidtype">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">get_uuidtype</code><span class="sig-paren">(</span><em>query_uuid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#get_uuidtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.get_uuidtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the datacatalog.identifiers.UUIDType for a UUID</p>
+<p>Params:
+query_uuid: accepts either a string representation of UUID or a UUUD object</p>
+<p>Returns:
+UUIDType:string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.mock">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">mock</code><span class="sig-paren">(</span><em>text_value=None</em>, <em>uuid_type=None</em>, <em>binary=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#mock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.mock" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.random_uuid5">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">random_uuid5</code><span class="sig-paren">(</span><em>binary=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#random_uuid5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.random_uuid5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.text_uuid_to_binary">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">text_uuid_to_binary</code><span class="sig-paren">(</span><em>text_uuid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#text_uuid_to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.text_uuid_to_binary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.validate">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">validate</code><span class="sig-paren">(</span><em>uuid_string</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.validate_type">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">validate_type</code><span class="sig-paren">(</span><em>type_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#validate_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.validate_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensure that the provided type string is valid</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="datacatalog.identifiers.typed_uuid.validate_uuid5">
+<code class="descclassname">datacatalog.identifiers.typed_uuid.</code><code class="descname">validate_uuid5</code><span class="sig-paren">(</span><em>uuid_string</em>, <em>permissive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/datacatalog/identifiers/typed_uuid.html#validate_uuid5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#datacatalog.identifiers.typed_uuid.validate_uuid5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate that a UUID string is in fact a valid uuid5.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-datacatalog.identifiers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-datacatalog.identifiers" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="datacatalog.identifiers.tests.html" class="btn btn-neutral float-right" title="datacatalog.identifiers.tests package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="datacatalog.formats.transcriptic.html" class="btn btn-neutral" title="datacatalog.formats.transcriptic package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

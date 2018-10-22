@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>datacatalog &mdash; SD2 Data Catalog 1.0.0-alpha-01 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> SD2 Data Catalog
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/pipelines.html">Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/jobs.html">PipelineJobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/reactor.html">An Example Reactor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pipelines/dashboard.html">The Pipelines Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datacatalog.html">Data Catalog Python Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SD2 Data Catalog</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>datacatalog</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/modules.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="datacatalog">
+<h1>datacatalog<a class="headerlink" href="#datacatalog" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datacatalog.html">Data Catalog Python Package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.compositions.html">datacatalog.compositions package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.compositions.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.compositions.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.definitions.html">datacatalog.definitions package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.definitions.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.definitions.html#module-datacatalog.definitions.schemas">datacatalog.definitions.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.definitions.html#module-datacatalog.definitions">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.filetypes.html">datacatalog.filetypes package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.filetype">datacatalog.filetypes.filetype module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.infer">datacatalog.filetypes.infer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.listing">datacatalog.filetypes.listing module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.mime">datacatalog.filetypes.mime module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.rules">datacatalog.filetypes.rules module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.schemas">datacatalog.filetypes.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes.validate">datacatalog.filetypes.validate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.filetypes.html#module-datacatalog.filetypes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.formats.html">datacatalog.formats package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#datacatalog-formats-classify-module">datacatalog.formats.classify module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#datacatalog-formats-common-module">datacatalog.formats.common module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#module-datacatalog.formats.converter">datacatalog.formats.converter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#module-datacatalog.formats.runner">datacatalog.formats.runner module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#datacatalog-formats-schemas-module">datacatalog.formats.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#datacatalog-formats-utils-module">datacatalog.formats.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.formats.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.identifiers.html">datacatalog.identifiers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.abaco_hashid">datacatalog.identifiers.abaco_hashid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.agave_appid">datacatalog.identifiers.agave_appid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.agave_uuidtype">datacatalog.identifiers.agave_uuidtype module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.constants">datacatalog.identifiers.constants module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.datacatalog_uuid">datacatalog.identifiers.datacatalog_uuid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.datacatalog_uuidtype">datacatalog.identifiers.datacatalog_uuidtype module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.exceptions">datacatalog.identifiers.exceptions module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.interesting_animal">datacatalog.identifiers.interesting_animal module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.schemas">datacatalog.identifiers.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers.typed_uuid">datacatalog.identifiers.typed_uuid module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.identifiers.html#module-datacatalog.identifiers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jobs.html">datacatalog.jobs package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-agavejobs-module">datacatalog.jobs.agavejobs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-fsm-module">datacatalog.jobs.fsm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-graphfsm-module">datacatalog.jobs.graphfsm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-job-module">datacatalog.jobs.job module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-main-module">datacatalog.jobs.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-store-module">datacatalog.jobs.store module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-token-module">datacatalog.jobs.token module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#datacatalog-jobs-utils-module">datacatalog.jobs.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jobs.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.jsonschemas.html">datacatalog.jsonschemas package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jsonschemas.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jsonschemas.html#module-datacatalog.jsonschemas.schema">datacatalog.jsonschemas.schema module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jsonschemas.html#module-datacatalog.jsonschemas.schemas">datacatalog.jsonschemas.schemas module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.jsonschemas.html#module-datacatalog.jsonschemas">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.linkedstores.html">datacatalog.linkedstores package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.linkedstores.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.linkedstores.html#module-datacatalog.linkedstores">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.mongo.html">datacatalog.mongo package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.mongo.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.mongo.html#module-datacatalog.mongo.mongo">datacatalog.mongo.mongo module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.mongo.html#module-datacatalog.mongo">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pathmappings.html">datacatalog.pathmappings package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pathmappings.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pathmappings.html#module-datacatalog.pathmappings.levels">datacatalog.pathmappings.levels module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pathmappings.html#module-datacatalog.pathmappings.stores">datacatalog.pathmappings.stores module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pathmappings.html#module-datacatalog.pathmappings">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelinejobs.html">datacatalog.pipelinejobs package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelinejobs.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelinejobs.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelinejobs.html#datacatalog-pipelinejobs-pipelinejob-module">datacatalog.pipelinejobs.pipelinejob module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelinejobs.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.pipelines.html">datacatalog.pipelines package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#datacatalog-pipelines-pipeline-module">datacatalog.pipelines.pipeline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#datacatalog-pipelines-store-module">datacatalog.pipelines.store module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#datacatalog-pipelines-token-module">datacatalog.pipelines.token module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#datacatalog-pipelines-utils-module">datacatalog.pipelines.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.pipelines.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.products.html">datacatalog.products package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#datacatalog-products-constants-module">datacatalog.products.constants module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#datacatalog-products-files-module">datacatalog.products.files module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#module-datacatalog.products.fixity">datacatalog.products.fixity module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#datacatalog-products-fixitystore-module">datacatalog.products.fixitystore module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#datacatalog-products-utils-module">datacatalog.products.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.products.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.references.html">datacatalog.references package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.references.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.references.html#datacatalog-references-constants-module">datacatalog.references.constants module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.references.html#datacatalog-references-fixitystore-module">datacatalog.references.fixitystore module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.references.html#datacatalog-references-utils-module">datacatalog.references.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.references.html#module-contents">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.stores.html">datacatalog.stores package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.stores.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.stores.html#module-datacatalog.stores.agave">datacatalog.stores.agave module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.stores.html#module-datacatalog.stores.stores">datacatalog.stores.stores module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.stores.html#module-datacatalog.stores">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="datacatalog.tokens.html">datacatalog.tokens package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.tokens.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.tokens.html#module-datacatalog.tokens.salt">datacatalog.tokens.salt module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.tokens.html#module-datacatalog.tokens.token">datacatalog.tokens.token module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="datacatalog.tokens.html#module-datacatalog.tokens">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-agavehelpers-module">datacatalog.agavehelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.catalog">datacatalog.catalog module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.constants">datacatalog.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.dicthelpers">datacatalog.dicthelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.exceptions">datacatalog.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#datacatalog-main-module">datacatalog.main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.posixhelpers">datacatalog.posixhelpers module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog.utils">datacatalog.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datacatalog.html#module-datacatalog">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Matt Vaughn, Niall Gaffney, Mark Weston
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
