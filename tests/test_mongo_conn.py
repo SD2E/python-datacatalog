@@ -20,11 +20,11 @@ import datacatalog
 def test_db_connection_settings(mongodb_settings):
     """MongoDb connection can be made with settings dict"""
     db = datacatalog.mongo.db_connection(mongodb_settings)
-    colls = db.collection_names()
+    colls = db.list_collection_names()
     assert colls is not None
 
 # def test_db_connection_authn(mongodb_authn):
 #     """MongoDb connection can be made with auth string"""
 #     db = datacatalog.mongo.db_connection(mongodb_authn)
-#     colls = db.collection_names()
+#     colls = db.list_collection_names()
 #     assert colls is not None

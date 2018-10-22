@@ -304,7 +304,7 @@ class BaseStore(object):
             diff_record = self.get_diff(source=db_record, target=dict(), action='delete')
             deletion_resp = None
             try:
-                deletion_resp = self.coll.remove({'uuid': uuid})
+                deletion_resp = self.coll.delete_one({'uuid': uuid})
                 try:
                     self.logcoll.insert_one(diff_record)
                 except Exception:

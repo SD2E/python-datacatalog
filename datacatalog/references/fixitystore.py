@@ -123,7 +123,7 @@ class ReferenceFixityStore(ProductsFixityStore):
             return self.update(filename, _deleted=False)
         else:
             try:
-                return self.coll.remove({'filename': filename})
+                return self.coll.delete_one({'filename': filename})
             except Exception:
                 raise FileFixtyUpdateFailure(
                     'Unable to delete {}'.format(os.path.basename(filename)))

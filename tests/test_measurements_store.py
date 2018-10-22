@@ -19,9 +19,9 @@ import datacatalog
 def test_exp_db(mongodb_settings):
     base = datacatalog.linkedstores.measurements.MeasurementStore(mongodb_settings)
 
-def test_exp_db_collection_names(mongodb_settings):
+def test_exp_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.measurements.MeasurementStore(mongodb_settings)
-    assert base.db.collection_names() is not None
+    assert base.db.list_collection_names() is not None
 
 def test_exp_schema(mongodb_settings):
     base = datacatalog.linkedstores.measurements.MeasurementStore(mongodb_settings)
@@ -57,4 +57,4 @@ def test_exp_delete(mongodb_settings):
     base = datacatalog.linkedstores.measurements.MeasurementStore(mongodb_settings)
     for key, doc, uuid_val in measurements.DELETES:
         resp = base.delete_document(uuid_val)
-        assert resp == {'n': 1, 'ok': 1.0}
+        assert resp.raw_result == {'n': 1, 'ok': 1.0}

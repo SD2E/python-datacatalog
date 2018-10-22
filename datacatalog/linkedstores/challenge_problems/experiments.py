@@ -102,7 +102,7 @@ class ExperimentStore(BaseStore):
     def delete_record(self, expt_id):
         '''Delete record by expt.id'''
         try:
-            return self.coll.remove({'id': expt_id})
+            return self.coll.delete_one({'id': expt_id})
         except Exception as exc:
             raise ExperimentUpdateFailure(
                 'Failed to delete expt {}'.format(expt_id), exc)

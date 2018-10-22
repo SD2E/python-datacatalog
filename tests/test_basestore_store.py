@@ -20,10 +20,10 @@ def test_basestore_db(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
     base.setup()
 
-def test_basestore_db_collection_names(mongodb_settings):
+def test_basestore_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
     base.setup()
-    assert base.db.collection_names() is not None
+    assert base.db.list_collection_names() is not None
 
 def test_basestore_schema(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
@@ -61,4 +61,4 @@ def test_basestore_delete(mongodb_settings):
     base.setup()
     for key, doc, uuid_val in basestore.DELETES:
         resp = base.delete_document(uuid_val)
-        assert resp == {'n': 1, 'ok': 1.0}
+        assert resp.raw_result == {'n': 1, 'ok': 1.0}

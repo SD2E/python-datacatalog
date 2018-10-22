@@ -102,7 +102,7 @@ class PipelineStore(BaseStore):
             raise PipelineUpdateFailure(exc)
 
         try:
-            return self.coll.remove({'uuid': pipeline_uuid})
+            return self.coll.delete_one({'uuid': pipeline_uuid})
         except Exception as exc:
             raise PipelineUpdateFailure(
                 'Failed to delete pipeline {}'.format(uuid), exc)
