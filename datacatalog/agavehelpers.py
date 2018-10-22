@@ -10,8 +10,7 @@ import re
 import os
 from requests import HTTPError
 from agavepy.agave import Agave, AgaveError
-from .constants import AgaveSystems
-from .configs import CatalogStore
+from constants import AgaveSystems, CatalogStore
 
 # TODO Factor the command runners into a class that handles the setup
 # TODO Implement a more declarative form of support for these commands based on plugins
