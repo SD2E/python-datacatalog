@@ -1,3 +1,5 @@
+PYTEST_OPTS ?= "-s -vvv"
+
 all: build
 
 release: build
@@ -20,3 +22,10 @@ mongodb-up:
 
 mongodb-down:
 	cd docker && docker-compose down
+
+tests-longrun:
+	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear --longrun
+
+.PHONY: tests
+tests:
+	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear

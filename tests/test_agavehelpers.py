@@ -3,6 +3,7 @@ import pytest
 import sys
 import yaml
 import json
+from . import longrun
 from agavepy.agave import Agave
 
 CWD = os.getcwd()
@@ -16,7 +17,7 @@ from fixtures.agave import agave, credentials
 sys.path.insert(0, '/')
 import datacatalog
 
-
+@longrun
 def test_listdir_posix(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(PARENT, 'tests/virtual_filesystem'))
@@ -25,12 +26,14 @@ def test_listdir_posix(monkeypatch, agave):
     listing = h.listdir_agave_posix('/sample/tacc-cloud/agavehelpers/upload', recurse=True, storage_system='virtual_filesystem', directories=True)
     assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
 
+@longrun
 def test_listdir_agave(monkeypatch, agave):
     h = datacatalog.agavehelpers.AgaveHelper(agave)
     listing = h.listdir_agave_native(
         '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
     assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
 
+@longrun
 def test_listdir(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(
@@ -41,6 +44,7 @@ def test_listdir(monkeypatch, agave):
         '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
     assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
 
+@longrun
 def test_listdir_only_files(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(
@@ -52,6 +56,7 @@ def test_listdir_only_files(monkeypatch, agave):
     assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' not in listing
     assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in listing
 
+@longrun
 def test_from_agave_uri():
     asys, apath, afile = datacatalog.agavehelpers.from_agave_uri(
         'agave://data/taco/cabana.txt')
@@ -59,6 +64,7 @@ def test_from_agave_uri():
     assert apath == '/taco'
     assert afile == 'cabana.txt'
 
+@longrun
 def test_isfile(monkeypatch, agave):
     # monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     # monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(
@@ -72,6 +78,7 @@ def test_isfile(monkeypatch, agave):
         '/sample/tacc-cloud/agavehelpers/upload/transcriptic/')
     assert t_isfile is False
 
+@longrun
 def test_isdir(monkeypatch, agave):
     # monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     # monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(
@@ -85,6 +92,7 @@ def test_isdir(monkeypatch, agave):
         '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt')
     assert t_isdir is False
 
+@longrun
 def test_exists_posix(monkeypatch, agave):
     # monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
     # monkeypatch.setenv('CATALOG_ROOT_DIR', os.path.join(
