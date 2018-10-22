@@ -1,7 +1,17 @@
 import constants
-import jsonschemas
 import identifiers
+import jsonschemas
+import pathmappings
 import utils
+
+from . import basestore
+from . import challenge_problems
+from . import experiments
+from . import samples
+from . import measurements
+from . import files
+from . import fixities
+
 
 # from . import configs
 # from . import jsonschemas
@@ -12,12 +22,4 @@ import utils
 # import identifiers
 # import utils
 
-from .. import pathmappings
 
-from . import basestore
-from . import challenge_problems
-from . import experiments
-from . import samples
-from . import measurements
-from . import files
-from . import fixities

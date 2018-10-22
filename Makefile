@@ -11,7 +11,8 @@ build:
 clean:
 	rm -rf build *egg-info dist
 
-schemas-build: schemas-clean
+.PHONY: schemas
+schemas: schemas-clean
 	python scripts/build_schemas.py
 
 schemas-clean:

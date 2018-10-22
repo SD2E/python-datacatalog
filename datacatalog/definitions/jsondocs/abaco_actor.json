@@ -1,0 +1,22 @@
+{
+    "description": "Abaco Reactor",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "Distinct 'actor.id' for the Reactor"
+        },
+        "repo": {
+            "$ref": "container_repo.json",
+            "description": "Linux container image repository and tag for the deployed actor"
+        },
+        "options": {
+            "type": "object",
+            "description": "Predefined runtime options for the Reactor"
+        }
+    },
+    "required": [
+        "id",
+        "repo"
+    ]
+}

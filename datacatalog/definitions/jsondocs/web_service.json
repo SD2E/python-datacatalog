@@ -1,0 +1,22 @@
+{
+    "description": "External networked resource resolvable via URI",
+    "type": "object",
+    "properties": {
+        "uri": {
+            "type": "string",
+            "description": "Canonical URI for the resource",
+            "format": "uri"
+        },
+        "identifier": {
+            "type": "string",
+            "description": "Distinct identifier for an instance of a service"
+        },
+        "options": {
+            "type": "object",
+            "description": "Additional descriptive attributes"
+        }
+    },
+    "required": [
+        "uri"
+    ]
+}

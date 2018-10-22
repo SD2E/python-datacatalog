@@ -1,0 +1,120 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "PipelinesDefinition",
+    "description": "A computation or processing Pipeline definition",
+    "definitions": {
+        "pipeline_type": {
+            "description": "Enumerated class of action performed by the pipeline",
+            "type": "string",
+            "enum": [
+                "generic-process",
+                "data-transfer",
+                "metadata-management",
+                "primary-etl",
+                "secondary-etl"
+            ],
+            "default": "primary-etl"
+        },
+        "collections_level": {
+            "description": "Type of managed document collection",
+            "type": "string",
+            "enum": [
+                "reference",
+                "challenge_problem",
+                "experiment",
+                "sample",
+                "measurement",
+                "file",
+                "pipeline",
+                "job",
+                "product"
+            ]
+        }
+    },
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "components": {
+            "description": "Unordered array of pipeline components (required)",
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "agave_app.json"
+                    },
+                    {
+                        "$ref": "abaco_actor.json"
+                    },
+                    {
+                        "$ref": "web_service.json"
+                    },
+                    {
+                        "$ref": "deployed_container.json"
+                    }
+                ]
+            }
+        },
+        "collections_levels": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/collections_level"
+            },
+            "description": "level(s) of data input that the pipeline acts upon",
+            "default": []
+        },
+        "processing_levels": {
+            "type": "array",
+            "description": "level(s) of data product produced by the pipeline",
+            "items": {
+                "$ref": "processing_level.json"
+            },
+            "default": []
+        },
+        "type": {
+            "items": {
+                "$ref": "#/definitions/pipeline_type"
+            }
+        },
+        "accepts": {
+            "type": "array",
+            "description": "file types accepted by the pipeline",
+            "items": {
+                "$ref": "filetype_label.json"
+            },
+            "default": [
+                "*"
+            ]
+        },
+        "produces": {
+            "type": "array",
+            "description": "file types produced by the pipeline",
+            "items": {
+                "$ref": "filetype_label.json"
+            },
+            "default": [
+                "*"
+            ]
+        },
+        "uuid": {
+            "$ref": "pipeline_uuid.json"
+        }
+    },
+    "required": [
+        "name",
+        "components"
+    ],
+    "additionalProperties": false,
+    "_filename": "pipeline",
+    "__uuid_type": "pipeline",
+    "__uuid_field": "id",
+    "__collection": "pipelines",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}

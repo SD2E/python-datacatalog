@@ -745,7 +745,8 @@
         "ZIP",
         "ZIP-COMPRESSED-FB2",
         "ZLIB",
-        "ZOO"
+        "ZOO",
+        "*"
     ],
     "title": "File Type Label",
     "type": "string"

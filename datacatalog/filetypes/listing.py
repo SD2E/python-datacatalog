@@ -14,6 +14,10 @@ def listall(filter_attrname=None):
         filtered_listing = [l.get(filter_attrname) for l in big_list]
         filtered_listing = list(set(filtered_listing))
         filtered_listing = sorted(filtered_listing)
+        if filter_attrname == 'label':
+            filtered_listing.append('*')
+        if filter_attrname == 'comment':
+            filtered_listing.append('Any type')
         return filtered_listing
 
 def listall_labels():

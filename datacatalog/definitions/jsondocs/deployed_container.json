@@ -1,0 +1,20 @@
+{
+    "description": "Deployed Linux container",
+    "type": "object",
+    "properties": {
+        "repo": {
+            "$ref": "container_repo.json"
+        },
+        "hash": {
+            "type": "string",
+            "description": "Linux container image hash"
+        },
+        "options": {
+            "type": "object",
+            "description": "Deployment options"
+        }
+    },
+    "required": [
+        "repo"
+    ]
+}
