@@ -41,7 +41,7 @@
             "type": "integer",
             "$comment": "Computed automatically"
         },
-        "_deleted": {
+        "_visible": {
             "description": "Whether the file has been marked as unavailable",
             "type": "boolean"
         },

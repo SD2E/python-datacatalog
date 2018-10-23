@@ -22,7 +22,7 @@
             "description": "Enumerated file type",
             "$ref": "filetype_label.json"
         },
-        "_deleted": {
+        "_visible": {
             "description": "Whether the file has been marked as unavailable",
             "type": "boolean"
         },
