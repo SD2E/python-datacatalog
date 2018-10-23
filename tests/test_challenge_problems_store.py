@@ -53,14 +53,8 @@ def test_cp_update(mongodb_settings):
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
 
-def test_cp_soft_delete(mongodb_settings):
-    base = datacatalog.linkedstores.challenge_problems.ChallengeStore(mongodb_settings)
-    for key, doc, uuid_val in challenge_problems.DELETES:
-        resp = base.delete_document(uuid_val)
-        assert resp['_deleted'] is True
-
 def test_cp_delete(mongodb_settings):
     base = datacatalog.linkedstores.challenge_problems.ChallengeStore(mongodb_settings)
     for key, doc, uuid_val in challenge_problems.DELETES:
-        resp = base.delete_document(uuid_val, soft=False)
+        resp = base.delete_document(uuid_val)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}

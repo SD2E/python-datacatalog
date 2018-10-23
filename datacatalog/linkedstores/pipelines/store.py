@@ -15,21 +15,11 @@ from dicthelpers import data_merge
 from pathmappings import normalize, abspath
 from pprint import pprint
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp, msec_precision
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete, time_stamp, msec_precision
 from .schema import PipelineDocument
 from .exceptions import PipelineUpdateFailure, DuplicatePipelineError, PipelineUpdateFailure
 
-class SoftDelete(BaseStore):
-    def delete(self, uuid, token, force=False):
-        if force is False:
-            return self.write_key(uuid, '_deleted', True, token)
-        else:
-            return super(SoftDelete, self).delete(uuid, token)
-
-    def undelete(self, uuid, token):
-        return self.write_key(uuid, '_deleted', False, token)
-
-class PipelineStore(BaseStore):
+class PipelineStore(SoftDelete, BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineStore, self).__init__(mongodb, config, session)
         # setup based on schema extended properties

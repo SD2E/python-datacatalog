@@ -53,6 +53,10 @@
             },
             "type": "object"
         },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
         "aliases": {
             "description": "Alias identifiers for the experimental reference",
             "items": {

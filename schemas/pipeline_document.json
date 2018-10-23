@@ -82,6 +82,10 @@
             },
             "type": "object"
         },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
         "accepts": {
             "default": [
                 "*"
@@ -161,6 +165,10 @@
         },
         "uuid": {
             "$ref": "pipeline_uuid.json"
+        },
+        "visible": {
+            "default": true,
+            "type": "boolean"
         }
     },
     "required": [

@@ -26,7 +26,8 @@ class JSONSchemaBaseObject(object):
               ('_indexes', False, '__indexes', None, ''),
               ('_identifiers', False, '__identifiers', None, ''),
               ('_uuid_type', False, '__uuid_type', 'generic', ''),
-              ('_uuid_field', False, '__uuid_field', 'id', '')]
+              ('_uuid_field', False, '__uuid_field', 'id', ''),
+              ('_visible', False, '_visible', True, '')]
 
     def __init__(self, **kwargs):
         for key, mandatory, param, default, keyfix in self.PARAMS:

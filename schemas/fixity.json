@@ -4,6 +4,10 @@
     "additionalProperties": false,
     "description": "Fixity record for an uploaded or generated file",
     "properties": {
+        "_deleted": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean"
+        },
         "checksum": {
             "$comment": "Computed automatically",
             "type": "string"

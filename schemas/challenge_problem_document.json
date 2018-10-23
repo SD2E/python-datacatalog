@@ -53,6 +53,10 @@
             },
             "type": "object"
         },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
         "aliases": {
             "description": "Identifying aliases for the challenge problem",
             "items": {

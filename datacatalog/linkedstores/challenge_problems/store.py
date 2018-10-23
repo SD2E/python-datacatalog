@@ -11,7 +11,7 @@ import json
 import os
 import sys
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete, time_stamp
+from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
 
 from dicthelpers import data_merge
 from pprint import pprint
@@ -25,7 +25,7 @@ class ChallengeDocument(HeritableDocumentSchema):
         self.update_id()
 
 
-class ChallengeStore(SoftDelete, BaseStore):
+class ChallengeStore(BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ChallengeStore, self).__init__(mongodb, config, session)
         # setup based on schema extended properties

@@ -4,6 +4,10 @@
     "additionalProperties": false,
     "description": "Describes a set of samples produced by an experimental facility or data provider",
     "properties": {
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
         "challenge_problem": {
             "$ref": "challenge_problem_id.json"
         },

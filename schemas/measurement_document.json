@@ -53,6 +53,10 @@
             },
             "type": "object"
         },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
         "channel": {
             "description": "For flow cytometry, the name of the channel used by this measurement",
             "type": "string"

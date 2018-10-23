@@ -4,7 +4,8 @@
             "uuid",
             "_admin",
             "_properties",
-            "child_of"
+            "child_of",
+            "_visible"
         ]
     },
     "document": {

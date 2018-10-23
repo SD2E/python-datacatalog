@@ -102,6 +102,10 @@
         },
         "uuid": {
             "$ref": "pipeline_uuid.json"
+        },
+        "visible": {
+            "type": "boolean",
+            "default": true
         }
     },
     "required": [

@@ -22,10 +22,11 @@ from .basestore import BaseStore
 class SoftDelete(BaseStore):
     def delete_document(self, uuid, token=None, soft=True):
         if soft is True:
-            return self.write_key(uuid, '_deleted', True, token)
+            return self.write_key(uuid, '_visible', False, token)
         else:
             return super(SoftDelete, self).delete_document(uuid, token)
 
     def undelete(self, uuid, token=None):
-        return self.write_key(uuid, '_deleted', False, token)
+        return self.write_key(uuid, '_visible', True, token)
 
+    # TODO - Implement filters on _visible for update_delete and write_key

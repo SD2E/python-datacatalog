@@ -103,6 +103,10 @@
             "items": {
                 "$ref": "#/definitions/pipeline_type"
             }
+        },
+        "visible": {
+            "default": true,
+            "type": "boolean"
         }
     },
     "required": [
