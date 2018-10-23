@@ -166,7 +166,7 @@
         "uuid": {
             "$ref": "pipeline_uuid.json"
         },
-        "visible": {
+        "_visible": {
             "default": true,
             "type": "boolean"
         }

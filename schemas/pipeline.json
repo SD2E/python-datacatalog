@@ -104,7 +104,7 @@
                 "$ref": "#/definitions/pipeline_type"
             }
         },
-        "visible": {
+        "_visible": {
             "default": true,
             "type": "boolean"
         }

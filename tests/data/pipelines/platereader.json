@@ -1,0 +1,36 @@
+{
+    "name": "Plate Reader reactor and pyPlateCalibrate application",
+    "description": "pyPlateCalibrate uses control samples (collected following the iGEM plate reader calibration protocol) to compute calibrated comparable values for plate reader fluorescence and absorbance measurements.",
+    "components": [
+        {
+            "id": "gzynda-pyPlateCalibrate-0.0.1",
+            "inputs": {
+                "fluorescein": "control.csv",
+                "water": "water.csv",
+                "ludox": "ludox.csv",
+                "exp": "experiment.csv"
+            },
+            "parameters": {
+                "AFT": "3.0",
+                "minS": "1.5",
+                "maxS": "3.0",
+                "REF": "0.0425",
+                "TOL": "0.3",
+                "EXT": "pdf",
+                "PRE": ""
+            }
+        }
+    ],
+    "collections_levels": ["measurement"],
+    "processing_levels": ["1"],
+    "accepts": [
+        "CSV",
+        "JSON"
+    ],
+    "produces": [
+        "CSV",
+        "PNG",
+        "PDF"
+    ],
+    "pipeline_type": "primary-etl"
+}

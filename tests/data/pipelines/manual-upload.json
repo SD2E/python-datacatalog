@@ -1,0 +1,28 @@
+{
+    "name": "Manual Upload",
+    "description": "Human-directed upload to SD2E managed storage via Data Depot, JupyterHub, or Agave API",
+    "components": [
+        {
+            "uri": "https://sd2e.org/data-depot"
+        },
+        {
+            "uri": "https://jupyter.sd2e.org/"
+        },
+        {
+            "uri": "https://api.sd2e.org/files/v2"
+        }
+    ],
+    "collections_levels": [
+        "reference",
+        "user_file",
+        "file"
+    ],
+    "processing_levels": ["0"],
+    "accepts": [
+        "*"
+    ],
+    "produces": [
+        "*"
+    ],
+    "pipeline_type": "generic-process"
+}

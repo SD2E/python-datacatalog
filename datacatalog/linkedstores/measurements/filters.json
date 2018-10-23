@@ -5,7 +5,7 @@
             "_admin",
             "_properties",
             "child_of",
-            "visible"
+            "_visible"
         ]
     },
     "document": {

@@ -11,6 +11,8 @@ from . import samples
 from . import measurements
 from . import files
 from . import fixities
+from . import pipelines
+# from . import jobs
 
 
 # from . import configs

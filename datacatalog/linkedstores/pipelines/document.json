@@ -103,7 +103,7 @@
         "uuid": {
             "$ref": "pipeline_uuid.json"
         },
-        "visible": {
+        "_visible": {
             "type": "boolean",
             "default": true
         }
@@ -115,7 +115,7 @@
     "additionalProperties": false,
     "_filename": "pipeline",
     "__uuid_type": "pipeline",
-    "__uuid_field": "id",
+    "__uuid_field": "components",
     "__collection": "pipelines",
     "__indexes": [],
     "__identifiers": [
