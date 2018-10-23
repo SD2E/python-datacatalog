@@ -302,7 +302,7 @@ class BaseStore(object):
                 return db_record
 
     def write_key(self, uuid, key, value, token=None):
-        if key in self.READONLY_FIELDS + tuple(self.identifiers):
+        if key in self.READONLY_FIELDS + tuple(self.identifiers) + tuple([self.uuid_field]):
             raise CatalogError('Key {} cannot be directly updated'.format(key))
         db_record = self.find_one_by_uuid(uuid)
         # Note: validate_token() always returns True as of 10-19-2018

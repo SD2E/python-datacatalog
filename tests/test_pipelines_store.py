@@ -47,13 +47,21 @@ def test_pipe_update(mongodb_settings):
         resp = base.add_update_document(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_pipe_write_key(mongodb_settings):
+def test_pipe_write_key_ok(mongodb_settings):
     base = datacatalog.linkedstores.pipelines.PipelineStore(mongodb_settings)
     for data_struct in pipelines.get_files():
         key = 'keykeykey'
         val = 'valvalval'
         resp = base.write_key(data_struct['uuid'], key, val)
         assert resp[key] == val
+
+def test_pipe_write_key_fail(mongodb_settings):
+    base = datacatalog.linkedstores.pipelines.PipelineStore(mongodb_settings)
+    for data_struct in pipelines.get_files():
+        key = 'components'
+        val = ['val', 'val', 'val']
+        with pytest.raises(datacatalog.linkedstores.basestore.exceptions.CatalogError):
+                base.write_key(data_struct['uuid'], key, val)
 
 def test_pipe_soft_delete(mongodb_settings):
     base = datacatalog.linkedstores.pipelines.PipelineStore(mongodb_settings)
