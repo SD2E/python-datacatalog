@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Description and history of an ETL or analysis job",
+    "type": "object",
+    "properties": {
+        "pipeline_uuid": {
+            "description": "UUID of the pipeline which spawned this job",
+            "$ref": "pipeline_uuid.json"
+        },
+        "archive_path": {
+            "description": "Path to the job's outputs, relative to the product store",
+            "type": "string"
+        },
+        "data": {
+            "description": "Initial run-time parameterization of the job",
+            "type": "object"
+        },
+        "actor_id": {
+            "$ref": "abaco_actorid.json"
+        },
+        "session": {
+            "description": "Optional short alphanumeric correlation string",
+            "type": "string"
+        }
+    },
+    "required": [
+        "pipeline_uuid",
+        "archive_path",
+        "data"
+    ],
+    "_filename": "pipelinejob",
+    "__uuid_type": "job",
+    "__uuid_field": "session",
+    "__collection": "jobs",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ],
+    "additionalProperties": false
+}

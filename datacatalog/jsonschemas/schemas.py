@@ -8,7 +8,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 
 UNMANAGED_SCHEMAS = []
-PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
+PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers', 'linkedstores.jobs']
 STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problems', 'linkedstores.experiments', 'linkedstores.samples', 'linkedstores.measurements', 'linkedstores.files', 'linkedstores.fixities', 'linkedstores.pipelines']
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 
