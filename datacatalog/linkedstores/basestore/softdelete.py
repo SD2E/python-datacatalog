@@ -1,0 +1,31 @@
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import object
+
+import os
+import sys
+import inspect
+import json
+import copy
+import datetime
+import base64
+
+from pprint import pprint
+from jsondiff import diff
+
+from .basestore import BaseStore
+
+class SoftDelete(BaseStore):
+    def delete_document(self, uuid, token=None, soft=True):
+        if soft is True:
+            return self.write_key(uuid, '_deleted', True, token)
+        else:
+            return super(SoftDelete, self).delete_document(uuid, token)
+
+    def undelete(self, uuid, token=None):
+        return self.write_key(uuid, '_deleted', False, token)
+

@@ -23,6 +23,7 @@ from jsonschemas import JSONSchemaBaseObject
 from utils import time_stamp, current_time, msec_precision
 from tokens import generate_salt, get_token, validate_token
 from identifiers.typed_uuid import catalog_uuid
+from dicthelpers import data_merge
 from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 
 # from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
@@ -34,6 +35,9 @@ class BaseStore(object):
     """Storage interface for JSON schema-informed documents"""
     PROPERTIES_TEMPLATE = {'_properties': {'created_date': None, 'revision': 0, 'modified_date': None}}
     TOKEN_FIELDS = ('uuid', '_admin')
+    LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
+    MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt')
+    READONLY_FIELDS = MANAGED_FIELDS + LINK_FIELDS
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 
@@ -118,6 +122,14 @@ class BaseStore(object):
                 return resp
         except Exception as exc:
             raise CatalogError('Query failed', exc)
+
+    def find_one_by_uuid(self, uuid):
+        try:
+            resp = None
+            query = {'uuid': uuid}
+            return self.coll.find(query)[0]
+        except Exception as exc:
+            raise CatalogError('Query failed for uuid'.format(uuid), exc)
 
     def set__properties(self, record, updated=False):
         ts = msec_precision(current_time())
@@ -279,7 +291,7 @@ class BaseStore(object):
                 uprec = self.coll.find_one_and_replace(
                     {'uuid': document['uuid']}, document,
                     return_document=ReturnDocument.AFTER)
-                self.logcoll.insert_one(diff_record)
+                # self.logcoll.insert_one(diff_record)
                 try:
                     self.logcoll.insert_one(diff_record)
                 except Exception:
@@ -288,6 +300,28 @@ class BaseStore(object):
                 return uprec
             else:
                 return db_record
+
+    def write_key(self, uuid, key, value, token=None):
+        if key in self.READONLY_FIELDS:
+            raise CatalogError('Key {} cannot be directly updated'.format(key))
+        db_record = self.find_one_by_uuid(uuid)
+        # Note: validate_token() always returns True as of 10-19-2018
+        try:
+            validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
+        except ValueError as verr:
+            raise CatalogError('Invalid token', verr)
+        updated_record = data_merge(db_record, {key: value})
+        diff_record = self.get_diff(source=db_record, target=updated_record, action='update')
+        if diff_record['diff'] != b'e30=':
+            updated_record = self.set__properties(updated_record, updated=True)
+        uprec = self.coll.find_one_and_replace({'uuid': updated_record['uuid']},
+            updated_record, return_document=ReturnDocument.AFTER)
+        try:
+            self.logcoll.insert_one(diff_record)
+        except Exception:
+            # Ignore log failures for now
+            pass
+        return uprec
 
     def delete_document(self, uuid, token=None):
         db_record = self.coll.find_one({'uuid': uuid})

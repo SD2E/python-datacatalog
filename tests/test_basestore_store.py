@@ -56,6 +56,15 @@ def test_basestore_update(mongodb_settings):
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
 
+def test_basestore_write_key(mongodb_settings):
+    base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
+    base.setup()
+    for key, doc, uuid_val in basestore.UPDATES:
+        key = 'keykeykey'
+        val = 'valvalval'
+        resp = base.write_key(uuid_val, key, val)
+        assert resp[key] == val
+
 def test_basestore_delete(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
     base.setup()

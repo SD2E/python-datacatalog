@@ -19,8 +19,27 @@ from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, Heritab
 from .schema import PipelineDocument
 from .exceptions import PipelineUpdateFailure, DuplicatePipelineError, PipelineUpdateFailure
 
-class PipelineStore(object):
-    pass
+class SoftDelete(BaseStore):
+    def delete(self, uuid, token, force=False):
+        if force is False:
+            return self.write_key(uuid, '_deleted', True, token)
+        else:
+            return super(SoftDelete, self).delete(uuid, token)
+
+    def undelete(self, uuid, token):
+        return self.write_key(uuid, '_deleted', False, token)
+
+class PipelineStore(BaseStore):
+    def __init__(self, mongodb, config={}, session=None, **kwargs):
+        super(PipelineStore, self).__init__(mongodb, config, session)
+        # setup based on schema extended properties
+        schema = PipelineDocument(**kwargs)
+        setattr(self, 'name', schema.get_collection())
+        setattr(self, 'schema', schema.to_dict())
+        setattr(self, 'identifiers', schema.get_identifiers())
+        setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'uuid_field', schema.get_uuid_field())
+        self.setup()
 
 # class PipelineStore(BaseStore):
 #     """Create and manage pipeline records"""
