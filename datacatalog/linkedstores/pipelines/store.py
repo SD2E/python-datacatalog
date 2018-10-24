@@ -29,9 +29,10 @@ class PipelineStore(SoftDelete, BaseStore):
         setattr(self, 'schema', schema.to_dict())
         setattr(self, 'identifiers', schema.get_identifiers())
         setattr(self, 'uuid_type', schema.get_uuid_type())
-        setattr(self, 'uuid_field', schema.get_uuid_field())
+        setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
 
-    def get_typed_uuid(self, components_list, binary=False):
-        sp = SerializedPipeline(components_list)
-        return super(PipelineStore, self).get_typed_uuid(sp.to_json(), binary=binary)
+    def get_typed_uuid(self, payload, binary=False):
+        cplist = payload.get('components', [])
+        spdoc = SerializedPipeline(cplist).to_json()
+        return super(PipelineStore, self).get_typed_uuid(spdoc, binary=binary)

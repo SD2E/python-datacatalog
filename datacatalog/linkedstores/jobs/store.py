@@ -35,10 +35,12 @@ class PipelineJobStore(SoftDelete, BaseStore):
         except Exception:
             pass
 
+        if 'uuid' not in job_document:
+            job_document['uuid'] = self._get_typed_uuid()
         # Job object contains schema plus logic to manage event lifecycle
         # Can be materialized from a passed document or by database record
         new_job = PipelineJob(job_document)
-        return self.add_update_document(new_job)
+        return self.add_update_document(new_job.to_dict())
 
     def handle_event(self, event_document, token=None, **kwargs):
         pass
@@ -48,6 +50,16 @@ class PipelineJobStore(SoftDelete, BaseStore):
 
     def history(self, job_uuid, limit=None, skip=None):
         pass
+
+    def get_typed_uuid(self, **kwargs):
+        # Serialize values of specific keys to generate a UUID
+        utype = self.get_uuid_type()
+        uuidf = self.get_uuid_fields()
+        serialized = {'identifier': kwargs.get(uuidf)}
+        for k in kwargs:
+            serialized[k] = kwargs.get(k)
+        document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
+        return typed_uuid.generate(text_value=document, uuid_type=utype, binary=False)
 
 # class JobStore(BaseStore):
 #     """Manages creation and management of datacatalog.jobs records and states"""
@@ -172,12 +184,15 @@ class PipelineJobStore(SoftDelete, BaseStore):
 #         return True
 
     def validate_pipeline_uuid(self, pipeline_uuid):
-        try:
-            pipe = self.coll_db.find_one({'uuid': pipeline_uuid})
-            if pipe is not None:
-                return True
-            else:
-                raise UnknownPipeline(
-                    'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
-        except Exception as exc:
-            raise Exception('Failed to validate pipeline UUID', exc)
+        if self.debug_mode() is True:
+            return True
+        else:
+            try:
+                pipe = self.coll_db.find_one({'uuid': pipeline_uuid})
+                if pipe is not None:
+                    return True
+                else:
+                    raise UnknownPipeline(
+                        'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
+            except Exception as exc:
+                raise Exception('Failed to validate pipeline UUID', exc)

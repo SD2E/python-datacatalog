@@ -6,31 +6,32 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import *
 from builtins import object
+
 import copy
 import inspect
 import json
 import os
-from pprint import pprint
-from attrdict import AttrDict
-from jsonschema import validate, FormatChecker
-from jsonschema import ValidationError
-from .fsm import JobStateMachine
+
+from .schema import JobDocument
+
+# from pprint import pprint
+# from attrdict import AttrDict
+# from jsonschema import validate, FormatChecker
+# from jsonschema import ValidationError
+# from .fsm import JobStateMachine
 # from ..identifiers.datacatalog_uuid import random_uuid5, text_uuid_to_binary, binary_uuid_to_text, catalog_uuid
-from .utils import params_to_document, params_document_to_uuid
+# from .utils import params_to_document, params_document_to_uuid
 # from ..constants import UUID_NAMESPACE
-import uuid
-from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
+# import uuid
+# from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 # from .token import new_token, validate_token, InvalidToken, generate_salt
 
-class formatChecker(FormatChecker):
-    def __init__(self):
-        FormatChecker.__init__(self)
+# class formatChecker(FormatChecker):
+#     def __init__(self):
+#         FormatChecker.__init__(self)
 
-class Job(dict):
-    pass
-
-class PipelineJob(object):
-    def __init__(self, pipeline_uuid, job_doc={}):
+class PipelineJob(JobDocument):
+    def __init__(self, job_document):
 
         # UUID is based on (actor_id, data) - these are immutable once job has been created
         # The underscore UUID forms are to facilitate display in Redash and interactive serach

@@ -51,7 +51,9 @@
     ],
     "_filename": "experiment",
     "__uuid_type": "experiment",
-    "__uuid_field": "id",
+    "__uuid_fields": [
+        "id"
+    ],
     "__collection": "experiments",
     "__indexes": [],
     "__identifiers": [

@@ -24,6 +24,8 @@ from utils import time_stamp, current_time, msec_precision
 from tokens import generate_salt, get_token, validate_token
 from identifiers.typed_uuid import catalog_uuid
 from dicthelpers import data_merge
+from debug_mode import debug_mode
+
 from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 
 # from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
@@ -64,7 +66,7 @@ class BaseStore(object):
         self.identifiers = schema.get_identifiers()
         self.name = schema.get_collection()
         self.uuid_type = schema.get_uuid_type()
-        self.uuid_field = schema.get_uuid_field()
+        self.uuid_fields = schema.get_uuid_fields()
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
@@ -79,8 +81,8 @@ class BaseStore(object):
     def get_uuid_type(self):
         return getattr(self, 'uuid_type')
 
-    def get_uuid_field(self):
-        return getattr(self, 'uuid_field')
+    def get_uuid_fields(self):
+        return getattr(self, 'uuid_fields')
 
     def setup(self):
         # Database connection and init
@@ -125,7 +127,6 @@ class BaseStore(object):
 
     def find_one_by_uuid(self, uuid):
         try:
-            resp = None
             query = {'uuid': uuid}
             return self.coll.find(query)[0]
         except Exception as exc:
@@ -163,8 +164,27 @@ class BaseStore(object):
         record = self.set__salt(record)
         return record
 
-    def get_typed_uuid(self, identifier_string, binary=False):
-        return catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
+    def get_typed_uuid(self, payload, binary=False):
+        print('TYPED_UUID_PAYLOAD: {}'.format(payload))
+        if isinstance(payload, dict):
+            identifier_string = self.get_serialized_document(payload)
+        else:
+            identifier_string = str(payload)
+        new_uuid = catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
+        print('TYPED_UUID: {}'.format(new_uuid))
+        return new_uuid
+
+    def get_serialized_document(self, document, **kwargs):
+        # Serialize values of specific keys to generate a UUID
+        union = {**document, **kwargs}
+        uuid_fields = self.get_uuid_fields()
+        serialized = dict()
+        for k in union:
+            if k in uuid_fields:
+                print('TYPED_UUID_KEY: {}'.format(k))
+                serialized[k] = union.get(k)
+        serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
+        return serialized_document
 
     def get_diff(self, source={}, target={}, action='update'):
         ts = msec_precision(current_time())
@@ -227,11 +247,12 @@ class BaseStore(object):
         document = copy.deepcopy(document_dict)
         # FIXME: Implement optional validation against self.schema
 
-        uuid_key = self.get_uuid_field()
+        uuid_key = self.get_uuid_fields()
         try:
-            doc_id = document_dict.get(self.get_uuid_field())
+            print('UUID_FIELDS: {}'.format(self.get_uuid_fields()))
+            doc_id = document_dict.get(self.get_uuid_fields()[0])
         except KeyError:
-            raise CatalogError('Document lacks identifying key "{}"'.format(uuid_key))
+            raise CatalogError('Document lacks primary identifying key "{}"'.format(uuid_key))
 
         # Validate UUID
         if 'uuid' in document_dict:
@@ -240,11 +261,12 @@ class BaseStore(object):
 
         # Assign a Typed_UUID5 if one is not specified
         if 'uuid' not in document_dict:
-            doc_uuid = self.get_typed_uuid(doc_id, False)
+            doc_uuid = self.get_typed_uuid(document_dict, False)
             document['uuid'] = doc_uuid
 
         # Attempt to fetch the record using identifiers in schema
-        db_record = self.coll.find_one({'uuid': doc_uuid})
+        db_record = self.coll.find_one({'uuid': document['uuid']})
+        pprint(db_record)
 
         # Add or upodate based on result
         if db_record is None:
@@ -268,6 +290,8 @@ class BaseStore(object):
                 return resp
             except Exception as exc:
                 raise CatalogError('Failed to write document', exc)
+            pprint(db_record)
+            sys.exit(1)
         else:
 
             # Validate record x token
@@ -302,7 +326,7 @@ class BaseStore(object):
                 return db_record
 
     def write_key(self, uuid, key, value, token=None):
-        if key in self.READONLY_FIELDS + tuple(self.identifiers) + tuple([self.uuid_field]):
+        if key in self.READONLY_FIELDS + tuple(self.identifiers) + tuple(self.uuid_fields):
             raise CatalogError('Key {} cannot be directly updated'.format(key))
         db_record = self.find_one_by_uuid(uuid)
         # Note: validate_token() always returns True as of 10-19-2018
@@ -315,7 +339,7 @@ class BaseStore(object):
         if diff_record['diff'] != b'e30=':
             updated_record = self.set__properties(updated_record, updated=True)
         uprec = self.coll.find_one_and_replace({'uuid': updated_record['uuid']},
-            updated_record, return_document=ReturnDocument.AFTER)
+                                               updated_record, return_document=ReturnDocument.AFTER)
         try:
             self.logcoll.insert_one(diff_record)
         except Exception:
@@ -413,3 +437,6 @@ class BaseStore(object):
                 raise CatalogError(
                     'Relationship "{}" not available in document {}'.format(
                         relation, uuid))
+
+    def debug_mode(self):
+        return debug_mode()

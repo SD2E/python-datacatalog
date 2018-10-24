@@ -14,6 +14,7 @@ import json
 from pprint import pprint
 from slugify import slugify
 from jsonschemas import JSONSchemaBaseObject
+from identifiers import typed_uuid
 
 class DocumentSchema(JSONSchemaBaseObject):
     """Document interface for a JSON schema-informed document"""
@@ -97,6 +98,6 @@ class DocumentSchema(JSONSchemaBaseObject):
         """Returns the TypedUUID type for documents in this schema"""
         return getattr(self, '_uuid_type', self.TYPED_UUID_TYPE)
 
-    def get_uuid_field(self):
+    def get_uuid_fields(self):
         """Returns the document key that is used to assign a TypedUUID"""
-        return getattr(self, '_uuid_field', self.TYPED_UUID_FIELD)
+        return getattr(self, '_uuid_fields', self.TYPED_UUID_FIELD)

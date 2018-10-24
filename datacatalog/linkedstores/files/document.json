@@ -74,7 +74,9 @@
     "type": "object",
     "_filename": "file",
     "__uuid_type": "file",
-    "__uuid_field": "filename",
+    "__uuid_fields": [
+        "filename"
+    ],
     "__collection": "files",
     "__indexes": [],
     "__identifiers": [

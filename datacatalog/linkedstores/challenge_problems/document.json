@@ -45,7 +45,9 @@
     ],
     "_filename": "challenge_problem",
     "__uuid_type": "challenge_problem",
-    "__uuid_field": "id",
+    "__uuid_fields": [
+        "id"
+    ],
     "__collection": "challenges",
     "__indexes": [],
     "__identifiers": [

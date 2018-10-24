@@ -38,6 +38,8 @@ def validate_type(type_string):
         raise ValueError('{} is not a known Catalog UUIDType'.format(type_string))
 
 def generate(text_value=None, uuid_type=None, binary=True):
+    # if isinstance(text_value, (list, tuple)):
+    #     text_value = ':'.join(sorted(text_value))
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
     return catalog_uuid(text_value, uuid_type, binary)

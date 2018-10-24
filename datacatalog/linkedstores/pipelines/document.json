@@ -115,7 +115,9 @@
     "additionalProperties": false,
     "_filename": "pipeline",
     "__uuid_type": "pipeline",
-    "__uuid_field": "components",
+    "__uuid_fields": [
+        "components"
+    ],
     "__collection": "pipelines",
     "__indexes": [],
     "__identifiers": [

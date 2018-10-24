@@ -28,7 +28,7 @@ class JSONSchemaBaseObject(object):
               ('_indexes', False, '__indexes', None, ''),
               ('_identifiers', False, '__identifiers', None, ''),
               ('_uuid_type', False, '__uuid_type', 'generic', ''),
-              ('_uuid_field', False, '__uuid_field', 'id', ''),
+              ('_uuid_fields', False, '__uuid_fields', 'id', ''),
               ('_visible', False, '_visible', True, ''),
               ('comment', False, 'comment', '', '$')]
 

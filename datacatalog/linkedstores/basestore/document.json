@@ -76,7 +76,9 @@
     ],
     "_filename": "basestore",
     "__uuid_type": "generic",
-    "__uuid_field": "id",
+    "__uuid_fields": [
+        "id"
+    ],
     "__collection": "basestores",
     "__indexes": [],
     "__identifiers": [

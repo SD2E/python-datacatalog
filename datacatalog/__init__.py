@@ -20,7 +20,7 @@ from . import linkedstores
 from . import pathmappings
 from . import filetypes
 from . import agavehelpers
-
+from . import debug_mode
 # from .main import *
 
 # # from .constants import *
@@ -28,9 +28,3 @@ from . import agavehelpers
 # from .agavehelpers import from_agave_uri, AgaveError
 # from . import identifiers
 # from . import filetypes
-
-def debug_mode():
-    if environ.get('LOCALONLY', None) is not None:
-        return True
-    else:
-        return False

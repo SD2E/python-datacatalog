@@ -3,6 +3,7 @@
         "properties": [
             "uuid",
             "_admin",
+            "_history",
             "_properties",
             "_visible",
             "generated_by",
