@@ -49,7 +49,7 @@ class DocumentSchema(JSONSchemaBaseObject):
 
         params = {**schemaj, **kwargs}
         super(DocumentSchema, self).__init__(**params)
-        print(self.get_collection())
+        # print(self.get_collection())
         self.update_id()
 
     def to_dict(self, private_prefix='_', document=False, **kwargs):

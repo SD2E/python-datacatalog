@@ -1,5 +1,5 @@
 {
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/job_uuid.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "UUID5 with DNS namespacing",

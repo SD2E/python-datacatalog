@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "Description and history of an ETL or analysis job",
+    "description": "Description and history of a computing job",
     "type": "object",
     "properties": {
         "pipeline_uuid": {
@@ -41,7 +41,7 @@
             "description": "Annotated history of job events",
             "type": "array",
             "items": {
-                "$ref": "pipelinejob_history_event.json"
+                "$ref": "pipelinejob_event.json"
             }
         }
     },
@@ -51,7 +51,7 @@
         "data"
     ],
     "_filename": "pipelinejob",
-    "__uuid_type": "job",
+    "__uuid_type": "pipelinejob",
     "__uuid_field": "session",
     "__collection": "jobs",
     "__indexes": [],

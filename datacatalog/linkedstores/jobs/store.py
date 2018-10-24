@@ -14,7 +14,7 @@ from pprint import pprint
 
 from ..basestore import time_stamp, msec_precision
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete
-from .schema import JobDocument
+from .schema import JobDocument, EventDocument
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
 
 # from .job import DataCatalogJob, new_token, validate_token, InvalidToken

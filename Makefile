@@ -8,7 +8,7 @@ release: build
 build:
 	python3 setup.py sdist bdist_wheel
 
-clean:
+clean: schemas-clean
 	rm -rf build *egg-info dist
 
 .PHONY: schemas
@@ -28,5 +28,5 @@ tests-longrun:
 	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear --longrun
 
 .PHONY: tests
-tests:
+tests: schemas
 	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear

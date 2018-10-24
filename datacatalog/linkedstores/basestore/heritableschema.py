@@ -19,16 +19,21 @@ from utils import time_stamp
 from .documentschema import DocumentSchema
 
 class HeritableDocumentSchema(DocumentSchema):
-    def __init__(self, inheritance=True, **kwargs):
+    DEFAULT_DOCUMENT_NAME = 'document.json'
+
+    def __init__(self, inheritance=True, filename=DEFAULT_DOCUMENT_NAME, **kwargs):
         schemaj = dict()
         try:
             modfile = inspect.getfile(self.__class__)
-            schemafile = os.path.join(os.path.dirname(modfile), 'document.json')
+            schemafile = os.path.join(os.path.dirname(modfile), filename)
             schemaj = json.load(open(schemafile, 'r'))
             if inheritance is True:
                 parent_modfile = inspect.getfile(self.__class__.__bases__[0])
-                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), 'document.json')
-                pschemaj = json.load(open(parent_schemafile, 'r'))
+                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), filename)
+                try:
+                    pschemaj = json.load(open(parent_schemafile, 'r'))
+                except Exception:
+                    pschemaj = dict()
                 schemaj = data_merge(pschemaj, schemaj)
         except Exception:
             raise

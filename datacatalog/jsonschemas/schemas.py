@@ -17,7 +17,7 @@ SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS
 # SCHEMAS = [PRIMITIVE_SCHEMAS]
 
 def dynamic_import(module, package=None):
-    print(module, package)
+    # print(module, package)
     return importlib.import_module(module, package=package)
 
 def get_all_schemas():

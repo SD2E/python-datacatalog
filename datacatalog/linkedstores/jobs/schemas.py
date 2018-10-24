@@ -1,5 +1,6 @@
 from jsonschemas import JSONSchemaBaseObject
 from .store import JobDocument as Doc
+from .store import EventDocument as Event
 from .fsm import JobStateMachine
 from pprint import pprint
 
@@ -12,6 +13,12 @@ def get_schemas():
     return schemas
 
 def get_document_schemas():
+    job = get_job_document_schemas()
+    event = get_event_document_schemas()
+    schemas = {**job, **event}
+    return schemas
+
+def get_job_document_schemas():
     schemas = dict()
     d1 = Doc()
     d2 = Doc()
@@ -20,6 +27,17 @@ def get_document_schemas():
     object_schema = d2.to_jsonschema(document=False)
     schemas[fname] = object_schema
     schemas[fname + '_document'] = document_schema
+    return schemas
+
+def get_event_document_schemas():
+    schemas = dict()
+    d1 = Event()
+    d2 = Event()
+    fname = getattr(d1, '_filename')
+    # document_schema = d1.to_jsonschema(document=True)
+    object_schema = d2.to_jsonschema(document=False)
+    schemas[fname] = object_schema
+    # schemas[fname + '_document'] = document_schema
     return schemas
 
 def get_definitions():

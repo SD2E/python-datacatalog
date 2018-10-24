@@ -5,9 +5,9 @@ UUIDTYPES = [('generic', '100', 'Catalog Object'),
              ('measurement', '104', 'Measurement'),
              ('file', '105', 'File'),
              ('pipeline', '106', 'Pipeline'),
-             ('job', '107', 'PipelineJob'),
-             ('reference', '108', 'Reference File'),
-             ('product', '109', 'PipelineJob Product'),
-             ('upload', '110', 'Uploaded File'),
-             ('dashboard', '111', 'Redash Dashboard')
-             ]
+             ('pipelinejob', '107', 'PipelineJob'),
+             ('pipelinejob_event', '108', 'PipelineJob Event'),
+             ('reference', '109', 'Reference File'),
+             ('product', '110', 'PipelineJob Product'),
+             ('upload', '111', 'Uploaded File'),
+             ('dashboard', '113', 'Redash Dashboard')]
