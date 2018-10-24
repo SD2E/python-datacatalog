@@ -6,6 +6,8 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import *
 
+from os import environ
+
 name = "datacatalog"
 
 from . import constants
@@ -26,3 +28,9 @@ from . import agavehelpers
 # from .agavehelpers import from_agave_uri, AgaveError
 # from . import identifiers
 # from . import filetypes
+
+def debug_mode():
+    if environ.get('LOCALONLY', None) is not None:
+        return True
+    else:
+        return False

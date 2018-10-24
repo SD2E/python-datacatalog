@@ -33,7 +33,6 @@ class JobCreateFailure(JobsGenericFailure):
 class JobUpdateFailure(JobsGenericFailure):
     pass
 
-
 class JobStore(BaseStore):
     """Manages creation and management of datacatalog.jobs records and states"""
 

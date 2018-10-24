@@ -5,6 +5,7 @@ import git
 def get_sha1_short(repo=os.getcwd()):
     return get_sha1(repo)[0:7]
 
+# TODO - Replace with native method from GitPython
 def get_sha1(repo=os.getcwd()):
     """
     Grabs the current SHA-1 hash of the given directory's git HEAD-revision.

@@ -16,19 +16,37 @@ from ..basestore import time_stamp, msec_precision
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete
 from .schema import JobDocument, EventDocument
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
+from .job import PipelineJob
+from .. import identifiers
 
-class JobStore(SoftDelete, BaseStore):
-    def __init__(self, mongodb, config, pipeline_store=None, session=None):
-        super(JobStore, self).__init__(mongodb, config, session)
+class PipelineJobStore(SoftDelete, BaseStore):
+    def __init__(self, mongodb, config={}, session=None, **kwargs):
+        super(PipelineJobStore, self).__init__(mongodb, config, session)
         pass
 
-    def create(self, pipeline_uuid, archive_path, document, **kwargs):
-        pass
+    def create(self, job_document, **kwargs):
 
-    def handle_event(self, job_uuid, event, token, **kwargs):
+        # Must refer to an existing pipeline
+        self.validate_pipeline_uuid(job_document.get['pipeline_uuid'])
+
+        # Must refer to a valid (but not verified) abaco actorId
+        try:
+            identifiers.abaco_hashid.validate(job_document.get['actor_id'])
+        except Exception:
+            pass
+
+        # Job object contains schema plus logic to manage event lifecycle
+        # Can be materialized from a passed document or by database record
+        new_job = PipelineJob(job_document)
+        return self.add_update_document(new_job)
+
+    def handle_event(self, event_document, token=None, **kwargs):
         pass
 
     def delete(self, job_uuid, token, soft=False):
+        pass
+
+    def history(self, job_uuid, limit=None, skip=None):
         pass
 
 # class JobStore(BaseStore):
@@ -153,13 +171,13 @@ class JobStore(SoftDelete, BaseStore):
 #         # Noop for now
 #         return True
 
-#     def validate_pipeline_id(self, pipeline_uuid):
-#         try:
-#             pipe = self.coll_db.find_one({'_uuid': pipeline_uuid})
-#             if pipe is not None:
-#                 return True
-#             else:
-#                 raise UnknownJob(
-#                     'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
-#         except Exception as exc:
-#             raise Exception('Failed to confirm pipeline identifier', exc)
+    def validate_pipeline_uuid(self, pipeline_uuid):
+        try:
+            pipe = self.coll_db.find_one({'uuid': pipeline_uuid})
+            if pipe is not None:
+                return True
+            else:
+                raise UnknownPipeline(
+                    'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
+        except Exception as exc:
+            raise Exception('Failed to validate pipeline UUID', exc)

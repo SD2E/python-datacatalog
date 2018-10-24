@@ -12,7 +12,7 @@ from . import measurements
 from . import files
 from . import fixities
 from . import pipelines
-# from . import jobs
+from . import jobs
 
 
 # from . import configs
@@ -23,5 +23,3 @@ from . import pipelines
 # import jsonschemas
 # import identifiers
 # import utils
-
-
