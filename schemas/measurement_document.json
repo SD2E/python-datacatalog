@@ -1,4 +1,5 @@
 {
+    "$comment": "generated: 2018-10-24 14:52:08 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3c86ed2",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
