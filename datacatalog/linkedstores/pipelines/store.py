@@ -18,7 +18,7 @@ from pprint import pprint
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete, time_stamp, msec_precision
 from .schema import PipelineDocument
 from .serializer import SerializedPipeline
-from .exceptions import PipelineUpdateFailure, DuplicatePipelineError, PipelineUpdateFailure
+from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
 
 class PipelineStore(SoftDelete, BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):

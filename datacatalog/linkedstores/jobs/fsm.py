@@ -23,19 +23,19 @@ class JobFSM(AttrDict):
 
 class JobStateMachine(object):
     """Load and manage Job state from serialized record"""
-    states = ['created', 'running', 'failed', 'finished','validating',
-    'validated', 'rejected', 'finalized', 'retired']
+    states = ['CREATED', 'RUNNING', 'FAILED', 'FINISHED', 'VALIDATING',
+              'VALIDATED', 'REJECTED', 'FINALIZED', 'RETIRED']
     transitions = [
-        {'trigger': 'run', 'source': ['created', 'running'], 'dest': 'running'},
-        {'trigger': 'update', 'source': ['running'], 'dest': '='},
-        {'trigger': 'fail', 'source': '*', 'dest': 'failed'},
-        {'trigger': 'finish', 'source': ['running', 'finished'], 'dest': 'finished'},
-        {'trigger': 'validate', 'source': 'finished', 'dest': 'validating'},
-        {'trigger': 'validated', 'source': 'validating', 'dest': 'validated'},
-        {'trigger': 'reject', 'source': 'validating', 'dest': 'rejected'},
-        {'trigger': 'finalize', 'source': 'validated', 'dest': 'finalized'},
-        {'trigger': 'retire', 'source': [
-            'failed', 'finished', 'validating', 'validated', 'validated', 'finalized'], 'dest': 'retired'}
+        {'trigger': 'run', 'SOURCE': ['CREATED', 'RUNNING'], 'DEST': 'RUNNING'},
+        {'trigger': 'update', 'SOURCE': ['RUNNING'], 'DEST': '='},
+        {'trigger': 'fail', 'SOURCE': '*', 'DEST': 'FAILED'},
+        {'trigger': 'finish', 'SOURCE': ['RUNNING', 'FINISHED'], 'DEST': 'FINISHED'},
+        {'trigger': 'validate', 'SOURCE': 'FINISHED', 'DEST': 'VALIDATING'},
+        {'trigger': 'validated', 'SOURCE': 'VALIDATING', 'DEST': 'VALIDATED'},
+        {'trigger': 'reject', 'SOURCE': 'VALIDATING', 'DEST': 'REJECTED'},
+        {'trigger': 'finalize', 'SOURCE': 'VALIDATED', 'DEST': 'FINALIZED'},
+        {'trigger': 'retire', 'SOURCE': [
+            'FAILED', 'FINISHED', 'VALIDATING', 'VALIDATED', 'VALIDATED', 'FINALIZED'], 'DEST': 'RETIRED'}
     ]
 
     def __init__(self, jobdef, status='created'):
@@ -82,6 +82,18 @@ class JobStateMachine(object):
         self.status = self.state
         self.last_event = event.upper()
         self.updated = ts
+
+    @classmethod
+    def get_states(cls):
+        return sorted(cls.states)
+
+    @classmethod
+    def get_events(cls):
+        events = list()
+        for t in cls.transitions:
+            events.append(t['trigger'])
+        events = sorted(events)
+        return events
 
     def as_dict(self):
         pr = {}

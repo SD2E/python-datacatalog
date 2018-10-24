@@ -1,0 +1,18 @@
+{
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_eventname.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "enum": [
+        "fail",
+        "finalize",
+        "finish",
+        "reject",
+        "retire",
+        "run",
+        "update",
+        "validate",
+        "validated"
+    ],
+    "title": "PipelineJob event name",
+    "type": "string"
+}

@@ -83,6 +83,7 @@
             "type": "object"
         },
         "_visible": {
+            "default": true,
             "type": "boolean",
             "value": true
         },
@@ -165,10 +166,6 @@
         },
         "uuid": {
             "$ref": "pipeline_uuid.json"
-        },
-        "_visible": {
-            "default": true,
-            "type": "boolean"
         }
     },
     "required": [

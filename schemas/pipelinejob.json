@@ -1,0 +1,44 @@
+{
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Description and history of an ETL or analysis job",
+    "properties": {
+        "actor_id": {
+            "$ref": "abaco_actorid.json"
+        },
+        "archive_path": {
+            "description": "Path to the job's outputs",
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "data": {
+            "description": "Initial run-time parameterization of the job",
+            "type": "object"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "pipeline_uuid": {
+            "$ref": "pipeline_uuid.json",
+            "description": "UUID of the pipeline which spawned this job"
+        },
+        "session": {
+            "description": "Short alphanumeric correlation string (optional)",
+            "type": "string"
+        }
+    },
+    "required": [
+        "pipeline_uuid",
+        "archive_path",
+        "data"
+    ],
+    "title": "Base Store",
+    "type": "object"
+}

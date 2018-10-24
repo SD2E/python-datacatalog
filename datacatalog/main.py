@@ -14,7 +14,7 @@ from .samples import SampleStore, SampleUpdateFailure
 from .measurements import MeasurementStore, MeasurementUpdateFailure
 from .filesmetadata import FileMetadataStore, FileMetadataUpdateFailure
 from .filesfixity import FileFixityStore, FileFixtyUpdateFailure
-from .pipelines import *
+from .pipelines import PipelineStore, PipelineUpdateFailure, PipelineCreateFailure, DuplicatePipelineError
 from .jobs import *
 
 from . import pipelinejobs

@@ -8,7 +8,7 @@
             "$ref": "pipeline_uuid.json"
         },
         "archive_path": {
-            "description": "Path to the job's outputs, relative to the product store",
+            "description": "Path to the job's outputs",
             "type": "string"
         },
         "data": {
@@ -19,8 +19,30 @@
             "$ref": "abaco_actorid.json"
         },
         "session": {
-            "description": "Optional short alphanumeric correlation string",
+            "description": "Short alphanumeric correlation string (optional)",
             "type": "string"
+        },
+        "updated": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the job record was last updated"
+        },
+        "_visible": {
+            "type": "boolean",
+            "default": true
+        },
+        "generated_by": {
+            "type": "array",
+            "items": {
+                "$ref": "pipeline_uuid.json"
+            }
+        },
+        "history": {
+            "description": "Annotated history of job events",
+            "type": "array",
+            "items": {
+                "$ref": "pipelinejob_history_event.json"
+            }
         }
     },
     "required": [

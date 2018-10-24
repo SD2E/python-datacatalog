@@ -36,10 +36,6 @@
             },
             "type": "object"
         },
-        "_deleted": {
-            "description": "Whether the file has been marked as unavailable",
-            "type": "boolean"
-        },
         "_properties": {
             "created_date": {
                 "$comment": "Computed automatically",
@@ -58,6 +54,7 @@
             "type": "object"
         },
         "_visible": {
+            "description": "Whether the file has been marked as unavailable",
             "type": "boolean",
             "value": true
         },

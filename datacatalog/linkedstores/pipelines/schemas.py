@@ -1,4 +1,4 @@
-from .store import  PipelineDocument as Doc
+from .store import PipelineDocument as Doc
 from pprint import pprint
 
 def get_schemas():

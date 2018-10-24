@@ -4,10 +4,6 @@
     "additionalProperties": false,
     "description": "An uploaded or generated file",
     "properties": {
-        "_deleted": {
-            "description": "Whether the file has been marked as unavailable",
-            "type": "boolean"
-        },
         "filename": {
             "description": "Filename",
             "pattern": ".*\\..*",

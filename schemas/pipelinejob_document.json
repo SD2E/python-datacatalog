@@ -1,8 +1,8 @@
 {
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/fixity.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Fixity record for an uploaded or generated file",
+    "description": "Description and history of an ETL or analysis job",
     "properties": {
         "_admin": {
             "owner": {
@@ -54,61 +54,30 @@
             "type": "object"
         },
         "_visible": {
-            "description": "Whether the file has been marked as unavailable",
+            "default": true,
             "type": "boolean",
             "value": true
         },
-        "checksum": {
-            "$comment": "Computed automatically",
+        "actor_id": {
+            "$ref": "abaco_actorid.json"
+        },
+        "archive_path": {
+            "description": "Path to the job's outputs",
             "type": "string"
         },
         "child_of": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ],
                 "type": "string"
             },
             "type": "array"
         },
-        "created": {
-            "$comment": "Computed automatically",
-            "format": "date-time",
-            "type": "string"
-        },
-        "derived_from": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "file_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
-        },
-        "filename": {
-            "description": "Filename",
-            "pattern": ".*\\..*",
-            "type": "string"
+        "data": {
+            "description": "Initial run-time parameterization of the job",
+            "type": "object"
         },
         "generated_by": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ]
+                "$ref": "pipeline_uuid.json"
             },
             "type": "array"
         },
@@ -116,36 +85,28 @@
             "$ref": "identifier.json",
             "description": "Distinguishing identifier for the specified document"
         },
-        "level": {
-            "$ref": "processing_level.json"
+        "pipeline_uuid": {
+            "$ref": "pipeline_uuid.json",
+            "description": "UUID of the pipeline which spawned this job"
         },
-        "modified": {
-            "$comment": "Computed automatically",
+        "session": {
+            "description": "Short alphanumeric correlation string (optional)",
+            "type": "string"
+        },
+        "updated": {
+            "description": "When the job record was last updated",
             "format": "date-time",
             "type": "string"
         },
-        "size": {
-            "$comment": "Computed automatically",
-            "type": "integer"
-        },
-        "type": {
-            "$comment": "Computed automatically",
-            "$ref": "filetype_label.json",
-            "description": "Enumerated file type"
-        },
         "uuid": {
-            "$ref": "file_uuid.json"
-        },
-        "version": {
-            "$comment": "Computed automatically",
-            "type": "integer"
+            "$ref": "generic_uuid.json"
         }
     },
     "required": [
-        "filename",
-        "type",
-        "child_of"
+        "pipeline_uuid",
+        "archive_path",
+        "data"
     ],
-    "title": "File",
+    "title": "Base Store",
     "type": "object"
 }

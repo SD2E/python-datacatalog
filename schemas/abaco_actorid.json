@@ -1,0 +1,8 @@
+{
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/abaco_actorid.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "An Abaco actorID",
+    "title": "Abaco Actorid",
+    "type": "string"
+}
