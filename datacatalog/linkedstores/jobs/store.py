@@ -17,10 +17,19 @@ from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, Heritab
 from .schema import JobDocument, EventDocument
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
 
-# from .job import DataCatalogJob, new_token, validate_token, InvalidToken
-
 class JobStore(SoftDelete, BaseStore):
-    pass
+    def __init__(self, mongodb, config, pipeline_store=None, session=None):
+        super(JobStore, self).__init__(mongodb, config, session)
+        pass
+
+    def create(self, pipeline_uuid, archive_path, document, **kwargs):
+        pass
+
+    def handle_event(self, job_uuid, event, token, **kwargs):
+        pass
+
+    def delete(self, job_uuid, token, soft=False):
+        pass
 
 # class JobStore(BaseStore):
 #     """Manages creation and management of datacatalog.jobs records and states"""
