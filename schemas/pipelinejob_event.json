@@ -1,19 +1,35 @@
 {
-    "$comment": "generated: 2018-10-24 20:28:38 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ba602da",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_eventname.json",
+    "$comment": "generated: 2018-10-25 19:42:52 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@97592ac",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_event.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "enum": [
-        "fail",
-        "finalize",
-        "finish",
-        "reject",
-        "retire",
-        "run",
-        "update",
-        "validate",
-        "validated"
+    "description": "Event record belonging to a PipelineJob",
+    "properties": {
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) when the event occurred",
+            "format": "date-time",
+            "type": "string"
+        },
+        "data": {
+            "description": "Data payload accompanying event",
+            "type": "object"
+        },
+        "name": {
+            "$ref": "pipelinejob_event_uuid.json",
+            "description": "Enumerated name of the event"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "pipelinejob_event.json",
+            "description": "UUID for this specific event"
+        }
+    },
+    "required": [
+        "uuid",
+        "name"
     ],
-    "title": "PipelineJob event name",
-    "type": "string"
+    "title": "Pipeline Job Event",
+    "type": "object",
+    "uuid": "108760c7-b131-5da0-a036-1d77c865e1a5"
 }

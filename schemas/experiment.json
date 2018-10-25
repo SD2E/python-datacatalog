@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 2018-10-24 20:28:38 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ba602da",
+    "$comment": "generated: 2018-10-25 19:42:52 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@97592ac",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
-    "description": "Experiment Reference",
+    "description": "Experiment",
     "properties": {
         "aliases": {
             "description": "Alias identifiers for the experimental reference",
@@ -19,7 +19,11 @@
             "type": "string"
         },
         "id": {
-            "$ref": "experiment_id.json",
+            "$ref": "namespaced_identifier.json",
+            "description": "String identifier, namespaced by provider, for the experiment"
+        },
+        "reference": {
+            "$ref": "experiment_reference.json",
             "description": "Canonical string identifier for the experimental reference"
         },
         "title": {
