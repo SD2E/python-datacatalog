@@ -9,20 +9,27 @@ from builtins import *
 
 import os
 import uuid
-from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from pprint import pprint
 
 from ..basestore import time_stamp, msec_precision
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete
-from .schema import JobDocument, EventDocument
-from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
-from .job import PipelineJob
 from .. import identifiers
+
+from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
+from .schema import JobDocument, HistoryEventDocument
+from .job import PipelineJob
 
 class PipelineJobStore(SoftDelete, BaseStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineJobStore, self).__init__(mongodb, config, session)
-        pass
+        # setup based on schema extended properties
+        schema = JobDocument(**kwargs)
+        setattr(self, 'name', schema.get_collection())
+        setattr(self, 'schema', schema.to_dict())
+        setattr(self, 'identifiers', schema.get_identifiers())
+        setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'uuid_fields', schema.get_uuid_fields())
+        self.setup()
 
     def create(self, job_document, **kwargs):
 
@@ -42,24 +49,29 @@ class PipelineJobStore(SoftDelete, BaseStore):
         new_job = PipelineJob(job_document)
         return self.add_update_document(new_job.to_dict())
 
-    def handle_event(self, event_document, token=None, **kwargs):
-        pass
+    def handle(self, event_document, token=None, data=None, **kwargs):
+        # This is a special method that takes event documents
+        # and modifies the job state/history
+        try:
+            job_uuid = event_document.get('uuid')
+        except KeyError:
+            raise JobUpdateFailure('Cannot process an event without a job UUID')
+        passed_token = event_document.get('token', token)
+        db_record = self.find_one_by_uuid(job_uuid)
+        # Token must validate
+        self.validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
+        db_job = PipelineJob(db_record)
+        try:
+            db_job.handle(event_document)
+        except Exception as exc:
+            raise JobUpdateFailure('Failed to handle event', exc)
 
     def delete(self, job_uuid, token, soft=False):
+        # Special kind of event
         pass
 
     def history(self, job_uuid, limit=None, skip=None):
         pass
-
-    def get_typed_uuid(self, **kwargs):
-        # Serialize values of specific keys to generate a UUID
-        utype = self.get_uuid_type()
-        uuidf = self.get_uuid_fields()
-        serialized = {'identifier': kwargs.get(uuidf)}
-        for k in kwargs:
-            serialized[k] = kwargs.get(k)
-        document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
-        return typed_uuid.generate(text_value=document, uuid_type=utype, binary=False)
 
 # class JobStore(BaseStore):
 #     """Manages creation and management of datacatalog.jobs records and states"""

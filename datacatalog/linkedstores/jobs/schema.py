@@ -6,7 +6,20 @@ class JobDocument(HeritableDocumentSchema):
         super(JobDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
-class EventDocument(HeritableDocumentSchema):
-    def __init__(self, inheritance=False, filename='pipelinejob_event.json', ** kwargs):
-        super(EventDocument, self).__init__(inheritance, **kwargs)
+class HistoryEventDocument(HeritableDocumentSchema):
+    def __init__(self, inheritance=True, document='pipelinejob_event.json',
+                 filters='pipelinejob_event_filters.json', **kwargs):
+        super(HistoryEventDocument, self).__init__(
+            inheritance, document, filters, **kwargs)
+        # create and assign Typed_UUID5
+        # print('FILENAME: {}'.format(self._filename))
+        udict = dict()
+        for k in self.get_uuid_fields():
+            udict[k] = getattr(self, k, '')
+        event_uuid = self.get_typed_uuid(udict, binary=False)
+        setattr(self, 'uuid', event_uuid)
+        filters = getattr(self, '_filters')
+        # HACK. File 'filter.json' is not inherited
+        filters['object']['properties'].remove('uuid')
+        setattr(self, '_filters', filters)
         self.update_id()

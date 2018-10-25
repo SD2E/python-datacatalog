@@ -20,16 +20,18 @@ from .documentschema import DocumentSchema
 
 class HeritableDocumentSchema(DocumentSchema):
     DEFAULT_DOCUMENT_NAME = 'document.json'
+    DEFAULT_FILTERS_NAME = 'filters.json'
 
-    def __init__(self, inheritance=True, filename=DEFAULT_DOCUMENT_NAME, **kwargs):
-        schemaj = dict()
+    def __init__(self, inheritance=True, document=DEFAULT_DOCUMENT_NAME,
+                 filters=DEFAULT_FILTERS_NAME, **kwargs):
+        schemaj = kwargs
         try:
             modfile = inspect.getfile(self.__class__)
-            schemafile = os.path.join(os.path.dirname(modfile), filename)
+            schemafile = os.path.join(os.path.dirname(modfile), document)
             schemaj = json.load(open(schemafile, 'r'))
             if inheritance is True:
                 parent_modfile = inspect.getfile(self.__class__.__bases__[0])
-                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), filename)
+                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), document)
                 try:
                     pschemaj = json.load(open(parent_schemafile, 'r'))
                 except Exception:

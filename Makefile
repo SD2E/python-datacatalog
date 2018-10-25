@@ -28,5 +28,5 @@ tests-longrun:
 	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear --longrun
 
 .PHONY: tests
-tests: schemas
+tests:
 	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear

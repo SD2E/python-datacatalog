@@ -1,19 +1,15 @@
 {
     "object": {
         "properties": [
-            "uuid",
             "_admin",
             "_history",
             "_properties",
             "_visible",
             "generated_by",
-            "updated",
-            "id"
+            "updated"
         ]
     },
     "document": {
-        "properties": [
-            "id"
-        ]
+        "properties": []
     }
 }

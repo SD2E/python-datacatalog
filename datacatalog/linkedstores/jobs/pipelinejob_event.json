@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Pipeline Job Event",
     "description": "Event record belonging to a PipelineJob",
     "type": "object",
     "properties": {
@@ -29,7 +30,10 @@
     ],
     "_filename": "pipelinejob_event",
     "__uuid_type": "pipelinejob_event",
-    "__uuid_field": "created",
+    "__uuid_fields": [
+        "name",
+        "created"
+    ],
     "__identifiers": [
         "uuid"
     ],

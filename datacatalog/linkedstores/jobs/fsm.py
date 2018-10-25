@@ -1,14 +1,3 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-from builtins import object
-
-import datetime
 import functools
 import inspect
 
@@ -16,72 +5,42 @@ from attrdict import AttrDict
 from pprint import pprint
 from transitions import Machine
 
-class JobFSM(AttrDict):
-    FILTER_KEYS = ('_id', 'transitions', 'states', 'state', 'machine')
-    FILTER_TYPES = (functools.partial)
-    pass
+class EventResponse(AttrDict):
+    PARAMS = [('last_event', True, None),
+              ('state', True, None)]
 
-class JobStateMachine(object):
-    """Load and manage Job state from serialized record"""
+    def __init__(self, **kwargs):
+        for attr, req, default in self.PARAMS:
+            if req:
+                setattr(self, attr, kwargs.get(attr, default))
+            else:
+                setattr(self, attr, None)
+
+class JobStateMachine(Machine):
     states = ['CREATED', 'RUNNING', 'FAILED', 'FINISHED', 'VALIDATING',
               'VALIDATED', 'REJECTED', 'FINALIZED', 'RETIRED']
     transitions = [
-        {'trigger': 'run', 'SOURCE': ['CREATED', 'RUNNING'], 'DEST': 'RUNNING'},
-        {'trigger': 'update', 'SOURCE': ['RUNNING'], 'DEST': '='},
-        {'trigger': 'fail', 'SOURCE': '*', 'DEST': 'FAILED'},
-        {'trigger': 'finish', 'SOURCE': ['RUNNING', 'FINISHED'], 'DEST': 'FINISHED'},
-        {'trigger': 'validate', 'SOURCE': 'FINISHED', 'DEST': 'VALIDATING'},
-        {'trigger': 'validated', 'SOURCE': 'VALIDATING', 'DEST': 'VALIDATED'},
-        {'trigger': 'reject', 'SOURCE': 'VALIDATING', 'DEST': 'REJECTED'},
-        {'trigger': 'finalize', 'SOURCE': 'VALIDATED', 'DEST': 'FINALIZED'},
-        {'trigger': 'retire', 'SOURCE': [
-            'FAILED', 'FINISHED', 'VALIDATING', 'VALIDATED', 'VALIDATED', 'FINALIZED'], 'DEST': 'RETIRED'}
+        {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
+        {'trigger': 'update', 'source': ['RUNNING'], 'dest': '='},
+        {'trigger': 'fail', 'source': '*', 'dest': 'FAILED'},
+        {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
+        {'trigger': 'validate', 'source': 'FINISHED', 'dest': 'VALIDATING'},
+        {'trigger': 'validated', 'source': 'VALIDATING', 'dest': 'VALIDATED'},
+        {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
+        {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
+        {'trigger': 'retire', 'source': [
+            'FAILED', 'FINISHED', 'VALIDATING', 'VALIDATED', 'VALIDATED', 'FINALIZED'], 'dest': 'RETIRED'}
     ]
 
-    def __init__(self, jobdef, status='created'):
+    def __init__(self, state=states[0]):
+        Machine.__init__(self, states=self.states, transitions=self.transitions, initial=state.upper(), auto_transitions=False)
 
-        self.data = {}
-        ts = current_time()
-        for k in jobdef:
-            setattr(self, k, jobdef.get(k, None))
-
-        # These will be empty if jobdef refers to a newly created job
-        if 'history' not in jobdef:
-            self.history = [{'CREATE': {'date': ts, 'data': None}}]
-        if 'status' not in jobdef:
-            self.status = 'CREATED'
-        if 'last_event' not in jobdef:
-            self.last_event = 'CREATE'
-        if 'updated' not in jobdef:
-            self.updated = ts
-
-        initial_state = status
-        if getattr(self, 'status') is not None:
-            initial_state = getattr(self, 'status')
-        self.machine = Machine(
-            model=self, states=JobStateMachine.states,
-            transitions=JobStateMachine.transitions,
-            initial=initial_state.lower(),
-            auto_transitions=False,
-            after_state_change='update_history')
-
-    def handle(self, event_name, opts={}):
+    def handle(self, event_name, event_opts={}):
         eventfn = event_name.lower()
         eventname = event_name.upper()
-        vars(self)[eventfn](opts, event=eventname)
-        return self
-
-    def get_history(self):
-        return self.history
-
-    def update_history(self, opts, event):
-        ts = current_time()
-        history_entry = {}
-        history_entry[str(event).upper()] = {'date': ts, 'data': opts}
-        self.history.append(history_entry)
-        self.status = self.state
-        self.last_event = event.upper()
-        self.updated = ts
+        vars(self)[eventfn](event_opts, event=eventname)
+        resp = EventResponse(last_event=event_name, state=self.state)
+        return resp
 
     @classmethod
     def get_states(cls):
@@ -94,16 +53,3 @@ class JobStateMachine(object):
             events.append(t['trigger'])
         events = sorted(events)
         return events
-
-    def as_dict(self):
-        pr = {}
-        for name in dir(self):
-            if name not in JobFSM.FILTER_KEYS:
-                value = getattr(self, name)
-                if not isinstance(value, JobFSM.FILTER_TYPES):
-                    if not name.startswith('__') and not inspect.ismethod(value):
-                        pr[name] = value
-        return JobFSM(pr)
-
-def current_time():
-    return datetime.datetime.utcnow()

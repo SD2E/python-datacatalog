@@ -1,7 +1,7 @@
 {
     "title": "Experiment",
     "type": "object",
-    "description": "Experiment Reference",
+    "description": "Experiment",
     "additionalProperties": true,
     "properties": {
         "aliases": {
@@ -16,8 +16,12 @@
             "description": "Human-readable title for the experimental reference"
         },
         "id": {
+            "description": "String identifier, namespaced by provider, for the experiment",
+            "$ref": "namespaced_identifier.json"
+        },
+        "reference": {
             "description": "Canonical string identifier for the experimental reference",
-            "$ref": "experiment_id.json"
+            "$ref": "experiment_reference.json"
         },
         "url": {
             "description": "URI containing complete experimental reference",

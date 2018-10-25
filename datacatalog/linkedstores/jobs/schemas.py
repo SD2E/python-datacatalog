@@ -1,8 +1,9 @@
 from jsonschemas import JSONSchemaBaseObject
-from .store import JobDocument as Doc
-from .store import EventDocument as Event
-from .fsm import JobStateMachine
 from pprint import pprint
+
+from .store import JobDocument as Doc
+from .store import HistoryEventDocument as Event
+from .fsm import JobStateMachine
 
 def get_schemas():
     document_schemas = get_document_schemas()
@@ -52,17 +53,17 @@ def get_primitives():
 def get_fsm_schema_events():
     events = JobStateMachine.get_events()
     setup_args = {'_filename': 'pipelinejob_eventname',
-                  'title': 'PipelineJob event name',
+                  'title': 'Pipeline Job Event name',
                   'type': 'string',
                   'enum': events}
     schema = JSONSchemaBaseObject(**setup_args).to_jsonschema()
-    return {'pipelinejob_event': schema}
+    return {'pipelinejob_eventname': schema}
 
 def get_fsm_schema_states():
     states = JobStateMachine.get_states()
     setup_args = {'_filename': 'pipelinejob_statename',
-                  'title': 'PipelineJob state name',
+                  'title': 'Pipeline Job State name',
                   'type': 'string',
                   'enum': states}
     schema = JSONSchemaBaseObject(**setup_args).to_jsonschema()
-    return {'pipelinejob_state': schema}
+    return {'pipelinejob_statename': schema}
