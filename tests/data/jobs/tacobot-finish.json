@@ -1,8 +1,8 @@
 {
     "uuid": "107e16c7-2e2a-5466-a913-f60fe273c850",
     "data": {
-        "key-from-run": "key value data"
+        "additional": "details will be merged in"
     },
-    "name": "run",
+    "name": "finish",
     "token": "0dc73dc3ff39b49a"
 }

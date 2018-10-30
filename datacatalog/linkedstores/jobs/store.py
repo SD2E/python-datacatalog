@@ -8,10 +8,11 @@ from builtins import str
 from builtins import *
 
 import os
+import sys
 import uuid
 from pprint import pprint
 
-from ..basestore import time_stamp, msec_precision
+from ..basestore import time_stamp, msec_precision, debug_mode, validate_token
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete
 from .. import identifiers
 
@@ -30,24 +31,25 @@ class PipelineJobStore(SoftDelete, BaseStore):
         setattr(self, 'uuid_type', schema.get_uuid_type())
         setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
+        setattr(self, 'pipes_coll', self.db['pipelines'])
 
     def create(self, job_document, **kwargs):
 
         # Must refer to an existing pipeline
-        self.validate_pipeline_uuid(job_document.get['pipeline_uuid'])
+        self.validate_pipeline_uuid(job_document.get('pipeline_uuid'))
 
         # Must refer to a valid (but not verified) abaco actorId
         try:
-            identifiers.abaco_hashid.validate(job_document.get['actor_id'])
+            identifiers.abaco_hashid.validate(job_document.get('actor_id'))
         except Exception:
             pass
 
         if 'uuid' not in job_document:
-            job_document['uuid'] = self._get_typed_uuid()
+            job_document['uuid'] = self.get_typed_uuid(job_document)
         # Job object contains schema plus logic to manage event lifecycle
         # Can be materialized from a passed document or by database record
-        new_job = PipelineJob(job_document)
-        return self.add_update_document(new_job.to_dict())
+        pipe_job_document = PipelineJob(job_document).new()
+        return self.add_update_document(pipe_job_document.to_dict())
 
     def handle(self, event_document, token=None, data=None, **kwargs):
         # This is a special method that takes event documents
@@ -59,12 +61,14 @@ class PipelineJobStore(SoftDelete, BaseStore):
         passed_token = event_document.get('token', token)
         db_record = self.find_one_by_uuid(job_uuid)
         # Token must validate
-        self.validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
-        db_job = PipelineJob(db_record)
-        try:
-            db_job.handle(event_document)
-        except Exception as exc:
-            raise JobUpdateFailure('Failed to handle event', exc)
+        validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
+        db_job = PipelineJob(db_record).handle(event_document)
+
+        # try:
+        #     db_job.handle(event_document)
+        # except Exception as exc:
+        #     raise JobUpdateFailure('Failed to handle event', exc)
+        return self.add_update_document(db_job.to_dict())
 
     def delete(self, job_uuid, token, soft=False):
         # Special kind of event
@@ -200,7 +204,7 @@ class PipelineJobStore(SoftDelete, BaseStore):
             return True
         else:
             try:
-                pipe = self.coll_db.find_one({'uuid': pipeline_uuid})
+                pipe = self.pipes_coll.find_one({'uuid': pipeline_uuid})
                 if pipe is not None:
                     return True
                 else:

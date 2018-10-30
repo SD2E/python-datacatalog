@@ -11,43 +11,68 @@ import copy
 import inspect
 import json
 import os
+import sys
+from pprint import pprint
 
+from attrdict import AttrDict
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
+from ..basestore import ExtensibleAttrDict
 
-class PipelineJob(JobDocument):
-    # Extend passive schema-based doc with event handling, state, and history management
+class HistoryEntry(ExtensibleAttrDict):
+    def __init__(self, entry):
+        super(HistoryEntry, self).__init__(entry)
+
+    def to_dict(self):
+        return self.as_dict()
+class PipelineJob(ExtensibleAttrDict):
+    # Extend object with with event handling, state, and history management
     def __init__(self, job_document):
-        self._job_state_machine = JobStateMachine(state=job_document.get('state'))
+        super(PipelineJob, self).__init__(job_document)
+        job_state = job_document.get('state', 'created').upper()
+        # self._job_state_machine = JobStateMachine(state=job_state)
+        setattr(self, '_job_state_machine', JobStateMachine(state=job_state))
+
+    def new(self, data={}):
+        event = {'name': 'create', 'uuid': self.uuid, 'data': self.data}
+        self.handle(event)
+        return self
 
     def handle(self, event, opts={}):
         try:
             # EventResponse document - holds FSM state and last event
-            edoc = self._job_state_machine.handle(event, opts=opts)
+            edoc = self._job_state_machine.handle(event['name'].lower(), opts)
         except Exception as hexc:
             raise
-
         # Event was handled
         # Set job properties
         setattr(self, 'state', edoc['state'])
         setattr(self, 'last_event', edoc['last_event'])
         # Extend job history
-        new_hist = {'created': HistoryEventDocument.time_stamp(),
+        new_hist = {'date': HistoryEventDocument.time_stamp(),
                     'data': event.get('data', None),
                     'name': event.get('name')}
-        hdoc = HistoryEventDocument(new_hist).to_dict()
-        history = getattr(self, '_history', [])
+        hdoc = HistoryEntry(new_hist).to_dict()
+        history = getattr(self, 'history', [])
         history.append(hdoc)
-        setattr(self, '_history', history)
+        setattr(self, 'updated', new_hist['date'])
+        setattr(self, 'history', history)
+        # if event['name'] != 'create':
+        #     sys.exit(0)
         return self
 
-    def get_history(self):
-        return getattr(self, '_history')
+    def gethistory(self):
+        return getattr(self, 'history')
+
+    # def to_dict(self):
+    #     pr = dict()
+    #     for name in self.dir():
+    #         value = getattr(self, name)
+    #         if not name.startswith('_') and not inspect.ismethod(value):
+    #             pr[name] = value
+    #     return pr
 
     def to_dict(self):
-        pr = dict()
-        for name in dir(self):
-            value = getattr(self, name)
-            if not name.startswith('_') and not inspect.ismethod(value):
-                pr[name] = value
-        return pr
+        d = self.as_dict()
+        del d['_job_state_machine']
+        return d

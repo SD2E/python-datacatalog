@@ -20,6 +20,7 @@ class JobStateMachine(Machine):
     states = ['CREATED', 'RUNNING', 'FAILED', 'FINISHED', 'VALIDATING',
               'VALIDATED', 'REJECTED', 'FINALIZED', 'RETIRED']
     transitions = [
+        {'trigger': 'create', 'source': 'CREATED', 'dest': 'CREATED'},
         {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
         {'trigger': 'update', 'source': ['RUNNING'], 'dest': '='},
         {'trigger': 'fail', 'source': '*', 'dest': 'FAILED'},
@@ -33,11 +34,11 @@ class JobStateMachine(Machine):
     ]
 
     def __init__(self, state=states[0]):
-        Machine.__init__(self, states=self.states, transitions=self.transitions, initial=state.upper(), auto_transitions=False)
+        Machine.__init__(self, states=self.states, transitions=self.transitions, initial=state, auto_transitions=False)
 
     def handle(self, event_name, event_opts={}):
         eventfn = event_name.lower()
-        eventname = event_name.upper()
+        eventname = event_name
         vars(self)[eventfn](event_opts, event=eventname)
         resp = EventResponse(last_event=event_name, state=self.state)
         return resp

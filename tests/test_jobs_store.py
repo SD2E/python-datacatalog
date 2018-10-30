@@ -35,42 +35,44 @@ def test_job_uuid_tytpe(mongodb_settings):
     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
     assert base.get_uuid_type() == 'pipelinejob'
 
-def test_job_create(mongodb_settings):
+def test_job_create(mongodb_settings, monkeypatch):
+    monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
     for data_struct in jobs.get_jobs():
-        resp = base.add_update_document(data_struct['data'])
+        resp = base.create(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_handle_event(mongodb_settings):
+def test_handle_event(mongodb_settings, monkeypatch):
+    monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
-    for data_struct in jobs.get_jobs():
-        resp = base.add_update_document(data_struct['data'])
+    for data_struct in jobs.get_events():
+        resp = base.handle(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_job_write_key_ok(mongodb_settings):
-    base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
-    for data_struct in jobs.get_jobs():
-        key = 'keykeykey'
-        val = 'valvalval'
-        resp = base.write_key(data_struct['uuid'], key, val)
-        assert resp[key] == val
+# def test_job_write_key_ok(mongodb_settings):
+#     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
+#     for data_struct in jobs.get_jobs():
+#         key = 'keykeykey'
+#         val = 'valvalval'
+#         resp = base.write_key(data_struct['uuid'], key, val)
+#         assert resp[key] == val
 
-def test_job_write_key_fail(mongodb_settings):
-    base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
-    for data_struct in jobs.get_jobs():
-        key = 'actor_id'
-        val = ['val', 'val', 'val']
-        with pytest.raises(datacatalog.linkedstores.basestore.exceptions.CatalogError):
-            base.write_key(data_struct['uuid'], key, val)
+# def test_job_write_key_fail(mongodb_settings):
+#     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
+#     for data_struct in jobs.get_jobs():
+#         key = 'actor_id'
+#         val = ['val', 'val', 'val']
+#         with pytest.raises(datacatalog.linkedstores.basestore.exceptions.CatalogError):
+#             base.write_key(data_struct['uuid'], key, val)
 
-def test_job_soft_delete(mongodb_settings):
-    base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
-    for data_struct in jobs.get_jobs():
-        resp = base.delete_document(data_struct['uuid'])
-        assert resp['_visible'] is False
+# def test_job_soft_delete(mongodb_settings):
+#     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
+#     for data_struct in jobs.get_jobs():
+#         resp = base.delete_document(data_struct['uuid'])
+#         assert resp['_visible'] is False
 
-def test_job_delete(mongodb_settings):
-    base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
-    for data_struct in jobs.get_jobs():
-        resp = base.delete_document(data_struct['uuid'], soft=False)
-        assert resp.raw_result == {'n': 1, 'ok': 1.0}
+# def test_job_delete(mongodb_settings):
+#     base = datacatalog.linkedstores.jobs.PipelineJobStore(mongodb_settings)
+#     for data_struct in jobs.get_jobs():
+#         resp = base.delete_document(data_struct['uuid'], soft=False)
+#         assert resp.raw_result == {'n': 1, 'ok': 1.0}

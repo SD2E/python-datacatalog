@@ -10,6 +10,7 @@ from builtins import *
 import datetime
 import json
 import uuid
+import arrow
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
@@ -20,18 +21,20 @@ SCHEMA_FILE = '/schemas/default.jsonschema'
 
 def current_time():
     """Current UTC time
-
     Returns:
         A ``datetime`` object rounded to millisecond precision
     """
     return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000) / 1000)
 
 def msec_precision(datetimeval):
-    return datetime.datetime.fromtimestamp(int(datetimeval.timestamp() * 1000) / 1000)
+    dt = arrow.get(datetimeval)
+    dts = dt.timestamp
+    dtsp = ((dts * 1000) / 1000)
+    return datetime.datetime.fromtimestamp(dtsp)
+
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds
-
     Args:
         dt (datetime): Optional datetime object. [current_time()]
         rounded (bool): Whether to round respose to nearest int

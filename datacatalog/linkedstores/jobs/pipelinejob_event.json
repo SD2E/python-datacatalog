@@ -13,7 +13,7 @@
             "$ref": "pipelinejob_event.json",
             "$comment": "Computed automatically"
         },
-        "created": {
+        "date": {
             "type": "string",
             "format": "date-time",
             "description": "Time (UTC) when the event occurred",

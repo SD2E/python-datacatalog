@@ -249,13 +249,12 @@ class BaseStore(object):
 
         uuid_key = self.get_uuid_fields()
         try:
-            print('UUID_FIELDS: {}'.format(self.get_uuid_fields()))
             doc_id = document_dict.get(self.get_uuid_fields()[0])
         except KeyError:
             raise CatalogError('Document lacks primary identifying key "{}"'.format(uuid_key))
 
         # Validate UUID
-        if 'uuid' in document_dict:
+        if 'uuid' in document_dict and doc_uuid is not None:
             if doc_uuid != document_dict['uuid']:
                 raise CatalogError('document_dict.uuid and uuid parameter cannot be different')
 

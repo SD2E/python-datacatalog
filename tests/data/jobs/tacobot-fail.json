@@ -3,6 +3,6 @@
     "data": {
         "additional": "details will be merged in"
     },
-    "event": "fail",
+    "name": "fail",
     "token": "0dc73dc3ff39b49a"
 }

@@ -38,7 +38,7 @@
                 "$ref": "pipeline_uuid.json"
             }
         },
-        "_history": {
+        "history": {
             "description": "Annotated history of job events",
             "type": "array",
             "items": {
@@ -64,6 +64,7 @@
         "pipeline_uuid"
     ],
     "__collection": "jobs",
+    "__pipeline_collection": "pipelines",
     "__indexes": [],
     "__identifiers": [
         "uuid"
