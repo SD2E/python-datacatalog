@@ -11,7 +11,7 @@ import json
 import os
 import sys
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp
+from ..basestore import *
 from dicthelpers import data_merge
 from pprint import pprint
 
@@ -35,3 +35,6 @@ class SampleStore(BaseStore):
         setattr(self, 'uuid_type', schema.get_uuid_type())
         setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
+
+class StoreInterface(SampleStore):
+    pass

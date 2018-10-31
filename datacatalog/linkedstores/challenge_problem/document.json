@@ -37,6 +37,13 @@
         },
         "uuid": {
             "$ref": "challenge_problem_uuid.json"
+        },
+        "experiments": {
+            "type": "array",
+            "items": {
+                "$ref": "experiment.json"
+            },
+            "minItems": 1
         }
     },
     "required": [

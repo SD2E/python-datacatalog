@@ -17,7 +17,7 @@ import base64
 from pprint import pprint
 from jsondiff import diff
 
-from .basestore import BaseStore
+from .store import BaseStore
 
 class SoftDelete(BaseStore):
     def delete_document(self, uuid, token=None, soft=True):

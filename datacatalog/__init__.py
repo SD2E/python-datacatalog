@@ -15,13 +15,15 @@ from . import identifiers
 from . import jsonschemas
 from . import utils
 from . import mongo
+from . import config
 
 from . import linkedstores
 from . import pathmappings
 from . import filetypes
 from . import agavehelpers
 from . import debug_mode
-# from .main import *
+from . import managers
+
 
 # # from .constants import *
 # from .posixhelpers import *

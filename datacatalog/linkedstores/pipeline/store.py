@@ -15,7 +15,7 @@ from dicthelpers import data_merge
 from pathmappings import normalize, abspath
 from pprint import pprint
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete, time_stamp, msec_precision
+from ..basestore import *
 from .schema import PipelineDocument
 from .serializer import SerializedPipeline
 from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
@@ -36,3 +36,6 @@ class PipelineStore(SoftDelete, BaseStore):
         cplist = payload.get('components', [])
         spdoc = SerializedPipeline(cplist).to_json()
         return super(PipelineStore, self).get_typed_uuid(spdoc, binary=binary)
+
+class StoreInterface(PipelineStore):
+    pass

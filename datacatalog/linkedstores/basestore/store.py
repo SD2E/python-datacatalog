@@ -19,19 +19,21 @@ from slugify import slugify
 from jsondiff import diff
 
 from constants import CatalogStore
-from jsonschemas import JSONSchemaBaseObject
 from utils import time_stamp, current_time, msec_precision
-from tokens import generate_salt, get_token, validate_token
-from identifiers.typed_uuid import catalog_uuid
 from dicthelpers import data_merge
 from debug_mode import debug_mode
 
+from jsonschemas import JSONSchemaBaseObject
+from tokens import generate_salt, get_token, validate_token
+from identifiers.typed_uuid import catalog_uuid
+
 from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 
-# from .mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
-from .exceptions import *
-from .exceptions import CatalogError
+from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
 from .documentschema import DocumentSchema
+from .heritableschema import HeritableDocumentSchema
+
+__all__ = ['BaseStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode']
 
 class BaseStore(object):
     """Storage interface for JSON schema-informed documents"""
@@ -114,14 +116,15 @@ class BaseStore(object):
             for identifier in self.get_identifiers():
                 query = dict()
                 try:
-                    query[identifier] = kwargs.get(identifier)
+                    query[identifier] = kwargs.get(identifier, None)
                 except KeyError:
                     pass
-                if query != {}:
-                    resp = self.coll.find(query)
+                if query[identifier] is not None:
+                    pprint(query)
+                    resp = self.coll.find_one(query)
                 if resp is not None:
                     break
-                return resp
+            return resp
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
@@ -439,3 +442,6 @@ class BaseStore(object):
 
     def debug_mode(self):
         return debug_mode()
+
+class StoreInterface(BaseStore):
+    pass

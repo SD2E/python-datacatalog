@@ -1,1 +1,1 @@
-from .store import ExperimentDocument, ExperimentStore
+from .store import ExperimentDocument, ExperimentStore, StoreInterface

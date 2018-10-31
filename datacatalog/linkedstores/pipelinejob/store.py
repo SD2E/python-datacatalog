@@ -12,7 +12,7 @@ import sys
 import uuid
 from pprint import pprint
 
-from ..basestore import time_stamp, msec_precision, debug_mode, validate_token
+from ..basestore import *
 from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, SoftDelete
 from .. import identifiers
 
@@ -76,6 +76,11 @@ class PipelineJobStore(SoftDelete, BaseStore):
 
     def history(self, job_uuid, limit=None, skip=None):
         pass
+
+
+class StoreInterface(PipelineJobStore):
+    pass
+
 
 # class JobStore(BaseStore):
 #     """Manages creation and management of datacatalog.jobs records and states"""

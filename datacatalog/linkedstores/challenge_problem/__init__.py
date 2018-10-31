@@ -1,1 +1,1 @@
-from .store import ChallengeDocument, ChallengeStore
+from .store import ChallengeDocument, ChallengeStore, StoreInterface

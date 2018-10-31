@@ -3,6 +3,7 @@ import sys
 import importlib
 import inspect
 import itertools
+from pprint import pprint
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
@@ -13,12 +14,9 @@ STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'li
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 
 SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]
-# SCHEMAS = [['linkedstores.basestore', 'linkedstores.challenge_problems']]
-# SCHEMAS = [PRIMITIVE_SCHEMAS]
 
 def dynamic_import(module, package=None):
-    # print(module, package)
-    return importlib.import_module(module, package=package)
+    return importlib.import_module(module, package='..datacatalog')
 
 def get_all_schemas():
     schemata = dict()

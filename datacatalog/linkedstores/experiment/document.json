@@ -15,11 +15,11 @@
             "type": "string",
             "description": "Human-readable title for the experimental reference"
         },
-        "id": {
+        "provider_id": {
             "description": "String identifier, namespaced by provider, for the experiment",
             "$ref": "namespaced_identifier.json"
         },
-        "reference": {
+        "id": {
             "description": "Canonical string identifier for the experimental reference",
             "$ref": "experiment_reference.json"
         },
@@ -42,11 +42,19 @@
         "uuid": {
             "$ref": "experiment_uuid.json"
         },
+        "samples": {
+            "type": "array",
+            "items": {
+                "$ref": "sample.json"
+            },
+            "minItems": 1
+        },
         "child_of": {
             "type": "array",
             "items": {
                 "$ref": "challenge_problem_uuid.json"
-            }
+            },
+            "minItems": 1
         }
     },
     "required": [

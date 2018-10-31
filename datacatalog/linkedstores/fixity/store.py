@@ -15,7 +15,7 @@ from dicthelpers import data_merge
 from pathmappings import normalize, abspath
 from pprint import pprint
 
-from ..basestore import BaseStore, CatalogUpdateFailure, DocumentSchema, HeritableDocumentSchema, time_stamp, msec_precision
+from ..basestore import *
 from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
@@ -68,3 +68,6 @@ class FixityStore(BaseStore):
         # Use basestore.Basestore for write
         resp = self.add_update_document(fixity_record, file_uuid, token=None)
         return resp
+
+class StoreInterface(FixityStore):
+    pass

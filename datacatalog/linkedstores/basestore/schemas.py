@@ -1,4 +1,4 @@
-from .basestore import DocumentSchema as Doc
+from .store import DocumentSchema as Doc
 
 def get_schemas():
     schemas = dict()

@@ -1,2 +1,2 @@
-from .store import FixityDocument, FixityStore
+from .store import FixityDocument, FixityStore, StoreInterface
 import filetypes

@@ -1,1 +1,1 @@
-from .store import MeasurementDocument, MeasurementStore
+from .store import MeasurementDocument, MeasurementStore, StoreInterface

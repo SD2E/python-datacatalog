@@ -1,1 +1,1 @@
-from .store import SampleDocument, SampleStore
+from .store import SampleDocument, SampleStore, StoreInterface
