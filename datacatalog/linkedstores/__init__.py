@@ -5,14 +5,15 @@ import pathmappings
 import utils
 
 from . import basestore
-from . import challenge_problems
-from . import experiments
-from . import samples
-from . import measurements
-from . import files
-from . import fixities
-from . import pipelines
-from . import jobs
+from . import challenge_problem
+from . import experiment
+from . import sample
+from . import measurement
+from . import file
+from . import fixity
+from . import pipeline
+from . import pipelinejob
+# from . import pipelinejobs
 
 
 # from . import configs

@@ -12,3 +12,4 @@ config.yml
 service_account.json
 .vscode/
 docs/_build/
+staging/

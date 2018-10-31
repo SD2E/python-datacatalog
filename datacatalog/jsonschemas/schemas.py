@@ -9,7 +9,7 @@ parentdir = os.path.dirname(currentdir)
 
 UNMANAGED_SCHEMAS = []
 PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
-STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problems', 'linkedstores.experiments', 'linkedstores.samples', 'linkedstores.measurements', 'linkedstores.files', 'linkedstores.fixities', 'linkedstores.pipelines', 'linkedstores.jobs']
+STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob']
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 
 SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]

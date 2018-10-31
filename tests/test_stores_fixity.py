@@ -21,7 +21,7 @@ DATA_DIR = os.path.join(PARENT, 'tests/data/fixity/files')
 
 def test_fixity_file_type(monkeypatch, mongodb_settings):
     monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = datacatalog.linkedstores.fixities.FixityStore(mongodb_settings)
+    fixity_store = datacatalog.linkedstores.fixity.FixityStore(mongodb_settings)
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['type'] == ftype

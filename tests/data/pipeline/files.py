@@ -5,7 +5,7 @@ from pprint import pprint
 from . import CASES
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-DATA_DIR = os.path.join(PARENT, 'pipelines')
+DATA_DIR = os.path.join(PARENT, 'pipeline')
 
 def get_files():
     for filename, uuid, valid in CASES:

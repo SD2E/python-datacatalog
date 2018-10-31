@@ -5,7 +5,7 @@ from pprint import pprint
 from . import CASES, EVENTS
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-DATA_DIR = os.path.join(PARENT, 'jobs')
+DATA_DIR = os.path.join(PARENT, 'pipelinejob')
 
 def get_jobs():
     for filename, uuid, valid in CASES:
