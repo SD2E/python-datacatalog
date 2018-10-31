@@ -1,6 +1,8 @@
 import arrow
 import json
 import re
+
+import config
 from githelpers import get_sha1_short, get_remote_uri
 
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
@@ -43,18 +45,20 @@ class JSONSchemaBaseObject(object):
             if value is not None:
                 setattr(self, key, value)
 
-        # Create a descriptive $comment for all schema document
-        comments = list()
-        comments.append('generated: {}'.format(arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ')))
-        try:
-            # If we are able to resolve
-            short_hash = get_sha1_short()
-            remote = get_remote_uri()
-            comments.append('source: {}@{}'.format(remote, short_hash))
-        except Exception:
-            pass
-        comment_string = '; '.join(comments)
-        setattr(self, 'comment', comment_string)
+        if not config.get_osenv_bool('NO_JSONSCHEMA_COMMENT'):
+
+            # Create a descriptive $comment for all schema document
+            comments = list()
+            comments.append('generated: {}'.format(arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ')))
+            try:
+                # If we are able to resolve
+                short_hash = get_sha1_short()
+                remote = get_remote_uri()
+                comments.append('source: {}@{}'.format(remote, short_hash))
+            except Exception:
+                pass
+            comment_string = '; '.join(comments)
+            setattr(self, 'comment', comment_string)
 
         self.update_id()
 

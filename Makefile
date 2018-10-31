@@ -15,6 +15,9 @@ clean: schemas-clean
 schemas: schemas-clean
 	python scripts/build_schemas.py
 
+schemas-test:
+	MAKETESTS=1 python scripts/build_schemas.py
+
 schemas-clean:
 	rm -rf schemas/*.jsonschema
 
