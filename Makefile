@@ -1,4 +1,4 @@
-PYTEST_OPTS ?= "-s -vvv"
+PYTEST_OPTS ?= ""
 
 all: build
 
@@ -10,6 +10,7 @@ build:
 
 clean: schemas-clean
 	rm -rf build *egg-info dist
+	find . -d -name '*__pycache__*' -exec rm -rf {} \;
 
 .PHONY: schemas
 schemas: schemas-clean
@@ -28,8 +29,8 @@ mongodb-down:
 	cd docker && docker-compose down
 
 tests-longrun:
-	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear --longrun
+	python -m pytest -vvv --cache-clear --longrun
 
 .PHONY: tests
 tests:
-	python -m pytest -vvv --ignore=datacatalog/pipelinejobs --cache-clear
+	python -m pytest -vvv --cache-clear $(PYTEST_OPTS)
