@@ -1,5 +1,5 @@
 {
-    "description": "Uunit of dry weight measurement",
+    "description": "Unit of dry weight measurement",
     "enum": [
         "%",
         "g"

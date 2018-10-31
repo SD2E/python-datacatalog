@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-10-31 20:13:16 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@15efa3e",
+    "$comment": "generated: 2018-10-31 20:18:41 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8577f83",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/sd2_synbiohub_uri.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

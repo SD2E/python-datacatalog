@@ -7,7 +7,7 @@
             "type": "string"
         },
         "unit": {
-            "$ref": "time_unit",
+            "$ref": "time_unit.json",
             "description": "Unit of temporal measure"
         },
         "value": {
