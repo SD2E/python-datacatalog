@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-10-31 20:08:44 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@9a4db69",
+    "$comment": "generated: 2018-10-31 20:13:16 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@15efa3e",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/mapped_name.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

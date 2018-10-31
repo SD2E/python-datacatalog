@@ -21,7 +21,7 @@
         },
         "id": {
             "description": "Canonical string identifier for the experimental reference",
-            "$ref": "experiment_reference.json"
+            "$ref": "namespaced_identifier.json"
         },
         "url": {
             "description": "URI containing complete experimental reference",
