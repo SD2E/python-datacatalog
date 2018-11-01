@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-10-31 20:18:42 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8577f83",
+    "$comment": "generated: 2018-11-01 21:56:22 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@95b61df",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/fixity.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -14,11 +14,6 @@
             "format": "date-time",
             "type": "string"
         },
-        "filename": {
-            "description": "Filename",
-            "pattern": ".*\\..*",
-            "type": "string"
-        },
         "id": {
             "$ref": "identifier.json",
             "description": "Distinguishing identifier for the specified document"
@@ -29,6 +24,11 @@
         "modified": {
             "$comment": "Computed automatically",
             "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
             "type": "string"
         },
         "size": {
@@ -46,7 +46,7 @@
         }
     },
     "required": [
-        "filename",
+        "name",
         "type"
     ],
     "title": "File",

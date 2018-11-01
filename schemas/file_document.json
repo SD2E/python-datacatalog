@@ -1,6 +1,6 @@
 {
-    "$comment": "generated: 2018-10-31 20:18:42 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8577f83",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
+    "$comment": "generated: 2018-11-01 21:56:22 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@95b61df",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/file_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "An uploaded or generated file",
@@ -89,10 +89,9 @@
             },
             "type": "array"
         },
-        "filename": {
-            "description": "Filename",
-            "pattern": ".*\\..*",
-            "type": "string"
+        "file_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "File id (internal to experimental facility or data provider)"
         },
         "generated_by": {
             "items": {
@@ -106,11 +105,15 @@
         },
         "id": {
             "$ref": "identifier.json",
-            "description": "File id (internal to experimental facility or data provider)",
-            "type": "string"
+            "description": "Distinguishing identifier for the specified document"
         },
         "level": {
             "$ref": "processing_level.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
         },
         "type": {
             "$ref": "filetype_label.json",
@@ -121,7 +124,7 @@
         }
     },
     "required": [
-        "filename",
+        "name",
         "type",
         "child_of"
     ],

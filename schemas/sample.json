@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-10-31 20:18:42 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8577f83",
+    "$comment": "generated: 2018-11-01 21:56:22 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@95b61df",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -31,8 +31,7 @@
         },
         "id": {
             "$ref": "identifier.json",
-            "description": "Sample id (internal to the lab facility or data provider)",
-            "type": "string"
+            "description": "Distinguishing identifier for the specified document"
         },
         "inoculation_density": {
             "$ref": "optical_density.json",
@@ -49,6 +48,10 @@
         "replicate": {
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
+        },
+        "sample_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "Unique sample id (internal to the lab facility or data provider)"
         },
         "standard_attributes": {
             "additionalProperties": false,
@@ -86,7 +89,7 @@
         }
     },
     "required": [
-        "id",
+        "sample_id",
         "measurements"
     ],
     "title": "Sample",

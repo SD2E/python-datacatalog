@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-10-31 20:18:42 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8577f83",
+    "$comment": "generated: 2018-11-01 21:56:22 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@95b61df",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -19,8 +19,7 @@
         },
         "id": {
             "$ref": "identifier.json",
-            "description": "A localized, unique measurement id relating a given sample to one or more files",
-            "type": "string"
+            "description": "Distinguishing identifier for the specified document"
         },
         "instrument_configuration": {
             "description": "A configuration (e.g. cytometer configuration)",
@@ -29,6 +28,10 @@
         "measurement_group_id": {
             "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
             "type": "string"
+        },
+        "measurement_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "A localized, unique measurement id relating a given sample to one or more files"
         },
         "measurement_name": {
             "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
@@ -46,7 +49,7 @@
         }
     },
     "required": [
-        "id",
+        "measurement_id",
         "files",
         "measurement_type"
     ],
