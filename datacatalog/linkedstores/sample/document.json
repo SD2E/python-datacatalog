@@ -42,9 +42,9 @@
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
         },
-        "id": {
-            "description": "Sample id (internal to the lab facility or data provider)",
-            "type": "string"
+        "sample_id": {
+            "description": "Unique sample id (internal to the lab facility or data provider)",
+            "$ref": "namespaced_identifier.json"
         },
         "standard_attributes": {
             "additionalProperties": false,
@@ -88,7 +88,7 @@
         }
     },
     "required": [
-        "id",
+        "sample_id",
         "measurements",
         "child_of"
     ],
@@ -98,11 +98,11 @@
     "__collection": "samples",
     "__uuid_type": "sample",
     "__uuid_fields": [
-        "id"
+        "sample_id"
     ],
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "id"
+        "sample_id"
     ]
 }

@@ -22,9 +22,9 @@
             "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
             "type": "string"
         },
-        "id": {
+        "measurement_id": {
             "description": "A localized, unique measurement id relating a given sample to one or more files",
-            "type": "string"
+            "$ref": "namespaced_identifier.json"
         },
         "measurement_name": {
             "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
@@ -48,7 +48,7 @@
         }
     },
     "required": [
-        "id",
+        "measurement_id",
         "files",
         "measurement_type",
         "child_of"
@@ -57,12 +57,12 @@
     "_filename": "measurement",
     "__uuid_type": "measurement",
     "__uuid_fields": [
-        "id"
+        "measurement_id"
     ],
     "__collection": "measurements",
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "id"
+        "measurement_id"
     ]
 }

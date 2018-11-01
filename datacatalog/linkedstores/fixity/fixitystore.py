@@ -92,7 +92,7 @@ class ProductsFixityStore(FileFixityStore):
         filepath = self.abspath(filename)
 
         # fetch current record
-        db_rec = self.coll.find_one({'filename': filename})
+        db_rec = self.coll.find_one({'name': filename})
         if db_rec is None:
             raise FileFixtyNotFoundError(
                 'File {} has not yet been indexed. Try using create() first.'.format(os.path.basename(filename)))
@@ -120,7 +120,7 @@ class ProductsFixityStore(FileFixityStore):
             return self.update(filename, _deleted=False)
         else:
             try:
-                return self.coll.delete_one({'filename': filename})
+                return self.coll.delete_one({'name': filename})
             except Exception:
                 raise FileFixtyUpdateFailure(
                     'Unable to delete {}'.format(os.path.basename(filename)))

@@ -6,14 +6,14 @@
         "uuid": {
             "$ref": "file_uuid.json"
         },
-        "id": {
+        "file_id": {
             "description": "File id (internal to experimental facility or data provider)",
-            "type": "string"
+            "$ref": "namespaced_identifier.json"
         },
         "level": {
             "$ref": "processing_level.json"
         },
-        "filename": {
+        "name": {
             "description": "Filename",
             "pattern": ".*\\..*",
             "type": "string"
@@ -67,20 +67,20 @@
         }
     },
     "required": [
-        "filename",
+        "name",
         "type",
         "child_of"
     ],
     "type": "object",
-    "_filename": "file",
+    "_name": "file",
     "__uuid_type": "file",
     "__uuid_fields": [
-        "filename"
+        "name"
     ],
     "__collection": "files",
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "filename"
+        "name"
     ]
 }

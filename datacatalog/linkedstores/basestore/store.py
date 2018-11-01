@@ -20,7 +20,7 @@ from jsondiff import diff
 
 from constants import CatalogStore
 from utils import time_stamp, current_time, msec_precision
-from dicthelpers import data_merge
+from dicthelpers import data_merge, flatten_dict, linearize_dict
 from debug_mode import debug_mode
 
 from jsonschemas import JSONSchemaBaseObject
@@ -170,7 +170,7 @@ class BaseStore(object):
     def get_typed_uuid(self, payload, binary=False):
         print('TYPED_UUID_PAYLOAD: {}'.format(payload))
         if isinstance(payload, dict):
-            identifier_string = self.get_serialized_document(payload)
+            identifier_string = self.get_linearized_values(payload)
         else:
             identifier_string = str(payload)
         new_uuid = catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
@@ -188,6 +188,28 @@ class BaseStore(object):
                 serialized[k] = union.get(k)
         serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
         return serialized_document
+
+    def get_linearized_values(self, document, **kwargs):
+        # Serialize values of specific keys to generate a UUID
+        union = {**document, **kwargs}
+        uuid_fields = self.get_uuid_fields()
+        ary = list()
+        for k in union:
+            if k in uuid_fields:
+                print('TYPED_UUID_KEY: {}'.format(k))
+                val = union.get(k, 'none')
+                try:
+                    if isinstance(val, dict):
+                        val = linearize_dict(val)
+                    else:
+                        val = str(val)
+                    ary.append(val)
+                except Exception:
+                    pass
+        ary = sorted(ary)
+        linearized = ':'.join(ary)
+        print('TYPED_UUID_LINEARIZED_VAL:', linearized)
+        return linearized
 
     def get_diff(self, source={}, target={}, action='update'):
         ts = msec_precision(current_time())

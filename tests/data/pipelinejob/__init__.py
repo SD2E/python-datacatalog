@@ -1,4 +1,4 @@
-CASES = [('tacobot.json', '107e16c7-2e2a-5466-a913-f60fe273c850', True)]
-EVENTS = [('tacobot-run.json', '107e16c7-2e2a-5466-a913-f60fe273c850', True), ('tacobot-update.json', '107e16c7-2e2a-5466-a913-f60fe273c850', True), ('tacobot-finish.json', '107e16c7-2e2a-5466-a913-f60fe273c850', True)]
+CASES = [('tacobot.json', '1070761d-1a7a-535e-b6d3-a1a728a249ce', True)]
+EVENTS = [('tacobot-run.json', '1070761d-1a7a-535e-b6d3-a1a728a249ce', True), ('tacobot-update.json', '1070761d-1a7a-535e-b6d3-a1a728a249ce', True), ('tacobot-finish.json', '1070761d-1a7a-535e-b6d3-a1a728a249ce', True)]
 
 from .files import get_jobs, get_events

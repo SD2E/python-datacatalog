@@ -42,14 +42,14 @@ class FixityStore(BaseStore):
 
         # Attempt to fetch the fixity record, as we need to pass any known
         # values to the indexer for comparison to the results from sync()
-        self.filename = normalize(filename)
+        self.name = normalize(filename)
         self.abs_filename = abspath(filename)
-        file_uuid = self.get_typed_uuid(self.filename)
+        file_uuid = self.get_typed_uuid(self.name)
 
         db_record = self.coll.find_one({'uuid': file_uuid})
         if db_record is None:
             # FIXME Find how to automate production of this template from schema
-            db_record = {'filename': filename,
+            db_record = {'name': filename,
                          'uuid': file_uuid,
                          'version': 0,
                          'child_of': []}

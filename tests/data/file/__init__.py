@@ -1,7 +1,7 @@
-CREATES = [('file1', {'id': 'biofab.file.100', 'filename': '0x8BADF00D.fcs'}, '1055c5ae-741f-59b9-8340-c2aa5feac572'), ('file2', {'filename': '0xCEFAEDFE.fastq'}, '10585df4-3987-5bf4-8eaa-799dcb277517')
+CREATES = [('file1', {'id': 'biofab.file.100', 'name': '0x8BADF00D.fcs'}, '105723d4-b27e-55af-b053-63f702c4ad32'), ('file2', {'name': '0xCEFAEDFE.fastq'}, '10546119-4ed9-5cda-ab18-2c829c9d3ed4')
            ]
 
 DELETES = CREATES
 
-UPDATES = [('file1', {'id': 'biofab.file.100', 'filename': '0x8BADF00D.fcs'}, '1055c5ae-741f-59b9-8340-c2aa5feac572'), ('file2', {'filename': '0xCEFAEDFE.fastq'}, '10585df4-3987-5bf4-8eaa-799dcb277517')
+UPDATES = [('file1', {'id': 'biofab.file.100', 'name': '0x8BADF00D.fcs'}, '105723d4-b27e-55af-b053-63f702c4ad32'), ('file2', {'name': '0xCEFAEDFE.fastq'}, '10546119-4ed9-5cda-ab18-2c829c9d3ed4')
            ]

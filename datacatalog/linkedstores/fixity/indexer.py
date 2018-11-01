@@ -15,7 +15,7 @@ class FixityIndexer(object):
     DEFAULT_SIZE = -1
     # FIXME Find a reliable way to parameterize the paramset from FixityDocument
     # key, attr, func, default
-    PARAMS = [('filename', 'filename', False, None),
+    PARAMS = [('name', 'name', False, None),
               ('version', 'version', False, 0),
               ('type', 'type', True, None),
               ('created', 'created', True, None),
@@ -27,7 +27,7 @@ class FixityIndexer(object):
               ('child_of', 'child_of', False, None)]
 
     def __init__(self, abs_filepath, schema={}, **kwargs):
-        self.filename = kwargs.get('filename')
+        self.name = kwargs.get('name')
         # set abspath on filesystem
         self._abspath = abs_filepath
         self._updated = False

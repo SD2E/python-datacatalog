@@ -9,7 +9,7 @@
         "level": {
             "$ref": "processing_level.json"
         },
-        "filename": {
+        "name": {
             "description": "Filename",
             "pattern": ".*\\..*",
             "type": "string"
@@ -86,7 +86,7 @@
         }
     },
     "required": [
-        "filename",
+        "name",
         "type",
         "child_of"
     ],
@@ -94,10 +94,12 @@
     "_filename": "fixity",
     "__collection": "fixities",
     "__uuid_type": "file",
-    "__uuid_field": "filename",
+    "__uuid_fields": [
+        "name"
+    ],
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "filename"
+        "name"
     ]
 }
