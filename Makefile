@@ -29,8 +29,8 @@ mongodb-down:
 	cd docker && docker-compose down
 
 tests-longrun:
-	python -m pytest -vvv --cache-clear --longrun
+	python -m pytest --cache-clear --longrun
 
 .PHONY: tests
 tests:
-	python -m pytest -vvv --cache-clear $(PYTEST_OPTS)
+	python -m pytest --cache-clear $(PYTEST_OPTS)
