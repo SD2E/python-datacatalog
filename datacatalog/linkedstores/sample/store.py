@@ -29,11 +29,12 @@ class SampleStore(BaseStore):
         super(SampleStore, self).__init__(mongodb, config, session)
         # setup based on schema extended properties
         schema = SampleDocument(**kwargs)
-        setattr(self, 'name', schema.get_collection())
-        setattr(self, 'schema', schema.to_dict())
-        setattr(self, 'identifiers', schema.get_identifiers())
-        setattr(self, 'uuid_type', schema.get_uuid_type())
-        setattr(self, 'uuid_fields', schema.get_uuid_fields())
+        super(SampleStore, self).update_attrs(schema)
+        # setattr(self, 'name', schema.get_collection())
+        # setattr(self, 'schema', schema.to_dict())
+        # setattr(self, 'identifiers', schema.get_identifiers())
+        # setattr(self, 'uuid_type', schema.get_uuid_type())
+        # setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
 
 class StoreInterface(SampleStore):

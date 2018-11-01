@@ -13,7 +13,7 @@ import json
 
 from pprint import pprint
 from slugify import slugify
-from jsonschemas import JSONSchemaBaseObject
+from jsonschemas import JSONSchemaBaseObject, camel_to_snake
 from identifiers import typed_uuid
 from utils import time_stamp, current_time, msec_precision
 
@@ -59,33 +59,59 @@ class DocumentSchema(JSONSchemaBaseObject):
         self.update_id()
 
     def to_dict(self, private_prefix='_', document=False, **kwargs):
-        my_dict = super(DocumentSchema, self).to_dict(private_prefix, **kwargs)
-        filters = getattr(self, '_filters', {})
-        filt_type = 'document'
-        if document is False:
-            filt_type = 'object'
-        props_to_filter = filters.get(filt_type, {}).get('properties', [])
-        resp_dict = dict()
 
-        for k, v in my_dict.items():
-            # Filter 'properties'
-            if k == 'properties':
+        schema_class = 'document' if document is True else 'object'
+        response_dict = dict()
+        self.update_id(document)
+
+        filters = getattr(self, '_filters', {})
+        properties_to_filter = filters.get(schema_class, {}).get('properties', [])
+
+        # Fetch the parent schema dictionary
+        # FIXME - check that this does not return values in parent dict
+        super_dict = super(DocumentSchema, self).to_dict(private_prefix, **kwargs)
+
+        # The filters.json definition doesn't support any kind of discovery
+        # One can only filter a document's 'properties' by top-level key
+        for key, val in super_dict.items():
+
+            # Filter named properties from the schema
+            if key == 'properties':
                 filtered_props = dict()
-                for pk, pv in v.items():
-                    if pk not in props_to_filter:
-                        filtered_props[pk] = pv
-                v = filtered_props
-            resp_dict[k] = v
-            # Filter 'required'
-            if k == 'required':
-                for pk in props_to_filter:
-                    try:
-                        resp_dict['required'].remove(pk)
-                    except ValueError:
-                        pass
-                    except Exception:
-                        raise
-        return resp_dict
+                for fkey, fval in val.items():
+                    if fkey not in properties_to_filter:
+                        filtered_props[fkey] = fval
+                val = filtered_props
+            elif key == 'required':
+                filtered_reqs = list()
+                for lval in val:
+                    if lval not in properties_to_filter:
+                        filtered_reqs.append(lval)
+                val = filtered_reqs
+
+            response_dict[key] = val
+
+        return response_dict
+
+    def get_filename(self, document=False):
+        """Returns basename for the schema file"""
+        fn = getattr(self, '_filename', 'schema')
+        if document is False:
+            return fn
+        else:
+            return fn + '_document'
+
+    def update_id(self, document=False):
+        temp_fname = getattr(self, '_filename')
+        if self._snake_case:
+            temp_fname = camel_to_snake(temp_fname)
+        schema_id = self.BASEREF + temp_fname
+        schema_id = schema_id.lower()
+        if document:
+            schema_id = schema_id + '_document'
+        if not schema_id.endswith('.json'):
+            schema_id = schema_id + '.json'
+        setattr(self, 'id', schema_id)
 
     def get_identifiers(self):
         """Returns a list of top-level keys that are identifiers for this schema"""

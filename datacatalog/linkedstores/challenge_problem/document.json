@@ -5,7 +5,7 @@
     "additionalProperties": true,
     "properties": {
         "aliases": {
-            "description": "Identifying aliases for the challenge problem",
+            "description": "Aliases for the challenge problem identifier",
             "type": "array",
             "items": {
                 "type": "string"

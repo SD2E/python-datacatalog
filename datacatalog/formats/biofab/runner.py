@@ -205,7 +205,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
         if config.get('extend', False):
             file_name = extend_biofab_filename(
-                biofab_sample['filename'], original_experiment_id, biofab_sample['generated_by'])
+                biofab_sample['name'], original_experiment_id, biofab_sample['generated_by'])
         else:
             file_name = biofab_sample["filename"]
 

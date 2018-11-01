@@ -2,11 +2,17 @@ from .store import ChallengeDocument as Doc
 
 def get_schemas():
     schemas = dict()
+
     d1 = Doc()
     d2 = Doc()
-    fname = getattr(d1, '_filename')
+
+    fname1 = d1.get_filename(document=True)
+    fname2 = d2.get_filename()
+
     document_schema = d1.to_jsonschema(document=True)
     object_schema = d2.to_jsonschema(document=False)
-    schemas[fname] = object_schema
-    schemas[fname + '_document'] = document_schema
+
+    schemas[fname1] = document_schema
+    schemas[fname2] = object_schema
+
     return schemas

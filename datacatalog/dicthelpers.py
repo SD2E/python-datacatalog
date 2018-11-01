@@ -14,6 +14,7 @@ import datetime
 import jsondiff
 from attrdict import AttrDict
 from collections import Mapping, MutableMapping
+from pprint import pprint
 
 LISTKEYS = ['child_of']
 FILTERKEYS = ('_id', 'uuid', 'properties', 'measurements_ids',
@@ -227,3 +228,19 @@ def _dictcompare(a, b, section=None):
     # This was not working for the comparisons I needed to make but am keeping
     # it around for reference
     return [(c, d, g, section) if all(not isinstance(i, dict) for i in [d, g]) and d != g else None if all(not isinstance(i, dict) for i in [d, g]) and d == g else _dictcompare(d, g, c) for [c, d], [h, g] in zip(list(a.items()), list(b.items()))]
+
+def flatten_dict(dd, separator='_', prefix=''):
+    return {prefix + separator + k if prefix else k: v
+            for kk, vv in dd.items()
+            for k, v in flatten_dict(vv, separator, kk).items()
+            } if isinstance(dd, dict) else {prefix: dd}
+
+def linearize_dict(dd, separator='|'):
+    ary = list()
+    ddd = flatten_dict(dd)
+    for k, v in sorted(ddd.items()):
+        ary.append(k + '=' + str(v))
+    # ary = sorted(ary)
+    resp = separator.join(ary).replace(' ', '')
+    # resp = resp.replace(' ', '')
+    return resp

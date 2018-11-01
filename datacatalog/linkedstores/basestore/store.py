@@ -64,11 +64,13 @@ class BaseStore(object):
 
         # setup based on schema extended properties
         schema = DocumentSchema(**kwargs)
-        self.schema = schema.to_dict()
-        self.identifiers = schema.get_identifiers()
-        self.name = schema.get_collection()
-        self.uuid_type = schema.get_uuid_type()
-        self.uuid_fields = schema.get_uuid_fields()
+        self.update_attrs(schema)
+        # self.schema = schema.to_dict()
+        # self.identifiers = schema.get_identifiers()
+        # self.name = schema.get_collection()
+        # self.schema_name = schema.get_filename()
+        # self.uuid_type = schema.get_uuid_type()
+        # self.uuid_fields = schema.get_uuid_fields()
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
@@ -76,6 +78,15 @@ class BaseStore(object):
         self.store = CatalogStore.uploads_dir + '/'
         # Initialize
         # self._post_init()
+
+    def update_attrs(self, schema):
+        setattr(self, 'name', schema.get_collection())
+        setattr(self, 'schema', schema.to_dict())
+        setattr(self, 'schema_name', schema.get_filename())
+        setattr(self, 'identifiers', schema.get_identifiers())
+        setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'uuid_fields', schema.get_uuid_fields())
+        return self
 
     def get_identifiers(self):
         return getattr(self, 'identifiers')
@@ -120,7 +131,7 @@ class BaseStore(object):
                 except KeyError:
                     pass
                 if query[identifier] is not None:
-                    pprint(query)
+                    # pprint(query)
                     resp = self.coll.find_one(query)
                 if resp is not None:
                     break
@@ -290,7 +301,7 @@ class BaseStore(object):
 
         # Attempt to fetch the record using identifiers in schema
         db_record = self.coll.find_one({'uuid': document['uuid']})
-        pprint(db_record)
+        # pprint(db_record)
 
         # Add or upodate based on result
         if db_record is None:
@@ -314,8 +325,7 @@ class BaseStore(object):
                 return resp
             except Exception as exc:
                 raise CatalogError('Failed to write document', exc)
-            pprint(db_record)
-            sys.exit(1)
+            # pprint(db_record)
         else:
 
             # Validate record x token

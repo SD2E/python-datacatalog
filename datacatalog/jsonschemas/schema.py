@@ -24,7 +24,7 @@ class JSONSchemaBaseObject(object):
               ('required', False, 'required', None, ''),
               ('pattern', False, 'pattern', None, ''),
               ('enum', False, 'enum', None, ''),
-              ('_filename', False, '_filename', 'BaseObject', ''),
+              ('_filename', False, '_filename', 'baseobject', ''),
               ('_snake_case', False, '_snake_case', True, ''),
               ('_collection', False, '__collection', None, ''),
               ('_indexes', False, '__indexes', None, ''),
