@@ -19,7 +19,7 @@
             "description": "String identifier, namespaced by provider, for the experiment",
             "$ref": "namespaced_identifier.json"
         },
-        "id": {
+        "experiment_id": {
             "description": "Canonical string identifier for the experimental reference",
             "$ref": "namespaced_identifier.json"
         },
@@ -49,6 +49,16 @@
             },
             "minItems": 1
         },
+        "status": {
+            "type": "string",
+            "enum": [
+                "PROPOSED",
+                "DRAFT",
+                "FINAL",
+                "DEPRECATED",
+                "RETIRED"
+            ]
+        },
         "child_of": {
             "type": "array",
             "items": {
@@ -58,18 +68,17 @@
         }
     },
     "required": [
-        "id",
-        "child_of"
+        "experiment_id"
     ],
     "_filename": "experiment",
     "__uuid_type": "experiment",
     "__uuid_fields": [
-        "id"
+        "experiment_id"
     ],
     "__collection": "experiments",
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "id"
+        "experiment_id"
     ]
 }

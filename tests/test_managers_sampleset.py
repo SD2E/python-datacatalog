@@ -42,8 +42,8 @@ def test_cp_get(samplesetprocessor):
 def test_ex_get(samplesetprocessor):
     for key, doc, uuid_val in experiment.CREATES:
         samplesetprocessor.stores['experiment'].add_update_document(doc)
-        resp = samplesetprocessor.get('experiment', 'id', doc['id'])
-        assert resp['id'] == doc['id']
+        resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
+        assert resp['experiment_id'] == doc['experiment_id']
 
 def test_cpid_get_from_doc(mongodb_settings):
     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')

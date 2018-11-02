@@ -2,8 +2,9 @@ import os
 import sys
 import tempfile
 
-HERE = os.path.dirname(__file__)
-PARENT = os.path.dirname(HERE)
+HERE = os.getcwd()
+THIS = os.path.dirname(__file__)
+PARENT = os.path.dirname(THIS)
 sys.path.append(PARENT)
 import datacatalog
 

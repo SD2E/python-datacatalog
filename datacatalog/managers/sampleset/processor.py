@@ -63,7 +63,7 @@ class SampleSetProcessor(object):
 
     def _experiment(self):
         doc_value = self.document.get('experiment_reference', 'UNKNOWN')
-        experiment = self.get('experiment', 'id', doc_value)
+        experiment = self.get('experiment', 'experiment_id', doc_value)
         return experiment
 
     def _samples(self):
@@ -113,7 +113,7 @@ class SampleSetProcessor(object):
         return self.challenge_problem['id']
 
     def get_experiment_id(self):
-        return self.experiment['id']
+        return self.experiment['experiment_id']
 
     def get_experiment_uuid(self):
         return self.experiment['uuid']
