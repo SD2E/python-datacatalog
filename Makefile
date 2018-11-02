@@ -14,6 +14,7 @@ clean: schemas-clean
 
 .PHONY: schemas
 schemas: schemas-clean
+	python scripts/build_experiment_references.py && \
 	python scripts/build_schemas.py
 
 schemas-test:
