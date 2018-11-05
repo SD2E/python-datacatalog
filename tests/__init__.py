@@ -13,3 +13,7 @@ import pytest
 longrun = pytest.mark.skipif(
     not pytest.config.option.longrun,
     reason="needs --longrun option to run")
+
+delete = pytest.mark.skipif(
+    not pytest.config.option.longrun,
+    reason="needs --delete option to run")
