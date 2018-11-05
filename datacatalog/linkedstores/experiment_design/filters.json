@@ -1,7 +1,6 @@
 {
     "object": {
         "properties": [
-            "id",
             "uuid",
             "_admin",
             "_properties",
@@ -11,7 +10,7 @@
     },
     "document": {
         "properties": [
-            "id"
+            "experiments"
         ]
     }
 }

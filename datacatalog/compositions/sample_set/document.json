@@ -11,6 +11,9 @@
         "challenge_problem": {
             "$ref": "challenge_problem_id.json"
         },
+        "experiment_id": {
+            "$ref": "namespaced_identifier.json"
+        },
         "experiment_reference": {
             "$ref": "experiment_reference.json"
         },
@@ -30,6 +33,7 @@
     "required": [
         "id",
         "challenge_problem",
+        "experiment_id",
         "experiment_reference",
         "lab",
         "samples"

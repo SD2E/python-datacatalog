@@ -13,31 +13,15 @@
         },
         "title": {
             "type": "string",
-            "description": "Human-readable title for the experimental reference"
-        },
-        "provider_id": {
-            "description": "String identifier, namespaced by provider, for the experiment",
-            "$ref": "namespaced_identifier.json"
+            "description": "Human-readable title for the experiment"
         },
         "experiment_id": {
+            "description": "String identifier, namespaced performer, for the experiment",
+            "$ref": "namespaced_identifier.json"
+        },
+        "experiment_reference": {
             "description": "Canonical string identifier for the experimental reference",
             "$ref": "experiment_reference.json"
-        },
-        "url": {
-            "description": "URI containing complete experimental reference",
-            "$ref": "experiment_url.json"
-        },
-        "created": {
-            "description": "When the reference document was created",
-            "type": "string",
-            "format": "date-time",
-            "$comment": "Computed automatically"
-        },
-        "updated": {
-            "description": "When the reference document was last updated",
-            "type": "string",
-            "format": "date-time",
-            "$comment": "Computed automatically"
         },
         "uuid": {
             "$ref": "experiment_uuid.json"
@@ -49,20 +33,10 @@
             },
             "minItems": 1
         },
-        "status": {
-            "type": "string",
-            "enum": [
-                "PROPOSED",
-                "DRAFT",
-                "FINAL",
-                "DEPRECATED",
-                "RETIRED"
-            ]
-        },
         "child_of": {
             "type": "array",
             "items": {
-                "$ref": "challenge_problem_uuid.json"
+                "$ref": "experiment_design_uuid.json"
             },
             "minItems": 1
         }

@@ -20,6 +20,7 @@ import utils
 
 from . import basestore
 from . import challenge_problem
+from . import experiment_design
 from . import experiment
 from . import sample
 from . import measurement

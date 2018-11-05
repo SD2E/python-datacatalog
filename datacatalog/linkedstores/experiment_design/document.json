@@ -1,0 +1,81 @@
+{
+    "title": "ExperimentDesign",
+    "type": "object",
+    "description": "Experimental Design",
+    "additionalProperties": true,
+    "properties": {
+        "aliases": {
+            "description": "Alias identifiers for the experimental design",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "title": {
+            "type": "string",
+            "description": "Human-readable title for the experimental design"
+        },
+        "experiment_design_id": {
+            "description": "Canonical string identifier for the experimental reference",
+            "$ref": "experiment_reference.json"
+        },
+        "url": {
+            "description": "URI containing complete text of experimental reference",
+            "$ref": "experiment_url.json"
+        },
+        "created": {
+            "description": "When the reference document was created",
+            "type": "string",
+            "format": "date-time",
+            "$comment": "Computed automatically"
+        },
+        "updated": {
+            "description": "When the reference document was last updated",
+            "type": "string",
+            "format": "date-time",
+            "$comment": "Computed automatically"
+        },
+        "uuid": {
+            "$ref": "experiment_design_uuid.json"
+        },
+        "experiments": {
+            "type": "array",
+            "items": {
+                "$ref": "experiment.json"
+            },
+            "minItems": 0
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "PROPOSED",
+                "DRAFT",
+                "ACTIVE",
+                "COMPLETED",
+                "DEPRECATED",
+                "RETIRED"
+            ]
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "$ref": "challenge_problem_uuid.json"
+            },
+            "minItems": 1
+        }
+    },
+    "required": [
+        "experiment_design_id"
+    ],
+    "_filename": "experiment_design",
+    "__uuid_type": "experiment_design",
+    "__uuid_fields": [
+        "experiment_design_id"
+    ],
+    "__collection": "experiment_designs",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "experiment_design_id"
+    ]
+}
