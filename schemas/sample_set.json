@@ -1,26 +1,21 @@
 {
-    "$comment": "generated: 2018-11-02 00:03:44 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b721c4f",
+    "$comment": "generated: 2018-11-05 19:10:27 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@dfa081a",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/sample_set.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Describes a set of samples produced by an experimental facility or data provider",
     "properties": {
-        "_visible": {
-            "type": "boolean",
-            "value": true
-        },
         "challenge_problem": {
             "$ref": "challenge_problem_id.json"
+        },
+        "experiment_id": {
+            "$ref": "namespaced_identifier.json"
         },
         "experiment_reference": {
             "$ref": "experiment_reference.json"
         },
         "experiment_reference_url": {
             "$ref": "experiment_url.json"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "String identifier for the sample set"
         },
         "lab": {
             "$ref": "lab.json"
@@ -33,8 +28,8 @@
         }
     },
     "required": [
-        "id",
         "challenge_problem",
+        "experiment_id",
         "experiment_reference",
         "lab",
         "samples"

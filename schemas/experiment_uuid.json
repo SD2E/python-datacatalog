@@ -1,10 +1,10 @@
 {
-    "$comment": "generated: 2018-11-02 00:03:43 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b721c4f",
+    "$comment": "generated: 2018-11-05 19:10:27 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@dfa081a",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "UUID5 with DNS namespacing",
     "pattern": "^(uri:urn:)?102[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-    "title": "Experiment Reference UUID",
+    "title": "Experiment UUID",
     "type": "string"
 }

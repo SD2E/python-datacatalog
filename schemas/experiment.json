@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-02 00:03:44 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b721c4f",
+    "$comment": "generated: 2018-11-05 19:10:27 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@dfa081a",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -12,23 +12,17 @@
             },
             "type": "array"
         },
-        "created": {
-            "$comment": "Computed automatically",
-            "description": "When the reference document was created",
-            "format": "date-time",
-            "type": "string"
-        },
         "experiment_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "String identifier, namespaced performer, for the experiment"
+        },
+        "experiment_reference": {
             "$ref": "experiment_reference.json",
             "description": "Canonical string identifier for the experimental reference"
         },
         "id": {
             "$ref": "identifier.json",
             "description": "Distinguishing identifier for the specified document"
-        },
-        "provider_id": {
-            "$ref": "namespaced_identifier.json",
-            "description": "String identifier, namespaced by provider, for the experiment"
         },
         "samples": {
             "items": {
@@ -37,29 +31,9 @@
             "minItems": 1,
             "type": "array"
         },
-        "status": {
-            "enum": [
-                "PROPOSED",
-                "DRAFT",
-                "FINAL",
-                "DEPRECATED",
-                "RETIRED"
-            ],
-            "type": "string"
-        },
         "title": {
-            "description": "Human-readable title for the experimental reference",
+            "description": "Human-readable title for the experiment",
             "type": "string"
-        },
-        "updated": {
-            "$comment": "Computed automatically",
-            "description": "When the reference document was last updated",
-            "format": "date-time",
-            "type": "string"
-        },
-        "url": {
-            "$ref": "experiment_url.json",
-            "description": "URI containing complete experimental reference"
         }
     },
     "required": [
