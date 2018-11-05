@@ -88,7 +88,7 @@ class ExperimentReferenceMapping(object):
                'type': 'string',
                'enum': []}
         for rec in self.filescache:
-            doc['enum'].append(rec['experiment_id'])
+            doc['enum'].append(rec['experiment_design_id'])
         return doc
 
     def encode_files(self, files_listing):
@@ -99,17 +99,17 @@ class ExperimentReferenceMapping(object):
                 record = {'title': file['name'],
                           'status': self.config['schema_default_status'],
                           'uri': 'https://docs.google.com/document/d/{}'.format(file['id']),
-                          'experiment_id': key,
+                          'experiment_design_id': key,
                           'created': google_time_to_datetime(file['createdTime']),
                           'updated': google_time_to_datetime(file['modifiedTime']),
                           'child_of': []}
                 records.append(record)
         # Placeholder for Unknown mapping
-        unknown_rec = {'title': 'Undefined Experiment Request',
+        unknown_rec = {'title': 'Undefined Experiment Design',
                        'status': 'DRAFT',
                        'uri': None,
-                       'experiment_id': 'Unknown',
-                       'type': 'experiment_reference',
+                       'experiment_design_id': 'Unknown',
+                       'type': 'experiment_design',
                        'created': datetime.datetime.utcnow(),
                        'updated': datetime.datetime.utcnow(),
                        'child_of': []}
@@ -139,11 +139,11 @@ class ExperimentReferenceMapping(object):
         return self.uri_to_key(uri, 'title')
 
     def uri_to_id(self, uri):
-        return self.uri_to_key(uri, 'experiment_id')
+        return self.uri_to_key(uri, 'experiment_design_id')
 
     def id_to_key(self, id, keyname):
         for cached in self.filescache:
-            if cached['experiment_id'] == id:
+            if cached['experiment_design_id'] == id:
                 try:
                     return cached[keyname]
                 except KeyError:

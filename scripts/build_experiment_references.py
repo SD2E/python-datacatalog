@@ -40,7 +40,7 @@ def regenerate(update_catalog=False, mongodb=None):
     if update_catalog:
         if mongodb is None:
             mongodb = settings.get('mongodb')
-        store = datacatalog.linkedstores.experiment.ExperimentStore(mongodb)
+        store = datacatalog.linkedstores.experiment_design.ExperimentDesignStore(mongodb)
         for doc in mapping.filescache:
             store.add_update_document(doc)
 
