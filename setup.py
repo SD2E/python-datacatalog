@@ -17,6 +17,7 @@ setuptools.setup(
     install_requires=requires,
     packages=setuptools.find_packages(),
     license="BSD",
+    include_package_data=True,
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3.6",
