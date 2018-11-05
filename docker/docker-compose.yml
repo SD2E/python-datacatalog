@@ -3,6 +3,8 @@ version: "3.2"
 services:
   mongodb:
     image: 'bitnami/mongodb:3.6'
+    expose:
+      - "27017"
     ports:
       - "27017:27017"
     volumes:
