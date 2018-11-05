@@ -14,7 +14,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/x-rst",
     url="https://github.com/SD2E/python-datacatalog",
-    package_data={'*.json'},
+    package_data={'': ['*.json']},
     install_requires=requires,
     packages=find_packages(),
     license="BSD",
