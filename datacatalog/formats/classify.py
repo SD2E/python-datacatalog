@@ -9,26 +9,29 @@ class NoClassifierError(ConversionError):
 
 def get_converter(json_filepath, options={}):
 
+    exceptions = list()
+
     try:
         t = Transcriptic(options=options)
         t.validate_input(json_filepath)
         return t
-    except Exception:
-        pass
+    except Exception as exc:
+        exceptions.append(exc)
 
     try:
         g = Ginkgo(options=options)
         g.validate_input(json_filepath)
         return g
-    except Exception:
-        pass
+    except Exception as exc:
+        exceptions.append(exc)
 
     try:
         b = Biofab(options=options)
         b.validate_input(json_filepath)
         return b
-    except Exception:
-        pass
+    except Exception as exc:
+        exceptions.append(exc)
 
-    raise NoClassifierError('Classification failed for {}'.format(json_filepath))
-
+    raise NoClassifierError(
+        'Classification failed for {}: {}'.format(
+            json_filepath, exceptions))
