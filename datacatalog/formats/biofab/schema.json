@@ -75,7 +75,7 @@
                                 "type": "number"
                             },
                             "volume": {
-                                "type": "integer"
+                                "type": "number"
                             },
                             "from": {
                                 "type": "integer"
