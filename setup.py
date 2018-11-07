@@ -1,13 +1,13 @@
-import setuptools
+from setuptools import setup, find_packages
 
 with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 requires = [pkg for pkg in open('requirements.txt').readlines()]
 
-setuptools.setup(
+setup(
     name="datacatalog",
-    version="0.1.3",
+    version="0.1.5",
     author="Matthew Vaughn",
     author_email="opensource@sd2e.org",
     description="Python package implementing essential logic for SD2 Data Catalog",
@@ -15,7 +15,9 @@ setuptools.setup(
     long_description_content_type="text/x-rst",
     url="https://github.com/SD2E/python-datacatalog",
     install_requires=requires,
-    packages=setuptools.find_packages(),
+    packages=find_packages(),
+    package_data={'': ['*.json']},
+    include_package_data=True,
     license="BSD",
     zip_safe=False,
     classifiers=[
