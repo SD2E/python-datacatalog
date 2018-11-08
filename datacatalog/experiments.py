@@ -39,12 +39,15 @@ class ExperimentStore(BaseStore):
         ts = current_time()
         expt_uuid = None
         # Absolutely must
-        if 'experiment_reference' not in expt:
+        if 'experiment_id' not in expt:
             raise ExperimentUpdateFailure(
-                '"experiment_reference" is missing from experiment record')
+                '"experiment_id" is missing from experiment record')
+        # if 'experiment_reference' not in expt:
+        #     raise ExperimentUpdateFailure(
+        #         '"experiment_reference" is missing from experiment record')
         # Add UUID if it does not exist (record is likely new)
         if 'uuid' not in expt:
-            expt_uuid = catalog_uuid(expt['experiment_reference'])
+            expt_uuid = catalog_uuid(expt['experiment_id'])
             expt['uuid'] = expt_uuid
 
         # this list maintains the inheritance relationship
@@ -67,17 +70,17 @@ class ExperimentStore(BaseStore):
         if dbrec is None:
             dbrec = expt
             expt['properties'] = {'created_date': ts,
-                                    'modified_date': ts,
-                                    'revision': 0}
+                                  'modified_date': ts,
+                                  'revision': 0}
             try:
                 result = self.coll.insert_one(expt)
                 return self.coll.find_one({'_id': result.inserted_id})
             except Exception as exc:
                 raise ExperimentUpdateFailure('Failed to create experiment record', exc)
         else:
-        # Update the fields content of the record using a rightward merge,
-        # then update the updated and revision properties, then write the
-        # record (and eventually its diff) to the catalog
+            # Update the fields content of the record using a rightward merge,
+            # then update the updated and revision properties, then write the
+            # record (and eventually its diff) to the catalog
             dbrec = self.update_properties(dbrec)
             dbrec_core = copy.deepcopy(dbrec)
             dbrec_props = dbrec_core.pop('properties')
@@ -106,4 +109,3 @@ class ExperimentStore(BaseStore):
         except Exception as exc:
             raise ExperimentUpdateFailure(
                 'Failed to delete expt {}'.format(expt_id), exc)
-
