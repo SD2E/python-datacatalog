@@ -5,7 +5,7 @@ import inspect
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
 from .targetschemas import SamplesJSON
-# from .runner import convert_file
+from .runner import convert_file
 
 class ConversionError(Exception):
     pass
@@ -23,7 +23,6 @@ class Converter(object):
         schema_path = os.path.join(PARENT, 'schema.json')
         # Input schemas
         self.schemas = [schema_path]
-        self.name = type(self).__name__
         if isinstance(schemas, str):
             if os.path.exists(str):
                 self.schemas.append(str)
@@ -45,7 +44,6 @@ class Converter(object):
         self.options = options
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
-        from .runner import convert_file
         return convert_file(self.targetschema, input_fp, output_path=output_fp, verbose=verbose, config=config, enforce_validation=enforce_validation)
 
     def test(self, input_fp, output_fp, verbose=True, config={}):

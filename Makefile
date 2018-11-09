@@ -9,3 +9,7 @@ build:
 clean:
 	rm -rf build *egg-info dist
 
+tests:
+
+tests-classify:
+	pytest  -k "format_imports" tests

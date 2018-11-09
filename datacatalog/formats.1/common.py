@@ -1,5 +1,5 @@
 
-from synbiohub_adapter.SynBioHubUtil import SD2Constants
+# from synbiohub_adapter.SynBioHubUtil import SD2Constants
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -153,11 +153,11 @@ def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
 
     sbh_lab = None
     if lab == SampleConstants.LAB_GINKGO:
-        sbh_lab = SD2Constants.GINKGO
+        sbh_lab = 'Ginkgo'
     elif lab == SampleConstants.LAB_TX:
-        sbh_lab = SD2Constants.TRANSCRIPTIC
+        sbh_lab = 'TranscripticBioFAB'
     elif lab == SampleConstants.LAB_UWBF:
-        sbh_lab = SD2Constants.BIOFAB
+        sbh_lab = 'BioFAB'
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
