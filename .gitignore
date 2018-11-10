@@ -8,3 +8,6 @@ build/
 env/
 settings.py
 .pytest_cache/
+.vscode/
+service_account.json
+config.yml
