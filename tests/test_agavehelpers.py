@@ -17,6 +17,18 @@ from fixtures.agave import agave, credentials
 sys.path.insert(0, '/')
 import datacatalog
 
+@pytest.mark.parametrize("filename, system", [('/sample/tacc-cloud/123.txt', 'data-sd2e-community'),
+                                              ('sample/tacc-cloud/123.txt', 'data-sd2e-community'),
+                                              ('/sample/tacc-cloud/123.txt', None),
+                                              ('sample/tacc-cloud/123.txt', None)
+                                              ])
+def test_mapped_posix_path(agave, filename, system):
+    h = datacatalog.agavehelpers.AgaveHelper(agave)
+    target = '/work/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'
+    pp = h.mapped_posix_path(filename, storage_system=system)
+    assert pp == target
+
+
 @longrun
 def test_listdir_posix(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
