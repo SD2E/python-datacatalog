@@ -1,5 +1,7 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
+# FIXME: Refactor how we get resolve experiment references to use the experiments store
+from experiment_reference import ExperimentReferenceMapping, MappingNotFound
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -9,7 +11,7 @@ class SampleConstants():
     """Obvious issues with this, welcome something more robust.
     """
     def infer_file_type(file_name):
-
+        # FIXME: Use datacatalog.filetypes.infer_filetype(fname)
         if file_name.endswith("fastq.gz"):
             return SampleConstants.F_TYPE_FASTQ
         elif file_name.endswith("zip"):
@@ -32,7 +34,7 @@ class SampleConstants():
     # For circuits
     LOGIC_PREFIX = "http://www.openmath.org/cd/logic1#"
 
-    #experiment
+    # experiment
     EXPERIMENT_ID = "experiment_id"
     CHALLENGE_PROBLEM = "challenge_problem"
 
@@ -44,18 +46,22 @@ class SampleConstants():
 
     EXPERIMENT_REFERENCE = "experiment_reference"
     EXPERIMENT_REFERENCE_URL = "experiment_reference_url"
-    EXPT_DEFAULT_REFERENCE_GINKGO = "NovelChassis-NAND-Gate"
+    # EXPT_DEFAULT_REFERENCE_GINKGO = "NovelChassis-NAND-Gate"
 
     LAB = "lab"
     LAB_GINKGO = "Ginkgo"
     LAB_TX = "Transcriptic"
     LAB_UWBF = "UW_BIOFAB"
 
-    #samples
+    # samples
     SAMPLES = "samples"
     SAMPLE_ID = "sample_id"
+    REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
     CONTENTS = "contents"
+    MEDIA = "media"
+    CONCENTRATION = "concentration"
+    MEDIA_RS_ID = "media_rs_id"
     REPLICATE = "replicate"
     INOCULATION_DENSITY = "inoculation_density"
     TEMPERATURE = "temperature"
@@ -63,6 +69,7 @@ class SampleConstants():
     NAME = "name"
     VALUE = "value"
     UNIT = "unit"
+    mM = "mM"
 
     LABEL = "label"
     CIRCUIT = "circuit"
@@ -80,13 +87,16 @@ class SampleConstants():
     CONTROL_FOR = "control_for"
     CONTROL_BASELINE_MEDIA_PR = "BASELINE_MEDIA_PR"
     CONTROL_EMPTY_VECTOR = "EMPTY_VECTOR"
+    CONTROL_HIGH_FITC = "HIGH_FITC"
+    CONTROL_CELL_DEATH_POS_CONTROL = "CELL_DEATH_POS_CONTROL"
+    CONTROL_CELL_DEATH_NEG_CONTROL = "CELL_DEATH_NEG_CONTROL"
 
     # sample attributes
     STANDARD_ATTRIBUTES = "standard_attributes"
     BEAD_MODEL = "bead_model"
     BEAD_BATCH = "bead_batch"
 
-    #measurements
+    # measurements
     MEASUREMENTS = "measurements"
     FILES = "files"
     FILE_ID = "file_id"
@@ -101,6 +111,9 @@ class SampleConstants():
     SAMPLE_TMT_CHANNEL = "TMT_channel"
     MEASUREMENT_ID = "measurement_id"
     MEASUREMENT_GROUP_ID = "measurement_group_id"
+    MEASUREMENT_LIBRARY_PREP = "library_prep"
+    MEASUREMENT_LIBRARY_PREP_NORMAL = "NORMAL"
+    MEASUREMENT_LIBRARY_PREP_MINIATURIZED = "MINIATURIZED"
     MT_RNA_SEQ = "RNA_SEQ"
     MT_FLOW = "FLOW"
     MT_PLATE_READER = "PLATE_READER"
@@ -110,9 +123,10 @@ class SampleConstants():
     M_STATE = "state"
     M_STATE_RAW = "RAW"
     M_STATE_PROCESSED = "PROCESSED"
-    M_CHANNEL = "channel"
+    M_CHANNELS = "channels"
     M_INSTRUMENT_CONFIGURATION = "instrument_configuration"
 
+    # Deprecated
     F_TYPE_SRAW = "SRAW"
     F_TYPE_FASTQ = "FASTQ"
     F_TYPE_CSV = "CSV"
@@ -121,6 +135,35 @@ class SampleConstants():
     F_TYPE_TXT = "TXT"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
+
+expt_ref_mapper = None
+
+def map_experiment_reference(config, output_doc):
+    global expt_ref_mapper
+
+    if expt_ref_mapper is None:
+        expt_ref_mapper = ExperimentReferenceMapping(mapper_config=config['experiment_reference'],
+                                                     google_client=config['google_client'])
+        expt_ref_mapper.populate()
+
+    mapped = False
+    try:
+        # URI to id
+        if SampleConstants.EXPERIMENT_REFERENCE_URL in output_doc:
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
+            mapped = True
+    except Exception as exc:
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
+        raise Exception(exc)
+
+    if not mapped:
+        try:
+            # id to URI
+            if SampleConstants.EXPERIMENT_REFERENCE in output_doc:
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = expt_ref_mapper.id_to_uri(output_doc[SampleConstants.EXPERIMENT_REFERENCE])
+        except Exception as exc:
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
+            raise Exception(exc)
 
 def convert_value_unit(value_unit):
     value_unit_split = value_unit.split(":")
@@ -140,7 +183,14 @@ def create_media_component(media_name, media_id, lab, sbh_query, value_unit=None
     if value_unit:
         value_unit_split = convert_value_unit(value_unit)
         m_c_object[SampleConstants.VALUE] = value_unit_split[0]
-        m_c_object[SampleConstants.UNIT] = value_unit_split[1]
+        if len(value_unit_split) == 1:
+            # no unit provided
+            m_c_object[SampleConstants.UNIT] = SampleConstants.mM
+        else:
+            m_c_object[SampleConstants.UNIT] = value_unit_split[1]
+            # apply some normalizations
+            if m_c_object[SampleConstants.UNIT] == "micromolar":
+                m_c_object[SampleConstants.UNIT] = "micromole"
 
     return m_c_object
 
@@ -207,7 +257,7 @@ def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
             with open('create_mapped_name_failures.csv', 'a+') as unmapped:
                 unmapped.write('"{}","{}","{}"\n'.format(lab, name_to_map, id_to_map))
 
-    #m_n_object[SampleConstants.AGAVE_URI] =
+    # m_n_object[SampleConstants.AGAVE_URI] =
     m_n_object[SampleConstants.LAB_ID] = namespace_lab_id(id_to_map, lab)
     return m_n_object
 

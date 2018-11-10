@@ -5,12 +5,7 @@
         "processing_level": {
             "description": "a data processing level",
             "type": "string",
-            "enum": [
-                "0",
-                "1",
-                "2",
-                "3"
-            ]
+            "enum": ["0", "1", "2", "3"]
         },
         "time_unit": {
             "description": "unit of temporal measurement",
@@ -202,7 +197,7 @@
                 },
                 "unit": {
                     "description": "unit of temporal measure",
-                    "$ref": "#/definitions/time_unit.json"
+                    "$ref": "#/definitions/time_unit"
                 },
                 "name": {
                     "type": "string",

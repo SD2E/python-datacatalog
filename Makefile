@@ -36,3 +36,5 @@ tests-longrun:
 tests:
 	python -m pytest --cache-clear $(PYTEST_OPTS)
 
+tests-classify:
+	python -m pytest -s -vvv -k "format_imports" $(PYTEST_SRC)
