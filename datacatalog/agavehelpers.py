@@ -33,6 +33,12 @@ class AgaveHelper(object):
         self.STORAGE_PAGESIZE = os.environ.get(
             'CATALOG_FILES_API_PAGESIZE', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['pagesize'])
         self.client = client
+        # Check for existence of posix mapped directory, and if it exists, we can
+        # trust the POSIX methods when they return False
+        if os.path.exists(self.STORAGE_PREFIX):
+            self.trust_posix = True
+        else:
+            self.trust_posix = False
 
     def mapped_posix_path(self, path, storage_system=None):
         # if storage_system is None:
@@ -56,6 +62,30 @@ class AgaveHelper(object):
         return uri_list
 
     def exists(self, path, storage_system=None):
+        if storage_system is None:
+            storage_system = self.STORAGE_SYSTEM
+        try:
+            if os.path.exists(self.mapped_posix_path(path, storage_system)):
+                return True
+            elif self.trust_posix:
+                return False
+            else:
+                try:
+                    path_format = self.client.files.list(
+                        filePath=path, systemId=storage_system, limit=2)[0].get('format', None)
+                    if path_format != 'folder':
+                        return True
+                    else:
+                        return False
+                except HTTPError as herr:
+                    if herr.response.status_code == 404:
+                        return False
+                    else:
+                        raise HTTPError(herr)
+        except Exception as exc:
+            raise AgaveHelperException('Function failed', exc)
+
+    def _exists(self, path, storage_system=None):
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         prefix = self.STORAGE_PREFIX
@@ -84,10 +114,11 @@ class AgaveHelper(object):
     def isfile(self, path, storage_system=None):
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
-        prefix = self.STORAGE_PREFIX
         try:
             if os.path.isfile(self.mapped_posix_path(path, storage_system)):
                 return True
+            elif self.trust_posix:
+                return False
             else:
                 try:
                     path_format = self.client.files.list(
@@ -104,10 +135,11 @@ class AgaveHelper(object):
     def isdir(self, path, storage_system=None):
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
-        prefix = self.STORAGE_PREFIX
         try:
             if os.path.isdir(self.mapped_posix_path(path, storage_system)):
                 return True
+            elif self.trust_posix:
+                return False
             else:
                 try:
                     path_format = self.client.files.list(
