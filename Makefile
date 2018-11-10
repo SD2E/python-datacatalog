@@ -1,3 +1,6 @@
+PYTEST_OPTS ?= ""
+PYTEST_SRC ?= tests
+
 all: build
 
 release: build
@@ -8,8 +11,9 @@ build:
 
 clean:
 	rm -rf build *egg-info dist
+	find . -d -name '*__pycache__*' -exec rm -rf {} \;
 
 tests:
 
 tests-classify:
-	pytest  -k "format_imports" tests
+	python -m pytest -s -vvv -k "format_imports" $(PYTEST_SRC)

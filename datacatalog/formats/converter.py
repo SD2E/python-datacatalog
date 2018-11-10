@@ -15,7 +15,7 @@ class formatChecker(FormatChecker):
         FormatChecker.__init__(self)
 
 class Converter(object):
-    def __init__(self, schemas=[], targetschema=None, options={}):
+    def __init__(self, schemas=[], targetschema=None, options={}, reactor=None):
 
         # Discover the default input schema
         HERE = os.path.abspath(inspect.getfile(self.__class__))
@@ -43,8 +43,10 @@ class Converter(object):
             self.targetschema = targetschema
 
         self.options = options
+        self.reactor = reactor
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
+        # Import lazily because of the SBH requirement
         from .runner import convert_file
         return convert_file(self.targetschema, input_fp, output_path=output_fp, verbose=verbose, config=config, enforce_validation=enforce_validation)
 
@@ -98,7 +100,7 @@ class Converter(object):
                 jsondata = json.load(jsonfile)
         except Exception as exc:
             raise ValidationError(
-                'Unable to load {} for validation'.format(input_fp), exc)
+                'Unable to load {} for validation'.format(output_fp), exc)
 
         try:
             with open(self.targetschema) as schema:

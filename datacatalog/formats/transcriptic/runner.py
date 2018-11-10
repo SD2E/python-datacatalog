@@ -9,11 +9,11 @@ from jsonschema import ValidationError
 # Hack hack
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from common import SampleConstants
-from common import namespace_sample_id, namespace_measurement_id, create_media_component, create_mapped_name, create_value_unit
-from experiment_reference import ExperimentReferenceMapping, MappingNotFound
+from common import namespace_sample_id, namespace_measurement_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from sbol import *
+from datacatalog.agavehelpers import AgaveHelper
 
 """
 Schema closely aligns with V1 target schema
@@ -22,12 +22,21 @@ as necessary
 """
 
 
-def convert_transcriptic(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True):
+def convert_transcriptic(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+
+    if reactor is not None:
+        helper = AgaveHelper(reactor.client)
+        print("Helper loaded")
+    else:
+        print("Helper not loaded")
+
+    DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
+    DEFAULT_BEAD_BATCH = "AJ02"
+    DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A", "RL1-A"]
+    DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/12142017/cytometer_configuration.json"
+
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
-    expt_ref_mapper = ExperimentReferenceMapping(mapper_config=config['experiment_reference'],
-                                                 google_client=config['google_client'])
-    expt_ref_mapper.populate()
 
     schema = json.load(open(schema_file))
     transcriptic_doc = json.load(open(input_file))
@@ -36,23 +45,22 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
     lab = SampleConstants.LAB_TX
 
-    output_doc[SampleConstants.EXPERIMENT_ID] = transcriptic_doc[SampleConstants.EXPERIMENT_ID]
+    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(transcriptic_doc[SampleConstants.EXPERIMENT_ID], lab)
 
     cp = transcriptic_doc[SampleConstants.CHALLENGE_PROBLEM]
-    #TX's name for YG...
+    # TX's name for YG...
     if cp == "YG":
         cp = SampleConstants.CP_YEAST_GATES
+    elif cp == "NC":
+        cp = SampleConstants.CP_NOVEL_CHASSIS
+    else:
+        raise ValueError("Unknown TX CP: {}".format(cp))
 
     output_doc[SampleConstants.CHALLENGE_PROBLEM] = cp
 
     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = transcriptic_doc[SampleConstants.EXPERIMENT_REFERENCE]
 
-    try:
-        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
-    except Exception as exc:
-        raise Exception(exc)
-        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
+    map_experiment_reference(config, output_doc)
 
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
@@ -73,11 +81,21 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
         # media
         contents = []
-        for reagent in transcriptic_sample[SampleConstants.CONTENTS]:
-            if reagent is None or len(reagent) == 0:
-                print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
-            else:
-                contents.append(create_media_component(reagent, reagent, lab, sbh_query))
+        if SampleConstants.CONTENTS in transcriptic_sample:
+            for reagent in transcriptic_sample[SampleConstants.CONTENTS]:
+                if reagent is None or len(reagent) == 0:
+                    print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+                else:
+                    if len(transcriptic_sample[SampleConstants.CONTENTS]) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                        contents.append(create_media_component(reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
+                    else:
+                        contents.append(create_media_component(reagent, reagent, lab, sbh_query))
+
+        if SampleConstants.MEDIA in transcriptic_sample and SampleConstants.MEDIA_RS_ID in transcriptic_sample:
+            media = transcriptic_sample[SampleConstants.MEDIA]
+            media_id = transcriptic_sample[SampleConstants.MEDIA_RS_ID]
+            contents.append(create_media_component(media, media_id, lab, sbh_query))
+
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
@@ -105,6 +123,48 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         # time
         time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
 
+        # enum fix
+        if time_val.endswith("hours"):
+            time_val = time_val.replace("hours", "hour")
+
+        # controls and standards
+        # map standard for, type,
+        if SampleConstants.STANDARD_TYPE in transcriptic_sample:
+            sample_doc[SampleConstants.STANDARD_TYPE] = transcriptic_sample[SampleConstants.STANDARD_TYPE]
+        if SampleConstants.STANDARD_FOR in transcriptic_sample:
+            sample_doc[SampleConstants.STANDARD_FOR] = transcriptic_sample[SampleConstants.STANDARD_FOR]
+
+        # map control for, type
+        if SampleConstants.CONTROL_TYPE in transcriptic_sample:
+            sample_doc[SampleConstants.CONTROL_TYPE] = transcriptic_sample[SampleConstants.CONTROL_TYPE]
+        if SampleConstants.CONTROL_FOR in transcriptic_sample:
+            sample_doc[SampleConstants.CONTROL_FOR] = transcriptic_sample[SampleConstants.CONTROL_FOR]
+
+        # fill in attributes if we have a bead standard
+        if SampleConstants.STANDARD_TYPE in sample_doc and \
+            sample_doc[SampleConstants.STANDARD_TYPE] == SampleConstants.STANDARD_BEAD_FLUORESCENCE and \
+                SampleConstants.STANDARD_ATTRIBUTES not in sample_doc:
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
+        # if control types are not available, infer based on sample ids
+        # this is brittle, but the best we can do right now with the output provided
+        # "wt-control-1" = precursor to "WT-Dead-Control" or "WT-Live-Control"
+        # "NOR 00 Control" = "HIGH_FITC"
+        # "WT-Dead-Control" = "CELL_DEATH_POS_CONTROL" - positive for the sytox stain
+        # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
+        original_sample_id = tx_sample_measure_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
+        if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
+            if original_sample_id == "wt-control-1":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+            elif original_sample_id == "NOR 00 Control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+            elif original_sample_id == "WT-Dead-Control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+            elif original_sample_id == "WT-Live-Control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
 
@@ -116,7 +176,19 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             measurement_doc[SampleConstants.FILES] = []
 
             measurement_type = file[SampleConstants.M_TYPE]
+
+            # enum fix
+            if measurement_type == "RNASeq":
+                measurement_type = SampleConstants.MT_RNA_SEQ
+
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
+
+            # apply defaults, if nothing mapped
+            if measurement_type == SampleConstants.MT_FLOW:
+                if SampleConstants.M_CHANNELS not in measurement_doc:
+                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
+                    measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # TX can repeat measurement ids
             # across multiple measurement types, append
@@ -138,9 +210,9 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 file_name_final = file_name.split('/')[-1]
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,
-                                SampleConstants.M_TYPE : file_type, \
-                                SampleConstants.M_STATE : SampleConstants.M_STATE_RAW,
-                                SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                 SampleConstants.M_TYPE: file_type,
+                 SampleConstants.M_STATE: SampleConstants.M_STATE_RAW,
+                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
             if len(measurement_doc[SampleConstants.FILES]) == 0:
                 print("Warning, measurement contains no files, skipping {}".format(file_name))
@@ -158,7 +230,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
     try:
         validate(output_doc, schema)
-        #if verbose:
+        # if verbose:
         #print(json.dumps(output_doc, indent=4))
         if output is True or output_file is not None:
             if output_file is None:
@@ -171,6 +243,8 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         return True
     except ValidationError as err:
         if enforce_validation:
+            if verbose:
+                print("Schema Validation Error: {0}\n".format(err))
             raise ValidationError("Schema Validation Error", err)
         else:
             if verbose:
@@ -189,4 +263,3 @@ if __name__ == "__main__":
                 print("Skipping {}".format(file_path))
     else:
         convert_transcriptic(sys.argv[1], sys.argv[2])
-
