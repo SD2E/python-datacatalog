@@ -59,6 +59,7 @@ class SampleConstants():
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
     CONTENTS = "contents"
+    INDUCER = "inducer"
     MEDIA = "media"
     CONCENTRATION = "concentration"
     MEDIA_RS_ID = "media_rs_id"
