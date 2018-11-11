@@ -96,6 +96,17 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             media_id = transcriptic_sample[SampleConstants.MEDIA_RS_ID]
             contents.append(create_media_component(media, media_id, lab, sbh_query))
 
+        if SampleConstants.INDUCER in transcriptic_sample:
+            inducer = transcriptic_sample[SampleConstants.INDUCER]
+            #"Arabinose+IPTG"
+            if inducer != "None":
+                if "+" in inducer:
+                    inducer_split = inducer.split("+")
+                    contents.append(create_media_component(inducer_split[0], inducer_split[0], lab, sbh_query))
+                    contents.append(create_media_component(inducer_split[1], inducer_split[1], lab, sbh_query))
+                else:
+                    contents.append(create_media_component(inducer, inducer, lab, sbh_query))
+
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
