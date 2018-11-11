@@ -30,6 +30,7 @@ source_attr = "sources"
 item_id_attr = "item_id"
 media_attr = "media"
 inducer_attr = "inducer"
+experimental_media_attr = "experimental_media"
 experimental_antibiotic_attr = "experimental_antibiotic"
 concentration_attr = "concentration"
 volume_attr = "volume"
@@ -121,11 +122,13 @@ def add_measurement_type(file, measurement_doc):
             raise ValueError("Could not parse MT: {}".format(assay_type))
     else:
         # Workaround for biofab; uploaded txts are PR
-        # Otherwise the abve version of this fails
+        # Otherwise the above version of this fails
         # Files that did not have a type
         fn = file['filename']
         if fn.endswith(".txt"):
             measurement_type = SampleConstants.MT_PLATE_READER
+        elif fn.endswith(".fastq.gz"):
+            measurement_type = SampleConstants.MT_RNA_SEQ
         else:
             raise ValueError("Could not parse MT: {}".format(file['filename']))
 
@@ -149,8 +152,17 @@ def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
         file_name = file["filename"]
 
     file_id = file.get('file_id', None)
-    if file_id is not None:
+    # biofab stores this in multiple ways
+    if file_id is None:
+        file_id = file.get('id', None)
+        # these are localized _per_ run, namespace using exp_id
+        file_id = '.'.join([original_experiment_id, file_id])
+
+    if file_id is None:
+        raise ValueError("Could not parse file id? {}".format(file_id))
+    elif file_id is not None:
         file_id = namespace_file_id(file_id, lab)
+
     file_type = SampleConstants.infer_file_type(file_name)
     measurement_doc[SampleConstants.FILES].append(
         {SampleConstants.M_NAME: file_name,
@@ -171,6 +183,65 @@ def extend_biofab_filename(file_name, plan_id, generated_by):
         gen_id = 'unknown'
     return '/'.join([str(plan_id), gen_id, file_name])
 
+def add_inducer_experimental_media(item, lab, sbh_query, reagents, biofab_doc):
+    # no media attribute, try to look up through the last source
+    if source_attr in item:
+        last_source_ = item[source_attr][0]
+        last_source_lookup = jq(".items[] | select(.item_id==\"" + last_source_ + "\")").transform(biofab_doc)
+        if attributes_attr in last_source_lookup:
+            found_inducer_media = False
+            for inducer_media_attr in [experimental_media_attr, inducer_attr]:
+                if found_inducer_media:
+                    continue
+                if inducer_media_attr in last_source_lookup[attributes_attr]:
+                    combined_inducer = last_source_lookup[attributes_attr][inducer_media_attr]
+                    if combined_inducer != "None":
+                        #"IPTG_0.25|arab_25.0"
+                        combined_inducer_split = combined_inducer.split("|")
+                        found_inducer_media = True
+                        for inducer in combined_inducer_split:
+                            inducer_split = inducer.split("_")
+                            # there are a large number of edge cases here - nones appear everywhere in the latest 17016 trace
+                            if len(inducer_split) == 2:
+                                if inducer_split[1] == "None":
+                                    if inducer_split[0] != "None":
+                                        reagents.append(create_media_component(inducer_split[0], inducer_split[0], lab, sbh_query))
+                                else:
+                                    if inducer_split[0] != "None":
+                                        reagents.append(create_media_component(inducer_split[0], inducer_split[0], lab, sbh_query, inducer_split[1]))
+                            else:
+                                # now we have something unexpected like None_arab_25.0 or Kan_arab_25.0
+                                # and have to carefully try and figure out the legal pairs
+                                seen_index = set()
+                                for index, sub_inducer_split in enumerate(inducer_split):
+                                    if index in seen_index:
+                                        continue
+                                    if sub_inducer_split == "None":
+                                        seen_index.add(index)
+                                    else:
+                                        if index + 1 < len(inducer_split):
+                                            val1 = inducer_split[index]
+                                            val2 = inducer_split[index+1]
+                                            try:
+                                                float(val2)
+                                                #arab_25.0
+                                                reagents.append(create_media_component(val1, val1, lab, sbh_query, val2))
+                                                seen_index.add(index)
+                                                seen_index.add(index+1)
+                                            except ValueError:
+                                                #Kan
+                                                reagents.append(create_media_component(val1, val1, lab, sbh_query))
+                                                seen_index.add(index)
+                                        else:
+                                            #Kan
+                                            val1 = inducer_split[index]
+                                            reagents.append(create_media_component(val1, val1, lab, sbh_query))
+                                            seen_index.add(index)
+            if experimental_antibiotic_attr in last_source_lookup[attributes_attr]:
+                if not found_inducer_media:
+                    experimental_antibiotic = last_source_lookup[attributes_attr][experimental_antibiotic_attr]
+                    if experimental_antibiotic != "None":
+                        reagents.append(create_media_component(experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
 
 def convert_biofab(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -268,22 +339,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                     else:
                         raise ValueError("No media id? {}".format(media_source_lookup))
                 else:
-                    # no media attribute, try to look up through the last source
-                    if source_attr in media_source_lookup:
-                        last_source_ = media_source_lookup[source_attr][0]
-                        last_source_lookup = jq(".items[] | select(.item_id==\"" + last_source_ + "\")").transform(biofab_doc)
-                        if attributes_attr in last_source_lookup:
-                            if inducer_attr in last_source_lookup[attributes_attr]:
-                                combined_inducer = last_source_lookup[attributes_attr][inducer_attr]
-                                if combined_inducer != "None":
-                                    # "IPTG_0.25|arab_25.0"
-                                    combined_inducer_split = combined_inducer.split("|")
-                                    for inducer in combined_inducer_split:
-                                        inducer_split = inducer.split("_")
-                                        reagents.append(create_media_component(inducer_split[0], inducer_split[0], lab, sbh_query, inducer_split[1]))
-                            if experimental_antibiotic_attr in last_source_lookup[attributes_attr]:
-                                experimental_antibiotic = last_source_lookup[attributes_attr][experimental_antibiotic_attr]
-                                reagents.append(create_media_component(experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
+                    add_inducer_experimental_media(media_source_lookup, lab, sbh_query, reagents, biofab_doc)
 
                 add_od(media_source_lookup, sample_doc)
 
@@ -409,6 +465,8 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                 else:
                     # strain
                     add_strain(item_source, sample_doc, lab, sbh_query)
+
+                add_inducer_experimental_media(item_source, lab, sbh_query, reagents, biofab_doc)
 
                 add_od(item_source, sample_doc)
 
