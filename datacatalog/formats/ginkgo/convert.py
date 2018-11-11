@@ -2,6 +2,9 @@ import sys
 from ..converter import Converter, ConversionError, ValidationError
 # from .runner import convert_ginkgo
 class Ginkgo(Converter):
+    VERSION = '0.0.2'
+    FILENAME = 'ginkgo_samples'
+
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         # schema_file, input_file, verbose=True, output=True, output_file=None
         from .runner import convert_ginkgo

@@ -1,11 +1,15 @@
+from .classify import get_converters
 from jsonschemas import JSONSchemaBaseObject
 
 def get_schemas():
-    return dict()
-    # labels = listall_labels()
-    # setup_args = {'_filename': 'filetype_label',
-    #              'title': 'File Type Label',
-    #              '_type': 'string',
-    #              'enum' : labels}
-    # schema = JSONSchemaBaseObject(**setup_args).to_jsonschema()
-    # return {'filetype_label': schema}
+    return get_classifier_schemas()
+
+def get_classifier_schemas():
+    schemas = dict()
+    convs = get_converters()
+    for conv in convs:
+        schema_id = conv.filename + '_classifier'
+        schema = conv.get_schema()
+        schema['_filename'] = schema_id
+        schemas[schema_id] = JSONSchemaBaseObject(**schema).to_jsonschema()
+    return schemas

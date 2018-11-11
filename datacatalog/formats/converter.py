@@ -15,13 +15,17 @@ class formatChecker(FormatChecker):
         FormatChecker.__init__(self)
 
 class Converter(object):
+    VERSION = '0.0.0'
+    FILENAME = 'baseclass'
+
     def __init__(self, schemas=[], targetschema=None, options={}, reactor=None):
 
         # Discover the default input schema
         HERE = os.path.abspath(inspect.getfile(self.__class__))
         PARENT = os.path.dirname(HERE)
         schema_path = os.path.join(PARENT, 'schema.json')
-        # Input schemas
+        # Input schema(s)
+        # FIXME move to a single schema definition per class
         self.schemas = [schema_path]
         self.name = type(self).__name__
         if isinstance(schemas, str):
@@ -44,6 +48,10 @@ class Converter(object):
 
         self.options = options
         self.reactor = reactor
+
+        # Schema metadata
+        setattr(self, 'filename', self.FILENAME)
+        setattr(self, 'version', self.VERSION)
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         # Import lazily because of the SBH requirement
@@ -118,3 +126,15 @@ class Converter(object):
                 raise ValidationError('Schema validation failed', v)
         except Exception as e:
             raise ValidationError(e)
+
+    def get_schema(self):
+        return self.get_classifier_schema()
+
+    def get_classifier_schema(self):
+        # Return the classifier schema as a Python object
+        schema_fp = getattr(self, 'schemas', [])[0]
+        try:
+            with open(schema_fp, 'r') as jsonfile:
+                return json.load(jsonfile)
+        except Exception as exc:
+            raise ConversionError('Failed to load {}'.format(schema_fp), exc)

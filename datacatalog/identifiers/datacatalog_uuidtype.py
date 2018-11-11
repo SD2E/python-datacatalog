@@ -11,4 +11,5 @@ UUIDTYPES = [('generic', '100', 'Catalog Object'),
              ('product', '110', 'PipelineJob Product'),
              ('upload', '111', 'Uploaded File'),
              ('dashboard', '113', 'Redash Dashboard'),
-             ('experiment_design', '114', 'Experiment Design')]
+             ('experiment_design', '114', 'Experiment Design'),
+             ('input_classifier', '115', 'Input File Classifier')]
