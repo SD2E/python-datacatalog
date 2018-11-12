@@ -38,6 +38,54 @@ od600_attr = "od600"
 control_attr = "control"
 negative_control = False
 
+def add_fcs_no_source(biofab_sample, output_doc, config, lab, original_experiment_id):
+
+    if "generated_by" in biofab_sample and "operations" in biofab_sample["generated_by"]:
+        # won't have a sample here; construct one out of the
+        # operation and file id
+        operation_id = biofab_sample["generated_by"]["operations"][0]
+        file_id = biofab_sample["file_id"]
+
+        sample_doc = {}
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
+
+        measurement_doc = {}
+        measurement_doc[SampleConstants.FILES] = []
+
+        measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+
+        add_measurement_id(measurement_doc, sample_doc, output_doc)
+
+        measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab)
+
+        add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+        add_measurement_doc(measurement_doc, sample_doc, output_doc)
+
+
+def add_experimental_design(biofab_sample, output_doc, config, lab, original_experiment_id):
+
+    if "filename" in biofab_sample:
+        filename = biofab_sample['filename']
+        # Special case we are targeting here: is this an experimental design?
+        if 'experimental_design' in filename and "generated_by" in biofab_sample and "file_id" in biofab_sample and "operation_id" in biofab_sample["generated_by"]:
+            # won't have a sample here; construct one out of the
+            # operation and file id
+            file_gen = biofab_sample["generated_by"]["operation_id"]
+            file_id = biofab_sample["file_id"]
+
+            sample_doc = {}
+            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_gen + "_" + file_id, lab)
+
+            measurement_doc = {}
+            measurement_doc[SampleConstants.FILES] = []
+
+            measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_EXPERIMENTAL_DESIGN
+
+            add_measurement_id(measurement_doc, sample_doc, output_doc)
+            add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
+            add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+            add_measurement_doc(measurement_doc, sample_doc, output_doc)
+
 def add_timepoint(measurement_doc, input_item_id, biofab_doc):
     try:
         time_val = jq(".operations[] | select(.inputs[].item_id ==\"" + input_item_id + "\").inputs[] | select (.name == \"Timepoint (hr)\").value").transform(biofab_doc)
@@ -279,7 +327,14 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
     for biofab_sample in biofab_doc["files"]:
         sample_doc = {}
         if source_attr not in biofab_sample:
-            print("Warning, file is missing a source, skipping {}".format(biofab_sample))
+            print("Warning, file is missing a source {}".format(biofab_sample))
+            # experimental design is a special case
+            if type_attr in biofab_sample and biofab_sample[type_attr] == "FCS":
+                print("Trying to resolve as an FCS file with no source")
+                add_fcs_no_source(biofab_sample, output_doc, config, lab, original_experiment_id)
+            else:
+                print("Trying to resolve as an experimental design")
+                add_experimental_design(biofab_sample, output_doc, config, lab, original_experiment_id)
             continue
         file_source = biofab_sample[source_attr][0]
         # sample_doc[SampleConstants.SAMPLE_ID] = file_source
