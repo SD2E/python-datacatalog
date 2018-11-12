@@ -7,12 +7,15 @@ Subpackages
 .. toctree::
 
     datacatalog.linkedstores.basestore
-    datacatalog.linkedstores.challenge_problems
-    datacatalog.linkedstores.experiments
-    datacatalog.linkedstores.files
-    datacatalog.linkedstores.fixities
-    datacatalog.linkedstores.measurements
-    datacatalog.linkedstores.samples
+    datacatalog.linkedstores.challenge_problem
+    datacatalog.linkedstores.experiment
+    datacatalog.linkedstores.experiment_design
+    datacatalog.linkedstores.file
+    datacatalog.linkedstores.fixity
+    datacatalog.linkedstores.measurement
+    datacatalog.linkedstores.pipeline
+    datacatalog.linkedstores.pipelinejob
+    datacatalog.linkedstores.sample
 
 Module contents
 ---------------

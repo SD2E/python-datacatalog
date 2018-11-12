@@ -36,7 +36,35 @@ from .heritableschema import HeritableDocumentSchema
 __all__ = ['BaseStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode']
 
 class BaseStore(object):
-    """Storage interface for JSON schema-informed documents"""
+    """JSON-schema informed MongoDB document store with diff-based logging.
+
+    If the class has public attributes, they may be documented here
+    in an ``Attributes`` section and follow the same formatting as a
+    function's ``Args`` section. Alternatively, attributes may be documented
+    inline with the attribute's declaration (see __init__ method below).
+
+    Properties created with the ``@property`` decorator should be documented
+    in the property's getter method.
+
+    Attributes:
+        _tenant (str): Description of `attr1`.
+        _project (str): Description of `attr1`.
+        _owner (str): Description of `attr1`.
+        _mongodb (dict): MongoDB connection details
+        coll (str): MongoDB collection for documents
+        db (:obj:`dict`): Active MongoDB connection
+        debug (bool): Description of `attr1`.
+        logcoll (str): MongoDB collection for update log
+        session (str): Description of `attr1`
+
+        name (str): Human-readable name of the store's JSON schema
+        schema (obj:`dict`): A JSON schema document
+        schema_name (str): Filename for use by inter-schema references
+        identifiers (list): Ordered list of keys that can be used to uniquely retrieve documents in this schema
+        uuid_type (str): The specific type of TypedUUID mapped from identifiers
+        uuid_fields (list): Ordered list of keys used to compose a typed UUID
+
+    """
     PROPERTIES_TEMPLATE = {'_properties': {'created_date': None, 'revision': 0, 'modified_date': None}}
     TOKEN_FIELDS = ('uuid', '_admin')
     LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')

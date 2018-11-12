@@ -1,5 +1,5 @@
-Python API
-==========
+datacatalog package
+===================
 
 Subpackages
 -----------
@@ -11,13 +11,11 @@ Subpackages
     datacatalog.filetypes
     datacatalog.formats
     datacatalog.identifiers
-    datacatalog.jobs
     datacatalog.jsonschemas
     datacatalog.linkedstores
+    datacatalog.managers
     datacatalog.mongo
     datacatalog.pathmappings
-    datacatalog.pipelinejobs
-    datacatalog.pipelines
     datacatalog.products
     datacatalog.references
     datacatalog.stores
@@ -34,10 +32,10 @@ datacatalog.agavehelpers module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.catalog module
---------------------------
+datacatalog.config module
+-------------------------
 
-.. automodule:: datacatalog.catalog
+.. automodule:: datacatalog.config
     :members:
     :undoc-members:
     :show-inheritance:
@@ -46,6 +44,14 @@ datacatalog.constants module
 ----------------------------
 
 .. automodule:: datacatalog.constants
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.debug\_mode module
+------------------------------
+
+.. automodule:: datacatalog.debug_mode
     :members:
     :undoc-members:
     :show-inheritance:
@@ -62,6 +68,14 @@ datacatalog.exceptions module
 -----------------------------
 
 .. automodule:: datacatalog.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.githelpers module
+-----------------------------
+
+.. automodule:: datacatalog.githelpers
     :members:
     :undoc-members:
     :show-inheritance:

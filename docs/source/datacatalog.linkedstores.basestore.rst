@@ -4,14 +4,6 @@ datacatalog.linkedstores.basestore package
 Submodules
 ----------
 
-datacatalog.linkedstores.basestore.basestore module
----------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.basestore.basestore
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.basestore.documentschema module
 --------------------------------------------------------
 
@@ -24,6 +16,14 @@ datacatalog.linkedstores.basestore.exceptions module
 ----------------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.basestore.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.extensible module
+----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.extensible
     :members:
     :undoc-members:
     :show-inheritance:
@@ -48,6 +48,22 @@ datacatalog.linkedstores.basestore.schemas module
 -------------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.basestore.schemas
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.softdelete module
+----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.softdelete
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.store module
+-----------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.store
     :members:
     :undoc-members:
     :show-inheritance:
