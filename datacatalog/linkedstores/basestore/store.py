@@ -71,6 +71,10 @@ class BaseStore(object):
     MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt')
     READONLY_FIELDS = MANAGED_FIELDS + LINK_FIELDS
 
+    MERGE_DICT_OPTS = ('left', 'right', 'replace')
+    MERGE_LIST_OPTS = ('append', 'replace')
+    LINKAGE_OPTS = ('append', 'replace')
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 
         self._tenant = 'sd2e'
@@ -207,13 +211,11 @@ class BaseStore(object):
         return record
 
     def get_typed_uuid(self, payload, binary=False):
-        print('TYPED_UUID_PAYLOAD: {}'.format(payload))
         if isinstance(payload, dict):
             identifier_string = self.get_linearized_values(payload)
         else:
             identifier_string = str(payload)
         new_uuid = catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
-        print('TYPED_UUID: {}'.format(new_uuid))
         return new_uuid
 
     def get_serialized_document(self, document, **kwargs):
@@ -223,7 +225,7 @@ class BaseStore(object):
         serialized = dict()
         for k in union:
             if k in uuid_fields:
-                print('TYPED_UUID_KEY: {}'.format(k))
+                # print('TYPED_UUID_KEY: {}'.format(k))
                 serialized[k] = union.get(k)
         serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
         return serialized_document
@@ -235,7 +237,7 @@ class BaseStore(object):
         ary = list()
         for k in union:
             if k in uuid_fields:
-                print('TYPED_UUID_KEY: {}'.format(k))
+                # print('TYPED_UUID_KEY: {}'.format(k))
                 val = union.get(k, 'none')
                 try:
                     if isinstance(val, dict):
@@ -247,10 +249,28 @@ class BaseStore(object):
                     pass
         ary = sorted(ary)
         linearized = ':'.join(ary)
-        print('TYPED_UUID_LINEARIZED_VAL:', linearized)
+        # print('TYPED_UUID_LINEARIZED_VAL:', linearized)
         return linearized
 
     def get_diff(self, source={}, target={}, action='update'):
+        """Determine the differences between two documents
+
+        Generates a document for the `updates` store that describes the diff
+        between source and target documents. The resulting document includes
+        the document UUID, a timestamp, the document's tenancy details, and
+        the JSON-diff encoded in URL-safe base64. The encoding is necessary
+        because JSON diff and patch formats include keys beginning with '$',
+        which are prohibited in MongoDB documents.
+
+        Args:
+            source (dict): Source document
+            target (dict): Target document
+            action (str): Type of update action to represent
+
+        Returns:
+            dict: A new json-diff update document
+        """
+
         ts = msec_precision(current_time())
         docs = [copy.deepcopy(source), copy.deepcopy(target)]
         document_uuid = source.get('uuid', target.get('uuid', None))
@@ -299,6 +319,18 @@ class BaseStore(object):
         return diff_doc
 
     def get_token_fields(self, record_dict):
+        """Get values for issuing a document's update token
+
+        The fields used to define an update token are set in TOKEN_FIELDS. This
+        method fetches values from those fields and returns as a list.
+
+        Args:
+            record_dict (dict): Contents of the document from which to extract values
+
+        Returns:
+            list: List of values from keys matching `TOKEN_FIELDS`
+
+        """
         token_fields = list()
         for key in self.TOKEN_FIELDS:
             if key in record_dict:
@@ -306,6 +338,25 @@ class BaseStore(object):
         return token_fields
 
     def add_update_document(self, document_dict, uuid=None, token=None):
+        """Create or replace a managed document
+
+        Generic class to create or update LinkedStore documents. Handles typed
+        UUID generation, manages version and timestamp metadata, implements
+        tenant/project/user functions, enforces per-document authorization, and
+        implements diff-based update logging.
+
+        Args:
+            document_dict (dict): Contents of the document to write or replace
+            uuid (string, optional): The document's UUID5, which is assigned automatically on creation
+            token (str): A short alphanumeric string that authorizes edits to the document
+
+        Raises:
+            CatalogError: Raised when document cannot be written or updated
+
+        Returns:
+            dict: Dict representation of the document that was written
+
+        """
         doc_id = None
         doc_uuid = uuid
         document = copy.deepcopy(document_dict)
@@ -387,7 +438,174 @@ class BaseStore(object):
             else:
                 return db_record
 
+    def add_document(self, document):
+        """Write a new managed document
+
+        Args:
+            document (dict): The contents of the document
+
+        Raises:
+            CatalogError: Raised when document cannot be written
+
+        Returns:
+            dict: Dictionary representation of the new document
+
+        """
+        # Decorate the document with our _private keys
+        db_record = self.set__private_keys(document, updated=False)
+        try:
+            result = self.coll.insert_one(db_record)
+            resp = self.coll.find_one({'_id': result.inserted_id})
+            if resp is not None:
+                diff_record = self.get_diff(source=dict(), target=db_record, action='create')
+                try:
+                    self.logcoll.insert_one(diff_record)
+                except Exception:
+                    # Ignore log failures for now
+                    pass
+            # Issue and return an update token, even though most of the
+            # tooling does not yet use it
+            token = get_token(db_record['_salt'], self.get_token_fields(db_record))
+            resp['_update_token'] = token
+            return resp
+        except Exception as exc:
+            raise CatalogError('Failed to write document', exc)
+
+    def replace_document(self, document, uuid, token=None):
+        """Replace a document identified by a typed UUID
+
+        Args:
+            document (dict): The contents of the document
+            uuid (str): The document's UUID5, which is assigned automatically on creation
+            token (str): A short alphanumeric string that authorizes edits to the document
+
+        Raises:
+            CatalogError: Raised when document cannot be replaced
+
+        Returns:
+            dict: Dict representation of the new content for the document
+
+        """
+
+        # Validate record x token
+        # Note: validate_token() always returns True as of 10-19-2018
+        try:
+            validate_token(token, document['_salt'], self.get_token_fields(document))
+        except ValueError as verr:
+            raise CatalogError('Invalid token', verr)
+
+        # Update
+        diff_record = self.get_diff(source=document, target=document, action='update')
+        # b'e30=' is the base64-encoded version of {}
+        if diff_record['diff'] != b'e30=':
+            # Transfer _private and identifier fields to document
+            for key in list(document.keys()):
+                if key.startswith('_') or key in ('uuid', '_id'):
+                    document[key] = document[key]
+            # Update _properties
+            document = self.set__properties(document, updated=True)
+            # Update the record
+            uprec = self.coll.find_one_and_replace(
+                {'uuid': document['uuid']}, document,
+                return_document=ReturnDocument.AFTER)
+            # self.logcoll.insert_one(diff_record)
+            try:
+                self.logcoll.insert_one(diff_record)
+            except Exception:
+                # Ignore log failures for now
+                pass
+            return uprec
+        else:
+            # There was no detectable difference, so return original doc
+            # TODO - we should return the token again
+            return document
+
+    def update_document(self, document, uuid, token=None, merge_dicts='right', merge_lists='append'):
+        """Update a document identified by typed UUID
+
+        Deeper explanation of method behavior...
+
+        Args:
+            document (dict): The contents of the document
+            uuid (str): The document's UUID5
+            token (str): Short alphanumeric string authorizing edits to the document
+
+        Raises:
+            CatalogError: Raised when document cannot be replaced
+
+        Returns:
+            dict: Dict representation of the new content for the document
+
+        """
+        pass
+
+    def update_linkages(self, document, target_document, linkage_opt='extend', fields=[]):
+        """Update the linkages in `document` with values from `target_document`
+
+        This method is applied to a document to update its linkage fields using
+        the contents of target_document. The update behavior is determined by
+        the value of linkage_opt: `extend` adds any members not present in
+        `target_document` to `document`; `replace` replaces the contents of
+        `document` with `target_document`. By default all linkage fields are
+        processed, but if `fields` is passed (and is a list), then only the
+        named linkage fields will be updated.
+
+        Args:
+            document (dict): The document whose linkage fields will be modified
+            target_document (dict): The document containing new values for linkage fields
+            linkage_opt (string, optional): The policy for updating linkage fields
+            fields (list, optional): List of linkage fields to update. Defaults to all if not passed.
+
+        Raises:
+            ValueError: Raised on invalid value for `linkage_opt` or `fields` or
+            when values of linkage fields are not lists.
+
+        Returns:
+            dict: Dict representation of the updated content for the document
+
+        """
+        if linkage_opt not in self.LINKAGE_OPTS:
+            raise ValueError('{} is not a valid value for linkage_opt'.format(linkage_opt))
+        if not isinstance(fields, list):
+            raise ValueError('Value for "fields" must be a list')
+        if fields == []:
+            fields = self.LINK_FIELDS
+        elif set(list(fields)).issubset(set(self.LINK_FIELDS)) is False:
+            raise ValueError('Invalid value in "fields" list')
+
+        for field in fields:
+            doc_val = document.get(field, list())
+            target_doc_val = target_document.get(field, list())
+            new_val = list()
+            if linkage_opt == 'extend':
+                new_val = doc_val
+                new_val.extend(target_doc_val)
+                new_val = sorted(list(set(new_val)))
+            elif linkage_opt == 'replace':
+                new_val = target_doc_val
+            document[field] = new_val
+
+        return document
+
     def write_key(self, uuid, key, value, token=None):
+        """Write a value to a top-level key in a document
+
+        Managed interface for writing to specific top-level keys, where some
+        keys, namely any that are specified in the schema as identifiers or
+        contributors to UUID generation, are enforced to be read-only.
+
+        Args:
+            uuid (str): UUID of the target document
+            key (str): Name of the document key to write to
+            value: Value to write to the designated key
+            token (str): Short alphanumeric string authorizing edits to the document
+
+        Raises:
+            CatalogError: Raised when a read-only key is specified or an invalid token is passed
+
+        Returns:
+            dict: Dict representation of the updated document
+        """
         if key in self.READONLY_FIELDS + tuple(self.identifiers) + tuple(self.uuid_fields):
             raise CatalogError('Key {} cannot be directly updated'.format(key))
         db_record = self.find_one_by_uuid(uuid)
@@ -410,6 +628,21 @@ class BaseStore(object):
         return uprec
 
     def delete_document(self, uuid, token=None):
+        """Delete for a document by UUID
+
+        Managed interface for removing a document from its linkedstore
+        collection by its typed UUID.
+
+        Args:
+            uuid (str): UUID of the target document
+            token (str): Short alphanumeric string authorizing edits to the document
+
+        Raises:
+            CatalogError: Raised when unknown UUID, invalid token is passed, or on general write failure.
+
+        Returns:
+            dict: MongoDB deletion response
+        """
         db_record = self.coll.find_one({'uuid': uuid})
         if db_record is None:
             raise CatalogError('No document found with uuid {}'.format(uuid))
