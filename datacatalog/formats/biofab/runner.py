@@ -19,6 +19,7 @@ from datacatalog.agavehelpers import AgaveHelper
 attributes_attr = "attributes"
 replicate_attr = "replicate"
 sample_attr = "sample"
+timepoint_attr = "timepoint"
 sample_id_attr = "sample_id"
 sample_name_attr = "sample_name"
 op_id = "operation_id"
@@ -100,12 +101,15 @@ def add_experimental_design(biofab_sample, output_doc, config, lab, original_exp
             add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
             add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
-def add_timepoint(measurement_doc, input_item_id, biofab_doc):
-    try:
-        time_val = jq(".operations[] | select(.inputs[].item_id ==\"" + input_item_id + "\").inputs[] | select (.name == \"Timepoint (hr)\").value").transform(biofab_doc)
-        measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val + ":hour")
-    except StopIteration:
-        print("Warning: could not find matching time value for {}".format(input_item_id))
+def add_timepoint(time_val, measurement_doc, input_item_id, biofab_doc):
+    if time_val != None:
+        measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+    elif input_item_id != None:
+        try:
+            time_val = jq(".operations[] | select(.inputs[].item_id ==\"" + input_item_id + "\").inputs[] | select (.name == \"Timepoint (hr)\").value").transform(biofab_doc)
+            measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val + ":hour")
+        except StopIteration:
+            print("Warning: could not find matching time value for {}".format(input_item_id))
 
 def add_od(item, sample_doc):
     if item is not None and attributes_attr in item and od600_attr in item[attributes_attr]:
@@ -144,6 +148,11 @@ def add_strain(item, sample_doc, lab, sbh_query):
             strain = item[sample_attr][sample_name_attr]
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(strain, sample_id, lab, sbh_query, strain=True)
 
+def get_timepoint_from_item(item):
+    if attributes_attr in item and timepoint_attr in item[attributes_attr]:
+        return item[attributes_attr][timepoint_attr]
+    else:
+        return None
 # operation id aggregates across files for a single measurement, e.g.
 """
 "operation_id": "92240",
@@ -364,6 +373,8 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
         item = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
 
+        time_val = get_timepoint_from_item(item)
+
         # plate this source is a part of?
         plate = None
         found_plate = False
@@ -473,7 +484,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
         """
         measurement_doc = {}
 
-        add_timepoint(measurement_doc, plate_source, biofab_doc)
+        add_timepoint(time_val, measurement_doc, plate_source, biofab_doc)
 
         measurement_doc[SampleConstants.FILES] = []
 
@@ -501,7 +512,6 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
     # Instead of bottom up from files, process top down from items
     for missing_part_of in missing_part_of_items:
-
         items = jq(".items[] | select(.part_of==\"" + missing_part_of + "\")").transform(biofab_doc, multiple_output=True)
 
         if len(items) == 0:
@@ -510,6 +520,8 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                 items.append(item)
 
         for item in items:
+
+            time_val = get_timepoint_from_item(item)
 
             sample_doc = {}
             item_id = item[item_id_attr]
@@ -571,7 +583,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
             measurement_doc = {}
 
             if part_of_attr in item_source:
-                add_timepoint(measurement_doc, item_source[part_of_attr], biofab_doc)
+                add_timepoint(time_val, measurement_doc, item_source[part_of_attr], biofab_doc)
+            else:
+                add_timepoint(time_val, measurement_doc, None, biofab_doc)
 
             measurement_doc[SampleConstants.FILES] = []
 
