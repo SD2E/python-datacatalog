@@ -38,51 +38,34 @@ od600_attr = "od600"
 control_attr = "control"
 negative_control = False
 
-def add_fcs_no_source(biofab_sample, output_doc, config, lab, original_experiment_id):
+def add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, measurement_type):
 
+    operation_id = None
+    # won't have a sample here; construct one out of the
+    # operation and file id
     if "generated_by" in biofab_sample and "operations" in biofab_sample["generated_by"]:
-        # won't have a sample here; construct one out of the
-        # operation and file id
         operation_id = biofab_sample["generated_by"]["operations"][0]
-        file_id = biofab_sample["file_id"]
+    elif "generated_by" in biofab_sample and "operation_id" in biofab_sample["generated_by"]:
+        operation_id = biofab_sample["generated_by"]["operation_id"]
+    else:
+        raise ValueError("Could not parse operation id")
 
-        sample_doc = {}
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
+    file_id = biofab_sample["file_id"]
 
-        measurement_doc = {}
-        measurement_doc[SampleConstants.FILES] = []
+    sample_doc = {}
+    sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
 
-        measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+    measurement_doc = {}
+    measurement_doc[SampleConstants.FILES] = []
 
-        add_measurement_id(measurement_doc, sample_doc, output_doc)
+    measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
-        measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab)
+    add_measurement_id(measurement_doc, sample_doc, output_doc)
 
-        add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
-        add_measurement_doc(measurement_doc, sample_doc, output_doc)
+    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab)
 
-def add_csv_no_source(biofab_sample, output_doc, config, lab, original_experiment_id):
-
-    if "generated_by" in biofab_sample and "operations" in biofab_sample["generated_by"]:
-        # won't have a sample here; construct one out of the
-        # operation and file id
-        operation_id = biofab_sample["generated_by"]["operations"][0]
-        file_id = biofab_sample["file_id"]
-
-        sample_doc = {}
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
-
-        measurement_doc = {}
-        measurement_doc[SampleConstants.FILES] = []
-
-        measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_PLATE_READER
-
-        add_measurement_id(measurement_doc, sample_doc, output_doc)
-
-        measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab)
-
-        add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
-        add_measurement_doc(measurement_doc, sample_doc, output_doc)
+    add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+    add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
 def add_experimental_design(biofab_sample, output_doc, config, lab, original_experiment_id):
 
@@ -355,10 +338,13 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
             # experimental design is a special case
             if type_attr in biofab_sample and biofab_sample[type_attr] == "FCS":
                 print("Trying to resolve as an FCS file with no source")
-                add_fcs_no_source(biofab_sample, output_doc, config, lab, original_experiment_id)
-            elif type_attr in biofab_sample and biofab_sample[type_attr] == "CSV":
+                add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_FLOW)
+            elif type_attr in biofab_sample and biofab_sample[type_attr] == "CSV" and "filename" in biofab_sample and "experimental_design" not in biofab_sample["filename"]:
                 print("Trying to resolve as a CSV file with no source")
-                add_csv_no_source(biofab_sample, output_doc, config, lab, original_experiment_id)
+                add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_PLATE_READER)
+            elif "filename" in biofab_sample and biofab_sample["filename"].endswith(".ab1"):
+                print("Trying to resolve as an ab1 file with no source")
+                add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_SEQUENCING_CHROMATOGRAM)
             else:
                 print("Trying to resolve as an experimental design")
                 add_experimental_design(biofab_sample, output_doc, config, lab, original_experiment_id)
