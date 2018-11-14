@@ -177,6 +177,8 @@ def add_measurement_type(file, measurement_doc):
             measurement_type = SampleConstants.MT_PLATE_READER
         elif fn.endswith(".fastq.gz"):
             measurement_type = SampleConstants.MT_RNA_SEQ
+        elif fn.endswith(".ab1"):
+            measurement_type = SampleConstants.MT_SEQUENCING_CHROMATOGRAM
         else:
             raise ValueError("Could not parse MT: {}".format(file['filename']))
 
