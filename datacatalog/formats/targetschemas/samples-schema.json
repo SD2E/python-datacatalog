@@ -382,7 +382,8 @@
                         "RNA_SEQ",
                         "PLATE_READER",
                         "PROTEOMICS",
-                        "EXPERIMENTAL_DESIGN"
+                        "EXPERIMENTAL_DESIGN",
+                        "SEQUENCING_CHROMATOGRAM"
                     ]
                 },
                 "channels": {
