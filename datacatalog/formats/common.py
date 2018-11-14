@@ -28,6 +28,8 @@ class SampleConstants():
             return SampleConstants.F_TYPE_MZML
         elif file_name.endswith("msf"):
             return SampleConstants.F_TYPE_MSF
+        elif file_name.endswith("ab1"):
+            return SampleConstants.F_TYPE_AB1
         else:
             raise ValueError("Could not parse FT: {}".format(file_name))
 
@@ -138,6 +140,7 @@ class SampleConstants():
     F_TYPE_TXT = "TXT"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
+    F_TYPE_AB1 = "AB1"
 
 expt_ref_mapper = None
 
