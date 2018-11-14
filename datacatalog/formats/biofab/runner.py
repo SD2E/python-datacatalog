@@ -38,6 +38,15 @@ od600_attr = "od600"
 control_attr = "control"
 negative_control = False
 
+def add_input_media(lab, sbh_query, reagents, biofab_doc, item):
+    try:
+        media_value = jq(".operations[].inputs[] | select (.name | contains (\"Type of Media\")).value").transform(biofab_doc)
+    except StopIteration:
+        print("Warning, could not find media for {}".format(item))
+        media_value = None
+    if media_value is not None:
+        reagents.append(create_media_component(media_value, media_value, lab, sbh_query))
+
 def add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, measurement_type):
 
     operation_id = None
@@ -408,6 +417,8 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                         raise ValueError("No media id? {}".format(media_source_lookup))
                 else:
                     add_inducer_experimental_media(media_source_lookup, lab, sbh_query, reagents, biofab_doc)
+                    # Alternative: lookup media by inputs
+                    add_input_media(lab, sbh_query, reagents, biofab_doc, media_source_lookup)
 
                 add_od(media_source_lookup, sample_doc)
 
@@ -549,7 +560,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                     else:
                         raise ValueError("No media id? {}".format(item_source))
                 else:
-                    print("Warning, could not find media for {}".format(item_source[item_id_attr]))
+                    add_input_media(lab, sbh_query, reagents, biofab_doc, item_source)
 
                 if len(reagents) > 0:
                     sample_doc[SampleConstants.CONTENTS] = reagents
