@@ -45,6 +45,8 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
     lab = SampleConstants.LAB_TX
 
+    original_experiment_id = transcriptic_doc[SampleConstants.EXPERIMENT_ID]
+
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(transcriptic_doc[SampleConstants.EXPERIMENT_ID], lab)
 
     cp = transcriptic_doc[SampleConstants.CHALLENGE_PROBLEM]
@@ -87,14 +89,14 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
                     if len(transcriptic_sample[SampleConstants.CONTENTS]) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
-                        contents.append(create_media_component(reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
+                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
                     else:
-                        contents.append(create_media_component(reagent, reagent, lab, sbh_query))
+                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
 
         if SampleConstants.MEDIA in transcriptic_sample and SampleConstants.MEDIA_RS_ID in transcriptic_sample:
             media = transcriptic_sample[SampleConstants.MEDIA]
             media_id = transcriptic_sample[SampleConstants.MEDIA_RS_ID]
-            contents.append(create_media_component(media, media_id, lab, sbh_query))
+            contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
 
         if SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
@@ -102,10 +104,10 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             if inducer != "None":
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
-                    contents.append(create_media_component(inducer_split[0], inducer_split[0], lab, sbh_query))
-                    contents.append(create_media_component(inducer_split[1], inducer_split[1], lab, sbh_query))
+                    contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
+                    contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
                 else:
-                    contents.append(create_media_component(inducer, inducer, lab, sbh_query))
+                    contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
@@ -113,7 +115,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(strain, strain, lab, sbh_query, strain=True)
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
         sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(transcriptic_sample[SampleConstants.TEMPERATURE])

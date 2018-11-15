@@ -182,10 +182,10 @@ def convert_value_unit(value_unit):
         value_unit_split[0] = float(value)
     return value_unit_split
 
-def create_media_component(media_name, media_id, lab, sbh_query, value_unit=None):
+def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None):
     m_c_object = {}
 
-    m_c_object[SampleConstants.NAME] = create_mapped_name(media_name, media_id, lab, sbh_query)
+    m_c_object[SampleConstants.NAME] = create_mapped_name(experiment_id, media_name, media_id, lab, sbh_query)
     if value_unit:
         value_unit_split = convert_value_unit(value_unit)
         m_c_object[SampleConstants.VALUE] = value_unit_split[0]
@@ -204,7 +204,7 @@ def create_media_component(media_name, media_id, lab, sbh_query, value_unit=None
 sbh_cache = {}
 mapping_failures = {}
 
-def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
+def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, strain=False):
     m_n_object = {}
 
     sbh_lab = None
@@ -261,7 +261,7 @@ def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
         if name_to_map not in mapping_failures:
             mapping_failures[name_to_map] = id_to_map
             with open('create_mapped_name_failures.csv', 'a+') as unmapped:
-                unmapped.write('"{}","{}","{}"\n'.format(lab, name_to_map, id_to_map))
+                unmapped.write('"{}","{}","{}","{}"\n'.format(experiment_id, lab, name_to_map, id_to_map))
 
     # m_n_object[SampleConstants.AGAVE_URI] =
     m_n_object[SampleConstants.LAB_ID] = namespace_lab_id(id_to_map, lab)
