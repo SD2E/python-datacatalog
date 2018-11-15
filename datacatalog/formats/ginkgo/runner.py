@@ -68,9 +68,9 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 reagent_name = reagent["name"]
                 concentration_prop = "concentration"
                 if concentration_prop in reagent:
-                    contents.append(create_media_component(reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
+                    contents.append(create_media_component(output_doc[SampleConstants.EXPERIMENT_ID], reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
                 else:
-                    contents.append(create_media_component(reagent_name, reagent_id, lab, sbh_query))
+                    contents.append(create_media_component(output_doc[SampleConstants.EXPERIMENT_ID], reagent_name, reagent_id, lab, sbh_query))
 
         # It's possible to have no reagents if they're all skipped
         # per the filter.
@@ -78,7 +78,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.CONTENTS] = contents
 
         for strain in ginkgo_sample["content"]["strain"]:
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(strain["name"], strain["id"], lab, sbh_query, strain=True)
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc[SampleConstants.EXPERIMENT_ID], strain["name"], strain["id"], lab, sbh_query, strain=True)
             # TODO multiple strains?
             continue
 
