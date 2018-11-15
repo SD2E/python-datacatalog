@@ -7,10 +7,10 @@ standard_library.install_aliases()
 from builtins import bytes
 from builtins import *
 
-import base64
 from bson.binary import UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from pymongo import MongoClient, ReturnDocument, ASCENDING
 from pymongo.errors import DuplicateKeyError, ConnectionFailure
+from .encodeauthn import decode_authn_string
 
 try:
     # Python 3.x
@@ -29,7 +29,7 @@ def get_mongo_uri(settings):
                                             settings.get('auth_source', 'admin'))
     elif 'authn' in settings:
         # base64 encoded connection string suitable for setting as a container secret
-        uri = base64.urlsafe_b64decode(settings['authn'].encode('utf-8')).decode('utf-8')
+        uri = decode_authn_string(settings['authn'])
     else:
         raise ValueError('Unable to parse MongoDB connection details')
     return uri
@@ -63,7 +63,3 @@ def db_connection(settings):
         return db
     except Exception as exc:
         raise ConnectionFailure('Unable to connect to database', exc)
-
-def encode_connection_string(conn_string):
-    b = bytes(conn_string.encode('utf-8'))
-    return base64.urlsafe_b64encode(b).decode('utf-8')

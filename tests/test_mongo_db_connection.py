@@ -1,10 +1,8 @@
-"""Check the functions of the datacatalog submodule"""
 import os
 import pytest
 import sys
 import yaml
 import json
-from jsonschema import validate, ValidationError
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,8 +21,8 @@ def test_db_connection_settings(mongodb_settings):
     colls = db.list_collection_names()
     assert colls is not None
 
-# def test_db_connection_authn(mongodb_authn):
-#     """MongoDb connection can be made with auth string"""
-#     db = datacatalog.mongo.db_connection(mongodb_authn)
-#     colls = db.list_collection_names()
-#     assert colls is not None
+def test_db_connection_authn(mongodb_authn):
+    """MongoDb connection can be made with auth string"""
+    db = datacatalog.mongo.db_connection(mongodb_authn)
+    colls = db.list_collection_names()
+    assert colls is not None
