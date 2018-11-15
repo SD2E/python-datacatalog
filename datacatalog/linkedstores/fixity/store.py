@@ -63,7 +63,7 @@ class FixityStore(BaseStore):
             if key.startswith('_'):
                 fixity_record[key] = value
         # Now, update (or init) those same private keys
-        fixity_record = self.set__private_keys(fixity_record, indexer.updated())
+        fixity_record = self.set_private_keys(fixity_record, indexer.updated())
         # pprint(fixity_record)
 
         # Use basestore.Basestore for write

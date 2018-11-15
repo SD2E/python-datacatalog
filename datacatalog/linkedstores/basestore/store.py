@@ -66,43 +66,83 @@ class BaseStore(object):
 
     """
     PROPERTIES_TEMPLATE = {'_properties': {'created_date': None, 'revision': 0, 'modified_date': None}}
+    """Template for a properties subdocument"""
     TOKEN_FIELDS = ('uuid', '_admin')
+    """Default set of keys used to issue update tokens"""
     LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
+    """The set of named linkage arrays for this LinkedStore documents"""
     MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt')
+    """Keys managed only by datacatalog-internal logic"""
     READONLY_FIELDS = MANAGED_FIELDS + LINK_FIELDS
-
+    """Additional keys to be marked as read-only"""
+    UPDATE_POLICIES = ('replace', 'merge')
+    """Set of policies for updating a document"""
     MERGE_DICT_OPTS = ('left', 'right', 'replace')
+    """Set of valid strategies for merging dictionaries"""
     MERGE_LIST_OPTS = ('append', 'replace')
-    LINKAGE_OPTS = ('append', 'replace')
+    """Set of valid strategies for merging lists"""
+    LINKAGE_POLICIES = ('extend', 'replace')
+    """Set of valid strategies for updating document linkages"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
 
         self._tenant = 'sd2e'
+        """TACC.cloud tenant that owns this document.
+        """
         self._project = 'SD2E-Community'
+        """TACC.cloud project that owns this document
+        """
         self._owner = 'sd2eadm'
+        """TACC.cloud username that owns this document
+        """
 
-        if isinstance(config.get('debug', None), bool):
-            self.debug = config.get('debug')
-        else:
-            self.debug = False
-
-        # This is a correlation string, akin to Reactor.nickname
         self.session = session
+        """Optional correlation string for interlinked events
+        """
 
+        self.debug = False
+        if isinstance(config.get('debug', None), bool):
+            setattr(self, 'debug', config.get('debug'))
+
+        # MongoDB setup
         self._mongodb = mongodb
+        """Connection object for MongoDB
+        """
         self.db = None
+        """Name of MongoDB database housing this LinkedStore
+        """
         self.coll = None
+        """Name of MongoDB collection housing this LinkedStore
+        """
         self.logcoll = None
+        """Name of MongoDB collection housing the general update log
+        """
 
         # setup based on schema extended properties
+        self.schema_name = None
+        """Canonical filename for the document's JSON schema
+        """
+        self.schema = None
+        """Dictionary containing the LinkedStore's object schema
+        """
+        self.document_schema = None
+        """Dictionary containing the LinkedStore's full document schema
+        """
+        self.identifiers = None
+        """List of identifying keys for this LinkedStore
+        """
+        self.name = None
+        """Human-readable name of the LinkedStore schema
+        """
+        self.uuid_type = None
+        """Named type for this LinkedStore
+        """
+        self.uuid_fields = None
+        """List of keys that are rolled into the document's UUID
+        """
+
         schema = DocumentSchema(**kwargs)
         self.update_attrs(schema)
-        # self.schema = schema.to_dict()
-        # self.identifiers = schema.get_identifiers()
-        # self.name = schema.get_collection()
-        # self.schema_name = schema.get_filename()
-        # self.uuid_type = schema.get_uuid_type()
-        # self.uuid_fields = schema.get_uuid_fields()
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = CatalogStore.agave_storage_system
@@ -114,6 +154,7 @@ class BaseStore(object):
     def update_attrs(self, schema):
         setattr(self, 'name', schema.get_collection())
         setattr(self, 'schema', schema.to_dict())
+        setattr(self, 'document_schema', schema.to_dict(document=True))
         setattr(self, 'schema_name', schema.get_filename())
         setattr(self, 'identifiers', schema.get_identifiers())
         setattr(self, 'uuid_type', schema.get_uuid_type())
@@ -178,7 +219,7 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Query failed for uuid'.format(uuid), exc)
 
-    def set__properties(self, record, updated=False):
+    def set_properties(self, record, updated=False):
         ts = msec_precision(current_time())
         # Amend record with _properties if needed
         if '_properties' not in record:
@@ -190,7 +231,7 @@ class BaseStore(object):
             record['_properties']['revision'] = record['_properties']['revision'] + 1
         return record
 
-    def set__admin(self, record):
+    def set_admin(self, record):
         # Stubbed-in support for multitenancy, projects, and ownership
         if '_admin' not in record:
             record['_admin'] = {'owner': self._owner,
@@ -198,16 +239,16 @@ class BaseStore(object):
                                 'tenant': self._tenant}
         return record
 
-    def set__salt(self, record):
+    def set_salt(self, record):
         # Stubbed-in support for update token
         if '_salt' not in record:
             record['_salt'] = generate_salt()
         return record
 
-    def set__private_keys(self, record, updated=False):
-        record = self.set__properties(record, updated)
-        record = self.set__admin(record)
-        record = self.set__salt(record)
+    def set_private_keys(self, record, updated=False):
+        record = self.set_properties(record, updated)
+        record = self.set_admin(record)
+        record = self.set_salt(record)
         return record
 
     def get_typed_uuid(self, payload, binary=False):
@@ -259,7 +300,7 @@ class BaseStore(object):
         between source and target documents. The resulting document includes
         the document UUID, a timestamp, the document's tenancy details, and
         the JSON-diff encoded in URL-safe base64. The encoding is necessary
-        because JSON diff and patch formats include keys beginning with '$',
+        because JSON diff and patch formats include keys beginning with `$`,
         which are prohibited in MongoDB documents.
 
         Args:
@@ -337,7 +378,7 @@ class BaseStore(object):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def add_update_document(self, document_dict, uuid=None, token=None):
+    def add_update_document(self, document_dict, uuid=None, token=None, strategy='replace'):
         """Create or replace a managed document
 
         Generic class to create or update LinkedStore documents. Handles typed
@@ -349,6 +390,7 @@ class BaseStore(object):
             document_dict (dict): Contents of the document to write or replace
             uuid (string, optional): The document's UUID5, which is assigned automatically on creation
             token (str): A short alphanumeric string that authorizes edits to the document
+            strategy (str): Specifies the approach for updating contents of the document
 
         Raises:
             CatalogError: Raised when document cannot be written or updated
@@ -384,59 +426,14 @@ class BaseStore(object):
 
         # Add or upodate based on result
         if db_record is None:
-
-            # Decorate the document with our _private keys
-            db_record = self.set__private_keys(document, updated=False)
-            try:
-                result = self.coll.insert_one(db_record)
-                resp = self.coll.find_one({'_id': result.inserted_id})
-                if resp is not None:
-                    diff_record = self.get_diff(source=dict(), target=db_record, action='create')
-                    try:
-                        self.logcoll.insert_one(diff_record)
-                    except Exception:
-                        # Ignore log failures for now
-                        pass
-                # Issue and return an update token, even though most of the
-                # tooling does not yet use it
-                token = get_token(db_record['_salt'], self.get_token_fields(db_record))
-                resp['_update_token'] = token
-                return resp
-            except Exception as exc:
-                raise CatalogError('Failed to write document', exc)
-            # pprint(db_record)
+            return self.add_document(document)
         else:
-
-            # Validate record x token
-            # Note: validate_token() always returns True as of 10-19-2018
-            try:
-                validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
-            except ValueError as verr:
-                raise CatalogError('Invalid token', verr)
-
-            # Update
-            diff_record = self.get_diff(source=db_record, target=document, action='update')
-            # b'e30=' is the base64-encoded version of {}
-            if diff_record['diff'] != b'e30=':
-                # Transfer _private and identifier fields to document
-                for key in list(db_record.keys()):
-                    if key.startswith('_') or key in ('uuid', '_id'):
-                        document[key] = db_record[key]
-                # Update _properties
-                document = self.set__properties(document, updated=True)
-                # Update the record
-                uprec = self.coll.find_one_and_replace(
-                    {'uuid': document['uuid']}, document,
-                    return_document=ReturnDocument.AFTER)
-                # self.logcoll.insert_one(diff_record)
-                try:
-                    self.logcoll.insert_one(diff_record)
-                except Exception:
-                    # Ignore log failures for now
-                    pass
-                return uprec
+            if strategy == 'replace':
+                return self.replace_document(db_record, document, token)
+            elif strategy == 'merge':
+                return self.update_document(db_record, document, token)
             else:
-                return db_record
+                raise CatalogError('{} is not a known update strategy'.format(strategy))
 
     def add_document(self, document):
         """Write a new managed document
@@ -452,7 +449,7 @@ class BaseStore(object):
 
         """
         # Decorate the document with our _private keys
-        db_record = self.set__private_keys(document, updated=False)
+        db_record = self.set_private_keys(document, updated=False)
         try:
             result = self.coll.insert_one(db_record)
             resp = self.coll.find_one({'_id': result.inserted_id})
@@ -471,12 +468,14 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Failed to write document', exc)
 
-    def replace_document(self, document, uuid, token=None):
-        """Replace a document identified by a typed UUID
+    def replace_document(self, source_document, target_document, token=None):
+        """Replace a document distinguished by UUID with a new instance
 
         Args:
-            document (dict): The contents of the document
-            uuid (str): The document's UUID5, which is assigned automatically on creation
+            source_document (dict): The original document
+            target_document (dict): The document to replace source with
+            uuid (str, optional): The document's UUID5, which is assigned automatically on
+            creation
             token (str): A short alphanumeric string that authorizes edits to the document
 
         Raises:
@@ -489,57 +488,124 @@ class BaseStore(object):
 
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
+        pprint(source_document)
         try:
-            validate_token(token, document['_salt'], self.get_token_fields(document))
+            validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
         except ValueError as verr:
             raise CatalogError('Invalid token', verr)
 
         # Update
-        diff_record = self.get_diff(source=document, target=document, action='update')
+        diff_record = self.get_diff(source=source_document, target=target_document, action='replace')
         # b'e30=' is the base64-encoded version of {}
         if diff_record['diff'] != b'e30=':
             # Transfer _private and identifier fields to document
-            for key in list(document.keys()):
+            for key in list(source_document.keys()):
                 if key.startswith('_') or key in ('uuid', '_id'):
-                    document[key] = document[key]
+                    target_document[key] = source_document[key]
             # Update _properties
-            document = self.set__properties(document, updated=True)
+            document = self.set_properties(target_document, updated=True)
+            # Lift over linkages
+            for key in self.LINK_FIELDS:
+                if key in source_document and key in target_document:
+                    document[key] = target_document.get(key, list)
             # Update the record
             uprec = self.coll.find_one_and_replace(
                 {'uuid': document['uuid']}, document,
                 return_document=ReturnDocument.AFTER)
+            token = get_token(uprec['_salt'], self.get_token_fields(uprec))
+            uprec['_update_token'] = token
             # self.logcoll.insert_one(diff_record)
             try:
                 self.logcoll.insert_one(diff_record)
             except Exception:
                 # Ignore log failures for now
                 pass
+            # pprint(uprec)
             return uprec
         else:
             # There was no detectable difference, so return original doc
-            # TODO - we should return the token again
-            return document
+            token = get_token(source_document['_salt'], self.get_token_fields(source_document))
+            source_document['_update_token'] = token
+            return source_document
 
-    def update_document(self, document, uuid, token=None, merge_dicts='right', merge_lists='append'):
+    def update_document(self, source_document, target_document, token=None, merge_dicts='right', merge_lists='append', linkage_policy='extend'):
         """Update a document identified by typed UUID
 
-        Deeper explanation of method behavior...
+        Update a document by UUID with additional contents. Update applies a
+        merge function on the source and target documents, with behavior for
+        generic dict and list values is defined by `merge_dicts` and
+        `merge_lists`, respectively. Linkage fields are updated according to
+        the policy specified in `linkage_policy`. Managed fields `_admin`,
+        `_salt`, and `_properties` are not affected.
 
         Args:
-            document (dict): The contents of the document
-            uuid (str): The document's UUID5
+            source_document (dict): Original contents of the document
+            target_document (dict): Revised contents of the document (can be a fragment)
             token (str): Short alphanumeric string authorizing edits to the document
+            merge_dicts (str, optional): Directionality for dictionary merge (default: `right`)
+            merge_lists (str, optional): Strategy for reconciling lists between source and target (default: `append`)
+            linkage_polict (str, optional): Strategy for accepting new linkages from target_document (default: `extend`)
 
         Raises:
-            CatalogError: Raised when document cannot be replaced
+            CatalogError: Raised when document cannot be updated
 
         Returns:
-            dict: Dict representation of the new content for the document
-
+            dict: Dict representation of the updated document content
         """
-        pass
+        # Validate record x token
+        # Note: validate_token() always returns True as of 10-19-2018
+        pprint(source_document)
+        try:
+            validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
+        except ValueError as verr:
+            raise CatalogError('Invalid token', verr)
 
-    def update_linkages(self, document, target_document, linkage_opt='extend', fields=[]):
+        merge_document = copy.deepcopy(source_document)
+        # Strip out managed document keys
+        for k in list(merge_document.keys()):
+            if k.startswith('_'):
+                try:
+                    del merge_document[k]
+                except Exception:
+                    pass
+                try:
+                    del target_document[k]
+                except Exception:
+                    pass
+        # Merge documents
+        merged_document = data_merge(merge_document, target_document)
+        # Compute diff
+        diff_record = self.get_diff(source=merge_document, target=merged_document, action='update')
+        if diff_record['diff'] != b'e30=':
+            # Transfer _private and identifier fields to document
+            for key in list(source_document.keys()):
+                if key.startswith('_') or key in ('uuid', '_id'):
+                    merged_document[key] = source_document[key]
+            # Update _properties for merged_document
+            merged_document = self.set_properties(merged_document, updated=True)
+            # Update linkages
+            merged_document = self.update_linkages(merged_document, target_document)
+            # Update the record
+            uprec = self.coll.find_one_and_replace(
+                {'uuid': merged_document['uuid']}, merged_document,
+                return_document=ReturnDocument.AFTER)
+            token = get_token(uprec['_salt'], self.get_token_fields(uprec))
+            uprec['_update_token'] = token
+            # self.logcoll.insert_one(diff_record)
+            try:
+                self.logcoll.insert_one(diff_record)
+            except Exception:
+                # Ignore log failures for now
+                pass
+            pprint(uprec)
+            return uprec
+        else:
+            # There was no detectable difference, so return original doc
+            token = get_token(source_document['_salt'], self.get_token_fields(source_document))
+            source_document['_update_token'] = token
+            return source_document
+
+    def update_linkages(self, document, target_document, policy='extend', fields=[]):
         """Update the linkages in `document` with values from `target_document`
 
         This method is applied to a document to update its linkage fields using
@@ -553,7 +619,7 @@ class BaseStore(object):
         Args:
             document (dict): The document whose linkage fields will be modified
             target_document (dict): The document containing new values for linkage fields
-            linkage_opt (string, optional): The policy for updating linkage fields
+            policy (string, optional): The policy for updating linkage fields
             fields (list, optional): List of linkage fields to update. Defaults to all if not passed.
 
         Raises:
@@ -564,8 +630,8 @@ class BaseStore(object):
             dict: Dict representation of the updated content for the document
 
         """
-        if linkage_opt not in self.LINKAGE_OPTS:
-            raise ValueError('{} is not a valid value for linkage_opt'.format(linkage_opt))
+        if policy not in self.LINKAGE_POLICIES:
+            raise ValueError('{} is not a valid value for linkage_opt'.format(policy))
         if not isinstance(fields, list):
             raise ValueError('Value for "fields" must be a list')
         if fields == []:
@@ -577,13 +643,14 @@ class BaseStore(object):
             doc_val = document.get(field, list())
             target_doc_val = target_document.get(field, list())
             new_val = list()
-            if linkage_opt == 'extend':
+            if policy == 'extend':
                 new_val = doc_val
                 new_val.extend(target_doc_val)
                 new_val = sorted(list(set(new_val)))
-            elif linkage_opt == 'replace':
+            elif policy == 'replace':
                 new_val = target_doc_val
-            document[field] = new_val
+            if len(doc_val) > 0:
+                document[field] = new_val
 
         return document
 
@@ -617,7 +684,7 @@ class BaseStore(object):
         updated_record = data_merge(db_record, {key: value})
         diff_record = self.get_diff(source=db_record, target=updated_record, action='update')
         if diff_record['diff'] != b'e30=':
-            updated_record = self.set__properties(updated_record, updated=True)
+            updated_record = self.set_properties(updated_record, updated=True)
         uprec = self.coll.find_one_and_replace({'uuid': updated_record['uuid']},
                                                updated_record, return_document=ReturnDocument.AFTER)
         try:
@@ -628,7 +695,7 @@ class BaseStore(object):
         return uprec
 
     def delete_document(self, uuid, token=None):
-        """Delete for a document by UUID
+        """Delete a document by UUID
 
         Managed interface for removing a document from its linkedstore
         collection by its typed UUID.
@@ -667,10 +734,23 @@ class BaseStore(object):
                 raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)
 
     def add_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Add a new linkage to another document"""
+        """Link another LinkedStore document with the present document
+
+        Args:
+            uuid (str): UUID of the LinkedStore document to modify
+            linked_uuid (str): UUID of the LinkedStore document to link
+            relation (str, optional): Name of the relation to modify
+            token (str): Alphanumeric string authorizing edits to the document
+
+        Returns:
+            dict: The content of the updated LinkedStore document
+
+        Raises:
+            CatalogError: Returned if an invalid relation type or unknown UUID is encountered
+        """
         rels = list()
         try:
-            doc = self.query({'uuid': uuid})
+            doc = self.find_one_by_uuid(uuid)
             if doc is not None:
                 if relation in list(doc.keys()):
                     rels = doc.get(relation)
@@ -678,25 +758,39 @@ class BaseStore(object):
                         rels.append(linked_uuid)
                         rels = sorted(rels)
                 # Create relation if allowed by schema
-                elif relation in list(self.schema['properties'].keys()):
+                elif relation in list(self.document_schema['properties'].keys()):
                     rels = [linked_uuid]
                 else:
                     raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
 
                 # write
                 doc[relation] = rels
-                resp = self.add_update_document(doc, uuid=uuid, token=token)
-                return resp
+                return self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
             else:
                 raise CatalogError('No document found with UUID {}'.format(uuid))
         except Exception as exc:
             raise
 
     def remove_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Remove a linkage with another document"""
+        """Unlink another LinkedStore document from the present document
+
+        Args:
+            uuid (str): UUID of the LinkedStore document to modify
+            linked_uuid (str): UUID of the LinkedStore document to unlink
+            relation (str, optional): Name of the relation to modify
+            token (str): Alphanumeric string authorizing edits to the document
+
+        Returns:
+            dict: The content of the updated LinkedStore document
+
+        Raises:
+            CatalogError: Returned if an invalid relation type or unknown UUID is encountered
+        """
         rels = list()
         try:
-            doc = self.query({'uuid': uuid})
+            doc = self.find_one_by_uuid(uuid)
+            # Create empty relation if supported by schema
+            # pprint(self.document_schema)
             if doc is not None:
                 if relation in list(doc.keys()):
                     rels = doc.get(relation)
@@ -704,28 +798,37 @@ class BaseStore(object):
                         rels.remove(linked_uuid)
                     except ValueError:
                         pass
-                # Create empty relation if supported by schema
-                elif relation in list(self.schema['properties'].keys()):
+                elif relation in list(self.document_schema['properties'].keys()):
                     rels = list()
                 else:
                     raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
 
                 # write
                 doc[relation] = rels
-                resp = self.add_update_document(doc, uuid=uuid, token=token)
-                return resp
+                return self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
             else:
                 raise CatalogError('No document found with UUID {}'.format(uuid))
         except Exception as exc:
             raise
 
     def get_links(self, uuid, relation='child_of'):
-        """Return list UUIDs for linked documents"""
-        doc = self.query({'uuid': uuid})
+        """Return linkages to this LinkedStore
+
+        Return a list of typed UUIDs representing all connections between this
+        LinkedStore and other LinkedStores. This list can be traversed to return
+        a list of all LinkedStore objects using `datacatalog.managers.catalog.get()`
+
+        Args:
+            uuid (str): The UUID of the LinkedStore document to query
+            relation (str, optional): The linkage relationship to return
+        Returns:
+            list: A list of typed UUIDs that establish relationhips to other LinkedStores
+        """
+        doc = self.find_one_by_uuid(uuid)
         if doc is not None:
             if relation in list(doc.keys()):
                 return doc.get(relation)
-            if relation in list(self.schema['properties'].keys()):
+            if relation in list(self.document_schema['properties'].keys()):
                 # The relationship could exist as per the schema but is not defined
                 return list()
             else:
