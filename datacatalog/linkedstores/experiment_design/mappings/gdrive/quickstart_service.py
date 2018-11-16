@@ -1,17 +1,10 @@
 from __future__ import print_function
-#from googleapiclient.discovery import build
 from httplib2 import Http
-#from oauth2client import file, client, tools
-
 from google.oauth2 import service_account
 import googleapiclient.discovery
 
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 SERVICE_ACCOUNT_FILE = 'service_account.json'
-
-# If modifying these scopes, delete the file token.json.
-#SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly'
-
 
 def main():
     credentials = service_account.Credentials.from_service_account_file(

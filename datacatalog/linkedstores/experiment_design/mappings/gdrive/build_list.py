@@ -25,10 +25,8 @@ def get_drive_service(
     credentials = store.get()
     assert credentials and not credentials.invalid, 'Must update credentials'
     http = credentials.authorize(Http())
-    drive_service = build('drive', 'v3', http=http,
-                                    cache_discovery=False)
+    drive_service = build('drive', 'v3', http=http, cache_discovery=False)
     return drive_service
-
 
 def get_files(filename, folder_id, drive_service=None):
     """Return a list of dicts representing the matches to the file."""
@@ -59,10 +57,10 @@ for file in get_files('/', settings['google']['sheets_id']):
     key = rationalize(file['name'])
     if key != '':
         record = {'title': file['name'],
-                'status': settings['schema']['default_status'],
-                'uri': 'https://docs.google.com/document/d/{}'.format(file['id']),
-                'id': key,
-                'type': 'experiment_reference'}
+                  'status': settings['schema']['default_status'],
+                  'uri': 'https://docs.google.com/document/d/{}'.format(file['id']),
+                  'id': key,
+                  'type': 'experiment_reference'}
         records.append(record)
 
 # Placeholder for Unknown mapping

@@ -2,6 +2,11 @@ from pprint import pprint
 from .store import SampleDocument as Doc
 
 def get_schemas():
+    """Get JSON schemas for SampleDocument
+
+    Returns:
+        dict: Return the object and document JSON schema that define the store
+    """
     schemas = dict()
 
     d1 = Doc()

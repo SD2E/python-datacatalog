@@ -1,6 +1,11 @@
 from .store import ExperimentDesignDocument as Doc
 
 def get_schemas():
+    """Get JSON schemas forExperimentDesignDocument
+
+    Returns:
+        dict: Return the object and document JSON schema that define the store
+    """
     schemas = dict()
 
     d1 = Doc()

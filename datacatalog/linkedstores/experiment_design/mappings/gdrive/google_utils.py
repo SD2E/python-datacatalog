@@ -5,7 +5,6 @@ import sys
 import json
 from google.oauth2 import service_account
 import googleapiclient.discovery
-from slugify import slugify
 
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 SERVICE_ACCOUNT_FILE = 'service_account.json'

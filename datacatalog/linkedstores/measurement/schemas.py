@@ -2,6 +2,11 @@ from .store import MeasurementDocument as Doc
 from pprint import pprint
 
 def get_schemas():
+    """Get JSON schemas for MeasurementDocument
+
+    Returns:
+        dict: Return the object and document JSON schema that define the store
+    """
     schemas = dict()
 
     d1 = Doc()

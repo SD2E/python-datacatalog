@@ -221,11 +221,24 @@ class BaseStore(object):
         """
         try:
             query = {'uuid': uuid}
-            return self.coll.find(query)[0]
+            return self.coll.find_one(query)
         except Exception as exc:
             raise CatalogError('Query failed for uuid'.format(uuid), exc)
 
     def find_one_by_id(self, **kwargs):
+        """Find and return a LinkedStore document by any of its identifiers
+
+        Examples:
+            `resp = find_one_by_id(name='uniquename')`
+            `resp = find_one_by_id(uuid='105bf45a-6282-5e8c-8651-6a0ff78a3741')`
+            `resp = find_one_by_id(id='lab.sample.12345')`
+
+        Raises:
+            CatalogError: Raised when query fails due to an error or invalid value
+
+        Returns:
+            dict: Object containing the LinkedStore document
+        """
         try:
             resp = None
             for identifier in self.get_identifiers():

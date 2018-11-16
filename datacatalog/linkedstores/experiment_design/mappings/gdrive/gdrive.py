@@ -2,15 +2,44 @@ import os
 import json
 import validators
 from attrdict import AttrDict
+from pprint import pprint
 from slugify import slugify
-from .errors import *
 from . import google_utils
+from .errors import GoogleSheetsError, IncorrectConfiguration, \
+    MappingNotFound, UnsupportedMapping
 
 DEFAULT_TOKEN_PATH = 'token.json'
 MANAGED_TOKEN_FILENAME = 'service_account.json'
 
 class ExperimentReferenceMapping(object):
+    """Synchronizable mapping between ExperimentDesign and a Google Document
+    """
+
     def __init__(self, mapper_config, google_client=None, google_client_path=None):
+        """Initialize connection to Google Drive API
+
+        Args:
+            mapper_config (dict): A structured configuration dictionary
+            google_client (dict, optional): A structured dictionary containing API credentials
+            google_client_path (str, optional): Filesystem path to a file containing API credentials
+
+        Raises:
+            IncorrectConfiguration: Raised when `mapper_config` is incorrect
+
+        """
+        self.config = None
+        """Value passed for mapping_config"""
+        self.token = None
+        """Google API client"""
+        self.tokenpath = None
+        """Path to API credentials file"""
+        self.filescache = []
+        """Cached lookups from Google Drive API queries"""
+        self.failures = []
+        """Cache of failed Google Drive API query responses"""
+        self.ready = False
+        """Semaphore marking the Google Drive API client as ready"""
+
         if isinstance(mapper_config, dict):
             self.config = mapper_config
         else:
@@ -33,9 +62,6 @@ class ExperimentReferenceMapping(object):
         else:
             # attempt to read from a specified path
             self.token = self.__read_token_from_file(path=google_client_path)
-        self.filescache = []
-        self.failures = []
-        self.ready = False
 
     def __read_token_from_file(self, path):
         if self.token is None:
@@ -51,9 +77,17 @@ class ExperimentReferenceMapping(object):
         return self
 
     def populate(self):
-        """Populate lookup cache. We do not do this at init() time to
-        avoid thrashing the API client during testing"""
-        # Init the drive service and cache it
+        """Populate the mapping cache
+
+        This must be done explicitly after `__init__`` to avoid thrashing the
+        API client.
+
+        Raises:
+            GoogleSheetsError: Occurs if connection or query to Google fails
+
+        Returns:
+            object: Returns `self` so that `populate` can be chained to another service call
+        """
         try:
             self._drive_service = google_utils.get_drive_service(
                 credential_path=self.tokenpath)
@@ -66,15 +100,24 @@ class ExperimentReferenceMapping(object):
                 self.config['google_sheets_dir'],
                 self.config['google_sheets_id'],
                 self._drive_service)
-            print('files_listing', files_listing)
-            self.filescache = self._encode_files(files_listing)
+            pprint('files_listing', files_listing)
+            self.filescache = self.encode_files(files_listing)
         except Exception as exc:
             raise GoogleSheetsError('Error fetching file listing', exc)
 
+        # Now, we are ready to map between datacatalog and google!
         self.ready = True
         return self
 
-    def _encode_files(self, files_listing):
+    def encode_files(self, files_listing):
+        """Transform a Google Drive listing into ExperimentDesigns
+
+        Args:
+            files_listing (list): a listing from Google files API v3
+
+        Returns:
+            list: List of ExperimentDesign `dict` objects
+        """
         records = []
         for file in files_listing:
             key = self.encode_title_as_id(file['name'])
@@ -94,13 +137,37 @@ class ExperimentReferenceMapping(object):
         records.append(unknown_rec)
         return records
 
-    def encode_title_as_id(self, textstring):
-        sep = self.config['slugify']['separator']
+    def encode_title_as_id(self, textstring, stopwords=[], separator='-'):
+        """Transform Google Document title into an identifier
+
+        Args:
+            textstring (str): The title of a document
+            stopwords (list, optional): List of stopwords to filter from encoded identifier
+            separator (str, optional): Separator character for joining slugified words
+
+        Returns:
+            str: The slugified version of `textstring`
+        """
+        sep = self.config['slugify'].get('separator', separator)
+        stops = self.config['slugify'].get('stopwords', []).extend(stopwords)
         return sep.join(slug for slug in slugify(
-            textstring, stopwords=self.config['slugify']['stopwords'],
+            textstring, stopwords=stops,
             lowercase=self.config['slugify']['case_insensitive']).split('-'))
 
-    def __uri_to_key(self, uri, keyname):
+    def uri_to_key(self, uri, keyname):
+        """Get the value for a key associated with a reference URI
+
+        Args:
+            uri (str): One of the known set of Google Drive document URIs
+            keyname (str): The name of the key whose value will be returned
+
+        Raises:
+            UnsupportedMapping: Occurs when `uri` is not a valid URI or `keyname` does not exist in document
+            MappingNotFound: Occurs when mapping is not successful
+
+        Returns:
+            object: The value of `keyname` in the ExperimentMapping identifier by `uri`
+        """
         if not validators.url(uri, public=True):
             raise UnsupportedMapping('Not a valid URI: {}'.format(uri))
         # filter Google's useless terminal slash-param
@@ -114,12 +181,27 @@ class ExperimentReferenceMapping(object):
         raise MappingNotFound('{} does not resolve to a {}'.format(uri, keyname))
 
     def uri_to_title(self, uri):
-        return self.__uri_to_key(uri, 'title')
+        """Get the title associated with a reference URI"""
+        return self.uri_to_key(uri, 'title')
 
     def uri_to_id(self, uri):
-        return self.__uri_to_key(uri, 'id')
+        """Get the document identifier associated with a reference URI"""
+        return self.uri_to_key(uri, 'id')
 
-    def __id_to_key(self, id, keyname):
+    def id_to_key(self, id, keyname):
+        """Get the value for a key associated with a given identifier
+
+        Args:
+            id (str): One of the known set of document identifiers
+            keyname (str): The name of the key whose value will be returned
+
+        Raises:
+            UnsupportedMapping: Occurs when `keyname` does not exist in the document
+            MappingNotFound: Occurs when `id` is not known
+
+        Returns:
+            object: The value of `keyname` in the ExperimentMapping identifier by `id`
+        """
         for cached in self.filescache:
             if cached['id'] == id:
                 try:
@@ -131,14 +213,15 @@ class ExperimentReferenceMapping(object):
             '{} does not resolve to a {}'.format(id, keyname))
 
     def id_to_uri(self, id):
-        return self.__id_to_key(id, 'uri')
+        """Get the URI associated with an identifier"""
+        return self.id_to_key(id, 'uri')
 
     def id_to_title(self, id):
-        return self.__id_to_key(id, 'title')
+        """Get the human-readable title associated with an identifier"""
+        return self.id_to_key(id, 'title')
 
     def title_to_uri(self, title):
         raise UnsupportedMapping('Not a supported mapping')
 
     def title_to_id(self, title):
         raise UnsupportedMapping('Not a supported mapping')
-
