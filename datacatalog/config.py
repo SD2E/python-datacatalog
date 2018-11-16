@@ -1,6 +1,13 @@
 from os import environ
 
 def get_osenv_bool(varname):
+    """Render an environment variable as a Boolean
+
+    Args:
+        varname (str): Name of environment variable to Boolean-ize
+    Returns:
+        bool: The Boolean representation of the variable's current value
+    """
     try:
         varname = str(varname)
     except Exception:
@@ -13,4 +20,9 @@ def get_osenv_bool(varname):
     return bool(val)
 
 def debug_mode():
+    """Determine if the code should implement debugging behaviors
+
+    Returns:
+        bool: Boolean value of `LOCALONLY`
+    """
     return get_osenv_bool('LOCALONLY')
