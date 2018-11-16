@@ -1,4 +1,8 @@
 from . import basestore
+from . import challenge_problem
+
+from . import experiment
+
 # from .. import constants
 # from .. import jsonschemas
 
@@ -18,9 +22,8 @@ from . import basestore
 # from .. import tokens
 # from . import basestore
 
-# from . import challenge_problem
+
 # from . import experiment_design
-# from . import experiment
 # from . import sample
 # from . import measurement
 # from . import file

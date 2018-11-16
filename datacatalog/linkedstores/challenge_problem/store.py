@@ -10,32 +10,31 @@ import inspect
 import json
 import os
 import sys
-
-from ..basestore import *
-
-from dicthelpers import data_merge
 from pprint import pprint
+
+from ...dicthelpers import data_merge
+from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema
+
 
 class ChallengeUpdateFailure(CatalogUpdateFailure):
     pass
 
 class ChallengeDocument(HeritableDocumentSchema):
+    """Defines a challenge problem or broad research topic"""
+
     def __init__(self, inheritance=True, **kwargs):
         super(ChallengeDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
 
 class ChallengeStore(BaseStore):
+    """Manage storage and retrieval of ChallengeDocuments"""
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ChallengeStore, self).__init__(mongodb, config, session)
         # setup based on schema extended properties
         schema = ChallengeDocument(**kwargs)
         super(ChallengeStore, self).update_attrs(schema)
-        # setattr(self, 'name', schema.get_collection())
-        # setattr(self, 'schema', schema.to_dict())
-        # setattr(self, 'identifiers', schema.get_identifiers())
-        # setattr(self, 'uuid_type', schema.get_uuid_type())
-        # setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
 
 class StoreInterface(ChallengeStore):
