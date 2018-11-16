@@ -6,11 +6,11 @@ import os
 import sys
 from pprint import pprint
 
-from . import jsonschemas
-from . import linkedstores
+from ... import linkedstores
+from ... import jsonschemas
+# from ... import linkedstores
 
-def dynamic_import(module, package=None):
-    # print(module, package)
+def dynamic_import(module, package='datacatalog'):
     return importlib.import_module(module, package=package)
 
 class UnknownReference(linkedstores.basestore.CatalogError):
@@ -34,7 +34,7 @@ class SampleSetProcessor(object):
         stores = dict()
         for pkg in tuple(jsonschemas.schemas.STORE_SCHEMAS):
             try:
-                m = dynamic_import(pkg)
+                m = dynamic_import('.' + pkg, package='datacatalog')
                 store = m.StoreInterface(mongodb_settings)
                 store_name = getattr(store, 'schema_name')
                 store_basename = store_name.split('.')[-1]

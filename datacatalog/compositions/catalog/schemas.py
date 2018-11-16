@@ -3,8 +3,8 @@ import json
 import os
 import sys
 
-from basestore import DocumentSchema
-from dicthelpers import data_merge
+from ...linkedstores.basestore import DocumentSchema
+from ...dicthelpers import data_merge
 
 class SampleCatalogDocument(DocumentSchema):
     def __init__(self, inheritance=True, **kwargs):

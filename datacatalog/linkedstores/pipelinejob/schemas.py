@@ -1,6 +1,5 @@
-from jsonschemas import JSONSchemaBaseObject
 from pprint import pprint
-
+from ...jsonschemas import JSONSchemaBaseObject
 from .store import JobDocument as Doc
 from .store import HistoryEventDocument as Event
 from .fsm import JobStateMachine

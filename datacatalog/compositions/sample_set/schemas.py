@@ -3,10 +3,10 @@ import json
 import os
 import sys
 
-from . import basestore
-from dicthelpers import data_merge
+from ...linkedstores.basestore import DocumentSchema
+from ...dicthelpers import data_merge
 
-class SampleSetDocument(basestore.DocumentSchema):
+class SampleSetDocument(DocumentSchema):
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()
         try:

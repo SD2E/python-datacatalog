@@ -1,7 +1,7 @@
 import json
 import os
 import sys
-from jsonschemas import JSONSchemaBaseObject
+from ..jsonschemas import JSONSchemaBaseObject
 
 HERE = os.path.abspath(__file__)
 PARENT = os.path.dirname(HERE)

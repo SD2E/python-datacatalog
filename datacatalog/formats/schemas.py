@@ -1,5 +1,5 @@
+from ..jsonschemas import JSONSchemaBaseObject
 from .classify import get_converters
-from jsonschemas import JSONSchemaBaseObject
 
 def get_schemas():
     return get_classifier_schemas()

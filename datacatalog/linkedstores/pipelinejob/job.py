@@ -12,12 +12,12 @@ import inspect
 import json
 import os
 import sys
+from attrdict import AttrDict
 from pprint import pprint
 
-from attrdict import AttrDict
+from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
-from ..basestore import ExtensibleAttrDict
 
 class HistoryEntry(ExtensibleAttrDict):
     def __init__(self, entry):
@@ -25,6 +25,7 @@ class HistoryEntry(ExtensibleAttrDict):
 
     def to_dict(self):
         return self.as_dict()
+
 class PipelineJob(ExtensibleAttrDict):
     # Extend object with with event handling, state, and history management
     def __init__(self, job_document):

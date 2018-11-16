@@ -1,4 +1,4 @@
-from jsonschemas import JSONSchemaBaseObject
+from ..jsonschemas import JSONSchemaBaseObject
 from .listing import listall, listall_labels
 
 def get_schemas():

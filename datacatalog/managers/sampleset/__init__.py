@@ -1,8 +1,7 @@
-import jsonschemas
-import linkedstores
 from .processor import SampleSetProcessor
 
-CHILD_OF = [('experiment', 'challenge_problem'),
+CHILD_OF = [('experiment_design', 'challenge_problem'),
+            ('experiment', 'experiment_design'),
             ('sample', 'experiment'),
             ('measurement', 'sample'),
             ('file', 'measurement'),

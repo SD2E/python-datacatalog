@@ -27,7 +27,7 @@ COMPOSED_SCHEMAS = ['compositions.sample_set']
 SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]
 
 def dynamic_import(module, package=None):
-    return importlib.import_module(module, package='..datacatalog')
+    return importlib.import_module(module, package='datacatalog')
 
 def get_all_schemas(filters=[]):
     schemata = dict()
@@ -35,7 +35,8 @@ def get_all_schemas(filters=[]):
         if isinstance(filters, list) and filters != []:
             if pkg not in filters:
                 continue
-        m = dynamic_import(pkg + '.schemas')
+        # print('SCHEMA: {}'.format(pkg))
+        m = dynamic_import('.' + pkg + '.schemas')
         package_schemas = m.get_schemas()
         schemata = {**schemata, **package_schemas}
     return schemata
