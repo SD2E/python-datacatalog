@@ -26,6 +26,7 @@ from ...jsonschemas import JSONSchemaBaseObject
 from ...tokens import generate_salt, get_token, validate_token
 from ...identifiers.typed_uuid import catalog_uuid
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
+from ... import tenancy
 
 from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
 from .documentschema import DocumentSchema
@@ -83,13 +84,13 @@ class BaseStore(object):
     """Set of valid strategies for updating document linkages"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-        self._tenant = 'sd2e'
+        self._tenant = tenancy.current_tenant()
         """TACC.cloud tenant that owns this document.
         """
-        self._project = 'SD2E-Community'
+        self._project = tenancy.current_project()
         """TACC.cloud project that owns this document
         """
-        self._owner = 'sd2eadm'
+        self._owner = tenancy.current_username()
         """TACC.cloud username that owns this document
         """
 

@@ -10,31 +10,29 @@ import inspect
 import json
 import os
 import sys
-
-from ..basestore import *
-from dicthelpers import data_merge
 from pprint import pprint
+
+from ...dicthelpers import data_merge
+from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema
 
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
 class FileDocument(HeritableDocumentSchema):
+    """Defines experiment-linked metadata for a file"""
+
     def __init__(self, inheritance=True, **kwargs):
         super(FileDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
 
 class FileStore(BaseStore):
+    """Manage storage and retrieval of FileDocuments"""
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(FileStore, self).__init__(mongodb, config, session)
-        # setup based on schema extended properties
         schema = FileDocument(**kwargs)
         super(FileStore, self).update_attrs(schema)
-        # setattr(self, 'name', schema.get_collection())
-        # setattr(self, 'schema', schema.to_dict())
-        # setattr(self, 'identifiers', schema.get_identifiers())
-        # setattr(self, 'uuid_type', schema.get_uuid_type())
-        # setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
 
 class StoreInterface(FileStore):

@@ -24,8 +24,8 @@ from . import jsonschemas
 from . import linkedstores
 from . import mongo
 from . import pathmappings
+from . import tenancy
 from . import utils
-
 
 # from . import managers
 

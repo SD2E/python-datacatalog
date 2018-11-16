@@ -12,20 +12,19 @@ import filetype
 import hashlib
 import os
 
-from ..catalog import CatalogAttrDict
-from ..filetypes import infer_filetype
-from ..identifiers.datacatalog_uuid import catalog_uuid, text_uuid_to_binary
-from ..utils import current_time, msec_precision
+from ..basestore import ExtensibleAttrDict
+from ...filetypes import infer_filetype
+from ...identifiers.datacatalog_uuid import catalog_uuid, text_uuid_to_binary
+from ...utils import current_time, msec_precision
 
-# FIXME Refactor FileFixityStore to use this
 
-class FileFixityInstance(CatalogAttrDict):
+class FileFixityInstance(ExtensibleAttrDict):
     """Encapsulates the data model and business logic of a fixity record"""
-    PARAMS = [('level', False, 'level', 0),
-              ('_deleted', False, '_deleted', True),
-              ('generated_by', False, 'generated_by', []),
-              ('derived_from', False, 'derived_from', []),
-              ('child_of', False, 'child_of', [])]
+    __PARAMS = [('level', False, 'level', 0),
+                ('_deleted', False, '_deleted', True),
+                ('generated_by', False, 'generated_by', []),
+                ('derived_from', False, 'derived_from', []),
+                ('child_of', False, 'child_of', [])]
     FILTERS = ['_filename']
     COMPARES = ['file_modified', 'size', 'checksum', 'file_type']
 
@@ -38,7 +37,7 @@ class FileFixityInstance(CatalogAttrDict):
         self.uuid = catalog_uuid(self.filename)
 
         self.properties = FixityPropertySet(**properties)
-        for param, mandatory, attr, default in self.PARAMS:
+        for param, mandatory, attr, default in self.__PARAMS:
             try:
                 value = (kwargs[param] if mandatory else kwargs.get(param, default))
             except KeyError:
@@ -139,19 +138,20 @@ class FileFixityInstance(CatalogAttrDict):
         """Returns the type for a given file"""
         return infer_filetype(self._filename).label
 
-class FixityPropertySet(CatalogAttrDict):
+class FixityPropertySet(ExtensibleAttrDict):
     """Encapsulates a set of fixity properties"""
-    PARAMS = [('size', False, 'size', 0),
-              ('created_date', False, 'created_date', None),
-              ('modified_date', False, 'modified_date', None),
-              ('file_created', False, 'file_created', None),
-              ('file_modified', False, 'file_modified', None),
-              ('file_type', False, 'file_type', None),
-              ('revision', False, 'revision', 0),
-              ('checksum', False, 'checksum', None),
-              ('lab', False, 'lab', None)]
+    __PARAMS = [('size', False, 'size', 0),
+                ('created_date', False, 'created_date', None),
+                ('modified_date', False, 'modified_date', None),
+                ('file_created', False, 'file_created', None),
+                ('file_modified', False, 'file_modified', None),
+                ('file_type', False, 'file_type', None),
+                ('revision', False, 'revision', 0),
+                ('checksum', False, 'checksum', None),
+                ('lab', False, 'lab', None)]
+
     def __init__(self, **kwargs):
-        for param, mandatory, attr, default in self.PARAMS:
+        for param, mandatory, attr, default in self.__PARAMS:
             try:
                 value = (kwargs[param] if mandatory else kwargs.get(param, default))
             except KeyError:

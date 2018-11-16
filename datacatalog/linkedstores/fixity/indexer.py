@@ -5,26 +5,27 @@ import hashlib
 import os
 import sys
 
-# from ..catalog import CatalogAttrDict
-from filetypes import infer_filetype
-from pathmappings import level_for_filepath
+from ...filetypes import infer_filetype
+from ...pathmappings import level_for_filepath
 from .schema import FixityDocument, msec_precision
 
 class FixityIndexer(object):
+    """Object responsible for capturing fixity details"""
     CHECKSUM_BLOCKSIZE = 131072
+    """Chunk size for computing checksum"""
     DEFAULT_SIZE = -1
-    # FIXME Find a reliable way to parameterize the paramset from FixityDocument
-    # key, attr, func, default
-    PARAMS = [('name', 'name', False, None),
-              ('version', 'version', False, 0),
-              ('type', 'type', True, None),
-              ('created', 'created', True, None),
-              ('modified', 'modified', True, None),
-              ('size', 'size', True, None),
-              ('checksum', 'checksum', True, None),
-              ('level', 'level', True, None),
-              ('uuid', 'uuid', False, None),
-              ('child_of', 'child_of', False, None)]
+    """Default size in bytes when it cannot be determined"""
+
+    __PARAMS = [('name', 'name', False, None),
+                ('version', 'version', False, 0),
+                ('type', 'type', True, None),
+                ('created', 'created', True, None),
+                ('modified', 'modified', True, None),
+                ('size', 'size', True, None),
+                ('checksum', 'checksum', True, None),
+                ('level', 'level', True, None),
+                ('uuid', 'uuid', False, None),
+                ('child_of', 'child_of', False, None)]
 
     def __init__(self, abs_filepath, schema={}, **kwargs):
         self.name = kwargs.get('name')
@@ -32,16 +33,15 @@ class FixityIndexer(object):
         self._abspath = abs_filepath
         self._updated = False
 
-        for key, attr, init, default in self.PARAMS:
+        for key, attr, init, default in self.__PARAMS:
             value = None
             if key in kwargs:
                 value = kwargs.get(key, default)
             setattr(self, attr, value)
-            # print('init.attr:value {}:{}'.format(attr, value))
 
     def sync(self):
         setattr(self, '_updated', False)
-        for key, attr, func, default in self.PARAMS:
+        for key, attr, func, default in self.__PARAMS:
             if func:
                 addressable_method = getattr(self, 'get_' + attr)
                 old_value = getattr(self, attr, None)
@@ -56,7 +56,7 @@ class FixityIndexer(object):
 
     def to_dict(self):
         my_dict = dict()
-        for key, attr, init, default in self.PARAMS:
+        for key, attr, init, default in self.__PARAMS:
             my_dict[key] = getattr(self, attr)
         return my_dict
 
