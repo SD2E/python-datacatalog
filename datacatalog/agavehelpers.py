@@ -21,6 +21,7 @@ DEF_STORAGE_SYSTEM = 'data-sd2e-community'
 
 
 class AgaveHelperException(Exception):
+    """Helper Exception to let us know that the error is sourced inside AgaveHelper"""
     pass
 
 
