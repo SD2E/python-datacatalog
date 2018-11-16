@@ -37,7 +37,14 @@ concentration_attr = "concentration"
 volume_attr = "volume"
 od600_attr = "od600"
 control_attr = "control"
+standard_attr = "standard"
+lot_attr = "Lot No."
+
 negative_control = False
+
+DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
+DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
+DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/biofab/instruments/accuri/5539/11272017/cytometer_configuration.json"
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
     try:
@@ -153,6 +160,16 @@ def get_timepoint_from_item(item):
         return item[attributes_attr][timepoint_attr]
     else:
         return None
+
+def read_bead_fluorescence_from_item(item, sample_doc):
+    if attributes_attr in item:
+        if standard_attr in item[attributes_attr]:
+            sample_doc[SampleConstants.STANDARD_TYPE] = item[attributes_attr][standard_attr]
+        if lot_attr in item[attributes_attr]:
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
+            sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = item[attributes_attr][lot_attr]
+
 # operation id aggregates across files for a single measurement, e.g.
 """
 "operation_id": "92240",
@@ -187,6 +204,10 @@ def add_measurement_type(file, measurement_doc):
         assay_type = file[type_attr]
         if assay_type == "FCS":
             measurement_type = SampleConstants.MT_FLOW
+            if SampleConstants.M_CHANNELS not in measurement_doc:
+                measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+            if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
+                measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
         elif assay_type == "CSV":
             measurement_type = SampleConstants.MT_PLATE_READER
         else:
@@ -324,7 +345,6 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
     else:
         print("Helper not loaded")
 
-    print(input_file)
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
@@ -524,6 +544,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
             time_val = get_timepoint_from_item(item)
 
             sample_doc = {}
+
+            read_bead_fluorescence_from_item(item, sample_doc)
+
             item_id = item[item_id_attr]
             try:
                 item_source = jq(".items[] | select(.sources[]? | contains (\"" + item_id + "\"))").transform(biofab_doc)
