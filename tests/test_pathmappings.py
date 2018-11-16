@@ -3,17 +3,14 @@ import pytest
 import sys
 import yaml
 import json
+from pprint import pprint
+from . import longrun, delete
+from .data import pathmappings
+import datacatalog
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-from data import pathmappings
-
-sys.path.insert(0, '/')
-import datacatalog
 
 def test_prefix_for_level():
     for pth, pfx, lev, store in pathmappings.CASES:

@@ -3,18 +3,16 @@ import pytest
 import sys
 import yaml
 import json
+from pprint import pprint
+from . import longrun, delete
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-from fixtures.mongodb import mongodb_settings, mongodb_authn
-from data import experiment
-
-sys.path.insert(0, '/')
+from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
+from .data import experiment
 
 def test_exp_db(mongodb_settings):
     base = datacatalog.linkedstores.experiment.ExperimentStore(mongodb_settings)
@@ -53,6 +51,7 @@ def test_exp_update(mongodb_settings):
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
 
+@delete
 def test_exp_delete(mongodb_settings):
     base = datacatalog.linkedstores.experiment.ExperimentStore(mongodb_settings)
     for key, doc, uuid_val in experiment.DELETES:

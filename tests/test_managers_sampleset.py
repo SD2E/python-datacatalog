@@ -3,20 +3,16 @@ import pytest
 import sys
 import yaml
 import json
-import types
+from pprint import pprint
+from . import longrun, delete
+from .fixtures import mongodb_settings, mongodb_authn
+import datacatalog
+from .data import challenge_problem, experiment
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-DATA_DIR = os.path.join(PARENT, 'tests/data/sampleset')
-
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-from fixtures.mongodb import mongodb_settings, mongodb_authn
-from data import challenge_problem, experiment
-
-sys.path.insert(0, '/')
-import datacatalog
+DATA_DIR = os.path.join(HERE, 'data/sampleset')
 
 @pytest.fixture(scope='session')
 def samplesetprocessor(mongodb_settings):

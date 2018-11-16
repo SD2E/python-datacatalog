@@ -3,19 +3,15 @@ import pytest
 import sys
 import yaml
 import json
-from . import longrun
 from agavepy.agave import Agave
+from pprint import pprint
+from . import longrun, delete
+from .fixtures import agave, credentials
+import datacatalog
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-
-from fixtures.agave import agave, credentials
-sys.path.insert(0, '/')
-import datacatalog
 
 @pytest.mark.parametrize("filename, system", [('/sample/tacc-cloud/123.txt', 'data-sd2e-community'),
                                               ('sample/tacc-cloud/123.txt', 'data-sd2e-community'),

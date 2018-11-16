@@ -3,19 +3,15 @@ import pytest
 import sys
 import yaml
 import json
+from pprint import pprint
+from . import longrun, delete
+from .data import formats
+import datacatalog
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(PARENT, 'tests/data/formats/files')
-
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-# from fixtures.mongodb import mongodb_settings, mongodb_authn
-from data import formats
-
-sys.path.insert(0, '/')
-import datacatalog
 
 def test_formats_independent_imports():
     # Ensure classify and other utils can be independently imported

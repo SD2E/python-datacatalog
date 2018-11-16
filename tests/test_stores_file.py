@@ -3,18 +3,16 @@ import pytest
 import sys
 import yaml
 import json
+from pprint import pprint
+from . import longrun, delete
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-from fixtures.mongodb import mongodb_settings, mongodb_authn
-from data import file
-
-sys.path.insert(0, '/')
+from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
+from .data import file
 
 def test_files_db(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
@@ -84,6 +82,7 @@ def test_files_replace(mongodb_settings):
         links = base.get_links(uuid_val, 'child_of')
         assert len(links) == len(doc.get('child_of', list()))
 
+@delete
 def test_files_delete(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
     for key, doc, uuid_val in file.DELETES:

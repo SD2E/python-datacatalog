@@ -3,18 +3,16 @@ import pytest
 import sys
 import yaml
 import json
+from pprint import pprint
+from . import longrun, delete
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-sys.path.insert(0, PARENT)
-sys.path.insert(0, HERE)
-from fixtures.mongodb import mongodb_settings, mongodb_authn
-from data import basestore
-
-sys.path.insert(0, '/')
+from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
+from .data import basestore
 
 def test_basestore_db(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
@@ -65,6 +63,7 @@ def test_basestore_write_key(mongodb_settings):
         resp = base.write_key(uuid_val, key, val)
         assert resp[key] == val
 
+@delete
 def test_basestore_delete(mongodb_settings):
     base = datacatalog.linkedstores.basestore.BaseStore(mongodb_settings)
     base.setup()
