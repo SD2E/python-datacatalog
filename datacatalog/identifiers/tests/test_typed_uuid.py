@@ -1,5 +1,5 @@
 import uuid
-from . import typed_uuid
+from .. import typed_uuid
 
 def test_create():
     m = typed_uuid.catalog_uuid('abdefgh', 'generic', binary=False)

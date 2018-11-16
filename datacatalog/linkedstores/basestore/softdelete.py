@@ -20,7 +20,7 @@ from jsondiff import diff
 from .store import BaseStore
 
 class SoftDelete(BaseStore):
-    """A mix-in that adds field-based delete to a LinkedStore"""
+    """Adds field-based soft delete to a LinkedStore"""
 
     def delete_document(self, uuid, token=None, soft=True):
         if soft is True:

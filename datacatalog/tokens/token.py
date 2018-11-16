@@ -3,7 +3,7 @@ import base64
 
 TOKEN_LENGTH = 16
 
-from debug_mode import debug_mode
+from ..debug_mode import debug_mode
 
 def get_token(salt, *args):
     argset = [salt]

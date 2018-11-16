@@ -8,10 +8,10 @@ from builtins import *
 from builtins import object
 
 import os
-
 from attrdict import AttrDict
 from uuid import uuid3, NAMESPACE_DNS
 
+__version__ = 3
 DNS_FOR_NAMESPACE = 'sd2e.org'
 UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
 

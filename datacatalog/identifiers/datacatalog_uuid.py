@@ -14,7 +14,7 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
-from constants import Constants
+from .. import constants
 
 __all__ = ["generate", "mock", "validate", "catalog_uuid", "text_uuid_to_binary"]
 
@@ -25,17 +25,17 @@ def generate(text_value=None, binary=True):
 
 def random_uuid5(binary=True):
     text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_NAMESPACE)
+    return catalog_uuid(text_value, binary, namespace=constants.Constants.UUID_NAMESPACE)
 
 def mock(text_value=None, binary=True):
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_MOCK_NAMESPACE)
+    return catalog_uuid(text_value, binary, namespace=constants.Constants.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
     return validate_uuid5(uuid_string, permissive=permissive)
 
-def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
+def catalog_uuid(text_value, binary=True, namespace=constants.Constants.UUID_NAMESPACE):
     """Returns a UUID5 in the prescribed namespace
     This function will either a text UUID or a BSON-encoded binary UUID,
     depending on the optional value ``binary``.
@@ -47,8 +47,8 @@ def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
     """
     if text_value.startswith('/'):
         text_value = text_value[1:]
-    if text_value.startswith(Constants.UPLOADS_ROOT):
-        text_value = text_value[len(Constants.UPLOADS_ROOT):]
+    if text_value.startswith(constants.Constants.UPLOADS_ROOT):
+        text_value = text_value[len(constants.Constants.UPLOADS_ROOT):]
     if text_value.startswith('/'):
         text_value = text_value[1:]
 

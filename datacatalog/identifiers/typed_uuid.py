@@ -14,7 +14,7 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
-from .constants import Constants
+from .. import constants
 from .datacatalog_uuidtype import UUIDTYPES
 
 class TypedUUID(object):
@@ -46,12 +46,12 @@ def generate(text_value=None, uuid_type=None, binary=True):
 
 def random_uuid5(binary=True):
     text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_NAMESPACE)
+    return catalog_uuid(text_value, binary, namespace=constants.Constants.UUID_NAMESPACE)
 
 def mock(text_value=None, uuid_type=None, binary=True):
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, uuid_type, binary, namespace=Constants.UUID_MOCK_NAMESPACE)
+    return catalog_uuid(text_value, uuid_type, binary, namespace=constants.Constants.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
     return validate_uuid5(uuid_string, permissive=permissive)
@@ -73,7 +73,7 @@ def get_uuidtype(query_uuid):
             return t
     raise ValueError('{} is not a known UUIDType'.format(query_uuid))
 
-def catalog_uuid(text_value, uuid_type='generic', namespace=Constants.UUID_NAMESPACE, binary=False):
+def catalog_uuid(text_value, uuid_type='generic', namespace=constants.Constants.UUID_NAMESPACE, binary=False):
     """Returns a typed UUID5 in the prescribed namespace
 
     Args:

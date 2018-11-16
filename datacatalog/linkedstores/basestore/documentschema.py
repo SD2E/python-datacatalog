@@ -13,12 +13,13 @@ import json
 
 from pprint import pprint
 from slugify import slugify
-from jsonschemas import JSONSchemaBaseObject, camel_to_snake
-from identifiers import typed_uuid
-from utils import time_stamp, current_time, msec_precision
+
+from ...jsonschemas import JSONSchemaBaseObject, camel_to_snake
+from ...identifiers import typed_uuid
+from ...utils import time_stamp, current_time, msec_precision
 
 class DocumentSchema(JSONSchemaBaseObject):
-    """Extends the JSON schema-informed document into a LinkedStore document
+    """Extends the JSON schema-driven document class with LinkedStore functions
 
     DocumentSchema objects validate against the schema defined in
     `document.json`, have a defined LinkedStore type and specify fields used to

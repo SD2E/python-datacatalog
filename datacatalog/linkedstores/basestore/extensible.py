@@ -1,5 +1,7 @@
 
 class ExtensibleAttrDict(dict):
+    """Implements AttrDict-like behavior for complex objects"""
+
     def __getattr__(self, name):
         if name in self:
             return self[name]

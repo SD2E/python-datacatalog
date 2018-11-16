@@ -2,8 +2,8 @@ import arrow
 import json
 import re
 
-import config
-from githelpers import get_sha1_short, get_remote_uri
+from . import config
+from ..githelpers import get_sha1_short, get_remote_uri
 
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')

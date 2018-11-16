@@ -9,7 +9,7 @@ from builtins import *
 import uuid
 from hashids import Hashids
 
-from constants import Constants
+from .. import constants
 
 __all__ = ["generate", "validate", "mock"]
 
@@ -30,9 +30,9 @@ def validate(text_string, permissive=False):
 def mock():
     """Return an identifer that looks like an Abaco hashid but
     will not be guaranteed to validate"""
-    return get_id(salt=Constants.MOCK_IDS_SALT)
+    return get_id(salt=constants.Constants.MOCK_IDS_SALT)
 
-def get_id(salt=Constants.ABACO_HASHIDS_SALT):
+def get_id(salt=constants.Constants.ABACO_HASHIDS_SALT):
     '''Generate a new random hash id'''
     hashids = Hashids(salt=salt)
     _uuid = uuid.uuid1().int >> 64
@@ -40,7 +40,7 @@ def get_id(salt=Constants.ABACO_HASHIDS_SALT):
 
 def is_hashid(identifier):
     '''Tries to validate a HashId'''
-    hashids = Hashids(salt=Constants.ABACO_HASHIDS_SALT)
+    hashids = Hashids(salt=constants.Constants.ABACO_HASHIDS_SALT)
     dec = hashids.decode(identifier)
     if len(dec) > 0:
         return True

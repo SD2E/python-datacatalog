@@ -18,16 +18,14 @@ from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
 
-from constants import CatalogStore
-from utils import time_stamp, current_time, msec_precision
-from dicthelpers import data_merge, flatten_dict, linearize_dict
-from debug_mode import debug_mode
-
-from jsonschemas import JSONSchemaBaseObject
-from tokens import generate_salt, get_token, validate_token
-from identifiers.typed_uuid import catalog_uuid
-
-from mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
+from ...constants import CatalogStore
+from ...utils import time_stamp, current_time, msec_precision
+from ...dicthelpers import data_merge, flatten_dict, linearize_dict
+from ...debug_mode import debug_mode
+from ...jsonschemas import JSONSchemaBaseObject
+from ...tokens import generate_salt, get_token, validate_token
+from ...identifiers.typed_uuid import catalog_uuid
+from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 
 from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
 from .documentschema import DocumentSchema
@@ -85,7 +83,6 @@ class BaseStore(object):
     """Set of valid strategies for updating document linkages"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-
         self._tenant = 'sd2e'
         """TACC.cloud tenant that owns this document.
         """
@@ -152,6 +149,13 @@ class BaseStore(object):
         # self._post_init()
 
     def update_attrs(self, schema):
+        """Updates BaseStore with values in loaded schema
+
+        This is used to allow the schema to be patched or amended at runtime
+
+        Args:
+            schema (dict): A JSON schema documented loaded into a dict
+        """
         setattr(self, 'name', schema.get_collection())
         setattr(self, 'schema', schema.to_dict())
         setattr(self, 'document_schema', schema.to_dict(document=True))
@@ -161,17 +165,8 @@ class BaseStore(object):
         setattr(self, 'uuid_fields', schema.get_uuid_fields())
         return self
 
-    def get_identifiers(self):
-        return getattr(self, 'identifiers')
-
-    def get_uuid_type(self):
-        return getattr(self, 'uuid_type')
-
-    def get_uuid_fields(self):
-        return getattr(self, 'uuid_fields')
-
     def setup(self):
-        # Database connection and init
+        """Set up the MongoDB collection that houses data for the LinkedStore"""
         setattr(self, 'db', db_connection(self._mongodb))
         setattr(self, 'coll', self.db[self.name])
         setattr(self, 'logcoll', self.db['updates'])
@@ -183,7 +178,24 @@ class BaseStore(object):
                 raise CatalogError(
                     'Failed to set index on {}.uuid'.format(self.name), exc)
 
+    def get_identifiers(self):
+        """Returns names of keys whose values will be distinct"""
+        return getattr(self, 'identifiers')
+
+    def get_uuid_type(self):
+        """Returns UUID type for docuemnts managed by this LinkedStore"""
+        return getattr(self, 'uuid_type')
+
+    def get_uuid_fields(self):
+        """Returns keys used by this LinkedStore to issue a typed UUID"""
+        return getattr(self, 'uuid_fields')
+
     def query(self, query={}):
+        """Query the LinkedStore MongoDB collection and return a Cursor
+
+        Args:
+            query (dict): An object describing a MongoDB query
+        """
         try:
             if not isinstance(query, dict):
                 query = json.loads(query)
@@ -193,6 +205,24 @@ class BaseStore(object):
             return self.coll.find(query)
         except Exception as exc:
             raise CatalogError('Query failed', exc)
+
+    def find_one_by_uuid(self, uuid):
+        """Find and return a LinkedStore document by its typed UUID
+
+        Args:
+            uuid (str): The UUID to search for
+
+        Raises:
+            CatalogError: Raised when query fails due to an error or invalid value
+
+        Returns:
+            dict: Object containing the LinkedStore document
+        """
+        try:
+            query = {'uuid': uuid}
+            return self.coll.find(query)[0]
+        except Exception as exc:
+            raise CatalogError('Query failed for uuid'.format(uuid), exc)
 
     def find_one_by_id(self, **kwargs):
         try:
@@ -212,14 +242,16 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
-    def find_one_by_uuid(self, uuid):
-        try:
-            query = {'uuid': uuid}
-            return self.coll.find(query)[0]
-        except Exception as exc:
-            raise CatalogError('Query failed for uuid'.format(uuid), exc)
+    def __set_properties(self, record, updated=False):
+        """Update the timestamp and revision count for a document
 
-    def set_properties(self, record, updated=False):
+        Args:
+            record (dict): A LinkedStore document
+            updated (bool): Forces timestamp and revision to increment
+
+        Returns:
+            dict: Object containing the updated LinkedStore document
+        """
         ts = msec_precision(current_time())
         # Amend record with _properties if needed
         if '_properties' not in record:
@@ -231,7 +263,7 @@ class BaseStore(object):
             record['_properties']['revision'] = record['_properties']['revision'] + 1
         return record
 
-    def set_admin(self, record):
+    def __set_admin(self, record):
         # Stubbed-in support for multitenancy, projects, and ownership
         if '_admin' not in record:
             record['_admin'] = {'owner': self._owner,
@@ -239,16 +271,16 @@ class BaseStore(object):
                                 'tenant': self._tenant}
         return record
 
-    def set_salt(self, record):
+    def __set_salt(self, record):
         # Stubbed-in support for update token
         if '_salt' not in record:
             record['_salt'] = generate_salt()
         return record
 
     def set_private_keys(self, record, updated=False):
-        record = self.set_properties(record, updated)
-        record = self.set_admin(record)
-        record = self.set_salt(record)
+        record = self.__set_properties(record, updated)
+        record = self.__set_admin(record)
+        record = self.__set_salt(record)
         return record
 
     def get_typed_uuid(self, payload, binary=False):
@@ -503,7 +535,7 @@ class BaseStore(object):
                 if key.startswith('_') or key in ('uuid', '_id'):
                     target_document[key] = source_document[key]
             # Update _properties
-            document = self.set_properties(target_document, updated=True)
+            document = self.__set_properties(target_document, updated=True)
             # Lift over linkages
             for key in self.LINK_FIELDS:
                 if key in source_document and key in target_document:
@@ -582,7 +614,7 @@ class BaseStore(object):
                 if key.startswith('_') or key in ('uuid', '_id'):
                     merged_document[key] = source_document[key]
             # Update _properties for merged_document
-            merged_document = self.set_properties(merged_document, updated=True)
+            merged_document = self.__set_properties(merged_document, updated=True)
             # Update linkages
             merged_document = self.update_linkages(merged_document, target_document)
             # Update the record
@@ -684,7 +716,7 @@ class BaseStore(object):
         updated_record = data_merge(db_record, {key: value})
         diff_record = self.get_diff(source=db_record, target=updated_record, action='update')
         if diff_record['diff'] != b'e30=':
-            updated_record = self.set_properties(updated_record, updated=True)
+            updated_record = self.__set_properties(updated_record, updated=True)
         uprec = self.coll.find_one_and_replace({'uuid': updated_record['uuid']},
                                                updated_record, return_document=ReturnDocument.AFTER)
         try:
@@ -837,7 +869,13 @@ class BaseStore(object):
                         relation, uuid))
 
     def debug_mode(self):
+        """Returns True if system is running in debug mode"""
         return debug_mode()
 
 class StoreInterface(BaseStore):
+    """Alias for the LinkedStore defined in this module
+
+    This alias is used generically in methods that iterate over all
+    known linikedstores.
+    """
     pass

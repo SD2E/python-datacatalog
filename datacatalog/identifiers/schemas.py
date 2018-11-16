@@ -1,4 +1,4 @@
-from jsonschemas import JSONSchemaBaseObject
+from ..jsonschemas import JSONSchemaBaseObject
 from .typed_uuid import UUIDType
 
 class CatalogUUID(JSONSchemaBaseObject):
