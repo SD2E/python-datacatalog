@@ -1,4 +1,5 @@
 PYTEST_OPTS ?= ""
+PYTEST_SRC ?= tests/
 
 all: build
 
@@ -23,18 +24,18 @@ schemas-test:
 schemas-clean:
 	rm -rf schemas/*.jsonschema
 
-mongodb-up:
+mongo-up:
 	cd docker && docker-compose up -d --force-recreate --quiet-pull
 
-mongodb-down:
+mongo-down:
 	cd docker && docker-compose down
 
 tests-longrun:
-	python -m pytest --cache-clear --longrun
+	python -m pytest --cache-clear --longrun $(PYTEST_SRC)
 
 .PHONY: tests
 tests:
-	python -m pytest --cache-clear $(PYTEST_OPTS)
+	python -m pytest --cache-clear $(PYTEST_OPTS) $(PYTEST_SRC)
 
 tests-classify:
 	python -m pytest -s -vvv -k "formats_classify" $(PYTEST_SRC)
