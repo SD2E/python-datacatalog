@@ -1,5 +1,5 @@
-from .store import SampleDocument as Doc
 from pprint import pprint
+from .store import SampleDocument as Doc
 
 def get_schemas():
     schemas = dict()
