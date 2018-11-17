@@ -35,11 +35,17 @@ def get_sha1(repo=os.getcwd()):
     sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo)
     return sha.decode('ascii').strip()
 
-def get_remote_uri():
+def get_remote_uri(repo=os.getcwd()):
     """Gets the remote origin for the current directory
+
+    Args:
+        repo (str, optional): The directory to inspect for a git reflog
 
     Returns:
         str: an SSH or HTTP git repository URL
+
+    Todo:
+        Allow return of alternate forms via `giturlparse.py` or similar
     """
-    repo = git.Repo(".", search_parent_directories=True)
+    repo = git.Repo(repo, search_parent_directories=True)
     return repo.remote("origin").url
