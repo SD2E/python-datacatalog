@@ -21,7 +21,7 @@ def get_token(salt, *args):
         salt (str):
 
     Returns:
-        str: An alphanumeric Token
+        Token: An alphanumeric token
     """
     argset = [salt]
     argset.extend(args)

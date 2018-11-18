@@ -3,6 +3,13 @@ PYTEST_SRC ?= tests/
 
 all: build
 
+.PHONY: docs
+docs:
+	cd docs && make html
+
+docs-clean:
+	cd docs && rm -rf sources/* && sphinx-apidoc -f -o source ../datacatalog
+
 release: build
 	twine upload dist/*
 
