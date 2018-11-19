@@ -9,4 +9,5 @@ from .client import PipelineJobClient, PipelineJobUpdateMessage, PipelineJobClie
 
 
 class AbacoPipelineJobClient(PipelineJobClient):
-    raise NotImplementedError('Native Abaco support is forthcoming')
+    def __init__():
+        raise NotImplementedError('Native Abaco support is forthcoming')

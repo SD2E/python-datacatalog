@@ -9,4 +9,5 @@ from .client import PipelineJobClient, PipelineJobUpdateMessage, PipelineJobClie
 
 
 class JupyterPipelineJobClient(PipelineJobClient):
-    raise NotImplementedError('Jupyter support is forthcoming')
+    def __init__():
+        raise NotImplementedError('Jupyter support is forthcoming')

@@ -7,16 +7,49 @@ standard_library.install_aliases()
 from builtins import *
 
 import re
-# Derived from agave-flat/agave-apps/apps-core/src/main/java/org/iplantc/service/apps/model/Software.java
+
+# These values are derived from:
+# agave-flat/agave-apps/apps-core/src/main/java/org/iplantc/service/apps/model/Software.java
 APPID_REGEX = '(^[a-zA-Z0-9_\\-\\.]+)\\-((?:0|[1-9]+[\\d]*)[\\.\\d]+)(u[0-9]+)?$'
+"""Regular expression for detecting an Agave appId"""
 APPID_MAX_LENGTH = 64
+"""Maximum length for an Agave appId"""
 
 __all__ = ["validate"]
 
-def generate():
+def mock():
+    """Create a mock Agave appId
+
+    This is useful for testing.
+
+    Returns:
+        str: The new appId
+    """
     raise NotImplementedError()
 
+def generate():
+    """Create a new Agave appId
+
+    This is useful for testing.
+
+    Returns:
+        str: The new appId
+    """
+    return mock()
+
 def validate(text_string, permissive=False):
+    """Validate whether a string is an Agave appId
+
+    Args:
+        text_string (str): the value to validate
+        permissive (bool, optional): whether to return false or raise Exception on failure
+
+    Raises:
+        ValueError: The passed value was not an appId and permissive was `False`
+
+    Returns:
+        bool: Whether the passed value is an Agave appId
+    """
     result = is_appid(text_string)
     if result is True:
         return result
@@ -28,14 +61,6 @@ def validate(text_string, permissive=False):
             return False
 
 def is_appid(textString, useApi=False, agaveClient=None):
-    """
-    Validate whether textString is an Agave appId
-    Positional parameters:
-    textString: str - the candidate text string
-    Not implemented:
-    useApi: bool - try looking the Id up via apps.get
-    agaveClient: Agave client - required for useApi
-    """
     if len(textString) > APPID_MAX_LENGTH:
         return False
     if re.match(APPID_REGEX, textString):

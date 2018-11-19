@@ -7,12 +7,17 @@ HERE = os.path.abspath(__file__)
 PARENT = os.path.dirname(HERE)
 
 def get_schemas():
+    """Return definition schema(s)
+
+    Returns:
+        dict: One or more schemas"""
     jsondocs = build_jsondocs()
     templated_jsondocs = build_templates()
     schemas = {**jsondocs, **templated_jsondocs}
     return schemas
 
 def build_jsondocs():
+    """Discover and return schema definitions in `jsondocs`"""
     schemas = dict()
     docs_dir = os.path.join(PARENT, 'jsondocs')
     for jdoc in os.listdir(docs_dir):
@@ -31,5 +36,6 @@ def build_jsondocs():
     return schemas
 
 def build_templates():
+    """Discover, render, and return Jinja-templated schema definitions"""
     schemas = dict()
     return schemas

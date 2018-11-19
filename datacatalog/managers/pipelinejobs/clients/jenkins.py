@@ -9,4 +9,5 @@ from .client import PipelineJobClient, PipelineJobUpdateMessage, PipelineJobClie
 
 
 class JenkinsPipelineJobClient(PipelineJobClient):
-    raise NotImplementedError('Jenkins support is forthcoming')
+    def __init__():
+        raise NotImplementedError('Jenkins support is forthcoming')

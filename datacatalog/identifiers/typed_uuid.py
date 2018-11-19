@@ -18,6 +18,8 @@ from .. import constants
 from .datacatalog_uuidtype import UUIDTYPES
 
 class TypedUUID(object):
+    """UUID identifying a catalog object and advertising its internal type"""
+
     def __init__(self, *args):
         self.key = args[0]
         self.prefix = args[1]
@@ -30,40 +32,90 @@ UUIDType = dict()
 for uuidt, prefix, title in UUIDTYPES:
     UUIDType[uuidt] = TypedUUID(uuidt, prefix, title)
 
-def validate_type(type_string):
-    """Ensure that the provided type string is valid"""
+def validate_type(type_string, permissive=False):
+    """Ensure a provided type string is valid
+
+    Args:
+        type_string (str): String representing a known catalog type
+        permissive (vool, optional): Return `False` or raise Exception on failure
+
+    Returns:
+        bool: Whether the value is a known type
+    """
     if type_string.lower() in list(UUIDType.keys()):
         return True
     else:
-        raise ValueError('{} is not a known Catalog UUIDType'.format(type_string))
+        if permissive is False:
+            raise ValueError('{} is not a known Catalog UUIDType'.format(type_string))
+        else:
+            return False
 
 def generate(text_value=None, uuid_type=None, binary=True):
-    # if isinstance(text_value, (list, tuple)):
-    #     text_value = ':'.join(sorted(text_value))
+    """Generate a TypedUUID of a specific type from a string
+
+    Args:
+        text_value (str): A string to convert into an UUID
+        uuid_type (str, optional): The type of UUID to return
+
+    Returns:
+        str: String representation of the generated UUID
+    """
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
     return catalog_uuid(text_value, uuid_type, binary)
 
 def random_uuid5(binary=True):
+    """Generate a random TypedUUID
+
+    Returns:
+        str: String representation of the random UUID
+    """
     text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
     return catalog_uuid(text_value, binary, namespace=constants.Constants.UUID_NAMESPACE)
 
 def mock(text_value=None, uuid_type=None, binary=True):
+    """Generate a mock TypedUUID of a specific type from a string
+
+    Args:
+        text_value (str): A string to convert into an UUID
+        uuid_type (str, optional): The type of UUID to return
+
+    Returns:
+        str: String representation of the generated UUID
+
+    Note:
+        UUID is in a different namespace and will not validate
+    """
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
     return catalog_uuid(text_value, uuid_type, binary, namespace=constants.Constants.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
+    """Validate whether a string is a valid TypedUUID
+
+    Args:
+        uuid_string (str): the value to validate
+        permissive (bool, optional): whether to return false or raise Exception on failure
+
+    Raises:
+        ValueError: The passed value was not an appId and permissive was `False`
+
+    Returns:
+        bool: Validation result
+    """
     return validate_uuid5(uuid_string, permissive=permissive)
 
 def get_uuidtype(query_uuid):
-    """Determine the datacatalog.identifiers.UUIDType for a UUID
+    """Determine the TypedUUID type for a UUID
 
-    Params:
-    query_uuid: accepts either a string representation of UUID or a UUUD object
+    Args:
+        query_uuid (str/uuid.uuid): a UUID
+
+    Raises:
+        ValueError: Raised if the query cannot be resolved to a known UUID type
 
     Returns:
-    UUIDType:string
+        str: The TypedUUID type for the query
     """
     if isinstance(query_uuid, uuid.UUID):
         query_uuid = str(query_uuid)
@@ -74,14 +126,14 @@ def get_uuidtype(query_uuid):
     raise ValueError('{} is not a known UUIDType'.format(query_uuid))
 
 def catalog_uuid(text_value, uuid_type='generic', namespace=constants.Constants.UUID_NAMESPACE, binary=False):
-    """Returns a typed UUID5 in the prescribed namespace
+    """Returns a TypedUUID5 for text_value
 
     Args:
-        text_value:string - a text string to encode as UUID hash
-        type:string - a known datacatalog UUIDType
-        binary (bool): whether to encode result as BSON binary
+        text_value (str): the text string to encode as a UUID5
+        type (str, optional): one the known datacatalog UUID types
+
     Returns:
-        new_uuid: The hash UUID in string or binary-encoded form
+        str: The new TypedUUID in string form
     """
 
     uuidtype_tag = UUIDType[uuid_type].prefix
@@ -94,12 +146,14 @@ def catalog_uuid(text_value, uuid_type='generic', namespace=constants.Constants.
         return Binary(new_typed_uuid.bytes, OLD_UUID_SUBTYPE)
 
 def text_uuid_to_binary(text_uuid):
+    """Convert text TypedUUID to binary form"""
     try:
         return Binary(uuid.UUID(text_uuid).bytes, OLD_UUID_SUBTYPE)
     except Exception as exc:
         raise ValueError('Failed to convert text UUID to binary', exc)
 
 def binary_uuid_to_text(binary_uuid):
+    """Convert binary TypeUUID to its text representation"""
     try:
         print(type(binary_uuid))
         return str(uuid.UUID(bytes=binary_uuid))
@@ -107,9 +161,7 @@ def binary_uuid_to_text(binary_uuid):
         raise ValueError('Failed to convert binary UUID to string', exc)
 
 def validate_uuid5(uuid_string, permissive=False):
-    """
-    Validate that a UUID string is in fact a valid uuid5.
-    """
+    """Test whether a UUID string is a valid uuid.uuid5"""
     try:
         uuid.UUID(uuid_string, version=5)
         return True

@@ -21,16 +21,12 @@ from .serializer import SerializedPipeline
 from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
 
 class PipelineStore(SoftDelete, BaseStore):
+    """Manage storage and retrieval of PipelineDocuments"""
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineStore, self).__init__(mongodb, config, session)
-        # setup based on schema extended properties
         schema = PipelineDocument(**kwargs)
         super(PipelineStore, self).update_attrs(schema)
-        # setattr(self, 'name', schema.get_collection())
-        # setattr(self, 'schema', schema.to_dict())
-        # setattr(self, 'identifiers', schema.get_identifiers())
-        # setattr(self, 'uuid_type', schema.get_uuid_type())
-        # setattr(self, 'uuid_fields', schema.get_uuid_fields())
         self.setup()
 
     def get_typed_uuid(self, payload, binary=False):

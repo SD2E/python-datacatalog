@@ -17,6 +17,21 @@ def generate():
     return get_id()
 
 def validate(text_string, permissive=False):
+    """Validate whether a string is a hashid
+
+    Args:
+        text_string (str): the value to validate
+        permissive (bool, optional): whether to return false or raise Exception on failure
+
+    Raises:
+        ValueError: The passed value was not a Hashid and permissive was `False`
+
+    Returns:
+        bool: Whether the passed value is a Hashid
+
+    Warning:
+        This is better for opt-in classification than formal valdiation as there are several edge cases than can render a false negative.
+    """
     result = is_hashid(text_string)
     if result is True:
         return result
@@ -28,18 +43,31 @@ def validate(text_string, permissive=False):
             return False
 
 def mock():
-    """Return an identifer that looks like an Abaco hashid but
-    will not be guaranteed to validate"""
+    """Create a Hashid that will not validate
+
+    This is useful for testing.
+
+    Returns:
+        str: The new Hashid
+    """
     return get_id(salt=constants.Constants.MOCK_IDS_SALT)
 
 def get_id(salt=constants.Constants.ABACO_HASHIDS_SALT):
-    '''Generate a new random hash id'''
+    """Create a new Hashid
+
+    This is useful for testing.
+
+    Args:
+        salt (str, optional): Salt value for generating the hash.
+
+    Returns:
+        str: The new Hashid
+    """
     hashids = Hashids(salt=salt)
     _uuid = uuid.uuid1().int >> 64
     return hashids.encode(_uuid)
 
 def is_hashid(identifier):
-    '''Tries to validate a HashId'''
     hashids = Hashids(salt=constants.Constants.ABACO_HASHIDS_SALT)
     dec = hashids.decode(identifier)
     if len(dec) > 0:

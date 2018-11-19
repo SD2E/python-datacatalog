@@ -74,7 +74,7 @@ class BaseStore(object):
     """Keys managed only by datacatalog-internal logic"""
     READONLY_FIELDS = MANAGED_FIELDS + LINK_FIELDS
     """Additional keys to be marked as read-only"""
-    UPDATE_POLICIES = ('replace', 'merge')
+    UPDATE_POLICIES = ('drop', 'replace', 'merge')
     """Set of policies for updating a document"""
     MERGE_DICT_OPTS = ('left', 'right', 'replace')
     """Set of valid strategies for merging dictionaries"""
@@ -206,6 +206,18 @@ class BaseStore(object):
             return self.coll.find(query)
         except Exception as exc:
             raise CatalogError('Query failed', exc)
+
+    # def update(self, query={}, update={}):
+    #     """Update the LinkedStore MongoDB collection
+
+    #     Args:
+    #         query (dict): An object describing a MongoDB query
+    #         upload (dict): On object encoding a MongoDB update document
+    #     """
+    #     try:
+    #         return self.coll.update(query, update)
+    #     except Exception as exc:
+    #         raise CatalogError('Update failed', exc)
 
     def find_one_by_uuid(self, uuid):
         """Find and return a LinkedStore document by its typed UUID
@@ -379,6 +391,15 @@ class BaseStore(object):
             for key in list(doc.keys()):
                 if key.startswith('_'):
                     del doc[key]
+            # Filter out linkages
+            #
+            # Cannot do this at present because it prevents writes
+            # as we look at the diff before deciding whether to actually
+            # write a database record
+            #
+            # for filt in self.LINK_FIELDS:
+            #     if filt in doc:
+            #         del doc[filt]
 
         class DateTimeEncoder(json.JSONEncoder):
             def default(self, o):
@@ -424,7 +445,7 @@ class BaseStore(object):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def add_update_document(self, document_dict, uuid=None, token=None, strategy='replace'):
+    def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         """Create or replace a managed document
 
         Generic class to create or update LinkedStore documents. Handles typed
@@ -478,6 +499,19 @@ class BaseStore(object):
                 return self.replace_document(db_record, document, token)
             elif strategy == 'merge':
                 return self.update_document(db_record, document, token)
+            elif strategy == 'drop':
+                # Delete first, then add. This is currently expensive due to 2x
+                # database lookup and also not delete linkage references
+                self.delete_document(db_record['uuid'], token)
+                # Filter private keys and linkages
+                for key in list(db_record.keys()):
+                    if key.startswith('_'):
+                        del db_record[key]
+                for linkage in self.LINK_FIELDS:
+                    if linkage in db_record:
+                        del db_record[linkage]
+                pprint(db_record)
+                return self.add_update_document(db_record)
             else:
                 raise CatalogError('{} is not a known update strategy'.format(strategy))
 
@@ -534,7 +568,7 @@ class BaseStore(object):
 
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
-        pprint(source_document)
+        # pprint(source_document)
         try:
             validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
         except ValueError as verr:
@@ -600,7 +634,7 @@ class BaseStore(object):
         """
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
-        pprint(source_document)
+        # pprint(source_document)
         try:
             validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
         except ValueError as verr:
@@ -643,7 +677,7 @@ class BaseStore(object):
             except Exception:
                 # Ignore log failures for now
                 pass
-            pprint(uprec)
+            # pprint(uprec)
             return uprec
         else:
             # There was no detectable difference, so return original doc

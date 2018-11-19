@@ -9,4 +9,5 @@ from .client import PipelineJobClient, PipelineJobUpdateMessage, PipelineJobClie
 
 
 class AgavePipelineJobClient(PipelineJobClient):
-    raise NotImplementedError('Agave Jobs support is forthcoming')
+    def __init__():
+        raise NotImplementedError('Agave Jobs support is forthcoming')

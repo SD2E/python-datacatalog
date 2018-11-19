@@ -8,16 +8,12 @@ from builtins import *
 
 import sys
 from os import environ
-
-name = "datacatalog"
-
 # print(sys.path)
 from . import constants
-print('CONSTANTS.version', constants.__version__)
-
-from . import agavehelpers
 from . import config
 from . import debug_mode
+
+from . import agavehelpers
 from . import definitions
 from . import filetypes
 from . import formats
@@ -30,11 +26,4 @@ from . import pathmappings
 from . import tenancy
 from . import utils
 
-
-# from . import managers
-
-
-# # from .constants import *
-# from .agavehelpers import from_agave_uri, AgaveError
-# from . import identifiers
-# from . import filetypes
+name = "datacatalog"

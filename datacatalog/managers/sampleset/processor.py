@@ -17,6 +17,8 @@ class UnknownReference(linkedstores.basestore.CatalogError):
     pass
 
 class SampleSetProcessor(object):
+    """Manager class to process and load sample set JSON documents"""
+
     def __init__(self, mongodb_settings, samples_file=None, path_prefix='/uploads'):
         # Assemble dict of stores keyed by classname
         self.stores = SampleSetProcessor.init_stores(mongodb_settings)
@@ -70,38 +72,42 @@ class SampleSetProcessor(object):
         samples_list = self.document.get('samples', [])
         return samples_list
 
-    def process_samples(self, parent_uuid=None):
+    def _update_param(self, strategy):
+        """Shim in case we need to validate or add new strategy to BaseStore"""
+        return strategy
+
+    def process_samples(self, parent_uuid=None, strategy='merge'):
         for sample in self._samples:
             if 'child_of' in sample:
                 sample['child_of'].append(parent_uuid)
             else:
                 sample['child_of'] = [parent_uuid]
             measurements = sample.pop('measurements')
-            resp = self.stores['sample'].add_update_document(sample)
+            resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
             parent_uuid = resp['uuid']
-            self.process_measurements(measurements, parent_uuid)
+            self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
         return True
 
-    def process_measurements(self, measurements, parent_uuid=None):
+    def process_measurements(self, measurements, parent_uuid=None, strategy='merge'):
         for meas in measurements:
             if 'child_of' in meas:
                 meas['child_of'].append(parent_uuid)
             else:
                 meas['child_of'] = [parent_uuid]
             files = meas.pop('files')
-            resp = self.stores['measurement'].add_update_document(meas)
+            resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
             parent_uuid = resp['uuid']
-            self.process_files(files, parent_uuid)
+            self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
         return True
 
-    def process_files(self, files, parent_uuid=None):
+    def process_files(self, files, parent_uuid=None, strategy='merge'):
         for file in files:
             file['name'] = self.contextualize(file['name'])
             if 'child_of' in file:
                 file['child_of'].append(parent_uuid)
             else:
                 file['child_of'] = [parent_uuid]
-            self.stores['file'].add_update_document(file)
+            self.stores['file'].add_update_document(file, strategy=self._update_param(strategy))
         return True
 
     def contextualize(self, filename):
@@ -118,5 +124,13 @@ class SampleSetProcessor(object):
     def get_experiment_uuid(self):
         return self.experiment['uuid']
 
-    def process(self):
-        return self.process_samples(self.get_experiment_uuid())
+    def process(self, strategy='merge'):
+        """Recursiveley loads contents of a sample set into the catalog
+
+        Args:
+            replace (bool, optional): Replace existing records. Default is to merge.
+
+        Returns:
+            bool: Returns `True` on success
+        """
+        return self.process_samples(self.get_experiment_uuid(), strategy=strategy)

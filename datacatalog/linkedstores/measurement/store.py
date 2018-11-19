@@ -36,4 +36,5 @@ class MeasurementStore(BaseStore):
         self.setup()
 
 class StoreInterface(MeasurementStore):
+    """Generic interface to MeasurementStore"""
     pass

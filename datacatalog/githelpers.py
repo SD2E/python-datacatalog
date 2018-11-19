@@ -29,8 +29,6 @@ def get_sha1(repo=os.getcwd()):
     Returns:
         str: A hexadecimal string representing the SHA1 hash
 
-    Todo:
-        Replace with native GitPython code
     """
     sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=repo)
     return sha.decode('ascii').strip()
@@ -43,9 +41,6 @@ def get_remote_uri(repo=os.getcwd()):
 
     Returns:
         str: an SSH or HTTP git repository URL
-
-    Todo:
-        Allow return of alternate forms via `giturlparse.py` or similar
     """
     repo = git.Repo(repo, search_parent_directories=True)
     return repo.remote("origin").url

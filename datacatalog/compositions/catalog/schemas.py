@@ -7,6 +7,8 @@ from ...linkedstores.basestore import DocumentSchema
 from ...dicthelpers import data_merge
 
 class SampleCatalogDocument(DocumentSchema):
+    """Composed schema representing all linked document schemas"""
+
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()
         try:
@@ -25,6 +27,10 @@ class SampleCatalogDocument(DocumentSchema):
         self.update_id()
 
 def get_schemas():
+    """Return schema(s) for SampleCatalogDocument
+    Returns:
+        dict: One or more schemas
+    """
     schemas = dict()
     d1 = SampleCatalogDocument()
     fname = getattr(d1, '_filename')
