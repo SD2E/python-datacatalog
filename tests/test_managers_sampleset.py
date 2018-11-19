@@ -53,29 +53,20 @@ def test_exid_get_from_doc(mongodb_settings):
     ex = db.get_experiment_id()
     assert ex == 'NovelChassis-NAND-Gate'
 
-# def test_iter_samples(mongodb_settings):
-#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-#     x = db.samples()
-#     assert isinstance(x, types.GeneratorType)
-
-# def test_iter_meas(mongodb_settings):
-#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-#     x = db.samples()
-#     y = db.measurements(x)
-#     assert isinstance(y, types.GeneratorType)
-
-# def test_iter_file(mongodb_settings):
-#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-#     x = db.samples()
-#     y = db.measurements(x)
-#     z = db.files(y)
-#     assert isinstance(z, types.GeneratorType)
-
-def test_iter_process(mongodb_settings):
+def test_iter_process_merge(mongodb_settings):
     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-    dbp = db.process()
+    dbp = db.process(strategy='merge')
     assert dbp is True
+
+# def test_iter_process_replace(mongodb_settings):
+#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
+#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
+#     dbp = db.process(strategy='replace')
+#     assert dbp is True
+
+# def test_iter_process_drop(mongodb_settings):
+#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
+#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
+#     dbp = db.process(strategy='drop')
+#     assert dbp is True
