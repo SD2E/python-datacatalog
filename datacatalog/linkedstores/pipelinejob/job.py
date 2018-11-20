@@ -31,6 +31,7 @@ class PipelineJob(ExtensibleAttrDict):
     def __init__(self, job_document):
         super(PipelineJob, self).__init__(job_document)
         job_state = job_document.get('state', 'created').upper()
+        self.enforce_auth = True
         # self._job_state_machine = JobStateMachine(state=job_state)
         setattr(self, '_job_state_machine', JobStateMachine(state=job_state))
 

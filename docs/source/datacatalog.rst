@@ -16,9 +16,8 @@ Subpackages
     datacatalog.managers
     datacatalog.mongo
     datacatalog.pathmappings
-    datacatalog.products
-    datacatalog.references
     datacatalog.stores
+    datacatalog.tenancy
     datacatalog.tokens
 
 Submodules
@@ -64,26 +63,10 @@ datacatalog.dicthelpers module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.exceptions module
------------------------------
-
-.. automodule:: datacatalog.exceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.githelpers module
 -----------------------------
 
 .. automodule:: datacatalog.githelpers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.main module
------------------------
-
-.. automodule:: datacatalog.main
     :members:
     :undoc-members:
     :show-inheritance:

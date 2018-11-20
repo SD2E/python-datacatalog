@@ -12,14 +12,6 @@ datacatalog.linkedstores.pipeline.exceptions module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.linkedstores.pipeline.pipeline module
--------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.pipeline.pipeline
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.pipeline.schema module
 -----------------------------------------------
 
@@ -48,22 +40,6 @@ datacatalog.linkedstores.pipeline.store module
 ----------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.pipeline.store
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.linkedstores.pipeline.token module
-----------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.pipeline.token
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.linkedstores.pipeline.uuids module
-----------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.pipeline.uuids
     :members:
     :undoc-members:
     :show-inheritance:

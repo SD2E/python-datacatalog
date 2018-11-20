@@ -1,13 +1,6 @@
 datacatalog.managers.pipelinejobs.clients package
 =================================================
 
-Subpackages
------------
-
-.. toctree::
-
-    datacatalog.managers.pipelinejobs.clients.tests
-
 Submodules
 ----------
 

@@ -19,6 +19,8 @@ build:
 clean: schemas-clean
 	rm -rf build *egg-info dist
 	find . -d -name '*__pycache__*' -exec rm -rf {} \;
+	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
+
 
 .PHONY: schemas
 schemas: schemas-clean

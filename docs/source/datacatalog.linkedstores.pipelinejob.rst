@@ -68,14 +68,6 @@ datacatalog.linkedstores.pipelinejob.store module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.linkedstores.pipelinejob.token module
--------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.pipelinejob.token
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.pipelinejob.utils module
 -------------------------------------------------
 

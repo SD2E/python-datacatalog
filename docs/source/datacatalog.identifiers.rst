@@ -35,14 +35,6 @@ datacatalog.identifiers.agave\_uuidtype module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.identifiers.constants module
-----------------------------------------
-
-.. automodule:: datacatalog.identifiers.constants
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.identifiers.datacatalog\_uuid module
 ------------------------------------------------
 
@@ -55,14 +47,6 @@ datacatalog.identifiers.datacatalog\_uuidtype module
 ----------------------------------------------------
 
 .. automodule:: datacatalog.identifiers.datacatalog_uuidtype
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.identifiers.exceptions module
------------------------------------------
-
-.. automodule:: datacatalog.identifiers.exceptions
     :members:
     :undoc-members:
     :show-inheritance:

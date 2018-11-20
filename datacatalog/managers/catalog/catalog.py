@@ -18,7 +18,7 @@ class CatalogManagerError(linkedstores.basestore.CatalogError):
     pass
 
 class CatalogManager(object):
-    """Manager class for operations that span LinkedStore collections"""
+    """Manager class for operations spanning LinkedStore collections"""
 
     def __init__(self, mongodb_settings):
         # Assemble dict of stores keyed by classname
@@ -42,7 +42,7 @@ class CatalogManager(object):
         return stores
 
     def get_uuidtype(self, uuid):
-        """Identify the type for a given UUID
+        """Identify the named type for a given UUID
 
         Args:
             uuid (str): UUID to classify by type

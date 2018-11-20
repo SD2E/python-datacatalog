@@ -6,9 +6,6 @@ from future import standard_library
 standard_library.install_aliases()
 from builtins import *
 
-import sys
-from os import environ
-# print(sys.path)
 from . import constants
 from . import config
 from . import debug_mode

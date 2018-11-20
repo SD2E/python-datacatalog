@@ -1,8 +1,8 @@
 
 from .. import identifiers
-from ..jobs import PipelineJobStore
+from ..linkedstores.piplinejob import PipelineJobStore
 
-class PipelineJob(PipelineJobStore):
+class PipelineJobManager(PipelineJobStore):
     PARAMS = [('lab_name', True, 'lab_name', None),
               ('experiment_reference', True, 'experiment_reference', None),
               ('sample_id', True, 'sample_id', None),

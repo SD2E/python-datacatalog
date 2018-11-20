@@ -55,14 +55,6 @@ datacatalog.formats.schemas module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.formats.utils module
---------------------------------
-
-.. automodule:: datacatalog.formats.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

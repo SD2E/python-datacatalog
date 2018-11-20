@@ -11,14 +11,6 @@ Subpackages
 Submodules
 ----------
 
-datacatalog.linkedstores.experiment\_design.experiments module
---------------------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.experiment_design.experiments
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.experiment\_design.schemas module
 ----------------------------------------------------------
 
@@ -31,14 +23,6 @@ datacatalog.linkedstores.experiment\_design.store module
 --------------------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.experiment_design.store
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.linkedstores.experiment\_design.sync module
--------------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.experiment_design.sync
     :members:
     :undoc-members:
     :show-inheritance:

@@ -82,7 +82,14 @@
         },
         "child_of": {
             "items": {
-                "$ref": "experiment_uuid.json"
+                "anyOf": [
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    }
+                ]
             },
             "type": "array"
         }

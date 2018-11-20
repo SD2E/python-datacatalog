@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    datacatalog.managers.catalog
     datacatalog.managers.pipelinejobs
     datacatalog.managers.sampleset
 

@@ -7,7 +7,7 @@ requires = [pkg for pkg in open('requirements.txt').readlines()]
 
 setup(
     name="datacatalog",
-    version="0.1.3",
+    version="0.2.0",
     author="Matthew Vaughn",
     author_email="opensource@sd2e.org",
     description="Python package implementing essential logic for SD2 Data Catalog",

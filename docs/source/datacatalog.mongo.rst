@@ -4,6 +4,14 @@ datacatalog.mongo package
 Submodules
 ----------
 
+datacatalog.mongo.encodeauthn module
+------------------------------------
+
+.. automodule:: datacatalog.mongo.encodeauthn
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.mongo.mongo module
 ------------------------------
 

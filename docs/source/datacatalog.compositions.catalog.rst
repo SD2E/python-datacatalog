@@ -12,14 +12,6 @@ datacatalog.compositions.catalog.schemas module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.compositions.catalog.store module
----------------------------------------------
-
-.. automodule:: datacatalog.compositions.catalog.store
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

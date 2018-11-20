@@ -36,14 +36,6 @@ datacatalog.linkedstores.basestore.heritableschema module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.linkedstores.basestore.mongo module
------------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.basestore.mongo
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.basestore.schemas module
 -------------------------------------------------
 
