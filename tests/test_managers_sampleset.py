@@ -41,18 +41,6 @@ def test_ex_get(samplesetprocessor):
         resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
         assert resp['experiment_id'] == doc['experiment_id']
 
-def test_cpid_get_from_doc(mongodb_settings):
-    jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-    cp = db.get_challenge_problem_id()
-    assert cp == 'YEAST_GATES'
-
-def test_exid_get_from_doc(mongodb_settings):
-    jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-    ex = db.get_experiment_id()
-    assert ex == 'NovelChassis-NAND-Gate'
-
 def test_iter_process_merge(mongodb_settings):
     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)

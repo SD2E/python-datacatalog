@@ -26,9 +26,10 @@ class SampleSetProcessor(object):
         self.prefix = path_prefix
         if samples_file is not None:
             setattr(self, 'document', self.load_file(samples_file))
-            setattr(self, 'challenge_problem', self._challenge_problem())
-            setattr(self, 'experiment', self._experiment())
-            setattr(self, '_samples', self._samples())
+            setattr(self, 'challenge_problem', self.load_challenge_problem())
+            setattr(self, 'experiment_id', self.load_experiment_id())
+            setattr(self, 'experiment_design', self.load_experiment_design())
+            setattr(self, '_samples', self.load_samples())
 
     @classmethod
     def init_stores(cls, mongodb_settings):
@@ -58,23 +59,44 @@ class SampleSetProcessor(object):
         else:
             return resp
 
-    def _challenge_problem(self):
+    def load_challenge_problem(self):
         doc_value = self.document.get('challenge_problem', 'UNKNOWN')
         challenge_problem = self.get('challenge_problem', 'id', doc_value)
         return challenge_problem
 
-    def _experiment(self):
-        doc_value = self.document.get('experiment_reference', 'UNKNOWN')
-        experiment = self.get('experiment', 'experiment_id', doc_value)
-        return experiment
+    def load_experiment_id(self):
+        doc_value = self.document.get('experiment_id', 'UNKNOWN')
+        # experiment_id = self.get('experiment', 'experiment_id', doc_value)
+        return doc_value
 
-    def _samples(self):
+    def load_experiment_design(self):
+        doc_value = self.document.get('experiment_reference', 'UNKNOWN')
+        experiment_design = self.get('experiment_design', 'experiment_design_id', doc_value)
+        return experiment_design
+
+    def load_samples(self):
         samples_list = self.document.get('samples', [])
         return samples_list
 
     def _update_param(self, strategy):
         """Shim in case we need to validate or add new strategy to BaseStore"""
         return strategy
+
+    def process_experiment(self, parent_uuid=None, strategy='merge'):
+        # For now, this is a dummy experimental record
+        expt_doc = {'experiment_id': self.experiment_id}
+        if 'child_of' in expt_doc:
+            expt_doc['child_of'].append(parent_uuid)
+        else:
+            expt_doc['child_of'] = [parent_uuid]
+        # For now, ALWAYS replace lab-specific experiment record
+        resp = self.stores['experiment'].add_update_document(
+            expt_doc, strategy=self._update_param('replace'))
+
+        parent_uuid = resp['uuid']
+        self.process_samples(parent_uuid=parent_uuid,
+                             strategy=self._update_param(strategy))
+        return True
 
     def process_samples(self, parent_uuid=None, strategy='merge'):
         for sample in self._samples:
@@ -115,15 +137,6 @@ class SampleSetProcessor(object):
             filename = filename[1:]
         return os.path.join(self.prefix, filename)
 
-    def get_challenge_problem_id(self):
-        return self.challenge_problem['id']
-
-    def get_experiment_id(self):
-        return self.experiment['experiment_id']
-
-    def get_experiment_uuid(self):
-        return self.experiment['uuid']
-
     def process(self, strategy='merge'):
         """Recursiveley loads contents of a sample set into the catalog
 
@@ -133,4 +146,5 @@ class SampleSetProcessor(object):
         Returns:
             bool: Returns `True` on success
         """
-        return self.process_samples(self.get_experiment_uuid(), strategy=strategy)
+        expt_design_uuid = getattr(self, 'experiment_design').get('uuid')
+        return self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
