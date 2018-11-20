@@ -6,6 +6,10 @@ TOKEN_LENGTH = 16
 
 from ..debug_mode import debug_mode
 
+class InvalidToken(ValueError):
+    """Raised when a token is invalid"""
+    pass
+
 class Token(str):
     def __new__(cls, value):
         value = str(value).lower()
@@ -29,10 +33,15 @@ def get_token(salt, *args):
     msg = ':'.join(str_argset)
     return Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[0:TOKEN_LENGTH])
 
-def validate_token(token, salt, *args):
+def validate_token(token, salt, *args, permissive=True):
     if debug_mode() is True:
         return True
     else:
-        return True
-
-# TODO add option for token to expire after a specific duration
+        test_token = get_token(salt, *args)
+        if token == test_token:
+            return True
+        else:
+            if permissive:
+                return False
+            else:
+                raise InvalidToken('Token was not valid')
