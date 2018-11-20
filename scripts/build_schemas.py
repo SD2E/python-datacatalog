@@ -2,6 +2,7 @@ import os
 import sys
 import tempfile
 import argparse
+from jinja2 import Template
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
@@ -9,7 +10,27 @@ PARENT = os.path.dirname(THIS)
 sys.path.append(PARENT)
 import datacatalog
 
+INDEX = '''\
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Schemas</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
+'''
+
 def regenerate(filters=None):
+
+    template = Template(INDEX)
+    elements = list()
+
     if datacatalog.config.get_osenv_bool('MAKETESTS'):
         DESTDIR = tempfile.mkdtemp()
     else:
@@ -19,6 +40,14 @@ def regenerate(filters=None):
         destpath = os.path.join(DESTDIR, fname + '.json')
         with open(destpath, 'w+') as j:
             j.write(schema)
+        elements.append({'href': fname + '.json', 'caption': fname + '.json'})
+
+    elements = sorted(elements, key=lambda k: k['caption'])
+    template.render(navigation=elements)
+    idxdestpath = os.path.join(DESTDIR, 'index.html')
+    with open(idxdestpath, 'w+') as i:
+        i.write(template.render(navigation=elements))
+
     return True
 
 def main():
