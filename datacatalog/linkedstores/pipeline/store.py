@@ -27,6 +27,7 @@ class PipelineStore(SoftDelete, BaseStore):
         super(PipelineStore, self).__init__(mongodb, config, session)
         schema = PipelineDocument(**kwargs)
         super(PipelineStore, self).update_attrs(schema)
+        self.enforce_auth = True
         self.setup()
 
     def get_typed_uuid(self, payload, binary=False):

@@ -102,6 +102,9 @@ class BaseStore(object):
         if isinstance(config.get('debug', None), bool):
             setattr(self, 'debug', config.get('debug'))
 
+        self.enforce_auth = False
+        """Require valid update token to edit document"""
+
         # MongoDB setup
         self._mongodb = mongodb
         """Connection object for MongoDB
@@ -569,10 +572,11 @@ class BaseStore(object):
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
         # pprint(source_document)
-        try:
-            validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
-        except ValueError as verr:
-            raise CatalogError('Invalid token', verr)
+        if self.enforce_auth:
+            try:
+                validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
+            except ValueError as verr:
+                raise CatalogError('Invalid token', verr)
 
         # Update
         diff_record = self.get_diff(source=source_document, target=target_document, action='replace')
@@ -635,10 +639,11 @@ class BaseStore(object):
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
         # pprint(source_document)
-        try:
-            validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
-        except ValueError as verr:
-            raise CatalogError('Invalid token', verr)
+        if self.enforce_auth:
+            try:
+                validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
+            except ValueError as verr:
+                raise CatalogError('Invalid token', verr)
 
         merge_document = copy.deepcopy(source_document)
         # Strip out managed document keys
@@ -757,10 +762,11 @@ class BaseStore(object):
             raise CatalogError('Key {} cannot be directly updated'.format(key))
         db_record = self.find_one_by_uuid(uuid)
         # Note: validate_token() always returns True as of 10-19-2018
-        try:
-            validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
-        except ValueError as verr:
-            raise CatalogError('Invalid token', verr)
+        if self.enforce_auth:
+            try:
+                validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
+            except ValueError as verr:
+                raise CatalogError('Invalid token', verr)
         updated_record = data_merge(db_record, {key: value})
         diff_record = self.get_diff(source=db_record, target=updated_record, action='update')
         if diff_record['diff'] != b'e30=':
@@ -796,10 +802,11 @@ class BaseStore(object):
         else:
             # Validate record x token
             # Note: validate_token() always returns True as of 10-19-2018
-            try:
-                validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
-            except ValueError as verr:
-                raise CatalogError('Invalid token', verr)
+            if self.enforce_auth:
+                try:
+                    validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
+                except ValueError as verr:
+                    raise CatalogError('Invalid token', verr)
             # Create log entry
             diff_record = self.get_diff(source=db_record, target=dict(), action='delete')
             deletion_resp = None
