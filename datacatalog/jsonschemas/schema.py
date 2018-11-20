@@ -46,6 +46,19 @@ class JSONSchemaBaseObject(object):
             if value is not None:
                 setattr(self, key, value)
 
+        self.update_id()
+
+    def update_id(self):
+        temp_fname = getattr(self, '_filename')
+        if self._snake_case:
+            temp_fname = camel_to_snake(temp_fname)
+        schema_id = self.BASEREF + temp_fname
+        schema_id = schema_id.lower()
+        if not schema_id.endswith('.json'):
+            schema_id = schema_id + '.json'
+        setattr(self, 'id', schema_id)
+
+    def update_comment(self):
         if not config.get_osenv_bool('NO_JSONSCHEMA_COMMENT'):
 
             # Create a descriptive $comment for all schema document
@@ -61,18 +74,6 @@ class JSONSchemaBaseObject(object):
             comment_string = '; '.join(comments)
             setattr(self, 'comment', comment_string)
 
-        self.update_id()
-
-    def update_id(self):
-        temp_fname = getattr(self, '_filename')
-        if self._snake_case:
-            temp_fname = camel_to_snake(temp_fname)
-        schema_id = self.BASEREF + temp_fname
-        schema_id = schema_id.lower()
-        if not schema_id.endswith('.json'):
-            schema_id = schema_id + '.json'
-        setattr(self, 'id', schema_id)
-
     def to_dict(self, private_prefix='_', **kwargs):
         my_dict = dict()
         for key, mandatory, param, default, keyfix in self.PARAMS:
@@ -87,6 +88,7 @@ class JSONSchemaBaseObject(object):
         return my_dict
 
     def to_jsonschema(self, **kwargs):
+        self.update_comment()
         my_json = json.dumps(self.to_dict(**kwargs), indent=INDENT, sort_keys=SORT_KEYS)
         return my_json
 
