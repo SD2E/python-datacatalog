@@ -67,7 +67,13 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
     else:
         raise ValueError("Could not parse operation id")
 
-    file_id = biofab_sample["file_id"]
+    file_id = None
+    if "file_id" in biofab_sample:
+        file_id = biofab_sample["file_id"]
+    elif "id" in biofab_sample:
+        file_id = biofab_sample["id"]
+    else:
+        raise ValueError("Could not parse file id")
 
     sample_doc = {}
     sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
@@ -121,6 +127,9 @@ def add_timepoint(time_val, measurement_doc, input_item_id, biofab_doc):
 def add_od(item, sample_doc):
     if item is not None and attributes_attr in item and od600_attr in item[attributes_attr]:
         od = item[attributes_attr][od600_attr]
+        # this sometimes comes in as a float now
+        if isinstance(od, float):
+            od = str(od)
         sample_doc[SampleConstants.INOCULATION_DENSITY] = create_value_unit(od + ":" + od600_attr)
 
 def add_control(item, sample_doc):
@@ -164,7 +173,12 @@ def get_timepoint_from_item(item):
 def read_bead_fluorescence_from_item(item, sample_doc):
     if attributes_attr in item:
         if standard_attr in item[attributes_attr]:
-            sample_doc[SampleConstants.STANDARD_TYPE] = item[attributes_attr][standard_attr]
+            standard_val = item[attributes_attr][standard_attr]
+
+            # this is parsed out automatically, but at the plate level, do not use
+            if standard_val != "IGEM_protocol":
+                sample_doc[SampleConstants.STANDARD_TYPE] = standard_val
+
         if lot_attr in item[attributes_attr]:
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
