@@ -496,7 +496,7 @@ class BaseStore(object):
 
         # Add or upodate based on result
         if db_record is None:
-            return self.add_document(document)
+            return self.add_document(document, token)
         else:
             if strategy == 'replace':
                 return self.replace_document(db_record, document, token)
@@ -518,7 +518,7 @@ class BaseStore(object):
             else:
                 raise CatalogError('{} is not a known update strategy'.format(strategy))
 
-    def add_document(self, document):
+    def add_document(self, document, token=None):
         """Write a new managed document
 
         Args:
@@ -548,8 +548,11 @@ class BaseStore(object):
             token = get_token(db_record['_salt'], self.get_token_fields(db_record))
             resp['_update_token'] = token
             return resp
+        except DuplicateKeyError:
+            print('Unexpectedly found this document in database')
+            return self.update_document({'uuid': document['uuid']}, document, token)
         except Exception as exc:
-            raise CatalogError('Failed to write document', exc)
+            raise CatalogError('Failed to create document', exc)
 
     def replace_document(self, source_document, target_document, token=None):
         """Replace a document distinguished by UUID with a new instance
