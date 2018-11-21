@@ -111,10 +111,11 @@ class SampleSetProcessor(object):
                     sample['child_of'].append(parent_uuid)
                 else:
                     sample['child_of'] = [parent_uuid]
-                measurements = sample.pop('measurements')
                 resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
                 parent_uuid = resp['uuid']
-                self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
+                if 'measurements' in sample:
+                    measurements = sample.pop('measurements')
+                    self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process sample(s)', exc)
@@ -126,10 +127,11 @@ class SampleSetProcessor(object):
                     meas['child_of'].append(parent_uuid)
                 else:
                     meas['child_of'] = [parent_uuid]
-                files = meas.pop('files')
                 resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
                 parent_uuid = resp['uuid']
-                self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
+                if 'files' in meas:
+                    files = meas.pop('files')
+                    self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process measurement(s)', exc)
