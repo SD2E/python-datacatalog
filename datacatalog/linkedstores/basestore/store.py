@@ -271,12 +271,13 @@ class BaseStore(object):
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
-    def __set_properties(self, record, updated=False):
+    def __set_properties(self, record, updated=False, source=None):
         """Update the timestamp and revision count for a document
 
         Args:
             record (dict): A LinkedStore document
             updated (bool): Forces timestamp and revision to increment
+            source (str, optional): Source URI for the current update
 
         Returns:
             dict: Object containing the updated LinkedStore document
@@ -286,7 +287,8 @@ class BaseStore(object):
         if '_properties' not in record:
             record['_properties'] = {'created_date': ts,
                                      'modified_date': ts,
-                                     'revision': 0}
+                                     'revision': 0,
+                                     'source': source}
         elif updated is True:
             record['_properties']['modified_date'] = ts
             record['_properties']['revision'] = record['_properties']['revision'] + 1
@@ -306,8 +308,8 @@ class BaseStore(object):
             record['_salt'] = generate_salt()
         return record
 
-    def set_private_keys(self, record, updated=False):
-        record = self.__set_properties(record, updated)
+    def set_private_keys(self, record, updated=False, source=None):
+        record = self.__set_properties(record, updated, source)
         record = self.__set_admin(record)
         record = self.__set_salt(record)
         return record

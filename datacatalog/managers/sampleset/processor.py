@@ -16,6 +16,9 @@ def dynamic_import(module, package='datacatalog'):
 class UnknownReference(linkedstores.basestore.CatalogError):
     pass
 
+class SampleSetProcessorError(linkedstores.basestore.CatalogError):
+    pass
+
 class SampleSetProcessor(object):
     """Manager class to process and load sample set JSON documents"""
 
@@ -83,54 +86,66 @@ class SampleSetProcessor(object):
         return strategy
 
     def process_experiment(self, parent_uuid=None, strategy='merge'):
-        # For now, this is a dummy experimental record
-        expt_doc = {'experiment_id': self.experiment_id}
-        if 'child_of' in expt_doc:
-            expt_doc['child_of'].append(parent_uuid)
-        else:
-            expt_doc['child_of'] = [parent_uuid]
-        # For now, ALWAYS replace lab-specific experiment record
-        resp = self.stores['experiment'].add_update_document(
-            expt_doc, strategy=self._update_param('replace'))
+        try:
+            # For now, this is a dummy experimental record
+            expt_doc = {'experiment_id': self.experiment_id}
+            if 'child_of' in expt_doc:
+                expt_doc['child_of'].append(parent_uuid)
+            else:
+                expt_doc['child_of'] = [parent_uuid]
+            # For now, ALWAYS replace lab-specific experiment record
+            resp = self.stores['experiment'].add_update_document(
+                expt_doc, strategy=self._update_param('replace'))
 
-        parent_uuid = resp['uuid']
-        self.process_samples(parent_uuid=parent_uuid,
-                             strategy=self._update_param(strategy))
-        return True
+            parent_uuid = resp['uuid']
+            self.process_samples(parent_uuid=parent_uuid,
+                                 strategy=self._update_param(strategy))
+            return True
+        except Exception as exc:
+            raise SampleSetProcessorError('Failed to process experiment', exc)
 
     def process_samples(self, parent_uuid=None, strategy='merge'):
-        for sample in self._samples:
-            if 'child_of' in sample:
-                sample['child_of'].append(parent_uuid)
-            else:
-                sample['child_of'] = [parent_uuid]
-            measurements = sample.pop('measurements')
-            resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
-            parent_uuid = resp['uuid']
-            self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
-        return True
+        try:
+            for sample in self._samples:
+                if 'child_of' in sample:
+                    sample['child_of'].append(parent_uuid)
+                else:
+                    sample['child_of'] = [parent_uuid]
+                measurements = sample.pop('measurements')
+                resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
+                parent_uuid = resp['uuid']
+                self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
+            return True
+        except Exception as exc:
+            raise SampleSetProcessorError('Failed to process sample(s)', exc)
 
     def process_measurements(self, measurements, parent_uuid=None, strategy='merge'):
-        for meas in measurements:
-            if 'child_of' in meas:
-                meas['child_of'].append(parent_uuid)
-            else:
-                meas['child_of'] = [parent_uuid]
-            files = meas.pop('files')
-            resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
-            parent_uuid = resp['uuid']
-            self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
-        return True
+        try:
+            for meas in measurements:
+                if 'child_of' in meas:
+                    meas['child_of'].append(parent_uuid)
+                else:
+                    meas['child_of'] = [parent_uuid]
+                files = meas.pop('files')
+                resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
+                parent_uuid = resp['uuid']
+                self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
+            return True
+        except Exception as exc:
+            raise SampleSetProcessorError('Failed to process measurement(s)', exc)
 
     def process_files(self, files, parent_uuid=None, strategy='merge'):
-        for file in files:
-            file['name'] = self.contextualize(file['name'])
-            if 'child_of' in file:
-                file['child_of'].append(parent_uuid)
-            else:
-                file['child_of'] = [parent_uuid]
-            self.stores['file'].add_update_document(file, strategy=self._update_param(strategy))
-        return True
+        try:
+            for file in files:
+                file['name'] = self.contextualize(file['name'])
+                if 'child_of' in file:
+                    file['child_of'].append(parent_uuid)
+                else:
+                    file['child_of'] = [parent_uuid]
+                self.stores['file'].add_update_document(file, strategy=self._update_param(strategy))
+            return True
+        except Exception as exc:
+            raise SampleSetProcessorError('Failed to process file(s)', exc)
 
     def contextualize(self, filename):
         if filename.startswith('/'):
@@ -146,5 +161,8 @@ class SampleSetProcessor(object):
         Returns:
             bool: Returns `True` on success
         """
-        expt_design_uuid = getattr(self, 'experiment_design').get('uuid')
-        return self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
+        try:
+            expt_design_uuid = getattr(self, 'experiment_design').get('uuid')
+            return self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
+        except Exception as exc:
+            raise SampleSetProcessorError('Failed to process file', exc)
