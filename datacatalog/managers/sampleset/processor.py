@@ -111,10 +111,13 @@ class SampleSetProcessor(object):
                     sample['child_of'].append(parent_uuid)
                 else:
                     sample['child_of'] = [parent_uuid]
-                resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
-                parent_uuid = resp['uuid']
                 if 'measurements' in sample:
                     measurements = sample.pop('measurements')
+                else:
+                    measurements = None
+                resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
+                parent_uuid = resp['uuid']
+                if 'measurements' is not None:
                     self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
@@ -127,10 +130,13 @@ class SampleSetProcessor(object):
                     meas['child_of'].append(parent_uuid)
                 else:
                     meas['child_of'] = [parent_uuid]
-                resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
-                parent_uuid = resp['uuid']
                 if 'files' in meas:
                     files = meas.pop('files')
+                else:
+                    files = None
+                resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
+                parent_uuid = resp['uuid']
+                if 'files' is not None:
                     self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
