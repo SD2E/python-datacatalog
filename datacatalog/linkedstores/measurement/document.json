@@ -40,6 +40,14 @@
         "timepoint": {
             "$ref": "time_point.json"
         },
+        "channels": {
+            "description": "For flow, a list of name(s) of the channels this measurement used",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
         "child_of": {
             "items": {
                 "$ref": "sample_uuid.json"
@@ -48,8 +56,8 @@
         }
     },
     "required": [
-        "measurement_id",
         "files",
+        "measurement_id",
         "measurement_type",
         "child_of"
     ],

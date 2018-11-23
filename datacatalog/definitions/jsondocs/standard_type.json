@@ -6,6 +6,7 @@
         "BEAD_SIZE",
         "WATER",
         "LUDOX",
-        "FLUORESCEIN"
+        "FLUORESCEIN",
+        "MEDIA_BLANK"
     ]
 }

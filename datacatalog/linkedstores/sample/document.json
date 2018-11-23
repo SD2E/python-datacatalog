@@ -26,6 +26,10 @@
             "description": "Enumerated control type",
             "$ref": "control_type.json"
         },
+        "control_channel": {
+            "description": "If this is a FCS control, which FCS channel it is controlling for",
+            "type": "string"
+        },
         "inoculation_density": {
             "$ref": "optical_density.json",
             "description": "Target inoculation density"

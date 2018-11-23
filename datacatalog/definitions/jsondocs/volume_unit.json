@@ -1,0 +1,7 @@
+{
+    "description": "Unit of fluid volume measurement",
+    "type": "string",
+    "enum": [
+        "microliter"
+    ]
+}

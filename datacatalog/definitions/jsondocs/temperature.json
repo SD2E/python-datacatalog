@@ -1,18 +1,18 @@
 {
+    "description": "A measurement of volume",
+    "type": "object",
     "additionalProperties": false,
-    "description": "A growth or measurement temperature",
     "properties": {
-        "unit": {
-            "$ref": "temperature_unit.json"
-        },
         "value": {
             "description": "Numeric value",
             "type": "number"
+        },
+        "unit": {
+            "$ref": "volume_unit.json"
         }
     },
     "required": [
-        "unit",
-        "value"
-    ],
-    "type": "object"
+        "value",
+        "unit"
+    ]
 }
