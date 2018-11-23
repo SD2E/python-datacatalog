@@ -26,4 +26,4 @@ def test_validate_sample_set(jsonfile):
     res = resolver(schema='sample_set')
     jsonpath = os.path.join(DATA_DIR, jsonfile)
     instance = json.load(open(jsonpath, 'r'))
-    assert jsonschema.validate(instance, res) is True
+    assert jsonschema.validate(instance, res) is None
