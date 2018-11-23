@@ -2,16 +2,13 @@
 PipelineJobs
 ============
 
-Background
-**********
-
-Once we have represented a distinct _pipelines_ of software parts and parameterizations, we still need to tie metadata about experimental design and inputs to specific invocations (jobs) of those pipelines and their outputs. That is handled by the PipelineJobs system, which works in tandem with Pipelines and the other parts of the Data Catalog.
+Once we have represented a distinct *pipelines* of software parts and parameterizations, we still need to tie metadata about experimental design and inputs to specific invocations (jobs) of those pipelines and their outputs. That is handled by the PipelineJobs system, which works in tandem with Pipelines and the other parts of the Data Catalog.
 
 PipelineJobs has two components. The first is a persisent Reactor that collects and manages state information for each and every ``PipelineJob``. It is addressable by web callback or direct message. The other is a client-side library
-bundled with the ``sd2e/reactors:python` base images, which we leverage from within the coordinating Reactor in a pipeline to initiate tracking of a PipelineJob.
+bundled with the ``sd2e/reactors:python`` base image, which we leverage from within the coordinating Reactor in a pipeline to initiate tracking of a PipelineJob.
 
 What is a PipelineJob?
-^^^^^^^^^^^^^^^^^^^^^^
+**********************
 
 Essentially, it's an entry in the ``jobs`` collection of the Data Catalog with a specifc structure and a specific usage pattern enforced and enabled by the Pipeline Jobs Manager Reactor and logic in the client-side Python ``datacatalog`` package.
 
