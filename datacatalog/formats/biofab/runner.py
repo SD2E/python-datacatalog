@@ -247,14 +247,12 @@ def add_measurement_type(file, measurement_doc):
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
 def add_measurement_doc(measurement_doc, sample_doc, output_doc):
-    if len(measurement_doc[SampleConstants.FILES]) == 0:
-        print("Warning, measurement contains no files, skipping {}".format(measurement_key))
-    else:
-        if SampleConstants.MEASUREMENTS not in sample_doc:
-            sample_doc[SampleConstants.MEASUREMENTS] = []
-        sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
-        output_doc[SampleConstants.SAMPLES].append(sample_doc)
+    if SampleConstants.MEASUREMENTS not in sample_doc:
+        sample_doc[SampleConstants.MEASUREMENTS] = []
+    sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+    output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
 def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
     if config.get('extend', False):

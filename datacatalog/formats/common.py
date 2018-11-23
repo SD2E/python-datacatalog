@@ -21,7 +21,7 @@ class SampleConstants():
         elif file_name.endswith("sraw"):
             return SampleConstants.F_TYPE_SRAW
         elif file_name.endswith("txt"):
-            return SampleConstants.F_TYPE_TXT
+            return SampleConstants.F_TYPE_PLAIN
         elif file_name.endswith("csv"):
             return SampleConstants.F_TYPE_CSV
         elif file_name.endswith("mzML"):
@@ -138,7 +138,7 @@ class SampleConstants():
     F_TYPE_CSV = "CSV"
     F_TYPE_FCS = "FCS"
     F_TYPE_ZIP = "ZIP"
-    F_TYPE_TXT = "TXT"
+    F_TYPE_PLAIN = "PLAIN"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
     F_TYPE_AB1 = "AB1"
