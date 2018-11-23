@@ -44,7 +44,7 @@ negative_control = False
 
 DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
 DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
-DEFAULT_CYTOMETER_CONFIGURATION = "agave://sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
+DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
     try:

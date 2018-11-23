@@ -28,7 +28,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
-    DEFAULT_CYTOMETER_CONFIGURATION = "agave://sd2e-community/ginkgo/instruments/SA3800-20180912.json"
+    DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
 
     # For inference
     # Novel Chassis Nand
