@@ -44,7 +44,7 @@ negative_control = False
 
 DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
 DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
-DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/biofab/instruments/accuri/5539/11272017/cytometer_configuration.json"
+DEFAULT_CYTOMETER_CONFIGURATION = "agave://sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
     try:
@@ -136,6 +136,8 @@ def add_control(item, sample_doc):
     global negative_control
     if item is not None and attributes_attr in item and control_attr in item[attributes_attr]:
         control_val = item[attributes_attr][control_attr]
+        # we also need to indicate the control channels for the fluorescence control
+        # this is not known by the lab typically, has to be provided externally
         if control_val == "negative_sytox":
             # have we marked a negative control yet? we can re-use the negative_sytox, which is an unadulterated WT
             if not negative_control:
@@ -145,8 +147,10 @@ def add_control(item, sample_doc):
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
         elif control_val == "positive_sytox":
             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL4-A"
         elif control_val == "positive_gfp":
             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
 def add_replicate(item, sample_doc):
     if attributes_attr in item and replicate_attr in item[attributes_attr]:

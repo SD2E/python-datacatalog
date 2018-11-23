@@ -28,7 +28,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
-    DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/ginkgo/instruments/SA3800-20180912.json"
+    DEFAULT_CYTOMETER_CONFIGURATION = "agave://sd2e-community/ginkgo/instruments/SA3800-20180912.json"
 
     # For inference
     # Novel Chassis Nand
@@ -120,6 +120,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
 
         # do some cleaning
         temp_prop = "SD2_incubation_temperature"
@@ -274,8 +275,11 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
                 elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]):
                     # ON without IPTG, OFF with IPTG, plasmid (high level)
+                    # we also need to indicate the control channels for the fluorescence control
+                    # this is not known by the lab typically, has to be provided externally
                     if SampleConstants.CONTENTS not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                        sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
                     else:
                         found = False
                         for content in sample_doc[SampleConstants.CONTENTS]:
@@ -285,6 +289,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                     found = True
                         if not found:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
             for key in measurement_props["dataset_files"].keys():
                 if key == "processed":
