@@ -33,7 +33,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A", "RL1-A"]
-    DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/12142017/cytometer_configuration.json"
+    DEFAULT_CYTOMETER_CONFIGURATION = "agave://sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
@@ -167,14 +167,18 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         # "NOR 00 Control" = "HIGH_FITC"
         # "WT-Dead-Control" = "CELL_DEATH_POS_CONTROL" - positive for the sytox stain
         # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
+        # we also need to indicate the control channels the fluorescence controls
+        # this is not known by the lab typically, has to be provided externally
         original_sample_id = tx_sample_measure_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
         if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
             if original_sample_id == "wt-control-1":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif original_sample_id == "NOR 00 Control":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
             elif original_sample_id == "WT-Dead-Control":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
             elif original_sample_id == "WT-Live-Control":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
 

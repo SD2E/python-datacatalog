@@ -93,6 +93,7 @@ class SampleConstants():
     CONTROL_HIGH_FITC = "HIGH_FITC"
     CONTROL_CELL_DEATH_POS_CONTROL = "CELL_DEATH_POS_CONTROL"
     CONTROL_CELL_DEATH_NEG_CONTROL = "CELL_DEATH_NEG_CONTROL"
+    CONTROL_CHANNEL = "control_channel"
 
     # sample attributes
     STANDARD_ATTRIBUTES = "standard_attributes"
