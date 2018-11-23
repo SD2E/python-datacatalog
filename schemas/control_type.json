@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-23 23:11:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@38dd6dc",
+    "$comment": "generated: 2018-11-23 23:19:38 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5045497",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/control_type.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -10,7 +10,9 @@
         "BASELINE",
         "TREATMENT_1",
         "TREATMENT_2",
-        "BASELINE_MEDIA_PR"
+        "BASELINE_MEDIA_PR",
+        "CELL_DEATH_NEG_CONTROL",
+        "CELL_DEATH_POS_CONTROL"
     ],
     "title": "Control Type",
     "type": "string"
