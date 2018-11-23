@@ -279,7 +279,7 @@ def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
     measurement_doc[SampleConstants.FILES].append(
         {SampleConstants.M_NAME: file_name,
          SampleConstants.M_TYPE: file_type,
-         SampleConstants.M_STATE: SampleConstants.M_STATE_RAW,
+         SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
          SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0,
          SampleConstants.FILE_ID: file_id})
 

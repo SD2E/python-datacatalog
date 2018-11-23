@@ -228,7 +228,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,
                  SampleConstants.M_TYPE: file_type,
-                 SampleConstants.M_STATE: SampleConstants.M_STATE_RAW,
+                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
             if len(measurement_doc[SampleConstants.FILES]) == 0:
