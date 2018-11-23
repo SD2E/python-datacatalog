@@ -28,3 +28,7 @@ longrun = pytest.mark.skipif(
 delete = pytest.mark.skipif(
     not pytest.config.option.longrun,
     reason="needs --delete option to run")
+
+networked = pytest.mark.skipif(
+    not pytest.config.option.networked,
+    reason="needs --networked option to run")
