@@ -373,9 +373,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
     original_experiment_id = biofab_doc["plan_id"]
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(biofab_doc["plan_id"], lab)
-    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem", "UNKNOWN")
+    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem")
     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = biofab_doc.get(
-        "attributes", {}).get("experiment_reference", "Unknown")
+        "attributes", {}).get("experiment_reference")
 
     map_experiment_reference(config, output_doc)
 

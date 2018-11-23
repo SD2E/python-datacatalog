@@ -46,11 +46,6 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
 
     lab = SampleConstants.LAB_GINKGO
 
-    # TODO cannot map yet
-    output_doc[SampleConstants.EXPERIMENT_ID] = "UNKNOWN"
-    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_UNKNOWN
-    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
-
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
@@ -214,7 +209,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             # use measurement_name to do some inference if we have no challenge problem, yet
             # (could be superceded later)
             # FIXME update this later; Ginkgo needs to provide this
-            if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_UNKNOWN:
+            if SampleConstants.CHALLENGE_PROBLEM not in output_doc:
                 measurement_name = measurement_doc[SampleConstants.MEASUREMENT_NAME]
                 if measurement_name == "NC E. coli NAND 37C (WF: 13893, SEQ_WF: 14853)" or \
                    measurement_name == "NC E. coli NAND 30C (WF: 13904, SEQ_WF: 14853)" or \
