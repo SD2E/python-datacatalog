@@ -4,7 +4,7 @@ attrdict>=2.0.0
 jsondiff>=1.1.2
 filetype>=1.0.1
 transitions>=0.6.8
-jsonschema>=2.6.0
+#jsonschema>=2.6.0
 hashids>=1.2.0
 petname>=2.2
 python-slugify>=1.2.5
@@ -13,3 +13,4 @@ GitPython>=2.1.11
 validators
 google>=2.0.1
 google-api-python-client>=1.7.4
+git+git://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
