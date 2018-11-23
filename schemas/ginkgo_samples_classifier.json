@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-20 16:17:29 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@da88ec6",
+    "$comment": "generated: 2018-11-23 15:49:09 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@494f99f",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/ginkgo_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
