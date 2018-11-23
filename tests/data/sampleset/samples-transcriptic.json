@@ -36,7 +36,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -76,7 +76,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -116,7 +116,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -156,7 +156,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -196,7 +196,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -236,7 +236,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -276,7 +276,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -316,7 +316,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -356,7 +356,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -396,7 +396,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -436,7 +436,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -476,7 +476,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -516,7 +516,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -556,7 +556,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -596,7 +596,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -636,7 +636,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -676,7 +676,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -716,7 +716,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -756,7 +756,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -796,7 +796,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -836,7 +836,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -876,7 +876,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -916,7 +916,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -956,7 +956,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -996,7 +996,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1036,7 +1036,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1076,7 +1076,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1116,7 +1116,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1156,7 +1156,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1196,7 +1196,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1236,7 +1236,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1271,7 +1271,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1287,7 +1287,7 @@
                         {
                             "name": "MediaControl3__3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1322,7 +1322,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1338,7 +1338,7 @@
                         {
                             "name": "MediaControl2__2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1373,7 +1373,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1389,7 +1389,7 @@
                         {
                             "name": "MediaControl1__1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1433,7 +1433,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1449,7 +1449,7 @@
                         {
                             "name": "wt-control-1_0.0003_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1493,7 +1493,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1509,7 +1509,7 @@
                         {
                             "name": "7376_0.0003_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1553,7 +1553,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1569,7 +1569,7 @@
                         {
                             "name": "7375_0.0003_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1613,7 +1613,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1629,7 +1629,7 @@
                         {
                             "name": "7374_0.0003_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1673,7 +1673,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1689,7 +1689,7 @@
                         {
                             "name": "wt-control-1_0.00015_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1733,7 +1733,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1749,7 +1749,7 @@
                         {
                             "name": "7376_0.00015_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1793,7 +1793,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1809,7 +1809,7 @@
                         {
                             "name": "7373_0.00015_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1853,7 +1853,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1869,7 +1869,7 @@
                         {
                             "name": "7374_0.00015_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1913,7 +1913,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1929,7 +1929,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1973,7 +1973,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -1989,7 +1989,7 @@
                         {
                             "name": "7375_7.5e-05_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2033,7 +2033,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2049,7 +2049,7 @@
                         {
                             "name": "7373_7.5e-05_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2093,7 +2093,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2109,7 +2109,7 @@
                         {
                             "name": "7374_7.5e-05_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2153,7 +2153,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2169,7 +2169,7 @@
                         {
                             "name": "wt-control-1_0.0003_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2213,7 +2213,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2229,7 +2229,7 @@
                         {
                             "name": "7376_0.0003_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2273,7 +2273,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2289,7 +2289,7 @@
                         {
                             "name": "7375_0.0003_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2333,7 +2333,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2349,7 +2349,7 @@
                         {
                             "name": "7374_0.0003_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2393,7 +2393,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2409,7 +2409,7 @@
                         {
                             "name": "wt-control-1_0.00015_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2453,7 +2453,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2469,7 +2469,7 @@
                         {
                             "name": "7376_0.00015_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2513,7 +2513,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2529,7 +2529,7 @@
                         {
                             "name": "7373_0.00015_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2573,7 +2573,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2589,7 +2589,7 @@
                         {
                             "name": "7374_0.00015_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2633,7 +2633,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2649,7 +2649,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2693,7 +2693,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2709,7 +2709,7 @@
                         {
                             "name": "7375_7.5e-05_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2753,7 +2753,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2769,7 +2769,7 @@
                         {
                             "name": "7373_7.5e-05_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2813,7 +2813,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2829,7 +2829,7 @@
                         {
                             "name": "7374_7.5e-05_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2873,7 +2873,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2889,7 +2889,7 @@
                         {
                             "name": "wt-control-1_0.0003_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2933,7 +2933,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2949,7 +2949,7 @@
                         {
                             "name": "7376_0.0003_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -2993,7 +2993,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3009,7 +3009,7 @@
                         {
                             "name": "7373_0.0003_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3053,7 +3053,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3069,7 +3069,7 @@
                         {
                             "name": "7374_0.0003_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3113,7 +3113,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3129,7 +3129,7 @@
                         {
                             "name": "wt-control-1_0.00015_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3173,7 +3173,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3189,7 +3189,7 @@
                         {
                             "name": "7375_0.00015_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3233,7 +3233,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3249,7 +3249,7 @@
                         {
                             "name": "7373_0.00015_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3293,7 +3293,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3309,7 +3309,7 @@
                         {
                             "name": "7374_0.00015_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3353,7 +3353,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3369,7 +3369,7 @@
                         {
                             "name": "7376_7.5e-05_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3413,7 +3413,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3429,7 +3429,7 @@
                         {
                             "name": "7375_7.5e-05_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3473,7 +3473,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3489,7 +3489,7 @@
                         {
                             "name": "7373_7.5e-05_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3533,7 +3533,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3549,7 +3549,7 @@
                         {
                             "name": "wt-control-1_0.0003_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3593,7 +3593,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3609,7 +3609,7 @@
                         {
                             "name": "7376_0.0003_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3653,7 +3653,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3669,7 +3669,7 @@
                         {
                             "name": "7373_0.0003_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3713,7 +3713,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3729,7 +3729,7 @@
                         {
                             "name": "7374_0.0003_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3773,7 +3773,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3789,7 +3789,7 @@
                         {
                             "name": "wt-control-1_0.00015_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3833,7 +3833,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3849,7 +3849,7 @@
                         {
                             "name": "7375_0.00015_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3893,7 +3893,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3909,7 +3909,7 @@
                         {
                             "name": "7373_0.00015_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3953,7 +3953,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -3969,7 +3969,7 @@
                         {
                             "name": "7374_0.00015_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4013,7 +4013,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4029,7 +4029,7 @@
                         {
                             "name": "7376_7.5e-05_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4073,7 +4073,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4089,7 +4089,7 @@
                         {
                             "name": "7375_7.5e-05_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4133,7 +4133,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4149,7 +4149,7 @@
                         {
                             "name": "7373_7.5e-05_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4193,7 +4193,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4209,7 +4209,7 @@
                         {
                             "name": "wt-control-1_0.0003_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4253,7 +4253,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4269,7 +4269,7 @@
                         {
                             "name": "7375_0.0003_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4313,7 +4313,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4329,7 +4329,7 @@
                         {
                             "name": "7373_0.0003_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4373,7 +4373,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4389,7 +4389,7 @@
                         {
                             "name": "7374_0.0003_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4433,7 +4433,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4449,7 +4449,7 @@
                         {
                             "name": "7376_0.00015_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4493,7 +4493,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4509,7 +4509,7 @@
                         {
                             "name": "7375_0.00015_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4553,7 +4553,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4569,7 +4569,7 @@
                         {
                             "name": "7373_0.00015_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4613,7 +4613,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4629,7 +4629,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4673,7 +4673,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4689,7 +4689,7 @@
                         {
                             "name": "7376_7.5e-05_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4733,7 +4733,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4749,7 +4749,7 @@
                         {
                             "name": "7375_7.5e-05_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4793,7 +4793,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4809,7 +4809,7 @@
                         {
                             "name": "7374_7.5e-05_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4853,7 +4853,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4869,7 +4869,7 @@
                         {
                             "name": "wt-control-1_0.0003_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4913,7 +4913,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4929,7 +4929,7 @@
                         {
                             "name": "7375_0.0003_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4973,7 +4973,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -4989,7 +4989,7 @@
                         {
                             "name": "7373_0.0003_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5033,7 +5033,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5049,7 +5049,7 @@
                         {
                             "name": "7374_0.0003_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5093,7 +5093,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5109,7 +5109,7 @@
                         {
                             "name": "7376_0.00015_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5153,7 +5153,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5169,7 +5169,7 @@
                         {
                             "name": "7375_0.00015_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5213,7 +5213,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5229,7 +5229,7 @@
                         {
                             "name": "7373_0.00015_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5273,7 +5273,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5289,7 +5289,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5333,7 +5333,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5349,7 +5349,7 @@
                         {
                             "name": "7376_7.5e-05_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5393,7 +5393,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5409,7 +5409,7 @@
                         {
                             "name": "7374_7.5e-05_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5453,7 +5453,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5469,7 +5469,7 @@
                         {
                             "name": "7376_0.0003_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5513,7 +5513,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5529,7 +5529,7 @@
                         {
                             "name": "7375_0.0003_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5573,7 +5573,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5589,7 +5589,7 @@
                         {
                             "name": "7373_0.0003_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5633,7 +5633,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5649,7 +5649,7 @@
                         {
                             "name": "wt-control-1_0.00015_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5693,7 +5693,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5709,7 +5709,7 @@
                         {
                             "name": "7376_0.00015_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5753,7 +5753,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5769,7 +5769,7 @@
                         {
                             "name": "7374_7.5e-05_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5813,7 +5813,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5829,7 +5829,7 @@
                         {
                             "name": "7373_7.5e-05_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5873,7 +5873,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5889,7 +5889,7 @@
                         {
                             "name": "7376_7.5e-05_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5933,7 +5933,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5949,7 +5949,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -5993,7 +5993,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6009,7 +6009,7 @@
                         {
                             "name": "7374_0.00015_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6053,7 +6053,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6069,7 +6069,7 @@
                         {
                             "name": "7375_0.00015_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6113,7 +6113,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6129,7 +6129,7 @@
                         {
                             "name": "7376_0.00015_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6173,7 +6173,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6189,7 +6189,7 @@
                         {
                             "name": "wt-control-1_0.00015_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6233,7 +6233,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6249,7 +6249,7 @@
                         {
                             "name": "7373_0.0003_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6293,7 +6293,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6309,7 +6309,7 @@
                         {
                             "name": "7375_0.0003_4.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6353,7 +6353,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6369,7 +6369,7 @@
                         {
                             "name": "7376_0.0003_2.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6413,7 +6413,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6429,7 +6429,7 @@
                         {
                             "name": "7374_7.5e-05_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6473,7 +6473,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6489,7 +6489,7 @@
                         {
                             "name": "7373_7.5e-05_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6533,7 +6533,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6549,7 +6549,7 @@
                         {
                             "name": "7376_7.5e-05_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6593,7 +6593,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6609,7 +6609,7 @@
                         {
                             "name": "wt-control-1_7.5e-05_3.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6653,7 +6653,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6669,7 +6669,7 @@
                         {
                             "name": "7374_0.00015_1.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6713,7 +6713,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6729,7 +6729,7 @@
                         {
                             "name": "7375_0.00015_5.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6773,7 +6773,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6789,7 +6789,7 @@
                         {
                             "name": "7375_7.5e-05_6.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6823,7 +6823,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6839,7 +6839,7 @@
                         {
                             "name": "aq1bsx3z7aj8vr__.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6873,7 +6873,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6889,7 +6889,7 @@
                         {
                             "name": "aq1bsx3z79ynb8__.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6923,7 +6923,7 @@
                         {
                             "name": "od2.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6939,7 +6939,7 @@
                         {
                             "name": "aq1bsx3z79e2rq__.fcs",
                             "type": "FCS",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -6974,7 +6974,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7009,7 +7009,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7044,7 +7044,7 @@
                         {
                             "name": "od1.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7079,7 +7079,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7114,7 +7114,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7149,7 +7149,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7184,7 +7184,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7224,7 +7224,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7264,7 +7264,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7304,7 +7304,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7344,7 +7344,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7379,7 +7379,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7414,7 +7414,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7449,7 +7449,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7484,7 +7484,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7519,7 +7519,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7554,7 +7554,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7589,7 +7589,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7624,7 +7624,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7659,7 +7659,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7694,7 +7694,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7729,7 +7729,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7764,7 +7764,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7799,7 +7799,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7834,7 +7834,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7869,7 +7869,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7904,7 +7904,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7939,7 +7939,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -7974,7 +7974,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8009,7 +8009,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8044,7 +8044,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8079,7 +8079,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8114,7 +8114,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8149,7 +8149,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8184,7 +8184,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8219,7 +8219,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8254,7 +8254,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8289,7 +8289,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8324,7 +8324,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8359,7 +8359,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8394,7 +8394,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8429,7 +8429,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8464,7 +8464,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8499,7 +8499,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8534,7 +8534,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8569,7 +8569,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8604,7 +8604,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8639,7 +8639,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8674,7 +8674,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8709,7 +8709,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8744,7 +8744,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8779,7 +8779,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8814,7 +8814,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8849,7 +8849,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8884,7 +8884,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8919,7 +8919,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8954,7 +8954,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -8989,7 +8989,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],
@@ -9024,7 +9024,7 @@
                         {
                             "name": "calibration_od.csv",
                             "type": "CSV",
-                            "state": "RAW",
+                            "lab_label": ["RAW"],
                             "level": "0"
                         }
                     ],

@@ -1,0 +1,8 @@
+{
+    "description": "Lab-specified string label for files",
+    "type": "string",
+    "enum": [
+        "RAW",
+        "PROCESSED"
+    ]
+}
