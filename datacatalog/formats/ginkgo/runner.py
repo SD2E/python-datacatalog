@@ -299,7 +299,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_processed,
                                  SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_STATE: SampleConstants.M_STATE_PROCESSED,
+                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
                 elif key == "raw":
                     for raw in measurement_props["dataset_files"]["raw"]:
@@ -308,7 +308,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_raw,
                                  SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_STATE: SampleConstants.M_STATE_RAW,
+                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
                 else:
                     raise ValueError("Unknown measurement type: {}".format(key))

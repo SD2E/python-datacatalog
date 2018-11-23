@@ -449,13 +449,17 @@
                         "AB1"
                     ]
                 },
-                "state": {
-                    "description": "raw or processed state",
-                    "type": "string",
-                    "enum": [
-                        "RAW",
-                        "PROCESSED"
-                    ]
+                "lab_label": {
+                    "description": "lab provided metadata, e.g. raw or processed state",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "RAW",
+                            "PROCESSED"
+                        ]
+                    },
+                    "minItems": 1,
+                    "type": "array"
                 },
                 "file_id": {
                     "description": "file id, internal to lab",

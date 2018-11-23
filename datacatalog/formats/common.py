@@ -126,9 +126,9 @@ class SampleConstants():
     MT_PROTEOMICS = "PROTEOMICS"
     M_NAME = "name"
     M_TYPE = "type"
-    M_STATE = "state"
-    M_STATE_RAW = "RAW"
-    M_STATE_PROCESSED = "PROCESSED"
+    M_LAB_LABEL = "lab_label"
+    M_LAB_LABEL_RAW = "RAW"
+    M_LAB_LABEL_PROCESSED = "PROCESSED"
     M_CHANNELS = "channels"
     M_INSTRUMENT_CONFIGURATION = "instrument_configuration"
 
