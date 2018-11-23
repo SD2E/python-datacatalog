@@ -9,7 +9,7 @@ from jsonschema import ValidationError
 # Hack hack
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from common import SampleConstants
-from common import namespace_sample_id, namespace_measurement_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from sbol import *
@@ -229,17 +229,17 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 {SampleConstants.M_NAME: file_name_final,
                  SampleConstants.M_TYPE: file_type,
                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                 SampleConstants.FILE_ID: namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB]),
                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
-            if len(measurement_doc[SampleConstants.FILES]) == 0:
-                print("Warning, measurement contains no files, skipping {}".format(file_name))
-            else:
-                if SampleConstants.MEASUREMENTS not in sample_doc:
-                    sample_doc[SampleConstants.MEASUREMENTS] = []
-                sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
-                samples_w_data = samples_w_data + 1
-                print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
+            if SampleConstants.MEASUREMENTS not in sample_doc:
+                sample_doc[SampleConstants.MEASUREMENTS] = []
+            sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+            samples_w_data = samples_w_data + 1
+            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
 
+        if SampleConstants.MEASUREMENTS not in sample_doc:
+            sample_doc[SampleConstants.MEASUREMENTS] = []
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
     print('Samples in file: {}'.format(len(transcriptic_doc)))

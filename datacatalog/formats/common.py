@@ -21,7 +21,7 @@ class SampleConstants():
         elif file_name.endswith("sraw"):
             return SampleConstants.F_TYPE_SRAW
         elif file_name.endswith("txt"):
-            return SampleConstants.F_TYPE_TXT
+            return SampleConstants.F_TYPE_PLAIN
         elif file_name.endswith("csv"):
             return SampleConstants.F_TYPE_CSV
         elif file_name.endswith("mzML"):
@@ -42,9 +42,6 @@ class SampleConstants():
 
     CP_NOVEL_CHASSIS = "NOVEL_CHASSIS"
     CP_YEAST_GATES = "YEAST_GATES"
-
-    CP_UNKNOWN = "UNKNOWN"
-    CP_REF_UNKNOWN = "Unknown"
 
     EXPERIMENT_REFERENCE = "experiment_reference"
     EXPERIMENT_REFERENCE_URL = "experiment_reference_url"
@@ -138,7 +135,7 @@ class SampleConstants():
     F_TYPE_CSV = "CSV"
     F_TYPE_FCS = "FCS"
     F_TYPE_ZIP = "ZIP"
-    F_TYPE_TXT = "TXT"
+    F_TYPE_PLAIN = "PLAIN"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
     F_TYPE_AB1 = "AB1"
@@ -160,7 +157,6 @@ def map_experiment_reference(config, output_doc):
             output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
             mapped = True
     except Exception as exc:
-        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
         raise Exception(exc)
 
     if not mapped:
@@ -169,7 +165,6 @@ def map_experiment_reference(config, output_doc):
             if SampleConstants.EXPERIMENT_REFERENCE in output_doc:
                 output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = expt_ref_mapper.id_to_uri(output_doc[SampleConstants.EXPERIMENT_REFERENCE])
         except Exception as exc:
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
             raise Exception(exc)
 
 def convert_value_unit(value_unit):

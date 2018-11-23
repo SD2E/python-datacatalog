@@ -247,14 +247,12 @@ def add_measurement_type(file, measurement_doc):
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
 def add_measurement_doc(measurement_doc, sample_doc, output_doc):
-    if len(measurement_doc[SampleConstants.FILES]) == 0:
-        print("Warning, measurement contains no files, skipping {}".format(measurement_key))
-    else:
-        if SampleConstants.MEASUREMENTS not in sample_doc:
-            sample_doc[SampleConstants.MEASUREMENTS] = []
-        sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
-        output_doc[SampleConstants.SAMPLES].append(sample_doc)
+    if SampleConstants.MEASUREMENTS not in sample_doc:
+        sample_doc[SampleConstants.MEASUREMENTS] = []
+    sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+    output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
 def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
     if config.get('extend', False):
@@ -375,9 +373,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
     original_experiment_id = biofab_doc["plan_id"]
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(biofab_doc["plan_id"], lab)
-    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem", "UNKNOWN")
+    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem")
     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = biofab_doc.get(
-        "attributes", {}).get("experiment_reference", "Unknown")
+        "attributes", {}).get("experiment_reference")
 
     map_experiment_reference(config, output_doc)
 

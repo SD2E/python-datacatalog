@@ -250,11 +250,13 @@
             "properties": {
                 "sample_id": {
                     "description": "sample id, internal to lab",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^sample\\.(uw_biofab|ginkgo|transcriptic)"
                 },
                 "reference_sample_id": {
                     "description": "a reference sample id, internal to lab, when referring to samples from another lab, e.g. Ginkgo processing samples from Transcriptic",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^sample\\.(uw_biofab|ginkgo|transcriptic)"
                 },
                 "strain": {
                     "description": "strain reference, will be mapped by SBH Librarian",
@@ -284,7 +286,7 @@
                     "items": {
                         "$ref": "#/definitions/measurement"
                     },
-                    "minItems": 1,
+                    "minItems": 0,
                     "type": "array"
                 },
                 "control_type": {
@@ -354,7 +356,8 @@
                 }
             },
             "required": [
-                "sample_id"
+                "sample_id",
+                "measurements"
             ],
             "type": "object"
         },
@@ -367,7 +370,7 @@
                     "items": {
                         "$ref": "#/definitions/file"
                     },
-                    "minItems": 1,
+                    "minItems": 0,
                     "type": "array"
                 },
                 "timepoint": {
@@ -404,15 +407,17 @@
                 },
                 "measurement_id": {
                     "description": "a localized, unique measurement id relating a given sample to one or more files",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^measurement\\.(uw_biofab|ginkgo|transcriptic)"
                 },
                 "measurement_group_id": {
                     "description": "measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^measurement\\.(uw_biofab|ginkgo|transcriptic)"
                 },
                 "instrument_configuration": {
                     "description": "e.g. cytometer configuration",
-                    "type": "string"
+                    "$ref": "#/definitions/agave_files_uri"
                 },
                 "reference_sequence": {
                     "description": "This field should be a path to the fasta/gff without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff",
@@ -421,6 +426,8 @@
             },
             "required": [
                 "measurement_type",
+                "measurement_id",
+                "measurement_group_id",
                 "files"
             ],
             "type": "object"
@@ -443,7 +450,7 @@
                         "FASTQ",
                         "CSV",
                         "ZIP",
-                        "TXT",
+                        "PLAIN",
                         "MZML",
                         "MSF",
                         "AB1"
@@ -463,7 +470,8 @@
                 },
                 "file_id": {
                     "description": "file id, internal to lab",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^file\\.(uw_biofab|ginkgo|transcriptic)"
                 },
                 "level": {
                     "$ref": "#/definitions/processing_level"
@@ -471,6 +479,7 @@
             },
             "required": [
                 "name",
+                "file_id",
                 "type"
             ],
             "type": "object"
@@ -480,7 +489,8 @@
     "properties": {
         "experiment_id": {
             "description": "experiment id, internal to lab",
-            "type": "string"
+            "type": "string",
+            "experiment": "^experiment\\.(uw_biofab|ginkgo|transcriptic)"
         },
         "challenge_problem": {
             "description": "challenge problem enumeration",
@@ -488,8 +498,7 @@
                 "YEAST_GATES",
                 "NOVEL_CHASSIS",
                 "RIBOSWITCHES",
-                "CELL_STATE",
-                "UNKNOWN"
+                "CELL_STATE"
             ],
             "type": "string"
         },
@@ -504,7 +513,6 @@
                 "Overview-Immortality",
                 "PubDataAnal-Immortality",
                 "Riboswitches",
-                "Unknown",
                 "Yeast-Gates",
                 "Yeast-TetR-Characterization",
                 "YeastSTATES-3-Node-Bistable-Circuit",
@@ -542,6 +550,7 @@
         "experiment_id",
         "challenge_problem",
         "experiment_reference",
+        "experiment_reference_url",
         "lab",
         "samples"
     ],
