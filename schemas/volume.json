@@ -1,17 +1,12 @@
 {
     "$comment": "generated: 2018-11-23 23:11:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@38dd6dc",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/time_point.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/volume.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Point in a time series",
+    "description": "A measurement of volume",
     "properties": {
-        "name": {
-            "description": "Name or identifier for a particular time series",
-            "type": "string"
-        },
         "unit": {
-            "$ref": "time_unit.json",
-            "description": "Unit of temporal measure"
+            "$ref": "volume_unit.json"
         },
         "value": {
             "description": "Numeric value",
@@ -19,9 +14,9 @@
         }
     },
     "required": [
-        "unit",
-        "value"
+        "value",
+        "unit"
     ],
-    "title": "Time Point",
+    "title": "Volume",
     "type": "object"
 }

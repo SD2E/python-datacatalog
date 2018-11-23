@@ -1,10 +1,10 @@
 {
-    "$comment": "generated: 2018-11-23 17:17:53 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@84c97d5",
+    "$comment": "generated: 2018-11-23 23:11:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@38dd6dc",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/namespaced_identifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Namespaced identifier",
-    "pattern": "^(experiment|sample|measurement|file).(uw_biofab|transcriptic|ginkgo|emerald).",
+    "pattern": "^(name|experiment|sample|measurement|file).(uw_biofab|transcriptic|ginkgo|emerald).",
     "title": "Namespaced Identifier",
     "type": "string"
 }

@@ -1,5 +1,5 @@
 {
     "description": "Namespaced identifier",
     "type": "string",
-    "pattern": "^(experiment|sample|measurement|file).(uw_biofab|transcriptic|ginkgo|emerald)."
+    "pattern": "^(name|experiment|sample|measurement|file).(uw_biofab|transcriptic|ginkgo|emerald)."
 }

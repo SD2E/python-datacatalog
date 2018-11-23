@@ -1,15 +1,12 @@
 {
     "$comment": "generated: 2018-11-23 23:11:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@38dd6dc",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/fluid_unit.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/volume_unit.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "unit of fluid measurement",
+    "description": "Unit of fluid volume measurement",
     "enum": [
-        "%",
-        "M",
-        "X",
-        "g/L"
+        "microliter"
     ],
-    "title": "Fluid Unit",
+    "title": "Volume Unit",
     "type": "string"
 }

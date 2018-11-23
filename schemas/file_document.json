@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-23 17:17:55 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@84c97d5",
+    "$comment": "generated: 2018-11-23 23:11:08 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@38dd6dc",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/file_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -112,6 +112,7 @@
             "items": {
                 "$ref": "lab_label.json"
             },
+            "minItems": 1,
             "type": "array"
         },
         "level": {

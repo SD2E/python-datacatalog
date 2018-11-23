@@ -14,9 +14,9 @@
             "minItems": 0,
             "type": "array"
         },
-        "instrument_configuration": {
-            "description": "A configuration (e.g. cytometer configuration)",
-            "type": "string"
+        "library_prep": {
+            "description": "RNA_SEQ library preparation method",
+            "$ref": "library_prep.json"
         },
         "measurement_group_id": {
             "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
@@ -37,11 +37,15 @@
             "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff",
             "$ref": "agave_files_uri.json"
         },
+        "instrument_configuration": {
+            "description": "e.g. Cytometer configuration",
+            "$ref": "agave_files_uri.json"
+        },
         "timepoint": {
             "$ref": "time_point.json"
         },
         "channels": {
-            "description": "For flow, a list of name(s) of the channels this measurement used",
+            "description": "For FLOW, a list of name(s) of the channels this measurement used",
             "items": {
                 "type": "string"
             },
