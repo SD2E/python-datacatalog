@@ -1,5 +1,5 @@
-datacatalog
-===========
+API
+===
 
 .. toctree::
    :maxdepth: 4

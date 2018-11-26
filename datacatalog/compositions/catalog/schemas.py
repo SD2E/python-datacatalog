@@ -7,7 +7,7 @@ from ...linkedstores.basestore import DocumentSchema
 from ...dicthelpers import data_merge
 
 class SampleCatalogDocument(DocumentSchema):
-    """Composed schema representing all linked document schemas"""
+    """Implements the composed schema representing all LinkedStore schemas"""
 
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()

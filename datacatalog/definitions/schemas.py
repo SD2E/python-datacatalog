@@ -16,10 +16,25 @@ def get_schemas():
     schemas = {**jsondocs, **templated_jsondocs}
     return schemas
 
-def build_jsondocs():
-    """Discover and return schema definitions in `jsondocs`"""
+def build_jsondocs(directory=None):
+    """Discover and return schema definitions
+
+    Args:
+        directory (str, optional): Path to JSON documents
+
+    Raises:
+        OSError: Raised when specified directory is inaccessible or nonexistent
+
+    Returns:
+        dict: Nested dictionary of schemas, keyed by filename
+    """
     schemas = dict()
-    docs_dir = os.path.join(PARENT, 'jsondocs')
+    if directory is None:
+        docs_dir = os.path.join(PARENT, 'jsondocs')
+    else:
+        docs_dir = directory
+        if not os.path.isdir(docs_dir):
+            raise OSError('{} does not appear to exist'.format(docs_dir))
     for jdoc in os.listdir(docs_dir):
         if jdoc.endswith('.json'):
             filename = os.path.basename(jdoc).lower().replace('.json', '')

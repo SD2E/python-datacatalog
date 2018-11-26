@@ -7,7 +7,7 @@ from ...linkedstores.basestore import DocumentSchema
 from ...dicthelpers import data_merge
 
 class SampleSetDocument(DocumentSchema):
-    """Composed schema representing a set of samples, measurements, and files"""
+    """Implements the composed schema for a specific set of samples, measurements, and files"""
 
     def __init__(self, inheritance=True, **kwargs):
         schemaj = dict()

@@ -6,11 +6,13 @@
 SD2 Data Catalog
 ================
 
-If you primarily need to query and fetch information from the Data Catalog, the **End User** section should contain what you need to know. If you're building scripted solutions atop Data Catalog, the **Developer** section is aimed at you (but make sure to skim the other section first).
+If you primarily need to query and fetch information from the Data Catalog, the
+**End Users** is a good place to start. If you're building scripted solutions
+atop Data Catalog, the **Developer** section will be helpful to you.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: End User
+   :maxdepth: 4
+   :caption: End Users
 
    user.rst
    howto/index.rst
@@ -23,7 +25,7 @@ If you primarily need to query and fetch information from the Data Catalog, the 
    source/datacatalog.rst
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Developers
 
    developer.rst
@@ -34,7 +36,7 @@ If you primarily need to query and fetch information from the Data Catalog, the 
    pipelines/jobs.rst
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Supplemental Material
 
    reactors/index.rst
