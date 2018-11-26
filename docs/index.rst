@@ -13,6 +13,7 @@ atop Data Catalog, the **Developer** section will be helpful to you.
 .. toctree::
     :maxdepth: 2
 
+    database/index
     python/index
 
 .. .. toctree::

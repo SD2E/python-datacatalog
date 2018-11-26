@@ -8,9 +8,11 @@ expressive metadata store and data integration framework.
 .. toctree::
    :maxdepth: 2
 
+   install
    features
    packages
    ../source/modules
+   develop
 
 .. only::  subproject and html
 

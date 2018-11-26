@@ -21,7 +21,7 @@ Key Features
 Use Cases
 =========
 
-DataCatalog is currently a basis for code that:
+``DataCatalog`` is currently a basis for code that:
 
 - Transforms and load lab-provided metadata traces into a project Data Catalog
 - Captures and manage fixity for raw and processed data products
