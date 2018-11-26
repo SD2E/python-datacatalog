@@ -9,7 +9,7 @@ from jq import jq
 # Hack hack
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from common import SampleConstants
-from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
+from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_lab_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from sbol import *
@@ -251,6 +251,34 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
     if SampleConstants.MEASUREMENTS not in sample_doc:
         sample_doc[SampleConstants.MEASUREMENTS] = []
     sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+    # NC does not provide control mappings
+    # Use the default NC negative strain, if CP matches
+    # Match on lab ID for now, as this is unambiguous given dictionary common name changes
+    # do the same thing for positive control
+    if SampleConstants.CONTROL_TYPE not in sample_doc and \
+        SampleConstants.STRAIN in sample_doc and \
+            output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+        if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("8", output_doc[SampleConstants.LAB]):
+            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+        elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("23382", output_doc[SampleConstants.LAB]):
+            # ON without IPTG, OFF with IPTG, plasmid (high level)
+            # we also need to indicate the control channels for the fluorescence control
+            # this is not known by the lab typically, has to be provided externally
+            if SampleConstants.CONTENTS not in sample_doc:
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+            else:
+                found = False
+                for content in sample_doc[SampleConstants.CONTENTS]:
+                    if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
+                        content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
+                        if content_label == "IPTG":
+                            found = True
+                if not found:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+
 
     output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
