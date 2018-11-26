@@ -1,6 +1,11 @@
 datacatalog.formats.transcriptic package
 ========================================
 
+.. automodule:: datacatalog.formats.transcriptic
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.formats.transcriptic.runner module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.formats.transcriptic
-    :members:
-    :undoc-members:
-    :show-inheritance:

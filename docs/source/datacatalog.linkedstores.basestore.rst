@@ -1,6 +1,11 @@
 datacatalog.linkedstores.basestore package
 ==========================================
 
+.. automodule:: datacatalog.linkedstores.basestore
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -61,10 +66,3 @@ datacatalog.linkedstores.basestore.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.basestore
-    :members:
-    :undoc-members:
-    :show-inheritance:

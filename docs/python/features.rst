@@ -1,7 +1,8 @@
 ============
 Key Features
 ============
-- A rich, extensible data model capable of representing:
+
+- Extensible data model that represents:
    - Topics, designs, experiments, samples, and measurement artifacts
    - Reference data files
    - Analysis and ETL pipelines and jobs
@@ -9,9 +10,6 @@ Key Features
    - Linkages to external data via URI and typed identifiers
    - Complex parentage and derivation relationships
 - Pythonic search API plus support for MongoDB-compatible JSON queries
-
-Other Features
---------------
 - Data model defined and extended using JSONschema Draft 7
 - Documents mantain creation, update, revision, and source reference
 - JSON-diff journal enables fine-grained change tracking
@@ -19,6 +17,7 @@ Other Features
 - Multiple tenants, projects, and users are supported
 - Leverages clustered MongoDB for scalability and durability
 
+=========
 Use Cases
 =========
 

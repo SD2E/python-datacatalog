@@ -1,6 +1,11 @@
 datacatalog.tokens package
 ==========================
 
+.. automodule:: datacatalog.tokens
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.tokens.token module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.tokens
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,6 +1,11 @@
 datacatalog.identifiers.tests package
 =====================================
 
+.. automodule:: datacatalog.identifiers.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -13,10 +18,3 @@ datacatalog.identifiers.tests.test\_typed\_uuid module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.identifiers.tests
-    :members:
-    :undoc-members:
-    :show-inheritance:

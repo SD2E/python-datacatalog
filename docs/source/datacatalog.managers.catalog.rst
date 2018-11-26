@@ -1,6 +1,11 @@
 datacatalog.managers.catalog package
 ====================================
 
+.. automodule:: datacatalog.managers.catalog
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.managers.catalog.validate module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.managers.catalog
-    :members:
-    :undoc-members:
-    :show-inheritance:

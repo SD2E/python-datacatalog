@@ -11,41 +11,46 @@ If you primarily need to query and fetch information from the Data Catalog, the
 atop Data Catalog, the **Developer** section will be helpful to you.
 
 .. toctree::
-   :maxdepth: 4
-   :caption: End Users
+    :maxdepth: 2
 
-   user.rst
-   howto/index.rst
+    python/index
 
+.. .. toctree::
+..    :maxdepth: 2
+..    :caption: End Users
+
+..    user.rst
+..    howto/index.rst
+
+.. ..    pipelines/index.rst
+.. ..    pipelines/pipelines.rst
+.. ..    pipelines/jobs.rst
+.. ..    pipelines/reactor.rst
+.. ..    pipelines/dashboard.rst
+..    source/datacatalog.rst
+
+.. .. toctree::
+..    :maxdepth: 2
+..    :caption: Developers
+
+..    developer.rst
+..    database/index.rst
+..    services/index.rst
+..    python/index.rst
 ..    pipelines/index.rst
-..    pipelines/pipelines.rst
 ..    pipelines/jobs.rst
-..    pipelines/reactor.rst
-..    pipelines/dashboard.rst
-   source/datacatalog.rst
 
-.. toctree::
-   :maxdepth: 4
-   :caption: Developers
+.. .. toctree::
+..    :maxdepth: 2
+..    :caption: Supplemental Material
 
-   developer.rst
-   database/index.rst
-   services/index.rst
-   python/index.rst
-   pipelines/index.rst
-   pipelines/jobs.rst
-
-.. toctree::
-   :maxdepth: 4
-   :caption: Supplemental Material
-
-   reactors/index.rst
-   schema/index.rst
+..    reactors/index.rst
+..    schema/index.rst
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`

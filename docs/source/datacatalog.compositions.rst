@@ -1,6 +1,11 @@
 datacatalog.compositions package
 ================================
 
+.. automodule:: datacatalog.compositions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -9,10 +14,3 @@ Subpackages
     datacatalog.compositions.catalog
     datacatalog.compositions.sample_set
 
-Module contents
----------------
-
-.. automodule:: datacatalog.compositions
-    :members:
-    :undoc-members:
-    :show-inheritance:

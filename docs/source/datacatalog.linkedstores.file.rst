@@ -1,6 +1,11 @@
 datacatalog.linkedstores.file package
 =====================================
 
+.. automodule:: datacatalog.linkedstores.file
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.linkedstores.file.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.file
-    :members:
-    :undoc-members:
-    :show-inheritance:

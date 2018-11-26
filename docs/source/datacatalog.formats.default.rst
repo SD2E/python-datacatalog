@@ -1,6 +1,11 @@
 datacatalog.formats.default package
 ===================================
 
+.. automodule:: datacatalog.formats.default
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -13,10 +18,3 @@ datacatalog.formats.default.convert module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.formats.default
-    :members:
-    :undoc-members:
-    :show-inheritance:

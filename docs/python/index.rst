@@ -2,16 +2,20 @@
 Python Package
 ==============
 
-Overview
---------
-
 The DataCatalog package implements application logic to maintain a flexible and
 expressive metadata store and data integration framework.
 
 .. toctree::
-   :maxdepth: 3
-   :caption: Stuff
+   :maxdepth: 2
 
-   features.rst
-   packages.rst
-   pyapi.rst
+   features
+   packages
+   ../source/modules
+
+.. only::  subproject and html
+
+   Indices
+   =======
+
+   * :ref:`genindex`
+

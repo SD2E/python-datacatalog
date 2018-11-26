@@ -1,6 +1,11 @@
 datacatalog.linkedstores.sample package
 =======================================
 
+.. automodule:: datacatalog.linkedstores.sample
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.linkedstores.sample.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.sample
-    :members:
-    :undoc-members:
-    :show-inheritance:

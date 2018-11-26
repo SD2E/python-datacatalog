@@ -1,6 +1,11 @@
 datacatalog.pathmappings package
 ================================
 
+.. automodule:: datacatalog.pathmappings
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.pathmappings.stores module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.pathmappings
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,6 +1,11 @@
 datacatalog.linkedstores.pipelinejob package
 ============================================
 
+.. automodule:: datacatalog.linkedstores.pipelinejob
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -77,10 +82,3 @@ datacatalog.linkedstores.pipelinejob.utils module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.pipelinejob
-    :members:
-    :undoc-members:
-    :show-inheritance:

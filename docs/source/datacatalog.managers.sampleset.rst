@@ -1,6 +1,11 @@
 datacatalog.managers.sampleset package
 ======================================
 
+.. automodule:: datacatalog.managers.sampleset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.managers.sampleset.validate module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.managers.sampleset
-    :members:
-    :undoc-members:
-    :show-inheritance:

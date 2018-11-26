@@ -1,6 +1,11 @@
 datacatalog.formats.biofab package
 ==================================
 
+.. automodule:: datacatalog.formats.biofab
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.formats.biofab.runner module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.formats.biofab
-    :members:
-    :undoc-members:
-    :show-inheritance:

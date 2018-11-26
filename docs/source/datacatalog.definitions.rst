@@ -1,6 +1,11 @@
 datacatalog.definitions package
 ===============================
 
+.. automodule:: datacatalog.definitions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -13,10 +18,3 @@ datacatalog.definitions.schemas module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.definitions
-    :members:
-    :undoc-members:
-    :show-inheritance:

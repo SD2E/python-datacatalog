@@ -1,6 +1,11 @@
 datacatalog.linkedstores.experiment\_design package
 ===================================================
 
+.. automodule:: datacatalog.linkedstores.experiment_design
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -28,10 +33,3 @@ datacatalog.linkedstores.experiment\_design.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.experiment_design
-    :members:
-    :undoc-members:
-    :show-inheritance:

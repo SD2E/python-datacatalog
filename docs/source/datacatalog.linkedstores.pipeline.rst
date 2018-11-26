@@ -1,6 +1,11 @@
 datacatalog.linkedstores.pipeline package
 =========================================
 
+.. automodule:: datacatalog.linkedstores.pipeline
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -45,10 +50,3 @@ datacatalog.linkedstores.pipeline.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.pipeline
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,6 +1,11 @@
 datacatalog.mongo package
 =========================
 
+.. automodule:: datacatalog.mongo
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.mongo.mongo module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.mongo
-    :members:
-    :undoc-members:
-    :show-inheritance:

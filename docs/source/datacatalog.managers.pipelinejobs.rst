@@ -1,6 +1,11 @@
 datacatalog.managers.pipelinejobs package
 =========================================
 
+.. automodule:: datacatalog.managers.pipelinejobs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -28,10 +33,3 @@ datacatalog.managers.pipelinejobs.utils module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.managers.pipelinejobs
-    :members:
-    :undoc-members:
-    :show-inheritance:

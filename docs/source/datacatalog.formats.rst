@@ -1,6 +1,11 @@
 datacatalog.formats package
 ===========================
 
+.. automodule:: datacatalog.formats
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -56,10 +61,3 @@ datacatalog.formats.schemas module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.formats
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,6 +1,11 @@
 datacatalog.tenancy package
 ===========================
 
+.. automodule:: datacatalog.tenancy
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -13,10 +18,3 @@ datacatalog.tenancy.config module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.tenancy
-    :members:
-    :undoc-members:
-    :show-inheritance:

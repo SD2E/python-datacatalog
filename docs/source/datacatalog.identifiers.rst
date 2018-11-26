@@ -1,6 +1,11 @@
 datacatalog.identifiers package
 ===============================
 
+.. automodule:: datacatalog.identifiers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -76,10 +81,3 @@ datacatalog.identifiers.typed\_uuid module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.identifiers
-    :members:
-    :undoc-members:
-    :show-inheritance:

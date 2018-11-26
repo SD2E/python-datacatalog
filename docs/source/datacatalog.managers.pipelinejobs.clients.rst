@@ -1,6 +1,11 @@
 datacatalog.managers.pipelinejobs.clients package
 =================================================
 
+.. automodule:: datacatalog.managers.pipelinejobs.clients
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -53,10 +58,3 @@ datacatalog.managers.pipelinejobs.clients.reactors module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.managers.pipelinejobs.clients
-    :members:
-    :undoc-members:
-    :show-inheritance:

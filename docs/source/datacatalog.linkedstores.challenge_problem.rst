@@ -1,6 +1,11 @@
 datacatalog.linkedstores.challenge\_problem package
 ===================================================
 
+.. automodule:: datacatalog.linkedstores.challenge_problem
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -28,10 +33,3 @@ datacatalog.linkedstores.challenge\_problem.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.challenge_problem
-    :members:
-    :undoc-members:
-    :show-inheritance:

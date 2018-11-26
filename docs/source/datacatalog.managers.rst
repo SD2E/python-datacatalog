@@ -1,6 +1,11 @@
 datacatalog.managers package
 ============================
 
+.. automodule:: datacatalog.managers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -10,10 +15,3 @@ Subpackages
     datacatalog.managers.pipelinejobs
     datacatalog.managers.sampleset
 
-Module contents
----------------
-
-.. automodule:: datacatalog.managers
-    :members:
-    :undoc-members:
-    :show-inheritance:

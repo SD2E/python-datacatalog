@@ -1,6 +1,11 @@
 datacatalog.linkedstores.measurement package
 ============================================
 
+.. automodule:: datacatalog.linkedstores.measurement
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.linkedstores.measurement.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.measurement
-    :members:
-    :undoc-members:
-    :show-inheritance:

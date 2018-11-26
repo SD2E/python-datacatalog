@@ -1,6 +1,11 @@
 datacatalog.formats.ginkgo package
 ==================================
 
+.. automodule:: datacatalog.formats.ginkgo
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -29,10 +34,3 @@ datacatalog.formats.ginkgo.runner module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.formats.ginkgo
-    :members:
-    :undoc-members:
-    :show-inheritance:

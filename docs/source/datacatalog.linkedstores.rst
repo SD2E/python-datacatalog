@@ -1,6 +1,11 @@
 datacatalog.linkedstores package
 ================================
 
+.. automodule:: datacatalog.linkedstores
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -17,10 +22,3 @@ Subpackages
     datacatalog.linkedstores.pipelinejob
     datacatalog.linkedstores.sample
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores
-    :members:
-    :undoc-members:
-    :show-inheritance:

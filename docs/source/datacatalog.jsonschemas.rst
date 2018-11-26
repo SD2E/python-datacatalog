@@ -1,6 +1,11 @@
 datacatalog.jsonschemas package
 ===============================
 
+.. automodule:: datacatalog.jsonschemas
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.jsonschemas.schemas module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.jsonschemas
-    :members:
-    :undoc-members:
-    :show-inheritance:

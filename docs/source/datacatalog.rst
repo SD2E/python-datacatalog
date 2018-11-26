@@ -1,6 +1,11 @@
 datacatalog package
 ===================
 
+.. automodule:: datacatalog
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -88,10 +93,3 @@ datacatalog.utils module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog
-    :members:
-    :undoc-members:
-    :show-inheritance:

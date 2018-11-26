@@ -1,6 +1,11 @@
 datacatalog.linkedstores.experiment\_design.mappings package
 ============================================================
 
+.. automodule:: datacatalog.linkedstores.experiment_design.mappings
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -8,10 +13,3 @@ Subpackages
 
     datacatalog.linkedstores.experiment_design.mappings.gdrive
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.experiment_design.mappings
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,6 +1,11 @@
 datacatalog.linkedstores.fixity package
 =======================================
 
+.. automodule:: datacatalog.linkedstores.fixity
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -53,10 +58,3 @@ datacatalog.linkedstores.fixity.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.fixity
-    :members:
-    :undoc-members:
-    :show-inheritance:

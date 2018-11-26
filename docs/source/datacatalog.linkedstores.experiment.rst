@@ -1,6 +1,11 @@
 datacatalog.linkedstores.experiment package
 ===========================================
 
+.. automodule:: datacatalog.linkedstores.experiment
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -28,10 +33,3 @@ datacatalog.linkedstores.experiment.store module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.experiment
-    :members:
-    :undoc-members:
-    :show-inheritance:

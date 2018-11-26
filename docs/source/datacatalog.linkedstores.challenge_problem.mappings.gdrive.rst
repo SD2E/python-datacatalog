@@ -1,6 +1,11 @@
 datacatalog.linkedstores.challenge\_problem.mappings.gdrive package
 ===================================================================
 
+.. automodule:: datacatalog.linkedstores.challenge_problem.mappings.gdrive
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -45,10 +50,3 @@ datacatalog.linkedstores.challenge\_problem.mappings.gdrive.quickstart\_service 
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.linkedstores.challenge_problem.mappings.gdrive
-    :members:
-    :undoc-members:
-    :show-inheritance:

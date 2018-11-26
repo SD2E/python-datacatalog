@@ -1,6 +1,11 @@
 datacatalog.filetypes package
 =============================
 
+.. automodule:: datacatalog.filetypes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -61,10 +66,3 @@ datacatalog.filetypes.validate module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.filetypes
-    :members:
-    :undoc-members:
-    :show-inheritance:

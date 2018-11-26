@@ -1,6 +1,11 @@
 datacatalog.stores package
 ==========================
 
+.. automodule:: datacatalog.stores
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Submodules
 ----------
 
@@ -21,10 +26,3 @@ datacatalog.stores.stores module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: datacatalog.stores
-    :members:
-    :undoc-members:
-    :show-inheritance:
