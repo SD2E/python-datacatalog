@@ -8,7 +8,7 @@ docs:
 	cd docs && make html
 
 docs-clean:
-	cd docs && rm -rf sources/* && sphinx-apidoc -f -o source ../datacatalog
+	cd docs && sphinx-apidoc -H "API Reference" -M -f -o source ../datacatalog
 
 release: build
 	twine upload dist/*
