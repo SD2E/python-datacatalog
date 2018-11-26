@@ -15,14 +15,14 @@ from pprint import pprint
 from ... import identifiers
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath
-from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
 from ..basestore import validate_token
 
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
 from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob
 
-class PipelineJobStore(SoftDelete, BaseStore):
+class PipelineJobStore(SoftDelete, LinkedStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineJobStore, self).__init__(mongodb, config, session)
         # setup based on schema extended properties

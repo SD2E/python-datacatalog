@@ -32,9 +32,9 @@ from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
 from .documentschema import DocumentSchema
 from .heritableschema import HeritableDocumentSchema
 
-__all__ = ['BaseStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode']
+__all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode']
 
-class BaseStore(object):
+class LinkedStore(object):
     """JSON-schema informed MongoDB document store with diff-based logging.
 
     If the class has public attributes, they may be documented here
@@ -153,7 +153,7 @@ class BaseStore(object):
         # self._post_init()
 
     def update_attrs(self, schema):
-        """Updates BaseStore with values in loaded schema
+        """Updates LinkedStore with values in loaded schema
 
         This is used to allow the schema to be patched or amended at runtime
 
@@ -932,7 +932,7 @@ class BaseStore(object):
         """Returns True if system is running in debug mode"""
         return debug_mode()
 
-class StoreInterface(BaseStore):
+class StoreInterface(LinkedStore):
     """Alias for the LinkedStore defined in this module
 
     This alias is used generically in methods that iterate over all

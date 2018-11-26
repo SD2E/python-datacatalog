@@ -78,7 +78,7 @@ class CatalogManager(object):
         storename = self.get_uuidtype(uuid)
         self.stores[storename].coll.find_one_and_delete({'uuid': uuid})
         for name, store in self.stores.items():
-            for linkage in linkedstores.basestore.store.BaseStore.LINK_FIELDS:
+            for linkage in linkedstores.basestore.store.LinkedStore.LINK_FIELDS:
                 store.coll.update_many({linkage: {'$in': [uuid]}}, {'$pull': {linkage: uuid}})
         return True
 

@@ -15,7 +15,7 @@ import sys
 from attrdict import AttrDict
 from pprint import pprint
 
-from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
 

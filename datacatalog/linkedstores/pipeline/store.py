@@ -14,13 +14,13 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath
-from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
 
 from .schema import PipelineDocument
 from .serializer import SerializedPipeline
 from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
 
-class PipelineStore(SoftDelete, BaseStore):
+class PipelineStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of PipelineDocuments"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):

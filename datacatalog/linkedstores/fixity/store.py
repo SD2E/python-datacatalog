@@ -14,7 +14,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath, relativize
-from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema
 from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
@@ -24,7 +24,7 @@ from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundE
 # instantiates a FixityIndexer. That object has sync() and render(), which
 # capture the latest fixity data and render it into a JSON doc.
 
-class FixityStore(BaseStore):
+class FixityStore(LinkedStore):
     """Defines physical properties for a file"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):

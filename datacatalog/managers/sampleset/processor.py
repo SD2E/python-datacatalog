@@ -82,7 +82,7 @@ class SampleSetProcessor(object):
         return samples_list
 
     def _update_param(self, strategy):
-        """Shim in case we need to validate or add new strategy to BaseStore"""
+        """Shim in case we need to validate or add new strategy to LinkedStore"""
         return strategy
 
     def process_experiment(self, parent_uuid=None, strategy='merge'):

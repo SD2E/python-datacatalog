@@ -17,9 +17,9 @@ import base64
 from pprint import pprint
 from jsondiff import diff
 
-from .store import BaseStore
+from .store import LinkedStore
 
-class SoftDelete(BaseStore):
+class SoftDelete(LinkedStore):
     """Adds field-based soft delete to a LinkedStore"""
 
     def delete_document(self, uuid, token=None, soft=True):

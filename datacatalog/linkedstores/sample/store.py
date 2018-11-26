@@ -13,7 +13,7 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import BaseStore, CatalogUpdateFailure, HeritableDocumentSchema
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema
 
 class SampleUpdateFailure(CatalogUpdateFailure):
     pass
@@ -26,7 +26,7 @@ class SampleDocument(HeritableDocumentSchema):
         self.update_id()
 
 
-class SampleStore(BaseStore):
+class SampleStore(LinkedStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         """Manage storage and retrieval of SampleDocuments"""
         super(SampleStore, self).__init__(mongodb, config, session)
