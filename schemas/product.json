@@ -1,13 +1,13 @@
 {
     "$comment": "generated: 2018-11-27 20:56:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a8196d1",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/file.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/product.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "An uploaded or generated file",
+    "description": "A file product of a ETL or processing job",
     "properties": {
         "file_id": {
             "$ref": "namespaced_identifier.json",
-            "description": "File id (internal to experimental facility or data provider)"
+            "description": "File id (internal). If generated, must be globally unique."
         },
         "id": {
             "$ref": "identifier.json",
@@ -38,6 +38,6 @@
         "name",
         "type"
     ],
-    "title": "File",
+    "title": "Product",
     "type": "object"
 }

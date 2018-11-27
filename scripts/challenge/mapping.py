@@ -5,9 +5,10 @@ import json
 import sys
 import validators
 from attrdict import AttrDict
-from slugify import slugify
+from pprint import pprint
 from .google_utils import GoogleAPIError
 from . import google_utils
+from common import encode_title
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
@@ -17,7 +18,7 @@ GPARENT = os.path.dirname(PARENT)
 DEFAULT_TOKEN_PATH = os.path.join(HERE, 'token.json')
 MANAGED_TOKEN_FILENAME = os.path.join(HERE, 'service_account.json')
 
-class ExperimentReferenceMapping(object):
+class ChallengeMapping(object):
     def __init__(self, mapper_config, google_client=None, google_client_path=None):
 
         if isinstance(mapper_config, dict):
@@ -71,11 +72,10 @@ class ExperimentReferenceMapping(object):
 
         # Init the files listing
         try:
-            files_listing = google_utils.get_files(
+            files_listing = google_utils.get_folders(
                 self.config['google_sheets_dir'],
                 self.config['google_sheets_id'],
                 self._drive_service)
-            # print('files_listing', files_listing)
             self.filescache = self.encode_files(files_listing)
         except Exception as exc:
             raise GoogleAPIError('Error fetching file listing', exc)
@@ -84,44 +84,43 @@ class ExperimentReferenceMapping(object):
         return self
 
     def generate_schema_definitions(self):
-        doc = {'description': 'Experiment reference enumeration',
+        doc = {'description': 'Challenge problem enumeration',
                'type': 'string',
                'enum': []}
         for rec in self.filescache:
-            doc['enum'].append(rec['experiment_design_id'])
+            doc['enum'].append(rec['id'])
         return doc
 
     def encode_files(self, files_listing):
         records = []
         for file in files_listing:
-            key = self.encode_title_as_id(file['name'])
+            key = self.encode_title_as_id(file['name'], separator='_')
             if key != '':
                 record = {'title': file['name'],
                           'status': self.config['schema_default_status'],
                           'uri': 'https://docs.google.com/document/d/{}'.format(file['id']),
-                          'experiment_design_id': key,
+                          'id': key.upper(),
                           'created': google_time_to_datetime(file['createdTime']),
-                          'updated': google_time_to_datetime(file['modifiedTime']),
-                          'child_of': []}
+                          'updated': google_time_to_datetime(file['modifiedTime'])}
                 records.append(record)
-
-        unknown_rec = {'title': 'Undefined Experiment Design',
+        # Placeholder for Unknown mapping
+        unknown_rec = {'title': 'Undefined Challenge Problem',
                        'status': 'DRAFT',
                        'uri': None,
-                       'experiment_design_id': 'Unknown',
-                       'type': 'experiment_design',
+                       'id': 'UNDEFINED',
+                       'type': 'challenge_problem',
                        'created': datetime.datetime.utcnow(),
                        'updated': datetime.datetime.utcnow(),
                        'child_of': []}
-
         records.append(unknown_rec)
         return records
 
-    def encode_title_as_id(self, textstring):
-        sep = self.config['slugify']['separator']
-        return sep.join(slug for slug in slugify(
-            textstring, stopwords=self.config['slugify']['stopwords'],
-            lowercase=self.config['slugify']['case_insensitive']).split('-'))
+    def encode_title_as_id(self, textstring, separator='_'):
+        return encode_title(textstring,
+                            separator=separator,
+                            stopwords=self.config['slugify']['stopwords'],
+                            case_insensitive=self.config['slugify']['case_insensitive']
+                            )
 
     def uri_to_key(self, uri, keyname):
         if not validators.url(uri, public=True):

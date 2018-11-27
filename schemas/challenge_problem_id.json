@@ -1,15 +1,16 @@
 {
-    "$comment": "generated: 2018-11-23 23:19:38 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5045497",
+    "$comment": "generated: 2018-11-27 20:56:04 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a8196d1",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_id.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Challenge problem enumeration",
     "enum": [
-        "YEAST_GATES",
+        "CELL_GROWTH",
+        "PROTEIN_DESIGN",
+        "YEAST_STATES",
         "NOVEL_CHASSIS",
         "RIBOSWITCHES",
-        "CELL_STATE",
-        "UNKNOWN"
+        "UNDEFINED"
     ],
     "title": "Challenge Problem Id",
     "type": "string"

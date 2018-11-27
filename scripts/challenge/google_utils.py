@@ -3,6 +3,7 @@ from __future__ import print_function
 import os
 import sys
 import json
+from pprint import pprint
 from google.oauth2 import service_account
 import googleapiclient.discovery
 from slugify import slugify
@@ -30,22 +31,6 @@ def get_drive_service(credential_path=SERVICE_ACCOUNT_FILE, scopes=SCOPES):
     service = googleapiclient.discovery.build(
         'drive', 'v3', credentials=credentials)
     return service
-
-
-def __get_files(filename, folder_id, drive_service=None):
-    """Return a list of dicts representing the matches to the file."""
-    if drive_service is None:
-        drive_service = get_drive_service()
-    response = drive_service.files().list(  # search for file
-        q=("name contains '{}' "
-           "and '{}' in parents "
-           "and trashed=false").format(filename, folder_id),
-        spaces='drive',
-        fields='files(id, name, size, modifiedTime, createdTime)',
-        includeTeamDriveItems=True,
-        supportsTeamDrives=True).execute()
-    return response['files']
-
 
 def get_folders(filename, folder_id, drive_service=None):
     """Return a list of children for a folder."""
@@ -77,5 +62,6 @@ def get_files(filename, folder_id, drive_service=None):
         includeTeamDriveItems=True,
         supportsTeamDrives=True).execute()
     return response['files']
+
 class GoogleAPIError(Exception):
     pass

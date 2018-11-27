@@ -23,9 +23,14 @@ clean: schemas-clean
 	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
 
 
+challenge_problems:
+	python scripts/build_challenge_problems.py
+
+experiment_designs: challenge_problems
+	python scripts/build_experiment_designs.py
+
 .PHONY: schemas
-schemas: schemas-clean
-	python scripts/build_experiment_references.py && \
+schemas: experiment_designs
 	python scripts/build_schemas.py
 
 schemas-test:

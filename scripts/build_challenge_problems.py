@@ -16,31 +16,31 @@ import datacatalog
 from tacconfig import config
 
 try:
-    from exptref import ExperimentReferenceMapping
+    from challenge import ChallengeMapping
 except ModuleNotFoundError:
-    from .exptref import ExperimentReferenceMapping
+    from .challenge import ChallengeMapping
 
 def regenerate(update_catalog=False, mongodb=None):
 
     if datacatalog.config.get_osenv_bool('MAKETESTS'):
-        DESTPATH = os.path.join(tempfile.mkdtemp(), 'experiment_reference.json')
+        DESTPATH = os.path.join(tempfile.mkdtemp(), 'challenge_problem_id.json')
     else:
-        DESTPATH = os.path.join(GPARENT, 'datacatalog', 'definitions', 'jsondocs', 'experiment_reference.json')
+        DESTPATH = os.path.join(GPARENT, 'datacatalog', 'definitions', 'jsondocs', 'challenge_problem_id.json')
+        update_catalog = True
 
     settings = config.read_config()
-
-    mapping = ExperimentReferenceMapping(settings['experiment_reference'], settings['google_client'])
+    mapping = ChallengeMapping(settings['experiment_reference'], settings['google_client'])
     mapping.populate()
-    # Experiment records: Insert into experiment_reference collection
-    # FIXME - We don't know which challenge_problem they are children of
-    # pprint(mapping.filescache)
+
+    # # Experiment records: Insert into experiment_reference collection
+    # # FIXME - We don't know which challenge_problem they are children of
     schemadef = mapping.populate().generate_schema_definitions()
     json.dump(schemadef, open(DESTPATH, 'w'), indent=2)
 
     if update_catalog:
         if mongodb is None:
             mongodb = settings.get('mongodb')
-        store = datacatalog.linkedstores.experiment_design.ExperimentDesignStore(mongodb)
+        store = datacatalog.linkedstores.challenge_problem.ChallengeStore(mongodb)
         for doc in mapping.filescache:
             store.add_update_document(doc)
 

@@ -1,9 +1,9 @@
 {
     "$comment": "generated: 2018-11-27 20:56:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a8196d1",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/experiment_document.json",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/product_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "additionalProperties": true,
-    "description": "Experiment",
+    "additionalProperties": false,
+    "description": "A file product of a ETL or processing job",
     "properties": {
         "_admin": {
             "owner": {
@@ -55,47 +55,78 @@
             "type": "object"
         },
         "_visible": {
+            "description": "Whether the file has been marked as unavailable",
             "type": "boolean",
             "value": true
         },
-        "aliases": {
-            "description": "Alias identifiers for the experimental reference",
-            "items": {
-                "type": "string"
-            },
-            "type": "array"
-        },
         "child_of": {
             "items": {
-                "$ref": "experiment_design_uuid.json",
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ],
                 "type": "string"
             },
-            "minItems": 1,
             "type": "array"
         },
-        "experiment_id": {
-            "$ref": "namespaced_identifier.json",
-            "description": "String identifier, namespaced performer, for the experiment"
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
         },
-        "experiment_reference": {
-            "$ref": "experiment_reference.json",
-            "description": "Canonical string identifier for the experimental reference"
+        "file_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "File id (internal). If generated, must be globally unique."
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
         },
         "id": {
             "$ref": "identifier.json",
             "description": "Distinguishing identifier for the specified document"
         },
-        "title": {
-            "description": "Human-readable title for the experiment",
+        "lab_label": {
+            "description": "Provider-defined label",
+            "items": {
+                "$ref": "lab_label.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
             "type": "string"
         },
+        "type": {
+            "$ref": "filetype_label.json",
+            "description": "Enumerated file type"
+        },
         "uuid": {
-            "$ref": "experiment_uuid.json"
+            "$ref": "file_uuid.json"
         }
     },
     "required": [
-        "experiment_id"
+        "name",
+        "type",
+        "child_of"
     ],
-    "title": "Experiment",
+    "title": "Product",
     "type": "object"
 }

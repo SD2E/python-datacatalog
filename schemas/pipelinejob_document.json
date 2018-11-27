@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-23 23:19:40 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5045497",
+    "$comment": "generated: 2018-11-27 20:56:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a8196d1",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
