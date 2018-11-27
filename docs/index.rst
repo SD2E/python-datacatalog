@@ -15,6 +15,7 @@ atop Data Catalog, the **Developer** section will be helpful to you.
 
     database/index
     pymongo/index
+    redash/index
     python/index
 
 .. .. toctree::
