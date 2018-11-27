@@ -5,7 +5,7 @@ import yaml
 import json
 from agavepy.agave import Agave
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, networked, delete
 from .fixtures import agave, credentials, mongodb_settings, mongodb_authn
 import datacatalog
 
@@ -15,6 +15,7 @@ PARENT = os.path.dirname(HERE)
 sys.path.insert(0, PARENT)
 import scripts
 
+@networked
 def test_regenerate_experiment_refs(monkeypatch, mongodb_settings):
     monkeypatch.setenv('MAKETESTS', '1')
     resp = scripts.build_experiment_references.regenerate(
