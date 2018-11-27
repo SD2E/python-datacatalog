@@ -13,4 +13,4 @@ GitPython>=2.1.11
 validators
 google>=2.0.1
 google-api-python-client>=1.7.4
-git+git://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
+git+https://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema

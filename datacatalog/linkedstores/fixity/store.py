@@ -19,13 +19,11 @@ from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
 
-# FixityStore is a special case, as creates and manages its records as well as
-# storing them. This is implemented in its index() method, which in turn
-# instantiates a FixityIndexer. That object has sync() and render(), which
-# capture the latest fixity data and render it into a JSON doc.
+# FixityStore is a special case of LinkedStore that creates and manages its
+# own records. This is accomplished declaratively using the ``index()`` method.
 
 class FixityStore(LinkedStore):
-    """Defines physical properties for a file"""
+    """Defines fixed attributes for a managed file"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(FixityStore, self).__init__(mongodb, config, session)
@@ -40,7 +38,7 @@ class FixityStore(LinkedStore):
         checksum, size in bytes, and inferred file type.
 
         Args:
-            filename (str): Absolute, Agave-relative path to the target file
+            filename (str): Agave-canonical absolute path to the target file
 
         Returns:
             dict: The LinkedStore document containing fixity details
@@ -66,9 +64,7 @@ class FixityStore(LinkedStore):
                 fixity_record[key] = value
         # Now, update (or init) those same private keys
         fixity_record = self.set_private_keys(fixity_record, indexer.updated())
-        # pprint(fixity_record)
 
-        # Use basestore.Basestore for write
         resp = self.add_update_document(fixity_record, file_uuid, token=None)
         return resp
 

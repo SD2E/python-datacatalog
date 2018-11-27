@@ -116,4 +116,4 @@ class FixityIndexer(object):
                     hash_sha.update(chunk)
             return hash_sha.hexdigest()
         except Exception as exc:
-            ('Failed to compute checksum for {}'.format(file))
+            raise OSError('Failed to compute checksum for {}'.format(file), exc)

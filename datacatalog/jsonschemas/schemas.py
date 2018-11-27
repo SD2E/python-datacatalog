@@ -16,7 +16,7 @@ PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
 # submodules document.json and filters.json. Linkages and constraints are
 # defined in __extension properties in document.json. Store schemas are expected
 # to reference the various primitive schemas in their composition.
-STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment_design', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob']
+STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment_design', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob', 'linkedstores.product']
 # Unmanaged schemas are built or imported from outside the datacatalog model.
 # They are imported into the datacatalog model via a common base URI and
 # filename namespace.

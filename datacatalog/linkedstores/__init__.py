@@ -8,3 +8,4 @@ from . import file
 from . import fixity
 from . import pipeline
 from . import pipelinejob
+from . import product
