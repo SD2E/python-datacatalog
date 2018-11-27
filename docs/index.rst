@@ -14,6 +14,7 @@ atop Data Catalog, the **Developer** section will be helpful to you.
     :maxdepth: 2
 
     database/index
+    pymongo/index
     python/index
 
 .. .. toctree::
