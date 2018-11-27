@@ -252,6 +252,11 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
         sample_doc[SampleConstants.MEASUREMENTS] = []
     sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
+    #NC Specific Channels
+    if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS and \
+        measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
+            measurement_doc[SampleConstants.M_CHANNELS] = ["FSC-A", "SSC-A", "FL1-A"]
+
     # NC does not provide control mappings
     # Use the default NC negative strain, if CP matches
     # Match on lab ID for now, as this is unambiguous given dictionary common name changes
