@@ -43,7 +43,7 @@ class FixityStore(LinkedStore):
         Returns:
             dict: The LinkedStore document containing fixity details
         """
-        self.name = normalize(filename)
+        self.name = filename
         self.abs_filename = abspath(filename)
         file_uuid = self.get_typed_uuid(self.name)
 
@@ -53,9 +53,11 @@ class FixityStore(LinkedStore):
             db_record = {'name': filename,
                          'uuid': file_uuid,
                          'version': 0,
-                         'child_of': []}
+                         'child_of': [],
+                         'generated_by': [],
+                         'derived_from': []}
 
-        indexer = FixityIndexer(self.abs_filename, schema=self.schema, **db_record).sync()
+        indexer = FixityIndexer(self.name, schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
 
         # lift over private keys to new document
