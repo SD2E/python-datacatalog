@@ -1,7 +1,6 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
-# FIXME: Refactor how we get resolve experiment references to use the experiments store
-from experiment_reference import ExperimentReferenceMapping, MappingNotFound
+import pymongo
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -140,21 +139,39 @@ class SampleConstants():
     F_TYPE_MSF = "MSF"
     F_TYPE_AB1 = "AB1"
 
-expt_ref_mapper = None
+design_table = None
+challenge_table = None
 
 def map_experiment_reference(config, output_doc):
-    global expt_ref_mapper
+    global design_table
+    global challenge_table
 
-    if expt_ref_mapper is None:
-        expt_ref_mapper = ExperimentReferenceMapping(mapper_config=config['experiment_reference'],
-                                                     google_client=config['google_client'])
-        expt_ref_mapper.populate()
+    if design_table is None:
+        db_uri = config['cp_db_uri']
+        client = pymongo.MongoClient(db_uri)
+        db = client[config['cp_db']]
+        design_table = db.experiment_designs
+        challenge_table = db.challenges
 
+    parent = None
     mapped = False
     try:
         # URI to id
         if SampleConstants.EXPERIMENT_REFERENCE_URL in output_doc:
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
+            uri = output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL]
+            sharing = "/edit?usp=sharing"
+            if uri.endswith(sharing):
+                uri = uri[:len(uri)-len(sharing)]
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = uri
+
+            query = {}
+            query["uri"] = uri
+
+            matches = list(design_table.find(query).limit(1))
+            for match in matches:
+                parent = match["child_of"][0]
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE] = match["experiment_design_id"]
+                break
             mapped = True
     except Exception as exc:
         raise Exception(exc)
@@ -163,9 +180,32 @@ def map_experiment_reference(config, output_doc):
         try:
             # id to URI
             if SampleConstants.EXPERIMENT_REFERENCE in output_doc:
-                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = expt_ref_mapper.id_to_uri(output_doc[SampleConstants.EXPERIMENT_REFERENCE])
+
+                query = {}
+                query["experiment_design_id"] = output_doc[SampleConstants.EXPERIMENT_REFERENCE]
+
+                matches = list(design_table.find(query).limit(1))
+                for match in matches:
+                    parent = match["child_of"][0]
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = match["uri"]
+                    break
+
         except Exception as exc:
             raise Exception(exc)
+
+    print("Mapped experiment reference {}".format(output_doc[SampleConstants.EXPERIMENT_REFERENCE]))
+    print("Mapped experiment reference URL {}".format(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL]))
+
+    # We have a reference, now, resolve the CP
+    if parent is not None:
+        query = {}
+        query["uuid"] = parent
+        matches = list(challenge_table.find(query).limit(1))
+
+        for match in matches:
+            print("Overwriting challenge problem with lookup {} ".format(match["id"]))
+            output_doc[SampleConstants.CHALLENGE_PROBLEM] = match["id"]
+            break
 
 def convert_value_unit(value_unit):
     value_unit_split = value_unit.split(":")

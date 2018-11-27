@@ -495,7 +495,7 @@
         "challenge_problem": {
             "description": "challenge problem enumeration",
             "enum": [
-                "YEAST_GATES",
+                "YEAST_STATES",
                 "NOVEL_CHASSIS",
                 "RIBOSWITCHES",
                 "CELL_STATE"
