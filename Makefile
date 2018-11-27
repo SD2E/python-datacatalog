@@ -1,5 +1,6 @@
 PYTEST_OPTS ?= ""
 PYTEST_SRC ?= tests/
+PYTEST_RUN_OPTS ?= -s -vvv
 
 all: build
 
@@ -40,11 +41,11 @@ mongo-down:
 	cd docker && docker-compose down
 
 tests-longrun:
-	python -m pytest --cache-clear --longrun $(PYTEST_SRC)
+	python -m pytest --cache-clear --longrun $(PYTEST_RUN_OPTS) $(PYTEST_SRC)
 
 .PHONY: tests
 tests:
-	python -m pytest --cache-clear $(PYTEST_OPTS) $(PYTEST_SRC)
+	python -m pytest --cache-clear $(PYTEST_RUN_OPTS) $(PYTEST_OPTS) $(PYTEST_SRC)
 
 tests-classify:
-	python -m pytest -s -vvv -k "formats_classify" $(PYTEST_SRC)
+	python -m pytest $(PYTEST_RUN_OPTS) -k "formats_classify" $(PYTEST_SRC)
