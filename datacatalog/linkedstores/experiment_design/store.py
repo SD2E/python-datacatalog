@@ -13,7 +13,7 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import CatalogUpdateFailure, HeritableDocumentSchema, LinkedStore
+from ..basestore import CatalogUpdateFailure, HeritableDocumentSchema, LinkedStore, JSONSchemaCollection
 
 class ExperimentDesignUpdateFailure(CatalogUpdateFailure):
     pass

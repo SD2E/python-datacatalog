@@ -14,7 +14,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath, relativize
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
 from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError

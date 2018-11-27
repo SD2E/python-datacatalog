@@ -1,19 +1,23 @@
 import json
 import os
 import sys
-from ..jsonschemas import JSONSchemaBaseObject
+from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 
 HERE = os.path.abspath(__file__)
 PARENT = os.path.dirname(HERE)
 
+class Definition(JSONSchemaBaseObject):
+    pass
+
 def get_schemas():
-    """Return definition schema(s)
+    """Return all definition sub-schema(s)
 
     Returns:
-        dict: One or more schemas"""
+        JSONSchemaCollection: One or more schemas
+    """
     jsondocs = build_jsondocs()
     templated_jsondocs = build_templates()
-    schemas = {**jsondocs, **templated_jsondocs}
+    schemas = JSONSchemaCollection({**jsondocs, **templated_jsondocs})
     return schemas
 
 def build_jsondocs(directory=None):
@@ -46,7 +50,7 @@ def build_jsondocs(directory=None):
             # This is the filename, sans extension, for the schema document
             if '_filename' not in loaded_jsondoc:
                 loaded_jsondoc['_filename'] = filename
-            schema = JSONSchemaBaseObject(**loaded_jsondoc).to_jsonschema()
+            schema = Definition(**loaded_jsondoc).to_jsonschema()
             schemas[filename] = schema
     return schemas
 

@@ -1,4 +1,5 @@
 from .store import DocumentSchema as Doc
+from .store import JSONSchemaCollection
 
 def get_schemas():
     """Get JSON schemas for this Linkedstore
@@ -6,7 +7,7 @@ def get_schemas():
     Returns:
         dict: Return the object and document JSON schema that define the store
     """
-    schemas = dict()
+    schemas = JSONSchemaCollection(dict())
 
     d1 = Doc()
     d2 = Doc()

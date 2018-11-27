@@ -1,13 +1,14 @@
 from .store import FixityDocument as Doc
+from .store import JSONSchemaCollection
 from pprint import pprint
 
 def get_schemas():
     """Get JSON schemas for FixityDocument
 
     Returns:
-        dict: Return the object and document JSON schema that define the store
+        JSONSchemaCollection: Object and document JSON schema that define the store
     """
-    schemas = dict()
+    schemas = JSONSchemaCollection(dict())
 
     d1 = Doc()
     d2 = Doc()

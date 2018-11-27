@@ -3,6 +3,7 @@ import json
 import os
 import sys
 
+from ...jsonschemas.schemas import JSONSchemaCollection
 from ...linkedstores.basestore import DocumentSchema
 from ...dicthelpers import data_merge
 
@@ -30,8 +31,9 @@ def get_schemas():
     """Return schema(s) for SampleSetDocument
 
     Returns:
-        dict: One or more schemas"""
-    schemas = dict()
+        JSONSchemaCollection: One or more schemas
+    """
+    schemas = JSONSchemaCollection(dict())
     d1 = SampleSetDocument()
     fname = getattr(d1, '_filename')
     object_schema = d1.to_jsonschema(document=False)

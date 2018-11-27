@@ -22,7 +22,7 @@ from ...constants import CatalogStore
 from ...utils import time_stamp, current_time, msec_precision
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...debug_mode import debug_mode
-from ...jsonschemas import JSONSchemaBaseObject
+from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...tokens import generate_salt, get_token, validate_token
 from ...identifiers.typed_uuid import catalog_uuid
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError

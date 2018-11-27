@@ -27,11 +27,24 @@ COMPOSED_SCHEMAS = ['compositions.sample_set']
 
 SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]
 
+class JSONSchemaCollection(dict):
+    """Collection of schemas indexed by key"""
+    def __new__(cls, value):
+        return dict.__new__(cls, value)
+
 def dynamic_import(module, package=None):
     return importlib.import_module(module, package='datacatalog')
 
 def get_all_schemas(filters=[]):
-    schemata = dict()
+    """Return all known JSON schemas
+
+    Args:
+        filters (list, optional): list of classes to inspect
+
+    Returns:
+        JSONSchemaCollection - Collection of schemas, keyed by name
+    """
+    schemata = JSONSchemaCollection(dict())
     for pkg in list(itertools.chain.from_iterable(SCHEMAS)):
         if debug_mode():
             print('SCHEMA PACKAGE', pkg)

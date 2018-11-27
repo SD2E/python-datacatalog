@@ -1,8 +1,11 @@
-from ..jsonschemas import JSONSchemaBaseObject
+from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from .listing import listall, listall_labels
 
+class FileTypeLabel(JSONSchemaBaseObject):
+    pass
+
 def get_schemas():
-    """Return the filetype_label schema
+    """Return the filetype_label subschema
 
     Returns:
         dict: One or more schemas
@@ -12,5 +15,5 @@ def get_schemas():
                   'title': 'File Type Label',
                   'type': 'string',
                   'enum': labels}
-    schema = JSONSchemaBaseObject(**setup_args).to_jsonschema()
-    return {'filetype_label': schema}
+    schema = FileTypeLabel(**setup_args).to_jsonschema()
+    return JSONSchemaCollection({'filetype_label': schema})

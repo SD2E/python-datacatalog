@@ -10,3 +10,4 @@ from .store import *
 from .softdelete import SoftDelete
 from .heritableschema import HeritableDocumentSchema
 from .extensible import ExtensibleAttrDict
+from .store import JSONSchemaCollection
