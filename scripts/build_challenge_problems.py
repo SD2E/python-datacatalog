@@ -9,23 +9,16 @@ THIS = os.path.dirname(__file__)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
 
-sys.path.append(GPARENT)
-sys.path.append(PARENT)
-
 import datacatalog
 from tacconfig import config
-
-try:
-    from challenge import ChallengeMapping
-except ModuleNotFoundError:
-    from .challenge import ChallengeMapping
+from .drivedocs.challenge import ChallengeMapping
 
 def regenerate(update_catalog=False, mongodb=None):
 
     if datacatalog.config.get_osenv_bool('MAKETESTS'):
         DESTPATH = os.path.join(tempfile.mkdtemp(), 'challenge_problem_id.json')
     else:
-        DESTPATH = os.path.join(GPARENT, 'datacatalog', 'definitions', 'jsondocs', 'challenge_problem_id.json')
+        DESTPATH = os.path.join(os.getcwd(), 'datacatalog', 'definitions', 'jsondocs', 'challenge_problem_id.json')
         update_catalog = True
 
     settings = config.read_config()

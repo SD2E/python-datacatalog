@@ -24,14 +24,14 @@ clean: schemas-clean
 
 
 challenge_problems:
-	python scripts/build_challenge_problems.py
+	python -m scripts.build_challenge_problems
 
 experiment_designs: challenge_problems
-	python scripts/build_experiment_designs.py
+	python -m scripts.build_experiment_designs
 
 .PHONY: schemas
 schemas: experiment_designs
-	python scripts/build_schemas.py
+	python -m scripts.build_schemas
 
 schemas-test:
 	LOCALONLY=1 MAKETESTS=1 python scripts/build_schemas.py

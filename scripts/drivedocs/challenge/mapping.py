@@ -6,9 +6,10 @@ import sys
 import validators
 from attrdict import AttrDict
 from pprint import pprint
-from .google_utils import GoogleAPIError
+
+from ..common import encode_title
 from . import google_utils
-from common import encode_title
+from .google_utils import GoogleAPIError
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)

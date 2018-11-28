@@ -3,12 +3,11 @@ import sys
 import tempfile
 import argparse
 from jinja2 import Template
+import datacatalog
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
 PARENT = os.path.dirname(THIS)
-sys.path.append(PARENT)
-import datacatalog
 
 INDEX = '''\
 <!DOCTYPE html>

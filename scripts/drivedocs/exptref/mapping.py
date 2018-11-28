@@ -6,8 +6,10 @@ import sys
 import validators
 from attrdict import AttrDict
 from slugify import slugify
-from .google_utils import GoogleAPIError
+
+from ..common import encode_title
 from . import google_utils
+from .google_utils import GoogleAPIError
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
