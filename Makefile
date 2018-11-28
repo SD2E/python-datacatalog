@@ -17,11 +17,23 @@ release: build
 build:
 	python3 setup.py sdist bdist_wheel
 
-clean: schemas-clean
+clean: schemas-clean docs-clean
 	rm -rf build *egg-info dist
 	find . -d -name '*__pycache__*' -exec rm -rf {} \;
 	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
 
+developer-smoketests: smoketest-agave smoketest-config smoketest-google smoketest-mongo-local
+
+smoketest-agave:
+	python -m pytest --longrun -k agave_client_smoke $(PYTEST_SRC)
+
+smoketest-config:
+	python -m pytest -k config_yml_smoke $(PYTEST_SRC)
+
+smoketest-google:
+
+smoketest-mongo-local:
+	python -m pytest -k db_connection $(PYTEST_SRC)
 
 challenge_problems:
 	python -m scripts.build_challenge_problems

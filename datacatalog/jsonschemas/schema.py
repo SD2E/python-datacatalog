@@ -1,9 +1,15 @@
 import arrow
 import json
 import re
+from os import environ
 
 from . import config
 from ..githelpers import get_sha1_short, get_remote_uri
+
+BASE_URL = 'https://sd2e.github.io/python-datacatalog/schemas/'
+"""Default base URL against which JSONschema documents are resolved"""
+BASE_SCHEMA = 'http://json-schema.org/draft-07/schema#'
+"""References in-use JSON schema version"""
 
 FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
 ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
@@ -12,8 +18,8 @@ SORT_KEYS = True
 
 class JSONSchemaBaseObject(object):
     COLLECTION = 'generic'
-    BASEREF = 'https://sd2e.github.io/python-datacatalog/schemas/'
-    PARAMS = [('schema', False, 'schema', 'http://json-schema.org/draft-07/schema#', '$'),
+    BASEREF = environ.get('PROJECT_SCHEMA_BASE_URL', BASE_URL)
+    PARAMS = [('schema', False, 'schema', BASE_SCHEMA, '$'),
               ('id', False, 'id', '', '$'),
               ('definitions', False, 'definitions', None, ''),
               ('title', False, 'title', None, ''),
@@ -59,13 +65,15 @@ class JSONSchemaBaseObject(object):
         setattr(self, 'id', schema_id)
 
     def update_comment(self):
-        if not config.get_osenv_bool('NO_JSONSCHEMA_COMMENT'):
+        """Dynamically extends the schema with date and source
+        """
+        if not config.get_osenv_bool('PROJECT_SCHEMA_NO_COMMENT'):
 
             # Create a descriptive $comment for all schema document
             comments = list()
             comments.append('generated: {}'.format(arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ')))
             try:
-                # If we are able to resolve
+                # If we are able to resolve a git reference
                 short_hash = get_sha1_short()
                 remote = get_remote_uri()
                 comments.append('source: {}@{}'.format(remote, short_hash))
