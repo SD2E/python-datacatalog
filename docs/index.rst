@@ -6,18 +6,48 @@
 SD2 Data Catalog
 ================
 
-If you primarily need to query and fetch information from the Data Catalog, the
-**End Users** is a good place to start. If you're building scripted solutions
-atop Data Catalog, the **Developer** section will be helpful to you.
+Overview
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
+    :caption: About
+
+    schema/index
+    python/index
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Connect
 
     database/index
-    pymongo/index
-    redash/index
-    python/index
-    schema/index
+    services/index
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Scenario Guides
+
+    guides/jupyter_query.rst
+    guides/custom_metadata.rst
+    guides/redash_query.rst
+    guides/redash_dashboard.rst
+    guides/reactor_simple.rst
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Advanced Topics
+
+    pipelines/index.rst
+    schema/add_definition.rst
+    schema/add_composition.rst
+    schema/add_linkedstore.rst
+
+
+.. .. toctree::
+..     :maxdepth: 2
+..     :caption: Develop
+
+..     python/index
+..     schema/index
 
 .. .. toctree::
 ..    :maxdepth: 2

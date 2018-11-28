@@ -43,10 +43,10 @@ Here is an example of just running the ``jsonschemas`` tests.
 
     make tests PYTEST_OPTS="-k jsonschemas"
 
-Manage the toy MongoDB instance
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Set up a testing MongoDB instance
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-MongoDB 3.6 Docker service is bundled with our tests, and is required to be
+A MongoDB 3.6 Docker service is bundled with our tests, and is required to be
 active before most tests can be run. You can stand it up using ``make`` targets
 or via the ``docker-compose.yml`` file found in ``docker/``.
 
@@ -59,10 +59,23 @@ or via the ``docker-compose.yml`` file found in ``docker/``.
    # shut it down
    make mongo-down
 
-Provision an Agave API client
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Verify that the local database server is usable in the test suite as follows:
 
-*To be written*
+.. code-block:: console
+
+    make smoketest-mongo-local
+
+Provision an TACC.cloud API client
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Several functions that rely on an active TACC.cloud API client. You may need to
+set one up on your development system. You can check with the following test:
+
+.. code-block:: console
+
+    make smoketest-agave
+
+*Here is what to do if you need to set up a TACC.cloud client*
 
 Set up a Google Drive service account
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

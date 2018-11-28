@@ -1,9 +1,10 @@
-==========================
-DataCatalog Python Package
-==========================
+==============
+Python Package
+==============
 
-The DataCatalog package implements application logic to maintain a flexible and
-expressive metadata store and data integration framework.
+Essential application logic and helper code to maintain and interact with a
+flexible, expressive metadata framework is encapsulated in the ``DataCatalog``
+package.
 
 .. toctree::
    :maxdepth: 2

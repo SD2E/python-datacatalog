@@ -20,5 +20,6 @@ Subpackages
     datacatalog.linkedstores.measurement
     datacatalog.linkedstores.pipeline
     datacatalog.linkedstores.pipelinejob
+    datacatalog.linkedstores.product
     datacatalog.linkedstores.sample
 
