@@ -13,7 +13,8 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
+from ..basestore import CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
+from ..file import FileStore
 
 class ProductUpdateFailure(CatalogUpdateFailure):
     pass
@@ -26,7 +27,7 @@ class ProductDocument(HeritableDocumentSchema):
         self.update_id()
 
 
-class ProductStore(LinkedStore):
+class ProductStore(FileStore):
     """Manage storage and retrieval of ProductDocuments"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
