@@ -13,11 +13,11 @@ CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 sys.path.insert(0, PARENT)
-import scripts
+from scripts import build_experiment_designs
 
-@networked
-def test_regenerate_experiment_refs(monkeypatch, mongodb_settings):
+# @networked
+def test_regenerate_experiment_des(monkeypatch, mongodb_settings):
     monkeypatch.setenv('MAKETESTS', '1')
-    resp = scripts.build_experiment_references.regenerate(
+    resp = build_experiment_designs.regenerate(
         update_catalog=True, mongodb=mongodb_settings)
     assert resp is True

@@ -12,11 +12,10 @@ import datacatalog
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-
 sys.path.insert(0, PARENT)
-import scripts
+from scripts import build_schemas
 
 def test_regenerate_schemas(monkeypatch):
     monkeypatch.setenv('MAKETESTS', '1')
-    res = scripts.build_schemas.regenerate()
+    res = build_schemas.regenerate()
     assert res is True
