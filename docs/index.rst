@@ -17,6 +17,7 @@ atop Data Catalog, the **Developer** section will be helpful to you.
     pymongo/index
     redash/index
     python/index
+    schema/index
 
 .. .. toctree::
 ..    :maxdepth: 2
