@@ -1,3 +1,4 @@
+setuptools>=40.6.2
 PyMongo>=3.7.1
 agavepy==0.7.3
 attrdict>=2.0.0
