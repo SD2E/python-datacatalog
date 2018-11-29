@@ -1,5 +1,5 @@
-agavepy>=0.7.3
 PyMongo>=3.7.1
+agavepy==0.7.3
 attrdict>=2.0.0
 jsondiff>=1.1.2
 filetype>=1.0.1
