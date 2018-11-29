@@ -28,6 +28,12 @@ def get_requirements(remove_links=True):
             # mercurial repository url.
             if requirement.startswith("hg+"):
                 requirements.remove(requirement)
+
+    # Hackety-hack to force-eject wsgiref and its stupid print statement
+    if sys.version_info > (3, 3):
+        if 'wsgiref>=0.1.2' in requirements:
+            requirements.remove('wsgiref>=0.1.2')
+
     return requirements
 
 def get_links():
