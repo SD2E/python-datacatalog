@@ -3,6 +3,8 @@ import pytest
 import sys
 import yaml
 import json
+import jsonschema
+
 from pprint import pprint
 from . import longrun, delete
 import datacatalog
@@ -10,6 +12,7 @@ import datacatalog
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
+DATA_DIR = os.path.join(HERE, 'data/jsonschema')
 
 def test_get_allschema_filter_all():
     schemas = datacatalog.jsonschemas.get_all_schemas(filters=['will-never-be-valid'])
@@ -26,3 +29,41 @@ def test_get_all_schemas():
     schemas = datacatalog.jsonschemas.get_all_schemas()
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
+
+def test_validate_all_schemas_json():
+    SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
+    schemas = os.listdir(SCHEMAS_PATH)
+    for schema in schemas:
+        if schema.endswith('.json'):
+            fname = os.path.join(SCHEMAS_PATH, schema)
+            sch = open(fname, 'r')
+            # Can load as JSON
+            schj = json.load(sch)
+            assert isinstance(schj, dict)
+
+@pytest.mark.parametrize("draft,response", [
+    ('draft-07.json', True),
+    ('draft-06.json', True),
+    ('draft-04.json', True),
+    ('draft-03.json', False),
+    ('draft-02.json', False),
+    ('draft-01.json', False)])
+def test_validate_all_schemas_drafts(draft, response):
+    SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
+    schemas = os.listdir(SCHEMAS_PATH)
+    draft_schema = json.load(open(os.path.join(DATA_DIR, draft), 'r'))
+    raised_exceptions = list()
+    for schema in schemas:
+        if schema.endswith('.json'):
+            fname = os.path.join(SCHEMAS_PATH, schema)
+            sch = open(fname, 'r')
+            # Can load as JSON
+            schj = json.load(sch)
+            try:
+                jsonschema.validate(schj, draft_schema)
+            except Exception as exc:
+                raised_exceptions.append((schema, exc))
+    if response is True:
+        assert len(raised_exceptions) == 0, "Unexpected validation or schema errors found: %r" % raised_exceptions
+    else:
+        assert len(raised_exceptions) > 0, "Validation or schema was expected to fail but did not"
