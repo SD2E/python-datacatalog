@@ -1,4 +1,5 @@
-setuptools>=40.6.2
+git+https://github.com/TACC/agavepy.git@0_7_4#egg=agavepy
+git+https://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
 PyMongo>=3.7.1
 # agavepy==0.7.3
 attrdict>=2.0.0
@@ -14,5 +15,3 @@ GitPython>=2.1.11
 validators
 google>=2.0.1
 google-api-python-client>=1.7.4
-git+https://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
-git+https://github.com/TACC/agavepy.git@0_7_4#egg=agavepy

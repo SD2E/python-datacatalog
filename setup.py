@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
+import copy
 import sys
+from pprint import pprint
 
 def get_version():
     """
@@ -17,24 +19,19 @@ def get_requirements(remove_links=True):
             requirements = f.read().splitlines()
     except Exception as ex:
         raise OSError('Failed to read in requirements.txt file', ex)
+    new_requirements = copy.copy(requirements)
     if remove_links:
         for requirement in requirements:
-                # git repository url.
+            # git repository url.
             if requirement.startswith("git+"):
-                requirements.remove(requirement)
+                new_requirements.remove(requirement)
             # subversion repository url.
             if requirement.startswith("svn+"):
-                requirements.remove(requirement)
+                new_requirements.remove(requirement)
             # mercurial repository url.
             if requirement.startswith("hg+"):
-                requirements.remove(requirement)
-
-    # Hackety-hack to force-eject wsgiref and its stupid print statement
-    if sys.version_info > (3, 3):
-        if 'wsgiref>=0.1.2' in requirements:
-            requirements.remove('wsgiref>=0.1.2')
-
-    return requirements
+                new_requirements.remove(requirement)
+    return new_requirements
 
 def get_links():
     """
