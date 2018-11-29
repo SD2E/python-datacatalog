@@ -1,0 +1,152 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:02 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/fixity_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Fixity record for an uploaded or generated file",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "checksum": {
+            "$comment": "Computed automatically",
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "modified": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "size": {
+            "$comment": "Computed automatically",
+            "type": "integer"
+        },
+        "type": {
+            "$comment": "Computed automatically",
+            "$ref": "filetype_label.json",
+            "description": "Enumerated file type"
+        },
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "version": {
+            "$comment": "Computed automatically",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "name",
+        "type",
+        "child_of"
+    ],
+    "title": "FileFixity",
+    "type": "object"
+}

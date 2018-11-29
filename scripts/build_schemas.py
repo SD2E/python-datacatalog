@@ -8,6 +8,7 @@ import datacatalog
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
 PARENT = os.path.dirname(THIS)
+INDEX_FILENAME = 'schemas.html'
 
 INDEX = '''\
 <!DOCTYPE html>
@@ -43,7 +44,7 @@ def regenerate(filters=None):
 
     elements = sorted(elements, key=lambda k: k['caption'])
     template.render(navigation=elements)
-    idxdestpath = os.path.join(DESTDIR, 'index.html')
+    idxdestpath = os.path.join(DESTDIR, INDEX_FILENAME)
     with open(idxdestpath, 'w+') as i:
         i.write(template.render(navigation=elements))
 

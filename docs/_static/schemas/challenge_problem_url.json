@@ -1,0 +1,10 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:00 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/challenge_problem_url.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A challenge problem reference url, e.g. Google Drive link",
+    "pattern": "^https://docs.google.com/document",
+    "title": "Challenge Problem Url",
+    "type": "string"
+}

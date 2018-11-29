@@ -1,0 +1,19 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:01 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/control_type.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Enumerated control type",
+    "enum": [
+        "HIGH_FITC",
+        "EMPTY_VECTOR",
+        "BASELINE",
+        "TREATMENT_1",
+        "TREATMENT_2",
+        "BASELINE_MEDIA_PR",
+        "CELL_DEATH_NEG_CONTROL",
+        "CELL_DEATH_POS_CONTROL"
+    ],
+    "title": "Control Type",
+    "type": "string"
+}

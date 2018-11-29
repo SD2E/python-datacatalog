@@ -1,0 +1,35 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:02 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_event.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Event record belonging to a PipelineJob",
+    "properties": {
+        "data": {
+            "description": "Data payload accompanying event",
+            "type": "object"
+        },
+        "date": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) when the event occurred",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "$ref": "pipelinejob_event_uuid.json",
+            "description": "Enumerated name of the event"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "pipelinejob_event.json",
+            "description": "UUID for this specific event"
+        }
+    },
+    "required": [
+        "uuid",
+        "name"
+    ],
+    "title": "Pipeline Job Event",
+    "type": "object",
+    "uuid": "108760c7-b131-5da0-a036-1d77c865e1a5"
+}

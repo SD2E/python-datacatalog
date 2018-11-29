@@ -30,6 +30,7 @@ Overview
     guides/custom_metadata.rst
     guides/redash_query.rst
     guides/redash_dashboard.rst
+    guides/redash_notification.rst
     guides/reactor_simple.rst
 
 .. toctree::

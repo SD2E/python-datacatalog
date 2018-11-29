@@ -1,0 +1,13 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:01 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/temperature_unit.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "unit of measurement for temperature",
+    "enum": [
+        "celsius",
+        "fahrenheit"
+    ],
+    "title": "Temperature Unit",
+    "type": "string"
+}

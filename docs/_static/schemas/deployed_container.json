@@ -1,0 +1,25 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:01 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/deployed_container.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Deployed Linux container",
+    "properties": {
+        "hash": {
+            "description": "Linux container image hash",
+            "type": "string"
+        },
+        "options": {
+            "description": "Deployment options",
+            "type": "object"
+        },
+        "repo": {
+            "$ref": "container_repo.json"
+        }
+    },
+    "required": [
+        "repo"
+    ],
+    "title": "Deployed Container",
+    "type": "object"
+}

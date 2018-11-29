@@ -1,0 +1,75 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:00 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/ginkgo_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "items": {
+        "properties": {
+            "content": {
+                "properties": {
+                    "molecule": {
+                        "type": "array"
+                    },
+                    "reagent": {
+                        "items": {
+                            "properties": {
+                                "concentration": {},
+                                "id": {},
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "strain": {
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "id",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "molecule",
+                    "reagent",
+                    "strain"
+                ],
+                "type": "object"
+            },
+            "properties": {
+                "properties": {
+                    "SD2_incubation_temperature": {},
+                    "SD2_replicate": {},
+                    "SD2_timepoint": {}
+                },
+                "type": "object"
+            },
+            "sample_id": {}
+        },
+        "required": [
+            "content",
+            "properties",
+            "sample_id"
+        ],
+        "type": "object"
+    },
+    "title": "Ginkgo Samples Format Classification Schema",
+    "type": "array"
+}

@@ -1,0 +1,19 @@
+{
+    "$comment": "generated: 2018-11-29 18:35:02 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
+    "$id": "https://sd2e.github.io/python-datacatalog/schemas/pipelinejob_statename.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "enum": [
+        "CREATED",
+        "FAILED",
+        "FINALIZED",
+        "FINISHED",
+        "REJECTED",
+        "RETIRED",
+        "RUNNING",
+        "VALIDATED",
+        "VALIDATING"
+    ],
+    "title": "Pipeline Job State name",
+    "type": "string"
+}
