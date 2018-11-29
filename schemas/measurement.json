@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-11-29 01:37:42 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a0c2052",
+    "$comment": "generated: 2018-11-29 18:35:02 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4dc6162",
     "$id": "https://sd2e.github.io/python-datacatalog/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -65,6 +65,6 @@
         "measurement_id",
         "measurement_type"
     ],
-    "title": "Base Store",
+    "title": "Measurement",
     "type": "object"
 }

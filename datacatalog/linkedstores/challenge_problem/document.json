@@ -1,5 +1,5 @@
 {
-    "title": "Challenge Problem",
+    "title": "ChallengeProblem",
     "type": "object",
     "description": "Challenge Problem Reference",
     "additionalProperties": true,
@@ -38,10 +38,10 @@
         "uuid": {
             "$ref": "challenge_problem_uuid.json"
         },
-        "experiments": {
+        "experiment_designs": {
             "type": "array",
             "items": {
-                "$ref": "experiment.json"
+                "$ref": "experiment_design.json"
             },
             "minItems": 1
         }

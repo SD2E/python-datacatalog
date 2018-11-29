@@ -10,7 +10,7 @@
     },
     "document": {
         "properties": [
-            "experiments"
+            "experiment_designs"
         ]
     }
 }

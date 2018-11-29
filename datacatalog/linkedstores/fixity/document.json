@@ -1,6 +1,6 @@
 {
     "additionalProperties": false,
-    "title": "File",
+    "title": "FileFixity",
     "description": "Fixity record for an uploaded or generated file",
     "properties": {
         "uuid": {

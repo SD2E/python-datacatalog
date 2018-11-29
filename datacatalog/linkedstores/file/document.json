@@ -1,6 +1,6 @@
 {
     "additionalProperties": false,
-    "title": "File",
+    "title": "FileMetadata",
     "description": "An uploaded or generated file",
     "properties": {
         "uuid": {

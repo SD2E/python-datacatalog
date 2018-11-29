@@ -1,5 +1,6 @@
 {
     "additionalProperties": false,
+    "title": "Measurement",
     "description": "A measurement for a sample, including links to its output file(s)",
     "properties": {
         "channel": {
