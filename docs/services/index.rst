@@ -2,11 +2,16 @@
 Web Services
 ============
 
-*Coming soon*
-
 .. toctree::
    :maxdepth: 2
 
+   overview
+   quickstart
+   authnz
+   querying
+   metadata
+   apidocs
+   references
 
 .. only::  subproject and html
 

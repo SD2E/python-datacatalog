@@ -18,6 +18,7 @@ Once connected to the server, you will use the ``catalog`` database.
    langs
    gui
    redash
+   references
 
 .. only::  subproject and html
 

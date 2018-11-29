@@ -1,6 +1,6 @@
-==============
-Catalog Schema
-==============
+===============
+Database Schema
+===============
 
 .. toctree::
    :maxdepth: 2
@@ -8,6 +8,7 @@ Catalog Schema
    design
    using
    develop
+   references
 
 .. only::  subproject and html
 

@@ -1,10 +1,10 @@
 .. _mongo_refs:
 
-==========
-References
-==========
+=====================
+Supplemental Material
+=====================
 
-You can learn much more about working with MongoDB at:
+You can learn more about working with MongoDB at:
 
 - `Getting Started <https://docs.mongodb.com/manual/tutorial/getting-started/>`_
 - `Mongo Shell Reference <https://docs.mongodb.com/manual/reference/method/>`_
