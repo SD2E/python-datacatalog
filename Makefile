@@ -25,15 +25,15 @@ clean: schemas-clean docs-clean
 developer-smoketests: smoketest-agave smoketest-config smoketest-google smoketest-mongo-local
 
 smoketest-agave:
-	python -m pytest --longrun -k agave_client_smoke $(PYTEST_SRC)
+	python -m pytest -v --longrun -k agave_client_smoke $(PYTEST_SRC)
 
 smoketest-config:
 	python -m pytest -k config_yml_smoke $(PYTEST_SRC)
 
-smoketest-google:
-
 smoketest-mongo-local:
-	python -m pytest -k db_connection $(PYTEST_SRC)
+	python -m pytest -v -k db_connection $(PYTEST_SRC)
+
+smoketest-google:
 
 challenge_problems:
 	python -m scripts.build_challenge_problems
@@ -42,8 +42,13 @@ experiment_designs: challenge_problems
 	python -m scripts.build_experiment_designs
 
 .PHONY: schemas
-schemas: experiment_designs
+schemas: schemas-build schemas-validate
+
+schemas-build:
 	python -m scripts.build_schemas
+
+schemas-validate:
+	python -m pytest -v --longrun -k validate_all_schemas $(PYTEST_SRC)
 
 schemas-test:
 	LOCALONLY=1 MAKETESTS=1 python scripts/build_schemas.py

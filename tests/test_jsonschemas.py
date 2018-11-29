@@ -30,6 +30,7 @@ def test_get_all_schemas():
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
 
+@longrun
 def test_validate_all_schemas_json():
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)
@@ -41,6 +42,7 @@ def test_validate_all_schemas_json():
             schj = json.load(sch)
             assert isinstance(schj, dict)
 
+@longrun
 @pytest.mark.parametrize("draft,response", [
     ('draft-07.json', True),
     ('draft-06.json', True),
