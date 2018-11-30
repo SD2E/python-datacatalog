@@ -17,9 +17,9 @@ Object Schemas
 --------------
 
 - `Catalog <{{ project_schema_base_url }}/challenge_problem.json>`_
-- `SampleSet <.{{ project_schema_base_url }}/sample_set.json>`_
+- `SampleSet <{{ project_schema_base_url }}/sample_set.json>`_
 - `Pipeline <{{ project_schema_base_url }}/pipeline.json>`_
-- `PipelineJob <{{ project_schema_base_url }}/pipeline_job.json>`_
+- `PipelineJob <{{ project_schema_base_url }}/pipelinejob.json>`_
 
 Database Schemas
 ----------------
