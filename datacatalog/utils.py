@@ -11,6 +11,8 @@ import datetime
 import json
 import uuid
 import arrow
+import importlib
+import inspect
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
@@ -88,3 +90,15 @@ def validate_file_to_schema(filename, schema_file=SCHEMA_FILE, permissive=False)
             raise Exception("file validation failed", e)
         else:
             return False
+
+def dynamic_import(module, package=None):
+    """Dynamically import a module by name at runtime
+
+    Args:
+        module (str): The name of the module to import
+        package (str, optional): The package to import ``module`` from
+
+    Returns:
+        object: The imported module
+    """
+    return importlib.import_module(module, package=package)
