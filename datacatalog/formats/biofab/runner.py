@@ -2,18 +2,17 @@
 import json
 import sys
 import os
-from jsonschema import validate
-from jsonschema import ValidationError
 import six
 from jq import jq
-# Hack hack
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common import SampleConstants
-from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
+from jsonschema import validate, ValidationError
+
+from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from sbol import *
-from datacatalog.agavehelpers import AgaveHelper
+
+from ..agavehelpers import AgaveHelper
+from .common import SampleConstants
+from .common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
 
 # common across methods
 attributes_attr = "attributes"
@@ -349,7 +348,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
         add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
 
         # TODO
-        #measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_props["measurement_name"]
+        # measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_props["measurement_name"]
 
         add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
 
@@ -453,7 +452,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
     try:
         validate(output_doc, schema)
         # if verbose:
-        #print(json.dumps(output_doc, indent=4))
+        # print(json.dumps(output_doc, indent=4))
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join("output/biofab", os.path.basename(input_file))
