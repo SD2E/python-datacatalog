@@ -6,7 +6,7 @@ from os import environ
 from . import config
 from ..githelpers import get_sha1_short, get_remote_uri
 
-BASE_URL = 'https://python-datacatalog.readthedocs.io/en/latest/'
+BASE_URL = 'https://python-datacatalog.rtfd.io/en/latest/'
 """Default base URL against which JSONschema documents are resolved"""
 BASE_SCHEMA = 'http://json-schema.org/draft-07/schema#'
 """References in-use JSON schema version"""
