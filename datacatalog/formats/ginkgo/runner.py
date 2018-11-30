@@ -4,17 +4,15 @@ import sys
 import os
 import six
 
-from jsonschema import validate
-from jsonschema import ValidationError
-# Hack hack
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common import SampleConstants
-from common import namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from jsonschema import validate, ValidationError
+from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from sbol import *
+
+from ..agavehelpers import AgaveHelper
+from .common import SampleConstants
+from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from .mappings import SampleContentsFilter
-from datacatalog.agavehelpers import AgaveHelper
 
 def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -28,7 +26,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
-    DEFAULT_CYTOMETER_CONFIGURATION = "/sd2e-community/ginkgo/instruments/SA3800-20180912.json"
+    DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
 
     # For inference
     # Novel Chassis Nand
@@ -46,18 +44,13 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
 
     lab = SampleConstants.LAB_GINKGO
 
-    # TODO cannot map yet
-    output_doc[SampleConstants.EXPERIMENT_ID] = "UNKNOWN"
-    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_UNKNOWN
-    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
-
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
 
     for ginkgo_sample in ginkgo_doc:
         sample_doc = {}
-        #sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
+        # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab)
 
         contents = []
@@ -68,9 +61,9 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 reagent_name = reagent["name"]
                 concentration_prop = "concentration"
                 if concentration_prop in reagent:
-                    contents.append(create_media_component(reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
                 else:
-                    contents.append(create_media_component(reagent_name, reagent_id, lab, sbh_query))
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
 
         # It's possible to have no reagents if they're all skipped
         # per the filter.
@@ -78,7 +71,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.CONTENTS] = contents
 
         for strain in ginkgo_sample["content"]["strain"]:
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(strain["name"], strain["id"], lab, sbh_query, strain=True)
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain["name"], strain["id"], lab, sbh_query, strain=True)
             # TODO multiple strains?
             continue
 
@@ -213,7 +206,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             # use measurement_name to do some inference if we have no challenge problem, yet
             # (could be superceded later)
             # FIXME update this later; Ginkgo needs to provide this
-            if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_UNKNOWN:
+            if SampleConstants.CHALLENGE_PROBLEM not in output_doc:
                 measurement_name = measurement_doc[SampleConstants.MEASUREMENT_NAME]
                 if measurement_name == "NC E. coli NAND 37C (WF: 13893, SEQ_WF: 14853)" or \
                    measurement_name == "NC E. coli NAND 30C (WF: 13904, SEQ_WF: 14853)" or \
@@ -274,8 +267,11 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
                 elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]):
                     # ON without IPTG, OFF with IPTG, plasmid (high level)
+                    # we also need to indicate the control channels for the fluorescence control
+                    # this is not known by the lab typically, has to be provided externally
                     if SampleConstants.CONTENTS not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                        sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
                     else:
                         found = False
                         for content in sample_doc[SampleConstants.CONTENTS]:
@@ -285,8 +281,12 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                     found = True
                         if not found:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
+            file_counter = 1
             for key in measurement_props["dataset_files"].keys():
+                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+
                 if key == "processed":
                     for processed in measurement_props["dataset_files"]["processed"]:
                         for sub_processed in processed:
@@ -294,7 +294,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_processed,
                                  SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_STATE: SampleConstants.M_STATE_PROCESSED,
+                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
+                                 SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
                 elif key == "raw":
                     for raw in measurement_props["dataset_files"]["raw"]:
@@ -303,20 +304,22 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_raw,
                                  SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_STATE: SampleConstants.M_STATE_RAW,
+                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                                 SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
                 else:
                     raise ValueError("Unknown measurement type: {}".format(key))
 
-            if len(measurement_doc[SampleConstants.FILES]) == 0:
-                print("Warning, measurement contains no files, skipping {}".format(measurement_key))
-            else:
-                if SampleConstants.MEASUREMENTS not in sample_doc:
-                    sample_doc[SampleConstants.MEASUREMENTS] = []
-                sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
-                samples_w_data = samples_w_data + 1
-                print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
+                file_counter = file_counter + 1
 
+            if SampleConstants.MEASUREMENTS not in sample_doc:
+                sample_doc[SampleConstants.MEASUREMENTS] = []
+            sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+            samples_w_data = samples_w_data + 1
+            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
+
+        if SampleConstants.MEASUREMENTS not in sample_doc:
+            sample_doc[SampleConstants.MEASUREMENTS] = []
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
     print('Samples in file: {}'.format(len(ginkgo_doc)))
@@ -325,7 +328,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     try:
         validate(output_doc, schema)
         # if verbose:
-        #print(json.dumps(output_doc, indent=4))
+        # print(json.dumps(output_doc, indent=4))
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join(
