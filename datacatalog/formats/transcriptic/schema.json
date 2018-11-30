@@ -71,8 +71,6 @@
           }
         },
         "required": [
-          "contents",
-          "experimental_media",
           "files",
           "sample_id",
           "temperature",
