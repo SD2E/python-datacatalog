@@ -1,16 +1,13 @@
-.. _schema_idx:
+.. _intro_idx:
 
-===============
-Database Schema
-===============
+========
+Overview
+========
 
 .. toctree::
    :maxdepth: 2
 
-   design
-   using
-   develop
-   references
+   definitions
 
 .. only::  subproject and html
 

@@ -12,6 +12,7 @@ Overview
     :maxdepth: 1
     :caption: About
 
+    intro/index
     schema/index
     python/index
 

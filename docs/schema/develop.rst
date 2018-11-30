@@ -1,3 +1,5 @@
+.. _schema_develop:
+
 =====================
 Developing the Schema
 =====================

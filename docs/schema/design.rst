@@ -1,3 +1,5 @@
+.. _schema_design:
+
 ========
 Overview
 ========
@@ -8,18 +10,17 @@ retrievable over the web to support active use of the schema in building
 user interfaces, constructing queries, or developing extensions to the SD2
 core infrastructure.
 
-Schemas
--------
+Object Schemas
+--------------
 
 - `Catalog <../challenge_problem.json>`_
 - `SampleSet <../sample_set.json>`_
 - `Pipeline <../pipeline.json>`_
 - `PipelineJob <../pipeline_job.json>`_
 
-Database Views
---------------
+Database Schemas
+----------------
 
-- `Catalog <../challenge_problem_document.json>`_
-
+- `CatalogStore <../challenge_problem_document.json>`_
 
 *Illustration*
