@@ -11,6 +11,7 @@ class InvalidToken(ValueError):
     pass
 
 class Token(str):
+    """An update token"""
     def __new__(cls, value):
         value = str(value).lower()
         return str.__new__(cls, value)

@@ -3,7 +3,9 @@ import base64
 
 SALT_LENGTH = 16
 """Number of bytes in the salt"""
+
 class Salt(str):
+    """A cryptographic salt"""
     def __new__(cls, value):
         value = str(value).lower()
         return str.__new__(cls, value)
