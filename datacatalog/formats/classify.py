@@ -8,7 +8,7 @@ from pprint import pprint
 from . import *
 from .converter import Converter, ConversionError
 
-FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab']
+FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes']
 
 def dynamic_import(module, package=None):
     return importlib.import_module(module, package=package)
