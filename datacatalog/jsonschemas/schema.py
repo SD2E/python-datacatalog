@@ -6,7 +6,7 @@ from os import environ
 from . import config
 from ..githelpers import get_sha1_short, get_remote_uri
 
-BASE_URL = 'https://docs.catalog.sd2e.org/en/latest/schema/'
+BASE_URL = 'https://python-datacatalog.readthedocs.io/en/latest/'
 """Default base URL against which JSONschema documents are resolved"""
 BASE_SCHEMA = 'http://json-schema.org/draft-07/schema#'
 """References in-use JSON schema version"""
@@ -19,7 +19,8 @@ SORT_KEYS = True
 class JSONSchemaBaseObject(object):
     COLLECTION = 'generic'
     BASEREF = environ.get('PROJECT_SCHEMA_BASE_URL', BASE_URL)
-    PARAMS = [('schema', False, 'schema', BASE_SCHEMA, '$'),
+    BASESCHEMA = environ.get('PROJECT_SCHEMA_REF', BASE_SCHEMA)
+    PARAMS = [('schema', False, 'schema', BASESCHEMA, '$'),
               ('id', False, 'id', '', '$'),
               ('definitions', False, 'definitions', None, ''),
               ('title', False, 'title', None, ''),
