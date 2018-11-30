@@ -6,8 +6,6 @@
 SD2 Data Catalog
 ================
 
-Overview
-
 .. toctree::
     :maxdepth: 1
     :caption: About
