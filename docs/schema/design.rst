@@ -4,23 +4,26 @@
 Overview
 ========
 
-Data Catalog is built from a collection of linked JSON schemas, each of which
-references mutliple subschemas. The entire tree of schema documents is
-retrievable over the web to support active use of the schema in building
-user interfaces, constructing queries, or developing extensions to the SD2
-core infrastructure.
+Data Catalog is built from a hiearchical tree of collection of linked JSON
+schemas, accessible from the following base URL:
+
+- **{{ project_schema_base_url }}**
+
+Documents in this tree are accessible over HTTP so they may be imported
+dynamically by code that implements user interfaces, builds database queries,
+or otherwise needs to interoperate with SD2 data management infrastructure.
 
 Object Schemas
 --------------
 
-- `Catalog <../challenge_problem.json>`_
-- `SampleSet <../sample_set.json>`_
-- `Pipeline <../pipeline.json>`_
-- `PipelineJob <../pipeline_job.json>`_
+- `Catalog <{{ project_schema_base_url }}/challenge_problem.json>`_
+- `SampleSet <.{{ project_schema_base_url }}/sample_set.json>`_
+- `Pipeline <{{ project_schema_base_url }}/pipeline.json>`_
+- `PipelineJob <{{ project_schema_base_url }}/pipeline_job.json>`_
 
 Database Schemas
 ----------------
 
-- `CatalogStore <../challenge_problem_document.json>`_
+- `CatalogStore <{{ project_schema_base_url }}/challenge_problem_document.json>`_
 
 *Illustration*
