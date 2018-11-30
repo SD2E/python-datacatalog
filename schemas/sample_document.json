@@ -1,6 +1,6 @@
 {
-    "$comment": "generated: 2018-11-29 22:22:57 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1012847",
-    "$id": "https://sd2e.github.io/python-datacatalog/schemas/sample_document.json",
+    "$comment": "generated: 2018-11-30 00:05:06 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@c932011",
+    "$id": "https://docs.catalog.sd2e.org/en/latest/schema/sample_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "A lab sample and its metadata",
