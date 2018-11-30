@@ -18,7 +18,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(PARENT, 'tests/data/fixity/files')
 
-@pytest.mark.parametrize("filename, level, ftype", [('/uploads/biofab/201811/23801/provenance_dump.json', '0', 'JSON'),
+@pytest.mark.parametrize("filename, level, ftype", [('/uploads/biofab/201811/23801/provenance_dump.json', '0', 'BPROV'),
                                                     ('/products/sequence.fastq', '1', 'FASTQ')
                                                     ])
 def test_fixity_pathmapping(monkeypatch, mongodb_settings, filename, level, ftype):
