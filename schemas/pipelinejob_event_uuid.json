@@ -1,6 +1,6 @@
 {
-    "$comment": "generated: 2018-11-30 10:11:03 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ebb516d",
-    "$id": "https://python-datacatalog.rtfd.io/en/latest/pipelinejob_event_uuid.json",
+    "$comment": "generated: 2018-11-30 11:26:19 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a88731b",
+    "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_event_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "UUID5 with DNS namespacing",
