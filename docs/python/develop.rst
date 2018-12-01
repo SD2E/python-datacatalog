@@ -39,19 +39,26 @@ force tests that have a long run time to execute:
 
 Here is an example of just running the ``jsonschemas`` tests.
 
+The current list of ``pytest`` extended flags is:
+
+- ``--bootstrap`` : run tests that check the developer environment
+- ``--delete`` : enable tests that delete **local** Mongodb records
+- ``--longrun`` : enable tests that might take >500 msec to run
+- ``--networked`` : enable tests that require external network access
+
 .. code-block:: console
 
     make tests PYTEST_OPTS="-k jsonschemas"
 
-Set up a testing MongoDB instance
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Test MongoDB instance
+^^^^^^^^^^^^^^^^^^^^^
 
 A MongoDB 3.6 Docker service is bundled with our tests, and is required to be
 active before most tests can be run. You can stand it up using ``make`` targets
 or via the ``docker-compose.yml`` file found in ``docker/``.
 
 .. code-block:: console
-   :caption: Start/stop local MongoDB
+   :caption: Start or stop testing MongoDB
 
    cd python-datacatalog
    # start the service
@@ -65,8 +72,10 @@ Verify that the local database server is usable in the test suite as follows:
 
     make smoketest-mongo-local
 
-Provision an TACC.cloud API client
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+*What to do if this test fails even after starting the server*
+
+TACC.cloud API client
+^^^^^^^^^^^^^^^^^^^^^
 
 Several functions that rely on an active TACC.cloud API client. You may need to
 set one up on your development system. You can check with the following test:
@@ -75,12 +84,35 @@ set one up on your development system. You can check with the following test:
 
     make smoketest-agave
 
-*Here is what to do if you need to set up a TACC.cloud client*
+*Here is how to set up a TACC.cloud client*
 
-Set up a Google Drive service account
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Local config.yml
+^^^^^^^^^^^^^^^^
 
-*To be written*
+For compatibility with the Reactors SDK, this package uses ``config.yml``
+for run-time configuration. Check the status of your configuration file using
+this test:
+
+.. code-block:: console
+
+    make smoketest-config
+
+*Here is how to set up config.yml*
+
+Google Drive service account
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An active integration with Google Drive using a service account is required to
+rebuild to populate the challenge problem and experiment design MongoDB, and,
+by extension, to rebuilt the project schema. You will need to obtain a valid
+``service_account.json`` file from project staff or provision one yourself.
+Check the status of your Google Drive integration with this test:
+
+.. code-block:: console
+
+    make smoketest-google
+
+*Here is how to set an authorized Google Drive service account*
 
 Documentation
 -------------
@@ -93,6 +125,6 @@ Autodoc and the Napoleon preprocessor.
 - `Napoleon <https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html>`_
 
 .. code-block:: console
-   :caption: Regenerate the documentation
+   :caption: Regenerate all project documentation
 
    make docs-clean && make docs

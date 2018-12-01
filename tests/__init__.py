@@ -21,6 +21,10 @@ if HERE not in sys.path:
 # def test_long():
 #   pass
 
+bootstrap = pytest.mark.skipif(
+    not pytest.config.option.bootstrap,
+    reason="needs --bootstrap option to run")
+
 longrun = pytest.mark.skipif(
     not pytest.config.option.longrun,
     reason="needs --longrun option to run")

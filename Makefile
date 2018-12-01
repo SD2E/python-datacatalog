@@ -32,33 +32,35 @@ developer-smoketests: smoketest-agave smoketest-config smoketest-google smoketes
 
 # Verify usable TACC.cloud API client
 smoketest-agave:
-	python -m pytest -v --longrun -k agave_client_smoke $(PYTEST_SRC)
+	python -m pytest --bootstrap -v --longrun -k agave_client_smoke $(PYTEST_SRC)
 
 # Verify ../config.yml is loadable YAML
 smoketest-config:
-	python -m pytest -k config_yml_smoke $(PYTEST_SRC)
+	python -m pytest --bootstrap -k config_yml_smoke $(PYTEST_SRC)
 
 # Verify connection to MongoDB Docker container
 smoketest-mongo-local:
-	python -m pytest -v -k db_connection $(PYTEST_SRC)
+	python -m pytest --bootstrap -v -k db_connection $(PYTEST_SRC)
 
 # Verify Google service account is functional
 smoketest-google:
-
+	python -m pytest --bootstrap --networked -v -k gdrive_smoke $(PYTEST_SRC)
 # Verify PyPi
 smoketest-pypi:
 
 # Verify Dockerhub
 smoketest-dockerhub:
 
+# Update actual database
 challenge_problems:
 	python -m scripts.build_challenge_problems
 
 experiment_designs: challenge_problems
 	python -m scripts.build_experiment_designs
 
+# Regenerates the schema tree, including a sync w Google
 .PHONY: schemas
-schemas: schemas-build schemas-validate
+schemas: experiment_designs schemas-build schemas-validate
 
 # Generate new build of ../schemas/
 schemas-build:
