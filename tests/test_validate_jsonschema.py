@@ -7,14 +7,12 @@ from pprint import pprint
 from . import longrun, delete, networked
 # import datacatalog
 import jsonschema
+from datacatalog.jsonschemas.schema import BASE_URL as JSONSCHEMA_BASE_URL
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/sampleset')
-
-JSONSCHEMA_BASE_URL = 'https://sd2e.github.io/python-datacatalog/schemas/'
-# JSONSCHEMA_BASE_URL = 'https://catalog.sd2e.org/schemas/'
 
 def resolver(base_uri=JSONSCHEMA_BASE_URL, schema='sample_set'):
     remote_uri = base_uri + schema + '.json'

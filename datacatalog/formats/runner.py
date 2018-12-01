@@ -5,6 +5,7 @@ runner_name = 'default'
 
 
 def convert_file(target_schema, input_path, output_path=None, verbose=False, config={}, enforce_validation=True):
+    """Implements a simple converter that copies input_path to output_path"""
     if output_path is None:
         PARENT = os.path.dirname(input_path)
         FILENAME = os.path.basename(input_path)
