@@ -45,7 +45,7 @@ class FixityStore(LinkedStore):
         """
         self.name = filename
         self.abs_filename = abspath(filename)
-        file_uuid = self.get_typed_uuid(self.name)
+        file_uuid = self.get_typeduuid(self.name)
 
         db_record = self.coll.find_one({'uuid': file_uuid})
         if db_record is None:

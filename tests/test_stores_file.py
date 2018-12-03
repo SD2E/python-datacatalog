@@ -36,7 +36,7 @@ def test_files_uuid_tytpe(mongodb_settings):
 def test_files_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
     filename = 'science-results.xlsx'
-    identifier_string_uuid = base.get_typed_uuid(filename, binary=False)
+    identifier_string_uuid = base.get_typeduuid(filename, binary=False)
     assert identifier_string_uuid == '1059e14b-a341-5804-ac69-5c731f6ecf80'
 
 def test_files_add(mongodb_settings):

@@ -36,7 +36,7 @@ def test_cp_uuid_tytpe(mongodb_settings):
 def test_cp_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.challenge_problem.ChallengeStore(mongodb_settings)
     identifier_string = 'DRAKE_EQUATION'
-    identifier_string_uuid = base.get_typed_uuid(identifier_string, binary=False)
+    identifier_string_uuid = base.get_typeduuid(identifier_string, binary=False)
     assert identifier_string_uuid == '1010c127-7f30-5ac0-8f6f-2ebcca0a0c06'
 
 def test_cp_add(mongodb_settings):

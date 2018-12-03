@@ -37,7 +37,7 @@ def test_basestore_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()
     identifier_string = 'abcdef'
-    identifier_string_uuid = base.get_typed_uuid(identifier_string, binary=False)
+    identifier_string_uuid = base.get_typeduuid(identifier_string, binary=False)
     assert identifier_string_uuid == '100a955e-5874-50f0-afac-e2857bc0a764'
 
 def test_basestore_add(mongodb_settings):
