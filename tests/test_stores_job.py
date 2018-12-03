@@ -57,8 +57,8 @@ def test_job_write_key_ok(mongodb_settings):
 def test_job_write_key_fail(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_jobs():
-        key = 'actor_id'
-        val = ['val', 'val', 'val']
+        key = 'pipeline_uuid'
+        val = '1234567890'
         with pytest.raises(datacatalog.linkedstores.basestore.exceptions.CatalogError):
             base.write_key(data_struct['uuid'], key, val)
 

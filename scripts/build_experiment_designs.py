@@ -35,7 +35,7 @@ def regenerate(update_catalog=False, mongodb=None):
     for cp in challenges.filescache:
         if cp.get('uri', None) is not None:
             google_sheets_id = os.path.basename(cp.get('uri', None))
-            cp_uuid = datacatalog.identifiers.typed_uuid.catalog_uuid(cp.get('id'), 'challenge_problem')
+            cp_uuid = datacatalog.identifiers.typeduuid.catalog_uuid(cp.get('id'), 'challenge_problem')
             cp_settings = copy.deepcopy(settings['experiment_reference'])
             cp_settings['google_sheets_id'] = google_sheets_id
 
