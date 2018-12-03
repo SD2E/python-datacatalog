@@ -1,5 +1,5 @@
 from ..jsonschemas import JSONSchemaBaseObject
-from .typed_uuid import UUIDType
+from .typeduuid import UUIDType
 
 class CatalogUUID(JSONSchemaBaseObject):
     def __init__(self, **kwargs):

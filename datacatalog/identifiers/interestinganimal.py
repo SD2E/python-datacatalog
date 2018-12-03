@@ -14,7 +14,9 @@ __all__ = ["generate", "mock", "validate", "pet_name"]
 
 def generate(timestamp=True):
     pet = petname.Generate(2, '-', 8)
-    return pet + '-' + arrow.utcnow().format('YYYYMMDDTHHmmss') + 'Z'
+    if timestamp is True:
+        pet = pet + arrow.utcnow().format('YYYYMMDDTHHmmss') + 'Z'
+    return pet
 
 def mock(timestamp=True):
     return generate(timestamp)

@@ -1,1 +1,1 @@
-# from .. import typed_uuid
+# from .. import typeduuid
