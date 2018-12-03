@@ -75,7 +75,7 @@ datacatalog.identifiers.schemas module
 datacatalog.identifiers.typed\_uuid module
 ------------------------------------------
 
-.. automodule:: datacatalog.identifiers.typed_uuid
+.. automodule:: datacatalog.identifiers.typeduuid
     :members:
     :undoc-members:
     :show-inheritance:
