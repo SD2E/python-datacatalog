@@ -112,10 +112,35 @@ class ManagedPipelineJob(Manager):
         for rel, val in relations.items():
             setattr(self, rel, val)
 
-        # TODO: Validate agent and task using identifiers.*
-        # TODO: Convert agent and task to URI forms
-
+        self.__canonicalize_agent_and_task()
         self.__set_archive_path(*args, **kwargs)
+
+    def __canonicalize_agent_and_task(self):
+        """Extend simple text ``agent`` and ``task`` into REST URIs
+        """
+        oagent = getattr(self, 'agent', None)
+        otask = getattr(self, 'task', None)
+        api = getattr(self, 'api_server')
+
+        if oagent is not None:
+            # Agave appID
+            if identifiers.agave.appid.validate(oagent, permissive=True):
+                agent = api + '/apps/v2/' + oagent
+            else:
+                # TODO: Validate abaco actorid
+                agent = api + '/actors/v2/' + oagent
+            setattr(self, 'agent', agent)
+
+        if otask is not None:
+            # TODO: Replace with identifiers.agave.uuids.validate('job', task)
+            if otask.endswith('-007'):
+                task = api + '/jobs/v2/' + otask
+            else:
+                # TODO: Validate abaco execid
+                task = api + '/actors/v2/' + oagent + '/executions/' + otask
+            setattr(self, 'task', task)
+
+        return self
 
     def setup(self, data={}):
         """Finish initializing the manager

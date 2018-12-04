@@ -1,5 +1,7 @@
 from ..basestore import CatalogError, DuplicateKeyError
 
+__all__ = ['JobError', 'JobCreateFailure', 'JobUpdateFailure',
+           'DuplicateJobError', 'UnknownPipeline', 'UnknownJob']
 class JobError(Exception):
     pass
 
