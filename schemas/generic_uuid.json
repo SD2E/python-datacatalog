@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 2018-11-30 11:26:19 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a88731b",
+    "$comment": "generated: 2018-12-04 19:01:09 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@37df5af",
     "$id": "https://schema.catalog.sd2e.org/schemas/generic_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "UUID5 with DNS namespacing",
+    "description": "Catalog Object UUID UUID5 with DNS namespacing",
     "pattern": "^(uri:urn:)?100[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
     "title": "Catalog Object UUID",
     "type": "string"
