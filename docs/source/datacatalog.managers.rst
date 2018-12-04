@@ -15,3 +15,15 @@ Subpackages
     datacatalog.managers.pipelinejobs
     datacatalog.managers.sampleset
 
+Submodules
+----------
+
+datacatalog.managers.common module
+----------------------------------
+
+.. automodule:: datacatalog.managers.common
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+

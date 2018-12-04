@@ -12,7 +12,7 @@ Submodules
 datacatalog.identifiers.tests.test\_typed\_uuid module
 ------------------------------------------------------
 
-.. automodule:: datacatalog.identifiers.tests.test_typeduuid
+.. automodule:: datacatalog.identifiers.tests.test_typed_uuid
     :members:
     :undoc-members:
     :show-inheritance:
