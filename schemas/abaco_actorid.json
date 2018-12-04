@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-04 19:01:09 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@37df5af",
+    "$comment": "generated: 2018-12-04 23:32:27 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4301622",
     "$id": "https://schema.catalog.sd2e.org/schemas/abaco_actorid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
