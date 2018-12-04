@@ -1,4 +1,5 @@
 
+import arrow
 import os
 import sys
 import validators
@@ -7,6 +8,8 @@ from ... import identifiers
 from ..common import Manager
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
+
+DEFAULT_ARCHIVE_RESOURCE = 'https://api.sd2e.org/systems/v2/data-sd2e-community'
 
 class ManagedPipelineJobError(Exception):
     """An error happened in the context of a ManagedPipelineJob"""
@@ -22,6 +25,8 @@ class ManagedPipelineJob(Manager):
 
     Keyword Args:
         agent (str, optional): Abaco actorId or Agave appId
+        archive_path (str, optional): Override automatic ``archive_path``
+        archive_resource (str, optional): Override default ``archive_resource``
         data (dict, optional): Arbitrary object describing the job's parameterization
         experiment_design_id (str, optional): A valid experiment design ID
         experiment_id (str, optional): A valid **experiment** ID
@@ -34,11 +39,13 @@ class ManagedPipelineJob(Manager):
     """
 
     MGR_PARAMS = [
-        ('agent', False, 'actor_id', None),
+        ('agent', False, 'agent', None),
         ('task', False, 'task', None),
         ('session', False, 'session', None),
         ('data', False, 'data', {}),
-        ('level_store', False, 'level_store', 'product')]
+        ('level_store', False, 'level_store', 'product'),
+        ('archive_path', False, 'archive_path', None),
+        ('archive_resource', False, 'archive_resource', DEFAULT_ARCHIVE_RESOURCE)]
     """Keyword parameters for job setup"""
 
     JOB_PARAMS = [
@@ -61,10 +68,11 @@ class ManagedPipelineJob(Manager):
         self.nonce = update_nonce
         self.cancelable = True
 
-        self.actor_id = None
+        self.agent = None
         self.archive_path = None
+        self.archive_system = None
         self.data = None
-        self.exec_id = None
+        self.task = None
         self.pipeline_uuid = None
         self.session = None
         self.uuid = None
@@ -76,7 +84,7 @@ class ManagedPipelineJob(Manager):
             else:
                 if kval is None:
                     kval = default
-                setattr(self, key, kval)
+            setattr(self, key, kval)
 
         relations = dict()
         for lf in LINK_FIELDS:
@@ -91,10 +99,11 @@ class ManagedPipelineJob(Manager):
                     kval = default
 
             if kval is not None:
+                # Validates each job param against catalog
                 resp = self.__get_stored_doc(store, key, kval)
                 if resp is None:
                     raise ManagedPipelineJobError(
-                        'Failed to verify {}:{} exists store {}'.format(
+                        'Failed to verify {}:{} exists in store {}'.format(
                             param, kval, store))
                 else:
                     uuidval = resp.get('uuid')
@@ -102,6 +111,9 @@ class ManagedPipelineJob(Manager):
                     relations[link].append(uuidval)
         for rel, val in relations.items():
             setattr(self, rel, val)
+
+        # TODO: Validate agent and task using identifiers.*
+        # TODO: Convert agent and task to URI forms
 
         self.__set_archive_path(*args, **kwargs)
 
@@ -116,9 +128,11 @@ class ManagedPipelineJob(Manager):
         setattr(self, 'data', data)
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
+                        'archive_resource': self.archive_resource,
                         'data': self.data,
                         'session': self.session,
-                        'actor_id': self.actor_id,
+                        'agent': self.agent,
+                        'task': self.task,
                         'child_of': self.child_of,
                         'derived_from': self.derived_from,
                         'generated_by': self.generated_by
@@ -211,11 +225,15 @@ class ManagedPipelineJob(Manager):
 
     def __set_archive_path(self, level_store='product', *args, **kwargs):
 
-        ap = self.get_archive_path(level_store, *args, **kwargs)
+        if 'archive_path' in kwargs:
+            ap = kwargs.get('archive_path')
+        else:
+            ap = self.get_archive_path(level_store, *args, **kwargs)
         setattr(self, 'archive_path', ap)
         return self
 
-    def get_archive_path(self, level_store='product', path=None, *args, **kwargs):
+    def get_archive_path(self, level_store='product', instanced=True,
+                         session=None, path=None, *args, **kwargs):
 
         # Allow user to pass `path at init time to create a custom archive_path`
         if path is not None:
@@ -225,24 +243,32 @@ class ManagedPipelineJob(Manager):
             return path
 
         if level_store == 'product':
-            ap = self.archive_path_for_product(*args, **kwargs)
-            # Compress path a bit by removing the dashes, which arise from
-            # using UUID5 as path elements.
-            ap = ap.replace('-', '')
+            ap = self.__archive_path_for_product(instanced, session, *args, **kwargs)
+
         return ap
 
-    def archive_path_for_product(self, *args, **kwargs):
+    def __compress_path(self, in_path):
+        # Compress a path by removing the dashes, which arise from
+        # using UUID5 as path elements.
+        return in_path.replace('-', '')
+
+    def __archive_path_for_product(self, instanced=True, session=None, *args, **kwargs):
         FIELDS = ('experiment_design_id', 'experiment_id', 'sample_id', 'measurement_id', 'pipeline_uuid')
         """Identity and order of document keys used to construct archive_path"""
 
         path_elements = ['/', 'products', 'v2']
         for field in FIELDS:
             if field in kwargs:
+                # TODO: Implement a shorter hash than UUID5 in identifiers.typeduuid and use for path construction
                 path_elements.append(getattr(self, field))
-        # raise Exception(path_elements)
-        return os.path.join(*path_elements)
+        product_path = os.path.join(*path_elements)
+        product_path = self.__compress_path(product_path)
+        if instanced is True:
+            product_path = os.path.join(product_path, self.instanced_directory(session))
 
-    def archive_path_for_reference(self, *args, **kwargs):
+        return product_path
+
+    def __archive_path_for_reference(self, *args, **kwargs):
         raise NotImplementedError()
 
         FIELDS = ()
@@ -253,7 +279,7 @@ class ManagedPipelineJob(Manager):
         # raise Exception(path_elements)
         return os.path.join(*path_elements)
 
-    def archive_path_for_upload(self, *args, **kwargs):
+    def __archive_path_for_upload(self, *args, **kwargs):
         raise NotImplementedError()
 
         FIELDS = ()
@@ -263,6 +289,21 @@ class ManagedPipelineJob(Manager):
                 path_elements.append(getattr(self, field))
         # raise Exception(path_elements)
         return os.path.join(*path_elements)
+
+    def instanced_directory(self, session=None):
+        """Extend a path with an instanced directory name
+
+        Args:
+            session (str, optional): Short alphanumeric session string
+
+        Returns:
+            str: The new instance directory name
+        """
+        if session is None or len(session) < 4:
+            return identifiers.interestinganimal.generate()
+        if not session.endswith('-'):
+            session = session + '-'
+        return session + arrow.utcnow().format('YYYYMMDDTHHmmss') + 'Z'
 
     def __get_stored_doc(self, store, key, val):
         return self.stores[store].coll.find_one({key: val})

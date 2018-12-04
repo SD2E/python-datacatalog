@@ -67,6 +67,7 @@ UUIDType = AttrDict({
     'SCHEDULED_TRANSFER_EVENT': '063'
 })
 """Enumeration of known Agave UUID types"""
+
 # Source:
 # https://bitbucket.org/tacc-cic/agave-flat
 # agave-common/common-core/src/main/java/org/iplantc/service/common/uuid/UUIDType.java

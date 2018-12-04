@@ -4,7 +4,7 @@
     "properties": {
         "id": {
             "type": "string",
-            "description": "Distinct 'actor.id' for the Reactor"
+            "$ref": "abaco_actorid.json"
         },
         "repo": {
             "$ref": "container_repo.json",

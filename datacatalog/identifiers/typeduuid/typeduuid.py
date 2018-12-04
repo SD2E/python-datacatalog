@@ -14,20 +14,9 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
+from ..identifier import *
 from .. import constants
-from .datacatalog_uuidtype import UUIDTYPES
-from .identifier import *
-
-class TypedUUID(object):
-    """UUID identifying a catalog object and advertising its internal type"""
-
-    def __init__(self, *args):
-        self.key = args[0]
-        self.prefix = args[1]
-        self.title = args[2]
-
-    def __len__(self):
-        return len(self.prefix)
+from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
 
 UUIDType = dict()
 for uuidt, prefix, title in UUIDTYPES:

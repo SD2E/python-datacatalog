@@ -12,12 +12,33 @@
             "description": "Path to the job's outputs",
             "type": "string"
         },
+        "archive_resource": {
+            "description": "Resource housing this output",
+            "type": "string"
+        },
         "data": {
-            "description": "Initial run-time parameterization of the job",
+            "description": "Run-time parameterization of the job",
             "type": "object"
         },
-        "actor_id": {
-            "$ref": "abaco_actorid.json"
+        "agent": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_actorid.json"
+                },
+                {
+                    "$ref": "agave_appid.json"
+                }
+            ]
+        },
+        "task": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_execid.json"
+                },
+                {
+                    "$ref": "agave_job_uuid.json"
+                }
+            ]
         },
         "session": {
             "description": "Short alphanumeric correlation string (optional)",

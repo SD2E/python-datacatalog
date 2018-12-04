@@ -29,15 +29,15 @@ def sample_id():
 
 @pytest.fixture(scope='session')
 def manager_id():
-    return datacatalog.identifiers.abacoid.generate()
+    return datacatalog.identifiers.abaco.actorid.generate()
 
 @pytest.fixture(scope='session')
 def nonce():
-    return 'TACC_' + datacatalog.identifiers.abacoid.generate()
+    return 'TACC_' + datacatalog.identifiers.abaco.actorid.generate()
 
 @pytest.fixture(scope='session')
 def actor_id():
-    return datacatalog.identifiers.abacoid.generate()
+    return datacatalog.identifiers.abaco.actorid.generate()
 
 @pytest.fixture(scope='session')
 def session():
@@ -100,11 +100,16 @@ def test_pipesjob_no_finish_without_run(mongodb_settings, manager_id, nonce, pip
         base.finish(data={'this_data': 'is from a finish event'})
 
 def test_pipesjob_mgr_params(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, session):
-    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, actor_id=actor_id, session=session)
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, session=session)
     base.setup(data={'example_data': 'datadata'})
     base.run(data={'this_data': 'is from the "run" event'})
     assert base.session == session
-    assert base.job['actor_id'] == actor_id
+    assert base.job['agent'] == actor_id
+
+def test_pipesjob_custom_archive_path(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, session):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, session=session, archive_path='/archives')
+    base.setup(data={'example_data': 'datadata'})
+    assert base.job['archive_path'] == '/archives'
 
 @delete
 def test_pipesjob_no_cancel_after_run(mongodb_settings, manager_id, nonce, pipeline_uuid):
