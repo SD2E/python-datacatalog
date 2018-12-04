@@ -9,6 +9,7 @@ from pprint import pprint
 from .. import linkedstores
 from .. import jsonschemas
 from ..utils import dynamic_import
+from ..tenancy import current_tenant_uri
 
 # def dynamic_import(module, package='datacatalog'):
 #     return importlib.import_module(module, package=package)
@@ -23,6 +24,7 @@ class Manager(object):
     def __init__(self, mongodb, *args, **kwargs):
         # Assemble dict of stores keyed by classname
         self.stores = Manager.init_stores(mongodb)
+        self.api_server = kwargs.get('api_server', current_tenant_uri())
 
     @classmethod
     def init_stores(cls, mongodb):
