@@ -15,7 +15,7 @@ import sys
 from attrdict import AttrDict
 from pprint import pprint
 
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
+from ..basestore import LinkedStore, CatalogError, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
 
@@ -25,13 +25,15 @@ class HistoryEntry(ExtensibleAttrDict):
 
     def to_dict(self):
         return self.as_dict()
-
+class PipelineJobError(CatalogError):
+    """Error occured within scope of a PipelineJob"""
+    pass
 class PipelineJob(ExtensibleAttrDict):
     # Extend object with with event handling, state, and history management
     def __init__(self, job_document):
         super(PipelineJob, self).__init__(job_document)
         job_state = job_document.get('state', 'created').upper()
-        self.enforce_auth = True
+        # self._enforce_auth = True
         # self._job_state_machine = JobStateMachine(state=job_state)
         setattr(self, '_job_state_machine', JobStateMachine(state=job_state))
 

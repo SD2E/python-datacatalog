@@ -36,7 +36,7 @@ def test_samp_uuid_tytpe(mongodb_settings):
 def test_samp_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.sample.SampleStore(mongodb_settings)
     identifier_string = 'emerald.sample.unrepresentative-sample'
-    identifier_string_uuid = base.get_typed_uuid(identifier_string, binary=False)
+    identifier_string_uuid = base.get_typeduuid(identifier_string, binary=False)
     assert identifier_string_uuid == '10382668-9f1c-591d-b9f3-fca72a191225'
 
 def test_samp_add(mongodb_settings):

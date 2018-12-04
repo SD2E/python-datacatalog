@@ -15,7 +15,7 @@ from pprint import pprint
 from slugify import slugify
 
 from ...jsonschemas import JSONSchemaBaseObject, camel_to_snake
-from ...identifiers import typed_uuid
+from ...identifiers import typeduuid
 from ...utils import time_stamp, current_time, msec_precision
 
 class DocumentSchema(JSONSchemaBaseObject):
@@ -219,7 +219,7 @@ class DocumentSchema(JSONSchemaBaseObject):
         """
         return getattr(self, '_uuid_fields', self.TYPED_UUID_FIELD)
 
-    def get_typed_uuid(self, payload, binary=False):
+    def get_typeduuid(self, payload, binary=False):
         """Generate a UUID with the appropriate type prefix
 
         Args:
@@ -234,7 +234,7 @@ class DocumentSchema(JSONSchemaBaseObject):
             identifier_string = self.get_serialized_document(payload)
         else:
             identifier_string = str(payload)
-        new_uuid = typed_uuid.catalog_uuid(identifier_string, uuid_type=self.get_uuid_type(), binary=binary)
+        new_uuid = typeduuid.catalog_uuid(identifier_string, uuid_type=self.get_uuid_type(), binary=binary)
         # print('TYPED_UUID: {}'.format(new_uuid))
         return new_uuid
 

@@ -14,19 +14,9 @@ import uuid
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
+from ..identifier import *
 from .. import constants
-from .datacatalog_uuidtype import UUIDTYPES
-
-class TypedUUID(object):
-    """UUID identifying a catalog object and advertising its internal type"""
-
-    def __init__(self, *args):
-        self.key = args[0]
-        self.prefix = args[1]
-        self.title = args[2]
-
-    def __len__(self):
-        return len(self.prefix)
+from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
 
 UUIDType = dict()
 for uuidt, prefix, title in UUIDTYPES:
@@ -138,12 +128,12 @@ def catalog_uuid(text_value, uuid_type='generic', namespace=constants.Constants.
 
     uuidtype_tag = UUIDType[uuid_type].prefix
     new_uuid = uuid.uuid5(namespace, text_value)
-    new_typed_uuid = uuid.UUID(uuidtype_tag + new_uuid.hex[len(uuidtype_tag):])
+    new_typeduuid = uuid.UUID(uuidtype_tag + new_uuid.hex[len(uuidtype_tag):])
 
     if binary is False:
-        return str(new_typed_uuid)
+        return str(new_typeduuid)
     else:
-        return Binary(new_typed_uuid.bytes, OLD_UUID_SUBTYPE)
+        return Binary(new_typeduuid.bytes, OLD_UUID_SUBTYPE)
 
 def text_uuid_to_binary(text_uuid):
     """Convert text TypedUUID to binary form"""

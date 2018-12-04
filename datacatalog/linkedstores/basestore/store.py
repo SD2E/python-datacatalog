@@ -24,7 +24,7 @@ from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...debug_mode import debug_mode
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...tokens import generate_salt, get_token, validate_token
-from ...identifiers.typed_uuid import catalog_uuid
+from ...identifiers.typeduuid import catalog_uuid
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 from ... import tenancy
 
@@ -32,7 +32,12 @@ from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
 from .documentschema import DocumentSchema
 from .heritableschema import HeritableDocumentSchema
 
-__all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode']
+__all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode', 'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS']
+
+DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
+"""Default set of named linkages between LinkedStore documents"""
+DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_auth')
+"""Default set of keys managed by LinkedStore internal logic"""
 
 class LinkedStore(object):
     """JSON-schema informed MongoDB document store with diff-based logging.
@@ -64,18 +69,18 @@ class LinkedStore(object):
         uuid_fields (list): Ordered list of keys used to compose a typed UUID
 
     """
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
+    """Allowed linkage types for this LinkedStore"""
+    MANAGED_FIELDS = DEFAULT_MANAGED_FIELDS
+    """Fields in this LinkedStore that are managed solely by the framework"""
+    READONLY_FIELDS = LINK_FIELDS + MANAGED_FIELDS
+    """Additional fields that are read-only in this LinkedStore"""
+    UPDATE_POLICIES = ('drop', 'replace', 'merge')
+    """Set of policies for updating a LinkedStore document"""
     PROPERTIES_TEMPLATE = {'_properties': {'created_date': None, 'revision': 0, 'modified_date': None}}
     """Template for a properties subdocument"""
     TOKEN_FIELDS = ('uuid', '_admin')
     """Default set of keys used to issue update tokens"""
-    LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
-    """The set of named linkage arrays for this LinkedStore documents"""
-    MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt')
-    """Keys managed only by datacatalog-internal logic"""
-    READONLY_FIELDS = MANAGED_FIELDS + LINK_FIELDS
-    """Additional keys to be marked as read-only"""
-    UPDATE_POLICIES = ('drop', 'replace', 'merge')
-    """Set of policies for updating a document"""
     MERGE_DICT_OPTS = ('left', 'right', 'replace')
     """Set of valid strategies for merging dictionaries"""
     MERGE_LIST_OPTS = ('append', 'replace')
@@ -102,7 +107,7 @@ class LinkedStore(object):
         if isinstance(config.get('debug', None), bool):
             setattr(self, 'debug', config.get('debug'))
 
-        self.enforce_auth = False
+        self._enforce_auth = False
         """Require valid update token to edit document"""
 
         # MongoDB setup
@@ -314,7 +319,7 @@ class LinkedStore(object):
         record = self.__set_salt(record)
         return record
 
-    def get_typed_uuid(self, payload, binary=False):
+    def get_typeduuid(self, payload, binary=False):
         if isinstance(payload, dict):
             identifier_string = self.get_linearized_values(payload)
         else:
@@ -489,7 +494,7 @@ class LinkedStore(object):
 
         # Assign a Typed_UUID5 if one is not specified
         if 'uuid' not in document_dict:
-            doc_uuid = self.get_typed_uuid(document_dict, False)
+            doc_uuid = self.get_typeduuid(document_dict, False)
             document['uuid'] = doc_uuid
 
         # Attempt to fetch the record using identifiers in schema
@@ -577,7 +582,7 @@ class LinkedStore(object):
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
         # pprint(source_document)
-        if self.enforce_auth:
+        if self._enforce_auth:
             try:
                 validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
             except ValueError as verr:
@@ -644,7 +649,7 @@ class LinkedStore(object):
         # Validate record x token
         # Note: validate_token() always returns True as of 10-19-2018
         # pprint(source_document)
-        if self.enforce_auth:
+        if self._enforce_auth:
             try:
                 validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
             except ValueError as verr:
@@ -767,7 +772,7 @@ class LinkedStore(object):
             raise CatalogError('Key {} cannot be directly updated'.format(key))
         db_record = self.find_one_by_uuid(uuid)
         # Note: validate_token() always returns True as of 10-19-2018
-        if self.enforce_auth:
+        if self._enforce_auth:
             try:
                 validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
             except ValueError as verr:
@@ -807,7 +812,7 @@ class LinkedStore(object):
         else:
             # Validate record x token
             # Note: validate_token() always returns True as of 10-19-2018
-            if self.enforce_auth:
+            if self._enforce_auth:
                 try:
                     validate_token(token, db_record['_salt'], self.get_token_fields(db_record))
                 except ValueError as verr:

@@ -16,7 +16,7 @@ class HistoryEventDocument(HeritableDocumentSchema):
         udict = dict()
         for k in self.get_uuid_fields():
             udict[k] = getattr(self, k, '')
-        event_uuid = self.get_typed_uuid(udict, binary=False)
+        event_uuid = self.get_typeduuid(udict, binary=False)
         setattr(self, 'uuid', event_uuid)
         filters = getattr(self, '_filters')
         # HACK. File 'filter.json' is not inherited

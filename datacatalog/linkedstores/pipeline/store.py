@@ -27,13 +27,13 @@ class PipelineStore(SoftDelete, LinkedStore):
         super(PipelineStore, self).__init__(mongodb, config, session)
         schema = PipelineDocument(**kwargs)
         super(PipelineStore, self).update_attrs(schema)
-        self.enforce_auth = True
+        self._enforce_auth = True
         self.setup()
 
-    def get_typed_uuid(self, payload, binary=False):
+    def get_typeduuid(self, payload, binary=False):
         cplist = payload.get('components', [])
         spdoc = SerializedPipeline(cplist).to_json()
-        return super(PipelineStore, self).get_typed_uuid(spdoc, binary=binary)
+        return super(PipelineStore, self).get_typeduuid(spdoc, binary=binary)
 
 class StoreInterface(PipelineStore):
     pass

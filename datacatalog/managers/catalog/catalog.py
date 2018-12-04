@@ -9,7 +9,7 @@ from pprint import pprint
 
 from ... import linkedstores
 from ... import jsonschemas
-from ...identifiers import typed_uuid
+from ...identifiers import typeduuid
 
 def dynamic_import(module, package='datacatalog'):
     return importlib.import_module(module, package=package)
@@ -50,8 +50,8 @@ class CatalogManager(object):
         Returns:
             str: Named type of the UUID
         """
-        typed_uuid.validate(uuid)
-        return typed_uuid.get_uuidtype(uuid)
+        typeduuid.validate(uuid)
+        return typeduuid.get_uuidtype(uuid)
 
     def get_by_uuid(self, uuid):
         """Returns a LinkedStore document by UUID

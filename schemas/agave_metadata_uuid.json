@@ -1,0 +1,9 @@
+{
+    "$comment": "generated: 2018-12-04 19:01:09 +00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@37df5af",
+    "$id": "https://schema.catalog.sd2e.org/schemas/agave_metadata_uuid.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Agave API metadata UUID",
+    "pattern": "-012$",
+    "type": "string"
+}

@@ -49,6 +49,14 @@ datacatalog.filetypes.rules module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.filetypes.ruleset module
+------------------------------------
+
+.. automodule:: datacatalog.filetypes.ruleset
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.filetypes.schemas module
 ------------------------------------
 

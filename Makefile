@@ -13,6 +13,9 @@ docs: docs-autodoc
 docs-autodoc:
 	cd docs && sphinx-apidoc -H "API Reference" -M -f -o source ../datacatalog
 
+docs-clean:
+	cd docs && make clean
+
 # Release on PyPi
 release: build
 	twine upload dist/*
@@ -25,7 +28,6 @@ clean: schemas-clean docs-clean
 	rm -rf build *egg-info dist
 	find . -d -name '*__pycache__*' -exec rm -rf {} \;
 	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
-	cd docs && make clean
 
 # Run all developer environment smoketests
 developer-smoketests: smoketest-agave smoketest-config smoketest-google smoketest-mongo-local smoketest-pypi smoketest-dockerhub

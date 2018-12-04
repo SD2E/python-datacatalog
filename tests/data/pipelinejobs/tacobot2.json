@@ -1,0 +1,22 @@
+{
+    "pipeline_uuid": "106c3276-b4b8-5f48-903d-722b22b1e021",
+    "experiment_id": "experiment.uw_biofab.1111",
+    "sample_id": "sample.uw_biofab.143209/B52",
+    "measurement_id": "biofab.measurement.9000",
+    "data": {
+        "param1": "value123",
+        "param2": 123,
+        "param3": true,
+        "param4": [
+            1,
+            2,
+            3
+        ],
+        "param5": [
+            "a",
+            "b",
+            "c"
+        ]
+    },
+    "session": "unanimous-ungulate"
+}

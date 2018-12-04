@@ -10,8 +10,15 @@ import uuid
 from hashids import Hashids
 
 from .. import constants
+from ..schemas import IdentifierSchema, JSONSchemaCollection
 
-__all__ = ["generate", "validate", "mock"]
+PROPERTIES = {'id': 'hashid',
+              'title': 'Hashid',
+              'description': 'A Hashid identifier',
+              'type': 'string'}
+
+__all__ = ["generate", "validate", "mock",
+           "IdentifierSchema", "JSONSchemaCollection"]
 
 def generate():
     return get_id()
@@ -74,3 +81,12 @@ def is_hashid(identifier):
         return True
     else:
         return False
+
+def get_schemas():
+    schemas = dict()
+    doc = {'_filename': PROPERTIES['id'],
+           'description': PROPERTIES['description'],
+           'type': PROPERTIES['type']}
+    sch = IdentifierSchema(**doc).to_jsonschema()
+    schemas[PROPERTIES['id']] = sch
+    return JSONSchemaCollection(schemas)

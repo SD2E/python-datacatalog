@@ -36,7 +36,7 @@ def test_exp_uuid_tytpe(mongodb_settings):
 def test_exp_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.experiment.ExperimentStore(mongodb_settings)
     identifier_string = 'MILLER_UREY_REDUX'
-    identifier_string_uuid = base.get_typed_uuid(identifier_string, binary=False)
+    identifier_string_uuid = base.get_typeduuid(identifier_string, binary=False)
     assert identifier_string_uuid == '10239d1c-3068-57f5-9b1d-4f61a97eefa7'
 
 def test_exp_add(mongodb_settings):

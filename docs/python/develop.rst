@@ -58,7 +58,8 @@ active before most tests can be run. You can stand it up using ``make`` targets
 or via the ``docker-compose.yml`` file found in ``docker/``.
 
 .. code-block:: console
-   :caption: Start or stop testing MongoDB
+
+   :caption: Start or stop local MongoDB
 
    cd python-datacatalog
    # start the service

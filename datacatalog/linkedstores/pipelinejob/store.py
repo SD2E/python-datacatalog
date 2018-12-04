@@ -16,24 +16,23 @@ from ... import identifiers
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath
 from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
-from ..basestore import validate_token
+from ..basestore import get_token, validate_token
 
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
 from .schema import JobDocument, HistoryEventDocument
-from .job import PipelineJob
+from .job import PipelineJob, PipelineJobError
 
 class PipelineJobStore(SoftDelete, LinkedStore):
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineJobStore, self).__init__(mongodb, config, session)
+
         # setup based on schema extended properties
         schema = JobDocument(**kwargs)
         super(PipelineJobStore, self).update_attrs(schema)
-        # setattr(self, 'name', schema.get_collection())
-        # setattr(self, 'schema', schema.to_dict())
-        # setattr(self, 'identifiers', schema.get_identifiers())
-        # setattr(self, 'uuid_type', schema.get_uuid_type())
-        # setattr(self, 'uuid_fields', schema.get_uuid_fields())
+        #self._enforce_auth = True
+
         self.setup()
+        # Extend Store so it can validate the pipeline UUID
         setattr(self, 'pipes_coll', self.db['pipelines'])
 
     def create(self, job_document, **kwargs):
@@ -48,7 +47,7 @@ class PipelineJobStore(SoftDelete, LinkedStore):
             pass
 
         if 'uuid' not in job_document:
-            job_document['uuid'] = self.get_typed_uuid(job_document)
+            job_document['uuid'] = self.get_typeduuid(job_document)
         # Job object contains schema plus logic to manage event lifecycle
         # Can be materialized from a passed document or by database record
         pipe_job_document = PipelineJob(job_document).new()
@@ -66,16 +65,11 @@ class PipelineJobStore(SoftDelete, LinkedStore):
         # Token must validate
         validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
         db_job = PipelineJob(db_record).handle(event_document)
-
-        # try:
-        #     db_job.handle(event_document)
-        # except Exception as exc:
-        #     raise JobUpdateFailure('Failed to handle event', exc)
         return self.add_update_document(db_job.to_dict())
 
     def delete(self, job_uuid, token, soft=False):
         # Special kind of event
-        pass
+        return self.delete_document(job_uuid, token, soft)
 
     def history(self, job_uuid, limit=None, skip=None):
         pass

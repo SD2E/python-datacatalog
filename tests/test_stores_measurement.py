@@ -36,7 +36,7 @@ def test_meas_uuid_tytpe(mongodb_settings):
 def test_meas_issue_uuid(mongodb_settings):
     base = datacatalog.linkedstores.measurement.MeasurementStore(mongodb_settings)
     identifier_string = 'emerald.measurement.drastic-measures'
-    identifier_string_uuid = base.get_typed_uuid(identifier_string, binary=False)
+    identifier_string_uuid = base.get_typeduuid(identifier_string, binary=False)
     assert identifier_string_uuid == '10437f00-1722-5152-8e4f-683d0fba153a'
 
 def test_meas_add(mongodb_settings):
