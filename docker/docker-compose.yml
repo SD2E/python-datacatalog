@@ -16,6 +16,12 @@ services:
       - MONGODB_USERNAME=catalog
       - MONGODB_PASSWORD=catalog
       - MONGODB_DATABASE=catalog_local
+    networks:
+      mongotest:
+        aliases:
+          - catalog
 
 volumes:
   python_datacatalog:
+networks:
+  mongotest:
