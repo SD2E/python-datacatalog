@@ -40,8 +40,20 @@ def actor_id():
     return datacatalog.identifiers.abaco.actorid.generate()
 
 @pytest.fixture(scope='session')
+def exec_id():
+    return datacatalog.identifiers.abaco.execid.generate()
+
+@pytest.fixture(scope='session')
 def session():
     return datacatalog.identifiers.interestinganimal.generate(timestamp=False)
+
+@pytest.fixture(scope='session')
+def agave_app_id():
+    return 'zoomania-0.1.1'
+
+@pytest.fixture(scope='session')
+def agave_job_id():
+    return '6583653933928541720-242ac11b-0001-007'
 
 def test_pipesjob_get_stores(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
@@ -104,7 +116,20 @@ def test_pipesjob_mgr_params(mongodb_settings, manager_id, nonce, pipeline_uuid,
     base.setup(data={'example_data': 'datadata'})
     base.run(data={'this_data': 'is from the "run" event'})
     assert base.session == session
-    assert base.job['agent'] == actor_id
+    assert base.job['agent'].endswith(actor_id)
+
+def test_pipesjob_task(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, exec_id, session):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, task=exec_id, session=session)
+    base.setup(data={'example_data': 'datadata'})
+    assert base.session == session
+    assert base.job['task'].endswith(exec_id)
+
+def test_pipesjob_agave_agent_task(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, agave_app_id, agave_job_id, session):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=agave_app_id, task=agave_job_id, session=session)
+    base.setup(data={'example_data': 'datadata'})
+    base.run(data={'this_data': 'is from the "run" event'})
+    assert base.job['agent'].endswith(agave_app_id)
+    assert base.job['task'].endswith(agave_job_id)
 
 def test_pipesjob_custom_archive_path(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, session):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, session=session, archive_path='/archives')
