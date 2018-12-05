@@ -1,5 +1,6 @@
 {
     "name": "MultiTool RNAseq Pipeline",
+    "id": "jurrutia/rnaseq:0.5",
     "description": "Trims, removes rRNA, aligns, and generates QC reports for RNA-seq transcriptomics data",
     "components": [
         {

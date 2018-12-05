@@ -1,0 +1,48 @@
+{
+    "name": "Novel Chassis RNAseq Pipeline",
+    "id": "urrutia-novel_chassis_app-0.1.0",
+    "description": "Aligns with BWA to a strain specific genome and generates QC metrics for pre-processed RNA-seq data",
+    "components": [
+        {
+            "id": "urrutia-novel_chassis_app-0.1.0",
+            "inputs": {},
+            "parameters": {
+                "path_read1": "/work/projects/SD2E-Community/prod/data/uploads/transcriptic/201808/novel_chassis/r1bzc55fpurbj/A11_S11_R1_001.fastq.gz",
+                "path_read2": "/work/projects/SD2E-Community/prod/data/uploads/transcriptic/201808/novel_chassis/r1bzc55fpurbj/A11_S11_R2_001.fastq.gz",
+                "path_fasta": "/work/projects/SD2E-Community/prod/data/reference/novel_chassis/uma_refs/Strain_1_MG1655_WT.fa",
+                "path_gff": "/work/projects/SD2E-Community/prod/data/reference/novel_chassis/uma_refs/amin_genes.gff",
+                "path_interval_file": "/work/projects/SD2E-Community/prod/data/reference/novel_chassis/uma_refs/Strain_1_MG1655_WT.interval_list",
+                "path_ref_flat": "/work/projects/SD2E-Community/prod/data/reference/novel_chassis/uma_refs/modified.ecoli.MG1655.refFlat.txt",
+                "path_dict_file": "/work/projects/SD2E-Community/prod/data/reference/novel_chassis/uma_refs/Strain_1_MG1655_WT.dict",
+                "outname": "A11_Strain_1_MG1655_WT_replicate_1_time_18_hour_NC_E_coli_NAND_37C",
+                "CONTAINER_IMAGE": "sd2e/novel_chassis_app:0.1.0"
+            }
+        }
+    ],
+    "collections_level": [
+        "experiment",
+        "sample",
+        "measurement"
+    ],
+    "processing_level": [
+        "1",
+        "2"
+    ],
+    "accepts": [
+        "FASTQ",
+        "FASTA",
+        "GFF"
+    ],
+    "produces": [
+        "FASTQ",
+        "TSV",
+        "BAM",
+        "HTML",
+        "TXT",
+        "PDF",
+        "VCF",
+        "SAM",
+        "BAI",
+        "MD5"
+    ]
+}
