@@ -200,8 +200,10 @@ def read_bead_fluorescence_from_item(item, sample_doc):
 # generate a measurement id unique to this sample
 # Biofab does not have additional measurements per file, can fix to 1
 def add_measurement_id(measurement_doc, sample_doc, output_doc):
+
+    # namespace with experiment id, as sometimes the sample is shared (e.g. bead samples)
     measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(
-        ".".join([sample_doc[SampleConstants.SAMPLE_ID], "1"]), output_doc[SampleConstants.LAB])
+        ".".join([output_doc[SampleConstants.EXPERIMENT_ID], sample_doc[SampleConstants.SAMPLE_ID], "1"]), output_doc[SampleConstants.LAB])
 
 def add_measurement_group_id(measurement_doc, file, output_doc):
     # record a measurement grouping id to find other linked samples and files
@@ -458,7 +460,17 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
             else:
                 # lookup provenance not resolving, handle this top down, below
                 # (PlateReader in particular does this)
-                missing_part_of_items.add(file_source)
+                # Special case for FCS files: some plans attach these to the
+                # plate, which causes lots of issues. Skip these.
+                if type_attr in biofab_sample and biofab_sample[type_attr] == "FCS":
+                    lookup_source = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
+                    if type_attr in lookup_source and lookup_source[type_attr] == "collection":
+                        print("Skipping non-sample FCS source: {}".format(file_source))
+                    else:
+                        print("Adding non-sample FCS source: {}".format(file_source))
+                        missing_part_of_items.add(file_source)
+                else:
+                    missing_part_of_items.add(file_source)
                 continue
         else:
             part_of = item[part_of_attr]
