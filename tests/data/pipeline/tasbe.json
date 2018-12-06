@@ -5,7 +5,7 @@
         {
             "id": "EbGmvvzOamJYM",
             "repo": "index.docker.io/sd2e/fcs_etl_reactor:latest",
-            "opts": {}
+            "options": {}
         },
         {
             "id": "fcs-etl-0.4.0",
@@ -35,7 +35,9 @@
     "collections_levels": [
         "measurement"
     ],
-    "processing_levels": ["1"],
+    "processing_levels": [
+        "1"
+    ],
     "accepts": [
         "FCS",
         "JSON"
@@ -47,5 +49,6 @@
         "IPYNB+JSON",
         "PNG"
     ],
-    "pipeline_type": "primary-etl"
+    "pipeline_type": "primary-etl",
+    "id": "sd2e-tasbe-7"
 }

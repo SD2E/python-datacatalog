@@ -10,6 +10,7 @@ from .. import linkedstores
 from .. import jsonschemas
 from ..utils import dynamic_import
 from ..tenancy import current_tenant_uri
+from ..dicthelpers import data_merge
 
 # def dynamic_import(module, package='datacatalog'):
 #     return importlib.import_module(module, package=package)

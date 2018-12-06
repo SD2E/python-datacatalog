@@ -5,7 +5,7 @@ import sys
 import validators
 from pprint import pprint
 from ... import identifiers
-from ..common import Manager
+from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 
@@ -36,6 +36,9 @@ class ManagedPipelineJob(Manager):
         session (str, optional): Short alphanumeric correlation string
         task (str, optional): Abaco executionId or Agave jobId
 
+    Note:
+        One of the following must be provided: ``experiment_design_id``, ``experiment_id``, ``sample_id``, ``measurement_id``
+
     """
 
     MGR_PARAMS = [
@@ -48,14 +51,16 @@ class ManagedPipelineJob(Manager):
         ('archive_resource', False, 'archive_resource', DEFAULT_ARCHIVE_RESOURCE)]
     """Keyword parameters for job setup"""
 
-    JOB_PARAMS = [
-        ('pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by'),
-        ('sample_id', True, 'sample_id', None, 'sample', 'derived_from'),
+    JOB_PARAMS_ANY_OF = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by')]
+    """Keyword parameters for metadata linkage."""
+
+    JOB_PARAMS_ONE_OF = [
+        ('sample_id', False, 'sample_id', None, 'sample', 'derived_from'),
         ('experiment_design_id', False, 'experiment_design_id', None, 'experiment_design', 'derived_from'),
         ('experiment_id', False, 'experiment_id', None, 'experiment', 'derived_from'),
-        ('measurement_id', False, 'measurement_id', None, 'measurement', 'derived_from'),
+        ('measurement_id', False, 'measurement_id', None, 'measurement', 'derived_from')
     ]
-    """Keyword parameters for metadata linkage"""
+    """Keyword parameters for metadata linkage where none are mandatory but one must be provided."""
 
     def __init__(self, mongodb,
                  manager_id,
@@ -90,7 +95,7 @@ class ManagedPipelineJob(Manager):
         for lf in LINK_FIELDS:
             relations[lf] = list()
 
-        for param, required, key, default, store, link in self.JOB_PARAMS:
+        for param, required, key, default, store, link in self.JOB_PARAMS_ANY_OF:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
                 raise ManagedPipelineJobError('Job parameter "{}" is required'.format(param))
@@ -112,10 +117,63 @@ class ManagedPipelineJob(Manager):
         for rel, val in relations.items():
             setattr(self, rel, val)
 
-        # TODO: Validate agent and task using identifiers.*
-        # TODO: Convert agent and task to URI forms
+        count_one_of_params = 0
+        for param, required, key, default, store, link in self.JOB_PARAMS_ONE_OF:
+            kval = kwargs.get(param, None)
+            if kval is None and required is True:
+                raise ManagedPipelineJobError('Job parameter "{}" is required'.format(param))
+            else:
+                if kval is None:
+                    kval = default
 
+            if kval is not None:
+                # Validates each job param against catalog
+                resp = self.__get_stored_doc(store, key, kval)
+                if resp is None:
+                    raise ManagedPipelineJobError(
+                        'Failed to verify {}:{} exists in store {}'.format(
+                            param, kval, store))
+                else:
+                    uuidval = resp.get('uuid')
+                    setattr(self, param, uuidval)
+                    relations[link].append(uuidval)
+                    count_one_of_params = count_one_of_params + 1
+        for rel, val in relations.items():
+            setattr(self, rel, val)
+        if count_one_of_params == 0:
+            raise ManagedPipelineJobError(
+                'One of the following job parameters must be provided: {}'.format(
+                    [p[0] for p in self.JOB_PARAMS_ONE_OF]))
+
+        self.__canonicalize_agent_and_task()
         self.__set_archive_path(*args, **kwargs)
+
+    def __canonicalize_agent_and_task(self):
+        """Extend simple text ``agent`` and ``task`` into REST URIs
+        """
+        oagent = getattr(self, 'agent', None)
+        otask = getattr(self, 'task', None)
+        api = getattr(self, 'api_server')
+
+        if oagent is not None:
+            # Agave appID
+            if identifiers.agave.appid.validate(oagent, permissive=True):
+                agent = api + '/apps/v2/' + oagent
+            else:
+                # TODO: Validate abaco actorid
+                agent = api + '/actors/v2/' + oagent
+            setattr(self, 'agent', agent)
+
+        if otask is not None:
+            # TODO: Replace with identifiers.agave.uuids.validate('job', task)
+            if otask.endswith('-007'):
+                task = api + '/jobs/v2/' + otask
+            else:
+                # TODO: Validate abaco execid
+                task = api + '/actors/v2/' + oagent + '/executions/' + otask
+            setattr(self, 'task', task)
+
+        return self
 
     def setup(self, data={}):
         """Finish initializing the manager
@@ -125,7 +183,9 @@ class ManagedPipelineJob(Manager):
         Returns:
             object: ``self``
         """
-        setattr(self, 'data', data)
+        init_data = getattr(self, 'data', dict())
+        setup_data = data_merge(init_data, data)
+        setattr(self, 'data', setup_data)
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
                         'archive_resource': self.archive_resource,

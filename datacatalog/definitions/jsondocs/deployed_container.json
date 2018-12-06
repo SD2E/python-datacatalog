@@ -5,6 +5,11 @@
         "repo": {
             "$ref": "container_repo.json"
         },
+        "hostname": {
+            "type": "string",
+            "description": "DNS name of container host",
+            "format": "hostname"
+        },
         "hash": {
             "type": "string",
             "description": "Linux container image hash"
@@ -15,6 +20,7 @@
         }
     },
     "required": [
-        "repo"
+        "repo",
+        "hostname"
     ]
 }

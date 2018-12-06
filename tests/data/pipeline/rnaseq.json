@@ -1,11 +1,12 @@
 {
     "name": "MultiTool RNAseq Pipeline",
+    "id": "jurrutia/rnaseq:0.5",
     "description": "Trims, removes rRNA, aligns, and generates QC reports for RNA-seq transcriptomics data",
     "components": [
         {
             "id": "wgqobY6wgkQJQ",
             "repo": "index.docker.io/jurrutia/rnaseq_manifest_agent:0.5",
-            "opts": {}
+            "options": {}
         },
         {
             "id": "urrutia-rnaseq-0.1.4",

@@ -21,6 +21,7 @@
             "enum": [
                 "reference",
                 "challenge_problem",
+                "experiment_design",
                 "experiment",
                 "sample",
                 "measurement",
@@ -100,6 +101,10 @@
                 "*"
             ]
         },
+        "id": {
+            "description": "Unique string identifier for the pipeline.",
+            "type": "string"
+        },
         "uuid": {
             "$ref": "pipeline_uuid.json"
         },
@@ -110,7 +115,8 @@
     },
     "required": [
         "name",
-        "components"
+        "components",
+        "id"
     ],
     "additionalProperties": false,
     "_filename": "pipeline",
@@ -121,6 +127,7 @@
     "__collection": "pipelines",
     "__indexes": [],
     "__identifiers": [
-        "uuid"
+        "uuid",
+        "id"
     ]
 }

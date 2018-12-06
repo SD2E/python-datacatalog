@@ -17,12 +17,15 @@
         "user_file",
         "file"
     ],
-    "processing_levels": ["0"],
+    "processing_levels": [
+        "0"
+    ],
     "accepts": [
         "*"
     ],
     "produces": [
         "*"
     ],
-    "pipeline_type": "generic-process"
+    "pipeline_type": "generic-process",
+    "id": "manual-upload-v0.1"
 }

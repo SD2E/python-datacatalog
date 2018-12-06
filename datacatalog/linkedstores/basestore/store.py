@@ -337,6 +337,7 @@ class LinkedStore(object):
                 # print('TYPED_UUID_KEY: {}'.format(k))
                 serialized[k] = union.get(k)
         serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
+        print('TYPED_UUID_SERIALIZED_VAL:', serialized_document)
         return serialized_document
 
     def get_linearized_values(self, document, **kwargs):
@@ -350,12 +351,14 @@ class LinkedStore(object):
                 val = union.get(k, 'none')
                 try:
                     if isinstance(val, dict):
-                        val = linearize_dict(val)
+                        # print('DICT', val)
+                        val = json.dumps(val, sort_keys=True, separators=(',', ':'))
+                        print(val)
                     else:
                         val = str(val)
                     ary.append(val)
                 except Exception:
-                    pass
+                    raise
         ary = sorted(ary)
         linearized = ':'.join(ary)
         # print('TYPED_UUID_LINEARIZED_VAL:', linearized)

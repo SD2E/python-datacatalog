@@ -30,10 +30,26 @@ class PipelineStore(SoftDelete, LinkedStore):
         self._enforce_auth = True
         self.setup()
 
+    # TODO: Figure out how to patch in Pipeline.id
     def get_typeduuid(self, payload, binary=False):
+        """Pipelines-specific method for getting a UUID
+
+        Args:
+            payload (object): A list or dict containing the pipeline definition
+
+        Returns:
+            str: A UUID for this Pipeline
+        """
+        # print('PAYLOAD', payload)
+        uuid_els = list()
+        uuid_els.append(payload.get('id', 'pipeline.id'))
+
         cplist = payload.get('components', [])
         spdoc = SerializedPipeline(cplist).to_json()
-        return super(PipelineStore, self).get_typeduuid(spdoc, binary=binary)
+        uuid_els.append(spdoc)
+        uuid_target = ':'.join(uuid_els)
+        # print('UUID_TARGET', uuid_target)
+        return super(PipelineStore, self).get_typeduuid(uuid_target, binary=binary)
 
 class StoreInterface(PipelineStore):
     pass

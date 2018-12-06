@@ -21,8 +21,12 @@
             }
         }
     ],
-    "collections_levels": ["measurement"],
-    "processing_levels": ["1"],
+    "collections_levels": [
+        "measurement"
+    ],
+    "processing_levels": [
+        "1"
+    ],
     "accepts": [
         "CSV",
         "JSON"
@@ -32,5 +36,6 @@
         "PNG",
         "PDF"
     ],
-    "pipeline_type": "primary-etl"
+    "pipeline_type": "primary-etl",
+    "id": "gzynda-pyPlateCalibrate-0.0.1"
 }
