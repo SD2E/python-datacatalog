@@ -36,6 +36,9 @@ class ManagedPipelineJob(Manager):
         session (str, optional): Short alphanumeric correlation string
         task (str, optional): Abaco executionId or Agave jobId
 
+    Note:
+        One of the following must be provided: ``experiment_design_id``, ``experiment_id``, ``sample_id``, ``measurement_id``
+
     """
 
     MGR_PARAMS = [
@@ -48,14 +51,16 @@ class ManagedPipelineJob(Manager):
         ('archive_resource', False, 'archive_resource', DEFAULT_ARCHIVE_RESOURCE)]
     """Keyword parameters for job setup"""
 
-    JOB_PARAMS = [
-        ('pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by'),
-        ('sample_id', True, 'sample_id', None, 'sample', 'derived_from'),
+    JOB_PARAMS_ANY_OF = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by')]
+    """Keyword parameters for metadata linkage."""
+
+    JOB_PARAMS_ONE_OF = [
+        ('sample_id', False, 'sample_id', None, 'sample', 'derived_from'),
         ('experiment_design_id', False, 'experiment_design_id', None, 'experiment_design', 'derived_from'),
         ('experiment_id', False, 'experiment_id', None, 'experiment', 'derived_from'),
-        ('measurement_id', False, 'measurement_id', None, 'measurement', 'derived_from'),
+        ('measurement_id', False, 'measurement_id', None, 'measurement', 'derived_from')
     ]
-    """Keyword parameters for metadata linkage"""
+    """Keyword parameters for metadata linkage where none are mandatory but one must be provided."""
 
     def __init__(self, mongodb,
                  manager_id,
@@ -90,7 +95,7 @@ class ManagedPipelineJob(Manager):
         for lf in LINK_FIELDS:
             relations[lf] = list()
 
-        for param, required, key, default, store, link in self.JOB_PARAMS:
+        for param, required, key, default, store, link in self.JOB_PARAMS_ANY_OF:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
                 raise ManagedPipelineJobError('Job parameter "{}" is required'.format(param))
@@ -111,6 +116,34 @@ class ManagedPipelineJob(Manager):
                     relations[link].append(uuidval)
         for rel, val in relations.items():
             setattr(self, rel, val)
+
+        count_one_of_params = 0
+        for param, required, key, default, store, link in self.JOB_PARAMS_ONE_OF:
+            kval = kwargs.get(param, None)
+            if kval is None and required is True:
+                raise ManagedPipelineJobError('Job parameter "{}" is required'.format(param))
+            else:
+                if kval is None:
+                    kval = default
+
+            if kval is not None:
+                # Validates each job param against catalog
+                resp = self.__get_stored_doc(store, key, kval)
+                if resp is None:
+                    raise ManagedPipelineJobError(
+                        'Failed to verify {}:{} exists in store {}'.format(
+                            param, kval, store))
+                else:
+                    uuidval = resp.get('uuid')
+                    setattr(self, param, uuidval)
+                    relations[link].append(uuidval)
+                    count_one_of_params = count_one_of_params + 1
+        for rel, val in relations.items():
+            setattr(self, rel, val)
+        if count_one_of_params == 0:
+            raise ManagedPipelineJobError(
+                'One of the following job parameters must be provided: {}'.format(
+                    [p[0] for p in self.JOB_PARAMS_ONE_OF]))
 
         self.__canonicalize_agent_and_task()
         self.__set_archive_path(*args, **kwargs)

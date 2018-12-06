@@ -5,7 +5,7 @@
         {
             "id": "eqMyqq4xB1Lqa",
             "repo": "index.docker.io/tacc/tacbobot:latest",
-            "opts": {}
+            "options": {}
         },
         {
             "id": "bbq-brisket-0.5.0",

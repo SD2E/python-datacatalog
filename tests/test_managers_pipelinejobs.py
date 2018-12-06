@@ -136,6 +136,21 @@ def test_pipesjob_custom_archive_path(mongodb_settings, manager_id, nonce, pipel
     base.setup(data={'example_data': 'datadata'})
     assert base.job['archive_path'] == '/archives'
 
+@pytest.mark.parametrize("param,value,success", [('experiment_id', 'experiment.uw_biofab.17987', True),
+                                                 ('sample_id', 'sample.uw_biofab.143209/H1', True),
+                                                 ('measurement_id', 'measurement.uw_biofab.92242', True),
+                                                 ('agent', '6e87V7aqrX646', False)])
+def test_pipesjob_one_of_params(mongodb_settings, manager_id, nonce, param, value, success, pipeline_uuid):
+    doc = {'pipeline_uuid': pipeline_uuid, param: value}
+    if success is True:
+        mjob = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
+        mjob.setup()
+        assert mjob.pipeline_uuid == doc['pipeline_uuid']
+    else:
+        with pytest.raises(datacatalog.managers.pipelinejobs.store.ManagedPipelineJobError):
+            mjob = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
+            mjob.setup()
+
 @delete
 def test_pipesjob_no_cancel_after_run(mongodb_settings, manager_id, nonce, pipeline_uuid):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid)

@@ -32,7 +32,7 @@ def test_pipe_uuid_tytpe(mongodb_settings):
     base = datacatalog.linkedstores.pipeline.PipelineStore(mongodb_settings)
     assert base.get_uuid_type() == 'pipeline'
 
-def test_pipe_write(mongodb_settings):
+def test_pipe_write_create(mongodb_settings):
     base = datacatalog.linkedstores.pipeline.PipelineStore(mongodb_settings)
     for data_struct in pipeline.get_files():
         resp = base.add_update_document(data_struct['data'])
@@ -72,3 +72,17 @@ def test_pipe_delete(mongodb_settings):
     for data_struct in pipeline.get_files():
         resp = base.delete_document(data_struct['uuid'], soft=False)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}
+
+def test_pipe_serialized_classify_validate():
+    from datacatalog.linkedstores.pipeline.serializer import SerializedPipeline
+    for ctype, component in pipeline.COMPONENTS:
+        pprint(component)
+        assert SerializedPipeline.classify_component(component) == ctype
+
+
+def test_pipe_serialized_classify_examples():
+    from datacatalog.linkedstores.pipeline.serializer import SerializedPipeline
+    for data_struct in pipeline.get_files():
+        for component in data_struct['data']['components']:
+            kind = SerializedPipeline.classify_component(component)
+            assert kind is not None
