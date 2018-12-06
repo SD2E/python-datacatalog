@@ -36,10 +36,54 @@
         },
         "required": ["files"]
       },
+      "sample_attributes": {
+        "type": "object",
+        "properties": {
+          "bead_colony": {
+            "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "parent": {
+            "type": "string"
+          },
+          "replicate": {
+            "type": "integer"
+          },
+          "media": {
+            "type": "string"
+          },
+          "od": {
+            "type": "number"
+          },          
+          "timepoints": {
+            "type": "integer"
+          }
+        },
+        "required": ["files"]          
+      },
+      "design_attributes": {
+        "type": "object",
+        "properties": {
+          "media": {
+            "type": "string"
+          },
+          "strain": {
+            "type": "string"
+          }
+        }
+      },
       "sample": {
         "type": "string"
       }
     },
-    "required": ["attributes", "sample"]
+    "oneOf": [
+      { "required": ["attributes", "sample"] },
+      { "required": ["sample_attributes", "design_attributes", "sample"] }
+    ]
   }
 }
