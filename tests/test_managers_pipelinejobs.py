@@ -17,7 +17,7 @@ PARENT = os.path.dirname(HERE)
 
 @pytest.fixture(scope='session')
 def pipeline_uuid():
-    return '106c3276-b4b8-5f48-903d-722b22b1e021'
+    return '1064aaf1-459c-5e42-820d-b822aa4b3990'
 
 @pytest.fixture(scope='session')
 def experiment_id():
@@ -168,6 +168,7 @@ def test_pipesjob_cancel(mongodb_settings, manager_id, nonce, pipeline_uuid):
 def test_pipesjob_create_jobs_kwargs(mongodb_settings, manager_id, nonce):
     for struct in pipelinejobs.get_jobs():
         doc = struct['data']
+        # pprint(doc)
         if struct['valid'] is True:
             mjob = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
             mjob.setup()

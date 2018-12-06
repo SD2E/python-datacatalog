@@ -56,12 +56,17 @@ class PipelineJobStore(SoftDelete, LinkedStore):
     def handle(self, event_document, token=None, data=None, **kwargs):
         # This is a special method that takes event documents
         # and modifies the job state/history
+        job_uuid = None
         try:
             job_uuid = event_document.get('uuid')
         except KeyError:
             raise JobUpdateFailure('Cannot process an event without a job UUID')
-        passed_token = event_document.get('token', token)
+
         db_record = self.find_one_by_uuid(job_uuid)
+        if db_record is None:
+            raise UnknownJob('{} is not a valid job ID'.format(job_uuid))
+
+        passed_token = event_document.get('token', token)
         # Token must validate
         validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
         db_job = PipelineJob(db_record).handle(event_document)
@@ -87,6 +92,28 @@ class PipelineJobStore(SoftDelete, LinkedStore):
                         'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
             except Exception as exc:
                 raise Exception('Failed to validate pipeline UUID', exc)
+
+    # # TODO: Figure out how to patch in Pipeline.id
+    # def get_typeduuid(self, payload, binary=False):
+    #     """Pipeline-specific method for getting a UUID
+
+    #     Args:
+    #         payload (object): A list or dict containing the pipeline definition
+
+    #     Returns:
+    #         str: A UUID for this Pipeline
+    #     """
+    #     # print('PAYLOAD', payload)
+    #     uuid_els = list()
+    #     uuid_els.append(payload.get('pipeline_uuid', 'pipeline.id'))
+
+    #     cplist = payload.get('components', [])
+    #     spdoc = SerializedPipeline(cplist).to_json()
+    #     uuid_els.append(spdoc)
+    #     uuid_target = ':'.join(uuid_els)
+    #     # print('UUID_TARGET', uuid_target)
+    #     return super(PipelineStore, self).get_typeduuid(uuid_target, binary=binary)
+
 
 class StoreInterface(PipelineJobStore):
     pass

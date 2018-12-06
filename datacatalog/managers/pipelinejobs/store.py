@@ -5,7 +5,7 @@ import sys
 import validators
 from pprint import pprint
 from ... import identifiers
-from ..common import Manager
+from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 
@@ -183,7 +183,9 @@ class ManagedPipelineJob(Manager):
         Returns:
             object: ``self``
         """
-        setattr(self, 'data', data)
+        init_data = getattr(self, 'data', dict())
+        setup_data = data_merge(init_data, data)
+        setattr(self, 'data', setup_data)
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
                         'archive_resource': self.archive_resource,

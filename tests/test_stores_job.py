@@ -46,6 +46,13 @@ def test_handle_event(mongodb_settings, monkeypatch):
         resp = base.handle(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
+def test_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
+    monkeypatch.setenv('LOCALONLY', '1')
+    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+    for data_struct in pipelinejob.get_events_wrong_uuid():
+        with pytest.raises(datacatalog.linkedstores.pipelinejob.exceptions.UnknownJob):
+            base.handle(data_struct['data'])
+
 def test_job_write_key_ok(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_jobs():

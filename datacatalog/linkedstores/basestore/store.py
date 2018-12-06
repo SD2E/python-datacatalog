@@ -351,15 +351,17 @@ class LinkedStore(object):
                 val = union.get(k, 'none')
                 try:
                     if isinstance(val, dict):
-                        val = linearize_dict(val)
+                        # print('DICT', val)
+                        val = json.dumps(val, sort_keys=True, separators=(',', ':'))
+                        print(val)
                     else:
                         val = str(val)
                     ary.append(val)
                 except Exception:
-                    pass
+                    raise
         ary = sorted(ary)
         linearized = ':'.join(ary)
-        print('TYPED_UUID_LINEARIZED_VAL:', linearized)
+        # print('TYPED_UUID_LINEARIZED_VAL:', linearized)
         return linearized
 
     def get_diff(self, source={}, target={}, action='update'):

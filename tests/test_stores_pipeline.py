@@ -36,6 +36,7 @@ def test_pipe_write_create(mongodb_settings):
     base = datacatalog.linkedstores.pipeline.PipelineStore(mongodb_settings)
     for data_struct in pipeline.get_files():
         resp = base.add_update_document(data_struct['data'])
+        # pprint(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
 def test_pipe_write_update(mongodb_settings):
@@ -76,7 +77,7 @@ def test_pipe_delete(mongodb_settings):
 def test_pipe_serialized_classify_validate():
     from datacatalog.linkedstores.pipeline.serializer import SerializedPipeline
     for ctype, component in pipeline.COMPONENTS:
-        pprint(component)
+        # pprint(component)
         assert SerializedPipeline.classify_component(component) == ctype
 
 
