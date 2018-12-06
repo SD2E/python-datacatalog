@@ -41,6 +41,19 @@ SD2 Data Catalog
     schema/add_composition.rst
     schema/add_linkedstore.rst
 
+.. toctree::
+    :maxdepth: 1
+    :caption: Related Projects
+
+    reactors/uploads_handler.rst
+    reactors/uploads_indexer.rst
+    reactors/metadata_converter.rst
+    reactors/metadata_loader.rst
+    reactors/pipelines_manager.rst
+    reactors/pipelinejobs_manager.rst
+    reactors/pipelinejobs_products_indexer.rst
+    reactors/pipelinejobs_agave_adapter.rst
+
 
 .. .. toctree::
 ..     :maxdepth: 2
