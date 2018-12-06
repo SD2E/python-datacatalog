@@ -1,2 +1,2 @@
 from . import clients
-from .store import ManagedPipelineJob, ManagedPipelineJobError
+from .store import Manager, ManagedPipelineJob, ManagedPipelineJobError
