@@ -209,7 +209,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
             if "UWBIOFAB_22544" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif "UWBF_6390" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
 
         # replicate
