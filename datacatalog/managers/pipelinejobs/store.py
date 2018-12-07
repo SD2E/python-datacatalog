@@ -30,6 +30,7 @@ class ManagedPipelineJob(Manager):
         data (dict, optional): Arbitrary object describing the job's parameterization
         experiment_design_id (str, optional): A valid experiment design ID
         experiment_id (str, optional): A valid **experiment** ID
+        instanced (bool, optional): Whether a ``archive_path`` should be extended with a randomized session name
         measurement_id (str, optional): A valid **measurement** ID
         pipeline_uuid (str): String UUID5 for the current pipeline
         sample_id (str): A valid sample ID
@@ -65,6 +66,7 @@ class ManagedPipelineJob(Manager):
     def __init__(self, mongodb,
                  manager_id,
                  update_nonce,
+                 instanced=True,
                  *args,
                  **kwargs):
         super(ManagedPipelineJob, self).__init__(mongodb)
@@ -146,7 +148,7 @@ class ManagedPipelineJob(Manager):
                     [p[0] for p in self.JOB_PARAMS_ONE_OF]))
 
         self.__canonicalize_agent_and_task()
-        self.__set_archive_path(*args, **kwargs)
+        self.__set_archive_path(instanced, *args, **kwargs)
 
     def __canonicalize_agent_and_task(self):
         """Extend simple text ``agent`` and ``task`` into REST URIs
@@ -302,16 +304,16 @@ class ManagedPipelineJob(Manager):
             raise ManagedPipelineJobError(
                 'Cannot cancel a job once it is running. Send a "fail" event instead.')
 
-    def __set_archive_path(self, level_store='product', *args, **kwargs):
+    def __set_archive_path(self, instanced=True, level_store='product', *args, **kwargs):
 
         if 'archive_path' in kwargs:
             ap = kwargs.get('archive_path')
         else:
-            ap = self.get_archive_path(level_store, *args, **kwargs)
+            ap = self.get_archive_path(instanced, level_store, *args, **kwargs)
         setattr(self, 'archive_path', ap)
         return self
 
-    def get_archive_path(self, level_store='product', instanced=True,
+    def get_archive_path(self, instanced=True, level_store='product',
                          session=None, path=None, *args, **kwargs):
 
         # Allow user to pass `path at init time to create a custom archive_path`

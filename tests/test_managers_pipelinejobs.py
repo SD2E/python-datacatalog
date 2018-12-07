@@ -66,6 +66,16 @@ def test_pipesjob_setup(mongodb_settings, manager_id, nonce, pipeline_uuid, expe
     assert 'example_data' in base.data
     assert base.archive_path.startswith('/products')
 
+def test_pipesjob_setup_instanced(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, instanced=True)
+    base.setup(data={'example_data': 'datadata'})
+    assert base.archive_path.endswith('Z')
+
+def test_pipesjob_setup_not_instanced(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, instanced=False)
+    base.setup(data={'example_data': 'datadata'})
+    assert not base.archive_path.endswith('Z')
+
 def test_pipesjob_callback(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
     base.setup(data={'example_data': 'datadata'})
