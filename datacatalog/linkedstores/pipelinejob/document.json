@@ -12,7 +12,7 @@
             "description": "Path to the job's outputs",
             "type": "string"
         },
-        "archive_resource": {
+        "archive_system": {
             "description": "Resource housing this output",
             "type": "string"
         },

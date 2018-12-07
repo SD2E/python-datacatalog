@@ -26,7 +26,7 @@ class ManagedPipelineJob(Manager):
     Keyword Args:
         agent (str, optional): Abaco actorId or Agave appId
         archive_path (str, optional): Override automatic ``archive_path``
-        archive_resource (str, optional): Override default ``archive_resource``
+        archive_system (str, optional): Override default ``archive_system``
         data (dict, optional): Arbitrary object describing the job's parameterization
         experiment_design_id (str, optional): A valid experiment design ID
         experiment_id (str, optional): A valid **experiment** ID
@@ -48,7 +48,7 @@ class ManagedPipelineJob(Manager):
         ('data', False, 'data', {}),
         ('level_store', False, 'level_store', 'product'),
         ('archive_path', False, 'archive_path', None),
-        ('archive_resource', False, 'archive_resource', DEFAULT_ARCHIVE_RESOURCE)]
+        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM)]
     """Keyword parameters for job setup"""
 
     JOB_PARAMS_ANY_OF = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by')]
@@ -207,7 +207,7 @@ class ManagedPipelineJob(Manager):
         setattr(self, 'data', setup_data)
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
-                        'archive_resource': self.archive_resource,
+                        'archive_system': self.archive_system,
                         'data': self.data,
                         'session': self.session,
                         'agent': self.agent,
