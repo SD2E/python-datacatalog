@@ -9,7 +9,7 @@ from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 
-DEFAULT_ARCHIVE_RESOURCE = 'https://api.sd2e.org/systems/v2/data-sd2e-community'
+DEFAULT_ARCHIVE_SYSTEM = 'data-sd2e-community'
 
 class ManagedPipelineJobError(Exception):
     """An error happened in the context of a ManagedPipelineJob"""
@@ -153,27 +153,46 @@ class ManagedPipelineJob(Manager):
         """
         oagent = getattr(self, 'agent', None)
         otask = getattr(self, 'task', None)
-        api = getattr(self, 'api_server')
 
         if oagent is not None:
             # Agave appID
             if identifiers.agave.appid.validate(oagent, permissive=True):
-                agent = api + '/apps/v2/' + oagent
+                agent = self.__canonicalize_app(oagent)
             else:
                 # TODO: Validate abaco actorid
-                agent = api + '/actors/v2/' + oagent
+                agent = self.__canonicalize_actor(oagent)
             setattr(self, 'agent', agent)
 
         if otask is not None:
             # TODO: Replace with identifiers.agave.uuids.validate('job', task)
             if otask.endswith('-007'):
-                task = api + '/jobs/v2/' + otask
+                task = self.__canonicalize_app(otask)
             else:
                 # TODO: Validate abaco execid
-                task = api + '/actors/v2/' + oagent + '/executions/' + otask
+                task = self.__canonicalize_execution(oagent, otask)
             setattr(self, 'task', task)
 
         return self
+
+    def __canonicalize_actor(self, actor_id):
+        api = getattr(self, 'api_server')
+        return api + '/actors/v2/' + actor_id
+
+    def __canonicalize_execution(self, actor_id, exec_id):
+        resp = self.__canonicalize_actor(actor_id) + '/executions/' + exec_id
+        return resp
+
+    def __canonicalize_app(self, app_id):
+        api = getattr(self, 'api_server')
+        return api + '/apps/v2/' + app_id
+
+    def __canonicalize_system(self, system_id):
+        api = getattr(self, 'api_server')
+        return api + '/systems/v2/' + system_id
+
+    def __canonicalize_job(self, job_id):
+        api = getattr(self, 'api_server')
+        return api + '/jobs/v2/' + job_id
 
     def setup(self, data={}):
         """Finish initializing the manager
