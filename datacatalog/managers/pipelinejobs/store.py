@@ -159,32 +159,32 @@ class ManagedPipelineJob(Manager):
         if oagent is not None:
             # Agave appID
             if identifiers.agave.appid.validate(oagent, permissive=True):
-                agent = self.__canonicalize_app(oagent)
+                agent = self.canonicalize_app(oagent)
             else:
                 # TODO: Validate abaco actorid
-                agent = self.__canonicalize_actor(oagent)
+                agent = self.canonicalize_actor(oagent)
             setattr(self, 'agent', agent)
 
         if otask is not None:
             # TODO: Replace with identifiers.agave.uuids.validate('job', task)
             if otask.endswith('-007'):
-                task = self.__canonicalize_app(otask)
+                task = self.canonicalize_app(otask)
             else:
                 # TODO: Validate abaco execid
-                task = self.__canonicalize_execution(oagent, otask)
+                task = self.canonicalize_execution(oagent, otask)
             setattr(self, 'task', task)
 
         return self
 
-    def __canonicalize_actor(self, actor_id):
+    def canonicalize_actor(self, actor_id):
         api = getattr(self, 'api_server')
         return api + '/actors/v2/' + actor_id
 
-    def __canonicalize_execution(self, actor_id, exec_id):
-        resp = self.__canonicalize_actor(actor_id) + '/executions/' + exec_id
+    def canonicalize_execution(self, actor_id, exec_id):
+        resp = self.canonicalize_actor(actor_id) + '/executions/' + exec_id
         return resp
 
-    def __canonicalize_app(self, app_id):
+    def canonicalize_app(self, app_id):
         api = getattr(self, 'api_server')
         return api + '/apps/v2/' + app_id
 
@@ -192,7 +192,7 @@ class ManagedPipelineJob(Manager):
         api = getattr(self, 'api_server')
         return api + '/systems/v2/' + system_id
 
-    def __canonicalize_job(self, job_id):
+    def canonicalize_job(self, job_id):
         api = getattr(self, 'api_server')
         return api + '/jobs/v2/' + job_id
 
