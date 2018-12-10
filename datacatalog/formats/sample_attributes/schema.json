@@ -43,7 +43,8 @@
             "type": "string"
           },
           "files": {
-            "type": ["null", "array"],
+            "minItems": 0,
+            "type": "array",
             "items": {
               "type": "string"
             }

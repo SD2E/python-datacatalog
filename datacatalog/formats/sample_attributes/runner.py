@@ -51,7 +51,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
 
     schema = json.load(open(schema_file))
     sample_attributes_doc = json.load(open(input_file))
-
+    
     output_doc = {}
 
     output_doc[SampleConstants.SAMPLES] = []
@@ -62,7 +62,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
     exp_id_re = re.compile("agave:\/\/.*\/(.*)\/\d\/instrument_output")
 
     for sample_attributes_sample in sample_attributes_doc:
-        print("sample_attributes_sample: {}".format(sample_attributes_sample))
+        #print("sample_attributes_sample: {}".format(sample_attributes_sample))
         sample_doc = {}
         sample_doc[SampleConstants.MEASUREMENTS] = []
         
@@ -101,7 +101,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
             # determinstically derive measurement ids from sample_id + counter (local to sample)
             measurement_counter = 1
             if attr_sample_content[files_attr] is None:
-                print("**** Files is None, skipping sample: {}".format(attr_sample_content))
+                print("**** files field is None, skipping sample: {}".format(attr_sample_content))
                 continue
             
             for file in attr_sample_content[files_attr]:
