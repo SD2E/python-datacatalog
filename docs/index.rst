@@ -43,57 +43,10 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: Related Projects
+    :caption: Supporting Projects
 
-    reactors/uploads_handler.rst
-    reactors/uploads_indexer.rst
-    reactors/metadata_converter.rst
-    reactors/metadata_loader.rst
-    reactors/pipelines_manager.rst
-    reactors/pipelinejobs_manager.rst
-    reactors/pipelinejobs_products_indexer.rst
-    reactors/pipelinejobs_agave_adapter.rst
-
-
-.. .. toctree::
-..     :maxdepth: 2
-..     :caption: Develop
-
-..     python/index
-..     schema/index
-
-.. .. toctree::
-..    :maxdepth: 2
-..    :caption: End Users
-
-..    user.rst
-..    howto/index.rst
-
-.. ..    pipelines/index.rst
-.. ..    pipelines/pipelines.rst
-.. ..    pipelines/jobs.rst
-.. ..    pipelines/reactor.rst
-.. ..    pipelines/dashboard.rst
-..    source/datacatalog.rst
-
-.. .. toctree::
-..    :maxdepth: 2
-..    :caption: Developers
-
-..    developer.rst
-..    database/index.rst
-..    services/index.rst
-..    python/index.rst
-..    pipelines/index.rst
-..    pipelines/jobs.rst
-
-.. .. toctree::
-..    :maxdepth: 2
-..    :caption: Supplemental Material
-
-..    reactors/index.rst
-..    schema/index.rst
-
+    reactors/index.rst
+    dashboards/index.rst
 
 .. Indices and tables
 .. ==================
