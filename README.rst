@@ -8,22 +8,18 @@ Python-DataCatalog
 .. image:: https://travis-ci.org/SD2E/python-datacatalog.svg?branch=master
     :target: https://travis-ci.org/SD2E/python-datacatalog
 
-.. image:: https://readthedocs.org/projects/sd2-data-catalog/badge/?version=latest
-    :target: https://sd2-data-catalog.readthedocs.io/
+.. image:: https://readthedocs.org/projects/python-datacatalog/badge/?version=latest
+    :target: http://docs.catalog.sd2e.org/en/latest/
 
 .. image:: https://img.shields.io/pypi/l/Django.svg
     :target: https://travis-ci.org/SD2E/python-datacatalog/master/LICENSE
 
-**Python package implementing core Data Catalog business logic***
+**Python package containing core business logic and helper utilities for Data Catalog***
 
-Software projects using this package:
+Resources
+---------
 
-- https://github.com/SD2E/pipeline-jobs-manager
-- https://github.com/SD2E/pipelines-manager
-- https://github.com/SD2E/demo-jobs-enabled-reactor
-- https://github.com/SD2E/demo-jobs-enabled-reactor
+- `PyPi <https://pypi.org/project/datacatalog/>`_
+- `Docs <http://docs.catalog.sd2e.org/en/latest/>`_
+- `Schemas <https://schema.catalog.sd2e.org/>`_
 
-Usage
-=====
-
-_More information is forthcoming._
