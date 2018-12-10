@@ -1,9 +1,12 @@
 Pipelines Manager
 =================
 
+Manages enrollment of and updates to Pipeline definitions.
+
 Resources
 ---------
 
-- Source: `Github Mirror <https://github.com/SD2E/pipelines-manager>`_
-- Docs: NA
-- Tutorials: NA
+- `Docs <https://sd2e.github.io/pipelines-manager/>`_
+- `Source (Github Mirror) <https://github.com/SD2E/pipelines-manager.git>`_
+- Tutorials
+

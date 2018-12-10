@@ -1,9 +1,11 @@
 Samples Metadata Loader
 =======================
 
+Loads a file in Sample-Set schema into the Data Catalog
+
 Resources
 ---------
 
-- Source: `Github Mirror <https://github.com/SD2E/samples-metadata-loader>`_
-- Docs: NA
-- Tutorials: NA
+- `Docs <https://sd2e.github.io/metadata-loader/>`_
+- `Source (Github Mirror) <https://github.com/SD2E/metadata-loader.git>`_
+- Tutorials
