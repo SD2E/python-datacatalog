@@ -96,11 +96,14 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
                         measurement_group_ids[SampleConstants.MT_PLATE_READER] = id
                     elif type == "flow_cytometry":
                         measurement_group_ids[SampleConstants.MT_FLOW] = id
-                        
-                     
+
         if len(attr_matches)>0 and files_attr in attr_sample_content:
             # determinstically derive measurement ids from sample_id + counter (local to sample)
-            measurement_counter = 1            
+            measurement_counter = 1
+            if attr_sample_content[files_attr] is None:
+                print("**** Files is None, skipping sample: {}".format(attr_sample_content))
+                continue
+            
             for file in attr_sample_content[files_attr]:
                 
                 exp_match = exp_id_re.match(file)
@@ -114,7 +117,6 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
                     
                     # CP mapping
                     if "yeast-gates" in file and SampleConstants.CHALLENGE_PROBLEM not in output_doc:
-    #                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_GATES
                         # provide this manually
                         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "Yeast-Gates"
 
