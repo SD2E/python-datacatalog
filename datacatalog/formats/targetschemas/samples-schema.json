@@ -387,6 +387,7 @@
                     "enum": [
                         "FLOW",
                         "RNA_SEQ",
+                        "DNA_SEQ",
                         "PLATE_READER",
                         "PROTEOMICS",
                         "EXPERIMENTAL_DESIGN",
@@ -453,7 +454,9 @@
                         "PLAIN",
                         "MZML",
                         "MSF",
-                        "AB1"
+                        "AB1",
+                        "BAI",
+                        "BAM"
                     ]
                 },
                 "lab_label": {

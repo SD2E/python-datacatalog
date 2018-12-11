@@ -50,7 +50,21 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
 
-    for ginkgo_sample in ginkgo_doc:
+    if "experimental_reference" in ginkgo_doc:
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = ginkgo_doc["experimental_reference"]
+        map_experiment_reference(config, output_doc)
+
+    if "internal_workflow_id" in ginkgo_doc:
+        list_of_wf_ids = ginkgo_doc["internal_workflow_id"]
+        experiment_id = '.'.join(str(wf_id) for wf_id in list_of_wf_ids)
+        output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(experiment_id, lab)
+
+    if "samples" in ginkgo_doc:
+        ginkgo_iterator = ginkgo_doc["samples"]
+    else:
+        ginkgo_iterator = ginkgo_doc
+
+    for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         #sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab)
@@ -76,6 +90,12 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain["name"], strain["id"], lab, sbh_query, strain=True)
             # TODO multiple strains?
             continue
+
+        if "molecule" in ginkgo_sample["content"]:
+            for molecule in ginkgo_sample["content"]["molecule"]:
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=True)
+                # TODO multiple strains?
+                continue
 
         props = ginkgo_sample["properties"]
 
@@ -200,6 +220,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 measurement_type = SampleConstants.MT_PLATE_READER
             elif assay_type == "Global Proteomics":
                 measurement_type = SampleConstants.MT_PROTEOMICS
+            elif assay_type == "NGS (Genome)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
 
@@ -288,11 +310,11 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
 
             file_counter = 1
             for key in measurement_props["dataset_files"].keys():
-                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
-
                 if key == "processed":
                     for processed in measurement_props["dataset_files"]["processed"]:
                         for sub_processed in processed:
+                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+
                             file_type = SampleConstants.infer_file_type(sub_processed)
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_processed,
@@ -300,9 +322,12 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
                                  SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                            file_counter = file_counter + 1
                 elif key == "raw":
                     for raw in measurement_props["dataset_files"]["raw"]:
                         for sub_raw in raw:
+                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+
                             file_type = SampleConstants.infer_file_type(sub_raw)
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_raw,
@@ -310,10 +335,9 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                                  SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                            file_counter = file_counter + 1
                 else:
                     raise ValueError("Unknown measurement type: {}".format(key))
-
-                file_counter = file_counter + 1
 
             if SampleConstants.MEASUREMENTS not in sample_doc:
                 sample_doc[SampleConstants.MEASUREMENTS] = []
@@ -325,7 +349,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.MEASUREMENTS] = []
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
-    print('Samples in file: {}'.format(len(ginkgo_doc)))
+    print('Samples in file: {}'.format(len(ginkgo_iterator)))
     print('Samples with data: {}'.format(samples_w_data))
 
     try:
