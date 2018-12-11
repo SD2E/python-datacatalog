@@ -93,8 +93,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
 
         if "molecule" in ginkgo_sample["content"]:
             for molecule in ginkgo_sample["content"]["molecule"]:
-                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=True)
-                # TODO multiple strains?
+                sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
+                # TODO multiple genetic constructs?
                 continue
 
         props = ginkgo_sample["properties"]
