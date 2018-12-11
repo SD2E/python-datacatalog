@@ -60,6 +60,7 @@ class SampleConstants():
     SAMPLE_ID = "sample_id"
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
+    GENETIC_CONSTRUCT = "genetic_construct"
     CONTENTS = "contents"
     INDUCER = "inducer"
     MEDIA = "media"
