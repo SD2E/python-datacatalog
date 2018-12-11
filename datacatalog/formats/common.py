@@ -29,6 +29,10 @@ class SampleConstants():
             return SampleConstants.F_TYPE_MSF
         elif file_name.endswith("ab1"):
             return SampleConstants.F_TYPE_AB1
+        elif file_name.endswith("bai"):
+            return SampleConstants.F_TYPE_BAI
+        elif file_name.endswith("bam"):
+            return SampleConstants.F_TYPE_BAM
         else:
             raise ValueError("Could not parse FT: {}".format(file_name))
 
@@ -115,6 +119,7 @@ class SampleConstants():
     MEASUREMENT_LIBRARY_PREP_NORMAL = "NORMAL"
     MEASUREMENT_LIBRARY_PREP_MINIATURIZED = "MINIATURIZED"
     MT_RNA_SEQ = "RNA_SEQ"
+    MT_DNA_SEQ = "DNA_SEQ"
     MT_FLOW = "FLOW"
     MT_SEQUENCING_CHROMATOGRAM = "SEQUENCING_CHROMATOGRAM"
     MT_EXPERIMENTAL_DESIGN = "EXPERIMENTAL_DESIGN"
@@ -138,6 +143,8 @@ class SampleConstants():
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
     F_TYPE_AB1 = "AB1"
+    F_TYPE_BAI = "BAI"
+    F_TYPE_BAM = "BAM"
 
 design_table = None
 challenge_table = None
