@@ -9,6 +9,14 @@ datacatalog.identifiers.typeduuid package
 Submodules
 ----------
 
+datacatalog.identifiers.typeduuid.convert module
+------------------------------------------------
+
+.. automodule:: datacatalog.identifiers.typeduuid.convert
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.identifiers.typeduuid.schemas module
 ------------------------------------------------
 
