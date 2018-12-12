@@ -13,8 +13,15 @@ CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-def test_job_db(mongodb_settings):
+def test_job_db_init(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+    assert base is not None
+
+def test_job_db_heritable_schema(mongodb_settings):
+    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+    assert 'archive_path' in base.get_indexes()
+    # exclude via NEVER_INDEX_FIELDS
+    assert 'data' not in base.get_indexes()
 
 def test_job_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)

@@ -87,6 +87,8 @@ class LinkedStore(object):
     """Set of valid strategies for merging lists"""
     LINKAGE_POLICIES = ('extend', 'replace')
     """Set of valid strategies for updating document linkages"""
+    NEVER_INDEX_FIELDS = ('data')
+    """Fields that should never be indexed"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         self._tenant = tenancy.current_tenant()
@@ -196,21 +198,27 @@ class LinkedStore(object):
         UNIQUE_INDEXES = getattr(self, 'identifiers')
         LINKAGE_INDEXES = self.LINK_FIELDS
         OTHER_INDEXES = getattr(self, 'otherindexes')
-        ALL_INDEXES = [UNIQUE_INDEXES, LINKAGE_INDEXES, OTHER_INDEXES]
+        ALL_INDEXES = list()
         try:
             # Build indexes for the identifiers, where uniqueness is enforced
             for field in UNIQUE_INDEXES:
-                self.coll.create_index([(field, ASCENDING)], unique=True)
+                if field not in self.NEVER_INDEX_FIELDS:
+                    self.coll.create_index([(field, ASCENDING)], unique=True)
+                    ALL_INDEXES.append(field)
             # Create array indexes for linkage fields
-            for link in LINKAGE_INDEXES:
-                self.coll.create_index([(link, ASCENDING)])
+            for field in LINKAGE_INDEXES:
+                if field not in self.NEVER_INDEX_FIELDS:
+                    self.coll.create_index([(field, ASCENDING)])
+                    ALL_INDEXES.append(field)
             # Create simple indexes on the non-redundant list of fields from
             # schema.__indexes and schema.required, excluding fields
             # marked as identifiers or uuid-contributing fields
             for field in OTHER_INDEXES:
-                self.coll.create_index([(field, ASCENDING)])
+                if field not in self.NEVER_INDEX_FIELDS:
+                    self.coll.create_index([(field, ASCENDING)])
+                    ALL_INDEXES.append(field)
             # Contains names of all indexed fields - useful for validation
-            setattr(self, '_indexes', list(set().union(*ALL_INDEXES)))
+            setattr(self, '_indexes', list(set(ALL_INDEXES)))
         except Exception as exc:
             raise CatalogError(
                 'Failed to set indexes on {}'.format(self.name), exc)
