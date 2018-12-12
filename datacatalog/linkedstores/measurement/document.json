@@ -73,7 +73,9 @@
         "measurement_id"
     ],
     "__collection": "measurements",
-    "__indexes": [],
+    "__indexes": [
+        "measurement_type"
+    ],
     "__identifiers": [
         "uuid",
         "measurement_id"

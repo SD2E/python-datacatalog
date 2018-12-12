@@ -137,6 +137,9 @@ class LinkedStore(object):
         self.identifiers = None
         """List of identifying keys for this LinkedStore
         """
+        self.otherindexes = None
+        """Indexed fields defined in document.json
+        """
         self.name = None
         """Human-readable name of the LinkedStore schema
         """
@@ -147,7 +150,7 @@ class LinkedStore(object):
         """List of keys that are rolled into the document's UUID
         """
 
-        schema = DocumentSchema(**kwargs)
+        schema = HeritableDocumentSchema(**kwargs)
         self.update_attrs(schema)
 
         # FIXME Integration with Agave configurations can be improved
@@ -170,8 +173,17 @@ class LinkedStore(object):
         setattr(self, 'document_schema', schema.to_dict(document=True))
         setattr(self, 'schema_name', schema.get_filename())
         setattr(self, 'identifiers', schema.get_identifiers())
-        setattr(self, 'uuid_type', schema.get_uuid_type())
+        setattr(self, 'required', schema.get_required())
         setattr(self, 'uuid_fields', schema.get_uuid_fields())
+        setattr(self, 'uuid_type', schema.get_uuid_type())
+
+        otherindexes = schema.get_indexes()
+        otherindexes.extend(getattr(self, 'identifiers'))
+        otherindexes.extend(getattr(self, 'required'))
+        otherindexes = sorted(list(
+            set(otherindexes) - set(getattr(self, 'identifiers'))))
+        # sys.exit(0)
+        setattr(self, 'otherindexes', otherindexes)
         return self
 
     def setup(self):
@@ -179,17 +191,41 @@ class LinkedStore(object):
         setattr(self, 'db', db_connection(self._mongodb))
         setattr(self, 'coll', self.db[self.name])
         setattr(self, 'logcoll', self.db['updates'])
-        if self.coll is not None:
-            try:
-                self.coll.create_index([('uuid', ASCENDING)], unique=True)
-                self.coll.create_index([('child_of', ASCENDING)])
-            except Exception as exc:
-                raise CatalogError(
-                    'Failed to set index on {}.uuid'.format(self.name), exc)
+
+        # Index on identifiers must be unique
+        UNIQUE_INDEXES = getattr(self, 'identifiers')
+        LINKAGE_INDEXES = self.LINK_FIELDS
+        OTHER_INDEXES = getattr(self, 'otherindexes')
+        ALL_INDEXES = [UNIQUE_INDEXES, LINKAGE_INDEXES, OTHER_INDEXES]
+        try:
+            # Build indexes for the identifiers, where uniqueness is enforced
+            for field in UNIQUE_INDEXES:
+                self.coll.create_index([(field, ASCENDING)], unique=True)
+            # Create array indexes for linkage fields
+            for link in LINKAGE_INDEXES:
+                self.coll.create_index([(link, ASCENDING)])
+            # Create simple indexes on the non-redundant list of fields from
+            # schema.__indexes and schema.required, excluding fields
+            # marked as identifiers or uuid-contributing fields
+            for field in OTHER_INDEXES:
+                self.coll.create_index([(field, ASCENDING)])
+            # Contains names of all indexed fields - useful for validation
+            setattr(self, '_indexes', list(set().union(*ALL_INDEXES)))
+        except Exception as exc:
+            raise CatalogError(
+                'Failed to set indexes on {}'.format(self.name), exc)
 
     def get_identifiers(self):
         """Returns names of keys whose values will be distinct"""
         return getattr(self, 'identifiers')
+
+    def get_indexes(self):
+        """Returns names of all fields indexed in this store"""
+        return getattr(self, '_indexes')
+
+    def get_required(self):
+        """Returns names of keys required by this document class"""
+        return getattr(self, 'required')
 
     def get_uuid_type(self):
         """Returns UUID type for docuemnts managed by this LinkedStore"""
@@ -337,7 +373,7 @@ class LinkedStore(object):
                 # print('TYPED_UUID_KEY: {}'.format(k))
                 serialized[k] = union.get(k)
         serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
-        print('TYPED_UUID_SERIALIZED_VAL:', serialized_document)
+        # print('TYPED_UUID_SERIALIZED_VAL:', serialized_document)
         return serialized_document
 
     def get_linearized_values(self, document, **kwargs):

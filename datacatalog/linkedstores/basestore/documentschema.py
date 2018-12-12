@@ -123,8 +123,8 @@ class DocumentSchema(JSONSchemaBaseObject):
 
         When a LinkedStore's schema is rendered, its relationship with other
         datacatalog-managed schemas is established via a common base URL. The
-        basename of the URI that is embedded in the `$id` field of the schema
-        is defined in `__filename` in the extended JSON schema document and
+        basename of the URI that is embedded in the ``$id`` field of the schema
+        is defined in ``__filename`` in the extended JSON schema document and
         is returned by this method.
 
         Returns:
@@ -137,17 +137,17 @@ class DocumentSchema(JSONSchemaBaseObject):
             return fn + '_document'
 
     def update_id(self, document=False):
-        """Update the `id` field in the JSON schema
+        """Update the ``id`` field in the JSON schema
 
         This method is used solely to let us differentiate object- from
         document-form JSON schemas by incorporating a specific string
-        into the schema's `id` field.
+        into the schema's ``id`` field.
 
         Args:
             document (bool): Whether the schema is a document schema
 
         Returns:
-            string: The updated value for schema `id`
+            string: The updated value for schema ``id``
         """
         temp_fname = getattr(self, '_filename')
         if self._snake_case:
@@ -164,7 +164,7 @@ class DocumentSchema(JSONSchemaBaseObject):
     def get_identifiers(self):
         """Returns the list of top-level keys that are identifiers
 
-        In the extended-form schema, `__identifiers` describes which keys
+        In the extended-form schema, ``__identifiers`` describes which keys
         can be used to uniquely identify documents written using this schema:
 
         Returns:
@@ -176,7 +176,7 @@ class DocumentSchema(JSONSchemaBaseObject):
     def get_indexes(self):
         """Returns the list of indexes declared for documents of this schema
 
-        In the extended-form schema, `__indexes` declare the indexing strategy
+        In the extended-form schema, ``__indexes`` declare the indexing strategy
         for documents written using this schema.
 
         Returns:
@@ -184,6 +184,17 @@ class DocumentSchema(JSONSchemaBaseObject):
 
         """
         return getattr(self, '_indexes', [])
+
+    def get_required(self):
+        """Returns the list of required fields
+
+        This is defined by ``__required`` in extended-form schema.
+
+        Returns:
+            list: The list of indexes declared for this schema
+
+        """
+        return getattr(self, 'required', [])
 
     def get_collection(self):
         """Returns the name of the MongoDB containing documents with this schema
@@ -223,11 +234,14 @@ class DocumentSchema(JSONSchemaBaseObject):
         """Generate a UUID with the appropriate type prefix
 
         Args:
-            payload (str/dict): If `payload` is string, the UUID is generated directly from it. Otherwise, it is serialized before being used to generate the UUID.
-            binary (bool, optional): Whether to return a Binary-encoded UUID. Defaults to `False`.
+            payload (str/dict): If ``payload`` is string, the UUID is generated
+            directly from it. Otherwise, it is serialized before being used to
+            generate the UUID.
+            binary (bool, optional): Whether to return a Binary-encoded UUID.
+            Defaults to `False`.
 
         Returns:
-            str: A string validates as UUID5 but also includes a 3-digit typing prefix
+            str: A string validating as UUID5 with a 3-character typing prefix
         """
         # print('TYPED_UUID_PAYLOAD: {}'.format(payload))
         if isinstance(payload, dict):
@@ -250,7 +264,7 @@ class DocumentSchema(JSONSchemaBaseObject):
             document (object): A dict or list object to serialize
 
         Returns:
-            str: JSON serialized and minified representation of `document`
+            str: JSON serialized and minified representation of ``document``
         """
         # Serialize values of specific keys to generate a UUID
         union = {**document, **kwargs}
@@ -260,7 +274,8 @@ class DocumentSchema(JSONSchemaBaseObject):
             if k in uuid_fields:
                 # print('TYPED_UUID_KEY: {}'.format(k))
                 serialized[k] = union.get(k)
-        serialized_document = json.dumps(serialized, indent=0, sort_keys=True, separators=(',', ':'))
+        serialized_document = json.dumps(serialized, indent=0, sort_keys=True,
+                                         separators=(',', ':'))
         return serialized_document
 
     @classmethod
