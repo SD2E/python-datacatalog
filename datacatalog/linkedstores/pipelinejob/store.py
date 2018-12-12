@@ -23,6 +23,9 @@ from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
 
 class PipelineJobStore(SoftDelete, LinkedStore):
+    NEVER_INDEX_FIELDS = ('data')
+    """Fields that should never be indexed"""
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineJobStore, self).__init__(mongodb, config, session)
 
