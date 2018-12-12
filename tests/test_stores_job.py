@@ -39,14 +39,14 @@ def test_job_create(mongodb_settings, monkeypatch):
         resp = base.create(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_handle_event(mongodb_settings, monkeypatch):
+def test_job_handle_event_ok(mongodb_settings, monkeypatch):
     monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events():
         resp = base.handle(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
+def test_job_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
     monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events_wrong_uuid():

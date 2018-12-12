@@ -36,6 +36,7 @@ class HeritableDocumentSchema(DocumentSchema):
         try:
             modfile = inspect.getfile(self.__class__)
             schemafile = os.path.join(os.path.dirname(modfile), document)
+            # print('HERITABLESCHEMA', schemafile)
             schemaj = json.load(open(schemafile, 'r'))
             if inheritance is True:
                 parent_modfile = inspect.getfile(self.__class__.__bases__[0])

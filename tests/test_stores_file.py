@@ -14,8 +14,14 @@ from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data import file
 
-def test_files_db(mongodb_settings):
+def test_files_db_init(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
+    assert base is not None
+
+def test_file_db_heritable_schema(mongodb_settings):
+    base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
+    assert 'name' in base.get_indexes()
+    assert 'title' not in base.get_indexes()
 
 def test_files_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)

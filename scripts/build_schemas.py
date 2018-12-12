@@ -1,13 +1,22 @@
 import os
 import sys
+import copy
+import json
+import jsondiff
 import tempfile
 import argparse
+import logging
 from jinja2 import Template
+from pprint import pprint
 import datacatalog
 
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
 PARENT = os.path.dirname(THIS)
+
+# create logger with 'spam_application'
+logging.basicConfig(level=logging.DEBUG)
+
 INDEX_FILENAME = 'schemas.html'
 
 INDEX = '''\
@@ -26,6 +35,62 @@ INDEX = '''\
 </html>
 '''
 
+
+def load_schema_string(schema_string):
+    """Load a schema into a dict from a string
+
+    Args:
+        schema_string (str): JSON schema in string format
+
+    Returns:
+        dict: JSONschema in ``dict`` form
+    """
+    try:
+        schema = json.loads(schema_string)
+        return schema
+    except Exception:
+        logging.warning('Unable to load schema from string')
+        return dict()
+
+def load_schema_file(schema_fname):
+    """Load a schema into a dict from a file
+
+    Args:
+        schema_fname (str): Relative path to a schema file
+
+    Returns:
+        dict: JSONschema in ``dict`` form
+    """
+    try:
+        j = open(schema_fname, 'r')
+        schema = json.load(j)
+        return schema
+    except Exception:
+        logging.warning('Unable to load %s from disk', schema_fname)
+        return dict()
+
+def compare_schemas(old, new):
+    """Compare two schemas for differences, ignoring comments
+
+    Args:
+        old (dict): JSONschema in ``dict`` form
+        new (dict): JSONschema in ``dict`` form
+
+    Returns:
+        bool: Whether the schemas differ materially
+    """
+    old1 = copy.deepcopy(old)
+    new1 = copy.deepcopy(new)
+    del old1['$comment']
+    del new1['$comment']
+    diff = jsondiff.diff(old1, new1, marshal=True)
+    diff_json = json.dumps(diff, separators=(',', ':'))
+    if len(list(diff.keys())) > 0:
+        logging.info('Differences found: {}'.format(diff_json))
+        return True
+    else:
+        return False
+
 def regenerate(filters=None):
 
     template = Template(INDEX)
@@ -38,10 +103,21 @@ def regenerate(filters=None):
 
     for fname, schema in datacatalog.jsonschemas.get_all_schemas(filters).items():
         destpath = os.path.join(DESTDIR, fname + '.json')
-        with open(destpath, 'w+') as j:
-            j.write(schema)
+
+        logging.info('Regenerating %s', fname)
+
+        if compare_schemas(
+                load_schema_file(destpath), load_schema_string(schema)):
+            with open(destpath, 'w+') as j:
+                j.write(schema)
+        else:
+            logging.debug('%s did not change', fname + '.json')
+
+        # Populate the index file even if the schema was not updated
+        # TODO - Display the title and comment from each schema
         elements.append({'href': fname + '.json', 'caption': fname + '.json'})
 
+    logging.info('Building index %s', INDEX_FILENAME)
     elements = sorted(elements, key=lambda k: k['caption'])
     template.render(navigation=elements)
     idxdestpath = os.path.join(DESTDIR, INDEX_FILENAME)
@@ -51,6 +127,7 @@ def regenerate(filters=None):
     return True
 
 def main():
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--filter", help="Comma-separated list of JSONschema packages")
     args = parser.parse_args()

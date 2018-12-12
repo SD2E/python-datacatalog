@@ -116,7 +116,9 @@
     "__uuid_fields": [
         "sample_id"
     ],
-    "__indexes": [],
+    "__indexes": [
+        "contents"
+    ],
     "__identifiers": [
         "uuid",
         "sample_id"

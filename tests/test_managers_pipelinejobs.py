@@ -86,11 +86,24 @@ def test_pipesjob_run(mongodb_settings, manager_id, nonce, pipeline_uuid, experi
     base.setup(data={'example_data': 'datadata'})
     base.run(data={'this_data': 'is from the "run" event'})
 
+def test_pipesjob_run_resource(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
+    base.setup(data={'example_data': 'datadata'})
+    base.run(data={'this_data': 'is from the "run" event'})
+    base.resource(data={'this_data': 'is from the "resource" event'})
+
 def test_pipesjob_update(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
     base.setup(data={'example_data': 'datadata'})
     base.run(data={'this_data': 'is from the "run" event'})
     base.update(data={'this_data': 'is from an update event'})
+
+def test_pipesjob_run_update_resource(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
+    base.setup(data={'example_data': 'datadata'})
+    base.run(data={'this_data': 'is from the "run" event'})
+    base.update(data={'this_data': 'is from an update event'})
+    base.resource(data={'this_data': 'is from the "resource" event'})
 
 def test_pipesjob_fail(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
