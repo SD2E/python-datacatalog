@@ -346,10 +346,14 @@ class LinkedStore(object):
     def __set_admin(self, record):
         # Stubbed-in support for multitenancy, projects, and ownership
         if '_admin' not in record:
-            record['_admin'] = {'owner': self._owner,
-                                'project': self._project,
-                                'tenant': self._tenant}
+            record['_admin'] = self.admin_template()
         return record
+
+    def admin_template(self):
+        template = {'owner': self._owner,
+                    'project': self._project,
+                    'tenant': self._tenant}
+        return template
 
     def __set_salt(self, record):
         # Stubbed-in support for update token
