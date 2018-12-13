@@ -15,7 +15,7 @@ from pprint import pprint
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
-from ..identifier import *
+from ..identifier import random_string, Identifier
 from .. import constants
 from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
 
@@ -44,7 +44,7 @@ def validate_type(type_string, permissive=False):
         else:
             return False
 
-def generate(text_value=None, uuid_type=None, binary=True):
+def generate(text_value=None, uuid_type=None, binary=False):
     """Generate a TypedUUID of a specific type from a string
 
     Args:
@@ -55,8 +55,8 @@ def generate(text_value=None, uuid_type=None, binary=True):
         str: String representation of the generated UUID
     """
     if text_value is None:
-        text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, uuid_type, binary)
+        text_value = random_string(size=128)
+    return catalog_uuid(text_value, uuid_type)
 
 def random_uuid5(binary=True):
     """Generate a random TypedUUID

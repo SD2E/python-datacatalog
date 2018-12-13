@@ -9,3 +9,5 @@ from . import abaco
 from . import agave
 from . import typeduuid
 from . import interestinganimal
+
+from .identifier import random_string

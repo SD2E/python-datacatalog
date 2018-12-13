@@ -1,6 +1,8 @@
+import random
+import string
 
 __all__ = ['IdentifierFactory', 'Identifier', 'InvalidIdentifierValue',
-           'InvalidIdentifierType']
+           'InvalidIdentifierType', 'random_string']
 
 class InvalidIdentifierValue(ValueError):
     pass
@@ -41,3 +43,6 @@ class IdentifierFactory(object):
                 return False
             else:
                 raise InvalidIdentifierType("Identifier must be a string")
+
+def random_string(size=64, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
