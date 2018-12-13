@@ -81,8 +81,16 @@ def compare_schemas(old, new):
     """
     old1 = copy.deepcopy(old)
     new1 = copy.deepcopy(new)
-    del old1['$comment']
-    del new1['$comment']
+
+    try:
+        del old1['$comment']
+    except KeyError:
+        pass
+    try:
+        del new1['$comment']
+    except KeyError:
+        pass
+
     diff = jsondiff.diff(old1, new1, marshal=True)
     diff_json = json.dumps(diff, separators=(',', ':'))
     if len(list(diff.keys())) > 0:
