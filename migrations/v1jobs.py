@@ -79,6 +79,11 @@ def main(args):
 
         logging.info('UUID %s remapped to %s', ouuid, nuuid)
 
+        # Don't overwrite previously migrated jobs
+        if v2_stores['pipelinejob'].coll.find_one({'uuid': nuuid}) is not None:
+            logging.critical('Destination job exists. Skipping.')
+            continue
+
         job_doc['uuid'] = nuuid
         job_doc['archive_path'] = os.path.join('/', job['path'])
         job_doc['archive_system'] = 'data-sd2e-community'
@@ -145,6 +150,9 @@ def main(args):
         job_doc = v2_stores['pipelinejob'].set_private_keys(
             job_doc, source=SELF)
 
+        if args.verbose:
+            pprint(job_doc)
+
         resp = v2_stores['pipelinejob'].coll.insert_one(job_doc)
         logging.debug('Inserted document {}'.format(
             resp.inserted_id))
@@ -153,5 +161,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--db1", help="Database holding v1 schema documents")
     parser.add_argument("--db2", help="Database holding v2 schema documents")
+    parser.add_argument("-v",
+                        help="Verbose output",
+                        action='store_true',
+                        dest='verbose')
     args = parser.parse_args()
     main(args)
