@@ -2,6 +2,7 @@ import binascii
 import datetime
 import filetype
 import hashlib
+import xxhash
 import os
 import sys
 from pprint import pprint
@@ -17,6 +18,10 @@ class FixityIndexer(object):
     """Chunk size for computing checksum"""
     DEFAULT_SIZE = -1
     """Default size in bytes when it cannot be determined"""
+    XXHASH32_SEED = 2573985330
+    """Seed for xxHash 32-bit fingerprinting"""
+    XXHASH64_SEED = 3759046909696704950
+    """Seed for xxHash 64-bit fingerprinting"""
 
     __PARAMS = [('name', 'name', False, None),
                 ('version', 'version', False, 0),
@@ -25,6 +30,7 @@ class FixityIndexer(object):
                 ('modified', 'modified', True, None),
                 ('size', 'size', True, None),
                 ('checksum', 'checksum', True, None),
+                ('fingerprint', 'fingerprint', True, None),
                 ('level', 'level', False, None),
                 ('uuid', 'uuid', False, None),
                 ('child_of', 'child_of', False, []),
@@ -55,6 +61,7 @@ class FixityIndexer(object):
                     if new_value != old_value:
                         setattr(self, '_updated', True)
                     setattr(self, attr, new_value)
+                    # print('ATTR', key, attr, new_value)
                 except Exception as exc:
                     pprint(exc)
 
@@ -90,8 +97,20 @@ class FixityIndexer(object):
         Returns:
             str: Hexadecimal checksum for the file
         """
-        # TODO Implement other methods since this is gonna get slow
         cksum = self.__checksum_sha256(file)
+        return cksum
+
+    def get_fingerprint(self, file, algorithm='xxh64'):
+        """Compute fast fingerprint for indexing target
+
+        Args:
+            file (str): Absolute path to the file
+            algorithm (str, optional): Fingerprint algorithm to use
+
+        Returns:
+            str: Hexadecimal checksum for the file
+        """
+        cksum = FixityIndexer.checksum_xxhash(file)
         return cksum
 
     def get_created(self, file):
@@ -146,7 +165,14 @@ class FixityIndexer(object):
         return msec_precision(datetime.datetime.fromtimestamp(t))
 
     def __checksum_sha256(self, file):
-        """Returns sha256 checksum for a file"""
+        """Compute sha256 checksum for a file
+
+        Args:
+            file(str): Path to file
+
+        Returns:
+            str: Current digest as a hexadecial string
+        """
         if not os.path.isfile(file):
             return None
         try:
@@ -156,4 +182,38 @@ class FixityIndexer(object):
                     hash_sha.update(chunk)
             return hash_sha.hexdigest()
         except Exception as exc:
-            raise OSError('Failed to compute checksum for {}'.format(file), exc)
+            raise OSError('Failed to compute sha256 for {}'.format(file), exc)
+
+    @classmethod
+    def checksum_xxhash(cls, file, return_type='int'):
+        """Compute xxhash digest for a file
+
+        Args:
+            file (str): Path to file
+            return_type (str, optional): Type of digest to return [``str``, ``int``]
+
+        Returns:
+            int64: Current digest as an integer
+
+        Note:
+            See https://cyan4973.github.io/xxHash/ for details on xxHash
+        """
+        if not os.path.isfile(file):
+            return None
+        try:
+            hash_xxhash = xxhash.xxh64(seed=cls.XXHASH64_SEED)
+            with open(file, "rb") as f:
+                for chunk in iter(lambda: f.read(cls.CHECKSUM_BLOCKSIZE), b""):
+                    hash_xxhash.update(chunk)
+            if return_type == 'int':
+                # Note: xxh64 generates an unsigned 64bit integer, but
+                # Mongo can only store int64. We solve this by converting
+                # to int64 by subtracting the max size for int64
+                digest = hash_xxhash.intdigest() - sys.maxsize
+                # print('TYPE.xxHASH', type(digest))
+                # print('VAL.xxHash', str(digest))
+                return digest
+            elif return_type == 'str':
+                return hash_xxhash.hexdigest()
+        except Exception as exc:
+            raise OSError('Failed to compute xxh64 for {}'.format(file), exc)
