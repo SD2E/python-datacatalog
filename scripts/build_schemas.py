@@ -106,12 +106,16 @@ def regenerate(filters=None):
 
         logging.info('Regenerating %s', fname)
 
-        if compare_schemas(
-                load_schema_file(destpath), load_schema_string(schema)):
+        if os.environ.get('MAKETESTS', None) is None:
+            if compare_schemas(
+                    load_schema_file(destpath), load_schema_string(schema)):
+                with open(destpath, 'w+') as j:
+                    j.write(schema)
+            else:
+                logging.debug('%s did not change', fname + '.json')
+        else:
             with open(destpath, 'w+') as j:
                 j.write(schema)
-        else:
-            logging.debug('%s did not change', fname + '.json')
 
         # Populate the index file even if the schema was not updated
         # TODO - Display the title and comment from each schema
