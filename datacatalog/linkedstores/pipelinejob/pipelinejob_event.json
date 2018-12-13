@@ -6,11 +6,11 @@
     "properties": {
         "name": {
             "description": "Enumerated name of the event",
-            "$ref": "pipelinejob_event_uuid.json"
+            "$ref": "pipelinejob_eventname.json"
         },
         "uuid": {
             "description": "UUID for this specific event",
-            "$ref": "pipelinejob_event.json",
+            "$ref": "pipelinejob_event_uuid.json",
             "$comment": "Computed automatically"
         },
         "date": {
