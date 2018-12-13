@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2018-12-13 18:37:31 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c5fde06",
     "$id": "https://schema.catalog.sd2e.org/schemas/fixity_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Fixity record for an uploaded or generated file",
+    "description": "Fixity record for a file",
     "properties": {
         "_admin": {
             "owner": {
@@ -55,12 +55,13 @@
             "type": "object"
         },
         "_visible": {
-            "description": "Whether the file has been marked as unavailable",
+            "description": "Whether the file is marked as unavailable",
             "type": "boolean",
             "value": true
         },
         "checksum": {
             "$comment": "Computed automatically",
+            "description": "sha-256 checksum of the file",
             "type": "string"
         },
         "child_of": {
@@ -98,6 +99,11 @@
             },
             "type": "array"
         },
+        "fingerprint": {
+            "$comment": "Computed automatically",
+            "description": "xxHash64 fingerprint of the file",
+            "type": "integer"
+        },
         "generated_by": {
             "items": {
                 "anyOf": [
@@ -127,12 +133,13 @@
         },
         "size": {
             "$comment": "Computed automatically",
+            "description": "File size in bytes",
             "type": "integer"
         },
         "type": {
             "$comment": "Computed automatically",
             "$ref": "filetype_label.json",
-            "description": "Enumerated file type"
+            "description": "Detected file type"
         },
         "uuid": {
             "$ref": "file_uuid.json"

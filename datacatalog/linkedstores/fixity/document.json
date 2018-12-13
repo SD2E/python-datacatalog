@@ -1,7 +1,7 @@
 {
     "additionalProperties": false,
     "title": "FileFixity",
-    "description": "Fixity record for an uploaded or generated file",
+    "description": "Fixity record for a file",
     "properties": {
         "uuid": {
             "$ref": "file_uuid.json"
@@ -15,7 +15,7 @@
             "type": "string"
         },
         "type": {
-            "description": "Enumerated file type",
+            "description": "Detected file type",
             "$ref": "filetype_label.json",
             "$comment": "Computed automatically"
         },
@@ -35,15 +35,23 @@
         },
         "checksum": {
             "type": "string",
+            "description": "sha-256 checksum of the file",
+            "$comment": "Computed automatically"
+        },
+        "fingerprint": {
+            "type": "integer",
+            "description": "xxHash64 fingerprint of the file",
             "$comment": "Computed automatically"
         },
         "size": {
             "type": "integer",
+            "description": "File size in bytes",
             "$comment": "Computed automatically"
         },
         "_visible": {
-            "description": "Whether the file has been marked as unavailable",
-            "type": "boolean"
+            "description": "Whether the file is marked as unavailable",
+            "type": "boolean",
+            "value": true
         },
         "child_of": {
             "items": {
@@ -93,11 +101,14 @@
     "type": "object",
     "_filename": "fixity",
     "__collection": "fixities",
-    "__uuid_type": "file",
+    "__uuid_type": "fixity",
     "__uuid_fields": [
         "name"
     ],
-    "__indexes": [],
+    "__indexes": [
+        "fingerprint",
+        "checksum"
+    ],
     "__identifiers": [
         "uuid",
         "name"
