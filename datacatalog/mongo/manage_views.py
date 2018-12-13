@@ -2,10 +2,20 @@ import pymongo
 import pprint
 import json
 import urllib
+"""
 
+Methods for managing views:
 
-def createView(idb, view_name, viewOn_table, pipeline_json):
-    idb.command('create', view_name, viewOn=viewOn_table, pipeline=pipeline_json)
+createView(idb, view_name, view_definition) - creates a view in the idb database
+getView(idb,view_name) - gets the json representation of the view from the DB 
+drop(view(idb,view_name) - drops the view (has to be a view)
+
+"""
+
+def createView(idb, view_name, view_defnition):
+    viewOn=view_definition["view_on"]
+    pipeline=view_definition["pipeline"]
+    idb.command('create', view_name, viewOn=viewOn, pipeline=pipeline)
 
 def getView(idb,view_name):
     return idb.command('listCollections', filter={'name':view_name,'type':"view"})
@@ -22,7 +32,9 @@ def test(db):
 
     viewName="testview_do_not_use"
     viewon_table="science_view"
-    viewjson_text="""[{"$project": {"challenge_problem": "$challenge_problem",
+    viewjson_text="""{
+      "view_on":viewon_table,
+      "pipeline":[{"$project": {"challenge_problem": "$challenge_problem",
         "experiment_reference_url": "$experiment.experiment_reference_url",
         "experiment_reference": "$experiment.experiment_reference",
         "experiment_id": "$experiment.experiment_id",
@@ -58,10 +70,10 @@ def test(db):
         "timepoint": "$measurement.timepoint",
         "normalization": "$file.attributes.normalization",
         "library_prep": "$file.attributes.library_prep"}}]"""
-
+    
     pprint.pprint(getView(db,viewName))
 
-    createView(db,viewName,viewon_table,json.loads(viewjson_text))
+    createView(db,viewName,json.loads(viewjson_text))
 
     pprint.pprint(getView(db,viewName))
 
