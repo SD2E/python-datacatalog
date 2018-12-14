@@ -13,6 +13,7 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
+from ...identifiers.typeduuid import catalog_uuid
 from ...pathmappings import normalize, abspath, relativize
 from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
 from .schema import FixityDocument
@@ -41,24 +42,30 @@ class FixityStore(LinkedStore):
             filename (str): Agave-canonical absolute path to the target file
 
         Returns:
-            dict: The LinkedStore document containing fixity details
+            dict: A LinkedStore document containing fixity details
         """
         self.name = filename
         self.abs_filename = abspath(filename)
-        file_uuid = self.get_typeduuid(self.name)
+        fixity_uuid = self.get_typeduuid(self.name)
+        # This is used below to establish that this fixity record is derived
+        # from a specific, known file
+        file_uuid = catalog_uuid(self.name, uuid_type='file')
 
-        db_record = self.coll.find_one({'uuid': file_uuid})
+        db_record = self.coll.find_one({'uuid': fixity_uuid})
         if db_record is None:
             # FIXME Find how to automate production of this template from schema
             db_record = {'name': filename,
-                         'uuid': file_uuid,
+                         'uuid': fixity_uuid,
                          'version': 0,
                          'child_of': [],
                          'generated_by': [],
-                         'derived_from': []}
+                         'derived_from': [file_uuid]}
 
-        indexer = FixityIndexer(self.name, schema=self.schema, **db_record).sync()
+        indexer = FixityIndexer(
+            self.name, schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
+        # print('FIXITYRECORD')
+        # pprint(fixity_record)
 
         # lift over private keys to new document
         for key, value in db_record.items():
@@ -67,7 +74,7 @@ class FixityStore(LinkedStore):
         # Now, update (or init) those same private keys
         fixity_record = self.set_private_keys(fixity_record, indexer.updated())
 
-        resp = self.add_update_document(fixity_record, file_uuid, token=None)
+        resp = self.add_update_document(fixity_record, fixity_uuid, token=None)
         return resp
 
 class StoreInterface(FixityStore):

@@ -36,6 +36,7 @@ class ChallengeStore(LinkedStore):
         schema = ChallengeDocument(**kwargs)
         super(ChallengeStore, self).update_attrs(schema)
         self.setup()
+        # sys.exit(0)
 
 class StoreInterface(ChallengeStore):
     pass

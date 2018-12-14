@@ -3,7 +3,7 @@ from .. import typeduuid
 
 def test_create():
     m = typeduuid.catalog_uuid('abdefgh', 'generic', binary=False)
-    assert m.startswith(typeduuid.UUIDType['generic'].prefix)
+    assert m.startswith(typeduuid.uuidtypes['generic'].prefix)
 
 def test_classify_text_uuid():
     m = typeduuid.catalog_uuid('abdefgh', 'generic', binary=False)

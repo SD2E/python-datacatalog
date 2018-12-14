@@ -244,6 +244,23 @@ class ManagedPipelineJob(Manager):
         setattr(self, 'cancelable', False)
         return self.job
 
+    def resource(self, data={}):
+        """Process an **resource** event
+
+        Args: data (dict, optional): Value for job data to store with the event
+
+        Returns:
+            object: ``self``
+        """
+        self.job = self.stores['pipelinejob'].handle({
+            'name': 'resource',
+            'uuid': self.uuid,
+            'token': self.token,
+            'data': data})
+
+        setattr(self, 'cancelable', False)
+        return self.job
+
     def update(self, data={}):
         """Process an **update** event
 

@@ -2,6 +2,9 @@ PYTEST_OPTS ?= ""
 PYTEST_SRC ?= tests/
 PYTEST_RUN_OPTS ?= -s -vvv
 
+# <empty> -staging or -production
+BOOTSTRAP_ENV ?=
+
 all: build
 
 # Generic all docs
@@ -57,12 +60,12 @@ smoketest-dockerhub:
 challenge_problems:
 	python -m scripts.build_challenge_problems
 
-experiment_designs: challenge_problems
+experiment_designs:
 	python -m scripts.build_experiment_designs
 
 # Regenerates the schema tree, including a sync w Google
 .PHONY: schemas
-schemas: experiment_designs schemas-build schemas-validate
+schemas: challenge_problems experiment_designs schemas-build schemas-validate
 
 # Generate new build of ../schemas/
 schemas-build:
@@ -108,3 +111,21 @@ tests:
 # Test detection of lab trace formats
 tests-formats-classify:
 	python -m pytest $(PYTEST_RUN_OPTS) -k "formats_classify" $(PYTEST_SRC)
+
+# This is a set of targets to bring up a fresh catalog defined by the code repo
+
+bootstrap: bootstrap-database bootstrap-challenge-problems bootstrap-experiment-designs bootstrap-views bootstrap-schemas
+
+bootstrap-database:
+	python -m bootstrap.create_database $(BOOTSTRAP_ENV)
+
+bootstrap-challenge-problems: challenge_problems
+bootstrap-experiment-designs: experiment_designs
+
+bootstrap-pipelines:
+	#python -m bootstrap.manage_pipelines
+
+bootstrap-views:
+	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
+
+bootstrap-schemas: schemas-build

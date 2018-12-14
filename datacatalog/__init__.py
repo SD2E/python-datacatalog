@@ -22,5 +22,6 @@ from . import mongo
 from . import pathmappings
 from . import tenancy
 from . import utils
+from . import views
 
 name = "datacatalog"

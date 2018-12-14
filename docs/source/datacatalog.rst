@@ -24,6 +24,7 @@ Subpackages
     datacatalog.stores
     datacatalog.tenancy
     datacatalog.tokens
+    datacatalog.views
 
 Submodules
 ----------

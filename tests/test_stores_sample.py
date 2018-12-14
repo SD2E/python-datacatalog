@@ -14,8 +14,13 @@ from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data import sample
 
-def test_samp_db(mongodb_settings):
+def test_samp_db_init(mongodb_settings):
     base = datacatalog.linkedstores.sample.SampleStore(mongodb_settings)
+
+def test_samp_db_heritable_schema(mongodb_settings):
+    base = datacatalog.linkedstores.sample.SampleStore(mongodb_settings)
+    assert 'contents' in base.get_indexes()
+    assert 'title' not in base.get_indexes()
 
 def test_samp_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.sample.SampleStore(mongodb_settings)

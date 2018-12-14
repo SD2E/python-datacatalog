@@ -13,8 +13,15 @@ CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-def test_job_db(mongodb_settings):
+def test_job_db_init(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+    assert base is not None
+
+def test_job_db_heritable_schema(mongodb_settings):
+    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+    assert 'archive_path' in base.get_indexes()
+    # exclude via NEVER_INDEX_FIELDS
+    assert 'data' not in base.get_indexes()
 
 def test_job_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
@@ -39,14 +46,14 @@ def test_job_create(mongodb_settings, monkeypatch):
         resp = base.create(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_handle_event(mongodb_settings, monkeypatch):
+def test_job_handle_event_ok(mongodb_settings, monkeypatch):
     monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events():
         resp = base.handle(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
+def test_job_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
     monkeypatch.setenv('LOCALONLY', '1')
     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events_wrong_uuid():

@@ -14,7 +14,8 @@ UUIDTYPES = [('generic', '100', 'Catalog Object'),
              ('upload', '111', 'Uploaded File'),
              ('dashboard', '113', 'Redash Dashboard'),
              ('experiment_design', '114', 'Experiment Design'),
-             ('input_classifier', '115', 'Input File Classifier')]
+             ('input_classifier', '115', 'Input File Classifier'),
+             ('fixity', '116', 'File Fixity Entry')]
 
 class TypedUUID(object):
     """UUID identifying a catalog object and advertising its internal type"""

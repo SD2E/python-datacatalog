@@ -15,6 +15,7 @@ import sys
 from attrdict import AttrDict
 from pprint import pprint
 
+from ...identifiers.typeduuid import generate as generate_uuid
 from ..basestore import LinkedStore, CatalogError, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
@@ -55,7 +56,8 @@ class PipelineJob(ExtensibleAttrDict):
         # Extend job history
         new_hist = {'date': HistoryEventDocument.time_stamp(),
                     'data': event.get('data', None),
-                    'name': event.get('name')}
+                    'name': event.get('name'),
+                    'uuid': generate_uuid(uuid_type='pipelinejob_event')}
         hdoc = HistoryEntry(new_hist).to_dict()
         history = getattr(self, 'history', [])
         history.append(hdoc)

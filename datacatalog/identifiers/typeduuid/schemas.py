@@ -1,13 +1,11 @@
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...utils import dynamic_import
 from ..schemas import IdentifierSchema
-from .typeduuid import UUIDType, TypedCatalogUUID
-
-MODULES = ('appid', 'uuids')
+from .typeduuid import uuidtypes, TypedCatalogUUID
 
 def get_schemas():
     schemas = dict()
-    for key, uuidt in UUIDType.items():
+    for key, uuidt in uuidtypes.items():
         setup_args = {'_filename': key.title(),
                       'title': uuidt.title + ' UUID',
                       'prefix': uuidt.prefix}

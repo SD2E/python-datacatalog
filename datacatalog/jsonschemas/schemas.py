@@ -25,7 +25,13 @@ UNMANAGED_SCHEMAS = ['formats']
 # object, primitive, and unmanaged schemas
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 
-SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS, COMPOSED_SCHEMAS]
+# Read-only virtual collections
+VIEW_SCHEMAS = ['views']
+
+SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS,
+           COMPOSED_SCHEMAS, VIEW_SCHEMAS]
+
+# SCHEMAS = [COMPOSED_SCHEMAS, VIEW_SCHEMAS]
 
 class JSONSchemaCollection(dict):
     """Collection of schemas indexed by key"""
@@ -51,7 +57,7 @@ def get_all_schemas(filters=[]):
         if isinstance(filters, list) and filters != []:
             if pkg not in filters:
                 continue
-        # print('SCHEMA: {}'.format(pkg))
+        print('SCHEMA: {}'.format(pkg))
         m = dynamic_import('.' + pkg + '.schemas')
         package_schemas = m.get_schemas()
         schemata = {**schemata, **package_schemas}

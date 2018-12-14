@@ -79,5 +79,6 @@
         "SAMPLES",
         "CSV"
     ],
-    "pipeline_type": "metadata-management"
+    "pipeline_type": "metadata-management",
+    "id": "metadata-capture-0.0.1"
 }

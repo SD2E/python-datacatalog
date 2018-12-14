@@ -23,6 +23,7 @@ class JobStateMachine(Machine):
         {'trigger': 'create', 'source': 'CREATED', 'dest': 'CREATED'},
         {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
         {'trigger': 'update', 'source': ['RUNNING'], 'dest': '='},
+        {'trigger': 'resource', 'source': ['CREATED', 'RUNNING'], 'dest': '='},
         {'trigger': 'fail', 'source': '*', 'dest': 'FAILED'},
         {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
         {'trigger': 'validate', 'source': 'FINISHED', 'dest': 'VALIDATING'},
