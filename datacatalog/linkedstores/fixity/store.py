@@ -14,7 +14,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
-from ...pathmappings import normalize, abspath, relativize
+from ...pathmappings import normalize, abspath, relativize, normpath
 from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
 from .schema import FixityDocument
 from .indexer import FixityIndexer
@@ -44,8 +44,8 @@ class FixityStore(LinkedStore):
         Returns:
             dict: A LinkedStore document containing fixity details
         """
-        self.name = filename
-        self.abs_filename = abspath(filename)
+        self.name = normpath(filename)
+        self.abs_filename = abspath(self.name)
         fixity_uuid = self.get_typeduuid(self.name)
         # This is used below to establish that this fixity record is derived
         # from a specific, known file
@@ -76,6 +76,16 @@ class FixityStore(LinkedStore):
 
         resp = self.add_update_document(fixity_record, fixity_uuid, token=None)
         return resp
+
+    def get_typeduuid(self, payload, binary=False):
+        identifier_string = None
+        if isinstance(payload, dict):
+            if 'name' in payload:
+                payload['name'] = normpath(payload['name'])
+            identifier_string = self.get_linearized_values(payload)
+        else:
+            identifier_string = normpath(str(payload))
+        return super().get_typeduuid(identifier_string, binary)
 
 class StoreInterface(FixityStore):
     pass

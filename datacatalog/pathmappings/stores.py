@@ -18,6 +18,9 @@ def normalize(filepath):
         filepath = filepath[1:]
     return filepath
 
+def normpath(filepath):
+    return os.path.normpath(filepath)
+
 def abspath(filepath, validate=False):
     # Resolve the native POSIX path for a given managed file path
     normalized_filepath = normalize(filepath)

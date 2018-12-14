@@ -49,6 +49,14 @@ def test_fixity_checksum(monkeypatch, mongodb_settings):
         resp = fixity_store.index(fname)
         assert resp['checksum'] == cksum
 
+@pytest.mark.parametrize("filename,fuuid", [
+    ('/uploads/science-results.xlsx', '1166d16b-4c87-5ead-a25a-60ae90b527fb'),
+    ('/uploads//science-results.xlsx', '1166d16b-4c87-5ead-a25a-60ae90b527fb')])
+def test_fixity_normpath(mongodb_settings, filename, fuuid):
+    base = datacatalog.linkedstores.fixity.FixityStore(mongodb_settings)
+    identifier_string_uuid = base.get_typeduuid(filename, binary=False)
+    assert identifier_string_uuid == fuuid
+
 @delete
 def test_delete_fixity(mongodb_settings):
     fixity_store = datacatalog.linkedstores.fixity.FixityStore(mongodb_settings)
