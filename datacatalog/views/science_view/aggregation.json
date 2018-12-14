@@ -1,0 +1,75 @@
+{
+    "view_on": "challenges",
+    "pipeline": [
+        {
+            "$lookup": {
+                "as": "experiment",
+                "foreignField": "child_of",
+                "from": "experiments",
+                "localField": "uuid"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "as": "sample",
+                "foreignField": "child_of",
+                "from": "samples",
+                "localField": "experiment.uuid"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$sample",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "as": "measurement",
+                "foreignField": "child_of",
+                "from": "measurements",
+                "localField": "sample.uuid"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$measurement",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "as": "file",
+                "foreignField": "child_of",
+                "from": "files",
+                "localField": "measurement.uuid"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$file",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "as": "agave_path",
+                "foreignField": "level",
+                "from": "agave_path",
+                "localField": "file.level"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$agave_path",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}
