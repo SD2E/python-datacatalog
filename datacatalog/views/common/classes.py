@@ -64,7 +64,8 @@ class MongoViewDocument(DocumentSchema):
         return self
 
     def get_aggregation(self):
-        if self.is_indexable():
+        agg = getattr(self, '_aggregation')
+        if agg != dict():
             return getattr(self, '_aggregation')
         else:
             raise NotImplementedError(

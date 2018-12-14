@@ -1,16 +1,7 @@
-import json
-import os
-import sys
-from pprint import pprint
 
+from pprint import pprint
 from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ..utils import dynamic_import
-
-HERE = os.path.abspath(__file__)
-PARENT = os.path.dirname(HERE)
-
-class ViewSchema(JSONSchemaBaseObject):
-    pass
 
 def get_schemas():
     """Return all definition sub-schema(s)
