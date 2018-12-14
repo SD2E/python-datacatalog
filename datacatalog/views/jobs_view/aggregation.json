@@ -2,14 +2,18 @@
     "view_on": "pipelines",
     "pipeline": [
         {
-            "from": "jobs",
-            "localField": "uuid",
-            "foreignField": "pipeline_uuid",
-            "as": "job"
+            "$lookup": {
+                "from": "jobs",
+                "localField": "uuid",
+                "foreignField": "pipeline_uuid",
+                "as": "job"
+            }
         },
         {
-            "path": "$job",
-            "preserveNullAndEmptyArrays": false
+            "$unwind": {
+                "path": "$job",
+                "preserveNullAndEmptyArrays": false
+            }
         }
     ]
 }

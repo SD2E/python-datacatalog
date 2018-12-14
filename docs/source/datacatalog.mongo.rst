@@ -17,6 +17,14 @@ datacatalog.mongo.encodeauthn module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.mongo.manage\_views module
+--------------------------------------
+
+.. automodule:: datacatalog.mongo.manage_views
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.mongo.mongo module
 ------------------------------
 

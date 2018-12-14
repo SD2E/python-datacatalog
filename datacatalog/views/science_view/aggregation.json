@@ -3,10 +3,24 @@
     "pipeline": [
         {
             "$lookup": {
-                "as": "experiment",
+                "from": "experiment_designs",
+                "localField": "uuid",
                 "foreignField": "child_of",
+                "as": "experiment_design"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment_design",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
                 "from": "experiments",
-                "localField": "uuid"
+                "localField": "experiment_design.uuid",
+                "foreignField": "child_of",
+                "as": "experiment"
             }
         },
         {
@@ -17,10 +31,10 @@
         },
         {
             "$lookup": {
-                "as": "sample",
-                "foreignField": "child_of",
                 "from": "samples",
-                "localField": "experiment.uuid"
+                "localField": "experiment.uuid",
+                "foreignField": "child_of",
+                "as": "sample"
             }
         },
         {
@@ -31,10 +45,10 @@
         },
         {
             "$lookup": {
-                "as": "measurement",
-                "foreignField": "child_of",
                 "from": "measurements",
-                "localField": "sample.uuid"
+                "localField": "sample.uuid",
+                "foreignField": "child_of",
+                "as": "measurement"
             }
         },
         {
@@ -45,29 +59,15 @@
         },
         {
             "$lookup": {
-                "as": "file",
-                "foreignField": "child_of",
                 "from": "files",
-                "localField": "measurement.uuid"
+                "localField": "measurement.uuid",
+                "foreignField": "child_of",
+                "as": "file"
             }
         },
         {
             "$unwind": {
                 "path": "$file",
-                "preserveNullAndEmptyArrays": false
-            }
-        },
-        {
-            "$lookup": {
-                "as": "agave_path",
-                "foreignField": "level",
-                "from": "agave_path",
-                "localField": "file.level"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$agave_path",
                 "preserveNullAndEmptyArrays": false
             }
         }

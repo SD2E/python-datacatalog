@@ -2,6 +2,9 @@ PYTEST_OPTS ?= ""
 PYTEST_SRC ?= tests/
 PYTEST_RUN_OPTS ?= -s -vvv
 
+# <empty> -staging or -production
+BOOTSTRAP_ENV ?=
+
 all: build
 
 # Generic all docs
@@ -114,7 +117,7 @@ tests-formats-classify:
 bootstrap: bootstrap-database bootstrap-challenge-problems bootstrap-experiment-designs bootstrap-views bootstrap-schemas
 
 bootstrap-database:
-	python -m bootstrap.create_database
+	python -m bootstrap.create_database $(BOOTSTRAP_ENV)
 
 bootstrap-challenge-problems: challenge_problems
 bootstrap-experiment-designs: experiment_designs
@@ -123,6 +126,6 @@ bootstrap-pipelines:
 	#python -m bootstrap.manage_pipelines
 
 bootstrap-views:
-	#python -m bootstrap.manage_views
+	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
 
 bootstrap-schemas: schemas-build
