@@ -1,6 +1,8 @@
 from ..common import MongoAggregation, MongoViewDocument
 
 class ScienceTableDocument(MongoViewDocument):
+    """Represents a document from the science_table view"""
+
     _index = True
 
     def __init__(self, inheritance=False, **kwargs):
@@ -10,4 +12,5 @@ class ScienceTableDocument(MongoViewDocument):
         self.update_id()
 
 class ViewDocumentInterface(ScienceTableDocument):
+    """Generic interface to ScienceTableDocument"""
     pass

@@ -4,7 +4,7 @@ from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ..utils import dynamic_import
 
 def get_schemas():
-    """Return all definition sub-schema(s)
+    """Return all view sub-schema(s)
 
     Returns:
         JSONSchemaCollection: One or more schemas
@@ -25,20 +25,3 @@ def get_schemas():
                 pass
 
     return JSONSchemaCollection(schemas)
-
-# def get_aggregations():
-#     """Return all definition sub-schema(s)
-
-#     Returns:
-#         JSONSchemaCollection: One or more schemas
-#     """
-#     mod = dynamic_import('datacatalog.views')
-#     for meth in dir(mod):
-#         if not meth.startswith('_'):
-#             try:
-#                 pkg = dynamic_import('datacatalog.views.' + meth + '.schemas')
-#                 pprint(pkg.get_schemas())
-#             except ModuleNotFoundError:
-#                 pass
-#             except NotImplementedError:
-#                 print('{} is not indexable'.format(meth))

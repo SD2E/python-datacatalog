@@ -2,8 +2,9 @@
 # aggregation auto-discovery to work
 from .classes import MongoViewDocument as Doc
 from ...jsonschemas.schemas import JSONSchemaCollection
+from . import mongodb_view_name
 
-__all__ = ['get_schemas', 'get_aggregation']
+__all__ = ['get_schemas', 'get_aggregation', 'mongodb_view_name']
 
 def get_schemas():
     """Get schema(s) for a MongoViewDocument
