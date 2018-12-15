@@ -8,7 +8,7 @@ class AggregationsCollection(dict):
         return dict.__new__(cls, value)
 
 def get_aggregations():
-    """Return all view aggregation definitions
+    """Discover and return all view definitions indexed by name
 
     Returns:
         AggregationsCollection: One or more MongoDB aggregations

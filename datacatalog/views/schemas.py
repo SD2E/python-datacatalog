@@ -4,7 +4,7 @@ from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ..utils import dynamic_import
 
 def get_schemas():
-    """Return all view sub-schema(s)
+    """Discover and return all view JSON schemas
 
     Returns:
         JSONSchemaCollection: One or more schemas
