@@ -114,7 +114,7 @@ tests-formats-classify:
 
 # This is a set of targets to bring up a fresh catalog defined by the code repo
 
-bootstrap: bootstrap-database bootstrap-challenge-problems bootstrap-experiment-designs bootstrap-views bootstrap-schemas
+bootstrap: bootstrap-database bootstrap-challenge-problems bootstrap-experiment-designs bootstrap-pipelines bootstrap-views bootstrap-schemas
 
 bootstrap-database:
 	python -m bootstrap.create_database $(BOOTSTRAP_ENV)
@@ -123,7 +123,7 @@ bootstrap-challenge-problems: challenge_problems
 bootstrap-experiment-designs: experiment_designs
 
 bootstrap-pipelines:
-	#python -m bootstrap.manage_pipelines
+	python -m bootstrap.manage_pipelines auto $(BOOTSTRAP_ENV)
 
 bootstrap-views:
 	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
