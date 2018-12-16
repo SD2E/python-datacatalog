@@ -1,0 +1,67 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "PipelineJobs Table",
+    "title": "PipelineJobsTable",
+    "type": "object",
+    "properties": {
+        "uuid": {
+            "description": "Job ID",
+            "$ref": "pipelinejob_uuid.json"
+        },
+        "pipeline": {
+            "description": "Pipeline Name",
+            "type": "string"
+        },
+        "state": {
+            "description": "Job's current state",
+            "$ref": "pipelinejob_statename.json"
+        },
+        "updated": {
+            "description": "When job was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "history": {
+            "description": "Annotated history of job events",
+            "items": {
+                "$ref": "pipelinejob_event.json"
+            },
+            "type": "array"
+        },
+        "archive_path": {
+            "description": "Path to job outputs",
+            "type": "string"
+        },
+        "hpc_path": {
+            "description": "Archive path localized for HPC usage",
+            "type": "string"
+        },
+        "jupyter_path": {
+            "description": "Archive path localized for Jupyter usage",
+            "type": "string"
+        },
+        "parameters": {
+            "description": "Launch Parameters",
+            "type": "object"
+        }
+    },
+    "required": [
+        "uuid",
+        "pipeline",
+        "state",
+        "updated",
+        "history",
+        "archive_path",
+        "hpc_path",
+        "jupyter_path",
+        "parameters"
+    ],
+    "_filename": "pipelinejobs_table",
+    "__uuid_type": "generic",
+    "__uuid_field": null,
+    "__uuid_fields": [],
+    "__collection": "pipelinejobs_table",
+    "__indexes": [],
+    "__identifiers": [],
+    "additionalProperties": false
+}

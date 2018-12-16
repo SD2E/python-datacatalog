@@ -1,0 +1,28 @@
+{
+    "view_on": "jobs_view",
+    "pipeline": [
+        {
+            "$project": {
+                "uuid": "$job.uuid",
+                "pipeline": "$name",
+                "state": "$job.state",
+                "updated": "$job.updated",
+                "history": "$job.history",
+                "archive_path": "$job.archive_path",
+                "hpc_path": {
+                    "$concat": [
+                        "/work/projects/SD2E-Community/prod/data",
+                        "$job.archive_path"
+                    ]
+                },
+                "jupyter_path": {
+                    "$concat": [
+                        "/home/jupyter/sd2e-community",
+                        "$job.archive_path"
+                    ]
+                },
+                "parameters": "$job.data"
+            }
+        }
+    ]
+}
