@@ -7,6 +7,7 @@ import logging
 import os
 import sys
 import tempfile
+import pymongo
 from pprint import pprint
 from pymongo import MongoClient, errors
 from agavepy.agave import Agave
@@ -30,10 +31,13 @@ def autobuild(idb, settings):
     for pipefile in os.listdir(DATA):
         logging.debug('Loading {}'.format(pipefile))
         pipeline = json.load(open(os.path.join(DATA, pipefile), 'r'))
-        resp = store.add_update_document(pipeline)
-        build_log.write('{}\t{}\t{}\t{}\n'.format(
-            resp['id'], resp['name'], resp['uuid'], resp['_update_token']))
-        logging.info('Registered {}'.format(resp['name']))
+        try:
+            resp = store.add_update_document(pipeline, strategy='drop')
+            build_log.write('{}\t{}\t{}\t{}\n'.format(
+                resp['id'], resp['name'], resp['uuid'], resp['_update_token']))
+            logging.info('Registered {}'.format(resp['name']))
+        except Exception:
+            logging.warning('Pipeline not added or updated')
 
 def dblist(idb, settings):
     logging.debug('Listing known pipelines')
