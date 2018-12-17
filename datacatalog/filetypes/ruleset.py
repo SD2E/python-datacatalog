@@ -3,7 +3,7 @@
 __version__ = '1.0.0'
 
 FILETYPES = [
-    ('LOG', 'Log file', ['.err$', '.out$']),
+    ('LOG', 'Log file', ['.err$', '.out$', '.log$']),
     ('ENV', 'Environment file', ['.env$', '.rc$']),
     ('FASTQC', 'FASTQC outputs', ['fastqc.html$', 'fastqc.zip$']),
     ('MULITIQC', 'FASTQC outputs', ['multiqc_report.html$']),
