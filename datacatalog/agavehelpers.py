@@ -21,9 +21,12 @@ DEF_STORAGE_SYSTEM = 'data-sd2e-community'
 
 
 class AgaveHelperException(Exception):
-    """Raised when error is can be sourced specifically to AgaveHelper"""
+    """Error is can be sourced specifically to AgaveHelper"""
     pass
 
+class AgaveHelperError(AgaveError):
+    """Error is can be sourced specifically to Agave from within AgaveHelper"""
+    pass
 
 class AgaveHelper(object):
     """Uses an active API client to provide various utility functions

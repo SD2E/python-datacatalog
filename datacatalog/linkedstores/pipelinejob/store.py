@@ -13,22 +13,24 @@ import sys
 from pprint import pprint
 
 from ... import identifiers
+from ...constants import Constants
 from ...dicthelpers import data_merge
 from ...pathmappings import normalize, abspath
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
+from ..basestore import LinkedStore, HeritableDocumentSchema
+from ..basestore import CatalogUpdateFailure
+from ..basestore import SoftDelete, AgaveClient
 from ..basestore import get_token, validate_token
 
 from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
 from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
 
-class PipelineJobStore(SoftDelete, LinkedStore):
+class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     NEVER_INDEX_FIELDS = ('data')
     """Fields that should never be indexed"""
 
-    def __init__(self, mongodb, config={}, session=None, **kwargs):
-        super(PipelineJobStore, self).__init__(mongodb, config, session)
-
+    def __init__(self, mongodb, config={}, session=None, agave=None, **kwargs):
+        super(PipelineJobStore, self).__init__(mongodb, config, session, agave)
         # setup based on schema extended properties
         schema = JobDocument(**kwargs)
         super(PipelineJobStore, self).update_attrs(schema)
@@ -95,6 +97,32 @@ class PipelineJobStore(SoftDelete, LinkedStore):
                         'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
             except Exception as exc:
                 raise Exception('Failed to validate pipeline UUID', exc)
+
+    def list_job_archive_path(self, job_uuid, recurse=True, directories=False, **kwargs):
+        """Returns contents of a job's archive_path
+
+        Args:
+            job_uuid (str): UUID of the job
+
+        Notes:
+            PipelineJobStore must be initialized with a valid Agave API client
+
+        Returns:
+            list: Agave-canonical absolute filenames in job.archive_path
+        """
+
+        db_record = self.find_one_by_uuid(job_uuid)
+        if db_record is None:
+            raise UnknownJob('{} is not a valid job ID'.format(job_uuid))
+
+        dir_listing = self._helper.listdir(
+            db_record['archive_path'],
+            recurse=recurse,
+            storage_system=db_record.get('archive_system',
+                                         Constants.CATALOG_AGAVE_STORAGE_SYSTEM),
+            directories=False)
+
+        return dir_listing
 
     # # TODO: Figure out how to patch in Pipeline.id
     # def get_typeduuid(self, payload, binary=False):

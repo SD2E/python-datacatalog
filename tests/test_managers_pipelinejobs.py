@@ -6,6 +6,7 @@ import json
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
+from .fixtures.agave import agave, credentials
 import datacatalog
 import transitions
 from .data import pipelinejobs
@@ -55,9 +56,16 @@ def agave_app_id():
 def agave_job_id():
     return '6583653933928541720-242ac11b-0001-007'
 
-def test_pipesjob_get_stores(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
+def test_pipesjob_get_stores(mongodb_settings, agave, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agave=agave)
     assert list(base.stores.keys()) != list()
+
+def test_pipesjob_listdir(mongodb_settings, agave, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    # The listed path is set up for test_agavehelpers and the job_uuid is the
+    # from data/tests/pipelinejob/tacbobot.json
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agave=agave)
+    assert base.stores['pipelinejob'].list_job_archive_path(job_uuid) is not None
 
 def test_pipesjob_setup(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)

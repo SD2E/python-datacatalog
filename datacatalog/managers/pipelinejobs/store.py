@@ -67,9 +67,10 @@ class ManagedPipelineJob(Manager):
                  manager_id,
                  update_nonce,
                  instanced=True,
+                 agave=None,
                  *args,
                  **kwargs):
-        super(ManagedPipelineJob, self).__init__(mongodb)
+        super(ManagedPipelineJob, self).__init__(mongodb, agave)
         # self._enforce_auth = True
         self.manager = manager_id
         self.nonce = update_nonce
