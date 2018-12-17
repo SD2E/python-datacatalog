@@ -34,7 +34,7 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         # setup based on schema extended properties
         schema = JobDocument(**kwargs)
         super(PipelineJobStore, self).update_attrs(schema)
-        # self._enforce_auth = True
+        self._enforce_auth = False
 
         self.setup()
         # Extend Store so it can validate the pipeline UUID

@@ -4,7 +4,7 @@ CASES = [('manual-upload.json', '106a1208-c416-5d0f-9df1-f047e1589895', True),
          ('tacobot.json', '1064aaf1-459c-5e42-820d-b822aa4b3990', True),
          ('tasbe.json', '106de934-ea53-5a5a-aeb9-0d38ba9c6191', True),
          ('novel_chassis_rnaseq.json', '106bd127-e2d2-57ac-b9be-11ed06042e68', True),
-         ('metadata_capture.json', '10619ec7-a70e-55aa-ba36-20baa8eabd18', True)]
+         ('metadata_capture.json', '10662d69-6a3d-5589-a226-fff72e70baf2', True)]
 
 COMPONENTS = [('web_service', {'uri': 'https://sd2e.org/data-depot'}),
               ('abaco_actor', {'id': 'wgqobY6wgkQJQ',
