@@ -61,7 +61,8 @@
             "items": {
                 "$ref": "challenge_problem_uuid.json"
             },
-            "minItems": 1
+            "minItems": 1,
+            "maxItems": 1
         }
     },
     "required": [

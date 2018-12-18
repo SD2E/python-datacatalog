@@ -88,6 +88,7 @@ def test_job_agaveclient(mongodb_settings, agave):
         mongodb_settings, agave=agave)
     assert getattr(base, '_helper') is not None
 
+@longrun
 def test_job_list_job_dir(mongodb_settings, agave):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
     # from data/tests/pipelinejob/tacbobot.json

@@ -1,6 +1,7 @@
 
 import arrow
 import os
+import re
 import sys
 import validators
 from pprint import pprint
@@ -8,12 +9,71 @@ from ... import identifiers
 from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
+from ...linkedstores.basestore import formatChecker
+from ...linkedstores.file import FileRecord, infer_filetype
 
 DEFAULT_ARCHIVE_SYSTEM = 'data-sd2e-community'
 
 class ManagedPipelineJobError(Exception):
     """An error happened in the context of a ManagedPipelineJob"""
     pass
+
+class ManagedPipelineJobInstance(Manager):
+    """Supports working with a existing ManagedPipelineJob
+
+    Args:
+        mongodb (mongo.Connection): Connection to system MongoDB with write access to ``jobs``
+        uuid (str): Job UUID
+    """
+
+    PARAMS = [
+        ('state', False, 'state', None),
+        ('archive_path', False, 'archive_path', None),
+        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM)]
+
+    def __init__(self, mongodb, uuid, agave=None, **kwargs):
+        super(ManagedPipelineJobInstance, self).__init__(mongodb, agave)
+        self.uuid = uuid
+        db_rec = self.stores['pipelinejob'].find_one_by_uuid(uuid)
+        for param, req, attr, default in self.PARAMS:
+            setattr(self, attr, db_rec.get(param))
+
+    def index_archive_path(self, processing_level="1", filters=[]):
+        indexed = list()
+
+        if filters != []:
+            patts = re.compile('|'.join(filters))
+            pprint(patts)
+            # raise OSError()
+        else:
+            patts = None
+
+        # TODO - Accept other states AFTER finished
+        if self.state == 'FINISHED':
+            path_listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
+            for file in path_listing:
+                if patts is not None:
+                    if patts.search(os.path.basename(file)):
+                        ftype = getattr(infer_filetype(file, check_exists=False), 'label', 'PLAIN')
+                        frec = FileRecord({'name': file,
+                                           'type': ftype,
+                                           'level': processing_level})
+                        # print('FILEREC', frec)
+                        # print('  TYPE', type(frec))
+                        resp = FileRecord(self.stores['file'].add_update_document(frec))
+
+                        gen_by = resp.get('generated_by', list())
+                        if self.uuid not in gen_by:
+                            gen_by.append(self.uuid)
+                            resp['generated_by'] = gen_by
+                            resp = self.stores['file'].add_update_document(resp)
+                        indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
+                # print('INDEXED {}'.format(resp['uuid']))
+
+            return indexed
+        else:
+            raise ManagedPipelineJobError('Cannot index a job that has not reached FINISHED state')
+
 
 class ManagedPipelineJob(Manager):
     """Specialized PipelineJob that supports archiving to defined stores and deferred updates

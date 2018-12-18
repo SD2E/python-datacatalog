@@ -15,6 +15,7 @@ from pprint import pprint
 from slugify import slugify
 
 from ...jsonschemas import JSONSchemaBaseObject, camel_to_snake
+from ...jsonschemas import formatChecker, DateTimeEncoder
 from ...identifiers import typeduuid
 from ...utils import time_stamp, current_time, msec_precision
 
@@ -39,6 +40,8 @@ class DocumentSchema(JSONSchemaBaseObject):
     """Filename of the JSON schema document, relative to __file__."""
     DEFAULT_FILTERS_NAME = 'filters.json'
     """Filename of the JSON schema filters document, relative to __file__."""
+    RETURN_DOC_FILTERS = ['_id', '_salt', '_admin', '_properties', '_visible', '_update_token']
+    """These keys should never be returned in a document"""
 
     def __init__(self, **kwargs):
         doc_file = kwargs.get('document', self.DEFAULT_DOCUMENT_NAME)
@@ -277,6 +280,10 @@ class DocumentSchema(JSONSchemaBaseObject):
         serialized_document = json.dumps(serialized, indent=0, sort_keys=True,
                                          separators=(',', ':'))
         return serialized_document
+
+    def filter_keys(self):
+        defined_filters = self._filters.get('object', {}).get('properties', [])
+        return list(set(defined_filters + self.RETURN_DOC_FILTERS))
 
     @classmethod
     def time_stamp(cls):

@@ -15,7 +15,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...utils import time_stamp
-from .documentschema import DocumentSchema
+from .documentschema import DocumentSchema, formatChecker, DateTimeEncoder
 
 class HeritableDocumentSchema(DocumentSchema):
     """Extends DocumentSchema with inheritance from parent object's JSON schema
