@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2018-12-18 13:22:19 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3f46eee",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_design_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -70,6 +70,7 @@
                 "$ref": "challenge_problem_uuid.json",
                 "type": "string"
             },
+            "maxItems": 1,
             "minItems": 1,
             "type": "array"
         },

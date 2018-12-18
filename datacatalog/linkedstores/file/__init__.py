@@ -1,1 +1,2 @@
-from .store import FileDocument, FileStore, StoreInterface
+from .store import FileRecord, FileDocument, FileStore, StoreInterface
+from .store import infer_filetype

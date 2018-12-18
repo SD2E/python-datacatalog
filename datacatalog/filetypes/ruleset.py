@@ -3,11 +3,12 @@
 __version__ = '1.0.0'
 
 FILETYPES = [
-    ('LOG', 'Log file', ['.err$', '.out$']),
+    ('LOG', 'Log file', ['.err$', '.out$', '.log$']),
     ('ENV', 'Environment file', ['.env$', '.rc$']),
     ('FASTQC', 'FASTQC outputs', ['fastqc.html$', 'fastqc.zip$']),
     ('MULITIQC', 'FASTQC outputs', ['multiqc_report.html$']),
-    ('FASTA', 'FASTA sequence file', ['.fa$', '.fasta$', '.fa.gz$', '.fasta.gz$']),
+    ('FASTA', 'FASTA sequence file', ['.fa$', '.fasta$', '.fa.gz$', '.fasta.gz$', '.fas$']),
+    ('TSV', 'Tab-separated values (override TAB-SEPARATED-VALUES)', ['.tab$', '.tsv$']),
     ('BAM', 'Binary SAM', ['.bam$']),
     ('BAM', 'Binary SAM Index', ['.bai$']),
     ('VCF', 'Variant Call Format', ['.vcf$']),

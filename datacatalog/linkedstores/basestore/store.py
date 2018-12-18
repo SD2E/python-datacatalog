@@ -19,20 +19,25 @@ from slugify import slugify
 from jsondiff import diff
 
 from ...constants import CatalogStore
-from ...utils import time_stamp, current_time, msec_precision
-from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...debug_mode import debug_mode
-from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
-from ...tokens import generate_salt, get_token, validate_token
+from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...identifiers.typeduuid import catalog_uuid
+from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
+from ...tokens import generate_salt, get_token, validate_token
+from ...utils import time_stamp, current_time, msec_precision
 from ... import tenancy
 
-from .exceptions import CatalogError, CatalogUpdateFailure, CatalogQueryError
-from .documentschema import DocumentSchema
-from .heritableschema import HeritableDocumentSchema
+from .heritableschema import DocumentSchema, HeritableDocumentSchema
+from .heritableschema import formatChecker, DateTimeEncoder
+from .exceptions import *
 
-__all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema', 'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure', 'CatalogQueryError', 'DuplicateKeyError', 'time_stamp', 'msec_precision', 'validate_token', 'debug_mode', 'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS']
+__all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
+           'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
+           'CatalogQueryError', 'DuplicateKeyError', 'time_stamp',
+           'msec_precision', 'validate_token', 'debug_mode',
+           'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS',
+           'AgaveError', 'AgaveHelperError']
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
 """Default set of named linkages between LinkedStore documents"""
@@ -40,7 +45,7 @@ DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_au
 """Default set of keys managed by LinkedStore internal logic"""
 
 class LinkedStore(object):
-    """JSON-schema informed MongoDB document store with diff-based logging.
+    """JSON-schema informed MongoDB document store with diff-based logging
 
     If the class has public attributes, they may be documented here
     in an ``Attributes`` section and follow the same formatting as a
@@ -373,6 +378,7 @@ class LinkedStore(object):
         else:
             identifier_string = str(payload)
         new_uuid = catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
+        # print('NEW_UUID', new_uuid)
         return new_uuid
 
     def get_serialized_document(self, document, **kwargs):
@@ -462,13 +468,6 @@ class LinkedStore(object):
             #     if filt in doc:
             #         del doc[filt]
 
-        class DateTimeEncoder(json.JSONEncoder):
-            def default(self, o):
-                if isinstance(o, datetime.datetime):
-                    return o.isoformat()
-
-                return json.JSONEncoder.default(self, o)
-
         safe_docs = list()
         for doc in docs:
             doc1 = json.loads(json.dumps(doc, cls=DateTimeEncoder))
@@ -512,7 +511,7 @@ class LinkedStore(object):
         Generic class to create or update LinkedStore documents. Handles typed
         UUID generation, manages version and timestamp metadata, implements
         tenant/project/user functions, enforces per-document authorization, and
-        implements diff-based update logging.
+        implements diff-based update log.
 
         Args:
             document_dict (dict): Contents of the document to write or replace
@@ -529,6 +528,7 @@ class LinkedStore(object):
         """
         doc_id = None
         doc_uuid = uuid
+        document_dict = dict(document_dict)
         document = copy.deepcopy(document_dict)
         # FIXME: Implement optional validation against self.schema
 
@@ -727,6 +727,7 @@ class LinkedStore(object):
             for key in list(source_document.keys()):
                 if key.startswith('_') or key in ('uuid', '_id'):
                     merged_document[key] = source_document[key]
+
             # Update _properties for merged_document
             merged_document = self.__set_properties(merged_document, updated=True)
             # Update linkages
@@ -735,6 +736,7 @@ class LinkedStore(object):
             uprec = self.coll.find_one_and_replace(
                 {'uuid': merged_document['uuid']}, merged_document,
                 return_document=ReturnDocument.AFTER)
+            # print('UPREC', uprec)
             token = get_token(uprec['_salt'], self.get_token_fields(uprec))
             uprec['_update_token'] = token
             # self.logcoll.insert_one(diff_record)

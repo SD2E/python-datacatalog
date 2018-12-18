@@ -9,6 +9,14 @@ datacatalog.filetypes package
 Submodules
 ----------
 
+datacatalog.filetypes.anytype module
+------------------------------------
+
+.. automodule:: datacatalog.filetypes.anytype
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.filetypes.filetype module
 -------------------------------------
 
@@ -61,6 +69,14 @@ datacatalog.filetypes.schemas module
 ------------------------------------
 
 .. automodule:: datacatalog.filetypes.schemas
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.filetypes.unknown module
+------------------------------------
+
+.. automodule:: datacatalog.filetypes.unknown
     :members:
     :undoc-members:
     :show-inheritance:

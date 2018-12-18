@@ -2,8 +2,9 @@
 # aggregation auto-discovery to work
 from .classes import JobsViewDocument as Doc
 from ...jsonschemas.schemas import JSONSchemaCollection
+from . import mongodb_view_name
 
-__all__ = ['get_schemas', 'get_aggregation']
+__all__ = ['get_schemas', 'get_aggregation', 'mongodb_view_name']
 
 def get_schemas():
     """Get schema(s) for JobsView
@@ -19,7 +20,7 @@ def get_schemas():
     return schemas
 
 def get_aggregation():
-    """Get the JSON document used in constructing this view
+    """Get the JSON document used to build this view in MongoDB
 
     Returns:
         MongoAggregation: A JSON document

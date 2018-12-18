@@ -8,7 +8,7 @@ class AggregationsCollection(dict):
         return dict.__new__(cls, value)
 
 def get_aggregations():
-    """Return all definition sub-schema(s)
+    """Discover and return all view definitions indexed by name
 
     Returns:
         AggregationsCollection: One or more MongoDB aggregations
@@ -20,7 +20,8 @@ def get_aggregations():
             try:
                 pkg = dynamic_import('datacatalog.views.' + meth + '.schemas')
                 pkg_aggs = pkg.get_aggregation()
-                aggs[meth] = pkg_aggs
+                view_name = pkg.mongodb_view_name
+                aggs[view_name] = pkg_aggs
             except ModuleNotFoundError:
                 pass
             except NotImplementedError:

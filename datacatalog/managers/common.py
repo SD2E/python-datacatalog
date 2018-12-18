@@ -22,19 +22,19 @@ class ManagerError(linkedstores.basestore.CatalogError):
 class Manager(object):
     """Manages operations across LinkedStores"""
 
-    def __init__(self, mongodb, *args, **kwargs):
+    def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
-        self.stores = Manager.init_stores(mongodb)
+        self.stores = Manager.init_stores(mongodb, agave=agave)
         self.api_server = kwargs.get('api_server', current_tenant_uri())
 
     @classmethod
-    def init_stores(cls, mongodb):
+    def init_stores(cls, mongodb, agave=None):
         # Assemble dict of stores keyed):
         stores = dict()
         for pkg in tuple(jsonschemas.schemas.STORE_SCHEMAS):
             try:
                 m = dynamic_import('.' + pkg, package='datacatalog')
-                store = m.StoreInterface(mongodb)
+                store = m.StoreInterface(mongodb, agave=agave)
                 store_name = getattr(store, 'schema_name')
                 store_basename = store_name.split('.')[-1]
                 stores[store_basename] = store

@@ -22,6 +22,7 @@ GPARENT = os.path.dirname(PARENT)
 sys.path.insert(0, GPARENT)
 
 import datacatalog
+logger = logging.getLogger(__name__)
 
 def autobuild(idb, settings):
     views = datacatalog.views.aggregations.get_aggregations()
@@ -30,20 +31,20 @@ def autobuild(idb, settings):
         try:
             resp = datacatalog.mongo.manage_views.dropView(idb, viewname)
         except Exception as exc:
-            logging.warning(exc)
+            logger.warning(exc)
 
         try:
             datacatalog.mongo.manage_views.createView(idb, viewname, aggregation)
-            logging.info('Created view.{}'.format(viewname))
+            logger.info('Created view.{}'.format(viewname))
         except errors.OperationFailure as err:
-            logging.warning(err)
+            logger.warning(err)
 
         if settings['verbose']:
             try:
                 built_pipe = datacatalog.mongo.manage_views.getView(idb, viewname).get('cursor').get('firstBatch')[0].get('options').get('pipeline')
                 print(json.dumps(built_pipe, indent=2))
             except errors.OperationFailure as err:
-                logging.warning(err)
+                logger.warning(err)
 
 def autodiscover(idb, settings):
     views = datacatalog.views.aggregations.get_aggregations()
@@ -55,9 +56,9 @@ def autodiscover(idb, settings):
 
 def main(args):
 
-    logging.debug('Reading project config')
+    logger.debug('Reading project config')
     project_settings = config.read_config()
-    logging.debug('Reading bootstrap config from ' + THIS + '/config.yml')
+    logger.debug('Reading bootstrap config from ' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     settings = datacatalog.dicthelpers.data_merge(
         project_settings, bootstrap_settings)
@@ -71,13 +72,13 @@ def main(args):
 
     mongodb = settings.get(env).get('mongodb')
     mongodb_uri = datacatalog.mongo.get_mongo_uri(mongodb)
-    logging.debug('URI: {}'.format(mongodb_uri))
+    logger.debug('URI: {}'.format(mongodb_uri))
     database_name = None
     if args.database is not None:
         database_name = args.database
     else:
         database_name = settings.get(env).get('mongodb', {}).get('database', None)
-    logging.debug('DB: {}'.format(database_name))
+    logger.debug('DB: {}'.format(database_name))
 
     myclient = MongoClient(mongodb_uri)
     idb = myclient[database_name]
@@ -92,7 +93,7 @@ def main(args):
         raise NotImplementedError()
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    logger.setLevel(logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument('command', help="command", choices=['auto', 'discover', 'create', 'delete'])
     parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')

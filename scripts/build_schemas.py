@@ -10,15 +10,13 @@ from jinja2 import Template
 from pprint import pprint
 import datacatalog
 
+logger = logging.getLogger(__name__)
+
 HERE = os.getcwd()
 THIS = os.path.dirname(__file__)
 PARENT = os.path.dirname(THIS)
 
-# create logger with 'spam_application'
-logging.basicConfig(level=logging.DEBUG)
-
 INDEX_FILENAME = 'schemas.html'
-
 INDEX = '''\
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +47,7 @@ def load_schema_string(schema_string):
         schema = json.loads(schema_string)
         return schema
     except Exception:
-        logging.warning('Unable to load schema from string')
+        logger.warning('Unable to load schema from string')
         return dict()
 
 def load_schema_file(schema_fname):
@@ -66,7 +64,7 @@ def load_schema_file(schema_fname):
         schema = json.load(j)
         return schema
     except Exception:
-        logging.warning('Unable to load %s from disk', schema_fname)
+        logger.warning('Unable to load %s from disk', schema_fname)
         return dict()
 
 def compare_schemas(old, new):
@@ -94,7 +92,7 @@ def compare_schemas(old, new):
     diff = jsondiff.diff(old1, new1, marshal=True)
     diff_json = json.dumps(diff, separators=(',', ':'))
     if len(list(diff.keys())) > 0:
-        logging.info('Differences found: {}'.format(diff_json))
+        logger.info('Differences found: {}'.format(diff_json))
         return True
     else:
         return False
@@ -112,7 +110,7 @@ def regenerate(filters=None):
     for fname, schema in datacatalog.jsonschemas.get_all_schemas(filters).items():
         destpath = os.path.join(DESTDIR, fname + '.json')
 
-        logging.info('Regenerating %s', fname)
+        logger.info('Regenerating %s', fname)
 
         if os.environ.get('MAKETESTS', None) is None:
             if compare_schemas(
@@ -120,7 +118,7 @@ def regenerate(filters=None):
                 with open(destpath, 'w+') as j:
                     j.write(schema)
             else:
-                logging.debug('%s did not change', fname + '.json')
+                logger.debug('%s did not change', fname + '.json')
         else:
             with open(destpath, 'w+') as j:
                 j.write(schema)
@@ -129,7 +127,7 @@ def regenerate(filters=None):
         # TODO - Display the title and comment from each schema
         elements.append({'href': fname + '.json', 'caption': fname + '.json'})
 
-    logging.info('Building index %s', INDEX_FILENAME)
+    logger.info('Building index %s', INDEX_FILENAME)
     elements = sorted(elements, key=lambda k: k['caption'])
     template.render(navigation=elements)
     idxdestpath = os.path.join(DESTDIR, INDEX_FILENAME)
@@ -140,6 +138,7 @@ def regenerate(filters=None):
 
 def main():
 
+    logger.setLevel(logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument("--filter", help="Comma-separated list of JSONschema packages")
     args = parser.parse_args()

@@ -6,6 +6,7 @@ import json
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
+from .fixtures.agave import agave, credentials
 import datacatalog
 import transitions
 from .data import pipelinejobs
@@ -55,9 +56,17 @@ def agave_app_id():
 def agave_job_id():
     return '6583653933928541720-242ac11b-0001-007'
 
-def test_pipesjob_get_stores(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
+def test_pipesjob_get_stores(mongodb_settings, agave, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agave=agave)
     assert list(base.stores.keys()) != list()
+
+@longrun
+def test_pipesjob_listdir(mongodb_settings, agave, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
+    # The listed path is set up for test_agavehelpers and the job_uuid is the
+    # from data/tests/pipelinejob/tacbobot.json
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agave=agave)
+    assert base.stores['pipelinejob'].list_job_archive_path(job_uuid) is not None
 
 def test_pipesjob_setup(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
     base = datacatalog.managers.pipelinejobs.ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
@@ -210,3 +219,11 @@ def test_pipesjob_delete_jobs_kwargs(mongodb_settings, manager_id, nonce):
             mjob.setup()
             assert mjob.uuid == struct['uuid']
             mjob.cancel()
+
+@longrun
+def test_pipesinstance_index_archive_path(mongodb_settings, agave):
+    job_uuid = '1079f67e-0ef6-52fe-b4e9-d77875573860'
+    filters = ['sample\.uw_biofab\.141715', 'sample-uw_biofab-141715']
+    level = "1"
+    base = datacatalog.managers.pipelinejobs.ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+    assert len(base.index_archive_path(filters=filters, processing_level=level)) > 0

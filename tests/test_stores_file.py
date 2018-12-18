@@ -88,6 +88,14 @@ def test_files_replace(mongodb_settings):
         links = base.get_links(uuid_val, 'child_of')
         assert len(links) == len(doc.get('child_of', list()))
 
+@pytest.mark.parametrize("filename,fuuid", [
+    ('/uploads/science-results.xlsx', '1056d16b-4c87-5ead-a25a-60ae90b527fb'),
+    ('/uploads//science-results.xlsx', '1056d16b-4c87-5ead-a25a-60ae90b527fb')])
+def test_files_normpath(mongodb_settings, filename, fuuid):
+    base = datacatalog.linkedstores.file.FileStore(mongodb_settings)
+    identifier_string_uuid = base.get_typeduuid(filename, binary=False)
+    assert identifier_string_uuid == fuuid
+
 @delete
 def test_files_delete(mongodb_settings):
     base = datacatalog.linkedstores.file.FileStore(mongodb_settings)

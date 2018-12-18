@@ -27,7 +27,7 @@ class PipelineStore(SoftDelete, LinkedStore):
         super(PipelineStore, self).__init__(mongodb, config, session)
         schema = PipelineDocument(**kwargs)
         super(PipelineStore, self).update_attrs(schema)
-        self._enforce_auth = True
+        self._enforce_auth = False
         self.setup()
 
     # TODO: Figure out how to patch in Pipeline.id

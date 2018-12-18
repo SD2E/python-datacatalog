@@ -2,9 +2,7 @@ import arrow
 import json
 import re
 from os import environ
-
 from . import config
-from ..githelpers import get_sha1_short, get_remote_uri
 
 BASE_URL = 'https://schema.catalog.sd2e.org/schemas/'
 """Default base URL against which JSONschema documents are resolved"""
@@ -17,6 +15,7 @@ INDENT = 4
 SORT_KEYS = True
 
 class JSONSchemaBaseObject(object):
+    """Interface to JSON schema plus datacatalog-specific extensions"""
     COLLECTION = 'generic'
     BASEREF = environ.get('PROJECT_SCHEMA_BASE_URL', BASE_URL)
     BASESCHEMA = environ.get('PROJECT_SCHEMA_REF', BASE_SCHEMA)
@@ -56,6 +55,8 @@ class JSONSchemaBaseObject(object):
         self.update_id()
 
     def update_id(self):
+        """Build ``schema.$id`` into a valid URI around ``self._filename``
+        """
         temp_fname = getattr(self, '_filename')
         if self._snake_case:
             temp_fname = camel_to_snake(temp_fname)
@@ -66,9 +67,14 @@ class JSONSchemaBaseObject(object):
         setattr(self, 'id', schema_id)
 
     def update_comment(self):
-        """Dynamically extends the schema with date and source
+        """Create ``schema.$comment`` with date, source URL,
+        and git commit hash (if available) on demand.
         """
+
         if not config.get_osenv_bool('PROJECT_SCHEMA_NO_COMMENT'):
+
+            # Dynamically loade since it's expensive to check for git
+            from ..githelpers import get_sha1_short, get_remote_uri
 
             # Create a descriptive $comment for all schema document
             comments = list()
@@ -84,6 +90,8 @@ class JSONSchemaBaseObject(object):
             setattr(self, 'comment', comment_string)
 
     def to_dict(self, private_prefix='_', **kwargs):
+        """Express the schema as a ``dict`` filtering private keys
+        """
         my_dict = dict()
         for key, mandatory, param, default, keyfix in self.PARAMS:
             fullkey = keyfix + key
@@ -97,6 +105,8 @@ class JSONSchemaBaseObject(object):
         return my_dict
 
     def to_jsonschema(self, **kwargs):
+        """Express the schema as a JSON-formatted string
+        """
         self.update_comment()
         my_json = json.dumps(self.to_dict(**kwargs), indent=INDENT, sort_keys=SORT_KEYS)
         return my_json

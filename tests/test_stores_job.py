@@ -6,6 +6,7 @@ import json
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
+from .fixtures.agave import agave, credentials
 import datacatalog
 from .data import pipelinejob
 
@@ -76,11 +77,26 @@ def test_job_write_key_fail(mongodb_settings):
         with pytest.raises(datacatalog.linkedstores.basestore.exceptions.CatalogError):
             base.write_key(data_struct['uuid'], key, val)
 
-def test_job_soft_delete(mongodb_settings):
-    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
-    for data_struct in pipelinejob.get_jobs():
-        resp = base.delete_document(data_struct['uuid'])
-        assert resp['_visible'] is False
+# def test_job_soft_delete(mongodb_settings):
+#     base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
+#     for data_struct in pipelinejob.get_jobs():
+#         resp = base.delete_document(data_struct['uuid'])
+#         assert resp['_visible'] is False
+
+def test_job_agaveclient(mongodb_settings, agave):
+    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(
+        mongodb_settings, agave=agave)
+    assert getattr(base, '_helper') is not None
+
+@longrun
+def test_job_list_job_dir(mongodb_settings, agave):
+    # The listed path is set up for test_agavehelpers and the job_uuid is the
+    # from data/tests/pipelinejob/tacbobot.json
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    base = datacatalog.linkedstores.pipelinejob.PipelineJobStore(
+        mongodb_settings, agave=agave)
+    dirlist = base.list_job_archive_path(job_uuid, recurse=True)
+    assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in dirlist
 
 @delete
 def test_job_delete(mongodb_settings):

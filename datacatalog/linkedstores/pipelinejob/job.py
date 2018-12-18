@@ -16,7 +16,12 @@ from attrdict import AttrDict
 from pprint import pprint
 
 from ...identifiers.typeduuid import generate as generate_uuid
-from ..basestore import LinkedStore, CatalogError, CatalogUpdateFailure, HeritableDocumentSchema, ExtensibleAttrDict
+
+from ..basestore import LinkedStore
+from ..basestore import HeritableDocumentSchema, ExtensibleAttrDict
+from ..basestore import DocumentAgaveClient
+from ..basestore import CatalogError, CatalogUpdateFailure, AgaveError, AgaveHelperError
+
 from .schema import JobDocument, HistoryEventDocument
 from .fsm import JobStateMachine
 
@@ -29,9 +34,9 @@ class HistoryEntry(ExtensibleAttrDict):
 class PipelineJobError(CatalogError):
     """Error occured within scope of a PipelineJob"""
     pass
-class PipelineJob(ExtensibleAttrDict):
+class PipelineJob(ExtensibleAttrDict, DocumentAgaveClient):
     # Extend object with with event handling, state, and history management
-    def __init__(self, job_document):
+    def __init__(self, job_document, agave=None):
         super(PipelineJob, self).__init__(job_document)
         job_state = job_document.get('state', 'created').upper()
         # self._enforce_auth = True
@@ -80,5 +85,9 @@ class PipelineJob(ExtensibleAttrDict):
 
     def to_dict(self):
         d = self.as_dict()
-        del d['_job_state_machine']
+        for k in ['_job_state_machine', '_helper']:
+            try:
+                del d[k]
+            except KeyError:
+                pass
         return d
