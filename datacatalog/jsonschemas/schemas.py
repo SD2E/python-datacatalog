@@ -5,50 +5,51 @@ import inspect
 import itertools
 from pprint import pprint
 from ..debug_mode import debug_mode
+from ..utils import dynamic_import
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-# Primitives define schema enumerators or formats and are of a single JSON type
-PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
-# Store schemas describe the object and document schemas for each managed
-# document collection. Schemas inherit from basestore and are defined in each
-# submodules document.json and filters.json. Linkages and constraints are
-# defined in __extension properties in document.json. Store schemas are expected
-# to reference the various primitive schemas in their composition.
 STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment_design', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob', 'linkedstores.product']
-# Unmanaged schemas are built or imported from outside the datacatalog model.
-# They are imported into the datacatalog model via a common base URI and
-# filename namespace.
-UNMANAGED_SCHEMAS = ['formats']
-# Composed schemas are reference-based compositions of indvidual document,
-# object, primitive, and unmanaged schemas
-COMPOSED_SCHEMAS = ['compositions.sample_set']
+"""Modules that define object and document schemas for managed document
+collections linked by UUID and linkage fields. Classes in these modules inherit
+schema and database logic from ``basestore`` classes
+"""
 
-# Read-only virtual collections
 VIEW_SCHEMAS = ['views']
+"""Modules that define and represent read-only collections based on aggregations
+using the datacatalog data model"""
 
-SCHEMAS = [UNMANAGED_SCHEMAS, PRIMITIVE_SCHEMAS, STORE_SCHEMAS,
-           COMPOSED_SCHEMAS, VIEW_SCHEMAS]
+COMPOSED_SCHEMAS = ['compositions.sample_set']
+"""Modules that represent compositions or translations of existing datacatalog
+schemas. These are useful for backwards or sideways compatibility."""
 
-# SCHEMAS = [COMPOSED_SCHEMAS, VIEW_SCHEMAS]
+PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
+"""Modules that define simple patterns, enumerators, or static foreign entities
+"""
+
+UNMANAGED_SCHEMAS = ['formats']
+"""Modules that define schemas imported from outside the core datacatalog data
+model into the shared datacatalog schema namespace"""
+
+SCHEMAS = [STORE_SCHEMAS, VIEW_SCHEMAS, COMPOSED_SCHEMAS,
+           PRIMITIVE_SCHEMAS, UNMANAGED_SCHEMAS]
+"""The union set of all schemas. This list is traversed when building the set
+of all project schemas."""
 
 class JSONSchemaCollection(dict):
-    """Collection of schemas indexed by key"""
+    """Collection of schemas indexed by schema filename"""
     def __new__(cls, value):
         return dict.__new__(cls, value)
 
-def dynamic_import(module, package=None):
-    return importlib.import_module(module, package='datacatalog')
-
 def get_all_schemas(filters=[]):
-    """Return all known JSON schemas
+    """Top-level function to discover and return all known JSON schemas
 
     Args:
-        filters (list, optional): list of classes to inspect
+        filters (list, optional): subset list of classes to traverse
 
     Returns:
-        JSONSchemaCollection - Collection of schemas, keyed by name
+        JSONSchemaCollection: Collection of schemas indexed by filename
     """
     schemata = JSONSchemaCollection(dict())
     for pkg in list(itertools.chain.from_iterable(SCHEMAS)):
@@ -58,7 +59,7 @@ def get_all_schemas(filters=[]):
             if pkg not in filters:
                 continue
         print('SCHEMA: {}'.format(pkg))
-        m = dynamic_import('.' + pkg + '.schemas')
+        m = dynamic_import('.' + pkg + '.schemas', package='datacatalog')
         package_schemas = m.get_schemas()
         schemata = {**schemata, **package_schemas}
     return schemata
