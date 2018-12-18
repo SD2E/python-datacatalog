@@ -24,34 +24,35 @@ DATA = os.path.join(THIS, 'pipelines')
 sys.path.insert(0, GPARENT)
 
 import datacatalog
+logger = logging.getLogger(__name__)
 
 def autobuild(idb, settings):
     store = datacatalog.linkedstores.pipeline.PipelineStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for pipefile in os.listdir(DATA):
-        logging.debug('Loading {}'.format(pipefile))
+        logger.debug('Loading {}'.format(pipefile))
         pipeline = json.load(open(os.path.join(DATA, pipefile), 'r'))
         try:
             resp = store.add_update_document(pipeline, strategy='drop')
             build_log.write('{}\t{}\t{}\t{}\n'.format(
                 resp['id'], resp['name'], resp['uuid'], resp['_update_token']))
-            logging.info('Registered {}'.format(resp['name']))
+            logger.info('Registered {}'.format(resp['name']))
         except Exception:
-            logging.warning('Pipeline not added or updated')
+            logger.warning('Pipeline not added or updated')
 
 def dblist(idb, settings):
-    logging.debug('Listing known pipelines')
+    logger.debug('Listing known pipelines')
     store = datacatalog.linkedstores.pipeline.PipelineStore(idb)
     for pipe in store.query({}):
-        logging.info('Pipeline: id={} name="{}" uuid={} updated={}'.format(
+        logger.info('Pipeline: id={} name="{}" uuid={} updated={}'.format(
             pipe['id'], pipe['name'], pipe['uuid'],
             pipe['_properties']['modified_date']))
 
 def main(args):
 
-    logging.debug('Reading project config')
+    logger.debug('Reading project config')
     project_settings = config.read_config()
-    logging.debug('Reading bootstrap config from ' + THIS + '/config.yml')
+    logger.debug('Reading bootstrap config from ' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     settings = datacatalog.dicthelpers.data_merge(
         project_settings, bootstrap_settings)
@@ -75,7 +76,7 @@ def main(args):
         raise NotImplementedError()
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    logger.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument('command', help="command", choices=['auto', 'list', 'create', 'delete'])
     parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')

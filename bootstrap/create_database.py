@@ -22,12 +22,13 @@ GPARENT = os.path.dirname(PARENT)
 sys.path.insert(0, GPARENT)
 
 import datacatalog
+logger = logging.getLogger(__name__)
 
 def main(args):
 
-    logging.debug('Reading project config')
+    logger.debug('Reading project config')
     project_settings = config.read_config()
-    logging.debug('Reading bootstrap config from ' + THIS + '/config.yml')
+    logger.debug('Reading bootstrap config from ' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     mongodb = project_settings.get('mongodb')
     mongodb_uri = datacatalog.mongo.get_mongo_uri(mongodb)
@@ -40,14 +41,14 @@ def main(args):
         database_name = bootstrap_settings.get('mongodb', {}).get('database', None)
 
     if database_name is not None:
-        logging.info('Creating {}'.format(database_name))
+        logger.info('Creating {}'.format(database_name))
         myclient[database_name]
     else:
         raise Exception('Database name must either be specified in config.yml or via -database')
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
+    logger.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument("-database", help="Database name")
     args = parser.parse_args()

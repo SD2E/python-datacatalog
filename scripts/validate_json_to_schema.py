@@ -23,6 +23,7 @@ if GPARENT not in sys.path:
 import datacatalog
 
 from datacatalog.jsonschemas.schema import BASE_URL as JSONSCHEMA_BASE_URL
+logger = logging.getLogger(__name__)
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -40,28 +41,28 @@ def main(args):
         def __init__(self):
             jsonschema.FormatChecker.__init__(self)
 
-    logging.info('Validating {}'.format(args.file))
+    logger.info('Validating {}'.format(args.file))
     instance = json.load(open(args.file, 'r'))
     if validators.url(args.schema):
-        logging.info('Remote schema: {}'.format(args.schema))
+        logger.info('Remote schema: {}'.format(args.schema))
         json_schema = jsonschema.RefResolver('', '').resolve_remote(args.schema)
     else:
-        logging.info('Local schema: {}'.format(args.schema))
+        logger.info('Local schema: {}'.format(args.schema))
         json_schema = json.load(open(args.schema, 'r'))
 
     try:
         jsonschema.validate(instance, json_schema, format_checker=formatChecker())
     except jsonschema.exceptions.ValidationError as verr:
-        logging.critical('Validation failed')
+        logger.critical('Validation failed')
         pprint(verr.__dict__)
     except jsonschema.exceptions.RefResolutionError as verr:
-        logging.critical('Failed to resolve a JSON schema reference')
+        logger.critical('Failed to resolve a JSON schema reference')
         pprint(verr.__dict__)
     finally:
-        logging.info('Validation suceeded')
+        logger.info('Validation suceeded')
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    logger.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument("file", help="File to validate")
     parser.add_argument("schema", help="JSON schema (file or URI")

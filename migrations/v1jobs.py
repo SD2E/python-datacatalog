@@ -25,10 +25,11 @@ import datacatalog
 from datacatalog.identifiers import typeduuid, interestinganimal
 from datacatalog.dicthelpers import data_merge
 from datacatalog.tokens.salt import generate_salt
-
-logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 def main(args):
+
+    logger.basicConfig(level=logging.DEBUG)
 
     def get_v1_items(filter={}):
         """Returns a cursor of v1 items"""
@@ -55,33 +56,33 @@ def main(args):
 
     jobs = get_v1_items()
     jc = 0
-    logging.info('Jobs found: %s', jobs.count())
+    logger.info('Jobs found: %s', jobs.count())
 
     for job in jobs:
 
         job_doc = dict()
         jc = jc + 1
-        logging.debug('Processing job %s', jc)
+        logger.debug('Processing job %s', jc)
         # Lift over UUID
         try:
             ouuid = str(job['uuid'])
             nuuid = typeduuid.catalog_uuid_from_v1_uuid(ouuid, uuid_type='pipelinejob')
         except Exception:
-            logging.critical('Unable to translate %s. Skipping.', ouuid)
+            logger.critical('Unable to translate %s. Skipping.', ouuid)
             continue
 
         try:
             opuuid = str(job['pipeline_uuid'])
             npuuid = typeduuid.catalog_uuid_from_v1_uuid(opuuid, uuid_type='pipeline')
         except Exception:
-            logging.critical('Unable to translate %s. Skipping.', opuuid)
+            logger.critical('Unable to translate %s. Skipping.', opuuid)
             continue
 
-        logging.info('UUID %s remapped to %s', ouuid, nuuid)
+        logger.info('UUID %s remapped to %s', ouuid, nuuid)
 
         # Don't overwrite previously migrated jobs
         if v2_stores['pipelinejob'].coll.find_one({'uuid': nuuid}) is not None:
-            logging.critical('Destination job exists. Skipping.')
+            logger.critical('Destination job exists. Skipping.')
             continue
 
         job_doc['uuid'] = nuuid
@@ -154,7 +155,7 @@ def main(args):
             pprint(job_doc)
 
         resp = v2_stores['pipelinejob'].coll.insert_one(job_doc)
-        logging.debug('Inserted document {}'.format(
+        logger.debug('Inserted document {}'.format(
             resp.inserted_id))
 
 if __name__ == '__main__':
