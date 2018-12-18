@@ -26,6 +26,9 @@ class ManagedPipelineJobInstance(Manager):
         uuid (str): Job UUID
     """
 
+    # Bring in only minimal set of fields to lift from parent document as
+    # the intent of this class is not to update the ManagedPipelineJob but
+    # only to take actions that depend on its specific properties
     PARAMS = [
         ('state', False, 'state', None),
         ('archive_path', False, 'archive_path', None),
@@ -39,12 +42,25 @@ class ManagedPipelineJobInstance(Manager):
             setattr(self, attr, db_rec.get(param))
 
     def index_archive_path(self, processing_level="1", filters=[]):
+        """Discovers and associates files from an archive path with its job
+
+        Args:
+            processing_level (str, optional): The "processing level" for indexed files
+            filters (list, optional): Set of Python regular expressions to subselect specific files in target path
+
+        Note:
+            Regular expressions are concatenated into a single expression at
+            run time. This may impact construction of your filter strings. For
+            example, ``['sample.tacc.1', 'sample-tacc-1']`` will be evaluated
+            as Python regex ``sample.tacc.1|sample-tacc-1``.
+
+        Returns:
+            list: Filenames set as ``generated_by`` the specified job
+        """
         indexed = list()
 
         if filters != []:
             patts = re.compile('|'.join(filters))
-            pprint(patts)
-            # raise OSError()
         else:
             patts = None
 
@@ -54,7 +70,11 @@ class ManagedPipelineJobInstance(Manager):
             for file in path_listing:
                 if patts is not None:
                     if patts.search(os.path.basename(file)):
-                        ftype = getattr(infer_filetype(file, check_exists=False), 'label', 'PLAIN')
+                        # When called with this signature, infer_filetype will
+                        # always return a FileType object
+                        ftype = getattr(infer_filetype(file,
+                                                       check_exists=False,
+                                                       permissive=True), 'label')
                         frec = FileRecord({'name': file,
                                            'type': ftype,
                                            'level': processing_level})
@@ -69,7 +89,6 @@ class ManagedPipelineJobInstance(Manager):
                             resp = self.stores['file'].add_update_document(resp)
                         indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
                 # print('INDEXED {}'.format(resp['uuid']))
-
             return indexed
         else:
             raise ManagedPipelineJobError('Cannot index a job that has not reached FINISHED state')

@@ -221,7 +221,7 @@ def test_pipesjob_delete_jobs_kwargs(mongodb_settings, manager_id, nonce):
             mjob.cancel()
 
 @longrun
-def test_pipesinstance_init(mongodb_settings, agave):
+def test_pipesinstance_index_archive_path(mongodb_settings, agave):
     job_uuid = '1079f67e-0ef6-52fe-b4e9-d77875573860'
     filters = ['sample\.uw_biofab\.141715', 'sample-uw_biofab-141715']
     level = "1"
