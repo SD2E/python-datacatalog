@@ -20,7 +20,7 @@ def infer_filetype(filename, check_exists=True):
         FileTypeError: The target file's type could not be inferred
 
     Returns:
-        FileTypeLabel: a ``type`` for the file
+        FileType: The ``type`` for the file
     """
     try:
         return rules.infer(filename)
