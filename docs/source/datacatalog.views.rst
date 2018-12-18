@@ -13,6 +13,7 @@ Subpackages
 
     datacatalog.views.common
     datacatalog.views.jobs_view
+    datacatalog.views.pipelinejobs_table
     datacatalog.views.science_table
     datacatalog.views.science_view
 

@@ -1,9 +1,10 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:55 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2018-12-18 16:01:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@a608d1a",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "enum": [
+        "*",
         "3DS",
         "3GPP",
         "3GPP2",
@@ -670,6 +671,7 @@
         "TROFF-ME",
         "TROFF-MM",
         "TROFF-MS",
+        "TSV",
         "TTA",
         "TTF",
         "TURTLE",
@@ -678,6 +680,7 @@
         "TZO",
         "UFRAW",
         "UIL",
+        "UNKNOWN",
         "USAC",
         "USTAR",
         "UUENCODE",
@@ -747,8 +750,7 @@
         "ZIP",
         "ZIP-COMPRESSED-FB2",
         "ZLIB",
-        "ZOO",
-        "*"
+        "ZOO"
     ],
     "title": "File Type Label",
     "type": "string"

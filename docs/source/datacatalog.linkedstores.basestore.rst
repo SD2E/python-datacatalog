@@ -9,6 +9,14 @@ datacatalog.linkedstores.basestore package
 Submodules
 ----------
 
+datacatalog.linkedstores.basestore.agaveclient module
+-----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.agaveclient
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.linkedstores.basestore.documentschema module
 --------------------------------------------------------
 
