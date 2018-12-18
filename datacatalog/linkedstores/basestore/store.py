@@ -45,7 +45,7 @@ DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_au
 """Default set of keys managed by LinkedStore internal logic"""
 
 class LinkedStore(object):
-    """JSON-schema informed MongoDB document store with diff-based logging.
+    """JSON-schema informed MongoDB document store with diff-based logging
 
     If the class has public attributes, they may be documented here
     in an ``Attributes`` section and follow the same formatting as a
@@ -511,7 +511,7 @@ class LinkedStore(object):
         Generic class to create or update LinkedStore documents. Handles typed
         UUID generation, manages version and timestamp metadata, implements
         tenant/project/user functions, enforces per-document authorization, and
-        implements diff-based update logging.
+        implements diff-based update log.
 
         Args:
             document_dict (dict): Contents of the document to write or replace

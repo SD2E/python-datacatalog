@@ -5,6 +5,8 @@ from pprint import pprint
 from .filetype import FileType, FileTypeError, FileTypeLabel, FileTypeComment
 from . import rules
 from . import mime
+from . import unknown
+from . import anytype
 
 def listall(filter_attrname=None):
     """Lists rule- and MIME-based types, labels, or comments
@@ -15,7 +17,7 @@ def listall(filter_attrname=None):
     Returns:
         list: A list of FileType, FileTypeLabel, or FileTypeComment objects
     """
-    big_list = rules.listall() + mime.listall()
+    big_list = rules.listall() + mime.listall() + unknown.listall() + anytype.listall()
     if filter_attrname is None:
         return big_list
     else:
@@ -26,10 +28,10 @@ def listall(filter_attrname=None):
         filtered_listing = [l.get(filter_attrname) for l in big_list]
         filtered_listing = list(set(filtered_listing))
         filtered_listing = sorted(filtered_listing)
-        if filter_attrname == 'label':
-            filtered_listing.append(FileTypeLabel('*'))
-        if filter_attrname == 'comment':
-            filtered_listing.append(FileTypeComment('Any type'))
+        # if filter_attrname == 'label':
+        #     filtered_listing.append(FileTypeLabel('*'))
+        # if filter_attrname == 'comment':
+        #     filtered_listing.append(FileTypeComment('Any type'))
         return filtered_listing
 
 def listall_labels():

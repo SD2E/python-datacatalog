@@ -1,5 +1,6 @@
 from xdg import Mime
 from .filetype import FileType, FileTypeError
+from .unknown import UnknownFileType
 
 try:
     Mime._cache_database()
@@ -16,7 +17,11 @@ def infer(filename):
         FileType: What kind of file it is
     """
     mime = Mime.get_type2(filename)
-    return FileType(mimetype=mime)
+    # print('MIME', mime)
+    if str(mime) == 'application/octet-stream':
+        return UnknownFileType()
+    else:
+        return FileType(mimetype=mime)
 
 def listall():
     """Get all FileTypes defined by the FreeDesktop MIME database
