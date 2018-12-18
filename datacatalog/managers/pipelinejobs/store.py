@@ -4,6 +4,7 @@ import os
 import re
 import sys
 import validators
+import logging
 from pprint import pprint
 from ... import identifiers
 from ..common import Manager, data_merge
@@ -13,6 +14,9 @@ from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
 
 DEFAULT_ARCHIVE_SYSTEM = 'data-sd2e-community'
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 class ManagedPipelineJobError(Exception):
     """An error happened in the context of a ManagedPipelineJob"""
@@ -41,7 +45,7 @@ class ManagedPipelineJobInstance(Manager):
         for param, req, attr, default in self.PARAMS:
             setattr(self, attr, db_rec.get(param))
 
-    def index_archive_path(self, processing_level="1", filters=[]):
+    def index_archive_path(self, processing_level="1", filters=[], fixity=False):
         """Discovers and associates files from an archive path with its job
 
         Args:
@@ -88,6 +92,12 @@ class ManagedPipelineJobInstance(Manager):
                             resp['generated_by'] = gen_by
                             resp = self.stores['file'].add_update_document(resp)
                         indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
+
+                        try:
+                            self.stores['fixity'].index({'name': file})
+                        except Exception as exc:
+                            logger.warning(
+                                'Failed to capture fixity for {}: {}'.format(file, exc))
                 # print('INDEXED {}'.format(resp['uuid']))
             return indexed
         else:
