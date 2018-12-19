@@ -65,10 +65,16 @@
                     },
                     {
                         "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
                     }
                 ]
             },
-            "maxItems": 0,
+            "maxItems": 1,
             "type": "array"
         },
         "derived_from": {
