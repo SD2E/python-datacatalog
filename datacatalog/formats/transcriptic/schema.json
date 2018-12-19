@@ -22,10 +22,15 @@
         "type": "object",
         "properties": {
           "contents": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "oneOf": [{
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type":"string"
+            }]
           },
           "experimental_media": {
             "type": "string"
@@ -74,7 +79,6 @@
           "files",
           "sample_id",
           "temperature",
-          "timepoint",
           "tx_sample_id"
         ]
       }
