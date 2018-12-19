@@ -93,7 +93,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
-                    if len(transcriptic_sample[SampleConstants.CONTENTS]) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                    if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
                         contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
                     else:
                         contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
@@ -235,7 +235,10 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
             if file_name.startswith('s3'):
-                file_name_final = file_name.split('/')[-1]
+                file_name_final = file_name.split(original_experiment_id)[-1]
+                if file_name_final.startswith("/"):
+                    file_name_final = file_name_final[1:]
+
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,
                  SampleConstants.M_TYPE: file_type,
