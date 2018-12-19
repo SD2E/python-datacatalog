@@ -56,19 +56,22 @@ class Manager(object):
         Returns:
             list: a set of Typed UUIDs
         """
-        STORES = [('file', 'name', 'child_of')]
-#        STORES = [('file', 'name', 'child_of'), ('reference', 'uri', 'self')]
+        # STORES = [('file', 'name', 'child_of')]
+        STORES = [('reference', 'uri', 'self'), ('file', 'name', 'child_of')]
 
         derivs = list()
-        for idstr in inputs:
-            for storename, key, linkage in STORES:
-                query = {key: idstr}
+        for storename, key, linkage in STORES:
+            for idstr in inputs:
+                if idstr.startswith('agave:') and storename != 'reference':
+                    # TODO - Resolve agave URI into path
+                    pass
+                else:
+                    query = {key: idstr}
                 resp = self.stores[storename].find_one_by_id(**query)
                 if resp is not None:
                     if linkage == 'self':
-                        derivs.extend(resp.get('uuid'))
+                        derivs.extend([resp.get('uuid')])
                     else:
                         derivs.extend(resp.get(linkage, []))
-                    continue
         derivs = sorted(list(set(derivs)))
         return derivs
