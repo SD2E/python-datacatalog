@@ -208,7 +208,7 @@ class LinkedStore(object):
             # Build indexes for the identifiers, where uniqueness is enforced
             for field in UNIQUE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)], unique=True)
+                    self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
                     ALL_INDEXES.append(field)
             # Create array indexes for linkage fields
             for field in LINKAGE_INDEXES:

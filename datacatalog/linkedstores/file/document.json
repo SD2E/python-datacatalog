@@ -87,6 +87,7 @@
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "name"
+        "name",
+        "file_id"
     ]
 }

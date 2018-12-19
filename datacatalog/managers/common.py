@@ -11,6 +11,7 @@ from .. import jsonschemas
 from ..utils import dynamic_import
 from ..tenancy import current_tenant_uri
 from ..dicthelpers import data_merge
+from ..agavehelpers import from_agave_uri
 
 # def dynamic_import(module, package='datacatalog'):
 #     return importlib.import_module(module, package=package)
@@ -57,21 +58,24 @@ class Manager(object):
             list: a set of Typed UUIDs
         """
         # STORES = [('file', 'name', 'child_of')]
-        STORES = [('reference', 'uri', 'self'), ('file', 'name', 'child_of')]
+        STORES = [('reference', ['uri', 'reference_id'], 'self'),
+                  ('file', ['name', 'file_id'], 'self')]
 
         derivs = list()
-        for storename, key, linkage in STORES:
+        for store_name, search_keys, linkage in STORES:
             for idstr in inputs:
-                if idstr.startswith('agave:') and storename != 'reference':
-                    # TODO - Resolve agave URI into path
-                    pass
-                else:
+                for key in search_keys:
+                    # Resolve agave URL into file.name
+                    if store_name == 'file' and key == 'name' and idstr.startswith('agave:'):
+                        agsys, agpath, agfile = from_agave_uri(idstr)
+                        idstr = os.path.join(agpath, agfile)
                     query = {key: idstr}
-                resp = self.stores[storename].find_one_by_id(**query)
-                if resp is not None:
-                    if linkage == 'self':
-                        derivs.extend([resp.get('uuid')])
-                    else:
-                        derivs.extend(resp.get(linkage, []))
+                    resp = self.stores[store_name].find_one_by_id(**query)
+                    if resp is not None:
+                        if linkage == 'self':
+                            derivs.extend([resp.get('uuid')])
+                        else:
+                            derivs.extend(resp.get(linkage, []))
+                        continue
         derivs = sorted(list(set(derivs)))
         return derivs
