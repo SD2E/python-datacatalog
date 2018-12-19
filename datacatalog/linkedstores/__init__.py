@@ -9,3 +9,4 @@ from . import fixity
 from . import pipeline
 from . import pipelinejob
 from . import product
+from . import reference
