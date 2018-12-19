@@ -3,6 +3,7 @@ import json
 import sys
 import os
 import six
+import pymongo
 
 from jsonschema import validate
 from jsonschema import ValidationError
@@ -64,6 +65,11 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
     map_experiment_reference(config, output_doc)
 
+    db_uri = config['cp_db_uri']
+    client = pymongo.MongoClient(db_uri)
+    db = client[config['samples_db']]
+    samples_table = db.samples
+
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
@@ -81,8 +87,50 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab)
 
+        # parse inducer, strain, and replicate from parents, if available
+        if "parents" in transcriptic_sample:
+            parents = transcriptic_sample["parents"]
+
+            parent_replicates = set()
+            parent_strains = set()
+            parent_contents = set()
+
+            for parent in parents:
+                parent_sample_id_split = parent.split("/")
+                parent_sample_id = parent_sample_id_split[0]
+                query = {}
+                query["sample_id"] = namespace_sample_id(parent_sample_id, lab)
+
+                matches = list(samples_table.find(query).limit(1))
+                if len(matches) == 0:
+                    print("Warn: Could not find parent: {}".format(query["sample_id"]))
+
+                for match in matches:
+                    if "replicate" in match:
+                        parent_replicates.add(match["replicate"])
+                    if "strain" in match:
+                        parent_strains.add(match["strain"]["lab_id"].split(".")[-1])
+                    if "contents" in match:
+                        for content in match["contents"]:
+                            if content != "None":
+                                parent_contents.add(content["name"]["lab_id"].split(".")[-1])
+
+            if len(parent_replicates) != 1:
+                raise ValueError("Zero or more than one parent replicate? {} {}".format(parents, parent_replicates))
+            if len(parent_strains) != 1:
+                raise ValueError("Zero or more than one parent strain? {} {}".format(parents, parent_strains))
+
+            if SampleConstants.REPLICATE not in transcriptic_sample or transcriptic_sample[SampleConstants.REPLICATE] == None:
+                transcriptic_sample[SampleConstants.REPLICATE] = list(parent_replicates)[0]
+            if SampleConstants.STRAIN not in transcriptic_sample:
+                transcriptic_sample[SampleConstants.STRAIN] = list(parent_strains)[0]
+            if SampleConstants.CONTENTS not in transcriptic_sample:
+                transcriptic_sample[SampleConstants.CONTENTS] = list(parent_contents)
+
         # media
         contents = []
+        # parent can override child values, track these
+        seen_contents = set()
         if SampleConstants.CONTENTS in transcriptic_sample:
             # this is sometimes a list, sometimes a single value...
             sample_contents = transcriptic_sample[SampleConstants.CONTENTS]
@@ -93,15 +141,19 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
-                    if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
-                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
-                    else:
-                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
+                    if reagent not in seen_contents:
+                        seen_contents.add(reagent)
+                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                            contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
+                        else:
+                            contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
 
         if SampleConstants.MEDIA in transcriptic_sample and SampleConstants.MEDIA_RS_ID in transcriptic_sample:
             media = transcriptic_sample[SampleConstants.MEDIA]
             media_id = transcriptic_sample[SampleConstants.MEDIA_RS_ID]
-            contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
+            if media_id not in seen_contents:
+                seen_contents.add(media_id)
+                contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
 
         if SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
@@ -109,10 +161,16 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             if inducer != "None":
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
-                    contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
-                    contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
+                    if inducer_split[0] not in seen_contents:
+                        seen_contents.add(inducer_split[0])
+                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
+                    if inducer_split[1] not in seen_contents:
+                        seen_contents.add(inducer_split[1])
+                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
                 else:
-                    contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                    if inducer not in seen_contents:
+                        seen_contents.add(inducer)
+                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
@@ -250,7 +308,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
-            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
+            #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []
