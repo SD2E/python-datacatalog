@@ -6,6 +6,7 @@ import os
 import sys
 import uuid
 from pprint import pprint
+from slugify import slugify
 
 from ...dicthelpers import data_merge
 from ..basestore import LinkedStore
@@ -53,8 +54,10 @@ class ReferenceStore(LinkedStore):
         self.setup()
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
-        if 'name' in document_dict:
-            document_dict['name'] = normpath(document_dict['name'])
+        if 'reference_id' not in document_dict:
+            suggested_id = encode_name(document_dict['name'])
+            raise KeyError("Reference document must have a 'reference_id'. " +
+                           "Based on the provided name, here is a suggestion: {}".format(suggested_id))
         return super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
@@ -72,3 +75,8 @@ class ReferenceStore(LinkedStore):
 
 class StoreInterface(ReferenceStore):
     pass
+
+def encode_name(textstring, separator='_', stopwords=[], case_insensitive=False):
+    return separator.join(slug for slug in slugify(
+        textstring, stopwords=stopwords,
+        lowercase=case_insensitive).split('-'))

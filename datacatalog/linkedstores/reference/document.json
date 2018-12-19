@@ -36,7 +36,13 @@
                             "type": "string"
                         },
                         {
-                            "type": "bool"
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
                         }
                     ]
                 }
@@ -91,14 +97,14 @@
     },
     "required": [
         "uri",
+        "name",
         "reference_id"
     ],
     "type": "object",
     "_filename": "reference",
     "__uuid_type": "reference",
     "__uuid_fields": [
-        "reference_id",
-        "uri"
+        "reference_id"
     ],
     "__collection": "references",
     "__indexes": [],

@@ -1,0 +1,63 @@
+{
+    "$comment": "generated: 2018-12-19 11:52:30 +00:00; source: git@github.com:SD2E/python-datacatalog.git@128232f",
+    "$id": "https://schema.catalog.sd2e.org/schemas/reference.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A reference entity such as genome sequence file, gene list, instrument configuration, or the like.",
+    "properties": {
+        "attributes": {
+            "additionalProperties": false,
+            "patternProperties": {
+                "^.*$": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "description": {
+            "description": "Human-readable description of the reference. Please do not embed structured information here, but rather as key:value entries in 'attributes'.",
+            "type": "string"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "name": {
+            "description": "Human-readable name for the reference",
+            "type": "string"
+        },
+        "reference_id": {
+            "description": "Short, unique alphanumeric identifier. Ideally, this will have a recognizable link to the 'name' key.",
+            "pattern": "^[a-zA-Z0-9_-]*$",
+            "type": "string"
+        },
+        "uri": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        }
+    },
+    "required": [
+        "uri",
+        "name",
+        "reference_id"
+    ],
+    "title": "ReferenceEntity",
+    "type": "object"
+}
