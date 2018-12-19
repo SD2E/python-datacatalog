@@ -84,7 +84,12 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         # media
         contents = []
         if SampleConstants.CONTENTS in transcriptic_sample:
-            for reagent in transcriptic_sample[SampleConstants.CONTENTS]:
+            # this is sometimes a list, sometimes a single value...
+            sample_contents = transcriptic_sample[SampleConstants.CONTENTS]
+            if not isinstance(sample_contents, list):
+                sample_contents = [sample_contents]
+
+            for reagent in sample_contents:
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
@@ -134,11 +139,16 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         # time
-        time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
-
-        # enum fix
-        if time_val.endswith("hours"):
-            time_val = time_val.replace("hours", "hour")
+        time_val = None
+        if SampleConstants.TIMEPOINT in transcriptic_sample:
+            time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
+            # enum fix
+            if time_val.endswith("hours"):
+                time_val = time_val.replace("hours", "hour")
+            if time_val.endswith("minutes"):
+                minute_split = time_val.split(":minutes")
+                minute_val = float(minute_split[0])/60.0
+                time_val = str(minute_val) + ":hour"
 
         # controls and standards
         # map standard for, type,
@@ -188,7 +198,8 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         for file in transcriptic_sample[SampleConstants.FILES]:
             measurement_doc = {}
 
-            measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+            if time_val is not None:
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
 
             measurement_doc[SampleConstants.FILES] = []
 
