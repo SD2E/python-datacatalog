@@ -45,12 +45,10 @@
                     },
                     {
                         "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "job_uuid.json"
                     }
                 ]
             },
+            "maxItems": 1,
             "type": "array"
         },
         "derived_from": {

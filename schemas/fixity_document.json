@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-13 18:37:31 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c5fde06",
+    "$comment": "generated: 2018-12-18 18:24:05 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e1c8ef9",
     "$id": "https://schema.catalog.sd2e.org/schemas/fixity_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -66,20 +66,6 @@
         },
         "child_of": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ],
                 "type": "string"
             },
             "type": "array"
@@ -103,16 +89,6 @@
             "$comment": "Computed automatically",
             "description": "xxHash64 fingerprint of the file",
             "type": "integer"
-        },
-        "generated_by": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
         },
         "id": {
             "$ref": "identifier.json",
@@ -150,9 +126,7 @@
         }
     },
     "required": [
-        "name",
-        "type",
-        "child_of"
+        "name"
     ],
     "title": "FileFixity",
     "type": "object"

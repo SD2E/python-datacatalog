@@ -41,3 +41,34 @@ class Manager(object):
             except ModuleNotFoundError as mexc:
                 print('Module not found: {}'.format(pkg), mexc)
         return stores
+
+    def derivation_from_inputs(self, inputs=[]):
+        """Build ``derived_from`` from a set of inputs
+
+        Filepaths will be resolved against the ``file``
+        collection and will return a reference to their immediate
+        parent. URIs will be resolved against the ``reference`` collection
+        and will return a reference to themselves.
+
+        Args:
+            inputs (str): One or more filepaths or URIs
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        STORES = [('file', 'name', 'child_of')]
+#        STORES = [('file', 'name', 'child_of'), ('reference', 'uri', 'self')]
+
+        derivs = list()
+        for idstr in inputs:
+            for storename, key, linkage in STORES:
+                query = {key: idstr}
+                resp = self.stores[storename].find_one_by_id(**query)
+                if resp is not None:
+                    if linkage == 'self':
+                        derivs.extend(resp.get('uuid'))
+                    else:
+                        derivs.extend(resp.get(linkage, []))
+                    continue
+        derivs = sorted(list(set(derivs)))
+        return derivs
