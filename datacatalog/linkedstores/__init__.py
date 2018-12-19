@@ -1,3 +1,5 @@
+from .basestore import DEFAULT_LINK_FIELDS
+
 from . import basestore
 from . import challenge_problem
 from . import experiment_design
