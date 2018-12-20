@@ -69,3 +69,37 @@ def test_mgr_common_get_generator_names(mongodb_settings, agave):
     parents = base.generator_from_inputs(inputs)
     # Only the long '/products' example should have a generated_by field
     assert len(parents) == 1
+
+def test_mgr_common_lineage_file_short_exception(mongodb_settings, agave):
+    base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
+    with pytest.raises(ValueError):
+        # 10507438-f288-5898-9b72-68b31bcaff46's measurement has 90+ parents
+        # so the traversal is expected to terminate at measurement
+        base.lineage_from_uuid('10507438-f288-5898-9b72-68b31bcaff46')
+
+def test_mgr_common_lineage_file_short_truncated(mongodb_settings, agave):
+    base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
+    # 10507438-f288-5898-9b72-68b31bcaff46's measurement has 90+ parents
+    # so the traversal is expected to terminate at measurement
+    resp = base.lineage_from_uuid(
+        '10507438-f288-5898-9b72-68b31bcaff46', permissive=True)
+    assert len(resp) == 2
+    assert resp[1][0] == 'measurement'
+
+def test_mgr_common_lineage_level_from_lineage(mongodb_settings, agave):
+    base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
+    # 10507438-f288-5898-9b72-68b31bcaff46's measurement has 90+ parents
+    # so the traversal is expected to terminate at measurement
+    lineage = base.lineage_from_uuid(
+        '10507438-f288-5898-9b72-68b31bcaff46', permissive=True)
+    assert base.level_from_lineage(lineage, level='file') == '10507438-f288-5898-9b72-68b31bcaff46'
+    assert base.level_from_lineage(lineage, level='measurement') == '1040f664-0b71-54a6-8941-05ac277a6fa7'
+
+def test_mgr_common_lineage_level_from_lineage_overrun(mongodb_settings, agave):
+    base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
+    # 10507438-f288-5898-9b72-68b31bcaff46's measurement has 90+ parents
+    # so the traversal is expected to terminate at measurement
+    lineage = base.lineage_from_uuid(
+        '10507438-f288-5898-9b72-68b31bcaff46', permissive=True)
+    with pytest.raises(ValueError):
+        base.level_from_lineage(lineage, level='sample')

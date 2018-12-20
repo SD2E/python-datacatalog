@@ -63,7 +63,6 @@ def test_basestore_write_key(mongodb_settings):
         resp = base.write_key(uuid_val, key, val)
         assert resp[key] == val
 
-@delete
 def test_basestore_delete(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()

@@ -1,6 +1,6 @@
 {
     "name": "Tacobot 9000",
-    "description": "Creates delicious breakfast tacos out of silicon and ozone",
+    "description": "(Test) Create delicious breakfast tacos out of silicon and ozone",
     "components": [
         {
             "id": "eqMyqq4xB1Lqa",
@@ -22,7 +22,7 @@
         "1"
     ],
     "accepts": [
-        "CSV"
+        "*"
     ],
     "produces": [
         "PNG"
