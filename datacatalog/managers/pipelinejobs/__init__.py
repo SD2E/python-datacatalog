@@ -1,3 +1,8 @@
 from . import clients
-from .store import Manager, ManagedPipelineJob, ManagedPipelineJobError
-from .store import ManagedPipelineJobInstance
+from . import config
+from . import exceptions
+from . import instanced
+
+from .store import Manager, ManagedPipelineJob
+from .exceptions import ManagedPipelineJobError
+from .instanced import ManagedPipelineJobInstance

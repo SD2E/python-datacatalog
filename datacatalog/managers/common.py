@@ -1,3 +1,4 @@
+import copy
 import json
 import importlib
 import inspect
@@ -45,15 +46,47 @@ class Manager(object):
         return stores
 
     def derivation_from_inputs(self, inputs=[]):
+        """Retrieve derived_from for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
         return self.linkage_from_inputs(inputs=inputs, target='derived_from')
 
     def generator_from_inputs(self, inputs=[]):
+        """Retrieve generated_by for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
         return self.linkage_from_inputs(inputs=inputs, target='generated_by')
 
     def parent_from_inputs(self, inputs=[]):
+        """Retrieve child_of for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
         return self.linkage_from_inputs(inputs=inputs, target='child_of')
 
     def self_from_inputs(self, inputs=[]):
+        """Retrieve self-reference for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
         return self.linkage_from_inputs(inputs=inputs, target='self')
 
     def linkage_from_inputs(self, inputs=[], target='child_of'):
@@ -105,3 +138,78 @@ class Manager(object):
             l, permissive=False) is True]
         uuid_links = sorted(list(set(uuid_links)))
         return uuid_links
+
+    def lineage_from_uuid(self, query_uuid, target='child_of', permissive=True):
+        """Get self-inclusive lineage for a given UUID
+
+        Args:
+            query_uuid (str): The UUID to query on
+            target (str, optional): The kind of linkage to follow
+            permissive (bool, optional): Whether to raise a ValueError if a
+            simple lineage can't be determined.
+
+        Raises:
+            ValueError: Raised if ``permissive==False`` and complete lineage traversal cannot be achieved
+
+        Returns:
+            list: Ordered list of tuples (``<collection_level>``, ``<uuid5>``)
+
+        Note:
+            The lineage will include a reference to the original query
+            at position 0. Access the UUID of immediate parent as follows:
+            ``my_lineage[1][1]``.
+        """
+
+        DEFAULT_LINK_HIERARCHY = ['file', 'measurement', 'sample',
+                                  'experiment', 'experiment_design',
+                                  'challenge_problem']
+        LINK_HIERARCHY = copy.copy(DEFAULT_LINK_HIERARCHY)
+        lineage = list()
+
+        uuid_type = typeduuid.get_uuidtype(query_uuid)
+        print('TypedUUID', uuid_type)
+
+        for link_level in DEFAULT_LINK_HIERARCHY:
+            if link_level != uuid_type:
+                LINK_HIERARCHY.pop()
+            else:
+                break
+
+        current_query_uuid = query_uuid
+        lineage.append((uuid_type, current_query_uuid))
+
+        try:
+            for x in range(0, len(LINK_HIERARCHY)):
+                try:
+                    store_name = LINK_HIERARCHY[x]
+                    parent_store_name = LINK_HIERARCHY[x + 1]
+                    resp1 = self.stores[store_name].find_one_by_uuid(current_query_uuid)
+                    if resp1 is not None:
+                        parent_uuid_list = resp1.get(target, [])
+                        if len(parent_uuid_list) == 1:
+                            current_query_uuid = parent_uuid_list[0]
+                            # lineage[parent_store_name] = current_query_uuid
+                            lineage.append((parent_store_name, current_query_uuid))
+                        else:
+                            raise ValueError(
+                                'Stopped computing lineage because {} has {} parents.'.format(
+                                    current_query_uuid, len(parent_uuid_list)))
+                except IndexError:
+                    break
+        except ValueError as verr:
+            if permissive:
+                print(verr)
+            else:
+                raise
+
+        return lineage
+
+    def level_from_lineage(self, lineage, level='experiment', permissive=False):
+        """Traverse a lineage and return value for a specific level"""
+        for name, value in lineage:
+            if name == level:
+                return value
+        if permissive:
+            return None
+        else:
+            raise ValueError('Failed to retrieve level {} from lineage'.format(level))
