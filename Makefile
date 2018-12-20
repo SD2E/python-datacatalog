@@ -103,9 +103,14 @@ tests-longrun:
 tests-networked:
 	python -m pytest --networked $(PYTEST_RUN_OPTS) $(PYTEST_SRC)
 
+tests-import-from-bootstrap-dirs:
+	cp -rf bootstrap/files/* tests/data/file/files/
+	cp -rf bootstrap/pipelines/* tests/data/pipeline/
+#	cp bootstrap/jobs/* tests/data/pipelinejob/
+
 # Generic all tests
 .PHONY: tests
-tests:
+tests: tests-import-from-bootstrap-dirs
 	python -m pytest $(PYTEST_RUN_OPTS) $(PYTEST_OPTS) $(PYTEST_SRC)
 
 # Test detection of lab trace formats
@@ -124,6 +129,9 @@ bootstrap-experiment-designs: experiment_designs
 
 bootstrap-references:
 	python -m bootstrap.manage_references auto $(BOOTSTRAP_ENV)
+
+bootstrap-files:
+	python -m bootstrap.manage_files auto $(BOOTSTRAP_ENV)
 
 bootstrap-pipelines:
 	python -m bootstrap.manage_pipelines auto $(BOOTSTRAP_ENV)
