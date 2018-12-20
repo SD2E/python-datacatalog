@@ -22,7 +22,11 @@ GPARENT = os.path.dirname(PARENT)
 sys.path.insert(0, GPARENT)
 
 import datacatalog
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(os.path.basename(__file__))
+logger.setLevel(logging.INFO)
+loghandler = logging.StreamHandler()
+loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
+logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
     views = datacatalog.views.aggregations.get_aggregations()
@@ -93,7 +97,6 @@ def main(args):
         raise NotImplementedError()
 
 if __name__ == '__main__':
-    logger.setLevel(logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument('command', help="command", choices=['auto', 'discover', 'create', 'delete'])
     parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')

@@ -49,6 +49,9 @@ def main(args):
 
 if __name__ == '__main__':
     logger.setLevel(logging.DEBUG)
+    loghandler = logging.StreamHandler()
+    loghandler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(loghandler)
     parser = argparse.ArgumentParser()
     parser.add_argument("-database", help="Database name")
     args = parser.parse_args()

@@ -18,12 +18,13 @@ SELF = __file__
 THIS = os.path.dirname(SELF)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
-DATA = os.path.join(THIS, 'references')
+DATA = os.path.join(THIS, 'files')
 
 # Use local not installed install of datacatalog
 sys.path.insert(0, GPARENT)
 
 import datacatalog
+
 logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.INFO)
 loghandler = logging.StreamHandler()
@@ -31,26 +32,25 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    store = datacatalog.linkedstores.reference.ReferenceStore(idb)
+    store = datacatalog.linkedstores.file.FileStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading {}'.format(ref))
-        reference = json.load(open(os.path.join(DATA, ref), 'r'))
+        filedoc = json.load(open(os.path.join(DATA, ref), 'r'))
         try:
-            resp = store.add_update_document(reference)
+            resp = store.add_update_document(filedoc)
+            logger.debug('Response: {}'.format(resp))
             build_log.write('{}\t{}\t{}\t{}\n'.format(
-                resp['reference_id'], resp['name'], resp['uuid'], resp['_update_token']))
+                resp['file_id'], resp['name'], resp['uuid'], resp['_update_token']))
             logger.info('Registered {}'.format(resp['name']))
         except Exception:
-            logger.exception('Reference not added or updated')
+            logger.exception('File document {} not added or updated'.format(ref))
 
 def dblist(idb, settings):
-    logger.debug('Listing known references')
-    store = datacatalog.linkedstores.reference.ReferenceStore(idb)
-    for pipe in store.query({}):
-        logger.info('Reference: id={} name="{}" uuid={} updated={}'.format(
-            pipe['reference_id'], pipe['name'], pipe['uuid'],
-            pipe['_properties']['modified_date']))
+    logger.debug('Listing known files')
+    store = datacatalog.linkedstores.file.FileStore(idb)
+    for filedat in store.query({}):
+        pprint(filedat)
 
 def main(args):
 
@@ -80,6 +80,7 @@ def main(args):
         raise NotImplementedError()
 
 if __name__ == '__main__':
+
     parser = argparse.ArgumentParser()
     parser.add_argument('command', help="command", choices=['auto', 'list', 'create', 'delete'])
     parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')
