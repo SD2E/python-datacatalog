@@ -26,3 +26,8 @@ def debug_mode():
         bool: Boolean value of `LOCALONLY`
     """
     return get_osenv_bool('LOCALONLY')
+
+class Environment(object):
+    debug = debug_mode()
+    testing = debug
+    source = environ.get('CATALOG_RECORDS_SOURCE', 'testing')

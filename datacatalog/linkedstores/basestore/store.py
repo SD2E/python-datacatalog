@@ -18,6 +18,7 @@ from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
 
+from ... import config
 from ...constants import CatalogStore
 from ...debug_mode import debug_mode
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
@@ -337,6 +338,9 @@ class LinkedStore(object):
             dict: Object containing the updated LinkedStore document
         """
         ts = msec_precision(current_time())
+
+        if source is None:
+            source = config.Environment.source
         # Amend record with _properties if needed
         if '_properties' not in record:
             record['_properties'] = {'created_date': ts,
