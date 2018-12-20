@@ -103,7 +103,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
                 matches = list(samples_table.find(query).limit(1))
                 if len(matches) == 0:
-                    print("Warn: Could not find parent: {}".format(query["sample_id"]))
+                    raise ValueError("Error: Could not find parent: {}".format(query["sample_id"]))
 
                 for match in matches:
                     if "replicate" in match:
