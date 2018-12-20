@@ -2,8 +2,8 @@ from .hashid import generate, validate, mock, \
     IdentifierSchema, JSONSchemaCollection
 
 PROPERTIES = {'id': 'abaco_actorid',
-              'title': 'Abaco actorID',
-              'description': 'Abaco actorID identifier',
+              'title': 'Abaco actorId',
+              'description': 'Identifer for an Abaco actor',
               'type': 'string'}
 
 __all__ = ["generate", "validate", "mock", "get_schemas"]

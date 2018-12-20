@@ -1,8 +1,9 @@
-from .hashid import *
+from .hashid import generate, validate, mock, \
+    IdentifierSchema, JSONSchemaCollection
 
 PROPERTIES = {'id': 'abaco_execid',
-              'title': 'Abaco executionID',
-              'description': 'Abaco executionID identifier',
+              'title': 'Abaco executionId',
+              'description': 'Identifier for a specific Abaco execution',
               'type': 'string'}
 
 __all__ = ["generate", "validate", "mock", "get_schemas"]
