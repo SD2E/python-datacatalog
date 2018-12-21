@@ -3,6 +3,7 @@ import json
 import sys
 import os
 import six
+import collections
 
 from jsonschema import validate
 from jsonschema import ValidationError
@@ -87,7 +88,19 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.CONTENTS] = contents
 
         for strain in ginkgo_sample["content"]["strain"]:
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain["name"], strain["id"], lab, sbh_query, strain=True)
+            # this can either be a dict or an int
+            strain_name = None
+            strain_id = None
+            if type(strain) == int:
+                strain_name = str(strain)
+                strain_id = str(strain)
+            elif isinstance(strain, collections.Mapping):
+                strain_name = strain["name"]
+                strain_id = strain["id"]
+            else:
+                raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
+
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
             # TODO multiple strains?
             continue
 
