@@ -39,7 +39,7 @@ def merge_dicts(dicts):
 
 def convert_sample_attributes(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
-    print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
+    #print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
         print("Helper loaded")
@@ -62,7 +62,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
     exp_id_re = re.compile("agave:\/\/.*\/(.*)\/\d\/instrument_output")
 
     for sample_attributes_sample in sample_attributes_doc:
-        print("sample_attributes_sample: {}".format(sample_attributes_sample))
+        #print("sample_attributes_sample: {}".format(sample_attributes_sample))
         sample_doc = {}
         sample_doc[SampleConstants.MEASUREMENTS] = []
         
@@ -72,16 +72,16 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
         for attr_match in attr_matches:
             attr_sample_content.append(sample_attributes_sample[attr_match])
         attr_sample_content = merge_dicts(attr_sample_content)
-        print("attr_sample_content: {}".format(attr_sample_content))
+        #print("attr_sample_content: {}".format(attr_sample_content))
 
         measurement_group_ids = {}
         measurement_group_ids[SampleConstants.MT_PLATE_READER] = measurement_group_ids[SampleConstants.MT_FLOW] = None
         if "operators" in sample_attributes_sample:
-            print("found operators")
+            #print("found operators")
             for operator in sample_attributes_sample["operators"]:
-                print("operator: {}".format(operator))
+                #print("operator: {}".format(operator))
                 if "parameters" in operator["operator"]:
-                    print("found parameters: {}".format(operator["operator"]["parameters"]))
+                    #print("found parameters: {}".format(operator["operator"]["parameters"]))
                     parameters = operator["operator"]["parameters"]
                     if parameters is not None:
                         for parameter in parameters:
@@ -123,7 +123,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
                     if exp_match and SampleConstants.EXPERIMENT_ID not in output_doc:
                         experiment_id = namespace_experiment_id(eid, lab)
                         output_doc[SampleConstants.EXPERIMENT_ID] = experiment_id
-                        print("experiment_id: {}".format(experiment_id))
+                        #print("experiment_id: {}".format(experiment_id))
     
                     map_experiment_reference(config, output_doc)
                 
@@ -138,14 +138,14 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
                     measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(str(timepoint_val) + ":hour")
                 measurement_doc[SampleConstants.FILES] = []
                 
-                print("file: {}".format(file))
+                #print("file: {}".format(file))
                 if (file.endswith("fcs")):
                     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
                 elif (file.endswith("csv")):
                     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_PLATE_READER
                     
                 sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(sample_attributes_sample["sample"]), lab)
-                print("sample_id: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+                #print("sample_id: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
                 # generate a measurement id unique to this sample
                 measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB])
@@ -205,7 +205,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
         if SampleConstants.CONTROL_TYPE not in sample_doc and SampleConstants.STRAIN in sample_doc:
-            print("strain: {}".format(sample_doc[SampleConstants.STRAIN]))
+            #print("strain: {}".format(sample_doc[SampleConstants.STRAIN]))
             if "UWBIOFAB_22544" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif "UWBF_6390" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
