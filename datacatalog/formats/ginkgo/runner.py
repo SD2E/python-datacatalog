@@ -57,7 +57,13 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
 
     if "internal_workflow_id" in ginkgo_doc:
         list_of_wf_ids = ginkgo_doc["internal_workflow_id"]
-        experiment_id = '.'.join(str(wf_id) for wf_id in list_of_wf_ids)
+        if isinstance(list_of_wf_ids, list):
+            experiment_id = '.'.join(str(wf_id) for wf_id in list_of_wf_ids)
+        elif isinstance(list_of_wf_ids, six.string_types):
+            experiment_id = list_of_wf_ids
+        else:
+            raise ValueError("Could not parse internal workflow id{}".format(list_of_wf_ids))
+
         output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(experiment_id, lab)
 
     if "samples" in ginkgo_doc:
