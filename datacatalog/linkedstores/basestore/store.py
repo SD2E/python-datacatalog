@@ -208,7 +208,7 @@ class LinkedStore(object):
             # Build indexes for the identifiers, where uniqueness is enforced
             for field in UNIQUE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)], unique=True)
+                    self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
                     ALL_INDEXES.append(field)
             # Create array indexes for linkage fields
             for field in LINKAGE_INDEXES:
@@ -225,8 +225,7 @@ class LinkedStore(object):
             # Contains names of all indexed fields - useful for validation
             setattr(self, '_indexes', list(set(ALL_INDEXES)))
         except Exception as exc:
-            raise CatalogError(
-                'Failed to set indexes on {}'.format(self.name), exc)
+            print('Failed to set or enforce indexes.', exc)
 
     def get_identifiers(self):
         """Returns names of keys whose values will be distinct"""
