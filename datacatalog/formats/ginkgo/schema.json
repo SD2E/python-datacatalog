@@ -73,10 +73,14 @@
           "type": "string"
         },
         "internal_workflow_id": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+          "oneOf": [{
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+            }, {
+              "type": "string"
+            }]
         }
       },
       "required": ["experimental_reference", "internal_workflow_id", "lab", "samples"]
