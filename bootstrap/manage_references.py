@@ -12,6 +12,7 @@ from pprint import pprint
 from pymongo import MongoClient, errors
 from agavepy.agave import Agave
 from tacconfig import config
+from .utils import to_json_abstract
 
 HERE = os.getcwd()
 SELF = __file__
@@ -25,7 +26,7 @@ sys.path.insert(0, GPARENT)
 
 import datacatalog
 logger = logging.getLogger(os.path.basename(__file__))
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 loghandler = logging.StreamHandler()
 loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
 logger.addHandler(loghandler)
@@ -34,15 +35,22 @@ def autobuild(idb, settings):
     store = datacatalog.linkedstores.reference.ReferenceStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
-        logger.debug('Loading {}'.format(ref))
-        reference = json.load(open(os.path.join(DATA, ref), 'r'))
-        try:
-            resp = store.add_update_document(reference)
-            build_log.write('{}\t{}\t{}\t{}\n'.format(
-                resp['reference_id'], resp['name'], resp['uuid'], resp['_update_token']))
-            logger.info('Registered {}'.format(resp['name']))
-        except Exception:
-            logger.exception('Reference not added or updated')
+        logger.debug('Loading file {}'.format(ref))
+        references = json.load(open(os.path.join(DATA, ref), 'r'))
+        if isinstance(references, dict):
+            refslist = list()
+            refslist.append(references)
+            references = refslist
+        for ref in references:
+            try:
+                ref_abs = to_json_abstract(ref)
+                logger.debug('Registering reference {}'.format(ref_abs))
+                resp = store.add_update_document(ref, strategy='merge')
+                build_log.write('{}\t{}\t{}\t{}\n'.format(
+                    resp['reference_id'], resp['name'], resp['uuid'], resp['_update_token']))
+                logger.info('Registered {}'.format(resp['name']))
+            except Exception:
+                logger.exception('Reference not added or updated')
 
 def dblist(idb, settings):
     logger.debug('Listing known references')
