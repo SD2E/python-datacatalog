@@ -43,10 +43,11 @@
             "type": "string"
           },
           "files": {
+            "oneOf": [{
             "type": "array",
             "items": {
               "type": "string"
-            }
+            }}, { "type" : "null" }] 
           },
           "parent": {
             "type": "string"

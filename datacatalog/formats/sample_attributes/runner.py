@@ -100,7 +100,9 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
                      
         if len(attr_matches)>0 and files_attr in attr_sample_content:
             # determinstically derive measurement ids from sample_id + counter (local to sample)
-            measurement_counter = 1            
+            measurement_counter = 1
+            if attr_sample_content[files_attr] is None:
+                continue
             for file in attr_sample_content[files_attr]:
                 
                 exp_match = exp_id_re.match(file)
