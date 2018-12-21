@@ -163,7 +163,9 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
         if replicate_prop in props:
             replicate_val = props[replicate_prop]
             if isinstance(replicate_val, six.string_types):
-                replicate_val = int(replicate_val)
+                # Ginkgo sometimes sends floats here.
+                replicate_val_f = float(replicate_val)
+                replicate_val = int(replicate_val_f)
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         tx_sample_prop = "SD2_TX_sample_id"
@@ -356,7 +358,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
-            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
+            #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []

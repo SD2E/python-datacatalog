@@ -513,6 +513,7 @@
             "description": "experiment reference enumeration",
             "type": "string",
             "enum": [
+                "Exp-NC-NAND-Gate-Iteration",
                 "NovelChassis-NAND-Gate",
                 "NovelChassis-P-Fluorescens",
                 "NovelChassis-Parts-Discovery",
