@@ -24,7 +24,11 @@ DATA = os.path.join(THIS, 'pipelines')
 sys.path.insert(0, GPARENT)
 
 import datacatalog
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(os.path.basename(__file__))
+logger.setLevel(logging.INFO)
+loghandler = logging.StreamHandler()
+loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
+logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
     store = datacatalog.linkedstores.pipeline.PipelineStore(idb)
@@ -33,12 +37,12 @@ def autobuild(idb, settings):
         logger.debug('Loading {}'.format(pipefile))
         pipeline = json.load(open(os.path.join(DATA, pipefile), 'r'))
         try:
-            resp = store.add_update_document(pipeline, strategy='drop')
+            resp = store.add_update_document(pipeline)
             build_log.write('{}\t{}\t{}\t{}\n'.format(
                 resp['id'], resp['name'], resp['uuid'], resp['_update_token']))
             logger.info('Registered {}'.format(resp['name']))
         except Exception:
-            logger.warning('Pipeline not added or updated')
+            logger.exception('Pipeline not added or updated')
 
 def dblist(idb, settings):
     logger.debug('Listing known pipelines')
@@ -76,7 +80,6 @@ def main(args):
         raise NotImplementedError()
 
 if __name__ == '__main__':
-    logger.setLevel(logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument('command', help="command", choices=['auto', 'list', 'create', 'delete'])
     parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')
