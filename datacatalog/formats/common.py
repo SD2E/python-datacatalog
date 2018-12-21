@@ -269,6 +269,21 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
         designs = sbh_cache[id_to_map]
     else:
         designs = sbh_query.query_designs_by_lab_ids(sbh_lab, [id_to_map], verbose=True)
+        if len(designs) == 0 and id_to_map.startswith("https://hub.sd2e.org/user/sd2e/design"):
+            print("Trying to map SBH URI directly")
+            # Are we parsing a URI directly, not an internal lab id?
+            query = """PREFIX sbol: <http://sbols.org/v2#>
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX sd2: <http://sd2e.org#>
+            SELECT ?identity ?name ?id WHERE {{
+                <https://hub.sd2e.org/user/sd2e/design/design_collection/1> sbol:member ?identity .
+                ?identity dcterms:title ?name .
+                VALUES (?identity) {{ (<{}>) }}
+                VALUES (?id) {{ (<{}>) }}
+            }}""".format(id_to_map, id_to_map)
+            designs = sbh_query.fetch_SPARQL(SD2Constants.SD2_SERVER, query)
+            # format like query_designs_by_lab_ids verbose
+            designs = sbh_query.format_query_result(designs, ['identity', 'name'], 'id')
         sbh_cache[id_to_map] = designs
 
     if len(designs) > 0 and id_to_map in designs:
