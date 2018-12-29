@@ -60,10 +60,14 @@
                 "type": "object"
               },
               "sample_id": {
-                "type": "string"
+                "oneOf": [{
+                    "type": "number"
+                  }, {
+                    "type": "string"
+                }]
               }
             },
-            "required": ["content", "measurements", "properties", "sample_id"]
+            "required": ["content", "measurements", "sample_id"]
           }
         },
         "experimental_reference": {
