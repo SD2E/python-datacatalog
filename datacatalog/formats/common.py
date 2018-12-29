@@ -85,6 +85,7 @@ class SampleConstants():
     STANDARD_TYPE = "standard_type"
     STANDARD_FOR = "standard_for"
     STANDARD_FLUORESCEIN = "FLUORESCEIN"
+    STANDARD_MEDIA_BLANK = "MEDIA_BLANK"
     STANDARD_BEAD_FLUORESCENCE = "BEAD_FLUORESCENCE"
 
     CONTROL_TYPE = "control_type"

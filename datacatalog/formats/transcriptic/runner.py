@@ -213,7 +213,9 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         if SampleConstants.STANDARD_TYPE in transcriptic_sample:
             sample_doc[SampleConstants.STANDARD_TYPE] = transcriptic_sample[SampleConstants.STANDARD_TYPE]
         if SampleConstants.STANDARD_FOR in transcriptic_sample:
-            sample_doc[SampleConstants.STANDARD_FOR] = transcriptic_sample[SampleConstants.STANDARD_FOR]
+            standard_for = transcriptic_sample[SampleConstants.STANDARD_FOR]
+            if len(standard_for) != 0 or sample_doc[SampleConstants.STANDARD_TYPE] != SampleConstants.STANDARD_MEDIA_BLANK:
+                sample_doc[SampleConstants.STANDARD_FOR] = standard_for
 
         # map control for, type
         if SampleConstants.CONTROL_TYPE in transcriptic_sample:

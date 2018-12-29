@@ -25,6 +25,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     else:
         print("Helper not loaded")
 
+    props_attr = "properties"
+
     # default values for FCS support; replace with trace information as available
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
@@ -116,7 +118,10 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 # TODO multiple genetic constructs?
                 continue
 
-        props = ginkgo_sample["properties"]
+        if props_attr in ginkgo_sample:
+            props = ginkgo_sample[props_attr]
+        else:
+            props = {}
 
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in ginkgo_sample:
