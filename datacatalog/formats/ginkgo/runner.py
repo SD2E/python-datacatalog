@@ -4,6 +4,7 @@ import sys
 import os
 import six
 import collections
+import pymongo
 
 from jsonschema import validate
 from jsonschema import ValidationError
@@ -52,6 +53,12 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
+
+    db_uri = config['cp_db_uri']
+    client = pymongo.MongoClient(db_uri)
+    db = client[config['samples_db']]
+    samples_table = db.samples
+    measurements_table = db.measurements
 
     if "experimental_reference" in ginkgo_doc:
         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = ginkgo_doc["experimental_reference"]
@@ -180,10 +187,61 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         tx_sample_prop = "SD2_TX_sample_id"
+        reference_time_point = None
         if tx_sample_prop in props:
             # pull out the aliquot id and namespace it for TX
-            # e.g. aq1bszwpwmtqux/ct1bsxfcxdqw55
-            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(props[tx_sample_prop].split("/")[0], SampleConstants.LAB_TX)
+            # e.g. ct1c9q78m7wt8y/aq1c9sy3e2242e
+            # Plate then Sample
+            tx_sample_id = props[tx_sample_prop].split("/")[1]
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+
+            # Bring over sample metadata from TX sample
+            query = {}
+            query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+
+            s_matches = list(samples_table.find(query).limit(1))
+            if len(s_matches) == 0:
+                # try alternative parsing - aliquot first
+                tx_sample_id = props[tx_sample_prop].split("/")[0]
+                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+
+                query = {}
+                query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+                s_matches = list(samples_table.find(query).limit(1))
+                if len(s_matches) == 0:
+                    raise ValueError("Error: Could not find referenced sample: {}".format(query["sample_id"]))
+
+            s_match = s_matches[0]
+            if "replicate" in s_match:
+                sample_doc[SampleConstants.REPLICATE] = s_match["replicate"]
+
+            if "strain" in s_match:
+                tx_strain_name = s_match["strain"]["lab_id"].split(".")[-1]
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), tx_strain_name, tx_strain_name, SampleConstants.LAB_TX, sbh_query, strain=True)
+
+            if "contents" in s_match:
+                for content in s_match["contents"]:
+                    if content != "None":
+                        if SampleConstants.CONTENTS not in sample_doc:
+                            sample_doc[SampleConstants.CONTENTS] = []
+                        tx_content_name = content["name"]["lab_id"].split(".")[-1]
+                        sample_doc[SampleConstants.CONTENTS].append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), tx_content_name, tx_content_name, SampleConstants.LAB_TX, sbh_query))
+
+            if "temperature" in s_match:
+                sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(s_match["temperature"]["value"]) + ":" + s_match["temperature"]["unit"])
+
+            # Bring over measurement metadata from TX sample
+            # Bring over metadata from TX sample
+            query = {}
+            query["child_of"] = s_match["uuid"]
+
+            m_matches = list(measurements_table.find(query).limit(1))
+            if len(m_matches) == 0:
+                raise ValueError("Error: Could not find referenced sample measurement: {}".format(query["child_of"]))
+
+            m_match = m_matches[0]
+            if "timepoint" in m_match:
+                reference_time_point = create_value_unit(str(m_match["timepoint"]["value"]) + ":" + m_match["timepoint"]["unit"])
 
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
@@ -232,6 +290,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 if time_val.endswith("hours"):
                     time_val = time_val.replace("hours", "hour")
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+            elif reference_time_point != None:
+                measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
 
             measurement_doc[SampleConstants.FILES] = []
 
