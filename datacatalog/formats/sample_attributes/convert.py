@@ -5,4 +5,4 @@ class SampleAttributes(Converter):
         # schema_file, input_file, verbose=True, output=True, output_file=None
         from .runner import convert_sample_attributes
         passed_config = config if config != {} else self.options
-        return convert_sample_attributes(self.targetschema, input_fp, verbose=verbose, config=passed_config, output_file=output_fp, enforce_validation=enforce_validation)
+        return convert_sample_attributes(self.targetschema, self.encoding, input_fp, verbose=verbose, config=passed_config, output_file=output_fp, enforce_validation=enforce_validation)

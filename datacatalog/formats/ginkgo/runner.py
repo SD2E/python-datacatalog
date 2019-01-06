@@ -18,7 +18,7 @@ from sbol import *
 from .mappings import SampleContentsFilter
 from datacatalog.agavehelpers import AgaveHelper
 
-def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -44,7 +44,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
     schema = json.load(open(schema_file))
-    ginkgo_doc = json.load(open(input_file))
+    ginkgo_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
 

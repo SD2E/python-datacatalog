@@ -3,6 +3,7 @@ import sys
 import importlib
 import inspect
 import itertools
+import magic
 
 from pprint import pprint
 from . import *
@@ -30,9 +31,21 @@ def get_converter(json_filepath, options={}, expect=None):
     else:
         converters = [globals()[expect](options)]
 
+    encoding = magic.from_file(json_filepath)
+
+    if encoding == "UTF-8 Unicode text":
+        encoding = "utf-8"
+    elif encoding == "ASCII text":
+        encoding = "ascii"
+    elif encoding == "ASCII text, with very long lines, with no line terminators":
+        encoding = "ascii"
+    else:
+        raise ValueError("Unknown encoding: {}".format(encoding))
+
+    print("Detected encoding {}".format(encoding))
     for conv in converters:
         try:
-            conv.validate_input(json_filepath)
+            conv.validate_input(json_filepath, encoding)
             return conv
         except Exception as exc:
             exceptions.append(exc)
