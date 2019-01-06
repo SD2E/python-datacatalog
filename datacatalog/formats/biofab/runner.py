@@ -208,14 +208,18 @@ def add_measurement_id(measurement_doc, sample_doc, output_doc):
 
 def add_measurement_group_id(measurement_doc, file, output_doc):
     # record a measurement grouping id to find other linked samples and files
-    file_gen = file["generated_by"]
-    mg_val = None
-    if op_id in file_gen:
-        mg_val = file_gen[op_id]
-    elif job_id in file_gen:
-        mg_val = file_gen[job_id]
+    if "generated_by" not in file:
+        print("Warning, cannot find generated_by, skipping file: {}".format(file))
+        return
     else:
-        raise ValueError("Cannot find measurement group id: {}".format(file))
+        file_gen = file["generated_by"]
+        mg_val = None
+        if op_id in file_gen:
+            mg_val = file_gen[op_id]
+        elif job_id in file_gen:
+            mg_val = file_gen[job_id]
+        else:
+            raise ValueError("Cannot find measurement group id: {}".format(file))
 
     measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(mg_val, output_doc[SampleConstants.LAB])
 
@@ -237,15 +241,17 @@ def add_measurement_type(file, measurement_doc):
         # Workaround for biofab; uploaded txts are PR
         # Otherwise the above version of this fails
         # Files that did not have a type
-        fn = file['filename']
+        fn = file['filename'].lower()
         if fn.endswith(".txt"):
             measurement_type = SampleConstants.MT_PLATE_READER
         elif fn.endswith(".fastq.gz"):
             measurement_type = SampleConstants.MT_RNA_SEQ
         elif fn.endswith(".ab1"):
             measurement_type = SampleConstants.MT_SEQUENCING_CHROMATOGRAM
+        elif fn.endswith("jpg"):
+            measurement_type = SampleConstants.MT_IMAGE
         else:
-            raise ValueError("Could not parse MT: {}".format(file['filename']))
+            raise ValueError("Could not parse FT: {}".format(file['filename']))
 
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
@@ -611,7 +617,7 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
             item_id = item[item_id_attr]
             try:
-                item_source = jq(".items[] | select(.sources[]? | contains (\"" + item_id + "\"))").transform(biofab_doc)
+                item_source = jq(".items[] | select(.sources[]? == \"" + item_id + "\")").transform(biofab_doc)
             except StopIteration:
                 # no source, use the original item
                 item_source = item
@@ -674,7 +680,7 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
             measurement_doc[SampleConstants.FILES] = []
 
-            files = jq(".files[] | select(.sources[]? | contains (\"" + missing_part_of + "\"))").transform(biofab_doc, multiple_output=True)
+            files = jq(".files[] | select(.sources[]? == \"" + missing_part_of + "\")").transform(biofab_doc, multiple_output=True)
 
             for file in files:
                 add_measurement_type(file, measurement_doc)
