@@ -7,4 +7,4 @@ class Biofab(Converter):
         # schema_file, input_file, verbose=True, output=True, output_file=None
         from .runner import convert_biofab
         passed_config = config if config != {} else self.options
-        return convert_biofab(self.targetschema, input_fp, verbose=verbose, config=passed_config, output_file=output_fp, enforce_validation=enforce_validation)
+        return convert_biofab(self.targetschema, self.encoding, input_fp, verbose=verbose, config=passed_config, output_file=output_fp, enforce_validation=enforce_validation)

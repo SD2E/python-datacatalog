@@ -37,7 +37,7 @@ def merge_dicts(dicts):
             #    l.append(v)
     return super_dict
 
-def convert_sample_attributes(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     #print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
     if reactor is not None:
@@ -50,7 +50,7 @@ def convert_sample_attributes(schema_file, input_file, verbose=True, output=True
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
     schema = json.load(open(schema_file))
-    sample_attributes_doc = json.load(open(input_file))
+    sample_attributes_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
 

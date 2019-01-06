@@ -53,7 +53,7 @@ class Converter(object):
     def test(self, input_fp, output_fp, verbose=True, config={}):
         return True
 
-    def validate_input(self, input_fp, permissive=False):
+    def validate_input(self, input_fp, encoding, permissive=False):
         """Given a JSON file, attempt to validate against a list of schemas
         Parameters:
             input_fp (str): path to the target JSON file
@@ -62,8 +62,10 @@ class Converter(object):
         Returns:
             boolean True if valid
         """
+        # set encoding
+        self.encoding = encoding
         try:
-            with open(input_fp, 'r') as jsonfile:
+            with open(input_fp, 'r', encoding=encoding) as jsonfile:
                 jsondata = json.load(jsonfile)
         except Exception as exc:
             raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
