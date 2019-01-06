@@ -395,7 +395,8 @@
                         "PLATE_READER",
                         "PROTEOMICS",
                         "EXPERIMENTAL_DESIGN",
-                        "SEQUENCING_CHROMATOGRAM"
+                        "SEQUENCING_CHROMATOGRAM",
+                        "IMAGE"
                     ]
                 },
                 "channels": {
@@ -460,7 +461,8 @@
                         "MSF",
                         "AB1",
                         "BAI",
-                        "BAM"
+                        "BAM",
+                        "JPG"
                     ]
                 },
                 "lab_label": {

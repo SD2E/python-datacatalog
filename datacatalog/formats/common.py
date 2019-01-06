@@ -11,6 +11,7 @@ class SampleConstants():
     """
     def infer_file_type(file_name):
         # FIXME: Use datacatalog.filetypes.infer_filetype(fname)
+        file_name = file_name.lower()
         if file_name.endswith("fastq.gz"):
             return SampleConstants.F_TYPE_FASTQ
         elif file_name.endswith("zip"):
@@ -23,7 +24,7 @@ class SampleConstants():
             return SampleConstants.F_TYPE_PLAIN
         elif file_name.endswith("csv"):
             return SampleConstants.F_TYPE_CSV
-        elif file_name.endswith("mzML"):
+        elif file_name.endswith("mzml"):
             return SampleConstants.F_TYPE_MZML
         elif file_name.endswith("msf"):
             return SampleConstants.F_TYPE_MSF
@@ -33,6 +34,8 @@ class SampleConstants():
             return SampleConstants.F_TYPE_BAI
         elif file_name.endswith("bam"):
             return SampleConstants.F_TYPE_BAM
+        elif file_name.endswith("jpg"):
+            return SampleConstants.F_TYPE_JPG
         else:
             raise ValueError("Could not parse FT: {}".format(file_name))
 
@@ -123,6 +126,7 @@ class SampleConstants():
     MT_RNA_SEQ = "RNA_SEQ"
     MT_DNA_SEQ = "DNA_SEQ"
     MT_FLOW = "FLOW"
+    MT_IMAGE = "IMAGE"
     MT_SEQUENCING_CHROMATOGRAM = "SEQUENCING_CHROMATOGRAM"
     MT_EXPERIMENTAL_DESIGN = "EXPERIMENTAL_DESIGN"
     MT_PLATE_READER = "PLATE_READER"
@@ -147,6 +151,7 @@ class SampleConstants():
     F_TYPE_AB1 = "AB1"
     F_TYPE_BAI = "BAI"
     F_TYPE_BAM = "BAM"
+    F_TYPE_JPG = "JPG"
 
 design_table = None
 challenge_table = None
