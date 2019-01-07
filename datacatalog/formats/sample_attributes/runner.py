@@ -96,13 +96,14 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
                         measurement_group_ids[SampleConstants.MT_PLATE_READER] = id
                     elif type == "flow_cytometry":
                         measurement_group_ids[SampleConstants.MT_FLOW] = id
-                        
-                     
+
         if len(attr_matches)>0 and files_attr in attr_sample_content:
             # determinstically derive measurement ids from sample_id + counter (local to sample)
             measurement_counter = 1
             if attr_sample_content[files_attr] is None:
+                print("**** files field is None, skipping sample: {}".format(attr_sample_content))
                 continue
+
             for file in attr_sample_content[files_attr]:
                 
                 exp_match = exp_id_re.match(file)
@@ -116,11 +117,10 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
                     
                     # CP mapping
                     if "yeast-gates" in file and SampleConstants.CHALLENGE_PROBLEM not in output_doc:
-    #                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_GATES
                         # provide this manually
                         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "Yeast-Gates"
 
-                    # Tricky. Parse experiment id out out of the below (r1bbktv6x4xke)
+                    # Tricky. Parse experiment id out of the below (r1bbktv6x4xke)
                     # agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31509.fcs ?                
                     if exp_match and SampleConstants.EXPERIMENT_ID not in output_doc:
                         experiment_id = namespace_experiment_id(eid, lab)
@@ -182,12 +182,7 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
 
         if lab is None:
             raise ValueError("Could not parse lab from sample {}".format(sample_attributes_sample))
-    
-        #TODO
-        # Contents
-        # Media, replicate, timepoint, temperature etc.
-        # Measurements and files
-        # media
+
         contents = []
         if SampleConstants.MEDIA in attr_sample_content:
             reagent = attr_sample_content[SampleConstants.MEDIA]
