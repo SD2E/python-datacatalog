@@ -27,8 +27,6 @@ DEFAULT_BEAD_BATCH = "AJ02"
 DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "BL1-A"]
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
 TX_API_URL_BASE = "https://secure.transcriptic.com/api/runs/"
-#EMAIL='gzheng@netrias.com'
-#TOKEN='vYaGZAzbxTiJZKP8VBSW'
 
 # Assumption: keys from different dicts don't overlap
 # If they do overlap, replace the second last line with commented code for a true merge
