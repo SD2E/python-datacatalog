@@ -326,7 +326,7 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
         if name_to_map not in mapping_failures:
             mapping_failures[name_to_map] = id_to_map
             with open('create_mapped_name_failures.csv', 'a+') as unmapped:
-                unmapped.write('"{}","{}","{}","{}"\n'.format(experiment_id, lab, name_to_map, id_to_map))
+                unmapped.write('"{}","{}","{}","{}"\n'.format(experiment_id, sbh_lab, name_to_map, id_to_map))
 
     # m_n_object[SampleConstants.AGAVE_URI] =
     m_n_object[SampleConstants.LAB_ID] = namespace_lab_id(id_to_map, lab)
