@@ -13,7 +13,7 @@
             "type": "string"
           },
           "files": {
-            "type": ["null", "array"],
+            "type": "array",
             "items": {
               "type": "string"
             }
