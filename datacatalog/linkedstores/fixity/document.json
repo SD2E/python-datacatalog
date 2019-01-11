@@ -53,25 +53,6 @@
             "type": "boolean",
             "value": true
         },
-        "child_of": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
-        },
         "derived_from": {
             "items": {
                 "anyOf": [
@@ -81,22 +62,10 @@
                 ]
             },
             "type": "array"
-        },
-        "generated_by": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "job_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
         }
     },
     "required": [
-        "name",
-        "type",
-        "child_of"
+        "name"
     ],
     "type": "object",
     "_filename": "fixity",
