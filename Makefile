@@ -33,7 +33,7 @@ clean: schemas-clean docs-clean
 	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
 
 # Run all developer environment smoketests
-developer-smoketests: smoketest-agave smoketest-config smoketest-google smoketest-mongo-local smoketest-pypi smoketest-dockerhub
+developer-smoketests: smoketest-virtualenv smoketest-agave smoketest-config smoketest-google smoketest-mongo-local smoketest-pypi smoketest-dockerhub
 
 # Verify usable TACC.cloud API client
 smoketest-agave:
@@ -50,6 +50,17 @@ smoketest-mongo-local:
 # Verify Google service account is functional
 smoketest-google:
 	python -m pytest --bootstrap --networked -v -k gdrive_smoke $(PYTEST_SRC)
+
+.SILENT: smoketest-virtualenv
+smoketest-virtualenv:
+	if [ -z "$(VIRTUAL_ENV)" ]; then \
+		echo "No Python virtualenv is active\n"; \
+		echo "Example setup instructions:"; \
+		echo "% virtualenv <env>; source <env>/bin/activate; pip install -r requirements.txt\n"; \
+		echo "Example load instructions:" ;\
+		echo "% source <env>/bin/activate\n"; \
+		exit 1; fi
+
 # Verify PyPi
 smoketest-pypi:
 
@@ -119,7 +130,10 @@ tests-formats-classify:
 
 # This is a set of targets to bring up a fresh catalog defined by the code repo
 
-bootstrap: bootstrap-database bootstrap-challenge-problems bootstrap-experiment-designs bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
+bootstrap: bootstrap-database  bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
+
+bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
+bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views
 
 bootstrap-database:
 	python -m bootstrap.create_database $(BOOTSTRAP_ENV)
