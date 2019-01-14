@@ -73,7 +73,7 @@ def test_mgr_common_lineage_file_short_exception(mongodb_settings, agave):
     with pytest.raises(ValueError):
         # 10507438-f288-5898-9b72-68b31bcaff46's measurement has 90+ parents
         # so the traversal is expected to terminate at measurement
-        base.lineage_from_uuid('10507438-f288-5898-9b72-68b31bcaff46')
+        base.lineage_from_uuid('10507438-f288-5898-9b72-68b31bcaff46', permissive=False)
 
 def test_mgr_common_lineage_file_short_truncated(mongodb_settings, agave):
     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
