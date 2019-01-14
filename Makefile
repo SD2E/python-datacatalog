@@ -1,4 +1,4 @@
-PYTEST_OPTS ?= ""
+PYTEST_OPTS ?=
 PYTEST_SRC ?= tests/
 PYTEST_RUN_OPTS ?= -s -vvv
 
