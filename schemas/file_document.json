@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-19 11:23:03 +00:00; source: git@github.com:SD2E/python-datacatalog.git@128232f",
+    "$comment": "generated: 2019-01-14 19:14:24 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f1d43bc",
     "$id": "https://schema.catalog.sd2e.org/schemas/file_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -130,9 +130,7 @@
         }
     },
     "required": [
-        "name",
-        "type",
-        "child_of"
+        "name"
     ],
     "title": "FileMetadata",
     "type": "object"

@@ -46,7 +46,7 @@ class Manager(object):
         return stores
 
     def derivation_from_inputs(self, inputs=[]):
-        """Retrieve derived_from for a set of inputs
+        """Retrieve derived_from linkages for a set of inputs
 
         Args:
             inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
@@ -57,7 +57,7 @@ class Manager(object):
         return self.linkage_from_inputs(inputs=inputs, target='derived_from')
 
     def generator_from_inputs(self, inputs=[]):
-        """Retrieve generated_by for a set of inputs
+        """Retrieve generated_by linkages for a set of inputs
 
         Args:
             inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
@@ -68,7 +68,7 @@ class Manager(object):
         return self.linkage_from_inputs(inputs=inputs, target='generated_by')
 
     def parent_from_inputs(self, inputs=[]):
-        """Retrieve child_of for a set of inputs
+        """Retrieve child_of linkages for a set of inputs
 
         Args:
             inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
@@ -79,7 +79,7 @@ class Manager(object):
         return self.linkage_from_inputs(inputs=inputs, target='child_of')
 
     def self_from_inputs(self, inputs=[]):
-        """Retrieve self-reference for a set of inputs
+        """Retrieve canonical linkage UUIDs for a list of inputs
 
         Args:
             inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
