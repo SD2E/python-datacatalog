@@ -113,6 +113,7 @@ class Manager(object):
                 "{} is an invalid value for 'target'. Valid options include: {}".format(target, DEFAULT_LINK_FIELDS))
 
         links = list()
+        found = False
         for store_name, search_keys, linkage in STORES:
             for idstr in inputs:
                 if not isinstance(idstr, str):
@@ -128,9 +129,13 @@ class Manager(object):
                     if resp is not None:
                         if linkage == 'self':
                             links.extend([resp.get('uuid')])
+                            found = True
+                            break
                         else:
                             links.extend(resp.get(linkage, []))
                         continue
+            if found:
+                break
 
         # Filter out anything that may have come back that's not a UUID
         # Set permissive to True to simply filter out values that dont validate
@@ -167,7 +172,7 @@ class Manager(object):
         lineage = list()
 
         uuid_type = typeduuid.get_uuidtype(query_uuid)
-        print('TypedUUID', uuid_type)
+        # print('TypedUUID', uuid_type)
 
         for link_level in DEFAULT_LINK_HIERARCHY:
             if link_level != uuid_type:

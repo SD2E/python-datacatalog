@@ -130,6 +130,36 @@ def test_pipejob_data_inputs_resolve(mongodb_settings, pipelinejobs_config,
     assert len(base.derived_from) == 2
     # assert base.archive_path is None
 
+def test_pipejob_data_inputs_list_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
+
+    data = {'inputs': [
+        'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs',
+        '/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs'
+    ]}
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
+    # Only the first two inputs resolvable since the list context expects fully-qualified URIs
+    assert len(base.derived_from) == 2
+    # assert base.archive_path is None
+
+def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
+
+    data = {'inputs': [
+        'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs',
+        'agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.ann'
+    ]}
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
+    # Only the first two inputs resolvable since the list context expects fully-qualified URIs
+    assert len(base.derived_from) == 3
+    # assert base.archive_path is None
+
+def test_pipejob_data_params_refs_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
+
+    data = {'parameters': {'structure': 'https://www.rcsb.org/structure/6N0V',
+                           'protein': 'https://www.uniprot.org/uniprot/G0S6G2'}}
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
+    # ^^ These references should be present in the database if test_stores_reference has been run
+    assert len(base.derived_from) == 2
+
 def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                          agave, pipeline_uuid):
 

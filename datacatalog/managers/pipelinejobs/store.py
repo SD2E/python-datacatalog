@@ -121,24 +121,39 @@ class ManagedPipelineJob(Manager):
 
         # Some invocations will have inputs references loaded in their
         # data parameter.
-        data_file_uris = self.extract_agave_uri_from_data_dict(self.data)
+        data_file_uris = self.refs_from_data_dict(self.data, store='files')
+        reference_uris = self.refs_from_data_dict(self.data, store='references')
+
+        # print('DATA')
+        # pprint(data_file_uris)
+        # print('REFERRENCE')
+        # pprint(reference_uris)
+
         data_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(data_file_uris)
+        reference_uri_uuids = super(
+            ManagedPipelineJob, self).self_from_inputs(reference_uris)
         # Read in contents of `inputs` param
         input_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(
                 kwargs.get('inputs', []))
+        # print(input_file_uuids, data_file_uuids, reference_uri_uuids)
         derived_from_uuids = list(
-            set(input_file_uuids + data_file_uuids))
+            set(input_file_uuids + data_file_uuids + reference_uri_uuids))
+
+        # print('UUIDS')
+        # pprint(derived_from_uuids)
+
         relations['derived_from'] = derived_from_uuids
 
         # Set our linkage fields
         for rel, val in relations.items():
             setattr(self, rel, val)
-        pprint(derived_from_uuids)
+
         # sys.exit(1)
         # Attempt to seed archive_path with experiment UUID
         archive_path_els = []
+        lineage_id = None
         try:
             # This is expensive, so only do it if no override path is set
             if 'archive_path' not in kwargs:
@@ -149,10 +164,11 @@ class ManagedPipelineJob(Manager):
                         lineage_id = super(
                             ManagedPipelineJob, self).level_from_lineage(
                             lineage, self._archive_collection_level)
+                        if lineage_id not in archive_path_els:
+                            archive_path_els.append(lineage_id)
                     except Exception:
                         pass
-                    if lineage_id not in archive_path_els:
-                        archive_path_els.append(lineage_id)
+
         except Exception as exc:
             pprint(exc)
 
@@ -162,10 +178,12 @@ class ManagedPipelineJob(Manager):
                 expt_id = kwargs.get('experiment_id')
                 query = {'experiment_id': expt_id}
                 resp = self.stores['experiment'].find_one_by_id(**query)
-                if resp.get('uuid', None) is not None:
-                    archive_path_els.append(resp.get('uuid'))
+                if resp is not None:
+                    if resp.get('uuid', None) is not None:
+                        archive_path_els.append(resp.get('uuid'))
                 else:
-                    raise ValueError('Unknown or invalid UUID for experiment_id')
+                    print('Unknown or invalid UUID for experiment_id')
+                    # raise ValueError('Unknown or invalid UUID for experiment_id')
             except Exception:
                 raise ManagedPipelineJobError('Unable to resolve experimental metadata lineage from files and/or no valid experiment_id was supplied')
 
@@ -450,50 +468,60 @@ class ManagedPipelineJob(Manager):
     def __get_stored_doc(self, store, key, val):
         return self.stores[store].coll.find_one({key: val})
 
-    def extract_agave_uri_from_data_dict(self, data={}):
+    def refs_from_data_dict(self, data={}, store='files'):
         """Find agave-canonical URI from data dicts
 
-        Supports discovery of late-bound references to files from the contents
+        Discover late-bound links to files and references from the contents
         of ``inputs`` and ``parameters`` keys in a ``data`` dictionary.
+
+        Args:
+            data (dict): A data dictionary
+            store (string, optional): Which store to resolve against (files|references)
+
+        Returns:
+            list: Discovered list of managed file- or reference URIs
         """
 
-        files = list()
-        patterns = {'Agave': re.compile('^agave://'),
-                    'Level0': re.compile('/uploads/'),
-                    'LevelReference': re.compile('/reference/'),
-                    'LevelN': re.compile('/products/'),
-                    'LinkedStore': re.compile('/uploads/|/products/|/reference/')}
+        refs = list()
+        if store == 'files':
+            patterns = {'URI': re.compile('(^agave:\/\/([a-z0-9-A-Z_-])+)?/(uploads|products)/'),
+                        'FileStore': re.compile('/uploads/|/products/')}
+        elif store == 'references':
+            patterns = {'URI': re.compile('(^agave:\/\/([a-z0-9-A-Z_-])+)?/reference/|^(http:|https:)'),
+                        'FileStore': re.compile('/reference/')}
+        else:
+            raise ValueError('{} is not a valid value for parameter "store"'.format(store))
 
-        # Handle inputs
+        # Process dict or list form of 'inputs'
         inputs = data.get('inputs', None)
         # Agave case
         if isinstance(inputs, dict):
             for iname in list(inputs.keys()):
                 fname = inputs[iname]
-                if not patterns['Agave'].search(fname):
+                if not patterns['URI'].search(fname):
                     # TODO - pick up default from global config
                     fname = 'agave://data-sd2e-community' + fname
-                if fname not in files:
-                    files.append(fname)
+                if fname not in refs:
+                    refs.append(fname)
         elif isinstance(inputs, list):
             for fname in inputs:
-                if patterns['Agave'].search(fname):
-                    if fname not in files:
-                        files.append(fname)
+                if patterns['URI'].search(fname):
+                    if fname not in refs:
+                        refs.append(fname)
 
-        # Handle parameters
+        # Process parameters dict
         params = data.get('parameters', None)
         if isinstance(params, dict):
             for pname in list(params.keys()):
                 fname = params[pname]
                 # Grab all agave:// references
-                if patterns['Agave'].search(fname) and fname not in files:
-                    files.append(fname)
+                if patterns['URI'].search(fname) and fname not in refs:
+                    refs.append(fname)
                     continue
-                elif patterns['LinkedStore'].search(fname):
+                elif patterns['FileStore'].search(fname):
                     fname = 'agave://data-sd2e-community' + fname
-                    if fname not in files:
-                        files.append(fname)
+                    if fname not in refs:
+                        refs.append(fname)
                     continue
 
-        return files
+        return refs
