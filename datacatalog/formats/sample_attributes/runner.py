@@ -40,6 +40,17 @@ def merge_dicts(dicts):
             #    l.append(v)
     return super_dict
 
+def get_tx_data(eid, email, token):
+    print("eid: {} email: {} token: {}".format(eid, email, token))
+    response = requests.get(TX_API_URL_BASE + eid, headers={'X-User-Email': email, 'X-User-Token': token, 'Accept': 'application/json'})
+    response_json = json.loads(response.text)
+    request_json = json.loads(response_json['data']['attributes']['request'])
+    for elem in request_json['raw']['instructions']:
+        if 'where' in elem:
+            return elem
+            
+    return None
+    
 def convert_sample_attributes(schema_file, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     #print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
@@ -64,7 +75,7 @@ def convert_sample_attributes(schema_file, encoding, input_file, email, token, v
 
     exp_id_re = re.compile("agave:\/\/.*\/(.*)\/\d\/instrument_output")
     eid = None
-    response = None
+    tx_data = None
 
     for sample_attributes_sample in sample_attributes_doc:
         #print("sample_attributes_sample: {}".format(sample_attributes_sample))
@@ -137,13 +148,11 @@ def convert_sample_attributes(schema_file, encoding, input_file, email, token, v
                 
                 measurement_doc = {}
                 # timepoint
-                timepoint_val = None
-                if SampleConstants.TIMEPOINT in attr_sample_content:
-                    timepoint_val = attr_sample_content[SampleConstants.TIMEPOINT]
-                elif "timepoints" in attr_sample_content:
-                    timepoint_val = attr_sample_content["timepoints"]
-                if timepoint_val is not None:
-                    measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(str(timepoint_val) + ":hour")
+                if tx_data is None:
+                    tx_data = get_tx_data(eid, email, token)
+                timepoint = tx_data['duration']
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(timepoint)
+
                 measurement_doc[SampleConstants.FILES] = []
                 
                 #print("file: {}".format(file))
@@ -228,11 +237,11 @@ def convert_sample_attributes(schema_file, encoding, input_file, email, token, v
         if SampleConstants.TEMPERATURE not in sample_doc:
             if eid is None:
                 eid = experiment_id.rsplit('.', 1)[-1]
-            if response is None:
-                response = requests.get(TX_API_URL_BASE + eid, headers={'X-User-Email': email, 'X-User-Token': token, 'Accept': 'application/json'})
-            if "warm_30" in response.text:
+            if tx_data is None:
+                tx_data = get_tx_data(eid, email, token)
+            if "warm_30" in tx_data['where']:
                 temperature = "30.0:celsius"
-            elif "warm_37" in response.text:
+            elif "warm_37" in tx_data['where']:
                 temperature = "37.0:celsius"
             sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature)
         
