@@ -3,6 +3,7 @@ import json
 import sys
 import os
 import six
+import requests
 
 from jsonschema import validate
 from jsonschema import ValidationError
@@ -10,6 +11,7 @@ from jsonschema import ValidationError
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from common import SampleConstants
 from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from jq import jq
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from sbol import *
@@ -24,6 +26,7 @@ DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
 DEFAULT_BEAD_BATCH = "AJ02"
 DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "BL1-A"]
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
+TX_API_URL_BASE = "https://secure.transcriptic.com/api/runs/"
 
 # Assumption: keys from different dicts don't overlap
 # If they do overlap, replace the second last line with commented code for a true merge
@@ -37,7 +40,18 @@ def merge_dicts(dicts):
             #    l.append(v)
     return super_dict
 
-def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def get_tx_data(eid, email, token):
+    print("eid: {} email: {} token: {}".format(eid, email, token))
+    response = requests.get(TX_API_URL_BASE + eid, headers={'X-User-Email': email, 'X-User-Token': token, 'Accept': 'application/json'})
+    response_json = json.loads(response.text)
+    request_json = json.loads(response_json['data']['attributes']['request'])
+    for elem in request_json['raw']['instructions']:
+        if 'where' in elem:
+            return elem
+            
+    return None
+    
+def convert_sample_attributes(schema_file, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     #print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
     if reactor is not None:
@@ -60,6 +74,8 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
     experiment_id = None
 
     exp_id_re = re.compile("agave:\/\/.*\/(.*)\/\d\/instrument_output")
+    eid = None
+    tx_data = None
 
     for sample_attributes_sample in sample_attributes_doc:
         #print("sample_attributes_sample: {}".format(sample_attributes_sample))
@@ -96,17 +112,19 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
                         measurement_group_ids[SampleConstants.MT_PLATE_READER] = id
                     elif type == "flow_cytometry":
                         measurement_group_ids[SampleConstants.MT_FLOW] = id
-                        
-                     
+
         if len(attr_matches)>0 and files_attr in attr_sample_content:
             # determinstically derive measurement ids from sample_id + counter (local to sample)
             measurement_counter = 1
             if attr_sample_content[files_attr] is None:
+                print("**** files field is None, skipping sample: {}".format(attr_sample_content))
                 continue
+
             for file in attr_sample_content[files_attr]:
                 
                 exp_match = exp_id_re.match(file)
-                eid = exp_match.group(1)
+                if eid is None:
+                    eid = exp_match.group(1)
                 relative_file_path = file[(re.search(eid,file).start()+len(eid)+1):]
                 if lab is None: 
                     # lab mapping
@@ -116,11 +134,10 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
                     
                     # CP mapping
                     if "yeast-gates" in file and SampleConstants.CHALLENGE_PROBLEM not in output_doc:
-    #                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_GATES
                         # provide this manually
                         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "Yeast-Gates"
 
-                    # Tricky. Parse experiment id out out of the below (r1bbktv6x4xke)
+                    # Tricky. Parse experiment id out of the below (r1bbktv6x4xke)
                     # agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31509.fcs ?                
                     if exp_match and SampleConstants.EXPERIMENT_ID not in output_doc:
                         experiment_id = namespace_experiment_id(eid, lab)
@@ -131,13 +148,11 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
                 
                 measurement_doc = {}
                 # timepoint
-                timepoint_val = None
-                if SampleConstants.TIMEPOINT in attr_sample_content:
-                    timepoint_val = attr_sample_content[SampleConstants.TIMEPOINT]
-                elif "timepoints" in attr_sample_content:
-                    timepoint_val = attr_sample_content["timepoints"]
-                if timepoint_val is not None:
-                    measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(str(timepoint_val) + ":hour")
+                if tx_data is None:
+                    tx_data = get_tx_data(eid, email, token)
+                timepoint = tx_data['duration']
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(timepoint)
+
                 measurement_doc[SampleConstants.FILES] = []
                 
                 #print("file: {}".format(file))
@@ -179,15 +194,9 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
 
                 sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
-
         if lab is None:
             raise ValueError("Could not parse lab from sample {}".format(sample_attributes_sample))
-    
-        #TODO
-        # Contents
-        # Media, replicate, timepoint, temperature etc.
-        # Measurements and files
-        # media
+
         contents = []
         if SampleConstants.MEDIA in attr_sample_content:
             reagent = attr_sample_content[SampleConstants.MEDIA]
@@ -223,7 +232,19 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
         if "od" in attr_sample_content:
             od_val = attr_sample_content["od"]
             sample_doc[SampleConstants.INOCULATION_DENSITY] = create_value_unit(str(od_val) + ":" + od600_attr)
-                           
+        
+        # make sure temperature is populated
+        if SampleConstants.TEMPERATURE not in sample_doc:
+            if eid is None:
+                eid = experiment_id.rsplit('.', 1)[-1]
+            if tx_data is None:
+                tx_data = get_tx_data(eid, email, token)
+            if "warm_30" in tx_data['where']:
+                temperature = "30.0:celsius"
+            elif "warm_37" in tx_data['where']:
+                temperature = "37.0:celsius"
+            sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature)
+        
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
@@ -254,13 +275,16 @@ def convert_sample_attributes(schema_file, encoding, input_file, verbose=True, o
 
 if __name__ == "__main__":
     path = sys.argv[2]
+    tx_credential = json.load(open("tx_credential.json"))
+    email = tx_credential['EMAIL']
+    token = tx_credential['TOKEN']
     if os.path.isdir(path):
         for f in os.listdir(path):
             file_path = os.path.join(path, f)
             print(file_path)
             if file_path.endswith(".js") or file_path.endswith(".json"):
-                convert_sample_attributes(sys.argv[1], file_path)
+                convert_sample_attributes(sys.argv[1], file_path, email, token)
             else:
                 print("Skipping {}".format(file_path))
     else:
-        convert_sample_attributes(sys.argv[1], sys.argv[2])
+        convert_sample_attributes(sys.argv[1], sys.argv[2], email, token)
