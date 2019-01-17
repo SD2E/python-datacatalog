@@ -45,6 +45,9 @@
                     },
                     {
                         "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
                     }
                 ]
             },
