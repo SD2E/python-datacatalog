@@ -1,4 +1,9 @@
 {
     "description": "An Abaco executionID",
-    "type": "string"
+    "type": "string",
+    "examples": [
+        "GLWOMLpYv8Zwq",
+        "OEoOqXpG3oMBz",
+        "OXoDXbpPL8La"
+    ]
 }

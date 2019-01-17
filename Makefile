@@ -84,7 +84,7 @@ schemas-build:
 
 # schemas can be built (does not overwrite ../schemas/)
 schemas-test:
-	LOCALONLY=1 MAKETESTS=1 python scripts/build_schemas.py
+	LOCALONLY=1 MAKETESTS=1 python -m scripts.build_schemas
 
 # Contents of ../schemas/ are conformant JSON schema draft-04+
 schemas-validate:

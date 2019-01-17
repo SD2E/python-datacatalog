@@ -8,5 +8,13 @@
         "XNOR",
         "XOR"
     ],
-    "type": "string"
+    "type": "string",
+    "examples": [
+        "AND",
+        "NAND",
+        "NOR",
+        "OR",
+        "XNOR",
+        "XOR"
+    ]
 }

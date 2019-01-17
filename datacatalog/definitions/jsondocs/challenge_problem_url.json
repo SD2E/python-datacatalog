@@ -2,5 +2,8 @@
     "description": "A challenge problem reference url, e.g. Google Drive link",
     "pattern": "^https://docs.google.com/document",
     "type": "string",
-    "format": "uri"
+    "format": "uri",
+    "examples": [
+        "https://docs.google.com/document/d/17Uy48TwzRdC1H1MLpxlfOmnQNOvk4S5Q"
+    ]
 }

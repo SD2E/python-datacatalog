@@ -1,4 +1,12 @@
 {
     "description": "A Linux container image repository and tag",
-    "type": "string"
+    "type": "string",
+    "examples": [
+        "tacc/tacbobot",
+        "tacobot",
+        "tacobot:latest",
+        "tacobot:600a1af",
+        "tacc/tacobot:600a1af",
+        "index.docker.io/tacc/tacobot:600a1af"
+    ]
 }
