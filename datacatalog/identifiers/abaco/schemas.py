@@ -2,7 +2,7 @@ from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...utils import dynamic_import
 from ..schemas import IdentifierSchema
 
-MODULES = ('actorid', 'execid')
+MODULES = ('actorid', 'execid', 'nonceid')
 
 def get_schemas():
     """Discovery and return known JSON schemas

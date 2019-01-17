@@ -18,6 +18,7 @@ from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
 
+from ... import config
 from ...constants import CatalogStore
 from ...debug_mode import debug_mode
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
@@ -247,6 +248,25 @@ class LinkedStore(object):
         """Returns keys used by this LinkedStore to issue a typed UUID"""
         return getattr(self, 'uuid_fields')
 
+    def get_token_fields(self, record_dict):
+        """Get values for issuing a document's update token
+
+        The fields used to define an update token are set in TOKEN_FIELDS. This
+        method fetches values from those fields and returns as a list.
+
+        Args:
+            record_dict (dict): Contents of the document from which to extract values
+
+        Returns:
+            list: List of values from keys matching `TOKEN_FIELDS`
+
+        """
+        token_fields = list()
+        for key in self.TOKEN_FIELDS:
+            if key in record_dict:
+                token_fields.append(record_dict.get(key))
+        return token_fields
+
     def query(self, query={}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
@@ -324,53 +344,6 @@ class LinkedStore(object):
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 
-    def __set_properties(self, record, updated=False, source=None):
-        """Update the timestamp and revision count for a document
-
-        Args:
-            record (dict): A LinkedStore document
-            updated (bool): Forces timestamp and revision to increment
-            source (str, optional): Source URI for the current update
-
-        Returns:
-            dict: Object containing the updated LinkedStore document
-        """
-        ts = msec_precision(current_time())
-        # Amend record with _properties if needed
-        if '_properties' not in record:
-            record['_properties'] = {'created_date': ts,
-                                     'modified_date': ts,
-                                     'revision': 0,
-                                     'source': source}
-        elif updated is True:
-            record['_properties']['modified_date'] = ts
-            record['_properties']['revision'] = record['_properties']['revision'] + 1
-        return record
-
-    def __set_admin(self, record):
-        # Stubbed-in support for multitenancy, projects, and ownership
-        if '_admin' not in record:
-            record['_admin'] = self.admin_template()
-        return record
-
-    def admin_template(self):
-        template = {'owner': self._owner,
-                    'project': self._project,
-                    'tenant': self._tenant}
-        return template
-
-    def __set_salt(self, record):
-        # Stubbed-in support for update token
-        if '_salt' not in record:
-            record['_salt'] = generate_salt()
-        return record
-
-    def set_private_keys(self, record, updated=False, source=None):
-        record = self.__set_properties(record, updated, source)
-        record = self.__set_admin(record)
-        record = self.__set_salt(record)
-        return record
-
     def get_typeduuid(self, payload, binary=False):
         if isinstance(payload, dict):
             identifier_string = self.get_linearized_values(payload)
@@ -416,6 +389,56 @@ class LinkedStore(object):
         linearized = ':'.join(ary)
         # print('TYPED_UUID_LINEARIZED_VAL:', linearized)
         return linearized
+
+    def admin_template(self):
+        template = {'owner': self._owner,
+                    'project': self._project,
+                    'tenant': self._tenant}
+        return template
+
+    def __set_properties(self, record, updated=False, source=None):
+        """Update the timestamp and revision count for a document
+
+        Args:
+            record (dict): A LinkedStore document
+            updated (bool): Forces timestamp and revision to increment
+            source (str, optional): Source URI for the current update
+
+        Returns:
+            dict: Object containing the updated LinkedStore document
+        """
+        ts = msec_precision(current_time())
+
+        if source is None:
+            source = config.Environment.source
+        # Amend record with _properties if needed
+        if '_properties' not in record:
+            record['_properties'] = {'created_date': ts,
+                                     'modified_date': ts,
+                                     'revision': 0,
+                                     'source': source}
+        elif updated is True:
+            record['_properties']['modified_date'] = ts
+            record['_properties']['revision'] = record['_properties']['revision'] + 1
+        return record
+
+    def __set_admin(self, record):
+        # Stubbed-in support for multitenancy, projects, and ownership
+        if '_admin' not in record:
+            record['_admin'] = self.admin_template()
+        return record
+
+    def __set_salt(self, record):
+        # Stubbed-in support for update token
+        if '_salt' not in record:
+            record['_salt'] = generate_salt()
+        return record
+
+    def set_private_keys(self, record, updated=False, source=None):
+        record = self.__set_properties(record, updated, source)
+        record = self.__set_admin(record)
+        record = self.__set_salt(record)
+        return record
 
     def get_diff(self, source={}, target={}, action='update'):
         """Determine the differences between two documents
@@ -484,25 +507,6 @@ class LinkedStore(object):
             diff_doc['_admin'] = document__admin
 
         return diff_doc
-
-    def get_token_fields(self, record_dict):
-        """Get values for issuing a document's update token
-
-        The fields used to define an update token are set in TOKEN_FIELDS. This
-        method fetches values from those fields and returns as a list.
-
-        Args:
-            record_dict (dict): Contents of the document from which to extract values
-
-        Returns:
-            list: List of values from keys matching `TOKEN_FIELDS`
-
-        """
-        token_fields = list()
-        for key in self.TOKEN_FIELDS:
-            if key in record_dict:
-                token_fields.append(record_dict.get(key))
-        return token_fields
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         """Create or replace a managed document

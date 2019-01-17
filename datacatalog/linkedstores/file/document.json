@@ -45,6 +45,9 @@
                     },
                     {
                         "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
                     }
                 ]
             },
@@ -73,9 +76,7 @@
         }
     },
     "required": [
-        "name",
-        "type",
-        "child_of"
+        "name"
     ],
     "type": "object",
     "_filename": "file",
@@ -84,7 +85,10 @@
         "name"
     ],
     "__collection": "files",
-    "__indexes": [],
+    "__indexes": [
+        "type",
+        "level"
+    ],
     "__identifiers": [
         "uuid",
         "name",

@@ -39,7 +39,7 @@
             "items": {
                 "$ref": "measurement.json"
             },
-            "minItems": 0,
+            "minItems": 1,
             "type": "array"
         },
         "replicate": {

@@ -32,7 +32,8 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    store = datacatalog.linkedstores.reference.ReferenceStore(idb)
+    ref_store = datacatalog.linkedstores.reference.ReferenceStore(idb)
+    file_store = datacatalog.linkedstores.file.FileStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading file {}'.format(ref))
@@ -42,20 +43,44 @@ def autobuild(idb, settings):
             refslist.append(references)
             references = refslist
         for ref in references:
+            ref_abs = to_json_abstract(ref)
+            derived_froms = dict()
+
             try:
-                ref_abs = to_json_abstract(ref)
-                logger.debug('Registering reference {}'.format(ref_abs))
-                resp = store.add_update_document(ref, strategy='merge')
+                logger.debug('Registering reference file {}'.format(ref_abs))
+                ag_sys, ag_path, ag_file = datacatalog.agavehelpers.from_agave_uri(ref['uri'])
+                fname = os.path.join(ag_path, ag_file)
+                ftype = datacatalog.filetypes.infer_filetype(ag_file,
+                                                             check_exists=False,
+                                                             permissive=True)
+                fdoc = {'name': fname, 'type': ftype.label, 'level': 'Reference'}
+                resp = file_store.add_update_document(fdoc, strategy='merge')
                 build_log.write('{}\t{}\t{}\t{}\n'.format(
-                    resp['reference_id'], resp['name'], resp['uuid'], resp['_update_token']))
+                    'file', resp['name'], resp['uuid'], resp['_update_token']))
+                logger.info('Registered file {}'.format(resp['uuid']))
+                derived_froms[ref['uri']] = resp['uuid']
+            except Exception:
+                logger.exception('Reference file not added or updated')
+
+            try:
+                logger.debug('Registering reference record {}'.format(ref_abs))
+                # ref['derived_from'] = derived_froms[ref['uri']]
+                resp = ref_store.add_update_document(ref, strategy='merge')
+                build_log.write('{}\t{}\t{}\t{}\n'.format(
+                    'reference', resp['reference_id'], resp['uuid'], resp['_update_token']))
+                ref_store.add_link(resp['uuid'], derived_froms[ref['uri']], relation='derived_from')
+                build_log.write('{}\t{}\t{}\t{}\n'.format(
+                    'linkage', resp['uuid'], derived_froms[ref['uri']], ''))
+
                 logger.info('Registered {}'.format(resp['name']))
             except Exception:
                 logger.exception('Reference not added or updated')
 
+
 def dblist(idb, settings):
     logger.debug('Listing known references')
     store = datacatalog.linkedstores.reference.ReferenceStore(idb)
-    for pipe in store.query({}):
+    for pipe in ref_store.query({}):
         logger.info('Reference: id={} name="{}" uuid={} updated={}'.format(
             pipe['reference_id'], pipe['name'], pipe['uuid'],
             pipe['_properties']['modified_date']))

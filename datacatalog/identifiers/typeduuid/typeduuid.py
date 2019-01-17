@@ -11,10 +11,12 @@ import base64
 import bson
 import uuid
 from pprint import pprint
+from hashids import Hashids
 
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 
+from .. import constants
 from ..identifier import random_string, Identifier
 from .. import constants
 from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
@@ -25,6 +27,12 @@ for uuidt, prefix, title in UUIDTYPES:
 
 UUID_NAMESPACE = constants.Constants.UUID_NAMESPACE
 UUID_MOCK_NAMESPACE = constants.Constants.UUID_MOCK_NAMESPACE
+UUID_HASH_SALT = constants.Constants.TYPEDUUID_HASHIDS_SALT
+
+def uuid_to_hashid(uuid_string, salt=UUID_HASH_SALT):
+    """Convert a UUID to a HashId to save space. Good for file path building."""
+    hashids = Hashids(salt=salt)
+    return hashids.encode(uuid.UUID(uuid_string).int)
 
 def validate_type(type_string, permissive=False):
     """Ensure a provided type string is valid
