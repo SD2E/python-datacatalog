@@ -69,6 +69,14 @@ datacatalog.dicthelpers module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.extensible module
+-----------------------------
+
+.. automodule:: datacatalog.extensible
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.githelpers module
 -----------------------------
 

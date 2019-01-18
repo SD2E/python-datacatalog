@@ -33,6 +33,14 @@ datacatalog.identifiers.abaco.hashid module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.identifiers.abaco.nonceid module
+--------------------------------------------
+
+.. automodule:: datacatalog.identifiers.abaco.nonceid
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.identifiers.abaco.schemas module
 --------------------------------------------
 

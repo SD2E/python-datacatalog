@@ -9,8 +9,15 @@
             "$ref": "pipeline_uuid.json"
         },
         "archive_path": {
-            "description": "Path to the job's outputs",
+            "description": "Absolute path to the job's outputs",
             "type": "string"
+        },
+        "archive_path_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
         },
         "archive_system": {
             "description": "Resource housing this output",

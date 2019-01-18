@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-17 23:26:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f7703d6",
+    "$comment": "generated: 2019-01-18 18:27:44 +00:00; source: git@github.com:SD2E/python-datacatalog.git@ec6c876",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -16,8 +16,15 @@
             ]
         },
         "archive_path": {
-            "description": "Path to the job's outputs",
+            "description": "Absolute path to the job's outputs",
             "type": "string"
+        },
+        "archive_path_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
         },
         "archive_system": {
             "description": "Resource housing this output",

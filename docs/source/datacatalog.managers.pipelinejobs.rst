@@ -16,6 +16,30 @@ Subpackages
 Submodules
 ----------
 
+datacatalog.managers.pipelinejobs.config module
+-----------------------------------------------
+
+.. automodule:: datacatalog.managers.pipelinejobs.config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.managers.pipelinejobs.exceptions module
+---------------------------------------------------
+
+.. automodule:: datacatalog.managers.pipelinejobs.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.managers.pipelinejobs.instanced module
+--------------------------------------------------
+
+.. automodule:: datacatalog.managers.pipelinejobs.instanced
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.managers.pipelinejobs.store module
 ----------------------------------------------
 

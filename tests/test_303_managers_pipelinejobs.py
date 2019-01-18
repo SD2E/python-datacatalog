@@ -29,13 +29,19 @@ def sample_id():
 
 @pytest.fixture(scope='session')
 def list_job_uuid():
-    return '1071269f-b251-5a5f-bec1-6d7f77131f3f'
+    return '107cd7f2-f16a-5c04-afae-6b4b610a1b7b'
 
 @pytest.fixture(scope='session')
 def client_w_param(mongodb_settings, pipelinejobs_config,
                    agave, pipeline_uuid, experiment_id):
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, experiment_id=experiment_id)
+
+@pytest.fixture(scope='session')
+def client_w_archive_path(mongodb_settings, pipelinejobs_config,
+                   agave, pipeline_uuid):
+    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                              agave=agave, archive_path='/products/v2/test123')
 
 @pytest.fixture(scope='session')
 def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
@@ -63,6 +69,16 @@ def test_pipejob_init_archive_path_uninstanced(uninstanced_client_w_param):
     assert uninstanced_client_w_param.archive_path.startswith('/products/v2')
     assert not uninstanced_client_w_param.archive_path.endswith('Z')
 
+def test_pipejob_init_archive_path_custom(mongodb_settings, pipelinejobs_config,
+                   agave, pipeline_uuid):
+    """Exercises ``instanced=True`` which causes archive path to be
+    collision-proof
+    """
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                              agave=agave, archive_path='/products/v2/test123')
+    assert base.archive_path.startswith('/products/v2')
+    assert base.archive_path.endswith('test123')
+
 @longrun
 def test_pipejob_init_listdir(client_w_param):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
@@ -74,7 +90,7 @@ def test_pipejob_init_listdir(client_w_param):
     assert len(job_path_listing) > 0
 
 def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
-    valid_job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
+    valid_job_uuid = '107cd7f2-f16a-5c04-afae-6b4b610a1b7b'
 
     client_w_param.setup(data={'example_data': 'datadata'})
     assert client_w_param.pipeline_uuid == pipeline_uuid
@@ -186,32 +202,62 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
 
 def test_pipeinstance_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
-    job_uuid = '107a6c4a-f354-53d6-b97d-2c497b9b352e'
+    job_uuid = '107cd7f2-f16a-5c04-afae-6b4b610a1b7b'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
 
     assert base.archive_path.startswith('/products/v2/102')
-    assert len(base.derived_from) > 0
-    assert len(base.generated_by) > 0
+    assert len(base.derived_from) >= 0
+    assert len(base.child_of) > 0
     assert len(base.pipeline_uuid) is not None
 
 
 # TODO Rewrite these tests to use new signature for ManagedPipelineJob
 
+def test_pipejob_init_callback(client_w_param):
+    """Check that callback can be materialized but not until after setup()
+    """
+    client_w_param.setup()
+    assert client_w_param.callback.startswith('https://')
 
-# def test_pipejob_setup_instanced(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, instanced=True)
-#     base.setup(data={'example_data': 'datadata'})
-#     assert base.archive_path.endswith('Z')
+def test_pipejob_event_run(client_w_param):
+    """Check that run() can happen now
+    """
+    resp = client_w_param.run(data={'this_data': 'is from the "run" event'})
+    assert resp['state'] == 'RUNNING'
 
-# def test_pipejob_setup_not_instanced(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, instanced=False)
-#     base.setup(data={'example_data': 'datadata'})
-#     assert not base.archive_path.endswith('Z')
+def test_pipejob_event_update(client_w_param):
+    """Check that update() can happen now
+    """
+    resp = client_w_param.run(data={'this_data': 'is from the "update" event'})
+    assert resp['state'] == 'RUNNING'
 
-# def test_pipejob_callback(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     assert base.callback.startswith('https://')
+def test_pipejob_event_resource(client_w_param):
+    """Check that resource() can happen now
+    """
+    resp = client_w_param.resource(data={'this_data': 'is from the "resource" event'})
+    assert resp['state'] == 'RUNNING'
+
+def test_pipejob_event_finish(client_w_param):
+    """Check that finish() can happen now
+    """
+    resp = client_w_param.finish(data={'this_data': 'is from the "finish" event'})
+    assert resp['state'] == 'FINISHED'
+
+# def test_pipejob_event_fail(client_w_param):
+#     """Check that fail() can happen now
+#     """
+#     resp = client_w_param.fail(data={'this_data': 'is from the "finish" event'})
+#     assert resp['state'] == 'FAILED'
+
+# def test_pipeinstance_re_init(mongodb_settings, agave):
+#     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
+#     job_uuid = '107cd7f2-f16a-5c04-afae-6b4b610a1b7b'
+#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+
+#     assert base.archive_path.startswith('/products/v2/102')
+#     assert len(base.derived_from) >= 0
+#     assert len(base.child_of) > 0
+#     assert len(base.pipeline_uuid) is not None
 
 # def test_pipejob_run(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
 #     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
