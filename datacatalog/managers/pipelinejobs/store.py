@@ -241,6 +241,7 @@ class ManagedPipelineJob(Manager):
         setattr(self, 'job', new_job)
         setattr(self, 'token', token)
         setattr(self, 'callback', self.build_webhook())
+        setattr(self, 'indexer_callback', self.build_indexer_webhook())
         # raise Exception(self.job)
         return self
 
@@ -351,6 +352,23 @@ class ManagedPipelineJob(Manager):
         uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
             self.api_server, self.config['job_manager_id'],
             self.config['job_manager_nonce'],
+            self.token, self.uuid)
+        # Sanity check - was a valid URL assembled?
+        validators.url(uri)
+        return uri
+
+    def build_indexer_webhook(self):
+        """Return a webhook to index job outputs via web callback
+
+        Sending a *index* message to this webhook will index the job output
+
+        Returns:
+            str: A callback URL
+        """
+
+        uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
+            self.api_server, self.config['job_indexer_id'],
+            self.config['job_indexer_none'],
             self.token, self.uuid)
         # Sanity check - was a valid URL assembled?
         validators.url(uri)
