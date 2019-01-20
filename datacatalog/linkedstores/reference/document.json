@@ -94,7 +94,7 @@
                         "$ref": "job_uuid.json"
                     },
                     {
-                        "$ref": "measurement_uuid.json"
+                        "$ref": "process_uuid.json"
                     }
                 ]
             },

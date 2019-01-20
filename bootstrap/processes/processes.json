@@ -1,0 +1,12 @@
+[
+    {
+        "name": "Manual upload",
+        "process_id": "manual-upload",
+        "description": "Human-directed upload via SFTP, TACC.cloud API, Portal, Jupyter, or S3 mechanism"
+    },
+    {
+        "name": "Manual retrigger",
+        "process_id": "manual-retrigger",
+        "description": "Human-directed invocation of processes that are normally automated"
+    }
+]

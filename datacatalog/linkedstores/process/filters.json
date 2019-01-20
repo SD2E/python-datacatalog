@@ -1,0 +1,17 @@
+{
+    "object": {
+        "properties": [
+            "uuid",
+            "_admin",
+            "_properties",
+            "child_of",
+            "generated_by",
+            "derived_from",
+            "_visible",
+            "_update_token"
+        ]
+    },
+    "document": {
+        "properties": []
+    }
+}

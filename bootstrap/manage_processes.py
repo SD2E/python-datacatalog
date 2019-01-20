@@ -1,4 +1,4 @@
-"""Manage Reference definitions
+"""Manage Process definitions
 """
 import argparse
 import copy
@@ -19,7 +19,7 @@ SELF = __file__
 THIS = os.path.dirname(SELF)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
-DATA = os.path.join(THIS, 'references')
+DATA = os.path.join(THIS, 'processes')
 
 # Use local not installed install of datacatalog
 sys.path.insert(0, GPARENT)
@@ -32,57 +32,33 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    ref_store = datacatalog.linkedstores.reference.ReferenceStore(idb)
-    file_store = datacatalog.linkedstores.file.FileStore(idb)
+    ref_store = datacatalog.linkedstores.process.ProcessStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading file {}'.format(ref))
-        references = json.load(open(os.path.join(DATA, ref), 'r'))
-        if isinstance(references, dict):
+        processes = json.load(open(os.path.join(DATA, ref), 'r'))
+        if isinstance(processes, dict):
             refslist = list()
-            refslist.append(references)
-            references = refslist
-        for ref in references:
+            refslist.append(processes)
+            processes = refslist
+        for ref in processes:
             ref_abs = to_json_abstract(ref)
-            derived_froms = dict()
 
             try:
-                logger.debug('Registering reference file {}'.format(ref_abs))
-                ag_sys, ag_path, ag_file = datacatalog.agavehelpers.from_agave_uri(ref['uri'])
-                fname = os.path.join(ag_path, ag_file)
-                ftype = datacatalog.filetypes.infer_filetype(ag_file,
-                                                             check_exists=False,
-                                                             permissive=True)
-                fdoc = {'name': fname, 'type': ftype.label, 'level': 'Reference'}
-                resp = file_store.add_update_document(fdoc, strategy='merge')
-                build_log.write('{}\t{}\t{}\t{}\n'.format(
-                    'file', resp['name'], resp['uuid'], resp['_update_token']))
-                logger.info('Registered file {}'.format(resp['uuid']))
-                derived_froms[ref['uri']] = resp['uuid']
-            except Exception:
-                logger.exception('Reference file not added or updated')
-
-            try:
-                logger.debug('Registering reference record {}'.format(ref_abs))
-                # ref['derived_from'] = derived_froms[ref['uri']]
+                logger.debug('Registering Process record {}'.format(ref_abs))
                 resp = ref_store.add_update_document(ref, strategy='merge')
                 build_log.write('{}\t{}\t{}\t{}\n'.format(
-                    'reference', resp['reference_id'], resp['uuid'], resp['_update_token']))
-                ref_store.add_link(resp['uuid'], derived_froms[ref['uri']], relation='derived_from')
-                build_log.write('{}\t{}\t{}\t{}\n'.format(
-                    'linkage', resp['uuid'], derived_froms[ref['uri']], ''))
-
+                    'process', resp['process_id'], resp['uuid'], resp['_update_token']))
                 logger.info('Registered {}'.format(resp['name']))
             except Exception:
-                logger.exception('Reference not added or updated')
-
+                logger.exception('Process not added or updated')
 
 def dblist(idb, settings):
-    logger.debug('Listing known references')
-    store = datacatalog.linkedstores.reference.ReferenceStore(idb)
+    logger.debug('Listing known Processe entities')
+    store = datacatalog.linkedstores.process.ReferenceStore(idb)
     for pipe in store.query({}):
-        logger.info('Reference: id={} name="{}" uuid={} updated={}'.format(
-            pipe['reference_id'], pipe['name'], pipe['uuid'],
+        logger.info('Process: id={} name="{}" uuid={} updated={}'.format(
+            pipe['process_id'], pipe['name'], pipe['uuid'],
             pipe['_properties']['modified_date']))
 
 def main(args):

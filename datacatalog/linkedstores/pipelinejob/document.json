@@ -5,7 +5,7 @@
     "type": "object",
     "properties": {
         "pipeline_uuid": {
-            "description": "UUID of the pipeline which spawned this job",
+            "description": "UUID of the pipeline that created this job",
             "$ref": "pipeline_uuid.json"
         },
         "archive_path": {
@@ -20,7 +20,7 @@
             }
         },
         "archive_system": {
-            "description": "Resource housing this output",
+            "description": "Storage resource housing the job's outputs",
             "type": "string"
         },
         "data": {
@@ -63,9 +63,8 @@
         "generated_by": {
             "type": "array",
             "items": {
-                "$ref": "pipeline_uuid.json"
-            },
-            "maxItems": 0
+                "$ref": "process_uuid.json"
+            }
         },
         "history": {
             "description": "Annotated history of job events",
@@ -79,11 +78,7 @@
         },
         "child_of": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "pipeline_uuid.json"
-                    }
-                ]
+                "$ref": "pipeline_uuid.json"
             },
             "type": "array",
             "maxItems": 1,

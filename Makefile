@@ -150,6 +150,9 @@ bootstrap-files:
 bootstrap-pipelines:
 	python -m bootstrap.manage_pipelines auto $(BOOTSTRAP_ENV)
 
+bootstrap-processes:
+	python -m bootstrap.manage_processes auto $(BOOTSTRAP_ENV)
+
 bootstrap-views:
 	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
 

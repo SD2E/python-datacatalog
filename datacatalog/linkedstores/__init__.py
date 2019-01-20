@@ -10,5 +10,6 @@ from . import file
 from . import fixity
 from . import pipeline
 from . import pipelinejob
+from . import process
 from . import product
 from . import reference

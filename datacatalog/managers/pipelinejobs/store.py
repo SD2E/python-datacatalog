@@ -43,18 +43,23 @@ class ManagedPipelineJob(Manager):
         pipelines (dict/PipelineJobsConfig): Pipelines configuration
 
     Keyword Args:
-        agave (agavepy.agave.Agave, optional): Active TACC.cloud API client
-        agent (str, optional): Abaco actorId or Agave appId
-        archive_path (str, optional): Override automatic ``archive_path``
-        archive_system (str, optional): Override default ``archive_system``
-        archive_collection_level (str, optional): Override default of ``measurement`` for aggregating outputs
-        data (dict, optional): Arbitrary object describing the job's parameterization
-        inputs (list): Data files and refernces being computed upon
-        instanced (bool, optional): Whether a ``archive_path`` should be extended with a randomized session name
-        pipeline_uuid (str): String UUID5 for the current pipeline
+        experiment_id (str, optional): Identifier for the experiment from which the job is derived
+        sample_id (str, optional): Identifer for sample at which the job outputs should be collected. Must validate as a child of ``experiment_id``.
+        data (dict, optional): Dictionary object describing the job's parameterization
+        archive_path (str, optional): Overrides automatically created ``archive_path``
+        archive_patterns (list, optional): List of strings in Python regex format used to select contents of ``archive_path`` for association with the job
+        instanced (bool, optional): Should ``archive_path`` be extended with a randomized session name
         session (str, optional): A short alphanumeric correlation string
-        task (str, optional): Abaco executionId or Agave jobId
 
+    Other Parameters:
+        agent (str, optional): Abaco actorId or Agave appId managing the pipeline
+        agave (agavepy.agave.Agave, optional): Active TACC.cloud API client
+        archive_collection_level (str, optional): Overrides default of ``measurement`` for aggregating outputs
+        archive_system (str, optional): Overrides default ``archive_system``
+        inputs (list, optional): Data files and references being computed upon. This supplements values of ``inputs`` discovered in ``data``
+        generated_by: (str, optional): String UUID5 of a named process
+        pipeline_uuid (str, optional): Overrides value of ``pipelines.pipeline_uuid``
+        task (str, optional): The specific instance of agent
     """
 
     MGR_PARAMS = [
@@ -65,15 +70,15 @@ class ManagedPipelineJob(Manager):
         ('data', False, 'data', {}),
         ('level_store', False, 'level_store', 'product'),
         ('archive_path', False, 'archive_path', None),
-        ('archive_path_patterns', False, 'archive_path_patterns', []),
-        ('archive_collection_level', False, '_archive_collection_level', 'experiment'),
+        ('archive_patterns', False, 'archive_patterns', []),
+        # ('archive_collection_level', False, '_archive_collection_level', 'experiment'),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM)]
     """Keyword parameters for job setup"""
 
     JOB_PARAMS_ANY_OF = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
     """Keyword parameters for metadata linkage."""
 
-    COLL_PARAMS = ['experiment_design_id', 'experiment_id', 'sample_id', 'measurement_id']
+    COLL_PARAMS = ['experiment_id', 'sample_id']
 
     def __init__(self, mongodb,
                  pipelines,
@@ -83,15 +88,14 @@ class ManagedPipelineJob(Manager):
                  **kwargs):
         super(ManagedPipelineJob, self).__init__(mongodb, agave=agave)
         # self._enforce_auth = True
-
-        # Read in and validate pipeline configuration
+        # Validate pipeline configuration
         self.config = PipelineJobsConfig(**pipelines)
 
         # Handle parameters
         for param, required, key, default in self.MGR_PARAMS:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
-                raise ManagedPipelineJobError('Manager parameter "{}" is required'.format(param))
+                raise ManagedPipelineJobError('Parameter "{}" is required'.format(param))
             else:
                 if kval is None:
                     kval = default
