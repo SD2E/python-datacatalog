@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 2019-01-20 15:41:48 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
-    "$id": "https://schema.catalog.sd2e.org/schemas/file_document.json",
+    "$comment": "generated: 2019-01-20 15:41:49 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
+    "$id": "https://schema.catalog.sd2e.org/schemas/process_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "An uploaded or generated file",
+    "description": "A specifically named process, but which is not modeled as a pipeline with associated jobs. This is ideal for one-off scripts, manual processes, and the like.",
     "properties": {
         "_admin": {
             "owner": {
@@ -55,89 +55,80 @@
             "type": "object"
         },
         "_visible": {
-            "description": "Whether the file has been marked as unavailable",
+            "description": "Whether the process has been marked as unavailable",
             "type": "boolean",
             "value": true
         },
+        "attributes": {
+            "additionalProperties": false,
+            "patternProperties": {
+                "^.*$": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
         "child_of": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_design_uuid.json"
-                    }
-                ],
                 "type": "string"
             },
-            "maxItems": 1,
+            "maxItems": 0,
             "type": "array"
         },
         "derived_from": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "file_uuid.json"
-                    }
-                ]
-            },
+            "maxItems": 0,
             "type": "array"
         },
-        "file_id": {
-            "$ref": "namespaced_identifier.json",
-            "description": "File id (internal to experimental facility or data provider)"
+        "description": {
+            "description": "Human-readable description of the process. Do not embed structured information here, but rather as key:value entries in 'attributes'.",
+            "type": "string"
         },
         "generated_by": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "job_uuid.json"
-                    },
-                    {
-                        "$ref": "process_uuid.json"
-                    }
-                ]
-            },
+            "maxItems": 0,
             "type": "array"
         },
         "id": {
             "$ref": "identifier.json",
             "description": "Distinguishing identifier for the specified document"
         },
-        "lab_label": {
-            "description": "Provider-defined label",
-            "items": {
-                "$ref": "lab_label.json"
-            },
-            "minItems": 1,
-            "type": "array"
-        },
-        "level": {
-            "$ref": "processing_level.json"
-        },
         "name": {
+            "description": "Human-readable name for the process",
+            "type": "string"
+        },
+        "process_id": {
+            "description": "Short, unique alphanumeric identifier. Ideally, this will have a recognizable link to the 'name' key.",
+            "pattern": "^[a-zA-Z0-9_-]*$",
+            "type": "string"
+        },
+        "uri": {
             "description": "Filename",
             "pattern": ".*\\..*",
             "type": "string"
         },
-        "type": {
-            "$ref": "filetype_label.json",
-            "description": "Enumerated file type"
-        },
         "uuid": {
-            "$ref": "file_uuid.json"
+            "$ref": "process_uuid.json"
         }
     },
     "required": [
-        "name"
+        "name",
+        "process_id"
     ],
-    "title": "FileMetadata",
+    "title": "Process",
     "type": "object"
 }

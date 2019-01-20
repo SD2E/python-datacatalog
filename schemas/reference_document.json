@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-19 17:04:58 +00:00; source: git@github.com:SD2E/python-datacatalog.git@9e9dc81",
+    "$comment": "generated: 2019-01-20 15:41:49 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
     "$id": "https://schema.catalog.sd2e.org/schemas/reference_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -129,7 +129,7 @@
                         "$ref": "job_uuid.json"
                     },
                     {
-                        "$ref": "measurement_uuid.json"
+                        "$ref": "process_uuid.json"
                     }
                 ]
             },

@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-18 18:27:44 +00:00; source: git@github.com:SD2E/python-datacatalog.git@ec6c876",
+    "$comment": "generated: 2019-01-20 15:41:48 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -81,16 +81,12 @@
             "type": "array"
         },
         "archive_system": {
-            "description": "Resource housing this output",
+            "description": "Storage resource housing the job's outputs",
             "type": "string"
         },
         "child_of": {
             "items": {
-                "anyOf": [
-                    {
-                        "$ref": "pipeline_uuid.json"
-                    }
-                ],
+                "$ref": "pipeline_uuid.json",
                 "type": "string"
             },
             "maxItems": 1,
@@ -122,9 +118,8 @@
         },
         "generated_by": {
             "items": {
-                "$ref": "pipeline_uuid.json"
+                "$ref": "process_uuid.json"
             },
-            "maxItems": 0,
             "type": "array"
         },
         "history": {
@@ -136,7 +131,7 @@
         },
         "pipeline_uuid": {
             "$ref": "pipeline_uuid.json",
-            "description": "UUID of the pipeline which spawned this job"
+            "description": "UUID of the pipeline that created this job"
         },
         "session": {
             "description": "Short alphanumeric correlation string (optional)",
