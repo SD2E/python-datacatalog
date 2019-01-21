@@ -7,6 +7,7 @@
         "PLATE_READER",
         "PROTEOMICS",
         "EXPERIMENTAL_DESIGN",
-        "SEQUENCING_CHROMATOGRAM"
+        "SEQUENCING_CHROMATOGRAM",
+        "AUTOMATED_TEST"
     ]
 }

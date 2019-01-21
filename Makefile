@@ -139,7 +139,21 @@ bootstrap-database:
 	python -m bootstrap.create_database $(BOOTSTRAP_ENV)
 
 bootstrap-challenge-problems: challenge_problems
+bootstrap-challenge-problems-extra:
+	python -m bootstrap.manage_challenges auto $(BOOTSTRAP_ENV)
+
 bootstrap-experiment-designs: experiment_designs
+bootstrap-experiment-designs-extra:
+	python -m bootstrap.manage_experiment_designs auto $(BOOTSTRAP_ENV)
+
+bootstrap-experiments-extra:
+	python -m bootstrap.manage_experiments auto $(BOOTSTRAP_ENV)
+
+bootstrap-samples-extra:
+	python -m bootstrap.manage_samples auto $(BOOTSTRAP_ENV)
+
+bootstrap-measurements-extra:
+	python -m bootstrap.manage_measurements auto $(BOOTSTRAP_ENV)
 
 bootstrap-references:
 	python -m bootstrap.manage_references auto $(BOOTSTRAP_ENV)
