@@ -54,5 +54,11 @@ if __name__ == '__main__':
     logger.addHandler(loghandler)
     parser = argparse.ArgumentParser()
     parser.add_argument("-database", help="Database name")
+    parser.add_argument('-production', help='manage production deployment', action='store_const',
+                        const='production', dest='environment')
+    parser.add_argument('-staging', help='manage staging deployment', action='store_const',
+                        const='staging', dest='environment')
+    parser.add_argument('-development', help='manage development deployment', action='store_const',
+                        const='development', dest='environment')
     args = parser.parse_args()
     main(args)

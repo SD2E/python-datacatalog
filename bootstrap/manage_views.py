@@ -105,5 +105,7 @@ if __name__ == '__main__':
                         const='production', dest='environment')
     parser.add_argument('-staging', help='use staging database', action='store_const',
                         const='staging', dest='environment')
+    parser.add_argument('-development', help='manage development deployment', action='store_const',
+                        const='development', dest='environment')
     args = parser.parse_args()
     main(args)
