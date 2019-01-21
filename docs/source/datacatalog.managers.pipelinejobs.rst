@@ -40,6 +40,14 @@ datacatalog.managers.pipelinejobs.instanced module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.managers.pipelinejobs.reactor module
+------------------------------------------------
+
+.. automodule:: datacatalog.managers.pipelinejobs.reactor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.managers.pipelinejobs.store module
 ----------------------------------------------
 
