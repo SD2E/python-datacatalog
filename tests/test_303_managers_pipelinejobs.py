@@ -105,7 +105,7 @@ def test_pipejob_agave_uri_from_data(mongodb_settings, pipelinejobs_config,
                        'agave://data-sd2e-community/products/v1/41e1dec1-2940-5b04-bd9e-54af78f30774/aaf646a5-7c05-5ab3-a144-5563fca6830d/a4609424-508a-555c-9720-5ee3df44e777/whole-shrew-20181207T220030Z/output/output.csv'],
             'parameters': {'p1': 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs',
                            'p2': '/uploads/456.txt'}}
-    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data, experiment_id='experiment.ginkgo.10001')
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
     assert len(base.derived_from) == 3
 
@@ -116,23 +116,33 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
               'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs, experiment_id='experiment.ginkgo.10001')
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.derived_from) == 2
+    # The experiment_id will resolve as well
+    assert len(base.derived_from) == 3
 
-def test_pipejob_inputs_resolve(mongodb_settings, pipelinejobs_config,
-                                agave, pipeline_uuid):
-    # Because both files' lineage resolves to the same experiment, we don't need to send experiment_id
-    inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs',
-              'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs']
-    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs)
-    # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert '/products/v2/102' in base.archive_path
+# def test_pipejob_inputs_resolve(mongodb_settings, pipelinejobs_config,
+#                                 agave, pipeline_uuid):
+#     # Because both files' lineage resolves to the same experiment, we don't need to send experiment_id
+#     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs',
+#               'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs']
+#     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs)
+#     # Only the two inputs and the first parameter have resolvable UUID in the test data set
+#     assert '/products/v2/102' in base.archive_path
 
 def test_pipejob_inputs_expt_id(mongodb_settings, pipelinejobs_config,
                                 agave, pipeline_uuid):
     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs, experiment_id='experiment.ginkgo.10001')
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert '/products/v2/102' in base.archive_path
+    assert '/102' in base.archive_path
+
+def test_pipejob_inputs_expt_sample_meas(mongodb_settings, pipelinejobs_config,
+                                agave, pipeline_uuid):
+    inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
+    base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs, experiment_id='experiment.ginkgo.10001', sample_id='biofab.sample.900000', measurement_id='biofab.measurement.90000')
+    # Only the two inputs and the first parameter have resolvable UUID in the test data set
+    assert '/102' in base.archive_path
+    assert '/103' in base.archive_path
+    assert '/104' in base.archive_path
 
 def test_pipejob_data_inputs_resolve(mongodb_settings, pipelinejobs_config,
                                      agave, pipeline_uuid):
@@ -205,7 +215,7 @@ def test_pipeinstance_init(mongodb_settings, agave):
     job_uuid = '107cd7f2-f16a-5c04-afae-6b4b610a1b7b'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
 
-    assert base.archive_path.startswith('/products/v2/102')
+    assert base.archive_path.startswith('/products/v2/106')
     assert len(base.derived_from) >= 0
     assert len(base.child_of) > 0
     assert len(base.pipeline_uuid) is not None
