@@ -178,7 +178,14 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
+
+            # TX does not mark size beads consistently
+            if strain == "SizeBeadControl":
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
+                # this is a reagent
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+            else:
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
         sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(transcriptic_sample[SampleConstants.TEMPERATURE])
@@ -285,6 +292,9 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
 
+        # TX sending duplicate files
+        seen_files_per_sample = set()
+
         for file in transcriptic_sample[SampleConstants.FILES]:
             measurement_doc = {}
 
@@ -322,6 +332,13 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
             measurement_counter = measurement_counter + 1
 
             file_name = file[SampleConstants.M_NAME]
+
+            if file_name in seen_files_per_sample:
+                print("Warning, duplicate filename, skipping, {}".format(file_name))
+                continue
+            else:
+                seen_files_per_sample.add(file_name)
+
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
             if file_name.startswith('s3'):
