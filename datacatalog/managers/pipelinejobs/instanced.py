@@ -35,6 +35,7 @@ class ManagedPipelineJobInstance(Manager):
         ('state', False, 'state', None),
         ('archive_path', False, 'archive_path', None),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
+        ('archive_patterns', False, 'archive_patterns', []),
         ('derived_from', False, 'derived_from', []),
         ('generated_by', False, 'generated_by', []),
         ('child_of', False, 'child_of', []),
@@ -47,12 +48,13 @@ class ManagedPipelineJobInstance(Manager):
         for param, req, attr, default in self.PARAMS:
             setattr(self, attr, db_rec.get(param))
 
-    def index_archive_path(self, processing_level="1", filters=[], fixity=False):
-        """Discovers and associates files from an archive path with its job
+    def index_archive_path(self, processing_level="1", filters=None, fixity=True):
+        """Discover files in a job archive path and associate with the job
 
         Args:
-            processing_level (str, optional): The "processing level" for indexed files
-            filters (list, optional): Set of Python regular expressions to subselect specific files in target path
+            processing_level (str, optional): "Processing level" for the new file records
+            filters (list, optional): Python regular expressions to subselect specific files in target path. Overrides job.archive_patterns.
+            fixity (bool, optional): Whether to update a fixity record for the file as well
 
         Note:
             Regular expressions are concatenated into a single expression at
@@ -65,42 +67,52 @@ class ManagedPipelineJobInstance(Manager):
         """
         indexed = list()
 
+        # Add values passed as 'filters' to override value for
+        # job.archive_patterns
+        if not isinstance(filters, list):
+            filters = getattr(self, 'archive_patterns', [])
         if filters != []:
             patts = re.compile('|'.join(filters))
         else:
             patts = None
 
-        # TODO - Accept other states AFTER finished
-        if self.state == 'FINISHED':
+        if self.state in ('INDEXING', 'FINISHED'):
             path_listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
             for file in path_listing:
+
                 if patts is not None:
-                    if patts.search(os.path.basename(file)):
-                        # When called with this signature, infer_filetype will
-                        # always return a FileType object
-                        ftype = getattr(infer_filetype(file,
-                                                       check_exists=False,
-                                                       permissive=True), 'label')
-                        frec = FileRecord({'name': file,
-                                           'type': ftype,
-                                           'level': processing_level})
-                        # print('FILEREC', frec)
-                        # print('  TYPE', type(frec))
-                        resp = FileRecord(self.stores['file'].add_update_document(frec))
+                    if not patts.search(os.path.basename(file)):
+                        continue
 
-                        gen_by = resp.get('generated_by', list())
-                        if self.uuid not in gen_by:
-                            gen_by.append(self.uuid)
-                            resp['generated_by'] = gen_by
-                            resp = self.stores['file'].add_update_document(resp)
-                        indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
+                # Create a files record
+                #
+                # When called with this signature, infer_filetype will
+                # always return a FileType object
+                ftype = getattr(infer_filetype(file,
+                                               check_exists=False,
+                                               permissive=True), 'label')
+                frec = FileRecord({'name': file,
+                                    'type': ftype,
+                                    'level': processing_level})
+                resp = FileRecord(self.stores['file'].add_update_document(frec))
 
-                        try:
-                            self.stores['fixity'].index({'name': file})
-                        except Exception as exc:
-                            logger.warning(
-                                'Failed to capture fixity for {}: {}'.format(file, exc))
+                # Add this job's UUID to the file's existing
+                gen_by = resp.get('generated_by', list())
+                if self.uuid not in gen_by:
+                    gen_by.append(self.uuid)
+                    resp['generated_by'] = gen_by
+                    resp = self.stores['file'].add_update_document(resp)
+                indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
+
+                # Create a fixities record
+                #
+                if fixity:
+                    try:
+                        self.stores['fixity'].index({'name': file})
+                    except Exception as exc:
+                        logger.warning(
+                            'Failed to capture fixity for {}: {}'.format(file, exc))
                 # print('INDEXED {}'.format(resp['uuid']))
             return indexed
         else:
-            raise ManagedPipelineJobError('Cannot index a job that has not reached FINISHED state')
+            raise ManagedPipelineJobError('Job was not in "INDEXING" or "FINISHED" state')

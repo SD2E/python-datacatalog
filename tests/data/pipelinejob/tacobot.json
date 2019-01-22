@@ -1,6 +1,21 @@
 {
     "pipeline_uuid": "1064aaf1-459c-5e42-820d-b822aa4b3990",
     "archive_path": "/sample/tacc-cloud/agavehelpers/upload",
+    "archive_patterns": [
+        "ansible.png"
+    ],
+    "archive_system": "data-sd2e-community",
+    "derived_from": [
+        "102e95e6-67a8-5a06-9484-3131c6907890"
+    ],
+    "generated_by": [
+        "1176bd3e-8666-547b-bc36-25a3b62fc271"
+    ],
+    "child_of": [
+        "106026ac-d0b3-5b01-8a84-64b010d0b58f"
+    ],
+    "task": null,
+    "agent": null,
     "data": {
         "param1": "value1",
         "param2": 1,

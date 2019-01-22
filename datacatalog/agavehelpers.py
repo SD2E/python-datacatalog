@@ -197,12 +197,17 @@ class AgaveHelper(object):
         Returns:
             list: Directory contents as a list of strings
         """
+        dirlisting = list()
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         try:
-            return self.listdir_agave_posix(path, recurse, storage_system, directories)
+            dirlisting = self.listdir_agave_posix(path, recurse, storage_system, directories)
         except Exception:
-            return self.listdir_agave_native(path, recurse, storage_system, directories)
+            dirlisting = self.listdir_agave_native(path, recurse, storage_system, directories)
+
+        # Ensure listing is non-redundant
+        # FIXME - figure out why there are redundant entries
+        return list(set(dirlisting))
 
     def listdir_agave_posix(self, path, recurse=True, storage_system=None, directories=True, current_listing=[]):
         if storage_system is None:

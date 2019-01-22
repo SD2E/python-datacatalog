@@ -265,6 +265,46 @@ def test_pipejob_event_indexed(client_w_param):
     resp = client_w_param.indexed(data={'this_data': 'is from the "indexed" event'})
     assert resp['state'] == 'FINISHED'
 
+@longrun
+def test_pipesinst_index_w_filters(mongodb_settings, agave):
+    """Indexing with filters returns job.archive_path x filters
+    """
+    # This job is generated in the database by test_109#test_job_create
+    # Its archive_patterns = ['ansible.png']
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    filters = ['hello.txt']
+    level = "1"
+    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+    listed = base.index_archive_path(filters=filters, processing_level=level)
+
+    assert len(listed) == 1
+
+@longrun
+def test_pipesinst_index_empty_filters(mongodb_settings, agave):
+    """Indexing with empty filters returns job.archive_path x *
+    """
+    # This job is generated in the database by test_109#test_job_create
+    # Its archive_patterns = ['ansible.png']
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    filters = []
+    level = "1"
+    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+    listed = base.index_archive_path(filters=filters, processing_level=level)
+
+    assert len(listed) == 3
+
+@longrun
+def test_pipesinst_index_no_filter(mongodb_settings, agave):
+    """Indexing with no filters job.archive_path x job.archive_patterns
+    """
+    # This job is generated in the database by test_109#test_job_create
+    # Its archive_patterns = ['ansible.png']
+    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    level = "1"
+    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+    listed = base.index_archive_path(processing_level=level)
+    assert len(listed) == 1
+
 # def test_pipejob_event_fail(client_w_param):
 #     """Check that fail() can happen now
 #     """
@@ -411,10 +451,4 @@ def test_pipejob_event_indexed(client_w_param):
 #             assert mjob.uuid == struct['uuid']
 #             mjob.cancel()
 
-# @longrun
-# def test_pipesinstance_index_archive_path(mongodb_settings, agave):
-#     job_uuid = '1079f67e-0ef6-52fe-b4e9-d77875573860'
-#     filters = ['sample\.uw_biofab\.141715', 'sample-uw_biofab-141715']
-#     level = "1"
-#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-#     assert len(base.index_archive_path(filters=filters, processing_level=level)) > 0
+
