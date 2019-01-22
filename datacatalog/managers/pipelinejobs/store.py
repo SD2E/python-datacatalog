@@ -112,6 +112,7 @@ class ManagedPipelineJob(Manager):
 
         # Validate pipeline configuration
         self.config = PipelineJobsConfig(**pipelines)
+        self.cancelable = True
 
         # Handle manager parameters
         for param, required, key, default in self.MGR_PARAMS:
@@ -303,87 +304,42 @@ class ManagedPipelineJob(Manager):
         # raise Exception(self.job)
         return self
 
-    def run(self, data={}):
-        """Process a **run** event
-
-        Args: data (dict, optional): Value for job data to store with the event
-
-        Returns:
-            object: ``self``
+    def handle(self, event_name, data={}):
+        """Handle a named event
         """
         self.job = self.stores['pipelinejob'].handle({
-            'name': 'run',
+            'name': event_name.lower(),
             'uuid': self.uuid,
             'token': self.token,
             'data': data})
-        setattr(self, 'cancelable', False)
+        if getattr(self, 'cancelable'):
+            setattr(self, 'cancelable', False)
         return self.job
+
+    def run(self, data={}):
+        """Wrapper for **run**
+        """
+        return self.handle('run', data)
 
     def resource(self, data={}):
-        """Process an **resource** event
-
-        Args: data (dict, optional): Value for job data to store with the event
-
-        Returns:
-            object: ``self``
+        """Wrapper for **resource**
         """
-        self.job = self.stores['pipelinejob'].handle({
-            'name': 'resource',
-            'uuid': self.uuid,
-            'token': self.token,
-            'data': data})
-
-        setattr(self, 'cancelable', False)
-        return self.job
+        return self.handle('resource', data)
 
     def update(self, data={}):
-        """Process an **update** event
-
-        Args: data (dict, optional): Value for job data to store with the event
-
-        Returns:
-            object: ``self``
+        """Wrapper for **update**
         """
-        self.job = self.stores['pipelinejob'].handle({
-            'name': 'update',
-            'uuid': self.uuid,
-            'token': self.token,
-            'data': data})
-
-        setattr(self, 'cancelable', False)
-        return self.job
+        return self.handle('update', data)
 
     def fail(self, data={}):
-        """Process a **fail** event
-
-        Args: data (dict, optional): Value for job data to store with the event
-
-        Returns:
-            object: ``self``
+        """Wrapper for **fail**
         """
-        self.job = self.stores['pipelinejob'].handle({
-            'name': 'fail',
-            'uuid': self.uuid,
-            'token': self.token,
-            'data': data})
-        setattr(self, 'cancelable', False)
-        return self.job
+        return self.handle('fail', data)
 
     def finish(self, data={}):
-        """Process a **finish* event
-
-        Args: data (dict, optional): Value for job data to store with the event
-
-        Returns:
-            object: ``self``
+        """Wrapper for **finish**
         """
-        self.job = self.stores['pipelinejob'].handle({
-            'name': 'finish',
-            'uuid': self.uuid,
-            'token': self.token,
-            'data': data})
-        setattr(self, 'cancelable', False)
-        return self.job
+        return self.handle('finish', data)
 
     def cancel(self):
         """Cancel the job, deleting it from the system
