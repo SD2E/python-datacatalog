@@ -341,6 +341,16 @@ class ManagedPipelineJob(Manager):
         """
         return self.handle('finish', data)
 
+    def index(self, data={}):
+        """Wrapper for **index**
+        """
+        return self.handle('index', data)
+
+    def indexed(self, data={}):
+        """Wrapper for **indexed**
+        """
+        return self.handle('indexed', data)
+
     def cancel(self):
         """Cancel the job, deleting it from the system
         """

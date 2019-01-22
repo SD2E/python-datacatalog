@@ -253,6 +253,18 @@ def test_pipejob_event_finish(client_w_param):
     resp = client_w_param.finish(data={'this_data': 'is from the "finish" event'})
     assert resp['state'] == 'FINISHED'
 
+def test_pipejob_event_index(client_w_param):
+    """Check that index() can happen now
+    """
+    resp = client_w_param.index(data={'this_data': 'is from the "index" event'})
+    assert resp['state'] == 'INDEXING'
+
+def test_pipejob_event_indexed(client_w_param):
+    """Check that indexed() can happen now
+    """
+    resp = client_w_param.indexed(data={'this_data': 'is from the "indexed" event'})
+    assert resp['state'] == 'FINISHED'
+
 # def test_pipejob_event_fail(client_w_param):
 #     """Check that fail() can happen now
 #     """
