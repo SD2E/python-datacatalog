@@ -63,6 +63,6 @@ def test_rxpipejob_init_archive_path_instanced(rx_client):
     collision-proof
     """
     assert rx_client.archive_path.startswith('/products/v2')
-    assert '/102' in rx_client.archive_path
+    assert '/106' in rx_client.archive_path
     assert not rx_client.archive_path.endswith('Z')
 

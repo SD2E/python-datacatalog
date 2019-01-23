@@ -15,7 +15,7 @@ PARENT = os.path.dirname(HERE)
 sys.path.insert(0, PARENT)
 from scripts import build_experiment_designs
 
-# @networked
+@networked
 def test_regenerate_experiment_des(monkeypatch, mongodb_settings):
     monkeypatch.setenv('MAKETESTS', '1')
     resp = build_experiment_designs.regenerate(

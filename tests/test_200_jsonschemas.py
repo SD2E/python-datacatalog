@@ -6,7 +6,7 @@ import json
 import jsonschema
 
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, delete, networked
 import datacatalog
 
 CWD = os.getcwd()
@@ -30,7 +30,7 @@ def test_get_all_schemas():
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
 
-@longrun
+@networked
 def test_validate_all_schemas_json():
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)
@@ -42,7 +42,7 @@ def test_validate_all_schemas_json():
             schj = json.load(sch)
             assert isinstance(schj, dict)
 
-@longrun
+@networked
 @pytest.mark.parametrize("draft,response", [
     ('draft-07.json', True),
     ('draft-06.json', True),
