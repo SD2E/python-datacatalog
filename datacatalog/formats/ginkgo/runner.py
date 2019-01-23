@@ -34,6 +34,10 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
     DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
 
+    # changed for NC Exp-NC-NAND-Gate-Iteration
+    NC_ITERATON_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/ZE5-20180912.json"
+    NC_ITERATION_CYTOMETER_CHANNELS = ["YFP-A", "SSC 488/10-A", "FSC 488/10-A", "FSC 405/10 (spd)-A"]
+
     # For inference
     # Novel Chassis Nand
     NC_WF_ID = "13893_13904"
@@ -60,9 +64,16 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
     samples_table = db.samples
     measurements_table = db.measurements
 
+    is_nc_iteration = False
+
     if "experimental_reference" in ginkgo_doc:
         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = ginkgo_doc["experimental_reference"]
         map_experiment_reference(config, output_doc)
+
+        # Without an intent document, we have to determine this at conversion time
+        # To provide channel and cytometer mappings
+        if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "Exp-NC-NAND-Gate-Iteration":
+            is_nc_iteration = True
 
     if "internal_workflow_id" in ginkgo_doc:
         list_of_wf_ids = ginkgo_doc["internal_workflow_id"]
@@ -364,9 +375,15 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    if is_nc_iteration:
+                        measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_CYTOMETER_CHANNELS
+                    else:
+                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
                 if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
-                    measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
+                    if is_nc_iteration:
+                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = NC_ITERATON_CYTOMETER_CONFIGURATION
+                    else:
+                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # Use default NC negative strain, if CP matches
             # Match on lab ID for now, as this is unambiguous given dictionary name changes
@@ -382,7 +399,10 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                     # this is not known by the lab typically, has to be provided externally
                     if SampleConstants.CONTENTS not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                        sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                        if is_nc_iteration:
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                        else:
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
                     else:
                         found = False
                         for content in sample_doc[SampleConstants.CONTENTS]:
@@ -392,7 +412,10 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                                     found = True
                         if not found:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                            if is_nc_iteration:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                            else:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
             file_counter = 1
             for key in measurement_props["dataset_files"].keys():
