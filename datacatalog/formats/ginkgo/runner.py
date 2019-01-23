@@ -36,7 +36,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
 
     # changed for NC Exp-NC-NAND-Gate-Iteration
     NC_ITERATON_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/ZE5-20180912.json"
-    NC_ITERATION_CYTOMETER_CHANNELS = ["YFP-A", "SSC 488/10-A", "FSC 488/10-A", "FSC 405/10 (spd)-A"]
+    NC_ITERATION_CYTOMETER_CHANNELS = ["YFP-A", "SSC 488/10-A", "FSC 488/10-A"]
 
     # For inference
     # Novel Chassis Nand
