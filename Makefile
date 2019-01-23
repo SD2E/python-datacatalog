@@ -121,7 +121,7 @@ tests-import-from-bootstrap-dirs:
 
 # Generic all tests
 .PHONY: tests
-tests: tests-import-from-bootstrap-dirs
+tests:
 	python -m pytest $(PYTEST_RUN_OPTS) $(PYTEST_OPTS) $(PYTEST_SRC)
 
 # Test detection of lab trace formats
@@ -130,7 +130,8 @@ tests-formats-classify:
 
 # This is a set of targets to bring up a fresh catalog defined by the code repo
 
-bootstrap: bootstrap-database  bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
+bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
+bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
 bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views

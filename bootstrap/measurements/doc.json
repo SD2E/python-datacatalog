@@ -19,5 +19,10 @@
             "103246e1-bcdf-5b6e-a8dc-4c7e81b91141"
         ],
         "measurement_id": "measurement.tacc.0xDEADBEF1"
+    },
+    {
+        "measurement_type": "UNDEFINED",
+        "child_of": [],
+        "measurement_id": "measurement.tacc.0x00000000"
     }
 ]
