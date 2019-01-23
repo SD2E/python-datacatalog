@@ -60,12 +60,6 @@
             "type": "boolean",
             "default": true
         },
-        "generated_by": {
-            "type": "array",
-            "items": {
-                "$ref": "process_uuid.json"
-            }
-        },
         "history": {
             "description": "Annotated history of job events",
             "type": "array",
@@ -76,7 +70,7 @@
         "state": {
             "$ref": "pipelinejob_state.json"
         },
-        "child_of": {
+        "generated_by": {
             "items": {
                 "$ref": "pipeline_uuid.json"
             },
@@ -84,20 +78,31 @@
             "maxItems": 1,
             "minItems": 1
         },
-        "derived_from": {
+        "child_of": {
             "items": {
                 "anyOf": [
                     {
                         "$ref": "measurement_uuid.json"
-                    },
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acts_on": {
+            "items": {
+                "anyOf": [
                     {
-                        "$ref": "sample_uuid.json"
-                    },
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acts_using": {
+            "items": {
+                "anyOf": [
                     {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_design_uuid.json"
+                        "$ref": "reference_uuid.json"
                     }
                 ]
             },

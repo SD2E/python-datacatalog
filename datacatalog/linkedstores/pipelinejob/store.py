@@ -25,6 +25,8 @@ from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, U
 from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
 
+DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acts_on', 'acts_using')
+
 class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     NEVER_INDEX_FIELDS = ('data')
     """Fields that should never be indexed"""

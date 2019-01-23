@@ -254,6 +254,10 @@ class Manager(object):
         # Filter redundant members
         query_ids = list(set(query_ids))
 
+        # Implementing N_from_N is just a lookup of N -> UUID5s
+        if parent == kid:
+            return query_ids
+
         # Get child collection records whose child_of contains query_ids
         chquery = dict()
         chquery["child_of"] = {
@@ -293,6 +297,33 @@ class Manager(object):
             parent='experiment',
             parent_id='experiment_id',
             kid='sample',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_measurements(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='measurement',
+            parent_id='measurement_id',
+            kid='measurement',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def samples_from_samples(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='sample',
+            parent_id='sample_id',
+            kid='sample',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def experiments_from_experiments(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment',
+            parent_id='experiment_id',
+            kid='experiment',
             kid_id='uuid',
             permissive=permissive)
 

@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-20 15:41:48 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
+    "$comment": "generated: 2019-01-23 22:46:00 +00:00; source: git@github.com:SD2E/python-datacatalog.git@983fb1f",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -59,6 +59,26 @@
             "type": "boolean",
             "value": true
         },
+        "acts_on": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acts_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
         "agent": {
             "oneOf": [
                 {
@@ -86,40 +106,25 @@
         },
         "child_of": {
             "items": {
-                "$ref": "pipeline_uuid.json",
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    }
+                ],
                 "type": "string"
             },
-            "maxItems": 1,
-            "minItems": 1,
             "type": "array"
         },
         "data": {
             "description": "Run-time parameterization of the job",
             "type": "object"
         },
-        "derived_from": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_design_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
-        },
         "generated_by": {
             "items": {
-                "$ref": "process_uuid.json"
+                "$ref": "pipeline_uuid.json"
             },
+            "maxItems": 1,
+            "minItems": 1,
             "type": "array"
         },
         "history": {

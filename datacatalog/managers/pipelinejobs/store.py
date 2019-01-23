@@ -1,5 +1,7 @@
 
 import arrow
+import copy
+import json
 import os
 import re
 import sys
@@ -9,7 +11,7 @@ from pprint import pprint
 from ... import identifiers
 from ..common import Manager, data_merge
 from ...tokens import get_token
-from ...linkedstores.file import DEFAULT_LINK_FIELDS as LINK_FIELDS
+from ...linkedstores.pipelinejob import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
@@ -21,40 +23,48 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 # automated-process
-DEFAULT_JOB_GENERATED_BY = '1176bd3e-8666-547b-bc36-25a3b62fc271'
+DEFAULT_PROCESS_ID = '1176bd3e-8666-547b-bc36-25a3b62fc271'
+# measurement.tacc.0x00000000
+DEFAULT_MEASUREMENT_ID = '10452d7e-7f0a-59df-a1a3-c5bb44e07f2f'
 
 class ManagedPipelineJob(Manager):
     """Specialized PipelineJob that supports archiving to defined stores and deferred updates
 
     1. ``uuid`` is assigned as hash of ``pipeline_uuid`` and ``data`` during ``setup()``
     2. ``archive_path`` is either specified in ``init()`` or generated from XXXX. The latter is the default behavior and is considered SD2 project best practice.
-    3. When ``archive_path`` is generated, it is instanced by default. This means the root of generated path will be predictable, but will include a terminal directory named **adjective-animal-date**. Pass ``instanced=False`` to disable this behavior.
-    4. A jobs' linkages enable discoverability of job outputs with respect to primary experimental metadata. Consequently, they are very carefully specified. A job is the ``child_of`` one specific computational ``pipeline`, ``derived_from`` the experiment/sample/measurement that provided its inputs as well as the specific inputs and references themselves, and are ``generated_by`` a named ``process`` (default: **automated-process**).
-    5. A job is only able to assert metadata linkage to its ``archive_path``  directory. The contents of ``archive_path`` are associated with the job via an **indexer** process that runs when the job is complete. The result is that the contents of ``archive_path` are set to be ``generated_by`` a specific job.
+    3. When ``archive_path`` is generated, it is "instanced" by default. This means the root of generated path will be predictable, but will include a terminal directory **adjective-animal-date** for collision avoidance. Pass ``instanced=False`` to disable this behavior.
+    4. A job's linkages enable discoverability of its outputs relative to the primary experimental metadata. Consequently, they are very carefully specified. A job is ``generated_by`` one computational **pipeline** and is a ``child_of`` one or more **measurements**.
+    5. The file contents of ``archive_path`` are directly associated with the job via a ``generated_by`` relationship after job runs to completion
 
-    The default ``archive_path`` is set based on the compute pipeline plus the
-    complete parental lineage of the job's inputs. This can be overridden by
-    providing a ``archive_collection_level`` of **sample**, **experiment**, or
-    **experiment_design**. If that level is uniquely resolvable in the
-    parental lineage, that will be the level at which job outputs are
-    collected. It is also possible (to accomodate special cases), to manually
-    specify ``archive_path``.
+    The ``child_of`` relationship is established when the job is initialized by
+    looking in ``kwargs`` for and resolving into a list of measurements:
+    (``measurement_id``, ``sample_id``, then ``experiment_id``). These can be
+    passed either as single strings or as a list of strings. Either canonical
+    identifiers (``measurement_id``, ``sample_id``, and ``experiment_id`` values)
+    or their corresponding UUID5 values can be used. At least one of
+    (experiment_id, sample_id, measurement_id) must be passed to ``init()``
+    to connect a job to its upstream metadata.
 
-    The job's ``derived_from`` linkage is set to the distinct contents of
-    ``datafiles`` and ``otherfiles``. Its ``child_of`` linkage is set to
-    the job's pipeline. No support for setting ``generated_by`` is
-    available. These linkages are mandatory and there presently no plan to
-    enable user overrides.
+    The job's ``archive_path`` is generated as follows (if ``archive_path`` is
+    not specified at ``init()``): It begins with a prefix `/products/v2`, to
+    which is added a representation of the **pipeline**. Next, the contents of
+    the job's ``data`` slot (which contains parameterization details) are hashed
+    and added to the path. Finally, depending on whether ``measurement_id``,
+    ``sample_id``, or ``experiment_id`` were passed, the primary identifiers at
+    that level of the metadata hieararchy are hashed to produce a distinct
+    signature, which is appended to the path. The net result is that each
+    combination of pipeline, parameterization, and metadata linkages is
+    stored in a unique, collision-proof storage location.
 
     Args:
         mongodb (mongo.Connection): Connection to system MongoDB with write access to ``jobs``
         pipelines (dict/PipelineJobsConfig): Pipelines configuration
 
     Keyword Args:
-        experiment_id (str, optional): Identifier for the experiment from which the job is derived
-        sample_id (str, optional): Identifer for sample at which the job outputs should be collected. Must validate as a child of ``experiment_id``.
-        measurement_id (str, optional): Identifer for measurement at which the job outputs should be collected. Must validate as a child of ``sample_id``.
-        data (dict, optional): Dictionary object describing the job's parameterization. Provides the basis for the job's ``.data`` field.
+        experiment_id (str/list, optional): Identifier(s) for the experiment(s) to which the job is linked
+        sample_id (str/list, optional): Identifer(s) for the sample(s) to which the job is linked
+        measurement_id (str/list, optional): Identifier(s) for the measurement(s) to which the job is linked
+        data (dict, optional): Defines the job's parameterization.
         archive_path (str, optional): Override value for automatically-generated ``archive_path``
         archive_patterns (list, optional): List of strings in Python regex format used to select contents of ``archive_path`` for association with the job
         instanced (bool, optional): Should ``archive_path`` be extended with a randomized session name
@@ -71,7 +81,7 @@ class ManagedPipelineJob(Manager):
         task (str, optional): The specific instance of agent
 
     Note:
-        At least one of (experiment_id, sample_id, measurement_id) must be passed to ``init()`` to explicitly connect a job to upstream experimental metadata. The linkages may still be inferred without it, as the job will be associated with specific input files, but that can be tricky if there are jobs that re-use or share some files.
+        At least one of (experiment_id, sample_id, measurement_id) must be passed to ``init()`` to explicitly connect a job to upstream experimental metadata.
     """
 
     MGR_PARAMS = [
@@ -89,9 +99,9 @@ class ManagedPipelineJob(Manager):
     INIT_LINK_PARAMS = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
     """Keyword parameters for metadata linkage."""
 
-    COLL_PARAMS = [('measurement_id', 'measurement', 'derived_from'),
-                   ('sample_id', 'sample', 'derived_from'),
-                   ('experiment_id', 'experiment', 'derived_from')]
+    COLL_PARAMS = [('measurement_id', 'measurement'),
+                   ('sample_id', 'sample'),
+                   ('experiment_id', 'experiment')]
 
     def __init__(self, mongodb,
                  pipelines,
@@ -115,7 +125,7 @@ class ManagedPipelineJob(Manager):
         self.cancelable = True
 
         # Handle manager parameters
-        for param, required, key, default in self.MGR_PARAMS:
+        for param, required, key, default,  in self.MGR_PARAMS:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
                 raise ManagedPipelineJobError('Parameter "{}" is required'.format(param))
@@ -137,13 +147,13 @@ class ManagedPipelineJob(Manager):
             setattr(self, 'task', os.environ.get('_abaco_execution_id', None))
         self.__canonicalize_agent_and_task()
 
-        # Establish **child_of** linkage
+        # Establish **generated_by** linkage
         #
         # Here, we look first to pipeline_uuid parameter, then to contents
         # of pipeline configuration passed in to init()
-        CHILD_OF_CFG = [(
-            'pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
-        for param, req, key, default, store, link in CHILD_OF_CFG:
+        GEN_BY_CFG = [(
+            'pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by')]
+        for param, req, key, default, store, link in GEN_BY_CFG:
                 kval = kwargs.get(param, self.config.get(param, None))
                 if kval is None and req is True:
                     raise ManagedPipelineJobError('Parameter "{}" is required'.format(param))
@@ -163,108 +173,80 @@ class ManagedPipelineJob(Manager):
                         relations[link].append(uuidval)
         archive_path_els.append(getattr(self, 'pipeline_uuid'))
 
-        # Establish **generated_by**
-        # TODO - allow this to be passed to init()
-        if 'generated_by' in kwargs:
-            pass
-        else:
-            relations['generated_by'] = [DEFAULT_JOB_GENERATED_BY]
-
-        # Establish **derived_from**
+        # Establish **child_of**
         #
         # Connect with experiment/sample/measurement
+        parameters = dict()
+        archive_path_metadata_els = None
+        # Experiment metadata association
+        child_of_list = list()
 
-        # Handle collection-level parameters
-        #
-        # Insert the human-readable IDs into job.data so they can be
-        # easily read and searched on. Actual linkage is done on their UUID
-        #
-        # While we are doing this, also populate archive_path_els
-        for param, coll, rel in self.COLL_PARAMS:
-            val = kwargs.get(param)
-            if val is not None:
-                q = {param: val}
-                resp = self.stores[coll].find_one_by_id(**q)
-                if resp is not None:
-                    if param not in self.data:
-                        self.data[param] = kwargs.get(param)
-                    val_uuid = resp.get('uuid')
-                    relations['derived_from'].append(val_uuid)
-                    archive_path_els.append(val_uuid)
-                    # Stop at the first collection level that was passed
-                    # break
-                else:
-                    raise ValueError(
-                        'Unknown value for {}: {}'.format(coll, val))
+        try:
+            if kwargs.get('measurement_id', None) is not None:
+                child_of_list = self.measurements_from_measurements(kwargs.get('measurement_id'))
+                archive_path_metadata_els = copy.copy(child_of_list)
+            elif kwargs.get('sample_id', None) is not None:
+                child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
+                archive_path_metadata_els = self.samples_from_samples(
+                    kwargs.get('sample_id'))
+            elif kwargs.get('experiment_id', None) is not None:
+                child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
+                archive_path_metadata_els = self.experiments_from_experiments(
+                    kwargs.get('experiment_id'))
+            if not len(child_of_list) > 0:
+                raise ValueError("Failed to link job to measurements")
+        except ValueError:
+            child_of_list = [DEFAULT_MEASUREMENT_ID]
+            archive_path_metadata_els = copy.copy(child_of_list)
+        # Set the actual linkage to measurements
+        relations['child_of'] = child_of_list
 
-        # Extend **derived_from** with any resolvable references to managed
-        # files or references
+        # Serialize and hash measurement(s), then add to path elements list
+        archive_path_els.append(
+            uuid_to_hashid(
+                catalog_uuid(':'.join(
+                    archive_path_metadata_els), uuid_type='generic')))
+
+        # Serialize self.data, generate a hash, add to archive_path_els
+        archive_path_els.append(
+            uuid_to_hashid(
+                catalog_uuid(
+                    self.serialize_data(), uuid_type='generic')))
+
+        # Establish linkages to named, managed files and references
         #
-        # 1. Resolve contents of inputs parameter to UUIDs. The working
+        # Resolve managed files from 'inputs' to UUIDs The working
         # assumption is that only agave-canonical URI will be present
         input_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(
                 kwargs.get('inputs', []))
 
-        # 2. Intelligently identify and resolve to UUIDs the URIs of managed
+        # Identify and resolve to typed UUIDs the URIs of managed
         # files and references in self.inputs and self.data
         data_file_uris = self.refs_from_data_dict(self.data, store='files')
         data_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(data_file_uris)
+        # Reduce to the non-redudant set of file UUIDs
+        acts_on_uuids = list(
+            set(input_file_uuids + data_file_uuids))
+
+        # References
         reference_uris = self.refs_from_data_dict(self.data, store='references')
         reference_uri_uuids = super(ManagedPipelineJob,
                                     self).self_from_inputs(reference_uris)
 
-        # 3. Reduce to the non-redudant set of UUIDs
-        # The job is derived from these for the purposes of metadata inheritance
-        derived_from_uuids = list(
-            set(input_file_uuids + data_file_uuids))
-        # This is already populated by the link to experiment, sample, meas
-        # and this is why we extend rather than just set via =
-        relations['derived_from'].extend(derived_from_uuids)
-        relations['derived_using'].extend(reference_uri_uuids)
+        # Store values in appropriate slot in "relations"
+        relations['acts_on'].extend(acts_on_uuids)
+        relations['acts_using'].extend(reference_uri_uuids)
 
-        # Set the document's linkage attributes
+        # Finally, set this document's linkage attributes
+        #
         for rel, val in relations.items():
             setattr(self, rel, val)
 
+        # Compute the archive path
+        # /products/v2/pipeline_uuid/hash(child_of)/hash(data)
 
-        # lineage_id = None
-        # if 'archive_path' not in kwargs:
-        #     # The code in here is expensive, so only do it
-        #     # if no archive_path is provided
-        #     try:
-        #         for df_uuid in derived_from_uuids:
-        #             try:
-        #                 lineage = super(
-        #                     ManagedPipelineJob, self).lineage_from_uuid(df_uuid)
-        #                 lineage_id = super(
-        #                     ManagedPipelineJob, self).level_from_lineage(
-        #                     lineage, self._archive_collection_level)
-        #                 if lineage_id not in archive_path_els:
-        #                     archive_path_els.append(lineage_id)
-        #             except Exception:
-        #                 pass
-        #     except Exception as exc:
-        #         pprint(exc)
-
-            # # Unable to find an experiment upstream of the files
-            # if len(archive_path_els) == 0:
-            #     try:
-            #         expt_id = kwargs.get('experiment_id')
-            #         query = {'experiment_id': expt_id}
-            #         resp = self.stores['experiment'].find_one_by_id(**query)
-            #         if resp is not None:
-            #             if resp.get('uuid', None) is not None:
-            #                 archive_path_els.append(resp.get('uuid'))
-            #         else:
-            #             print('Unknown or invalid UUID for experiment_id')
-            #             # raise ValueError('Unknown or invalid UUID for experiment_id')
-            #     except Exception:
-            #         raise ManagedPipelineJobError('Unable to resolve experimental metadata lineage from files and/or no valid experiment_id was supplied')
-
-        # Build archive path
-        # /products/v2/<derivations>/pipeline_uuid
         # derived_from_hash = uuid_to_hashid(catalog_uuid(':'.join(self.derived_from), uuid_type='generic'))
         # archive_path_els.append(derived_from_hash)
         # Build out hashed version of inputs
@@ -290,9 +272,11 @@ class ManagedPipelineJob(Manager):
                         'session': self.session,
                         'agent': self.agent,
                         'task': self.task,
+                        'generated_by': self.generated_by,
                         'child_of': self.child_of,
-                        'derived_from': self.derived_from,
-                        'generated_by': self.generated_by
+#                        'derived_from': self.derived_from,
+                        'acts_on': self.acts_on,
+                        'acts_using': self.acts_using
                         }
         new_job = self.stores['pipelinejob'].create(job_document)
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
@@ -446,66 +430,36 @@ class ManagedPipelineJob(Manager):
         return api + '/jobs/v2/' + job_id
 
     def set_archive_path(self, instanced=True, level_store='product', *args, **kwargs):
-
+        """Sets the document's archive_path
+        """
         if 'archive_path' in kwargs:
             ap = kwargs.get('archive_path')
         else:
-            ap = self.get_archive_path(instanced, level_store, *args, **kwargs)
+            ap = self.get_archive_path(instanced, *args, **kwargs)
         setattr(self, 'archive_path', ap)
         return self
 
-    def get_archive_path(self, instanced=True, level_store='product',
-                         session=None, path=None, *args, **kwargs):
-
-        # Allow user to pass `path at init time to create a custom archive_path`
-        if path is not None:
-            if not path.startswith('/'):
-                raise ValueError('The override value passed for "path" must be an absolute path')
-
-            return path
-
-        if level_store == 'product':
-            ap = self.__archive_path_for_product(instanced, session, *args, **kwargs)
-
-        return ap
-
-    def __compress_path(self, in_path):
-        # Compress a path by removing the dashes, which arise from
-        # using UUID5 as path elements.
-        return in_path.replace('-', '')
-
-    def __archive_path_for_product(self, instanced=True, session=None, *args, **kwargs):
-
+    def get_archive_path(self, instanced=True, *args, **kwargs):
+        """Computes and returns the document's archive_path
+        """
         path_elements = ['/', 'products', 'v2']
         path_elements.extend(getattr(self, '_archive_path_els', []))
-        product_path = os.path.join(*path_elements)
-        product_path = self.__compress_path(product_path)
+        archive_path = os.path.join(*path_elements)
+        # Compress path by removing any UUID dash characters
+        archive_path = archive_path.replace('-', '')
         if instanced is True:
-            product_path = os.path.join(product_path, self.instanced_directory(session))
+            archive_path = os.path.join(
+                archive_path, self.instanced_directory(
+                    getattr(self, 'session')))
 
-        return product_path
+        return archive_path
 
-    def __archive_path_for_reference(self, *args, **kwargs):
-        raise NotImplementedError()
-
-        FIELDS = ()
-        path_elements = ['/', 'references']
-        for field in FIELDS:
-            if field in kwargs:
-                path_elements.append(getattr(self, field))
-        # raise Exception(path_elements)
-        return os.path.join(*path_elements)
-
-    def __archive_path_for_upload(self, *args, **kwargs):
-        raise NotImplementedError()
-
-        FIELDS = ()
-        path_elements = ['/', 'uploads']
-        for field in FIELDS:
-            if field in kwargs:
-                path_elements.append(getattr(self, field))
-        # raise Exception(path_elements)
-        return os.path.join(*path_elements)
+    def serialize_data(self):
+        """Serializes self.data into a minified string
+        """
+        return json.dumps(getattr(self, 'data', {}),
+                          sort_keys=True,
+                          separators=(',', ':'))
 
     def instanced_directory(self, session=None):
         """Extend a path with an instanced directory name

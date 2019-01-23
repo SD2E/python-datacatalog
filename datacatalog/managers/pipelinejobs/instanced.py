@@ -36,9 +36,10 @@ class ManagedPipelineJobInstance(Manager):
         ('archive_path', False, 'archive_path', None),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
         ('archive_patterns', False, 'archive_patterns', []),
-        ('derived_from', False, 'derived_from', []),
         ('generated_by', False, 'generated_by', []),
         ('child_of', False, 'child_of', []),
+        ('acts_on', False, 'acts_on', []),
+        ('acts_using', False, 'acts_using', []),
         ('pipeline_uuid', False, 'pipeline_uuid', None)]
 
     def __init__(self, mongodb, uuid, agave=None, **kwargs):
