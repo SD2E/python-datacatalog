@@ -5,14 +5,19 @@
         "ansible.png"
     ],
     "archive_system": "data-sd2e-community",
-    "derived_from": [
-        "102e95e6-67a8-5a06-9484-3131c6907890"
-    ],
     "generated_by": [
-        "1176bd3e-8666-547b-bc36-25a3b62fc271"
+        "106026ac-d0b3-5b01-8a84-64b010d0b58f"
     ],
     "child_of": [
-        "106026ac-d0b3-5b01-8a84-64b010d0b58f"
+        "10483e8d-6602-532a-8941-176ce20dd05a"
+    ],
+    "acts_on": [
+        "105291c2-0404-5121-b658-7cd83f032bb8",
+        "105f8f21-6dd4-51a0-b51a-8d2338d59bd6"
+    ],
+    "acts_using": [
+        "10926b36-c9cd-5f0c-8b3c-f3d366dc34bf",
+        "1092d775-0f7c-5b4d-970f-e739711d5f36"
     ],
     "task": null,
     "agent": null,

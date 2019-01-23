@@ -1,6 +1,6 @@
 {
     "experiment_id": "experiment.uw_biofab.20249",
-    "challenge_problem": "YEAST_GATES",
+    "challenge_problem": "YEAST_STATES",
     "experiment_reference": "Yeast-Gates",
     "experiment_reference_url": "https://docs.google.com/document/d/14wB9eJL3p3oDBkPR6Tzowh_YGyGJ0XAL2vw5-zNwuw0",
     "lab": "UW_BIOFAB",

@@ -1,6 +1,6 @@
 {
     "experiment_id": "experiment.uw_biofab.17987",
-    "challenge_problem": "YEAST_GATES",
+    "challenge_problem": "YEAST_STATES",
     "experiment_reference": "NovelChassis-NAND-Gate",
     "lab": "UW_BIOFAB",
     "samples": [
