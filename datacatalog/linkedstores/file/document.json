@@ -39,15 +39,6 @@
                 "anyOf": [
                     {
                         "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_design_uuid.json"
                     }
                 ]
             },
@@ -59,6 +50,16 @@
                 "anyOf": [
                     {
                         "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
                     }
                 ]
             },

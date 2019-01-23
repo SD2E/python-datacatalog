@@ -267,19 +267,23 @@ class LinkedStore(object):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def query(self, query={}):
+    def query(self, query={}, projection={}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
         Args:
             query (dict): An object describing a MongoDB query
+            projection (dict): An object describing a MongoDB projection
         """
         try:
             if not isinstance(query, dict):
                 query = json.loads(query)
+            if not isinstance(projection, dict):
+                projection = json.loads(projection)
         except Exception as exc:
             raise CatalogError('Query was not resolvable as dict', exc)
+
         try:
-            return self.coll.find(query)
+            return self.coll.find(query, projection=projection)
         except Exception as exc:
             raise CatalogError('Query failed', exc)
 

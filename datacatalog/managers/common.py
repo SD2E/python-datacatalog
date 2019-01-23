@@ -218,3 +218,106 @@ class Manager(object):
             return None
         else:
             raise ValueError('Failed to retrieve level {} from lineage'.format(level))
+
+    def kids_from_parents(self, ids, parent='experiment',
+                          parent_id='experiment_id', kid='sample',
+                          kid_id='uuid', permissive=False):
+
+        if not isinstance(ids, list):
+            qids = [ids]
+        else:
+            qids = ids
+
+        query_ids = list()
+        child_ids = list()
+
+        parent_coll = parent
+        parent_id_field = parent_id
+        child_coll = kid
+        child_id_field = kid_id
+
+        # Resolve ids into UUIDs. If ids are not valid UUIDs, consult collection
+        for qid in qids:
+            try:
+                if typeduuid.get_uuidtype(qid) == parent:
+                    query_ids.append(qid)
+                else:
+                    raise ValueError
+            except ValueError:
+                # Not a resolvable UUID with correct type
+                pquery = {parent_id_field: qid}
+                resp = self.stores[parent_coll].find_one_by_id(**pquery)
+                if resp is not None:
+                    quid = resp.get('uuid', None)
+                    if quid is not None:
+                        query_ids.append(quid)
+        # Filter redundant members
+        query_ids = list(set(query_ids))
+
+        # Get child collection records whose child_of contains query_ids
+        chquery = dict()
+        chquery["child_of"] = {
+            "$in": query_ids
+        }
+        chprojection = dict()
+        chprojection['uuid'] = 1.0
+        chresp = self.stores[child_coll].query(chquery, projection=chprojection)
+        for chrec in chresp:
+            child_ids.append(chrec.get(child_id_field, None))
+
+        # Return non-redundant set of child UUIDs
+        child_ids = list(set(child_ids))
+        return child_ids
+
+    def designs_from_challenges(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='challenge_problem',
+            parent_id='id',
+            kid='experiment_design',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def experiments_from_designs(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment_design',
+            parent_id='experiment_design_id',
+            kid='experiment',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def samples_from_experiments(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment',
+            parent_id='experiment_id',
+            kid='sample',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_samples(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='sample',
+            parent_id='sample_id',
+            kid='measurement',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_experiments(self, ids, permissive=True):
+        samples = self.samples_from_experiments(
+            ids, permissive=permissive)
+        measurements = self.measurements_from_samples(
+            samples, permissive=permissive)
+        return measurements
+
+    def measurements_from_designs(self, ids, permissive=True):
+        experiments = self.experiments_from_designs(
+            ids, permissive=permissive)
+        return self.measurements_from_experiments(experiments, permissive=True)
+
+    def measurements_from_challenges(self, ids, permissive=True):
+        designs = self.designs_from_challenges(
+            ids, permissive=permissive)
+        return self.measurements_from_designs(designs, permissive=True)

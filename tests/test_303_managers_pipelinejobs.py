@@ -175,7 +175,9 @@ def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config,
     ]}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the first two inputs resolvable since the list context expects fully-qualified URIs
-    assert len(base.derived_from) == 3
+    assert len(base.derived_from) == 2
+    assert len(base.derived_using) == 1
+
     # assert base.archive_path is None
 
 def test_pipejob_data_params_refs_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
@@ -184,7 +186,8 @@ def test_pipejob_data_params_refs_resolve(mongodb_settings, pipelinejobs_config,
                            'protein': 'https://www.uniprot.org/uniprot/G0S6G2'}}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # ^^ These references should be present in the database if test_stores_reference has been run
-    assert len(base.derived_from) == 2
+    assert len(base.derived_from) == 0
+    assert len(base.derived_using) == 2
 
 def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                          agave, pipeline_uuid):

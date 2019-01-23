@@ -9,7 +9,7 @@ from pprint import pprint
 from ... import identifiers
 from ..common import Manager, data_merge
 from ...tokens import get_token
-from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
+from ...linkedstores.file import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
@@ -218,10 +218,11 @@ class ManagedPipelineJob(Manager):
         # 3. Reduce to the non-redudant set of UUIDs
         # The job is derived from these for the purposes of metadata inheritance
         derived_from_uuids = list(
-            set(input_file_uuids + data_file_uuids + reference_uri_uuids))
+            set(input_file_uuids + data_file_uuids))
         # This is already populated by the link to experiment, sample, meas
         # and this is why we extend rather than just set via =
         relations['derived_from'].extend(derived_from_uuids)
+        relations['derived_using'].extend(reference_uri_uuids)
 
         # Set the document's linkage attributes
         for rel, val in relations.items():

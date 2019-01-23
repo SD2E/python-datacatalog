@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-20 15:41:48 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
+    "$comment": "generated: 2019-01-23 01:24:11 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b4824fb",
     "$id": "https://schema.catalog.sd2e.org/schemas/file_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -64,15 +64,6 @@
                 "anyOf": [
                     {
                         "$ref": "measurement_uuid.json"
-                    },
-                    {
-                        "$ref": "sample_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_uuid.json"
-                    },
-                    {
-                        "$ref": "experiment_design_uuid.json"
                     }
                 ],
                 "type": "string"
@@ -85,6 +76,16 @@
                 "anyOf": [
                     {
                         "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
                     }
                 ]
             },

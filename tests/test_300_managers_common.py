@@ -101,3 +101,27 @@ def test_mgr_common_lineage_level_from_lineage_overrun(mongodb_settings, agave):
         '10507438-f288-5898-9b72-68b31bcaff46', permissive=True)
     with pytest.raises(ValueError):
         base.level_from_lineage(lineage, level='sample')
+
+def test_mgr_common_measurements_from_samples(mongodb_settings):
+    samples = ['sample.tacc.20001']
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    result = base.measurements_from_samples(samples)
+    assert len(result) == 3
+
+def test_mgr_common_measurements_from_experiments(mongodb_settings):
+    expts = ['experiment.tacc.10001']
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    result = base.measurements_from_experiments(expts)
+    assert len(result) == 3
+
+def test_mgr_common_measurements_from_designs(mongodb_settings):
+    des = ['Pipeline-Automation']
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    result = base.measurements_from_designs(des)
+    assert len(result) == 3
+
+def test_mgr_common_measurements_from_challenges(mongodb_settings):
+    cps = ['PIPELINE_AUTOMATION']
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    result = base.measurements_from_challenges(cps)
+    assert len(result) == 3

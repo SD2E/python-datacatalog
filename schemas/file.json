@@ -1,10 +1,20 @@
 {
-    "$comment": "generated: 2019-01-14 19:14:24 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f1d43bc",
+    "$comment": "generated: 2019-01-23 01:24:11 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b4824fb",
     "$id": "https://schema.catalog.sd2e.org/schemas/file.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "An uploaded or generated file",
     "properties": {
+        "derived_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
         "file_id": {
             "$ref": "namespaced_identifier.json",
             "description": "File id (internal to experimental facility or data provider)"

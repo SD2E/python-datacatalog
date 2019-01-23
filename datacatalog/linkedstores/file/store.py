@@ -22,6 +22,7 @@ from ..basestore import CatalogUpdateFailure
 from ...pathmappings import normalize, abspath, relativize, normpath
 from ...filetypes import infer_filetype
 
+DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'derived_using')
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
