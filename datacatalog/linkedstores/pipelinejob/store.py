@@ -73,7 +73,10 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         if db_record is None:
             raise UnknownJob('{} is not a valid job ID'.format(job_uuid))
 
+        # Allow handle() to accept token as an argument or as a key
+        # in the event_document
         passed_token = event_document.get('token', token)
+
         # Token must validate
         validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
         db_job = PipelineJob(db_record).handle(event_document)
