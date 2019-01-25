@@ -9,7 +9,10 @@ all: build
 
 # Generic all docs
 .PHONY: docs
-docs: docs-autodoc
+
+docs: docs-sphinx docs-fsm-png
+
+docs-sphinx:
 	cd docs && make html
 
 # Init automatic API documentation
@@ -18,6 +21,9 @@ docs-autodoc:
 
 docs-clean:
 	cd docs && make clean
+
+docs-fsm-png:
+	python -m scripts.build_fsm_graph --filename docs/pipelines/fsm --title "PipelineJob States Diagram"
 
 # Release on PyPi
 release: build
