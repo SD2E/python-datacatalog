@@ -5,30 +5,30 @@ from attrdict import AttrDict
 from pprint import pprint
 from transitions import Machine
 
-STATE_DEFS = [('CREATED', 'Job record has been created'),
+STATE_DEFS = [('CREATED', 'Job inputs and configuration has been defined'),
               ('RUNNING', 'Job is actively processing data'),
-              ('FAILED', 'Something caused the job to fail'),
-              ('FINISHED', 'Job has completed processing and results are archived'),
+              ('FAILED', 'Job did not complete successfully'),
+              ('FINISHED', 'Job has completed processing and outputs are archived'),
               ('INDEXING', 'Job outputs are being associated with project metadata'),
-              ('VALIDATING', 'Job outputs are in being checked for correctness'),
+              ('VALIDATING', 'Job outputs are being assessed for correctness'),
               ('VALIDATED', 'Job outputs were determined to be correct'),
-              ('REJECTED', 'Job outputs were determined to be incorrect'),
-              ('FINALIZED', 'Job outputs are suitable for general use'),
-              ('RETIRED', 'Job outputs have been superceded by another')]
+              ('REJECTED', 'Job outputs are invalid and should not be used'),
+              ('FINALIZED', 'Job outputs are validated and ready for general use'),
+              ('RETIRED', 'Job and outputs should no longer be used')]
 
-EVENT_DEFS = [('create', 'Create a job'),
-              ('run', 'Mark job as "running"'),
-              ('update', 'Log a message in job history'),
-              ('resource', 'Note resource marshalling in job history'),
+EVENT_DEFS = [('create', 'Create a new job'),
+              ('run', 'Mark the job as "running"'),
+              ('update', 'Append an information item to the job history'),
+              ('resource', 'Note resource marshalling activity in the job history'),
               ('fail', 'Permanently mark the job as failed'),
               ('finish', 'Mark the job as complete'),
               ('index', 'Index the job outputs'),
-              ('indexed', 'Note that the job indexing is complete'),
-              ('validate', 'Note that the job is being validated'),
-              ('validated', 'Note that validation has completed'),
-              ('finalize', 'Mark job outputs as ready for general use'),
-              ('reject', 'Mark job outputs as invalid'),
-              ('retire', 'Mark job as retired from active usage')]
+              ('indexed', 'Mark that the indexing task is complete'),
+              ('validate', 'Mark the job as under validation'),
+              ('validated', 'Mark that validation has completed'),
+              ('finalize', 'Mark the job and its outputs as suitable for use'),
+              ('reject', 'Mark the job and its outputs as unsuitable for use'),
+              ('retire', 'Mark job and its outputs as retired/deprecated')]
 
 class EventResponse(AttrDict):
     PARAMS = [('last_event', True, None),
@@ -50,10 +50,10 @@ class JobStateMachine(Machine):
         {'trigger': 'resource', 'source': ['CREATED', 'RUNNING'], 'dest': '='},
         {'trigger': 'fail', 'source': '*', 'dest': 'FAILED'},
         {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
-        {'trigger': 'index', 'source': ['FINISHED'], 'dest': 'INDEXING'},
-        {'trigger': 'indexed', 'source': ['INDEXING'], 'dest': 'FINISHED'},
-        {'trigger': 'validate', 'source': 'FINISHED', 'dest': 'VALIDATING'},
-        {'trigger': 'validated', 'source': 'VALIDATING', 'dest': 'VALIDATED'},
+        {'trigger': 'index', 'source': ['INDEXING', 'FINISHED'], 'dest': 'INDEXING'},
+        {'trigger': 'indexed', 'source': ['FINISHED', 'INDEXING'], 'dest': 'FINISHED'},
+        {'trigger': 'validate', 'source': ['FINISHED', 'VALIDATED'], 'dest': 'VALIDATING'},
+        {'trigger': 'validated', 'source': ['VALIDATED', 'VALIDATING'], 'dest': 'VALIDATED'},
         {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
         {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
         {'trigger': 'retire', 'source': ['INDEXING' 'FAILED',
