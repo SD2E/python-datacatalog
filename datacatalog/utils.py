@@ -13,6 +13,7 @@ import uuid
 import arrow
 import importlib
 import inspect
+from time import sleep, time
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
@@ -32,6 +33,10 @@ def msec_precision(datetimeval):
     dtsp = ((dts * 1000) / 1000)
     return datetime.datetime.fromtimestamp(dtsp)
 
+def microseconds():
+    """Get currrent time in microseconds as ``int``
+    """
+    return int(round(time() * 1000 * 1000))
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds
