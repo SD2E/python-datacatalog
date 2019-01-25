@@ -21,8 +21,8 @@ A PipelineJob has five key properties:
 
 Transitions among states of a PipelineJob are implemeted using a Finite State Machine. The current set of states and valid transition events is illustrated here:
 
-.. image:: pipelinejob-fsm.png
-   :alt: Graph of the PipelineJob Finite State Machine
+.. image:: fsm-created.png
+   :alt: The PipelineJob Finite State Machine
    :align: right
 
 Create a Pipeline
