@@ -264,6 +264,7 @@ class ManagedPipelineJob(Manager):
         init_data = getattr(self, 'data', dict())
         setup_data = data_merge(init_data, data)
         setattr(self, 'data', setup_data)
+        # TODO - I do not like recapitulating the schema here. Solve somehow
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
                         'archive_patterns': self.archive_patterns,

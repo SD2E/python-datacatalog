@@ -7,6 +7,7 @@ import validators
 import logging
 from pprint import pprint
 from ... import identifiers
+from ...utils import microseconds
 from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
@@ -49,6 +50,31 @@ class ManagedPipelineJobInstance(Manager):
         for param, req, attr, default in self.PARAMS:
             setattr(self, attr, db_rec.get(param))
 
+    def handle(self, event_doc, token=None):
+        """Proxy for PipelineJobStore.handle()
+        """
+        return self.stores['pipelinejob'].handle(event_doc, token)
+
+    def index(self, level="1", filters=None, fixity=True, token=None):
+        """Index the job outputs
+        """
+        event_doc = {'uuid': self.uuid, 'name': 'index',
+                     'data': {'level': level,
+                              'filters': filters,
+                              'fixity': fixity}}
+        resp = self.handle(event_doc, token=token)
+        if resp is not None:
+            return self.index_archive_path(processing_level=level,
+                                           filters=filters,
+                                           fixity=fixity)
+
+    def indexed(self, token=None):
+        """Mark job outputs indexing as completed
+        """
+        event_doc = {'uuid': self.uuid, 'name': 'indexed'}
+        resp = self.handle(event_doc, token=token)
+        return resp
+
     def index_archive_path(self, processing_level="1", filters=None, fixity=True):
         """Discover files in a job archive path and associate with the job
 
@@ -67,6 +93,7 @@ class ManagedPipelineJobInstance(Manager):
             list: Filenames set as ``generated_by`` the specified job
         """
         indexed = list()
+        start_time = microseconds()
 
         # Add values passed as 'filters' to override value for
         # job.archive_patterns
@@ -77,43 +104,58 @@ class ManagedPipelineJobInstance(Manager):
         else:
             patts = None
 
-        if self.state in ('INDEXING', 'FINISHED'):
-            path_listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
-            for file in path_listing:
+        path_listing = self.stores['pipelinejob'].list_job_archive_path(
+            self.uuid, recurse=True, directories=False)
+        for file in path_listing:
+            if patts is not None:
+                if not patts.search(os.path.basename(file)):
+                    continue
 
-                if patts is not None:
-                    if not patts.search(os.path.basename(file)):
-                        continue
+            # Create a 'files' metadata record and associate with job UUID
+            #
+            # Note: We're only currently guaranteed to resolve the filetype
+            # by its name. The full POSIX path is required to use content
+            # signature or Linux magic and I am not sure we have that in
+            # 'file' at this point in the code
+            ftype = getattr(infer_filetype(
+                file, check_exists=False, permissive=True), 'label')
+            frec = FileRecord(
+                {'name': file, 'type': ftype, 'level': processing_level})
+            resp = FileRecord(
+                self.stores['file'].add_update_document(frec))
+            # Add the job UUID to any file's existing
+            gen_by = resp.get('generated_by', list())
+            if self.uuid not in gen_by:
+                gen_by.append(self.uuid)
+                resp['generated_by'] = gen_by
+                resp = self.stores['file'].add_update_document(resp)
 
-                # Create a files record
-                #
-                # When called with this signature, infer_filetype will
-                # always return a FileType object
-                ftype = getattr(infer_filetype(file,
-                                               check_exists=False,
-                                               permissive=True), 'label')
-                frec = FileRecord({'name': file,
-                                    'type': ftype,
-                                    'level': processing_level})
-                resp = FileRecord(self.stores['file'].add_update_document(frec))
+            # Create a 'fixities' record
+            #
+            # Technically, this is an add-update operation but as these are
+            # output files they are not likely to have been indexed before
+            #
+            # Fixity is not critical - it can easily be picked up
+            # later if we miss it for some reason. It's just cheap &
+            # convenient to try and do it here. Hence, it's a configurable
+            # option and it only lohs a warning instead of excepting on failure
+            if fixity:
+                try:
+                    self.stores['fixity'].index({'name': file})
+                except Exception as exc:
+                    logger.warning(
+                        'Failed to capture fixity for {}: {}'.format(file, exc))
 
-                # Add this job's UUID to the file's existing
-                gen_by = resp.get('generated_by', list())
-                if self.uuid not in gen_by:
-                    gen_by.append(self.uuid)
-                    resp['generated_by'] = gen_by
-                    resp = self.stores['file'].add_update_document(resp)
-                indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
+            # Add the file's basename to a list of indexed files
+            # which we will return
+            # TODO - assess whether to return the original path instead
+            indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
 
-                # Create a fixities record
-                #
-                if fixity:
-                    try:
-                        self.stores['fixity'].index({'name': file})
-                    except Exception as exc:
-                        logger.warning(
-                            'Failed to capture fixity for {}: {}'.format(file, exc))
-                # print('INDEXED {}'.format(resp['uuid']))
-            return indexed
-        else:
-            raise ManagedPipelineJobError('Job was not in "INDEXING" or "FINISHED" state')
+            # Throw in an elapsed check so we can learn how long indexing,
+            # an expensive operation, takes.
+            # TODO - is there a centralized performance logging tool for Python
+            elapsed_time = microseconds() - start_time
+            logger.info('INDEXED {} in {} usec'.format(
+                resp['uuid'], elapsed_time))
+
+        return indexed
