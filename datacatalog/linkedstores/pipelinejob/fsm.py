@@ -5,6 +5,8 @@ from attrdict import AttrDict
 from pprint import pprint
 from transitions import Machine
 
+__all__ = ['JobStateMachine', 'EventResponse']
+
 STATE_DEFS = [('CREATED', 'Job inputs and configuration has been defined'),
               ('RUNNING', 'Job is actively processing data'),
               ('FAILED', 'Job did not complete successfully'),
@@ -46,9 +48,9 @@ class JobStateMachine(Machine):
     transitions = [
         {'trigger': 'create', 'source': 'CREATED', 'dest': 'CREATED'},
         {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
-        {'trigger': 'update', 'source': ['RUNNING'], 'dest': '='},
+        {'trigger': 'update', 'source': ['RUNNING', 'VALIDATING', 'INDEXING'], 'dest': '='},
         {'trigger': 'resource', 'source': ['CREATED', 'RUNNING'], 'dest': '='},
-        {'trigger': 'fail', 'source': '*', 'dest': 'FAILED'},
+        {'trigger': 'fail', 'source': ['RUNNING', 'VALIDATING', 'INDEXING'], 'dest': 'FAILED'},
         {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
         {'trigger': 'index', 'source': ['INDEXING', 'FINISHED'], 'dest': 'INDEXING'},
         {'trigger': 'indexed', 'source': ['FINISHED', 'INDEXING'], 'dest': 'FINISHED'},
@@ -56,9 +58,7 @@ class JobStateMachine(Machine):
         {'trigger': 'validated', 'source': ['VALIDATED', 'VALIDATING'], 'dest': 'VALIDATED'},
         {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
         {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
-        {'trigger': 'retire', 'source': ['INDEXING' 'FAILED',
-                                         'FINISHED', 'VALIDATING', 'VALIDATED',
-                                         'VALIDATED', 'FINALIZED'], 'dest': 'RETIRED'}
+        {'trigger': 'retire', 'source': ['REJECTED', 'FINALIZED'], 'dest': 'RETIRED'}
     ]
 
     def __init__(self, state=states[0]):

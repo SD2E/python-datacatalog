@@ -62,6 +62,14 @@ def test_job_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
         with pytest.raises(exceptions.UnknownJob):
             base.handle(data_struct['data'])
 
+def test_job_fsm_state_png(mongodb_settings, monkeypatch):
+    monkeypatch.setenv('LOCALONLY', '1')
+    base = PipelineJobStore(mongodb_settings)
+    for data_struct in pipelinejob.get_jobs():
+        graf = base.fsm_state_png(data_struct['uuid'])
+        # This is the signature of PNG - \x89PNG
+        assert 'iVBOR' in graf.decode('utf-8')
+
 # def test_job_write_key_ok(mongodb_settings):
 #     base = PipelineJobStore(mongodb_settings)
 #     for data_struct in pipelinejob.get_jobs():

@@ -6,11 +6,15 @@ standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
+import base64
 import inspect
 import json
 import os
 import sys
 from pprint import pprint
+import random
+import string
+import tempfile
 
 from ... import identifiers
 from ...constants import Constants
@@ -21,9 +25,11 @@ from ..basestore import CatalogUpdateFailure
 from ..basestore import SoftDelete, AgaveClient
 from ..basestore import get_token, validate_token
 
-from .exceptions import JobCreateFailure, JobUpdateFailure, DuplicateJobError, UnknownPipeline, UnknownJob
+from .exceptions import JobError, JobCreateFailure, JobUpdateFailure, \
+    DuplicateJobError, UnknownPipeline, UnknownJob
 from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
+from .graphfsm import render_graph, build_graph
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acts_on', 'acts_using')
 
@@ -150,6 +156,23 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     #     # print('UUID_TARGET', uuid_target)
     #     return super(PipelineStore, self).get_typeduuid(uuid_target, binary=binary)
 
+    def fsm_state_png(self, uuid):
+        try:
+            job = self.find_one_by_uuid(uuid)
+            if job is not None:
+                events = [hist['name'] for hist in job['history']]
+                title = 'job:' + uuid
+                graph = build_graph(job['state'], title, events)
+                tmpname = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(32)])
+                tmpfp = os.path.join(tempfile.gettempdir(), tmpname)
+                graph.draw(tmpfp, format='png', prog='dot')
+                encoded = base64.b64encode(open(tmpfp, "rb").read())
+                os.unlink(tmpfp)
+                return encoded
+            else:
+                raise ValueError('Unable to retrieve job {}'.format(uuid))
+        except Exception as exc:
+            raise JobError('Failed to get_graph', exc)
 
 class StoreInterface(PipelineJobStore):
     pass
