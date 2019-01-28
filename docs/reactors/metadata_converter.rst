@@ -1,7 +1,8 @@
+==========================
 Samples Metadata Converter
 ==========================
 
-Converts lab-provided sample traces to project metadata schema.
+Converts lab-provided sample traces to JSON files conforming to the SampleSet schema.
 
 Resources
 ---------

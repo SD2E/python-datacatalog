@@ -7,10 +7,8 @@ comprised of static software components and parameterizations. An invocation of
 that pipeline, with linkages to experimental metadata, specific inputs, and run-
 time parameterization is represented in a **PipelineJob**. This is handled by
 the PipelineJobs System, which is a set of cooperating Reactors that talk to
-the MongoDB instance powering the Data Catalog.
-
-PipelineJobs has two components. The first is a persisent Reactor that collects and manages state information for each and every ``PipelineJob``. It is addressable by web callback or direct message. The other is a client-side library
-bundled with the ``sd2e/reactors:python`` base image, which we leverage from within the coordinating Reactor in a pipeline to initiate tracking of a PipelineJob.
+the MongoDB instance powering the Data Catalog (for details please see
+**`Supporting Projects:Reactors:Pipelines and Jobs<../reactors/>`_**).
 
 What is a PipelineJob?
 ----------------------

@@ -1,7 +1,8 @@
+=======================
 Samples Metadata Loader
 =======================
 
-Loads a file in Sample-Set schema into the Data Catalog
+Loads a JSON file in Sample-Set schema into the Data Catalog.
 
 Resources
 ---------
