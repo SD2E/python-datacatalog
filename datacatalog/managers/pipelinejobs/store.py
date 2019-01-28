@@ -182,19 +182,28 @@ class ManagedPipelineJob(Manager):
         child_of_list = list()
 
         try:
+            # If measurements are passed, use them for linkage and
+            meas_provided = False
             if kwargs.get('measurement_id', None) is not None:
                 child_of_list = self.measurements_from_measurements(kwargs.get('measurement_id'))
                 archive_path_metadata_els = copy.copy(child_of_list)
-            elif kwargs.get('sample_id', None) is not None:
-                child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
-                archive_path_metadata_els = self.samples_from_samples(
-                    kwargs.get('sample_id'))
+                meas_provided = True
+            if kwargs.get('sample_id', None) is not None:
+                if meas_provided is False:
+                    child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
+                if archive_path_metadata_els is None:
+                    archive_path_metadata_els = self.samples_from_samples(
+                        kwargs.get('sample_id'))
             elif kwargs.get('experiment_id', None) is not None:
-                child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
-                archive_path_metadata_els = self.experiments_from_experiments(
-                    kwargs.get('experiment_id'))
+                if meas_provided is False:
+                    child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
+                if archive_path_metadata_els is None:
+                    archive_path_metadata_els = self.experiments_from_experiments(
+                        kwargs.get('experiment_id'))
             if not len(child_of_list) > 0:
                 raise ValueError("Failed to link job to measurements")
+            if not len(archive_path_metadata_els) > 0:
+                raise ValueError("Failed to identify metadata elements for archive path")
         except ValueError:
             child_of_list = [DEFAULT_MEASUREMENT_ID]
             archive_path_metadata_els = copy.copy(child_of_list)
