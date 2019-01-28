@@ -2,27 +2,38 @@
 PipelineJobs
 ============
 
-Once we have represented a distinct *pipelines* of software parts and parameterizations, we still need to tie metadata about experimental design and inputs to specific invocations (jobs) of those pipelines and their outputs. That is handled by the PipelineJobs system, which works in tandem with Pipelines and the other parts of the Data Catalog.
+The core details of a computation workflow are represented in a *Pipeline*
+comprised of static software components and parameterizations. An invocation of
+that pipeline, with linkages to experimental metadata, specific inputs, and run-
+time parameterization is represented in a **PipelineJob**. This is handled by
+the PipelineJobs System, which is a set of cooperating Reactors that talk to
+the MongoDB instance powering the Data Catalog.
 
 PipelineJobs has two components. The first is a persisent Reactor that collects and manages state information for each and every ``PipelineJob``. It is addressable by web callback or direct message. The other is a client-side library
 bundled with the ``sd2e/reactors:python`` base image, which we leverage from within the coordinating Reactor in a pipeline to initiate tracking of a PipelineJob.
 
 What is a PipelineJob?
-**********************
+----------------------
 
-Essentially, it's an entry in the ``jobs`` collection of the Data Catalog with a specifc structure and a specific usage pattern enforced and enabled by the Pipeline Jobs Manager Reactor and logic in the client-side Python ``datacatalog`` package.
+A **PipelineJob** is an entry in the Data Catalog **jobs** collection managed
+by the PipelineJobs System. Each PipelineJob represents a distinct combination
+of Pipeline, Metadata linkage, Inputs, and Parameterization. Thus, the same
+combination of those values will always be associated with the same unique job
+identifier (UUID).
 
-A PipelineJob has five key properties:
+Each PipelineJob has five key properties:
 
-* ``pipeline_uuid`` - unique ID referring to a known, active pipeline
-* ``uuid`` - unique ID hashed from the originating actorId and parameterization
-* ``status`` - current state of the job
-* ``history`` - ordered, timestamped history of the jobs state
+* ``pipeline_uuid`` Unique ID referring to a known, active pipeline
+* ``data`` The run-time parameterization of the pipeline
+* ``uuid`` Unique ID hashed from the ``pipeline`` and job inputs
+* ``state`` Current state of the job
+* ``history`` A chronological history of state-change events
 
-Transitions among states of a PipelineJob are implemeted using a Finite State Machine. The current set of states and valid transition events is illustrated here:
+The job lifecycle has a number of distinct states which can be transitioned by
+receipt of named events, as illustrated here.
 
 .. image:: fsm-created.png
-   :alt: The PipelineJob Finite State Machine
+   :alt: PipelineJob Finite State Machine
    :align: right
 
 Create a Pipeline
@@ -47,13 +58,15 @@ Add a ``pipelines`` block in the file ``config.yml`` as follows:
 .. code-block:: yaml
 
    pipelines:
-     pipeline_uuid: f0f417f2-ba8b-5ac4-b421-255b69553391
-     updates_nonce: ~
-     authn: ~
+     pipeline_uuid: 1064aaf1-459c-5e42-820d-b822aa4b3990
      pipeline_manager_id: G1p783PxpalBB
+     pipeline_manager_nonce: ~
      job_manager_id: G56vjoAVzGkkq
+     job_manager_nonce: ~
+     job_indexer_id: ~
+     job_indexer_nonce: ~
 
-**Explanation**: Pipeline UUID is the unique identifier for your pipeline. The empty keys values for ``update_nonce`` and ``authn`` configure your Reactor to look for these values in the `secrets.json` file. The two "id" fields are Abaco ``actor.id`` for Reactors managed by TA4 team which implement the Pipelines system.
+**Explanation**: Pipeline UUID is the unique identifier for your pipeline. The empty keys values for ``pipeline_manager_nonce``, ``job_manager_nonce``, and ``job_indexer_nonce`` configure your Reactor to look for these values in the `secrets.json` file. The two "id" fields are Abaco ``actor.id`` for Reactors managed by TA4 team which implement the Pipelines system.
 
 Add deployment secrets
 ^^^^^^^^^^^^^^^^^^^^^^

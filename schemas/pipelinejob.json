@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-23 22:46:00 +00:00; source: git@github.com:SD2E/python-datacatalog.git@983fb1f",
+    "$comment": "generated: 2019-01-28 16:44:58 +00:00; source: git@github.com:SD2E/python-datacatalog.git@8db7b9e",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -61,7 +61,7 @@
             "type": "string"
         },
         "state": {
-            "$ref": "pipelinejob_state.json"
+            "$ref": "pipelinejob_statename.json"
         },
         "task": {
             "oneOf": [

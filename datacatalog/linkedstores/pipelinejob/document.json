@@ -68,7 +68,7 @@
             }
         },
         "state": {
-            "$ref": "pipelinejob_state.json"
+            "$ref": "pipelinejob_statename.json"
         },
         "generated_by": {
             "items": {
