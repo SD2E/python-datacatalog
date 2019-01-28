@@ -13,6 +13,11 @@ Documents in this tree are accessible over HTTP so they may be imported
 dynamically by code that implements user interfaces, builds database queries,
 or otherwise needs to interoperate with SD2 data management infrastructure.
 
+An index of all schema documents is maintained at:
+
+- `Schemas <{{ project_schema_base_url }}/schemas.html>`_
+
+
 Object Schemas
 --------------
 
