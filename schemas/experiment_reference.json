@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-14 19:14:24 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f1d43bc",
+    "$comment": "generated: 2019-01-29 01:09:55 +00:00; source: git@github.com:SD2E/python-datacatalog.git@a48306c",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -29,8 +29,8 @@
         "Yeast-Gates",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Cello-Characterization",
-        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-NAND-Gate",
+        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-Parts-Discovery",
         "Riboswitches"
     ],
