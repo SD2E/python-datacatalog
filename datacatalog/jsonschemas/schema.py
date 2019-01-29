@@ -20,6 +20,7 @@ class JSONSchemaBaseObject(object):
     BASEREF = environ.get('PROJECT_SCHEMA_BASE_URL', BASE_URL)
     BASESCHEMA = environ.get('PROJECT_SCHEMA_REF', BASE_SCHEMA)
     PARAMS = [('schema', False, 'schema', BASESCHEMA, '$'),
+              ('comment', False, 'comment', '', '$'),
               ('id', False, 'id', '', '$'),
               ('definitions', False, 'definitions', None, ''),
               ('title', False, 'title', None, ''),
@@ -31,6 +32,8 @@ class JSONSchemaBaseObject(object):
               ('required', False, 'required', None, ''),
               ('pattern', False, 'pattern', None, ''),
               ('enum', False, 'enum', None, ''),
+              ('format', False, 'format', None, ''),
+              ('examples', False, 'examples', None, ''),
               ('_filename', False, '_filename', 'baseobject', ''),
               ('_snake_case', False, '_snake_case', True, ''),
               ('_collection', False, '__collection', None, ''),
@@ -38,8 +41,7 @@ class JSONSchemaBaseObject(object):
               ('_identifiers', False, '__identifiers', None, ''),
               ('_uuid_type', False, '__uuid_type', 'generic', ''),
               ('_uuid_fields', False, '__uuid_fields', 'id', ''),
-              ('_visible', False, '_visible', True, ''),
-              ('comment', False, 'comment', '', '$')]
+              ('_visible', False, '_visible', True, '')]
 
     def __init__(self, **kwargs):
         for key, mandatory, param, default, keyfix in self.PARAMS:

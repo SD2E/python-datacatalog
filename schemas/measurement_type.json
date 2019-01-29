@@ -1,10 +1,19 @@
 {
-    "$comment": "generated: 2019-01-23 22:46:01 +00:00; source: git@github.com:SD2E/python-datacatalog.git@983fb1f",
+    "$comment": "generated: 2019-01-29 01:26:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement_type.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Enumerated measurement type",
     "enum": [
+        "FLOW",
+        "RNA_SEQ",
+        "PLATE_READER",
+        "PROTEOMICS",
+        "EXPERIMENTAL_DESIGN",
+        "SEQUENCING_CHROMATOGRAM",
+        "AUTOMATED_TEST"
+    ],
+    "examples": [
         "FLOW",
         "RNA_SEQ",
         "PLATE_READER",

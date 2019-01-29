@@ -50,6 +50,9 @@ def build_jsondocs(directory=None):
             # This is the filename, sans extension, for the schema document
             if '_filename' not in loaded_jsondoc:
                 loaded_jsondoc['_filename'] = filename
+            if 'enum' in loaded_jsondoc:
+                if len(loaded_jsondoc['enum']) > 0:
+                    loaded_jsondoc['examples'] = loaded_jsondoc['enum']
             schema = Definition(**loaded_jsondoc).to_jsonschema()
             schemas[filename] = schema
     return schemas
