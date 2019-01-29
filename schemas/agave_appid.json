@@ -1,8 +1,13 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:55 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2019-01-29 12:01:34 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b80ca20",
     "$id": "https://schema.catalog.sd2e.org/schemas/agave_appid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Agave appID identifier",
+    "examples": [
+        "kallisto-0.43.1u3",
+        "hello-agave-1.0.0",
+        "intense-ibex-1.0"
+    ],
     "type": "string"
 }

@@ -1,5 +1,7 @@
 from ...tenancy.config import current_tenant
 from .hashid import IdentifierSchema, JSONSchemaCollection
+from .examples import ABACO_NONCE_ID as EXAMPLES
+
 from . import hashid
 
 PROPERTIES = {'id': 'abaco_nonceid',

@@ -1,5 +1,6 @@
 import re
 from ..schemas import IdentifierSchema, JSONSchemaCollection
+from .examples import AGAVE_APP_ID as EXAMPLES
 
 PROPERTIES = {'id': 'agave_appid',
               'title': 'Agave appID',
@@ -72,7 +73,8 @@ def get_schemas():
     schemas = dict()
     doc = {'_filename': PROPERTIES['id'],
            'description': PROPERTIES['description'],
-           'type': PROPERTIES['type']}
+           'type': PROPERTIES['type'],
+           'examples': EXAMPLES}
     sch = IdentifierSchema(**doc).to_jsonschema()
     schemas[PROPERTIES['id']] = sch
     return JSONSchemaCollection(schemas)

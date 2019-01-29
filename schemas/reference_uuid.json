@@ -1,9 +1,12 @@
 {
-    "$comment": "generated: 2018-12-19 11:23:05 +00:00; source: git@github.com:SD2E/python-datacatalog.git@128232f",
+    "$comment": "generated: 2019-01-29 12:42:48 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b80ca20",
     "$id": "https://schema.catalog.sd2e.org/schemas/reference_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Reference Asset UUID UUID5 with DNS namespacing",
+    "examples": [
+        "109acb4d-1f93-553a-9e1c-b7b58125bc89"
+    ],
     "pattern": "^(uri:urn:)?109[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
     "title": "Reference Asset UUID",
     "type": "string"

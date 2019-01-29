@@ -14,24 +14,30 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/jsonschema')
 
-def test_get_allschema_filter_all():
+# def test_identifiers_typeduuid_get_schemas():
+#     schemas = datacatalog.identifiers.typeduuid.schemas.get_schemas()
+#     assert isinstance(schemas, dict)
+#     for k, v in schemas.items():
+#         assert isinstance(v, str)
+
+def test_get_allschemas_filter_all():
     schemas = datacatalog.jsonschemas.get_all_schemas(filters=['will-never-be-valid'])
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) == 0
 
-def test_get_allschema_filter_one():
+def test_get_allschemas_filter_one():
     schemas = datacatalog.jsonschemas.get_all_schemas(filters=['linkedstores.basestore'])
     assert isinstance(schemas, dict)
     # the object and document schemas
     assert len(list(schemas.keys())) == 2
 
-def test_get_all_schemas():
+def test_get_allschemas():
     schemas = datacatalog.jsonschemas.get_all_schemas()
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
 
 @networked
-def test_validate_all_schemas_json():
+def test_validate_allschemas_json():
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)
     for schema in schemas:
@@ -50,7 +56,7 @@ def test_validate_all_schemas_json():
     ('draft-03.json', False),
     ('draft-02.json', False),
     ('draft-01.json', False)])
-def test_validate_all_schemas_drafts(draft, response):
+def test_validate_allschemas_drafts(draft, response):
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)
     draft_schema = json.load(open(os.path.join(DATA_DIR, draft), 'r'))

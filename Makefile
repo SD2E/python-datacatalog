@@ -94,7 +94,7 @@ schemas-test:
 
 # Contents of ../schemas/ are conformant JSON schema draft-04+
 schemas-validate:
-	python -m pytest -v --longrun -k validate_all_schemas $(PYTEST_SRC)
+	python -m pytest -v --networked -k validate_allschemas $(PYTEST_SRC)
 
 # Exemplar files from formats.runners validate to sample_set.json
 schemas-validate-products:

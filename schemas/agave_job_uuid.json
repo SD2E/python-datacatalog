@@ -1,9 +1,12 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:55 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2019-01-29 18:53:06 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b80ca20",
     "$id": "https://schema.catalog.sd2e.org/schemas/agave_job_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Agave API job UUID",
+    "examples": [
+        "3569613289801641495-242ac11b-0001-007"
+    ],
     "pattern": "-007$",
     "type": "string"
 }

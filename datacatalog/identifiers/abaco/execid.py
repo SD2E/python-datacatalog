@@ -1,5 +1,6 @@
 from .hashid import generate, validate, mock, \
     IdentifierSchema, JSONSchemaCollection
+from .examples import ABACO_EXEC_ID as EXAMPLES
 
 PROPERTIES = {'id': 'abaco_execid',
               'title': 'Abaco executionId',

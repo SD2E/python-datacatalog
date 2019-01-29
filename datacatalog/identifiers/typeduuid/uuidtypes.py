@@ -37,21 +37,23 @@ class CatalogUUID(JSONSchemaBaseObject):
         self.pattern = '^(uri:urn:)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
         self._filename = 'CatalogUUID'
         self.type = 'string'
+        self.examples = []
         self.update_id()
+        self._kind = 'generic'
 
     def update_id(self):
         schema_id = self.BASEREF + self._filename + '_uuid.json'
         schema_id = schema_id.lower()
         setattr(self, 'id', schema_id)
 
-class TypedCatalogUUID(CatalogUUID):
-    def __init__(self, **kwargs):
-        super(TypedCatalogUUID, self).__init__(**kwargs)
-        self._filename = kwargs.get('_filename', None)
-        self.title = kwargs.get('title', None)
-        self.description = self.title + ' ' + self.description
-        self.pattern = '^(uri:urn:)?' + kwargs.get('prefix', '100') + '[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
-        super(TypedCatalogUUID, self).update_id()
+# class TypedCatalogUUID(CatalogUUID):
+#     def __init__(self, **kwargs):
+#         super(TypedCatalogUUID, self).__init__(**kwargs)
+#         self._filename = kwargs.get('_filename', None)
+#         self.title = kwargs.get('title', None)
+#         self.description = self.title + ' ' + self.description
+#         self.pattern = '^(uri:urn:)?' + kwargs.get('prefix', '100') + '[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+#         super(TypedCatalogUUID, self).update_id()
 
 UUIDType = dict()
 for uuidt, prefix, title in UUIDTYPES:

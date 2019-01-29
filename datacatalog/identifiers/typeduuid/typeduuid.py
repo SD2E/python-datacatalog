@@ -19,7 +19,8 @@ from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 from .. import constants
 from ..identifier import random_string, Identifier
 from .. import constants
-from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
+# from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
+from .uuidtypes import UUIDTYPES, TypedUUID, CatalogUUID
 
 uuidtypes = dict()
 for uuidt, prefix, title in UUIDTYPES:
@@ -28,6 +29,17 @@ for uuidt, prefix, title in UUIDTYPES:
 UUID_NAMESPACE = constants.Constants.UUID_NAMESPACE
 UUID_MOCK_NAMESPACE = constants.Constants.UUID_MOCK_NAMESPACE
 UUID_HASH_SALT = constants.Constants.TYPEDUUID_HASHIDS_SALT
+
+class TypedCatalogUUID(CatalogUUID):
+    def __init__(self, **kwargs):
+        super(TypedCatalogUUID, self).__init__(**kwargs)
+        self._filename = kwargs.get('_filename', None)
+        self.title = kwargs.get('title', None)
+        self.description = self.title + ' ' + self.description
+        self.pattern = '^(uri:urn:)?' + kwargs.get('prefix', '100') + '[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+        setattr(self, 'examples', [generate(
+            'Why did it have to be snakes?', uuid_type=kwargs.get('kind', 'generic'), binary=False)])
+        super(TypedCatalogUUID, self).update_id()
 
 def uuid_to_hashid(uuid_string, salt=UUID_HASH_SALT):
     """Convert a UUID to a HashId to save space. Good for file path building."""
