@@ -1,6 +1,10 @@
-======================
-Participating Reactors
-======================
+=====================
+Reactor Documentation
+=====================
+
+Each managing Reactor is maintained as a separate repository. Additional
+technical detail and documentation is available at their respective
+repositories at the pages linked below.
 
 .. toctree::
    :maxdepth: 1

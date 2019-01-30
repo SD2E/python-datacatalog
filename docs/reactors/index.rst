@@ -1,14 +1,16 @@
+.. _sharedreactors:
+
 ========
 Reactors
 ========
 
-Several shared Reactors work together to ingest and manage the contents of the
-Data Catalog. Here, they are grouped by This section contains brief descriptions and links to their source
-code and documentation.
+Several Reactors work together to ingest, manage, and validate contents of the
+Data Catalog. The following pages contain links to documentation, source code,
+and optional supplementary references for each.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Primary Metadata
+   :caption: Uploads and Metadata
 
    uploads_handler.rst
    uploads_indexer.rst
@@ -26,8 +28,7 @@ code and documentation.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Notifications and Dashboards
-
+   :caption: Automations
 
 .. only::  subproject and html
 
