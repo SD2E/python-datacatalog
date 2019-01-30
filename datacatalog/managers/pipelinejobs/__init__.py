@@ -3,8 +3,11 @@ from . import config
 from . import exceptions
 from . import instanced
 
-from .store import Manager, ManagedPipelineJob
-from .exceptions import ManagedPipelineJobError
+from ..common import Manager
+from .jobmanager import JobManager
+from .store import ManagedPipelineJob
 from .instanced import ManagedPipelineJobInstance
-# Streamlined interface for launching from wihtin a Reactor
 from .reactor import ReactorManagedPipelineJob
+
+from .exceptions import ManagedPipelineJobError
+# Streamlined interface for launching from wihtin a Reactor

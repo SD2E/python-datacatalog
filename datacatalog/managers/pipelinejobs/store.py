@@ -9,7 +9,7 @@ import validators
 import logging
 from pprint import pprint
 from ... import identifiers
-from ..common import Manager, data_merge
+from .jobmanager import JobManager, data_merge
 from ...tokens import get_token
 from ...linkedstores.pipelinejob import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
@@ -27,7 +27,7 @@ DEFAULT_PROCESS_ID = '1176bd3e-8666-547b-bc36-25a3b62fc271'
 # measurement.tacc.0x00000000
 DEFAULT_MEASUREMENT_ID = '10452d7e-7f0a-59df-a1a3-c5bb44e07f2f'
 
-class ManagedPipelineJob(Manager):
+class ManagedPipelineJob(JobManager):
     """Specialized PipelineJob that supports archiving to defined stores and deferred updates
 
     1. ``uuid`` is assigned as hash of ``pipeline_uuid`` and ``data`` during ``setup()``
@@ -84,7 +84,7 @@ class ManagedPipelineJob(Manager):
         At least one of (experiment_id, sample_id, measurement_id) must be passed to ``init()`` to explicitly connect a job to upstream experimental metadata.
     """
 
-    MGR_PARAMS = [
+    PARAMS = [
         ('agent', False, 'agent', None),
         ('task', False, 'task', None),
         ('session', False, 'session', None),
@@ -110,22 +110,9 @@ class ManagedPipelineJob(Manager):
                  *args,
                  **kwargs):
         super(ManagedPipelineJob, self).__init__(mongodb, agave=agave)
-        # self._enforce_auth = True
 
-        # Initialize empty linkage arrays
-        relations = dict()
-        for lf in LINK_FIELDS:
-            relations[lf] = list()
-
-        # List of elements that can be used to synthesize archive_path
-        archive_path_els = list()
-
-        # Validate pipeline configuration
-        self.config = PipelineJobsConfig(**pipelines)
-        self.cancelable = True
-
-        # Handle manager parameters
-        for param, required, key, default,  in self.MGR_PARAMS:
+        # Read in additional kwargs as per PARAMS
+        for param, required, key, default in self.PARAMS:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
                 raise ManagedPipelineJobError('Parameter "{}" is required'.format(param))
@@ -134,18 +121,34 @@ class ManagedPipelineJob(Manager):
                     kval = default
             setattr(self, key, kval)
 
-        # Create a session name if not provided
-        if self.session is None:
-            setattr(self, 'session', interestinganimal.generate(
-                timestamp=False))
+        # Validate passed token
+        setattr(self, '_enforce_auth', False)
 
-        # Inspect os.environ to assign agent and task if not provided
-        # TODO - these should be established in settings module
+        # agent and task if not provided
+        # TODO - lookup should be established in settings module
         if self.agent is None:
             setattr(self, 'agent', os.environ.get('_abaco_actor_id', None))
         if self.task is None:
             setattr(self, 'task', os.environ.get('_abaco_execution_id', None))
         self.__canonicalize_agent_and_task()
+
+        # We're going to create and manage
+        # a job so start out as cancelable
+        self.cancelable = True
+
+        # Validate pipeline configuration
+        self.config = PipelineJobsConfig(**pipelines)
+
+        # Create a session name if not provided
+        if self.session is None:
+            setattr(self, 'session', interestinganimal.generate(
+                timestamp=False))
+
+        # Build archive_path and linkages from job parameterization
+        archive_path_els = list()
+        relations = dict()
+        for lf in LINK_FIELDS:
+            relations[lf] = list()
 
         # Establish **generated_by** linkage
         #
@@ -176,11 +179,9 @@ class ManagedPipelineJob(Manager):
         # Establish **child_of**
         #
         # Connect with experiment/sample/measurement
-        parameters = dict()
         archive_path_metadata_els = None
         # Experiment metadata association
         child_of_list = list()
-
         try:
             # If measurements are passed, use them for linkage and
             meas_provided = False
@@ -249,7 +250,6 @@ class ManagedPipelineJob(Manager):
         relations['acts_using'].extend(reference_uri_uuids)
 
         # Finally, set this document's linkage attributes
-        #
         for rel, val in relations.items():
             setattr(self, rel, val)
 
@@ -298,64 +298,6 @@ class ManagedPipelineJob(Manager):
         setattr(self, 'indexer_callback', self.build_indexer_webhook())
         # raise Exception(self.job)
         return self
-
-    def handle(self, event_name, data={}):
-        """Handle a named event
-        """
-        self.job = self.stores['pipelinejob'].handle({
-            'name': event_name.lower(),
-            'uuid': self.uuid,
-            'token': self.token,
-            'data': data})
-        if getattr(self, 'cancelable'):
-            setattr(self, 'cancelable', False)
-        return self.job
-
-    def run(self, data={}):
-        """Wrapper for **run**
-        """
-        return self.handle('run', data)
-
-    def resource(self, data={}):
-        """Wrapper for **resource**
-        """
-        return self.handle('resource', data)
-
-    def update(self, data={}):
-        """Wrapper for **update**
-        """
-        return self.handle('update', data)
-
-    def fail(self, data={}):
-        """Wrapper for **fail**
-        """
-        return self.handle('fail', data)
-
-    def finish(self, data={}):
-        """Wrapper for **finish**
-        """
-        return self.handle('finish', data)
-
-    def index(self, data={}):
-        """Wrapper for **index**
-        """
-        return self.handle('index', data)
-
-    def indexed(self, data={}):
-        """Wrapper for **indexed**
-        """
-        return self.handle('indexed', data)
-
-    def cancel(self):
-        """Cancel the job, deleting it from the system
-        """
-        if getattr(self, 'cancelable') is not False:
-            self.stores['pipelinejob'].delete(self.uuid, self.token, soft=False)
-            self.job = None
-            return self.job
-        else:
-            raise ManagedPipelineJobError(
-                'Cannot cancel a job once it is running. Send a "fail" event instead.')
 
     def build_webhook(self):
         """Return a webhook to update this job via web callback
@@ -464,12 +406,12 @@ class ManagedPipelineJob(Manager):
 
         return archive_path
 
-    def serialize_data(self):
-        """Serializes self.data into a minified string
-        """
-        return json.dumps(getattr(self, 'data', {}),
-                          sort_keys=True,
-                          separators=(',', ':'))
+    # def serialize_data(self):
+    #     """Serializes self.data into a minified string
+    #     """
+    #     return json.dumps(getattr(self, 'data', {}),
+    #                       sort_keys=True,
+    #                       separators=(',', ':'))
 
     def instanced_directory(self, session=None):
         """Extend a path with an instanced directory name

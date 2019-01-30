@@ -13,6 +13,8 @@ from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
+from ...linkedstores.pipelinejob.fsm import EVENT_DEFS
+
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
@@ -25,10 +27,10 @@ class ManagedPipelineJobInstance(Manager):
     """Supports working with a existing ManagedPipelineJob
 
     Args:
-        mongodb (mongo.Connection): Connection to system MongoDB with write access to ``jobs``
+        mongodb (mongo.Connection): Connection to MongoDB with write access to ``jobs``
         uuid (str): Job UUID
+        token (str): Update token for the job
     """
-
     # Bring in only minimal set of fields to lift from parent document as
     # the intent of this class is not to update the ManagedPipelineJob but
     # only to take actions that depend on its specific properties
@@ -49,9 +51,23 @@ class ManagedPipelineJobInstance(Manager):
         db_rec = self.stores['pipelinejob'].find_one_by_uuid(uuid)
         for param, req, attr, default in self.PARAMS:
             setattr(self, attr, db_rec.get(param))
+        # Dynamically add run, fail, etc methods
+        self._add_event_functions()
+
+    def _add_event_functions(self):
+
+        for ename, esec in EVENT_DEFS:
+            def fn(data={}, token=None):
+                event_doc = {'uuid': self.uuid,
+                             'token': getattr(self, 'token', token),
+                              'name': ename,
+                              'data': data}
+                return self.handle(
+                    event_doc, token=token)
+            setattr(self, ename, fn)
 
     def handle(self, event_doc, token=None):
-        """Proxy for PipelineJobStore.handle()
+        """Override super().handle to process events directly rather than by name
         """
         return self.stores['pipelinejob'].handle(event_doc, token)
 
