@@ -1,0 +1,5 @@
+.. _pipelines-manpage:
+
+=========
+Pipelines
+=========

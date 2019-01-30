@@ -4,3 +4,4 @@ from .store import JobCreateFailure, JobUpdateFailure, DuplicateJobError
 from .store import UnknownPipeline, UnknownJob
 from .store import DEFAULT_LINK_FIELDS
 from . import graphfsm
+from . import fsm

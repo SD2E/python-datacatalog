@@ -1,0 +1,5 @@
+.. _jobsmanager:
+
+============
+Jobs Manager
+============

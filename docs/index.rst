@@ -34,9 +34,15 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: Advanced Topics
+    :caption: PipelineJobs System
 
     pipelines/index.rst
+
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Advanced Topics
+
     schema/add_definition.rst
     schema/add_composition.rst
     schema/add_linkedstore.rst

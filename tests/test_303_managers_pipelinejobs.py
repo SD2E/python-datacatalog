@@ -3,11 +3,13 @@ import pytest
 import sys
 import yaml
 import json
+import inspect
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
 from .fixtures.agave import agave, credentials
 import datacatalog
+import traceback
 import transitions
 from datacatalog.identifiers import abaco, interestinganimal, typeduuid
 from .data import pipelinejobs
@@ -292,6 +294,17 @@ def test_pipeinstance_init(mongodb_settings, agave):
     assert base.archive_path.startswith('/products/v2/106')
     assert len(base.child_of) > 0
     assert len(base.pipeline_uuid) is not None
+    assert 'run' in dir(base)
+
+# def test_pipeinstance_event_fn(mongodb_settings, agave):
+#     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
+#     job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
+#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+#     # pprint(inspect.getmembers(base))
+#     print(inspect.getsource(base.run))
+#     raise SystemError()
+#     resp = base.run()
+#     assert 'uuid' in resp
 
 # TODO Rewrite these tests to use new signature for ManagedPipelineJob
 

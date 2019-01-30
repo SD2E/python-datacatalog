@@ -14,10 +14,13 @@
 #
 import os
 import sys
+import string
+from tabulate import tabulate
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
 
 from datacatalog.jsonschemas.schema import BASE_URL as PROJECT_SCHEMA_BASE_URL
+from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
 
 def rstjinja(app, docname, source):
     """
@@ -35,9 +38,20 @@ def rstjinja(app, docname, source):
 def setup(app):
     app.connect("source-read", rstjinja)
 
+def table_pipelinejob_states():
+    return tabulate(pipelinejob_fsm.STATE_DEFS, ['State', 'Description'], tablefmt='rst')
+
+def table_pipelinejob_events():
+    return tabulate(pipelinejob_fsm.EVENT_DEFS, ['Event', 'Description'], tablefmt='rst')
+
 html_context = {
-    'project_schema_base_url': PROJECT_SCHEMA_BASE_URL
+    'project_schema_base_url': PROJECT_SCHEMA_BASE_URL,
+    'project_schema_browser_url': 'https://browser.catalog.sd2e.org',
+    'pipelinejob_states': table_pipelinejob_states(),
+    'pipelinejob_events': table_pipelinejob_events()
 }
+
+
 
 # -- Project information -----------------------------------------------------
 
