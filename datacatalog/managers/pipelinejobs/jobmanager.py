@@ -105,6 +105,22 @@ class JobManager(Manager):
         """
         return self.handle('indexed', data, token=token)
 
+    def reset(self, data={}, token=None):
+        """Wrapper for **reset**
+        """
+        # Send the event w token. On success,
+        # Do the archive_path delete action, which will be
+        # a folder delete followed by recreate for speed. Then,
+        # check contents are empty, and return resp if
+        # all is OK.
+        # TODO - Determine where to put check for admin token
+        return self.handle('reset', data, token=token)
+
+    def ready(self, data={}, token=None):
+        """Wrapper for **ready*
+        """
+        return self.handle('ready', data, token=token)
+
     def serialize_data(self):
         """Serializes self.data into a minified string
         """

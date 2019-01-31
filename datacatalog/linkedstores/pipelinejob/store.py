@@ -84,6 +84,7 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         passed_token = event_document.get('token', token)
 
         # Token must validate
+        # TODO - Extend validate_token to honor one or more admin tokens set in env
         validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
         db_job = PipelineJob(db_record).handle(event_document)
         return self.add_update_document(db_job.to_dict())

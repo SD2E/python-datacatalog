@@ -16,7 +16,8 @@ STATE_DEFS = [('CREATED', 'Job inputs and configuration has been defined'),
               ('VALIDATED', 'Job outputs were determined to be correct'),
               ('REJECTED', 'Job outputs are invalid and should not be used'),
               ('FINALIZED', 'Job outputs are validated and ready for general use'),
-              ('RETIRED', 'Job and outputs should no longer be used')]
+              ('RETIRED', 'Job and outputs should no longer be used'),
+              ('RESET', 'Job and outputs are being reset for another run')]
 
 EVENT_DEFS = [('create', 'Create a new job'),
               ('run', 'Mark the job as "running"'),
@@ -30,7 +31,9 @@ EVENT_DEFS = [('create', 'Create a new job'),
               ('validated', 'Mark that validation has completed'),
               ('finalize', 'Mark the job and its outputs as suitable for use'),
               ('reject', 'Mark the job and its outputs as unsuitable for use'),
-              ('retire', 'Mark job and its outputs as retired/deprecated')]
+              ('retire', 'Mark job and its outputs as retired/deprecated'),
+              ('reset', 'Begin to reset the job, erasing archive_path contents'),
+              ('ready', 'Complete the reset process, allowing job to be re-run')]
 
 class EventResponse(AttrDict):
     PARAMS = [('last_event', True, None),
@@ -58,7 +61,10 @@ class JobStateMachine(Machine):
         {'trigger': 'validated', 'source': ['VALIDATED', 'VALIDATING'], 'dest': 'VALIDATED'},
         {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
         {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
-        {'trigger': 'retire', 'source': ['REJECTED', 'FINALIZED'], 'dest': 'RETIRED'}
+        {'trigger': 'retire', 'source': ['REJECTED', 'FINALIZED'], 'dest': 'RETIRED'},
+        {'trigger': 'reset', 'source': ['FAILED', 'REJECTED'], 'dest': 'RESET'},
+        {'trigger': 'ready', 'source': ['RESET'], 'dest': 'CREATED'}
+
     ]
 
     def __init__(self, state=states[0]):
