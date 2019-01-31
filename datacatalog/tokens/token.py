@@ -1,6 +1,10 @@
 import hashlib
 import base64
+from os import environ
 
+RESET_TOKEN = environ.get('CATALOG_RESET_TOKEN', 'f9mr79w44x96ojj8')
+DELETE_TOKEN = environ.get('CATALOG_DELETE_TOKEN', 'b2hhb7s470owrvtd')
+ADMIN_TOKENS = [RESET_TOKEN, DELETE_TOKEN]
 TOKEN_LENGTH = 16
 """Generated token length"""
 
@@ -34,8 +38,24 @@ def get_token(salt, *args):
     msg = ':'.join(str_argset)
     return Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[0:TOKEN_LENGTH])
 
-def validate_token(token, salt, *args, permissive=True):
+def validate_admin_token(token, permissive=True):
+    # Local testing scope
     if debug_mode() is True:
+        return True
+    # Admin tokens
+    if token in ADMIN_TOKENS:
+        return True
+    if permissive:
+        return False
+    else:
+        raise InvalidToken('Token was not valid')
+
+def validate_token(token, salt, *args, permissive=True):
+    # Local testing scope
+    if debug_mode() is True:
+        return True
+    # Allow override
+    if validate_admin_token(token, permissive=True):
         return True
     else:
         test_token = get_token(salt, *args)
