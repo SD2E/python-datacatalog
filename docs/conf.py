@@ -84,7 +84,7 @@ extensions = [
 # Napoleon configs
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
-napoleon_include_init_with_doc = False
+napoleon_include_init_with_doc = True
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = False
 napoleon_use_admonition_for_examples = False
@@ -142,6 +142,10 @@ html_theme = 'sphinx_rtd_theme'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 html_extra_path = ['../schemas']
+
+# html_context = {
+#     'css_files': ['_static/theme_overrides.css']
+# }
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

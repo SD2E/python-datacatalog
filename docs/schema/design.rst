@@ -15,10 +15,10 @@ or otherwise needs to interoperate with SD2 data management infrastructure.
 
 An index of all schema documents is maintained at:
 
-- `Schemas <{{ project_schema_base_url }}/schemas.html>`_
+- `{{ project_schema_base_url }}/schemas.html <{{ project_schema_base_url }}/schemas.html>`_
 
-Schema Forms
-------------
+Schema Representations
+----------------------
 
 There are two forms of presentation for the Data Catalog schema. The most
 intuitive are the "object" schemas, which represent the metadata hierarchy
@@ -34,6 +34,9 @@ relationships are discoverable by exploring the "document" schema.
 Object Schemas
 ^^^^^^^^^^^^^^
 
+Object schemas can represent strictly hiearchical relationships as a
+monolithic document, but will struggle with complex relations.
+
 - `Catalog <{{ project_schema_base_url }}/challenge_problem.json>`_
 - `SampleSet <{{ project_schema_base_url }}/sample_set.json>`_
 - `Pipeline <{{ project_schema_base_url }}/pipeline.json>`_
@@ -41,17 +44,18 @@ Object Schemas
 
 Documement Schemas
 ^^^^^^^^^^^^^^^^^^
+Documement Schemas represent multiple types and cardinalities of inheritance
+and derivation relationships.
 
 - `CatalogStore <{{ project_schema_base_url }}/challenge_problem_document.json>`_
 - `PipelineJobStore <{{ project_schema_base_url }}/pipelinejob_document.json>`_
 
-Schema Browsers
----------------
+Interactive Browsers
+--------------------
+An interactive browser is available for exploring the project database schema.
+Here are three entrypoints to get started:
 
-An interactive browser is available for exploring the database schema. Here
-are three entrypoints as a starting point.
-
-- `Catalog <https://browser.catalog.sd2e.org/challenge_problem.html>`_
-- `SampleSet <https://browser.catalog.sd2e.org/sample_set.html>`_
-- `PipelineJobStore <https://browser.catalog.sd2e.org/pipeline_job.html>`_
+- `Data Catalog Schema <https://browser.catalog.sd2e.org/challenge_problem.html>`_
+- `SampleSet (samples.json) Schema <https://browser.catalog.sd2e.org/sample_set.html>`_
+- `PipelineJob Schema <https://browser.catalog.sd2e.org/pipeline_job.html>`_
 

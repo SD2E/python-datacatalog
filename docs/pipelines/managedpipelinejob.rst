@@ -17,8 +17,8 @@ Reactor. Configuration details for these resources can be passed like so:
 
 .. code-block:: pycon
 
-  from datacatalog.managers.pipelinejobs import ManagedPipelineJob
-  from agavepy.agave import Agave
+   from datacatalog.managers.pipelinejobs import ManagedPipelineJob
+   from agavepy.agave import Agave
 
    mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
    pipelines={'job_manager_id': 'G1p783PxpalBB',
@@ -94,73 +94,7 @@ Deferred Updates
 ----------------
 
 It is possible to update a job's status after the initiating process has
-exited, so long as the job's current **update_token** is known. If it is
-included in a future message by another process, either as a property in a
-JSON message or as a
+exited, so long as the job's current **token** is known. The token must be
+included in JSON messages to ``ManagedPipelineJobInstance`` or in web
+service callbacks posted to the Jobs Manager Reactor.
 
-ManagedPipelineJobInstance
-
-Overview
-~~~~~~~~
-
-The Pipelines system leverages Agave's event-driven notification and Abaco's rich callback support to let Agave jobs update the status of the PipelineJob created by the Reactor that spawned them. It is equally possible for other Reactors (or even future executions of the current Reactor) to update PipelineJobs as well. Rather than relying on persisent database connnections, this is accomplished this by a event system implemented in the ``pipeline-jobs-manager`` Reactor `(documented here) <https://gitlab.sd2e.org/sd2program/pipeline-jobs-manager>`_.
-
-Update from an Agave Job
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Let's assume we have a Reactor `fcs-reactor` that coordinates execution of an Agave job using the app `fcs-etl-0.4.0u16`. The Reactor already has code to generate a job definition from a template and can generate a JSON job definition that resembles this example.
-
-.. code-block:: json
-
-   {
-     "name": "FCS ETL processing job",
-     "inputs": {"inputData": "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbq4mr76ngd/3/instrument_output"},
-     "archiveSystem": "data-sd2e-community",
-     "archivePath": "/transcriptic/yeast-gates_q0/r1bbq4mr76ngd/3/processed/fcs-etl-0.4.0u2/20180710-1430-proven-pig",
-     "appId": "fcs-etl-0.4.0u2",
-     "batchQueue": "normal",
-     "maxRunTime": "12:00:00",
-     "archive": true,
-     "notifications": [
-       {
-         "url": "notifications@sd2e.org",
-         "event": "FINISHED",
-         "persistent": false
-       },{
-         "url": "notifications@sd2e.org",
-         "event": "FAILED",
-         "persistent": false
-       }]}
-
-We can enable this job to update a PipelineJob with one addition to ``notifications``:
-
-.. code-block:: json
-
-   {
-      "url": "https://api.sd2e.org/actors/v2/G56vjoAVzGkkq/messages?x-nonce=SD2E_XqsfKLFd3nrN&token=940a5adc78720505&uuid=58fa9ec7-6c25-5525-94f3-e853335e2f17&status=${STATUS}",
-      "event": "*",
-      "persistent": false
-   }
-
-**Explanation:** Actor ``G56vjoAVzGkkq`` is the ``pipeline-jobs-manager``. The url parameters encode event and authorization details: The ``x-nonce`` parameter lets the job send a message to ``G56vjoAVzGkkq``, ``token`` is a job-specific password with a duration of 72 hours, ``uuid`` is the job's unique identifier, and ``status`` is the Agave API job status. We set ``event`` to ``*`` which means that all events from the job are sent to ``pipeline-jobs-manager``, and we set ``persistent`` to false so that only the first instance of any job state change is transmitted. The ``pipeline-jobs-manager`` reactor maps Agave API job states to their relevant PipelineJob event names and processes them as such. Specifically, it sends the named event to the PipelineJob along with the entire body of the Agave jobs callback POST as the ``data`` payload.
-
-Update from a Reactor
-~~~~~~~~~~~~~~~~~~~~~
-
-Updating a PipelineJob's status from the original actor (but in a different execution) or from another actor is as simple as sending a message to ``pipeline-jobs-manager``. The message must conform to (and is validated against) the ``PipelineJobEvent`` schema documented below. Here is an example:
-
-.. code-block:: python
-
-   rx = Reactor()
-   event_msg = {'uuid': '58fa9ec7-6c25-5525-94f3-e853335e2f17',
-      'event': 'update',
-      'data': {'key4': 'value4'}
-      'token': '940a5adc78720505'}
-   rx.send_message('G56vjoAVzGkkq', event_msg)
-
-**Explanation:** Reactor ``G56vjoAVzGkkq`` willl handle the job management task on your behalf.
-
-The current JSON schema for PipelineJob events is as follows:
-
-.. literalinclude:: event.jsonschema
-   :language: json

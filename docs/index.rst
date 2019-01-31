@@ -8,7 +8,7 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: About
+    :caption: About the System
 
     intro/index
     schema/index
@@ -16,10 +16,16 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: Connect
+    :caption: Connecting
 
     database/index
     services/index
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Integrating Workflows
+
+    pipelines/index.rst
 
 .. toctree::
     :maxdepth: 1
@@ -34,22 +40,14 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: PipelineJobs System
-
-    pipelines/index.rst
-
-
-.. toctree::
-    :maxdepth: 1
     :caption: Advanced Topics
 
-    schema/add_definition.rst
-    schema/add_composition.rst
-    schema/add_linkedstore.rst
+    schema/develop
+    python/develop
 
 .. toctree::
     :maxdepth: 1
-    :caption: Supporting Projects
+    :caption: Related Projects
 
     reactors/index.rst
     dashboards/index.rst

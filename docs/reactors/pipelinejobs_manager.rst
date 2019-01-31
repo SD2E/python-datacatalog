@@ -1,3 +1,5 @@
+.. _reactors_pipelinejobs_rx:
+
 ====================
 PipelineJobs Manager
 ====================

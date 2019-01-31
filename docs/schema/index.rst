@@ -9,7 +9,6 @@ Database Schema
 
    design
    using
-   develop
    references
 
 .. only::  subproject and html

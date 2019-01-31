@@ -1,4 +1,5 @@
-=================
+.. _reactors_pipelines_rx:
+
 =================
 Pipelines Manager
 =================

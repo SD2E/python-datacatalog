@@ -1,3 +1,4 @@
+
 ==============
 Python Package
 ==============
@@ -13,7 +14,6 @@ package.
    features
    packages
    ../source/modules
-   develop
 
 .. only::  subproject and html
 

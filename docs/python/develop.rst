@@ -1,8 +1,10 @@
-============
-Contributing
-============
+.. _python_develop:
 
-The ``DataCatalog`` package is designed to be extended. It is quite tractable
+=============================
+Developing the Python Package
+=============================
+
+The ``datacatalog`` package is designed to be extended. It is quite tractable
 for contributors not deeply familiar with the codebase or schema to extend
 either.
 

@@ -1,8 +1,8 @@
 .. _sharedreactors:
 
-========
-Reactors
-========
+===================
+Associated Reactors
+===================
 
 Several Reactors work together to ingest, manage, and validate contents of the
 Data Catalog. The following pages contain links to documentation, source code,

@@ -4,64 +4,29 @@
 Developing the Schema
 =====================
 
-The overall schema is written, as much as possible, directly as JSONschema
-files that are referenced by the classes and methods of the ``DataCatalog``
-package. However, some parts of the schema must be built dynamically since
-we don't know all the values ahead of time. This work is managed by classes
-and helpers in the ``DataCatalog`` package.
+The project metadata schema is maintained with a combination of JSON Schema
+files that are referenced by the classes and methods of the ``datacatalog``
+package which implement linkage and management workflow. Many nodes in the
+schema are defined by static files, but some are built dynamically using
+web service queries or other external sources of truth. Furthermore, the
+rendered schema documents are stamped with date and current git commit and
+validated against all versions of the JSON schema specification.
 
-Because of the dependence on code to assemble the final schema, in order to
-extend the schema you will undertake a bit of Python development. Please
-familiarize yourself with the Python package :doc:`architecture overview <../python/packages>`
-and the guidance on how to :doc:`contribute <../python/develop>` to it.
+Consequently, extending the project schema requires a bit of Python
+development experience in order to safely contribute to this shared and
+project-critical resource. It is advisable to become familiar with the Python
+package :doc:`architecture overview <../python/packages>` and guidance on
+how to :doc:`contribute <../python/develop>` to it.
 
-Definitions
-^^^^^^^^^^^
+The major classes in the Python package that are extensible via editing their
+JSON schema are listed here in order of increasing technical complexity.
 
-Add a definition
-~~~~~~~~~~~~~~~~
-*Coming soon*
+.. toctree::
+   :maxdepth: 1
 
-Update a definition
-~~~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-Filetypes
-^^^^^^^^^
-
-Add a file type
-~~~~~~~~~~~~~~~
-*Coming soon*
-
-Update a file type
-~~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-Compositions
-^^^^^^^^^^^^
-
-Add a composition
-~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-Update a composition
-~~~~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-Identifiers
-^^^^^^^^^^^
-
-Add a new identifier type
-~~~~~~~~~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-LinkedStores
-^^^^^^^^^^^^
-
-Add a linked store
-~~~~~~~~~~~~~~~~~~
-*Coming soon*
-
-Update a linked store
-~~~~~~~~~~~~~~~~~~~~~
-*Coming soon*
+   add_definition
+   add_filetype
+   add_identifier
+   add_composition
+   add_view
+   add_linkedstore

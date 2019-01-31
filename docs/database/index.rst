@@ -8,7 +8,7 @@ example. Please contact support@sd2e.org to learn the actual connection string.
 
 ``mongodb://readonly:8cWNCPXXdcxys73zBV@catalog.sd2e.org:27123/admin?readPreference=primary``
 
-Once connected to the server, you will use the ``catalog`` database.
+Once connected to the server, you will interact with the ``catalog`` database.
 
 .. toctree::
    :maxdepth: 2

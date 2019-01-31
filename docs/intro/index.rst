@@ -1,4 +1,4 @@
-.. _intro_idx:
+.. _top_intro_idx:
 
 ========
 Overview

@@ -17,6 +17,14 @@ datacatalog.identifiers.abaco.actorid module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.identifiers.abaco.examples module
+---------------------------------------------
+
+.. automodule:: datacatalog.identifiers.abaco.examples
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.identifiers.abaco.execid module
 -------------------------------------------
 

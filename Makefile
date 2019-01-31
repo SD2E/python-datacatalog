@@ -17,7 +17,7 @@ docs-sphinx:
 
 # Init automatic API documentation
 docs-autodoc:
-	cd docs && sphinx-apidoc -H "API Reference" -M -f -o source ../datacatalog
+	cd docs && sphinx-apidoc --maxdepth 1 -M -H "API Reference" -f -o source ../datacatalog
 
 docs-clean:
 	cd docs && make clean

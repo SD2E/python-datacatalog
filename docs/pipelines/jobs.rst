@@ -4,7 +4,7 @@
 PipelineJobs
 ============
 
-Essential details of a computation workflow are represented in a *Pipeline*
+Essential details of a computation workflow are represented in a **Pipeline**
 comprised of static software components and parameterizations. The invocation
 of a pipeline, complete with linkages to experimental metadata, inputs, and
 run-time parameterization is represented in a **PipelineJob**.
@@ -13,21 +13,17 @@ Creation, management, and metadata resolution of Pipelines and PipelineJobs
 is implemented in the ``python-datacatalog`` library (this codebase) which is
 operated by interlinked Abaco Reactors collectively known as the **PipelineJobs
 System**. These Reactors write and mantain records and linkages in the MongoDB
-databases that form the Data Catalog.
-
-Detailed information on the implementation of and mechanics of interacting with
-those Reactors can be found in
-**`Supporting Projects:Reactors:Pipelines and Jobs<../reactors/>`_**.
+databases that form the Data Catalog. They are documented in :doc:`sharedreactors`
 
 Overview
 --------
 
-Each **PipelineJob** is an entry in the Data Catalog **jobs** collection that
-represents **one and only one** combination of:
+Each **PipelineJob** is an entry in the Data Catalog **jobs** collection
+representing **one and only one** combination of:
 
-* A specific pipeline
+* Specific pipeline
 * One or more inputs and references
-* Run-time parameterization
+* Run-time parameterizations
 * Metadata linkages
 
 This design ensures that any given combination of these values
@@ -88,6 +84,4 @@ inspecting its schema, which is accessible online:
 Pipelines
 #########
 
-A **PipelineJob** is always linked to one specific **Pipeline**. Description
-and definition of these can be found in :ref:`pipelines-manpage`.
-
+**PipelineJobs** are always linked via ``generated_by`` to :doc:`pipelines-manpage`.

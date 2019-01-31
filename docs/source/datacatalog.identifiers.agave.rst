@@ -17,6 +17,14 @@ datacatalog.identifiers.agave.appid module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.identifiers.agave.examples module
+---------------------------------------------
+
+.. automodule:: datacatalog.identifiers.agave.examples
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.identifiers.agave.schemas module
 --------------------------------------------
 

@@ -1,4 +1,5 @@
-========================
+.. _reactors_pipelinejobs_agave_px:
+
 ========================
 PipelineJobs Agave Proxy
 ========================

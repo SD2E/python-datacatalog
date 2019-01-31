@@ -17,6 +17,14 @@ datacatalog.identifiers.typeduuid.convert module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.identifiers.typeduuid.examples module
+-------------------------------------------------
+
+.. automodule:: datacatalog.identifiers.typeduuid.examples
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.identifiers.typeduuid.schemas module
 ------------------------------------------------
 
