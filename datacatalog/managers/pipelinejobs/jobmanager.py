@@ -40,6 +40,25 @@ class JobManager(Manager):
     # def setup(self, *args, **kwargs):
     #     pass
 
+    def load(self, job_uuid, token=None):
+        """Initializes JobManager with minimal fieldset from a job record
+
+        This is opposite of ``setup()`` which bootstraps a new job record
+        """
+        loaded_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
+        if loaded_job is None:
+            raise ManagedPipelineJobError('No job {} was found'.format(job_uuid))
+        for param, required, key, default in self.PARAMS:
+            kval = loaded_job.get(param, None)
+            if kval is None and required is True:
+                raise ManagedPipelineJobError(
+                    'Parameter "{}" is required'.format(param))
+            else:
+                if kval is None:
+                    kval = default
+            setattr(self, key, kval)
+        return self
+
     def cancel(self):
         """Cancel the job, deleting it from the system
         """

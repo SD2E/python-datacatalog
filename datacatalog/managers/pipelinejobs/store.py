@@ -93,7 +93,8 @@ class ManagedPipelineJob(JobManager):
         ('archive_path', False, 'archive_path', None),
         ('archive_patterns', False, 'archive_patterns', []),
         # ('archive_collection_level', False, '_archive_collection_level', 'experiment'),
-        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM)]
+        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
+        ('uuid', False, 'uuid', None)]
     """Keyword parameters for job setup"""
 
     INIT_LINK_PARAMS = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
@@ -299,9 +300,14 @@ class ManagedPipelineJob(JobManager):
         setattr(self, 'uuid', new_job['uuid'])
         setattr(self, 'job', new_job)
         setattr(self, 'token', token)
+        self.set_callbacks()
+        return self
+
+    def set_callbacks(self):
+        """Establish the web service callbacks for the job
+        """
         setattr(self, 'callback', self.build_webhook())
         setattr(self, 'indexer_callback', self.build_indexer_webhook())
-        # raise Exception(self.job)
         return self
 
     def build_webhook(self):

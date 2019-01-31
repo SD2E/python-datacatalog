@@ -144,15 +144,6 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
     # The experiment_id will resolve as well
     assert len(base.acts_on) == 2
 
-# def test_pipejob_inputs_resolve(mongodb_settings, pipelinejobs_config,
-#                                 agave, pipeline_uuid):
-#     # Because both files' lineage resolves to the same experiment, we don't need to send experiment_id
-#     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs',
-#               'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs']
-#     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs)
-#     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-#     assert '/products/v2/102' in base.archive_path
-
 def test_pipejob_inputs_no_link_or_data(mongodb_settings, pipelinejobs_config,
                                 agave, pipeline_uuid):
     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
@@ -300,19 +291,7 @@ def test_pipeinstance_init(mongodb_settings, agave):
     assert len(base.pipeline_uuid) is not None
     assert 'run' in dir(base)
 
-# def test_pipeinstance_event_fn(mongodb_settings, agave):
-#     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
-#     job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
-#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-#     # pprint(inspect.getmembers(base))
-#     print(inspect.getsource(base.run))
-#     raise SystemError()
-#     resp = base.run()
-#     assert 'uuid' in resp
-
-# TODO Rewrite these tests to use new signature for ManagedPipelineJob
-
-def test_pipejob_init_callback(client_w_param_data):
+def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
     client_w_param_data.setup()
@@ -358,6 +337,7 @@ def test_pipejob_event_reset_invalid_token(client_w_param_data):
     """Check that reset cannot happen with invalid token
     """
     # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
     token = 'b2hhb7s470owrvtd'
     print('TOKEN', token)
     print('UUID', client_w_param_data.uuid)
@@ -369,6 +349,7 @@ def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
     """Check that reset cannot happen with invalid token
     """
     # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
     token = admin_token
     print('TOKEN', token)
     print('UUID', client_w_param_data.uuid)

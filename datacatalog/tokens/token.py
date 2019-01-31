@@ -7,6 +7,11 @@ TOKEN_LENGTH = 16
 
 from ..debug_mode import debug_mode
 
+TOKEN_ENVS_DEFAULTS = [
+    ('CATALOG_RESET_TOKEN', 'f9mr79w44x96ojj8'),
+    ('CATALOG_DELETE_TOKEN', 'b2hhb7s470owrvtd')
+]
+
 class InvalidToken(ValueError):
     """Raised when a token is invalid"""
     pass
@@ -19,9 +24,10 @@ class Token(str):
         return str.__new__(cls, value)
 
 def get_admin_tokens():
-    reset_token = environ.get('CATALOG_RESET_TOKEN', 'f9mr79w44x96ojj8')
-    delete_token = environ.get('CATALOG_DELETE_TOKEN', 'b2hhb7s470owrvtd')
-    return [reset_token, delete_token]
+    toks = list()
+    for e, d in TOKEN_ENVS_DEFAULTS:
+        toks.append(environ.get(e, d))
+    return toks
 
 def get_token(salt, *args):
     """Deterministically generates a token from an argument set
@@ -43,15 +49,16 @@ def get_token(salt, *args):
 
 def validate_admin_token(token, permissive=True):
     # Local testing scope
+    toks = get_admin_tokens()
     if debug_mode() is True:
         return True
     # Admin tokens
-    if token in get_admin_tokens():
+    if token in toks:
         return True
     if permissive:
         return False
     else:
-        raise InvalidToken('Token was not valid')
+        raise InvalidToken('Administrative token was not valid')
 
 def validate_token(token, salt, *args, permissive=True):
     # Local testing scope
