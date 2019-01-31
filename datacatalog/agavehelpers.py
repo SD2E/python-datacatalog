@@ -258,6 +258,31 @@ class AgaveHelper(object):
                             f['path'], recurse, storage_system, directories, current_listing=listing)
         return sorted(listing)
 
+    def delete(self, filePath, systemId):
+        self.client.files.delete(filePath, systemId=systemId)
+
+    def mkdir(self, dirName, systemId,
+              basePath='/', sync=False, timeOut=60):
+        """
+        Creates a directory dirName on a storage system at basePath
+
+        Like mkdir -p this is imdepotent. It will create the child path
+        tree so long as paths are specified correctly, but will do
+        nothing if all directories are already in place.
+        """
+        try:
+            self.client.files.manage(systemId=systemId,
+                                     body={'action': 'mkdir', 'path': dirName},
+                                     filePath=basePath)
+        except HTTPError as h:
+            http_err_resp = process_agave_httperror(h)
+            raise Exception(http_err_resp)
+        except Exception as e:
+            raise AgaveError(
+                "Unable to mkdir {} at {}/{}: {}".format(
+                    dirName, systemId, basePath, e))
+        return True
+
 def from_agave_uri(uri=None, validate=False):
     """Partition an Agave storage URI into its components
 
@@ -293,3 +318,24 @@ def from_agave_uri(uri=None, validate=False):
     except Exception as e:
         raise AgaveError(
             "Error resolving directory path or file name: {}".format(e))
+
+def process_agave_httperror(http_error_object):
+
+    h = http_error_object
+    # extract HTTP response code
+    code = -1
+    try:
+        code = h.response.status_code
+        assert isinstance(code, int)
+    except Exception:
+        # we have no idea what the hell happened
+        code = 418
+
+    # extract HTTP reason
+    reason = 'UNKNOWN ERROR'
+    try:
+        reason = h.response.reason
+    except Exception:
+        pass
+
+    return reason

@@ -2,9 +2,6 @@ import hashlib
 import base64
 from os import environ
 
-RESET_TOKEN = environ.get('CATALOG_RESET_TOKEN', 'f9mr79w44x96ojj8')
-DELETE_TOKEN = environ.get('CATALOG_DELETE_TOKEN', 'b2hhb7s470owrvtd')
-ADMIN_TOKENS = [RESET_TOKEN, DELETE_TOKEN]
 TOKEN_LENGTH = 16
 """Generated token length"""
 
@@ -16,9 +13,15 @@ class InvalidToken(ValueError):
 
 class Token(str):
     """An update token"""
-    def __new__(cls, value):
+    def __new__(cls, value, scope='user'):
         value = str(value).lower()
+        setattr(cls, 'scope', scope)
         return str.__new__(cls, value)
+
+def get_admin_tokens():
+    reset_token = environ.get('CATALOG_RESET_TOKEN', 'f9mr79w44x96ojj8')
+    delete_token = environ.get('CATALOG_DELETE_TOKEN', 'b2hhb7s470owrvtd')
+    return [reset_token, delete_token]
 
 def get_token(salt, *args):
     """Deterministically generates a token from an argument set
@@ -43,7 +46,7 @@ def validate_admin_token(token, permissive=True):
     if debug_mode() is True:
         return True
     # Admin tokens
-    if token in ADMIN_TOKENS:
+    if token in get_admin_tokens():
         return True
     if permissive:
         return False

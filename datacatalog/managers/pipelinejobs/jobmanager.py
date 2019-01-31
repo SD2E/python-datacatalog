@@ -7,6 +7,7 @@ import sys
 import validators
 import logging
 from pprint import pprint
+from ...linkedstores.basestore import validate_admin_token
 from ..common import Manager, data_merge
 from .exceptions import ManagedPipelineJobError
 from .config import DEFAULT_ARCHIVE_SYSTEM
@@ -19,11 +20,12 @@ class JobManager(Manager):
         ('pipeline_uuid', False, 'pipeline_uuid', None),
         ('token', False, 'token', None),
         ('uuid', False, 'uuid', None)]
+    ADMIN_EVENTS = ['reset', 'ready', 'delete', 'purge']
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         self.cancelable = False
         self.job = None
-        self._enforce_auth = False
+        self._enforce_auth = True
         super(JobManager, self).__init__(mongodb, agave)
         # Read in core kwargs per PARAMS
         for param, required, key, default in self.PARAMS:
@@ -35,8 +37,8 @@ class JobManager(Manager):
                     kval = default
             setattr(self, key, kval)
 
-    def setup(self, *args, **kwargs):
-        pass
+    # def setup(self, *args, **kwargs):
+    #     pass
 
     def cancel(self):
         """Cancel the job, deleting it from the system
@@ -59,6 +61,12 @@ class JobManager(Manager):
         """
         htoken = getattr(self, 'token', token)
         try:
+            if event_name in self.ADMIN_EVENTS:
+                validate_admin_token(htoken, permissive=False)
+            # HRM
+            if getattr(self, 'uuid', None) is None:
+                self.setup()
+
             self.job = self.stores['pipelinejob'].handle({
                 'name': event_name.lower(),
                 'uuid': self.uuid,
@@ -66,6 +74,8 @@ class JobManager(Manager):
                 'data': data})
             if getattr(self, 'cancelable'):
                 setattr(self, 'cancelable', False)
+            for param, required, key, default in self.PARAMS:
+                setattr(self, param, self.job.get(param, None))
             return self.job
         except Exception as hexc:
             raise ManagedPipelineJobError(hexc)
@@ -107,18 +117,21 @@ class JobManager(Manager):
 
     def reset(self, data={}, token=None):
         """Wrapper for **reset**
+
+        Note: This event encapsulates both the 'reset' and subsequent 'ready'
+        event, as the resetting process needs to be thread-locked.
         """
-        # Send the event w token. On success,
-        # Do the archive_path delete action, which will be
-        # a folder delete followed by recreate for speed. Then,
-        # check contents are empty, and return resp if
-        # all is OK.
-        # TODO - Determine where to put check for admin token
-        return self.handle('reset', data, token=token)
+
+        validate_admin_token(token, permissive=False)
+        resp = self.handle('reset', data, token=token)
+        self._clear_archive_path_contents()
+        resp = self.handle('ready', data, token=token)
+        return resp
 
     def ready(self, data={}, token=None):
         """Wrapper for **ready*
         """
+        validate_admin_token(token, permissive=False)
         return self.handle('ready', data, token=token)
 
     def serialize_data(self):
@@ -127,3 +140,35 @@ class JobManager(Manager):
         return json.dumps(getattr(self, 'data', {}),
                           sort_keys=True,
                           separators=(',', ':'))
+
+    def _clear_archive_path(self, mock=True):
+        """Administratively clears a job's archive path
+
+        Path is cleared quickly by deleting the directory then recreating it.
+        Preview the actions to be taken by this function by passing
+        ``mock=True`` as a parameter.
+
+        Args:
+            mock (bool, optional): Whether to simulate running the delete
+
+        Raises: ManagedPipelineJobError is raised for any error state
+
+        Returns: bool
+        """
+        try:
+            ag_sys = self.get('archive_system', None)
+            ag_path = self.get('archive_path', None)
+            helper = self.stores['pipelinejob']._helper
+            if not helper.isdir(ag_path, storage_system=ag_sys):
+                raise ValueError('Path does not appear to exist')
+            if not ag_path.startswith('/products'):
+                raise ValueError('Only paths in /products may be cleared')
+            if mock:
+                print('mock.delete', ag_path, ag_sys)
+                print('mock.mkdir', ag_path, ag_sys)
+            else:
+                helper.delete(ag_path, ag_sys)
+                helper.mkdir(ag_path, ag_sys)
+        except Exception as clexc:
+            raise ManagedPipelineJobError(clexc)
+        return True

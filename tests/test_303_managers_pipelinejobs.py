@@ -71,6 +71,10 @@ def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
                               agave=agave,
                               experiment_id=experiment_id, instanced=False)
 
+@pytest.fixture(scope='session')
+def admin_token():
+    return datacatalog.tokens.get_admin_tokens()[0]
+
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``
     """
@@ -350,11 +354,27 @@ def test_pipejob_event_indexed(client_w_param_data):
     resp = client_w_param_data.indexed(data={'this_data': 'is from the "indexed" event'})
     assert resp['state'] == 'FINISHED'
 
-def test_pipejob_event_reset(client_w_param_data):
-    """Check that indexed() can happen now
+def test_pipejob_event_reset_invalid_token(client_w_param_data):
+    """Check that reset cannot happen with invalid token
     """
-    resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token='b2hhb7s470owrvtd')
+    # Random invalid token
+    token = 'b2hhb7s470owrvtd'
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    with pytest.raises(Exception):
+        resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
+        assert resp['state'] == 'CREATED'
+
+def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    token = admin_token
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
     assert resp['state'] == 'CREATED'
+
 
 @longrun
 def test_pipesinst_index_w_filters(mongodb_settings, agave):

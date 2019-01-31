@@ -122,7 +122,7 @@ class ManagedPipelineJob(JobManager):
             setattr(self, key, kval)
 
         # Validate passed token
-        setattr(self, '_enforce_auth', False)
+        setattr(self, '_enforce_auth', True)
 
         # agent and task if not provided
         # TODO - lookup should be established in settings module
@@ -288,7 +288,12 @@ class ManagedPipelineJob(JobManager):
                         'acts_on': self.acts_on,
                         'acts_using': self.acts_using
                         }
-        new_job = self.stores['pipelinejob'].create(job_document)
+
+        # Retrieves reference to existing job if exists
+        job_uuid = self.stores['pipelinejob'].uuid_from_properties(job_document)
+        new_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
+        if new_job is None:
+            new_job = self.stores['pipelinejob'].create(job_document)
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
 
         setattr(self, 'uuid', new_job['uuid'])
