@@ -90,6 +90,35 @@ As mentioned above, ``FAILED`` is a valid terminal state. Set it by sending the
    print(mpj.state)
    >>> 'FAILED'
 
+Resetting a PipelineJob
+-----------------------
+
+A job may be rolled back to its initial ``CREATED`` state, provided a valid
+administrator-class token is passed with the request. The standard update
+token associated with the job cannot authorize a reset action.
+
+.. code-block:: pycon
+
+   mpj.reset(token='rkz78NEcsD7ZmhVc')
+   print(mpj.state)
+   >>> 'CREATED'
+
+The contents of the terminal directory in the job's archive path, but not the
+directory itself is remains.
+
+Deleting a PipelineJob
+----------------------
+
+A job may be deleted entirely (including references to it in the linkage fields
+of the other LinkedStore documents), but only by passing an administrator-class
+token to authorize the action.
+
+.. code-block:: pycon
+
+   mpj.delete(token='rkz78NEcsD7ZmhVc')
+
+Currently, the job archive path and its contents are left intact.
+
 Deferred Updates
 ----------------
 

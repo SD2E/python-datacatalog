@@ -28,6 +28,7 @@ class Manager(object):
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
         self.stores = Manager.init_stores(mongodb, agave=agave)
+        self.client = agave
         self.api_server = kwargs.get('api_server', current_tenant_uri())
 
     @classmethod
