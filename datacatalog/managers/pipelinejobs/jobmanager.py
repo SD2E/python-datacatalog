@@ -70,19 +70,40 @@ class JobManager(Manager):
             setattr(self, key, kval)
         return self
 
-    def cancel(self):
+    def cancel(self, token=None):
         """Cancel the job, deleting it from the system
         """
+        if token is not None:
+            htoken = token
+        else:
+            htoken = getattr(self, 'token', None)
         try:
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             if getattr(self, 'cancelable') is not False:
-                self.stores['pipelinejob'].delete(self.uuid, self.token, soft=False)
+                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
                 self.job = None
                 return self.job
             else:
                 raise ManagedPipelineJobError(
                     'Cannot cancel a job once it is running. Send a "fail" event instead.')
+        except Exception as cexc:
+            raise ManagedPipelineJobError(cexc)
+
+    def delete(self, token=None):
+        """Delete the job once, even if it has processed events
+        """
+        if token is not None:
+            htoken = token
+        else:
+            htoken = getattr(self, 'token', None)
+        try:
+            if self.uuid is None:
+                raise ValueError('Job UUID cannot be empty')
+            else:
+                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
+                self.job = None
+                return self.job
         except Exception as cexc:
             raise ManagedPipelineJobError(cexc)
 

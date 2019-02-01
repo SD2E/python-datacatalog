@@ -4,6 +4,7 @@ import sys
 import yaml
 import json
 import inspect
+import warnings
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
@@ -361,6 +362,21 @@ def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
     resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
     assert resp['state'] == 'CREATED'
 
+def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    token = 'Uyx0cVn1ksPH8yT5'
+    target_uuid = '1075c8ca-885e-5943-9328-acc4d91dcb1e'
+    try:
+        client_w_param_data.load(target_uuid)
+    except Exception:
+        warnings.warn('Failed to get record ' + str(target_uuid))
+    finally:
+        with pytest.raises(Exception):
+            client_w_param_data.delete(token=token)
+
+@delete
 def test_pipejob_event_delete_admin_token(client_w_param_data, admin_token):
     """Check that reset cannot happen with invalid token
     """
