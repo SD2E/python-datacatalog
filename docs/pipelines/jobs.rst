@@ -84,4 +84,4 @@ inspecting its schema, which is accessible online:
 Pipelines
 #########
 
-**PipelineJobs** are always linked via ``generated_by`` to :doc:`pipelines-manpage`.
+**PipelineJobs** are always linked via ``generated_by`` to :doc:`pipelines_main`.

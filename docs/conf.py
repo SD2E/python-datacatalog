@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 from datacatalog.jsonschemas.schema import BASE_URL as PROJECT_SCHEMA_BASE_URL
 from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
+from datacatalog.tokens import get_admin_lifetime
 
 def rstjinja(app, docname, source):
     """
@@ -43,6 +44,9 @@ def table_pipelinejob_states():
 
 def table_pipelinejob_events():
     return tabulate(pipelinejob_fsm.EVENT_DEFS, ['Event', 'Description'], tablefmt='rst')
+
+def opt_admin_token_lifetime():
+    return str(get_admin_lifetime())
 
 html_context = {
     'project_schema_base_url': PROJECT_SCHEMA_BASE_URL,

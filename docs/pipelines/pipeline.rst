@@ -1,4 +1,4 @@
-.. _pipelines-manpage:
+.. _pipelines_main:
 
 =========
 Pipelines

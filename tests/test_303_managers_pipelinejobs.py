@@ -73,8 +73,12 @@ def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
                               experiment_id=experiment_id, instanced=False)
 
 @pytest.fixture(scope='session')
-def admin_token():
-    return datacatalog.tokens.get_admin_tokens()[0]
+def admin_key():
+    return datacatalog.tokens.admin.get_admin_key()
+
+@pytest.fixture(scope='session')
+def admin_token(admin_key):
+    return datacatalog.tokens.admin.get_admin_token(admin_key)
 
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``

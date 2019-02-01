@@ -7,7 +7,8 @@ import sys
 import validators
 import logging
 from pprint import pprint
-from ...linkedstores.basestore import validate_admin_token
+from ...tokens import validate_admin_token
+from ...tokens import admin
 from ..common import Manager, data_merge
 from .exceptions import ManagedPipelineJobError
 from .config import DEFAULT_ARCHIVE_SYSTEM
@@ -118,7 +119,9 @@ class JobManager(Manager):
             htoken = token
         try:
             if event_name in self.ADMIN_EVENTS:
-                validate_admin_token(htoken, permissive=False)
+                validate_admin_token(htoken,
+                                     key=admin.get_admin_key(),
+                                     permissive=False)
             # HRM
             if getattr(self, 'uuid', None) is None:
                 self.setup()
@@ -178,7 +181,7 @@ class JobManager(Manager):
         event, as the resetting process needs to be thread-locked.
         """
 
-        validate_admin_token(token, permissive=False)
+        validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
         resp = self.handle('reset', data, token=token)
         self._clear_archive_path()
         resp = self.handle('ready', data, token=token)
@@ -187,7 +190,7 @@ class JobManager(Manager):
     def ready(self, data={}, token=None):
         """Wrapper for **ready*
         """
-        validate_admin_token(token, permissive=False)
+        validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
         return self.handle('ready', data, token=token)
 
     def serialize_data(self):

@@ -1,4 +1,4 @@
-__version__ = '0.5.0'
+__version__ = '0.6.0'
 from .salt import generate_salt
-from .token import get_token, validate_token, validate_admin_token
-from .token import get_admin_tokens
+from .token import get_token, validate_token
+from .admin import get_admin_token, validate_admin_token, get_admin_lifetime
