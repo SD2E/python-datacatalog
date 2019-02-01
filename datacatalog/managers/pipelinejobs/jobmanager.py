@@ -37,13 +37,24 @@ class JobManager(Manager):
                     kval = default
             setattr(self, key, kval)
 
-    # def setup(self, *args, **kwargs):
-    #     pass
+    def setup(self, *args, **kwargs):
+        return self
 
     def load(self, job_uuid, token=None):
-        """Initializes JobManager with minimal fieldset from a job record
+        """Load up a JobManager instance from the databaase
 
-        This is opposite of ``setup()`` which bootstraps a new job record
+        This fuction is the opposite of ``setup()``. It populates a minimum
+        attribute set from the current contents of a job.
+
+        Args:
+            job_uuid (string): An extant job UUID5
+            token (string, optional): Update token for the job
+
+        Raises:
+            ManagedPipelineJobError is raised on any unrecoverable error
+
+        Returns:
+            object: ``self``
         """
         loaded_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
         if loaded_job is None:
@@ -78,7 +89,12 @@ class JobManager(Manager):
     def handle(self, event_name, data={}, token=None):
         """Handle a named event
         """
-        htoken = getattr(self, 'token', token)
+        # Passed token >> current token to permit
+        # passing admin token as an argument
+        if token is None:
+            htoken = getattr(self, 'token', None)
+        else:
+            htoken = token
         try:
             if event_name in self.ADMIN_EVENTS:
                 validate_admin_token(htoken, permissive=False)
@@ -143,7 +159,7 @@ class JobManager(Manager):
 
         validate_admin_token(token, permissive=False)
         resp = self.handle('reset', data, token=token)
-        self._clear_archive_path_contents()
+        self._clear_archive_path()
         resp = self.handle('ready', data, token=token)
         return resp
 
@@ -175,8 +191,8 @@ class JobManager(Manager):
         Returns: bool
         """
         try:
-            ag_sys = self.get('archive_system', None)
-            ag_path = self.get('archive_path', None)
+            ag_sys = getattr(self, 'archive_system', None)
+            ag_path = getattr(self, 'archive_path', None)
             helper = self.stores['pipelinejob']._helper
             if not helper.isdir(ag_path, storage_system=ag_sys):
                 raise ValueError('Path does not appear to exist')

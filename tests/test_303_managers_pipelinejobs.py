@@ -350,12 +350,26 @@ def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
     """
     # Random invalid token
     client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    # Ensure the output path exists.
+    # FIXME - Create the archive_path at setup(), if possible
+    client_w_param_data.stores['pipelinejob']._helper.mkdir(
+        client_w_param_data.archive_path,
+        client_w_param_data.archive_system)
     token = admin_token
     print('TOKEN', token)
     print('UUID', client_w_param_data.uuid)
     resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
     assert resp['state'] == 'CREATED'
 
+def test_pipejob_event_delete_admin_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    token = admin_token
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    client_w_param_data.delete(token=token)
 
 @longrun
 def test_pipesinst_index_w_filters(mongodb_settings, agave):
