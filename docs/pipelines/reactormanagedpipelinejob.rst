@@ -56,10 +56,36 @@ sending an event looks like so:
 Canceling a Job
 ---------------
 
-As with ``ManagedPipelineJob``, a job may be canceled until it
-processes an a event.
+As with ``ManagedPipelineJob``, this class can cancel a job until it has
+progressed to the **RUNNING** state.
 
 .. code-block:: python
 
    # cancel the job
    rmpj.cancel()
+
+Resetting a Job
+---------------
+
+As with ``ManagedPipelineJob``, this class can reset a job to its original
+**CREATED** state, erasing contents of the job's archive path in the process.
+This action requires an administrator-level token.
+
+.. code-block:: python
+
+   # cancel the job
+   admin_tok = 'ka5r54v83dmp3tf8'
+   rmpj.reset(token=admin_tok)
+
+Deleting a Job
+--------------
+
+As with ``ManagedPipelineJob``, this class can delete a job. At present,
+the job's archive path and contents are preserved. This action requires
+an administrator-level token.
+
+.. code-block:: python
+
+   # cancel the job
+   admin_tok = 'ka5r54v83dmp3tf8'
+   rmpj.delete(token=admin_tok)

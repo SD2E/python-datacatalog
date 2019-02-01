@@ -7,6 +7,7 @@ import sys
 import validators
 import logging
 from pprint import pprint
+from ...linkedstores.basestore import validate_admin_token
 from ..common import Manager, data_merge
 from .exceptions import ManagedPipelineJobError
 from .config import DEFAULT_ARCHIVE_SYSTEM
@@ -19,11 +20,12 @@ class JobManager(Manager):
         ('pipeline_uuid', False, 'pipeline_uuid', None),
         ('token', False, 'token', None),
         ('uuid', False, 'uuid', None)]
+    ADMIN_EVENTS = ['reset', 'ready', 'delete', 'purge']
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         self.cancelable = False
         self.job = None
-        self._enforce_auth = False
+        self._enforce_auth = True
         super(JobManager, self).__init__(mongodb, agave)
         # Read in core kwargs per PARAMS
         for param, required, key, default in self.PARAMS:
@@ -36,16 +38,50 @@ class JobManager(Manager):
             setattr(self, key, kval)
 
     def setup(self, *args, **kwargs):
-        pass
+        return self
 
-    def cancel(self):
+    def load(self, job_uuid, token=None):
+        """Load up a JobManager instance from the databaase
+
+        This fuction is the opposite of ``setup()``. It populates a minimum
+        attribute set from the current contents of a job.
+
+        Args:
+            job_uuid (string): An extant job UUID5
+            token (string, optional): Update token for the job
+
+        Raises:
+            ManagedPipelineJobError is raised on any unrecoverable error
+
+        Returns:
+            object: ``self``
+        """
+        loaded_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
+        if loaded_job is None:
+            raise ManagedPipelineJobError('No job {} was found'.format(job_uuid))
+        for param, required, key, default in self.PARAMS:
+            kval = loaded_job.get(param, None)
+            if kval is None and required is True:
+                raise ManagedPipelineJobError(
+                    'Parameter "{}" is required'.format(param))
+            else:
+                if kval is None:
+                    kval = default
+            setattr(self, key, kval)
+        return self
+
+    def cancel(self, token=None):
         """Cancel the job, deleting it from the system
         """
+        if token is not None:
+            htoken = token
+        else:
+            htoken = getattr(self, 'token', None)
         try:
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             if getattr(self, 'cancelable') is not False:
-                self.stores['pipelinejob'].delete(self.uuid, self.token, soft=False)
+                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
                 self.job = None
                 return self.job
             else:
@@ -54,11 +90,39 @@ class JobManager(Manager):
         except Exception as cexc:
             raise ManagedPipelineJobError(cexc)
 
+    def delete(self, token=None):
+        """Delete the job once, even if it has processed events
+        """
+        if token is not None:
+            htoken = token
+        else:
+            htoken = getattr(self, 'token', None)
+        try:
+            if self.uuid is None:
+                raise ValueError('Job UUID cannot be empty')
+            else:
+                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
+                self.job = None
+                return self.job
+        except Exception as cexc:
+            raise ManagedPipelineJobError(cexc)
+
     def handle(self, event_name, data={}, token=None):
         """Handle a named event
         """
-        htoken = getattr(self, 'token', token)
+        # Passed token >> current token to permit
+        # passing admin token as an argument
+        if token is None:
+            htoken = getattr(self, 'token', None)
+        else:
+            htoken = token
         try:
+            if event_name in self.ADMIN_EVENTS:
+                validate_admin_token(htoken, permissive=False)
+            # HRM
+            if getattr(self, 'uuid', None) is None:
+                self.setup()
+
             self.job = self.stores['pipelinejob'].handle({
                 'name': event_name.lower(),
                 'uuid': self.uuid,
@@ -66,6 +130,8 @@ class JobManager(Manager):
                 'data': data})
             if getattr(self, 'cancelable'):
                 setattr(self, 'cancelable', False)
+            for param, required, key, default in self.PARAMS:
+                setattr(self, param, self.job.get(param, None))
             return self.job
         except Exception as hexc:
             raise ManagedPipelineJobError(hexc)
@@ -105,9 +171,60 @@ class JobManager(Manager):
         """
         return self.handle('indexed', data, token=token)
 
+    def reset(self, data={}, token=None):
+        """Wrapper for **reset**
+
+        Note: This event encapsulates both the 'reset' and subsequent 'ready'
+        event, as the resetting process needs to be thread-locked.
+        """
+
+        validate_admin_token(token, permissive=False)
+        resp = self.handle('reset', data, token=token)
+        self._clear_archive_path()
+        resp = self.handle('ready', data, token=token)
+        return resp
+
+    def ready(self, data={}, token=None):
+        """Wrapper for **ready*
+        """
+        validate_admin_token(token, permissive=False)
+        return self.handle('ready', data, token=token)
+
     def serialize_data(self):
         """Serializes self.data into a minified string
         """
         return json.dumps(getattr(self, 'data', {}),
                           sort_keys=True,
                           separators=(',', ':'))
+
+    def _clear_archive_path(self, mock=True):
+        """Administratively clears a job's archive path
+
+        Path is cleared quickly by deleting the directory then recreating it.
+        Preview the actions to be taken by this function by passing
+        ``mock=True`` as a parameter.
+
+        Args:
+            mock (bool, optional): Whether to simulate running the delete
+
+        Raises: ManagedPipelineJobError is raised for any error state
+
+        Returns: bool
+        """
+        try:
+            ag_sys = getattr(self, 'archive_system', None)
+            ag_path = getattr(self, 'archive_path', None)
+            helper = self.stores['pipelinejob']._helper
+            if not helper.isdir(ag_path, storage_system=ag_sys):
+                raise ValueError('Path does not appear to exist')
+            if not ag_path.startswith('/products'):
+                raise ValueError('Only paths in /products may be cleared')
+            if mock:
+                print('mock.delete', ag_path, ag_sys)
+                print('mock.mkdir', ag_path, ag_sys)
+            else:
+                helper.delete(ag_path, ag_sys)
+                helper.mkdir(ag_path, ag_sys)
+        except Exception as clexc:
+            raise ManagedPipelineJobError(clexc)
+        return True

@@ -4,6 +4,7 @@ import sys
 import yaml
 import json
 import inspect
+import warnings
 from pprint import pprint
 from . import longrun, delete
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
@@ -70,6 +71,10 @@ def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave,
                               experiment_id=experiment_id, instanced=False)
+
+@pytest.fixture(scope='session')
+def admin_token():
+    return datacatalog.tokens.get_admin_tokens()[0]
 
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``
@@ -139,15 +144,6 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
     # The experiment_id will resolve as well
     assert len(base.acts_on) == 2
-
-# def test_pipejob_inputs_resolve(mongodb_settings, pipelinejobs_config,
-#                                 agave, pipeline_uuid):
-#     # Because both files' lineage resolves to the same experiment, we don't need to send experiment_id
-#     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs',
-#               'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs']
-#     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs)
-#     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-#     assert '/products/v2/102' in base.archive_path
 
 def test_pipejob_inputs_no_link_or_data(mongodb_settings, pipelinejobs_config,
                                 agave, pipeline_uuid):
@@ -296,19 +292,7 @@ def test_pipeinstance_init(mongodb_settings, agave):
     assert len(base.pipeline_uuid) is not None
     assert 'run' in dir(base)
 
-# def test_pipeinstance_event_fn(mongodb_settings, agave):
-#     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
-#     job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
-#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-#     # pprint(inspect.getmembers(base))
-#     print(inspect.getsource(base.run))
-#     raise SystemError()
-#     resp = base.run()
-#     assert 'uuid' in resp
-
-# TODO Rewrite these tests to use new signature for ManagedPipelineJob
-
-def test_pipejob_init_callback(client_w_param_data):
+def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
     client_w_param_data.setup()
@@ -349,6 +333,59 @@ def test_pipejob_event_indexed(client_w_param_data):
     """
     resp = client_w_param_data.indexed(data={'this_data': 'is from the "indexed" event'})
     assert resp['state'] == 'FINISHED'
+
+def test_pipejob_event_reset_invalid_token(client_w_param_data):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    token = 'b2hhb7s470owrvtd'
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    with pytest.raises(Exception):
+        resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
+        assert resp['state'] == 'CREATED'
+
+def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    # Ensure the output path exists.
+    # FIXME - Create the archive_path at setup(), if possible
+    client_w_param_data.stores['pipelinejob']._helper.mkdir(
+        client_w_param_data.archive_path,
+        client_w_param_data.archive_system)
+    token = admin_token
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
+    assert resp['state'] == 'CREATED'
+
+def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    token = 'Uyx0cVn1ksPH8yT5'
+    target_uuid = '1075c8ca-885e-5943-9328-acc4d91dcb1e'
+    try:
+        client_w_param_data.load(target_uuid)
+    except Exception:
+        warnings.warn('Failed to get record ' + str(target_uuid))
+    finally:
+        with pytest.raises(Exception):
+            client_w_param_data.delete(token=token)
+
+@delete
+def test_pipejob_event_delete_admin_token(client_w_param_data, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    token = admin_token
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    client_w_param_data.delete(token=token)
 
 @longrun
 def test_pipesinst_index_w_filters(mongodb_settings, agave):

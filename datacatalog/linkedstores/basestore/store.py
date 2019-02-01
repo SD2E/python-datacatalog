@@ -25,7 +25,7 @@ from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...identifiers.typeduuid import catalog_uuid
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
-from ...tokens import generate_salt, get_token, validate_token
+from ...tokens import generate_salt, get_token, validate_token, validate_admin_token
 from ...utils import time_stamp, current_time, msec_precision
 from ... import tenancy
 
@@ -38,7 +38,7 @@ __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'CatalogQueryError', 'DuplicateKeyError', 'time_stamp',
            'msec_precision', 'validate_token', 'debug_mode',
            'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS',
-           'AgaveError', 'AgaveHelperError']
+           'AgaveError', 'AgaveHelperError', 'validate_admin_token']
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by')
 """Default set of named linkages between LinkedStore documents"""

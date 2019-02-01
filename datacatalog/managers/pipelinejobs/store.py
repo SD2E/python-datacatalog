@@ -93,7 +93,8 @@ class ManagedPipelineJob(JobManager):
         ('archive_path', False, 'archive_path', None),
         ('archive_patterns', False, 'archive_patterns', []),
         # ('archive_collection_level', False, '_archive_collection_level', 'experiment'),
-        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM)]
+        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
+        ('uuid', False, 'uuid', None)]
     """Keyword parameters for job setup"""
 
     INIT_LINK_PARAMS = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
@@ -122,7 +123,7 @@ class ManagedPipelineJob(JobManager):
             setattr(self, key, kval)
 
         # Validate passed token
-        setattr(self, '_enforce_auth', False)
+        setattr(self, '_enforce_auth', True)
 
         # agent and task if not provided
         # TODO - lookup should be established in settings module
@@ -288,15 +289,25 @@ class ManagedPipelineJob(JobManager):
                         'acts_on': self.acts_on,
                         'acts_using': self.acts_using
                         }
-        new_job = self.stores['pipelinejob'].create(job_document)
+
+        # Retrieves reference to existing job if exists
+        job_uuid = self.stores['pipelinejob'].uuid_from_properties(job_document)
+        new_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
+        if new_job is None:
+            new_job = self.stores['pipelinejob'].create(job_document)
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
 
         setattr(self, 'uuid', new_job['uuid'])
         setattr(self, 'job', new_job)
         setattr(self, 'token', token)
+        self.set_callbacks()
+        return self
+
+    def set_callbacks(self):
+        """Establish the web service callbacks for the job
+        """
         setattr(self, 'callback', self.build_webhook())
         setattr(self, 'indexer_callback', self.build_indexer_webhook())
-        # raise Exception(self.job)
         return self
 
     def build_webhook(self):

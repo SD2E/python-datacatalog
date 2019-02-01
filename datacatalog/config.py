@@ -1,5 +1,7 @@
 from os import environ
 
+__all__ = ['Environment', 'get_osenv_bool', 'debug_mode']
+
 def get_osenv_bool(varname):
     """Render an environment variable as a Boolean
 

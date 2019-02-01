@@ -23,7 +23,7 @@ from ...pathmappings import normalize, abspath
 from ..basestore import LinkedStore, HeritableDocumentSchema
 from ..basestore import CatalogUpdateFailure
 from ..basestore import SoftDelete, AgaveClient
-from ..basestore import get_token, validate_token
+from ..basestore import get_token, validate_token, validate_admin_token
 
 from .exceptions import JobError, JobCreateFailure, JobUpdateFailure, \
     DuplicateJobError, UnknownPipeline, UnknownJob
@@ -42,27 +42,25 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         # setup based on schema extended properties
         schema = JobDocument(**kwargs)
         super(PipelineJobStore, self).update_attrs(schema)
-        self._enforce_auth = False
+        self._enforce_auth = True
 
         self.setup()
         # Extend Store so it can validate the pipeline UUID
         setattr(self, 'pipes_coll', self.db['pipelines'])
 
-    def create(self, job_document, **kwargs):
-
-        # Must refer to an existing pipeline
+    def uuid_from_properties(self, job_document, **kwargs):
         self.validate_pipeline_uuid(job_document.get('pipeline_uuid'))
-
         # Must refer to a valid (but not verified) abaco actorId
         try:
             identifiers.abaco_hashid.validate(job_document.get('actor_id'))
         except Exception:
             pass
+        return job_document.get('uuid', self.get_typeduuid(job_document))
 
-        if 'uuid' not in job_document:
-            job_document['uuid'] = self.get_typeduuid(job_document)
-        # Job object contains schema plus logic to manage event lifecycle
-        # Can be materialized from a passed document or by database record
+    def create(self, job_document, **kwargs):
+
+        job_uuid = self.uuid_from_properties(job_document, **kwargs)
+        job_document['uuid'] = job_uuid
         pipe_job_document = PipelineJob(job_document).new()
         return self.add_update_document(pipe_job_document.to_dict())
 
@@ -84,12 +82,14 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         passed_token = event_document.get('token', token)
 
         # Token must validate
+        # TODO - Extend validate_token to honor one or more admin tokens set in env
         validate_token(passed_token, db_record['_salt'], self.get_token_fields(db_record))
         db_job = PipelineJob(db_record).handle(event_document)
         return self.add_update_document(db_job.to_dict())
 
     def delete(self, job_uuid, token, soft=False):
         # Special kind of event
+        validate_admin_token(token, permissive=False)
         return self.delete_document(job_uuid, token, soft)
 
     def history(self, job_uuid, limit=None, skip=None):
@@ -134,27 +134,6 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
             directories=False)
 
         return dir_listing
-
-    # # TODO: Figure out how to patch in Pipeline.id
-    # def get_typeduuid(self, payload, binary=False):
-    #     """Pipeline-specific method for getting a UUID
-
-    #     Args:
-    #         payload (object): A list or dict containing the pipeline definition
-
-    #     Returns:
-    #         str: A UUID for this Pipeline
-    #     """
-    #     # print('PAYLOAD', payload)
-    #     uuid_els = list()
-    #     uuid_els.append(payload.get('pipeline_uuid', 'pipeline.id'))
-
-    #     cplist = payload.get('components', [])
-    #     spdoc = SerializedPipeline(cplist).to_json()
-    #     uuid_els.append(spdoc)
-    #     uuid_target = ':'.join(uuid_els)
-    #     # print('UUID_TARGET', uuid_target)
-    #     return super(PipelineStore, self).get_typeduuid(uuid_target, binary=binary)
 
     def fsm_state_png(self, uuid):
         try:
