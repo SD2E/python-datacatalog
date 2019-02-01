@@ -26,6 +26,7 @@ Reactor. Configuration details for these resources can be passed like so:
               'pipeline_uuid': '1064aaf1-459c-5e42-820d-b822aa4b3990'}
    agave_client=Agave.restore()
    mpj = ManagedPipelineJob(mongodb, pipelines, agave=agave_client, ...)
+   mpj.setup()
 
 .. warning:: Never actually include the value for ``job_manager_nonce`` in a
    public source repository or Docker image.

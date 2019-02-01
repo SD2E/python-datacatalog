@@ -26,7 +26,7 @@ def get_token(salt, *args):
     msg = ':'.join(str_argset)
     return Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[0:TOKEN_LENGTH])
 
-def validate_token(token, salt, *args, permissive=True):
+def validate_token(token, salt=None, *args, permissive=True):
     """Validate a token
 
     Both record-level tokens and administrative tokens can be validated using
