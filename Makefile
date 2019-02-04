@@ -1,7 +1,7 @@
 PYTEST_OPTS ?=
 PYTEST_SRC ?= tests/
 # PYTEST_RUN_OPTS ?= -s -vvv
-PYTEST_RUN_OPTS ?= -s -v
+PYTEST_RUN_OPTS ?= -s
 # <empty> -staging or -production
 BOOTSTRAP_ENV ?=
 

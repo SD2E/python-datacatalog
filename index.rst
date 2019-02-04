@@ -6,11 +6,11 @@
 Welcome to SD2 Data Catalog's documentation!
 ============================================
 
+.. image:: https://img.shields.io/badge/stability-under%20development-yellow.png
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
 
 Indices and tables
 ==================
