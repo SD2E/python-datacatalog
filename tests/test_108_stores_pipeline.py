@@ -35,7 +35,7 @@ def test_pipe_serialized_classify_validate():
         assert SerializedPipeline.classify_component(component) == ctype
 
 def test_pipe_disk_load_classify_components():
-    for filename, pipe_uuid in pipeline.LOADS:
+    for filename, pipe_uuid, noop in pipeline.CASES:
         doc = json.load(open(os.path.join(pipeline.DATADIR, filename), 'r'))
         for component in doc.get('components'):
             kind = SerializedPipeline.classify_component(component)
@@ -48,7 +48,7 @@ def test_pipe_disk_load_classify_components():
 
 def test_pipe_disk_load(mongodb_settings):
     base = PipelineStore(mongodb_settings)
-    for filename, pipe_uuid in pipeline.LOADS:
+    for filename, pipe_uuid, noop in pipeline.CASES:
         doc = json.load(open(os.path.join(pipeline.DATADIR, filename), 'r'))
         resp = base.add_update_document(doc, strategy='replace')
         try:
@@ -60,7 +60,7 @@ def test_pipe_disk_load(mongodb_settings):
 @delete
 def test_pipe_disk_delete(mongodb_settings):
     base = PipelineStore(mongodb_settings)
-    for filename, pipe_uuid in pipeline.LOADS:
+    for filename, pipe_uuid, noop in pipeline.CASES:
         # Note: Use hard delete here!
         resp = base.delete_document(pipe_uuid, soft=False)
         try:

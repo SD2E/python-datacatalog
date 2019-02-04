@@ -16,7 +16,7 @@
             "properties": {
                 "CONTAINER_IMAGE": {
                     "$ref": "container_repo.json",
-                    "description": "Linux container image repository and tag for the deployed app"
+                    "description": "Container image repository for the deployed app"
                 }
             }
         }

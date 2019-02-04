@@ -2,13 +2,24 @@
     "description": "Deployed Linux container",
     "type": "object",
     "properties": {
-        "repo": {
+        "image": {
             "$ref": "container_repo.json"
         },
         "hostname": {
             "type": "string",
-            "description": "DNS name of container host",
+            "description": "DNS name of the service",
             "format": "hostname"
+        },
+        "servername": {
+            "type": "string",
+            "description": "DNS name of the container service host",
+            "format": "hostname"
+        },
+        "port": {
+            "type": "integer",
+            "description": "Internet port for the service",
+            "minimum": 80,
+            "maximum": 65535
         },
         "hash": {
             "type": "string",
@@ -20,7 +31,7 @@
         }
     },
     "required": [
-        "repo",
+        "image",
         "hostname"
     ]
 }

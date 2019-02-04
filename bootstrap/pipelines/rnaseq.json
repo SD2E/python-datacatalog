@@ -5,7 +5,7 @@
     "components": [
         {
             "id": "wgqobY6wgkQJQ",
-            "repo": "index.docker.io/jurrutia/rnaseq_manifest_agent:0.5",
+            "image": "index.docker.io/jurrutia/rnaseq_manifest_agent:0.5",
             "options": {}
         },
         {
@@ -68,11 +68,6 @@
                 "CONTAINER_IMAGE": "jurrutia/app_multiqc:0.1.0"
             }
         }
-    ],
-    "collections_levels": [
-        "experiment",
-        "sample",
-        "measurement"
     ],
     "processing_levels": [
         "1",

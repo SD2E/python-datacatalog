@@ -1,5 +1,5 @@
 {
-    "pipeline_uuid": "1064aaf1-459c-5e42-820d-b822aa4b3990",
+    "pipeline_uuid": "10650844-1baa-55c5-a481-5e945b19c065",
     "archive_path": "/sample/tacc-cloud/agavehelpers/upload",
     "archive_patterns": [
         "ansible.png"

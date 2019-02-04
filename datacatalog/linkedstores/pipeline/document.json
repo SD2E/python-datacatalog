@@ -14,22 +14,6 @@
                 "secondary-etl"
             ],
             "default": "primary-etl"
-        },
-        "collections_level": {
-            "description": "Type of managed document collection",
-            "type": "string",
-            "enum": [
-                "reference",
-                "challenge_problem",
-                "experiment_design",
-                "experiment",
-                "sample",
-                "measurement",
-                "file",
-                "pipeline",
-                "job",
-                "product"
-            ]
         }
     },
     "type": "object",
@@ -61,17 +45,9 @@
                 ]
             }
         },
-        "collections_levels": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/collections_level"
-            },
-            "description": "level(s) of data input that the pipeline acts upon",
-            "default": []
-        },
         "processing_levels": {
             "type": "array",
-            "description": "level(s) of data product produced by the pipeline",
+            "description": "Level(s) of data product produced by the pipeline",
             "minItems": 1,
             "items": {
                 "$ref": "processing_level.json"
@@ -85,7 +61,7 @@
         },
         "accepts": {
             "type": "array",
-            "description": "file types accepted by the pipeline",
+            "description": "File types accepted by the pipeline",
             "items": {
                 "$ref": "filetype_label.json"
             },
@@ -96,7 +72,7 @@
         },
         "produces": {
             "type": "array",
-            "description": "file types produced by the pipeline",
+            "description": "File types produced by the pipeline",
             "items": {
                 "$ref": "filetype_label.json"
             },
@@ -120,7 +96,8 @@
     "required": [
         "name",
         "components",
-        "id"
+        "id",
+        "processing_levels"
     ],
     "additionalProperties": false,
     "_filename": "pipeline",

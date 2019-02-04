@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2019-02-04 18:51:21 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0d7f50e",
     "$id": "https://schema.catalog.sd2e.org/schemas/deployed_container.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -10,20 +10,31 @@
             "type": "string"
         },
         "hostname": {
-            "description": "DNS name of container host",
+            "description": "DNS name of the service",
             "format": "hostname",
             "type": "string"
+        },
+        "image": {
+            "$ref": "container_repo.json"
         },
         "options": {
             "description": "Deployment options",
             "type": "object"
         },
-        "repo": {
-            "$ref": "container_repo.json"
+        "port": {
+            "description": "Internet port for the service",
+            "maximum": 65535,
+            "minimum": 80,
+            "type": "integer"
+        },
+        "servername": {
+            "description": "DNS name of the container service host",
+            "format": "hostname",
+            "type": "string"
         }
     },
     "required": [
-        "repo",
+        "image",
         "hostname"
     ],
     "title": "Deployed Container",

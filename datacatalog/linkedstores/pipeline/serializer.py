@@ -24,9 +24,9 @@ class SerializedPipeline(object):
 
     # TODO - Re-implement this with schema-informed classes
     COMPONENT_KEYS = {'agave_app': (('id', True), ('modules', False), ('inputs', True), ('outputs', False), ('parameters', True), ('uuid', False)),
-                      'abaco_actor': (('id', True), ('repo', True), ('options', False), ('uuid', False)),
+                      'abaco_actor': (('id', True), ('image', True), ('options', False), ('uuid', False)),
                       'agave_job': (('appId', True), ('id', True), ('uuid', False)),
-                      'deployed_container': (('repo', True), ('hostname', True), ('hash', False), ('options', False), ('uuid', False)),
+                      'deployed_container': (('image', True), ('hostname', True), ('hash', False), ('options', False), ('uuid', False)),
                       'web_service': (('uri', True), ('identifier', False), ('options', False), ('uuid', False))}
     """Fields to include in component definitions. Key is named after jsonschema. Tuple is (field, required)"""
     # APP_KEYS = ('id', 'modules', 'inputs', 'outputs', 'parameters', 'uuid')
@@ -60,7 +60,7 @@ class SerializedPipeline(object):
                 for keyname, required in keyset:
                     if required:
                         if keyname not in component:
-                            raise KeyError('Rrequired key {} missing'.format(key))
+                            raise KeyError('Required key {} missing'.format(key))
                 return component_type
             except Exception:
                 pass

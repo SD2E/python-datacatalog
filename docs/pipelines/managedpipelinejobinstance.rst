@@ -17,7 +17,7 @@ Reactor. Configuration details for these resources can be passed like so:
 
    from datacatalog.managers.pipelinejobs import ManagedPipelineJobInstance
 
-   job_uuid='1071269f-b251-5a5f-bec1-6d7f77131f3f'
+   job_uuid='1074de37-d178-5bcf-bcf0-b43cf4f91087'
    job_token='a3b29f2c62ec9d15'
    mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
 
@@ -44,7 +44,7 @@ continue to apply.
 
    event = {'name': 'update',
             'data': {'msg': 'update message'},
-            'uuid': '1071269f-b251-5a5f-bec1-6d7f77131f3f',
+            'uuid': '1074de37-d178-5bcf-bcf0-b43cf4f91087',
             'token': 'a3b29f2c62ec9d15'}
    resp = mpj.handle(event)
    print(resp['token'])
