@@ -34,20 +34,20 @@ def test_catman_get_uuidtype_invalid(catalogmanager):
         tt = catalogmanager.get_uuidtype('102ea7b-6f98-bc04-c61e2efc8b44')
         # assert tt == '123'
 
-@pytest.mark.parametrize("uuid,utype", [('102e742e-e67a-5e99-bc04-c60d1eec9a41', 'experiment'),
-                                        ('1039c6df-4f48-5a2e-967c-5881401eb8c3', 'sample'),
-                                        ('1040f664-0b71-54a6-8941-05ac277a6fa7', 'measurement'),
-                                        ('10507438-f288-5898-9b72-68b31bcaff46', 'file')])
+@pytest.mark.parametrize("uuid,utype", [('1027aa77-d524-5359-a802-a8008adaecb5', 'experiment'),
+                                        ('103246e1-bcdf-5b6e-a8dc-4c7e81b91141', 'sample'),
+                                        ('10483e8d-6602-532a-8941-176ce20dd05a', 'measurement'),
+                                        ('1055744d-7873-5a1f-ba29-8093d2e62ea6', 'file')])
 def test_catman_get_uuidtype(uuid, utype, catalogmanager):
     # Test classification of UUID type
     tt = catalogmanager.get_uuidtype(uuid)
     assert tt == utype
     assert tt in catalogmanager.stores
 
-@pytest.mark.parametrize("uuid,utype", [('102e742e-e67a-5e99-bc04-c60d1eec9a41', 'experiment'),
-                                        ('1039c6df-4f48-5a2e-967c-5881401eb8c3', 'sample'),
-                                        ('1040f664-0b71-54a6-8941-05ac277a6fa7', 'measurement'),
-                                        ('10507438-f288-5898-9b72-68b31bcaff46', 'file')])
+@pytest.mark.parametrize("uuid,utype", [('1027aa77-d524-5359-a802-a8008adaecb5', 'experiment'),
+                                        ('103246e1-bcdf-5b6e-a8dc-4c7e81b91141', 'sample'),
+                                        ('10483e8d-6602-532a-8941-176ce20dd05a', 'measurement'),
+                                        ('1055744d-7873-5a1f-ba29-8093d2e62ea6', 'file')])
 def test_catman_get_by_uuid(uuid, utype, catalogmanager):
     # Test classification of UUID type
     tt = catalogmanager.get_by_uuid(uuid)
@@ -55,5 +55,5 @@ def test_catman_get_by_uuid(uuid, utype, catalogmanager):
 
 def test_catman_delete_by_uuid(catalogmanager):
     # Test classification of UUID type
-    deleted = catalogmanager.delete_by_uuid("10300633-da8f-5a45-89b1-f497de5c7ca8")
+    deleted = catalogmanager.delete_by_uuid("1020797b-3af2-5cc0-b7ca-665de1ba8586")
     assert deleted is True
