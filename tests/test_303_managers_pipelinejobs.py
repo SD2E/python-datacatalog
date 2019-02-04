@@ -23,6 +23,14 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
 @pytest.fixture(scope='session')
+def admin_key():
+    return datacatalog.tokens.admin.get_admin_key()
+
+@pytest.fixture(scope='session')
+def admin_token(admin_key):
+    return datacatalog.tokens.admin.get_admin_token(admin_key)
+
+@pytest.fixture(scope='session')
 def experiment_id():
     return 'experiment.ginkgo.10001'
 
@@ -32,7 +40,7 @@ def sample_id():
 
 @pytest.fixture(scope='session')
 def list_job_uuid():
-    return '1071269f-b251-5a5f-bec1-6d7f77131f3f'
+    return '107f299e-c477-51d7-93d1-b01cdf18674a'
 
 @pytest.fixture(scope='session')
 def client_w_param(mongodb_settings, pipelinejobs_config,
@@ -72,14 +80,6 @@ def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
                               agave=agave,
                               experiment_id=experiment_id, instanced=False)
 
-@pytest.fixture(scope='session')
-def admin_key():
-    return datacatalog.tokens.admin.get_admin_key()
-
-@pytest.fixture(scope='session')
-def admin_token(admin_key):
-    return datacatalog.tokens.admin.get_admin_token(admin_key)
-
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``
     """
@@ -110,7 +110,7 @@ def test_pipejob_init_archive_path_custom(mongodb_settings, pipelinejobs_config,
     assert base.archive_path.endswith('test123')
 
 @longrun
-def test_pipejob_init_listdir(client_w_param):
+def test_pipejob_init_listdir(client_w_param, list_job_uuid):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
     # from data/tests/pipelinejob/tacbobot.json
     job_uuid = list_job_uuid
@@ -118,15 +118,6 @@ def test_pipejob_init_listdir(client_w_param):
         'pipelinejob'].list_job_archive_path(job_uuid)
     assert isinstance(job_path_listing, list)
     assert len(job_path_listing) > 0
-
-def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
-    valid_job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
-
-    client_w_param.setup(data={'example_data': 'datadata'})
-    assert client_w_param.pipeline_uuid == pipeline_uuid
-    assert 'example_data' in client_w_param.data
-    assert client_w_param.archive_path.startswith('/products')
-    assert client_w_param.uuid == valid_job_uuid
 
 def test_pipejob_agave_uri_from_data(mongodb_settings, pipelinejobs_config,
                                      agave, pipeline_uuid):
@@ -287,9 +278,18 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
     assert len(base.acts_on) == 2
 
-def test_pipeinstance_init(mongodb_settings, agave):
-    """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
-    job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
+
+def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
+    response_job_uuid = '1074de37-d178-5bcf-bcf0-b43cf4f91087'
+    client_w_param.setup(data={'example_data': 'datadata'})
+    assert client_w_param.pipeline_uuid == pipeline_uuid
+    assert 'example_data' in client_w_param.data
+    assert client_w_param.archive_path.startswith('/products')
+    assert client_w_param.uuid == response_job_uuid
+
+def test_pipeinstance_event_init(mongodb_settings, agave):
+    """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
+    job_uuid = '1074de37-d178-5bcf-bcf0-b43cf4f91087'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     assert base.archive_path.startswith('/products/v2/106')
     assert len(base.child_of) > 0
@@ -299,7 +299,9 @@ def test_pipeinstance_init(mongodb_settings, agave):
 def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
+    resp_job_uuid = '10779599-d081-5c49-aad3-f5158cc62d07'
     client_w_param_data.setup()
+    assert client_w_param_data.uuid == resp_job_uuid
     assert client_w_param_data.callback.startswith('https://')
 
 def test_pipejob_event_run(client_w_param_data):
@@ -342,7 +344,8 @@ def test_pipejob_event_reset_invalid_token(client_w_param_data):
     """Check that reset cannot happen with invalid token
     """
     # Random invalid token
-    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    self_job_uuid = client_w_param_data.uuid
+    client_w_param_data.load(self_job_uuid)
     token = 'b2hhb7s470owrvtd'
     print('TOKEN', token)
     print('UUID', client_w_param_data.uuid)
@@ -354,7 +357,8 @@ def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
     """Check that reset cannot happen with invalid token
     """
     # Random invalid token
-    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
+    self_job_uuid = client_w_param_data.uuid
+    client_w_param_data.load(self_job_uuid)
     # Ensure the output path exists.
     # FIXME - Create the archive_path at setup(), if possible
     client_w_param_data.stores['pipelinejob']._helper.mkdir(
@@ -371,25 +375,15 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
     """
     # Random invalid token
     token = 'Uyx0cVn1ksPH8yT5'
-    target_uuid = '1075c8ca-885e-5943-9328-acc4d91dcb1e'
+    self_job_uuid = client_w_param_data.uuid
+    client_w_param_data.load(self_job_uuid)
     try:
-        client_w_param_data.load(target_uuid)
+        client_w_param_data.load(self_job_uuid)
     except Exception:
-        warnings.warn('Failed to get record ' + str(target_uuid))
+        warnings.warn('Failed to get record ' + str(self_job_uuid))
     finally:
         with pytest.raises(Exception):
             client_w_param_data.delete(token=token)
-
-@delete
-def test_pipejob_event_delete_admin_token(client_w_param_data, admin_token):
-    """Check that reset cannot happen with invalid token
-    """
-    # Random invalid token
-    client_w_param_data.load('1075c8ca-885e-5943-9328-acc4d91dcb1e')
-    token = admin_token
-    print('TOKEN', token)
-    print('UUID', client_w_param_data.uuid)
-    client_w_param_data.delete(token=token)
 
 @longrun
 def test_pipesinst_index_w_filters(mongodb_settings, agave):
@@ -397,7 +391,7 @@ def test_pipesinst_index_w_filters(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
     filters = ['hello.txt']
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
@@ -411,7 +405,7 @@ def test_pipesinst_index_empty_filters(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
     filters = []
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
@@ -425,156 +419,20 @@ def test_pipesinst_index_no_filter(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '10797ce0-c130-5738-90d5-9e854adc67dd'
+    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     listed = base.index_archive_path(processing_level=level)
     assert len(listed) == 1
 
-# def test_pipejob_event_fail(client_w_param):
-#     """Check that fail() can happen now
-#     """
-#     resp = client_w_param.fail(data={'this_data': 'is from the "finish" event'})
-#     assert resp['state'] == 'FAILED'
-
-# def test_pipeinstance_re_init(mongodb_settings, agave):
-#     """Verify that we can instantiate an instance of a known job without a bunch of boilerplate"""
-#     job_uuid = '1071269f-b251-5a5f-bec1-6d7f77131f3f'
-#     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-
-#     assert base.archive_path.startswith('/products/v2/102')
-#     assert len(base.derived_from) >= 0
-#     assert len(base.child_of) > 0
-#     assert len(base.pipeline_uuid) is not None
-
-# def test_pipejob_run(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-
-# def test_pipejob_run_resource(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.resource(data={'this_data': 'is from the "resource" event'})
-
-# def test_pipejob_update(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.update(data={'this_data': 'is from an update event'})
-
-# def test_pipejob_run_update_resource(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.update(data={'this_data': 'is from an update event'})
-#     base.resource(data={'this_data': 'is from the "resource" event'})
-
-# def test_pipejob_fail(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.update(data={'this_data': 'is from an update event'})
-#     base.fail(data={'this_data': 'is from a fail event'})
-
-# def test_pipejob_fail_fsm_enforce(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.update(data={'this_data': 'is from an update event'})
-#     base.fail(data={'this_data': 'is from a fail event'})
-#     with pytest.raises(transitions.core.MachineError):
-#         base.update(data={'this_data': 'is from an update event'})
-
-# def test_pipejob_finish(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     base.update(data={'this_data': 'is from an update event'})
-#     base.finish(data={'this_data': 'is from a finish event'})
-
-# def test_pipejob_no_finish_without_run(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id)
-#     base.setup(data={'example_data': 'datadata'})
-#     with pytest.raises(transitions.core.MachineError):
-#         base.finish(data={'this_data': 'is from a finish event'})
-
-# def test_pipejob_mgr_params(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, session):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, session=session)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     assert base.session == session
-#     assert base.job['agent'].endswith(actor_id)
-
-# def test_pipejob_task(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, exec_id, session):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, task=exec_id, session=session)
-#     base.setup(data={'example_data': 'datadata'})
-#     assert base.session == session
-#     assert base.job['task'].endswith(exec_id)
-
-# def test_pipejob_agave_agent_task(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, agave_app_id, agave_job_id, session):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=agave_app_id, task=agave_job_id, session=session)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     assert base.job['agent'].endswith(agave_app_id)
-#     assert base.job['task'].endswith(agave_job_id)
-
-# def test_pipejob_custom_archive_path(mongodb_settings, manager_id, nonce, pipeline_uuid, experiment_id, sample_id, actor_id, session):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid, experiment_id=experiment_id, sample_id=sample_id, agent=actor_id, session=session, archive_path='/archives')
-#     base.setup(data={'example_data': 'datadata'})
-#     assert base.job['archive_path'] == '/archives'
-
-# @pytest.mark.parametrize("param,value,success", [('experiment_id', 'experiment.uw_biofab.17987', True),
-#                                                  ('sample_id', 'sample.uw_biofab.143209/H1', True),
-#                                                  ('measurement_id', 'measurement.uw_biofab.92242', True),
-#                                                  ('agent', '6e87V7aqrX646', False)])
-# def test_pipejob_one_of_params(mongodb_settings, manager_id, nonce, param, value, success, pipeline_uuid):
-#     doc = {'pipeline_uuid': pipeline_uuid, param: value}
-#     if success is True:
-#         mjob = ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
-#         mjob.setup()
-#         assert mjob.pipeline_uuid == doc['pipeline_uuid']
-#     else:
-#         with pytest.raises(store.ManagedPipelineJobError):
-#             mjob = ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
-#             mjob.setup()
-
-# @delete
-# def test_pipejob_no_cancel_after_run(mongodb_settings, manager_id, nonce, pipeline_uuid):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.run(data={'this_data': 'is from the "run" event'})
-#     with pytest.raises(ManagedPipelineJobError):
-#         base.cancel()
-
-# @delete
-# def test_pipejob_cancel(mongodb_settings, manager_id, nonce, pipeline_uuid):
-#     base = ManagedPipelineJob(mongodb_settings, manager_id, nonce, pipeline_uuid=pipeline_uuid)
-#     base.setup(data={'example_data': 'datadata'})
-#     base.cancel()
-
-# def test_pipejob_create_jobs_kwargs(mongodb_settings, manager_id, nonce):
-#     for struct in pipelinejobs.get_jobs():
-#         doc = struct['data']
-#         # pprint(doc)
-#         if struct['valid'] is True:
-#             mjob = ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
-#             mjob.setup()
-#             assert mjob.uuid == struct['uuid']
-#         else:
-#             with pytest.raises(store.ManagedPipelineJobError):
-#                 mjob = ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
-#                 mjob.setup()
-
-# @delete
-# def test_pipejob_delete_jobs_kwargs(mongodb_settings, manager_id, nonce):
-#     for struct in pipelinejobs.get_jobs():
-#         doc = struct['data']
-#         if struct['valid'] is True:
-#             mjob = ManagedPipelineJob(mongodb_settings, manager_id, nonce, **doc)
-#             mjob.setup()
-#             assert mjob.uuid == struct['uuid']
-#             mjob.cancel()
-
-
+@delete
+@pytest.mark.parametrize("job_uuid_del", ['1074de37-d178-5bcf-bcf0-b43cf4f91087', '10779599-d081-5c49-aad3-f5158cc62d07', '107f299e-c477-51d7-93d1-b01cdf18674a'])
+def test_pipejob_event_prep(client_w_param_data, job_uuid_del, admin_token):
+    """Check that reset cannot happen with invalid token
+    """
+    # Random invalid token
+    client_w_param_data.load(job_uuid_del)
+    token = admin_token
+    print('TOKEN', token)
+    print('UUID', client_w_param_data.uuid)
+    client_w_param_data.delete(token=token)

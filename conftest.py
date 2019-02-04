@@ -19,7 +19,7 @@ def nonce():
 @pytest.fixture(scope='session')
 def pipeline_uuid():
     """Resolves to the tacobot test pipeline"""
-    return '1064aaf1-459c-5e42-820d-b822aa4b3990'
+    return '10650844-1baa-55c5-a481-5e945b19c065'
 
 @pytest.fixture(scope='session')
 def manager_id():

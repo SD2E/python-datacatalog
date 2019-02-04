@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2019-02-04 18:51:21 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0d7f50e",
     "$id": "https://schema.catalog.sd2e.org/schemas/abaco_actor.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -9,18 +9,18 @@
             "$ref": "abaco_actorid.json",
             "type": "string"
         },
+        "image": {
+            "$ref": "container_repo.json",
+            "description": "Linux container image repository and tag for the deployed actor"
+        },
         "options": {
             "description": "Predefined runtime options for the Reactor",
             "type": "object"
-        },
-        "repo": {
-            "$ref": "container_repo.json",
-            "description": "Linux container image repository and tag for the deployed actor"
         }
     },
     "required": [
         "id",
-        "repo"
+        "image"
     ],
     "title": "Abaco Actor",
     "type": "object"

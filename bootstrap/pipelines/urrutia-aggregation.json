@@ -19,9 +19,6 @@
             }
         }
     ],
-    "collections_levels": [
-        "experiment"
-    ],
     "pipeline_type": "primary-etl",
     "processing_levels": [
         "2"

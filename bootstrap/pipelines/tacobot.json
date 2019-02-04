@@ -4,7 +4,7 @@
     "components": [
         {
             "id": "eqMyqq4xB1Lqa",
-            "repo": "index.docker.io/tacc/tacbobot:latest",
+            "image": "index.docker.io/tacc/tacbobot:latest",
             "options": {}
         },
         {
@@ -14,9 +14,6 @@
                 "smoke": true
             }
         }
-    ],
-    "collections_levels": [
-        "measurement"
     ],
     "processing_levels": [
         "1"

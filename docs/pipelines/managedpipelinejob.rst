@@ -23,7 +23,7 @@ Reactor. Configuration details for these resources can be passed like so:
    mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
    pipelines={'job_manager_id': 'G1p783PxpalBB',
               'job_manager_nonce': 'SD2E_G1p783PxpalBB',
-              'pipeline_uuid': '1064aaf1-459c-5e42-820d-b822aa4b3990'}
+              'pipeline_uuid': '10650844-1baa-55c5-a481-5e945b19c065'}
    agave_client=Agave.restore()
    mpj = ManagedPipelineJob(mongodb, pipelines, agave=agave_client, ...)
    mpj.setup()

@@ -1,25 +1,9 @@
 {
-    "$comment": "generated: 2019-01-17 23:26:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f7703d6",
+    "$comment": "generated: 2019-02-04 18:51:20 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0d7f50e",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipeline.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "collections_level": {
-            "description": "Type of managed document collection",
-            "enum": [
-                "reference",
-                "challenge_problem",
-                "experiment_design",
-                "experiment",
-                "sample",
-                "measurement",
-                "file",
-                "pipeline",
-                "job",
-                "product"
-            ],
-            "type": "string"
-        },
         "pipeline_type": {
             "default": "primary-etl",
             "description": "Enumerated class of action performed by the pipeline",
@@ -39,19 +23,11 @@
             "default": [
                 "*"
             ],
-            "description": "file types accepted by the pipeline",
+            "description": "File types accepted by the pipeline",
             "items": {
                 "$ref": "filetype_label.json"
             },
             "minItems": 1,
-            "type": "array"
-        },
-        "collections_levels": {
-            "default": [],
-            "description": "level(s) of data input that the pipeline acts upon",
-            "items": {
-                "$ref": "#/definitions/collections_level"
-            },
             "type": "array"
         },
         "components": {
@@ -88,7 +64,7 @@
         },
         "processing_levels": {
             "default": [],
-            "description": "level(s) of data product produced by the pipeline",
+            "description": "Level(s) of data product produced by the pipeline",
             "items": {
                 "$ref": "processing_level.json"
             },
@@ -99,7 +75,7 @@
             "default": [
                 "*"
             ],
-            "description": "file types produced by the pipeline",
+            "description": "File types produced by the pipeline",
             "items": {
                 "$ref": "filetype_label.json"
             },
@@ -115,7 +91,8 @@
     "required": [
         "name",
         "components",
-        "id"
+        "id",
+        "processing_levels"
     ],
     "title": "Pipeline",
     "type": "object"

@@ -6,7 +6,7 @@
             "type": "string",
             "$ref": "abaco_actorid.json"
         },
-        "repo": {
+        "image": {
             "$ref": "container_repo.json",
             "description": "Linux container image repository and tag for the deployed actor"
         },
@@ -17,6 +17,6 @@
     },
     "required": [
         "id",
-        "repo"
+        "image"
     ]
 }
