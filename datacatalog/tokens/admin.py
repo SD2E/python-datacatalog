@@ -75,6 +75,8 @@ def __get_admin_tokens(key=None):
     """Gets current and previous token for a key.
     """
     toks = list()
+    if key is None:
+        key = get_admin_key()
     toks.append(get_admin_token(key))
     toks.append(get_admin_token(key, previous=True))
     return toks
