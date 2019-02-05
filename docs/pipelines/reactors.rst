@@ -1,8 +1,8 @@
-.. _sharedreactors:
+.. _systemreactors:
 
-=====================
-Reactor Documentation
-=====================
+================
+Manager Reactors
+================
 
 Each managing Reactor is maintained as a separate repository. Additional
 technical detail and documentation is available at their respective

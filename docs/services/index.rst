@@ -5,7 +5,6 @@ Web Services
 .. toctree::
    :maxdepth: 2
 
-   overview
    quickstart
    authnz
    querying

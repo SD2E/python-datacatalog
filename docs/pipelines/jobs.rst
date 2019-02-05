@@ -13,7 +13,8 @@ Creation, management, and metadata resolution of Pipelines and PipelineJobs
 is implemented in the ``python-datacatalog`` library (this codebase) which is
 operated by interlinked Abaco Reactors collectively known as the **PipelineJobs
 System**. These Reactors write and mantain records and linkages in the MongoDB
-databases that form the Data Catalog. They are documented in :doc:`sharedreactors`
+databases that form the Data Catalog. They are documented in
+`Manager Reactors <reactors.html>`_.
 
 Overview
 --------
@@ -84,4 +85,4 @@ inspecting its schema, which is accessible online:
 Pipelines
 #########
 
-**PipelineJobs** are always linked via ``generated_by`` to :doc:`pipelines_main`.
+**PipelineJobs** are always linked via ``generated_by`` to `Pipelines <pipelines.html>`_.

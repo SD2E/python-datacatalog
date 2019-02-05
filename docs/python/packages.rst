@@ -40,8 +40,8 @@ DataCatalog schema. Also, a ``TypedUUID`` is not random. It is a hash of a text
 string, namespaced to a specific ``UUID3`` DNS namespace. Here are a couple of
 examples, for the purpose of illustration:
 
-- ``114be7a5-d923-5039-95aa-d9d3d298061a`` defines experiment design ``YeastSTATES-gRNA-Seq-Diagnosis``
-- ``10340ded-b06e-5d91-95dd-8533755ed48c`` defines sample ``sample.transcriptic.aq1bsxp36447z6``
+- ``114be7a5-d923-5039-95aa-d9d3d298061a`` == experiment design ``YeastSTATES-gRNA-Seq-Diagnosis``
+- ``10340ded-b06e-5d91-95dd-8533755ed48c`` == sample ``sample.transcriptic.aq1bsxp36447z6``
 
 Definition
 ----------
@@ -107,12 +107,12 @@ definitions are in alignment.
 Examples
 ^^^^^^^^
 
-.. literalinclude:: ../../datacatalog/views/job_view/document.json
+.. literalinclude:: ../../datacatalog/views/jobs_view/document.json
    :language: python
    :linenos:
    :caption: JSON schema template
 
-.. literalinclude:: ../../datacatalog/views/job_view/aggregation.json
+.. literalinclude:: ../../datacatalog/views/jobs_view/aggregation.json
    :language: python
    :linenos:
    :caption: MongoDB pipeline definition

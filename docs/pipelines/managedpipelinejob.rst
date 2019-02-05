@@ -17,16 +17,15 @@ Reactor. Configuration details for these resources can be passed like so:
 
 .. code-block:: pycon
 
-   from datacatalog.managers.pipelinejobs import ManagedPipelineJob
-   from agavepy.agave import Agave
-
-   mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
-   pipelines={'job_manager_id': 'G1p783PxpalBB',
-              'job_manager_nonce': 'SD2E_G1p783PxpalBB',
-              'pipeline_uuid': '10650844-1baa-55c5-a481-5e945b19c065'}
-   agave_client=Agave.restore()
-   mpj = ManagedPipelineJob(mongodb, pipelines, agave=agave_client, ...)
-   mpj.setup()
+   >>> from datacatalog.managers.pipelinejobs import ManagedPipelineJob
+   >>> from agavepy.agave import Agave
+   >>> mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
+   >>> pipelines={'job_manager_id': 'G1p783PxpalBB',
+                 'job_manager_nonce': 'SD2E_G1p783PxpalBB',
+                 'pipeline_uuid': '10650844-1baa-55c5-a481-5e945b19c065'}
+   >>> agave_client=Agave.restore()
+   >>> mpj = ManagedPipelineJob(mongodb, pipelines, agave=agave_client, ...)
+   >>> mpj.setup()
 
 .. warning:: Never actually include the value for ``job_manager_nonce`` in a
    public source repository or Docker image.
@@ -34,7 +33,8 @@ Reactor. Configuration details for these resources can be passed like so:
 Parameterization
 ----------------
 
-*Coming soon*
+Much flexibility is allowed at ``ManagedPipelineJob`` setup time. This is
+covered in detail in :doc:`deepdive`.
 
 Sending Events
 --------------
@@ -49,13 +49,9 @@ doing so does not violate allowable state transitions.
 
 .. code-block:: pycon
 
-   # just send 'run'
    >>> mpj.run(data={'Job is now running!'})
-   # chain 'run' and 'update'
    >>> mpj.run(data={'msg': 'Job is still running!'}).update(data={'msg': 'This is an update'})
-   # send 'finish'
    >>> mpj.finish()
-   # try to send 'run' again and watch the firewworks
    >>> mpj.run()
    Traceback (most recent call last):
    File "<stdin>", line 1, in <module>
@@ -70,7 +66,6 @@ nascent job record from the Data Catalog.
 
 .. code-block:: pycon
 
-   # cancel the job
    >>> mpj.cancel()
 
 If A job needs to be marked as unsuccessful after beginning its lifecycle,
@@ -87,9 +82,9 @@ As mentioned above, ``FAILED`` is a valid terminal state. Set it by sending the
 
 .. code-block:: pycon
 
-   mpj.fail()
-   print(mpj.state)
-   >>> 'FAILED'
+   >>> mpj.fail()
+   >>> print(mpj.state)
+   'FAILED'
 
 Resetting a PipelineJob
 -----------------------
@@ -100,9 +95,9 @@ token associated with the job cannot authorize a reset action.
 
 .. code-block:: pycon
 
-   mpj.reset(token='rkz78NEcsD7ZmhVc')
-   print(mpj.state)
-   >>> 'CREATED'
+   >>> mpj.reset(token='rkz78NEcsD7ZmhVc')
+   >>> print(mpj.state)
+   'CREATED'
 
 The contents of the terminal directory in the job's archive path, but not the
 directory itself is remains.
@@ -116,7 +111,7 @@ token to authorize the action.
 
 .. code-block:: pycon
 
-   mpj.delete(token='rkz78NEcsD7ZmhVc')
+   >>> mpj.delete(token='rkz78NEcsD7ZmhVc')
 
 Currently, the job archive path and its contents are left intact.
 
@@ -127,4 +122,3 @@ It is possible to update a job's status after the initiating process has
 exited, so long as the job's current **token** is known. The token must be
 included in JSON messages to ``ManagedPipelineJobInstance`` or in web
 service callbacks posted to the Jobs Manager Reactor.
-

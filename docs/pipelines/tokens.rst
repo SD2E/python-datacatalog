@@ -10,8 +10,8 @@ state or availability.
 
 There are two kinds of tokens: **Document Update** tokens authorize most
 events and actions for a specific PipelineJob. Exceptions include ``reset``,
-``ready``, and ``delete`` events, which can only be authorized
-by **Administrative Action** tokens (see below).
+``ready``, and ``delete`` events, which are only authorized
+by **Administrative Action** tokens.
 
 Document Update Tokens
 ----------------------
@@ -21,7 +21,6 @@ managing a PipelineJob.
 
 .. code-block:: pycon
 
-   ...
    >>> mpj = ManagedPipelineJob(mongodb, pipelines, agave=agave_client, ...)
    >>> mpj.setup()
    >>> resp = mpj.run()
@@ -33,8 +32,8 @@ managing a PipelineJob.
 Now, assume some magic happens and there is another process that needs to
 manage the job we just set up. Assume also that you remembered the job UUID and
 token and have passed it into the process. The example below illustrates
-initializing a ```ManagedPipelineJobInstance``` and using it to trigger an
-**update**b event.
+initializing a ``ManagedPipelineJobInstance`` and using it to trigger an
+**update** event.
 
 .. code-block:: pycon
 
