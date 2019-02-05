@@ -101,7 +101,7 @@ def test_job_agaveclient(mongodb_settings, agave):
 def test_job_list_job_dir(mongodb_settings, agave):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
     # from data/tests/pipelinejob/tacbobot.json
-    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
+    job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     base = PipelineJobStore(
         mongodb_settings, agave=agave)
     dirlist = base.list_job_archive_path(job_uuid, recurse=True)

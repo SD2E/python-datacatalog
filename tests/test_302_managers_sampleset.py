@@ -41,8 +41,10 @@ def test_ex_get(samplesetprocessor):
         resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
         assert resp['experiment_id'] == doc['experiment_id']
 
-def test_iter_process_merge(mongodb_settings):
-    jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
+@longrun
+@pytest.mark.parametrize("filename", ['samples-biofab.json', 'samples-transcriptic.json', 'samples-ginkgo.json'])
+def test_iter_process_merge(mongodb_settings, filename):
+    jsonpath = os.path.join(DATA_DIR, filename)
     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
     dbp = db.process(strategy='merge')
     assert dbp is True

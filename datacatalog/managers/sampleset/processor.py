@@ -106,6 +106,8 @@ class SampleSetProcessor(object):
 
     def process_samples(self, parent_uuid=None, strategy='merge'):
         try:
+            if not isinstance(self._samples, list):
+                raise TypeError('"samples" must be a list')
             for sample in self._samples:
                 if 'child_of' in sample:
                     sample['child_of'].append(parent_uuid)
@@ -125,6 +127,8 @@ class SampleSetProcessor(object):
 
     def process_measurements(self, measurements, parent_uuid=None, strategy='merge'):
         try:
+            if not isinstance(measurements, list):
+                raise TypeError('"measurements" must be a list')
             for meas in measurements:
                 if 'child_of' in meas:
                     meas['child_of'].append(parent_uuid)
@@ -144,6 +148,8 @@ class SampleSetProcessor(object):
 
     def process_files(self, files, parent_uuid=None, strategy='merge'):
         try:
+            if not isinstance(files, list):
+                raise TypeError('"files" must be a list')
             for file in files:
                 file['name'] = self.contextualize(file['name'])
                 if 'child_of' in file:
