@@ -59,7 +59,7 @@
             "type": "boolean",
             "value": true
         },
-        "acts_on": {
+        "acted_on": {
             "items": {
                 "anyOf": [
                     {
@@ -69,7 +69,7 @@
             },
             "type": "array"
         },
-        "acts_using": {
+        "acted_using": {
             "items": {
                 "anyOf": [
                     {

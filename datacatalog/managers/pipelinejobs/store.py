@@ -106,7 +106,7 @@ class ManagedPipelineJob(JobManager):
 
     def __init__(self, mongodb,
                  pipelines,
-                 instanced=True,
+                 instanced=False,
                  agave=None,
                  *args,
                  **kwargs):
@@ -193,15 +193,13 @@ class ManagedPipelineJob(JobManager):
             if kwargs.get('sample_id', None) is not None:
                 if meas_provided is False:
                     child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
-                if archive_path_metadata_els is None:
-                    archive_path_metadata_els = self.samples_from_samples(
-                        kwargs.get('sample_id'))
+                archive_path_metadata_els = self.samples_from_samples(
+                    kwargs.get('sample_id'))
             elif kwargs.get('experiment_id', None) is not None:
                 if meas_provided is False:
                     child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
-                if archive_path_metadata_els is None:
-                    archive_path_metadata_els = self.experiments_from_experiments(
-                        kwargs.get('experiment_id'))
+                archive_path_metadata_els = self.experiments_from_experiments(
+                    kwargs.get('experiment_id'))
             if not len(child_of_list) > 0:
                 raise ValueError("Failed to link job to measurements")
             if not len(archive_path_metadata_els) > 0:
@@ -238,7 +236,7 @@ class ManagedPipelineJob(JobManager):
         data_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(data_file_uris)
         # Reduce to the non-redudant set of file UUIDs
-        acts_on_uuids = list(
+        acted_on_uuids = list(
             set(input_file_uuids + data_file_uuids))
 
         # References
@@ -247,8 +245,8 @@ class ManagedPipelineJob(JobManager):
                                     self).self_from_inputs(reference_uris)
 
         # Store values in appropriate slot in "relations"
-        relations['acts_on'].extend(acts_on_uuids)
-        relations['acts_using'].extend(reference_uri_uuids)
+        relations['acted_on'].extend(acted_on_uuids)
+        relations['acted_using'].extend(reference_uri_uuids)
 
         # Finally, set this document's linkage attributes
         for rel, val in relations.items():
@@ -286,8 +284,8 @@ class ManagedPipelineJob(JobManager):
                         'generated_by': self.generated_by,
                         'child_of': self.child_of,
 #                        'derived_from': self.derived_from,
-                        'acts_on': self.acts_on,
-                        'acts_using': self.acts_using
+                        'acted_on': self.acted_on,
+                        'acted_using': self.acted_using
                         }
 
         # Retrieves reference to existing job if exists
@@ -345,6 +343,16 @@ class ManagedPipelineJob(JobManager):
         # Sanity check - was a valid URL assembled?
         validators.url(uri)
         return uri
+
+    def __repr__(self):
+        reprvals = list()
+        for param in ['uuid', 'pipeline_uuid', 'data', 'child_of', 'generated_by', 'acted_on', 'acted_using']:
+            val = getattr(self, param, None)
+            if isinstance(val, list):
+                val = str(val)
+            reprvals.append('{} : {}'.format(param, val))
+        reprvals.append('archive_uri: ' + self.archive_uri())
+        return '\n'.join(reprvals)
 
     def __canonicalize_agent_and_task(self):
         """Extend simple text ``agent`` and ``task`` into REST URIs

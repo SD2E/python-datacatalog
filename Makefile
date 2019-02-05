@@ -1,7 +1,9 @@
 PYTEST_OPTS ?=
 PYTEST_SRC ?= tests/
 # PYTEST_RUN_OPTS ?= -s -vvv
-PYTEST_RUN_OPTS ?= -s
+PYTEST_FAIL_OPTS ?= --maxfail=1
+PYTEST_RUN_OPTS ?= -s $(PYTEST_FAIL_OPTS)
+
 # <empty> -staging or -production
 BOOTSTRAP_ENV ?=
 
@@ -114,11 +116,11 @@ mongo-down:
 
 # Activate tests marked with @longrun
 tests-longrun:
-	python -m pytest --longrun $(PYTEST_RUN_OPTS) $(PYTEST_SRC)
+	python -m pytest --longrun $(PYTEST_RUN_OPTS) $(PYTEST_OPTS) $(PYTEST_SRC)
 
 # Activate tests marked with @networked
 tests-networked:
-	python -m pytest --networked $(PYTEST_RUN_OPTS) $(PYTEST_SRC)
+	python -m pytest --networked $(PYTEST_RUN_OPTS) $(PYTEST_OPTS) $(PYTEST_SRC)
 
 tests-import-from-bootstrap-dirs:
 	cp -rf bootstrap/files/* tests/data/file/files/
@@ -136,8 +138,10 @@ tests-formats-classify:
 
 # This is a set of targets to bring up a fresh catalog defined by the code repo
 
+bootstrap-tests: bootstrap bootstrap-extras
+
 bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
-bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra
+bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
 bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views
@@ -167,6 +171,8 @@ bootstrap-references:
 
 bootstrap-files:
 	python -m bootstrap.manage_files auto $(BOOTSTRAP_ENV)
+
+bootstrap-files-extra: bootstrap-files
 
 bootstrap-pipelines:
 	python -m bootstrap.manage_pipelines auto $(BOOTSTRAP_ENV)

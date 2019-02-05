@@ -40,13 +40,7 @@ def sample_id():
 
 @pytest.fixture(scope='session')
 def list_job_uuid():
-    return '107f299e-c477-51d7-93d1-b01cdf18674a'
-
-@pytest.fixture(scope='session')
-def client_w_param(mongodb_settings, pipelinejobs_config,
-                   agave, pipeline_uuid, experiment_id):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave, experiment_id=experiment_id)
+    return '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
 
 @pytest.fixture(scope='session')
 def job_data():
@@ -60,8 +54,21 @@ def job_data():
     return data_obj
 
 @pytest.fixture(scope='session')
+def client_w_param(mongodb_settings, pipelinejobs_config,
+                   agave, pipeline_uuid, experiment_id):
+    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                              agave=agave, experiment_id=experiment_id)
+
+@pytest.fixture(scope='session')
+def instanced_client_w_param(mongodb_settings, pipelinejobs_config,
+                             agave, pipeline_uuid, experiment_id):
+    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                              agave=agave, experiment_id=experiment_id,
+                              instanced=True)
+
+@pytest.fixture(scope='session')
 def client_w_param_data(mongodb_settings, pipelinejobs_config,
-                   agave, pipeline_uuid, experiment_id, job_data):
+                        agave, pipeline_uuid, experiment_id, job_data):
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave,
                               experiment_id=experiment_id,
@@ -69,40 +76,32 @@ def client_w_param_data(mongodb_settings, pipelinejobs_config,
 
 @pytest.fixture(scope='session')
 def client_w_archive_path(mongodb_settings, pipelinejobs_config,
-                   agave, pipeline_uuid):
+                          agave, pipeline_uuid):
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
-
-@pytest.fixture(scope='session')
-def uninstanced_client_w_param(mongodb_settings, pipelinejobs_config,
-                               agave, pipeline_uuid, experiment_id):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave,
-                              experiment_id=experiment_id, instanced=False)
 
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``
     """
     assert list(client_w_param.stores.keys()) != list()
 
-def test_pipejob_init_archive_path_instanced(client_w_param):
+def test_pipejob_init_archive_path_instanced(instanced_client_w_param):
     """Exercises ``instanced=True`` which causes archive path to be
     collision-proof
     """
-    assert client_w_param.archive_path.startswith('/products/v2')
-    assert client_w_param.archive_path.endswith('Z')
+    assert instanced_client_w_param.archive_path.startswith('/products/v2')
+    assert instanced_client_w_param.archive_path.endswith('Z')
 
-def test_pipejob_init_archive_path_uninstanced(uninstanced_client_w_param):
+def test_pipejob_init_archive_path_uninstanced(client_w_param):
     """Exercises ``instanced=False`` which causes archive path to be
     completely deterministic
     """
-    assert uninstanced_client_w_param.archive_path.startswith('/products/v2')
-    assert not uninstanced_client_w_param.archive_path.endswith('Z')
+    assert client_w_param.archive_path.startswith('/products/v2')
+    assert not client_w_param.archive_path.endswith('Z')
 
 def test_pipejob_init_archive_path_custom(mongodb_settings, pipelinejobs_config,
-                   agave, pipeline_uuid):
-    """Exercises ``instanced=True`` which causes archive path to be
-    collision-proof
+                                          agave, pipeline_uuid):
+    """Checks that providing archive_path accepted as override
     """
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
@@ -128,7 +127,7 @@ def test_pipejob_agave_uri_from_data(mongodb_settings, pipelinejobs_config,
                            'p2': '/uploads/456.txt'}}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 3
+    assert len(base.acted_on) == 3
 
 def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
                              agave, pipeline_uuid):
@@ -138,10 +137,10 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs, experiment_id='experiment.ginkgo.10001')
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
     # The experiment_id will resolve as well
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 def test_pipejob_inputs_no_link_or_data(mongodb_settings, pipelinejobs_config,
-                                agave, pipeline_uuid):
+                                        agave, pipeline_uuid):
     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
@@ -218,7 +217,7 @@ def test_pipejob_data_inputs_resolve(mongodb_settings, pipelinejobs_config,
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
     # assert base.archive_path is None
 
 def test_pipejob_data_inputs_list_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
@@ -229,7 +228,7 @@ def test_pipejob_data_inputs_list_resolve(mongodb_settings, pipelinejobs_config,
     ]}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the first two inputs resolvable since the list context expects fully-qualified URIs
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
     # assert base.archive_path is None
 
 def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
@@ -240,8 +239,8 @@ def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config,
     ]}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the first two inputs resolvable since the list context expects fully-qualified URIs
-    assert len(base.acts_on) == 2
-    assert len(base.acts_using) == 1
+    assert len(base.acted_on) == 2
+    assert len(base.acted_using) == 1
 
     # assert base.archive_path is None
 
@@ -251,8 +250,8 @@ def test_pipejob_data_params_refs_resolve(mongodb_settings, pipelinejobs_config,
                            'protein': 'https://www.uniprot.org/uniprot/G0S6G2'}}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # ^^ These references should be present in the database if test_stores_reference has been run
-    assert len(base.acts_on) == 0
-    assert len(base.acts_using) == 2
+    assert len(base.acted_on) == 0
+    assert len(base.acted_using) == 2
 
 def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                          agave, pipeline_uuid):
@@ -263,7 +262,7 @@ def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                                agave, pipeline_uuid):
@@ -276,11 +275,13 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 
 def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
-    response_job_uuid = '1074de37-d178-5bcf-bcf0-b43cf4f91087'
+    """Checks that a specific parameterization yields expected job.uuid
+    """
+    response_job_uuid = '1079eaaf-bd5c-5246-8515-7e325a1b4dd5'
     client_w_param.setup(data={'example_data': 'datadata'})
     assert client_w_param.pipeline_uuid == pipeline_uuid
     assert 'example_data' in client_w_param.data
@@ -289,7 +290,7 @@ def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
 
 def test_pipeinstance_event_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
-    job_uuid = '1074de37-d178-5bcf-bcf0-b43cf4f91087'
+    job_uuid = '1079eaaf-bd5c-5246-8515-7e325a1b4dd5'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     assert base.archive_path.startswith('/products/v2/106')
     assert len(base.child_of) > 0
@@ -299,7 +300,7 @@ def test_pipeinstance_event_init(mongodb_settings, agave):
 def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
-    resp_job_uuid = '10779599-d081-5c49-aad3-f5158cc62d07'
+    resp_job_uuid = '107b1f9d-bd9a-5a5b-a165-b0b5ae524148'
     client_w_param_data.setup()
     assert client_w_param_data.uuid == resp_job_uuid
     assert client_w_param_data.callback.startswith('https://')
@@ -391,7 +392,7 @@ def test_pipesinst_index_w_filters(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
+    job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     filters = ['hello.txt']
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
@@ -405,7 +406,7 @@ def test_pipesinst_index_empty_filters(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
+    job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     filters = []
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
@@ -419,14 +420,14 @@ def test_pipesinst_index_no_filter(mongodb_settings, agave):
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
-    job_uuid = '107f299e-c477-51d7-93d1-b01cdf18674a'
+    job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     listed = base.index_archive_path(processing_level=level)
     assert len(listed) == 1
 
 @delete
-@pytest.mark.parametrize("job_uuid_del", ['1074de37-d178-5bcf-bcf0-b43cf4f91087', '10779599-d081-5c49-aad3-f5158cc62d07', '107f299e-c477-51d7-93d1-b01cdf18674a'])
+@pytest.mark.parametrize("job_uuid_del", ['1079eaaf-bd5c-5246-8515-7e325a1b4dd5', '107b1f9d-bd9a-5a5b-a165-b0b5ae524148', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
 def test_pipejob_event_prep(client_w_param_data, job_uuid_del, admin_token):
     """Check that reset cannot happen with invalid token
     """

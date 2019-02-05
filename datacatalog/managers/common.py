@@ -114,14 +114,17 @@ class Manager(object):
                 "{} is an invalid value for 'target'. Valid options include: {}".format(target, DEFAULT_LINK_FIELDS))
 
         links = list()
-        found = False
-        for store_name, search_keys, linkage in STORES:
-            for idstr in inputs:
+        for idstr in inputs:
+            # print('RESOLVING ' + idstr)
+            found = False
+            for store_name, search_keys, linkage in STORES:
+                # print('STORE ' + store_name)
                 if not isinstance(idstr, str):
                     raise ValueError(
                         "{} is a {} not a string".format(idstr, type(idstr)))
                 for key in search_keys:
                     # Resolve agave URL into file.name
+                    # print('KEY ' + key)
                     if store_name == 'file' and key == 'name' and idstr.startswith('agave:'):
                         agsys, agpath, agfile = from_agave_uri(idstr)
                         idstr = os.path.join(agpath, agfile)
@@ -129,14 +132,18 @@ class Manager(object):
                     resp = self.stores[store_name].find_one_by_id(**query)
                     if resp is not None:
                         if linkage == 'self':
+                            # print('SELF ' + resp.get('uuid'))
                             links.extend([resp.get('uuid')])
                             found = True
-                            break
                         else:
                             links.extend(resp.get(linkage, []))
-                        continue
-            if found:
-                break
+                        break
+                if found:
+                    break
+            # Break if we find the reference form for a file. Otherwise,
+            # try to resolve the file record
+            # if found:
+            #     break
 
         # Filter out anything that may have come back that's not a UUID
         # Set permissive to True to simply filter out values that dont validate

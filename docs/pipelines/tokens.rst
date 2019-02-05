@@ -4,19 +4,19 @@
 Authorization Tokens
 ====================
 
-Every PipelineJob is secured with one or more tokens that must be passed with
-every event or management request that could result in a change in state or
-availability of a job.
+Each PipelineJob is secured with an authorization token that must be sent with
+every event or management request that could result in a change in the job's
+state or availability.
 
-There are two kinds of tokens: Job-scoped tokens are cryptographically
-distinct and can authorize most events for one specific PipelineJob. The
-exceptions are the ``reset``, ``ready``, and ``delete`` events, which can only
-be authorized by Administrative tokens.
+There are two kinds of tokens: **Document Update** tokens authorize most
+events and actions for a specific PipelineJob. Exceptions include ``reset``,
+``ready``, and ``delete`` events, which can only be authorized
+by **Administrative Action** tokens (see below).
 
-Job-scoped Tokens
------------------
+Document Update Tokens
+----------------------
 
-Below is an example of capturing and re-using a job-scoped token while
+Below is an example of capturing and re-using a document token while
 managing a PipelineJob.
 
 .. code-block:: pycon
@@ -28,7 +28,7 @@ managing a PipelineJob.
    >>> token = resp.get('token')
    >>> jid = resp.get('uuid')
    >>> print(token, jid)
-   a3b29f2c62ec9d15 1074de37-d178-5bcf-bcf0-b43cf4f91087
+   a3b29f2c62ec9d15 1071269f-b251-5a5f-bec1-6d7f77131f3f
 
 Now, assume some magic happens and there is another process that needs to
 manage the job we just set up. Assume also that you remembered the job UUID and
@@ -39,7 +39,7 @@ initializing a ```ManagedPipelineJobInstance``` and using it to trigger an
 .. code-block:: pycon
 
    >>> from datacatalog.managers.pipelinejobs import ManagedPipelineJobInstance
-   >>> job_uuid='1074de37-d178-5bcf-bcf0-b43cf4f91087'
+   >>> job_uuid='1071269f-b251-5a5f-bec1-6d7f77131f3f'
    >>> job_token='a3b29f2c62ec9d15'
    >>> mongodb={'authn': 'bW9uZ29kYjov...jRWJTI2SCUyQiy1zdGFnIwL2W1hcnk='}
    >>> mpji = ManagedPipelineJobInstance(mongodb, job_uuid, token=job_token)
@@ -48,8 +48,8 @@ initializing a ```ManagedPipelineJobInstance``` and using it to trigger an
    >>> print(token)
    a3b29f2c62ec9d15
 
-Administrative Tokens
----------------------
+Administrative Action Tokens
+----------------------------
 
 These powerful credentials authorize **any** event for **any** PipelineJob,
 including ``reset``, ``ready``, and ``delete``. To limit the risks of such

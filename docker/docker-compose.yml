@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   mongodb:
-    image: 'bitnami/mongodb:3.6'
+    image: 'bitnami/mongodb:4.1.7'
     expose:
       - "27017"
     ports:
@@ -15,7 +15,7 @@ services:
       - MONGODB_ROOT_PASSWORD=DNCQJGu4ZrUhMabybnG6Mx5YrGhE2EPf
       - MONGODB_USERNAME=catalog
       - MONGODB_PASSWORD=catalog
-      - MONGODB_DATABASE=catalog_local
+      - MONGODB_DATABASE=admin
     networks:
       mongotest:
         aliases:

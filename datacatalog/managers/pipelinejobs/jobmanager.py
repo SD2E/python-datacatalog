@@ -200,6 +200,20 @@ class JobManager(Manager):
                           sort_keys=True,
                           separators=(',', ':'))
 
+    def archive_uri(self):
+        """Formats archive system and path into a URI
+        """
+        return 'agave://{}{}'.format(
+            getattr(self, 'archive_system', 'NA'),
+            getattr(self, 'archive_path', 'NA'))
+
+    def __repr__(self):
+        vals = list()
+        vals.append('uuid: ' + getattr(self, 'uuid', 'NA'))
+        vals.append('pipeline: ' + getattr(self, 'pipeline_uuid', 'NA'))
+        vals.append('archive_uri: ' + self.archive_uri())
+        return '\n'.join(vals)
+
     def _clear_archive_path(self, mock=True):
         """Administratively clears a job's archive path
 

@@ -21,8 +21,10 @@ from ..basestore import HeritableDocumentSchema, JSONSchemaCollection, formatChe
 from ..basestore import CatalogUpdateFailure
 from ...pathmappings import normalize, abspath, relativize, normpath
 from ...filetypes import infer_filetype
+from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'derived_using')
+FILE_ID_PREFIX = 'file.tacc.'
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
@@ -64,6 +66,9 @@ class FileStore(LinkedStore):
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         if 'name' in document_dict:
             document_dict['name'] = normpath(document_dict['name'])
+        # Generate file_id from name if not present
+        if 'file_id' not in document_dict:
+            document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(catalog_uuid(document_dict['name'], uuid_type='file'))
         return super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
