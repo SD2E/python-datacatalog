@@ -127,7 +127,7 @@ def test_pipejob_agave_uri_from_data(mongodb_settings, pipelinejobs_config,
                            'p2': '/uploads/456.txt'}}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 3
+    assert len(base.acted_on) == 3
 
 def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
                              agave, pipeline_uuid):
@@ -137,7 +137,7 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, inputs=inputs, experiment_id='experiment.ginkgo.10001')
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
     # The experiment_id will resolve as well
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 def test_pipejob_inputs_no_link_or_data(mongodb_settings, pipelinejobs_config,
                                         agave, pipeline_uuid):
@@ -217,7 +217,7 @@ def test_pipejob_data_inputs_resolve(mongodb_settings, pipelinejobs_config,
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
     # assert base.archive_path is None
 
 def test_pipejob_data_inputs_list_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
@@ -228,7 +228,7 @@ def test_pipejob_data_inputs_list_resolve(mongodb_settings, pipelinejobs_config,
     ]}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the first two inputs resolvable since the list context expects fully-qualified URIs
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
     # assert base.archive_path is None
 
 def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config, agave, pipeline_uuid):
@@ -239,8 +239,8 @@ def test_pipejob_data_inputs_refs_resolve(mongodb_settings, pipelinejobs_config,
     ]}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the first two inputs resolvable since the list context expects fully-qualified URIs
-    assert len(base.acts_on) == 2
-    assert len(base.acts_using) == 1
+    assert len(base.acted_on) == 2
+    assert len(base.acted_using) == 1
 
     # assert base.archive_path is None
 
@@ -250,8 +250,8 @@ def test_pipejob_data_params_refs_resolve(mongodb_settings, pipelinejobs_config,
                            'protein': 'https://www.uniprot.org/uniprot/G0S6G2'}}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # ^^ These references should be present in the database if test_stores_reference has been run
-    assert len(base.acts_on) == 0
-    assert len(base.acts_using) == 2
+    assert len(base.acted_on) == 0
+    assert len(base.acted_using) == 2
 
 def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                          agave, pipeline_uuid):
@@ -262,7 +262,7 @@ def test_pipejob_data_parameters_resolve(mongodb_settings, pipelinejobs_config,
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_config,
                                                agave, pipeline_uuid):
@@ -275,7 +275,7 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
     }}
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config, agave=agave, data=data)
     # Only the two inputs and the first parameter have resolvable UUID in the test data set
-    assert len(base.acts_on) == 2
+    assert len(base.acted_on) == 2
 
 
 def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):

@@ -31,7 +31,7 @@ from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
 from .graphfsm import render_graph, build_graph
 
-DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acts_on', 'acts_using')
+DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acted_on', 'acted_using')
 
 class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     NEVER_INDEX_FIELDS = ('data')

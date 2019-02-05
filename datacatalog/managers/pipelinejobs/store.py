@@ -236,7 +236,7 @@ class ManagedPipelineJob(JobManager):
         data_file_uuids = super(
             ManagedPipelineJob, self).self_from_inputs(data_file_uris)
         # Reduce to the non-redudant set of file UUIDs
-        acts_on_uuids = list(
+        acted_on_uuids = list(
             set(input_file_uuids + data_file_uuids))
 
         # References
@@ -245,8 +245,8 @@ class ManagedPipelineJob(JobManager):
                                     self).self_from_inputs(reference_uris)
 
         # Store values in appropriate slot in "relations"
-        relations['acts_on'].extend(acts_on_uuids)
-        relations['acts_using'].extend(reference_uri_uuids)
+        relations['acted_on'].extend(acted_on_uuids)
+        relations['acted_using'].extend(reference_uri_uuids)
 
         # Finally, set this document's linkage attributes
         for rel, val in relations.items():
@@ -284,8 +284,8 @@ class ManagedPipelineJob(JobManager):
                         'generated_by': self.generated_by,
                         'child_of': self.child_of,
 #                        'derived_from': self.derived_from,
-                        'acts_on': self.acts_on,
-                        'acts_using': self.acts_using
+                        'acted_on': self.acted_on,
+                        'acted_using': self.acted_using
                         }
 
         # Retrieves reference to existing job if exists
@@ -346,7 +346,7 @@ class ManagedPipelineJob(JobManager):
 
     def __repr__(self):
         reprvals = list()
-        for param in ['uuid', 'pipeline_uuid', 'data', 'child_of', 'generated_by', 'acts_on', 'acts_using']:
+        for param in ['uuid', 'pipeline_uuid', 'data', 'child_of', 'generated_by', 'acted_on', 'acted_using']:
             val = getattr(self, param, None)
             if isinstance(val, list):
                 val = str(val)
