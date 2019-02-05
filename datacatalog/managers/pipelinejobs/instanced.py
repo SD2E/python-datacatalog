@@ -56,12 +56,14 @@ class ManagedPipelineJobInstance(Manager):
 
     def _add_event_functions(self):
 
+        ename = None
         for ename, esec in EVENT_DEFS:
             def fn(data={}, token=None):
-                event_doc = {'uuid': self.uuid,
-                             'token': getattr(self, 'token', token),
-                              'name': ename,
-                              'data': data}
+                event_doc = {
+                    'uuid': self.uuid,
+                    'token': getattr(self, 'token', token),
+                    'name': ename,
+                    'data': data}
                 return self.handle(
                     event_doc, token=token)
             setattr(self, ename, fn)
