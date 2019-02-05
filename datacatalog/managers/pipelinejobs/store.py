@@ -106,7 +106,7 @@ class ManagedPipelineJob(JobManager):
 
     def __init__(self, mongodb,
                  pipelines,
-                 instanced=True,
+                 instanced=False,
                  agave=None,
                  *args,
                  **kwargs):
@@ -193,15 +193,13 @@ class ManagedPipelineJob(JobManager):
             if kwargs.get('sample_id', None) is not None:
                 if meas_provided is False:
                     child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
-                if archive_path_metadata_els is None:
-                    archive_path_metadata_els = self.samples_from_samples(
-                        kwargs.get('sample_id'))
+                archive_path_metadata_els = self.samples_from_samples(
+                    kwargs.get('sample_id'))
             elif kwargs.get('experiment_id', None) is not None:
                 if meas_provided is False:
                     child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
-                if archive_path_metadata_els is None:
-                    archive_path_metadata_els = self.experiments_from_experiments(
-                        kwargs.get('experiment_id'))
+                archive_path_metadata_els = self.experiments_from_experiments(
+                    kwargs.get('experiment_id'))
             if not len(child_of_list) > 0:
                 raise ValueError("Failed to link job to measurements")
             if not len(archive_path_metadata_els) > 0:
@@ -345,6 +343,16 @@ class ManagedPipelineJob(JobManager):
         # Sanity check - was a valid URL assembled?
         validators.url(uri)
         return uri
+
+    def __repr__(self):
+        reprvals = list()
+        for param in ['uuid', 'pipeline_uuid', 'data', 'child_of', 'generated_by', 'acts_on', 'acts_using']:
+            val = getattr(self, param, None)
+            if isinstance(val, list):
+                val = str(val)
+            reprvals.append('{} : {}'.format(param, val))
+        reprvals.append('archive_uri: ' + self.archive_uri())
+        return '\n'.join(reprvals)
 
     def __canonicalize_agent_and_task(self):
         """Extend simple text ``agent`` and ``task`` into REST URIs
