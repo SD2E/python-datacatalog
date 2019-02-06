@@ -47,7 +47,7 @@ class SampleConstants():
     CHALLENGE_PROBLEM = "challenge_problem"
 
     CP_NOVEL_CHASSIS = "NOVEL_CHASSIS"
-    CP_YEAST_GATES = "YEAST_GATES"
+    CP_YEAST_STATES = "YEAST_STATES"
 
     EXPERIMENT_REFERENCE = "experiment_reference"
     EXPERIMENT_REFERENCE_URL = "experiment_reference_url"

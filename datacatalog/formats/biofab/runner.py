@@ -133,25 +133,34 @@ def add_od(item, sample_doc):
             od = str(od)
         sample_doc[SampleConstants.INOCULATION_DENSITY] = create_value_unit(od + ":" + od600_attr)
 
-def add_control(item, sample_doc):
+def add_control(item, sample_doc, output_doc):
     global negative_control
-    if item is not None and attributes_attr in item and control_attr in item[attributes_attr]:
-        control_val = item[attributes_attr][control_attr]
-        # we also need to indicate the control channels for the fluorescence control
-        # this is not known by the lab typically, has to be provided externally
-        if control_val == "negative_sytox":
-            # have we marked a negative control yet? we can re-use the negative_sytox, which is an unadulterated WT
-            if not negative_control:
+    if item is not None:
+        if attributes_attr in item and control_attr in item[attributes_attr]:
+            control_val = item[attributes_attr][control_attr]
+            # we also need to indicate the control channels for the fluorescence control
+            # this is not known by the lab typically, has to be provided externally
+            if control_val == "negative_sytox":
+                # have we marked a negative control yet? we can re-use the negative_sytox, which is an unadulterated WT
+                if not negative_control:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                    negative_control = True
+                else:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+            elif control_val == "positive_sytox":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL4-A"
+            elif control_val == "positive_gfp":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+        elif SampleConstants.STRAIN in sample_doc and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_YEAST_STATES:
+            # Biofab does not provide control information for earlier YG plans;
+            # Need to drive this from strains (WT and NOR_00)
+            if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("22544", output_doc[SampleConstants.LAB]):
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-                negative_control = True
-            else:
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
-        elif control_val == "positive_sytox":
-            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
-            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL4-A"
-        elif control_val == "positive_gfp":
-            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+            elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("6390", output_doc[SampleConstants.LAB]):
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
 def add_replicate(item, sample_doc):
     if attributes_attr in item and replicate_attr in item[attributes_attr]:
@@ -521,7 +530,7 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
                 add_od(media_source_lookup, sample_doc)
 
-                add_control(media_source_lookup, sample_doc)
+                add_control(media_source_lookup, sample_doc, output_doc)
 
         if "growth_temperature" in plate_source_lookup:
             temperature = plate_source_lookup["attributes"]["growth_temperature"]
@@ -543,7 +552,7 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
         add_od(item, sample_doc)
 
-        add_control(item, sample_doc)
+        add_control(item, sample_doc, output_doc)
 
         add_replicate(item, sample_doc)
 
@@ -652,7 +661,7 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
                 add_od(item_source, sample_doc)
 
-                add_control(item_source, sample_doc)
+                add_control(item_source, sample_doc, output_doc)
 
                 add_replicate(item_source, sample_doc)
 
@@ -663,7 +672,17 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
                     else:
                         raise ValueError("No media id? {}".format(item_source))
                 else:
-                    add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item_source)
+                    # check source first
+                    if source_attr in item_source:
+                        media_source_lookup = jq(".items[] | select(.item_id==\"" + item_source[source_attr][0] + "\")").transform(biofab_doc)
+                        if attributes_attr in media_source_lookup and media_attr in media_source_lookup[attributes_attr]:
+                            if sample_id_attr in media_source_lookup[attributes_attr][media_attr]:
+                                media_id = media_source_lookup[attributes_attr][media_attr][sample_id_attr]
+                                reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query))
+                            else:
+                                raise ValueError("No media id? {}".format(media_source_lookup))
+                    else:
+                        add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item_source)
 
                 if len(reagents) > 0:
                     sample_doc[SampleConstants.CONTENTS] = reagents
