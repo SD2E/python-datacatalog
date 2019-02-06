@@ -53,7 +53,7 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
     cp = transcriptic_doc[SampleConstants.CHALLENGE_PROBLEM]
     # TX's name for YG...
     if cp == "YG":
-        cp = SampleConstants.CP_YEAST_GATES
+        cp = SampleConstants.CP_YEAST_STATES
     elif cp == "NC":
         cp = SampleConstants.CP_NOVEL_CHASSIS
     else:

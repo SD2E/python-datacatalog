@@ -343,8 +343,8 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                     # fill in URI
                     map_experiment_reference(config, output_doc)
                 elif measurement_name == "P63 Received Aug 2018 (WF: 15724, SEQ_WF: 16402)":
-                    print("Setting Yeast Gates Challenge Problem by Inference")
-                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_GATES
+                    print("Setting Yeast States Challenge Problem by Inference")
+                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_STATES
                     # workflow id from ginkgo
                     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(YS_WF_ID, lab)
                     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-gRNA-Seq-Diagnosis"
