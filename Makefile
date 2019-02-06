@@ -18,8 +18,9 @@ docs-sphinx:
 	cd docs && make html
 
 # Init automatic API documentation
-docs-autodoc:
+docs-autodoc: uml
 	cd docs && sphinx-apidoc --maxdepth 1 -M -H "API Reference" -f -o source ../datacatalog
+	if [ -f "uml/classes.png" ]; then cp "uml/classes.png" docs/source; fi
 
 docs-clean:
 	cd docs && make clean
@@ -184,3 +185,7 @@ bootstrap-views:
 	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
 
 bootstrap-schemas: schemas-build
+
+.PHONY: uml
+uml:
+	cd uml && pyreverse -o png ../datacatalog
