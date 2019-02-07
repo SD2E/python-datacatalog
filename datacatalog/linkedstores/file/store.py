@@ -16,8 +16,9 @@ import uuid
 from pprint import pprint
 
 from ...dicthelpers import data_merge
+from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
 from ..basestore import LinkedStore
-from ..basestore import HeritableDocumentSchema, JSONSchemaCollection, formatChecker
+from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 from ...pathmappings import normalize, abspath, relativize, normpath
 from ...filetypes import infer_filetype
@@ -38,6 +39,14 @@ class FileDocument(HeritableDocumentSchema):
 class FileRecord(collections.UserDict):
     """New document for FileStore with schema enforcement"""
 
+    PARAMS = [
+        ('child_of', False, 'child_of', []),
+        ('generated_by', False, 'generated_by', []),
+        ('generated_by', False, 'generated_by', []),
+        ('derived_from', False, 'derived_from', []),
+        ('notes', False, 'notes', []),
+        ('lab_label', False, 'lab_label', [])]
+
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:
         #     value['file_id'] = 'file.tacc.' + uuid.uuid1().hex
@@ -49,8 +58,18 @@ class FileRecord(collections.UserDict):
             except KeyError:
                 pass
 
-        jsonschema.validate(value, self.schema.to_dict(),
+        vvalue = json.loads(json.dumps(value, default=DateTimeConverter))
+        jsonschema.validate(vvalue, self.schema.to_dict(),
                             format_checker=formatChecker())
+
+        # Ensure the minimum set of fields is populated
+        #
+        # We use a bespoke process rather than relying on the schema for now
+        # because file record creation cannot tolerate the overhead of
+        # materializing a class definition with python_jsonschema_objects
+        for param, req, attr, default in self.PARAMS:
+            kwargs[param] = kwargs.get(param, default)
+
         super().__init__(value, *args, **kwargs)
 
 

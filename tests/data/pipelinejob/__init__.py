@@ -1,4 +1,6 @@
-CASES = [('tacobot.json', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5', True)]
+CASES = [
+    ('tacobot.json', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5', True),
+    ('tacobot-2.json', '107bb52d-6469-54c3-b977-0c22adcae020', True)]
 EVENTS = [('tacobot-run.json', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5', True),
           ('tacobot-update.json', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5', True),
           ('tacobot-resource.json', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5', True),

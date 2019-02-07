@@ -121,33 +121,39 @@ class ManagedPipelineJobInstance(Manager):
         # Passing a non-empty 'filters' list indicates that the specified
         # indexing action, rather than the defaults, are to be performed
         index_iterations = list()
-        if not isinstance(filters, list):
-            archive_patterns = getattr(self, 'archive_patterns', [])
-            for ap in archive_patterns:
-                index_req = None
-                if isinstance(ap, dict):
-                    index_req = IndexRequest(**ap)
-                elif isinstance(ap, list):
-                    index_req = IndexRequest(
-                        processing_level='1',
-                        filters=ap,
-                        fixity=True,
-                        note='Translated from legacy list representation')
-                if index_req is not None:
-                    index_iterations.append(index_req)
-        elif filters != []:
+        if isinstance(filters, list) and filters != []:
             # Build a new index request from kwargs
             index_req = IndexRequest(
                 processing_level=processing_level, filters=filters,
                 fixity=fixity, note=note)
             index_iterations.append(index_req)
+        elif filters is None:
+            archive_patterns = getattr(self, 'archive_patterns', [])
+            if archive_patterns != []:
+                for ap in archive_patterns:
+                    index_req = None
+                    if isinstance(ap, dict):
+                        index_req = IndexRequest(**ap)
+                    elif isinstance(ap, list):
+                        index_req = IndexRequest(
+                            processing_level='1',
+                            filters=ap,
+                            fixity=True,
+                            note='Translated from legacy list representation')
+                    if index_req is not None:
+                        index_iterations.append(index_req)
+            else:
+                index_req = IndexRequest(
+                    processing_level=processing_level, filters=[],
+                    fixity=fixity, note='Request to index all files')
+                index_iterations.append(index_req)
 
-        # No sense doing an expensive files listing if there aren't any
-        # indexing requests. Eject, eject, eject!
+        # If, somehow, there are no index requests, skip the expensive file
+        # listing and return an empty list
         if len(index_iterations) == 0:
             return indexed
 
-        # Do the path listing only once
+        # Do path listing once and re-use it for each index iteration
         path_listing = self.stores['pipelinejob'].list_job_archive_path(
             self.uuid, recurse=True, directories=False)
 
@@ -187,7 +193,11 @@ class ManagedPipelineJobInstance(Manager):
         """
         indexed = list()
         try:
-            patts = index_request.regex()
+            # filters will always be a list
+            if index_request.filters != []:
+                patts = index_request.regex()
+            else:
+                patts = None
             for file_name in files_list:
                 # If patterns is not specified
                 if patts is not None:
@@ -209,8 +219,7 @@ class ManagedPipelineJobInstance(Manager):
                 if index_request.note is not None:
                     frec['notes'] = [InlineAnnotationDocument(
                         data=index_request.note)]
-                resp = FileRecord(
-                    self.stores['file'].add_update_document(frec))
+                resp = self.stores['file'].add_update_document(frec)
                 # Link the new file record to its generating job
                 if resp is not None:
                     self.stores['file'].add_link(
@@ -239,7 +248,11 @@ class ManagedPipelineJobInstance(Manager):
         """
         indexed = list()
         try:
-            patts = index_request.regex()
+            # filters will always be a list
+            if index_request.filters != []:
+                patts = index_request.regex()
+            else:
+                patts = None
             for file_name in files_list:
                 # If patterns is not specified
                 if patts is not None:

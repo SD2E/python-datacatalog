@@ -1,7 +1,7 @@
 import re
 import json
 
-__all__ = ['IndexRequest', 'IndexingError', 'FilesLister']
+__all__ = ['IndexRequest', 'IndexingError']
 
 # from ...definitions.enumclasses import processing_level
 
@@ -35,10 +35,6 @@ class IndexRequest(object):
         """Compile the request's filters list into a Python regex
         """
         return re.compile('|'.join(getattr(self, 'filters', [])))
-
-class FilesLister(object):
-    def __init__(self, agave_client, index_request):
-        pass
 
 class IndexingError(Exception):
     """An error has occurred during setup or execution of an indexing task

@@ -81,8 +81,8 @@ def client_w_archive_path(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
 
 @longrun
-def test_pipesinst_index_w_filters(mongodb_settings, agave):
-    """Indexing with filters returns job.archive_path x filters
+def test_pipesinst_index_explicit_filters(mongodb_settings, agave):
+    """Indexing with explicit filters => job.archive_path x specified filters
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
@@ -91,41 +91,31 @@ def test_pipesinst_index_w_filters(mongodb_settings, agave):
     level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     listed = base.index_archive_path(filters=filters, processing_level=level)
-
     assert len(listed) == 1
 
 @longrun
-def test_pipesinst_index_empty_filters(mongodb_settings, agave):
-    """Indexing with empty filters returns job.archive_path x *
+def test_pipesinst_index_no_filters_w_defaults(mongodb_settings, agave):
+    """Indexing with null filters => job.archive_path x default archive_patterns
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
     job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     listed = base.index_archive_path()
-    assert listed is None
-    assert len(listed) == 3
-
-@longrun
-def test_pipesinst_index_no_filter(mongodb_settings, agave):
-    """Indexing with no filters job.archive_path x job.archive_patterns
-    """
-    # This job is generated in the database by test_109#test_job_create
-    # Its archive_patterns = ['ansible.png']
-    job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
-    level = "1"
-    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-    listed = base.index_archive_path(processing_level=level)
+    # should only match 'ansible.png'
     assert len(listed) == 1
 
-@delete
-@pytest.mark.parametrize("job_uuid_del", ['1079eaaf-bd5c-5246-8515-7e325a1b4dd5', '107b1f9d-bd9a-5a5b-a165-b0b5ae524148', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
-def test_pipejob_event_prep(client_w_param_data, job_uuid_del, admin_token):
-    """Check that reset cannot happen with invalid token
+@longrun
+def test_pipesinst_index_no_filters_no_defaults(mongodb_settings, agave):
+    """Indexing with null filters on a job with empty defaults => job.archive_path
     """
-    # Random invalid token
-    client_w_param_data.load(job_uuid_del)
-    token = admin_token
-    print('TOKEN', token)
-    print('UUID', client_w_param_data.uuid)
-    client_w_param_data.delete(token=token)
+    # This job is generated in the database by test_109#test_job_create
+    # This job is identical to 107b93f3-1eae-5e79-8a18-0a480f8aa3a5 but has
+    # no archive_patterns. Thus, all files in archive_path should be picked
+    # up in the indexing
+    job_uuid = '107bb52d-6469-54c3-b977-0c22adcae020'
+    level = "2"
+    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
+    listed = base.index_archive_path(processing_level=level)
+    # There are three discoverable files in this archive_path
+    assert len(listed) == 3

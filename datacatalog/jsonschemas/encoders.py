@@ -14,3 +14,7 @@ class DateTimeEncoder(json.JSONEncoder):
 # TODO - Implement me
 class UUIDEncoder(json.JSONEncoder):
     pass
+
+def DateTimeConverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.isoformat()
