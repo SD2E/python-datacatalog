@@ -30,6 +30,13 @@
                 "$ref": "lab_label.json"
             }
         },
+        "notes": {
+            "description": "Inline annotations written by automated processes",
+            "items": {
+                "$ref": "inline_annotation.json"
+            },
+            "type": "array"
+        },
         "_visible": {
             "description": "Whether the file has been marked as unavailable",
             "type": "boolean"

@@ -3,6 +3,7 @@ import json
 import re
 from os import environ
 from . import config
+from .objects import get_class_object
 
 BASE_URL = 'https://schema.catalog.sd2e.org/schemas/'
 """Default base URL against which JSONschema documents are resolved"""
@@ -112,6 +113,9 @@ class JSONSchemaBaseObject(object):
         self.update_comment()
         my_json = json.dumps(self.to_dict(**kwargs), indent=INDENT, sort_keys=SORT_KEYS)
         return my_json
+
+    def get_class(self, classname=None):
+        return get_class_object(self.to_dict(), classname=classname)
 
 def camel_to_snake(name):
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)

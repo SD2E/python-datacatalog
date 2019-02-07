@@ -1,3 +1,4 @@
+git+https://github.com/cwacek/python-jsonschema-objects@e5788a6eadb4bee5a28aadae351f218da0fbb4bf#egg=python-jsonschema-objects
 git+https://github.com/TACC/agavepy.git@0_7_4#egg=agavepy
 git+https://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
 PyMongo==3.7.1

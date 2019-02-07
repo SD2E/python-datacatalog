@@ -12,13 +12,14 @@ from ..common import Manager, data_merge
 from ...tokens import get_token
 from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
+from ...linkedstores.annotation import InlineAnnotationDocument
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...linkedstores.pipelinejob.fsm import EVENT_DEFS
 
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
-
+from .indexing import IndexRequest, IndexingError
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -93,8 +94,8 @@ class ManagedPipelineJobInstance(Manager):
         resp = self.handle(event_doc, token=token)
         return resp
 
-    def index_archive_path(self, processing_level="1", filters=None, fixity=True):
-        """Discover files in a job archive path and associate with the job
+    def index_archive_path(self, processing_level="1", filters=None, fixity=True, note=None):
+        """Discover files in a job archive path and associate with the job``````````````````
 
         Args:
             processing_level (str, optional): "Processing level" for the new file records
@@ -102,7 +103,9 @@ class ManagedPipelineJobInstance(Manager):
             fixity (bool, optional): Whether to update a fixity record for the file as well
 
         Note:
-            Regular expressions are concatenated into a single expression at
+            1. If no value for ``filters`` is passed, the function will run any
+            indexing patterns defined in the job's ``archive_patterns`` list.
+            2. The ``filters`` regexes are concatenated into a single expression at
             run time. This may impact construction of your filter strings. For
             example, ``['sample.tacc.1', 'sample-tacc-1']`` will be evaluated
             as Python regex ``sample.tacc.1|sample-tacc-1``.
@@ -110,70 +113,148 @@ class ManagedPipelineJobInstance(Manager):
         Returns:
             list: Filenames set as ``generated_by`` the specified job
         """
-        indexed = list()
         start_time = microseconds()
+        indexed = list()
 
-        # Add values passed as 'filters' to override value for
-        # job.archive_patterns
+        # Assemble a list of indexing operations
+        #
+        # Passing a non-empty 'filters' list indicates that the specified
+        # indexing action, rather than the defaults, are to be performed
+        index_iterations = list()
         if not isinstance(filters, list):
-            filters = getattr(self, 'archive_patterns', [])
-        if filters != []:
-            patts = re.compile('|'.join(filters))
-        else:
-            patts = None
+            archive_patterns = getattr(self, 'archive_patterns', [])
+            for ap in archive_patterns:
+                index_req = None
+                if isinstance(ap, dict):
+                    index_req = IndexRequest(**ap)
+                elif isinstance(ap, list):
+                    index_req = IndexRequest(
+                        processing_level='1',
+                        filters=ap,
+                        fixity=True,
+                        note='Translated from legacy list representation')
+                if index_req is not None:
+                    index_iterations.append(index_req)
+        elif filters != []:
+            # Build a new index request from kwargs
+            index_req = IndexRequest(
+                processing_level=processing_level, filters=filters,
+                fixity=fixity, note=note)
+            index_iterations.append(index_req)
 
+        # No sense doing an expensive files listing if there aren't any
+        # indexing requests. Eject, eject, eject!
+        if len(index_iterations) == 0:
+            return indexed
+
+        # Do the path listing only once
         path_listing = self.stores['pipelinejob'].list_job_archive_path(
             self.uuid, recurse=True, directories=False)
-        for file in path_listing:
-            if patts is not None:
-                if not patts.search(os.path.basename(file)):
-                    continue
 
-            # Create a 'files' metadata record and associate with job UUID
-            #
-            # Note: We're only currently guaranteed to resolve the filetype
-            # by its name. The full POSIX path is required to use content
-            # signature or Linux magic and I am not sure we have that in
-            # 'file' at this point in the code
-            ftype = getattr(infer_filetype(
-                file, check_exists=False, permissive=True), 'label')
-            frec = FileRecord(
-                {'name': file, 'type': ftype, 'level': processing_level})
-            resp = FileRecord(
-                self.stores['file'].add_update_document(frec))
-            # Add the job UUID to any file's existing
-            gen_by = resp.get('generated_by', list())
-            if self.uuid not in gen_by:
-                gen_by.append(self.uuid)
-                resp['generated_by'] = gen_by
-                resp = self.stores['file'].add_update_document(resp)
+        fixity_iterations = list()
+        for idxr in index_iterations:
+            if idxr.fixity is True:
+                fixity_iterations.append(idxr)
+                # raise SystemError(idxr)
+            result = self.build_metadata_index(path_listing, idxr)
+            if isinstance(result, list):
+                indexed.extend(result)
 
-            # Create a 'fixities' record
-            #
-            # Technically, this is an add-update operation but as these are
-            # output files they are not likely to have been indexed before
-            #
-            # Fixity is not critical - it can easily be picked up
-            # later if we miss it for some reason. It's just cheap &
-            # convenient to try and do it here. Hence, it's a configurable
-            # option and it only lohs a warning instead of excepting on failure
-            if fixity:
+        for idxr in fixity_iterations:
+            result = self.build_fixity_index(path_listing, idxr)
+            if isinstance(result, list):
+                indexed.extend(result)
+
+        # Make list non-redundant
+        indexed = list(set(indexed))
+        elapsed_time = microseconds() - start_time
+        logger.info('INDEXED {} in {} usec'.format(self.uuid, elapsed_time))
+        return indexed
+
+    def build_metadata_index(self, files_list, index_request, permissive=False):
+        """Associates files matching an IndexRequest to the current job
+
+        Args:
+            files_list (list): List of absolute filepaths
+            index_request (IndexRequest): The specification for matching patterns and so on
+            permissive (bool, optional): Whether to raise an Exception on error
+
+        Raises:
+            IndexingError: Raised (when permssive is False) when an error occurs
+
+        Returns:
+            list: String names of successfully indexed files
+        """
+        indexed = list()
+        try:
+            patts = index_request.regex()
+            for file_name in files_list:
+                # If patterns is not specified
+                if patts is not None:
+                    if not patts.search(os.path.basename(file_name)):
+                        continue
+
+                # Create a 'files' record and associate with job UUID
+                #
+                # Note: We make an attempt to guess filetype but without
+                # guaranteed access to the physical file, we're limited
+                # to what can be learned from the filename.
+                ftype = getattr(infer_filetype(
+                    file_name, check_exists=False, permissive=True), 'label')
+                frec = FileRecord(
+                    {'name': file_name,
+                     'type': ftype,
+                     'level': index_request.processing_level})
+                # Transform the note from the archving request into InlineAnnotation
+                if index_request.note is not None:
+                    frec['notes'] = [InlineAnnotationDocument(
+                        data=index_request.note)]
+                resp = FileRecord(
+                    self.stores['file'].add_update_document(frec))
+                # Link the new file record to its generating job
+                if resp is not None:
+                    self.stores['file'].add_link(
+                        resp['uuid'], self.uuid, 'generated_by')
+                    indexed.append(file_name)
+            return indexed
+        except Exception as mexc:
+            if permissive:
+                return indexed
+            else:
+                raise IndexingError(mexc)
+
+    def build_fixity_index(self, files_list, index_request, permissive=False):
+        """Indexes fixity for each file in files_list matching an IndexRequest
+
+        Args:
+            files_list (list): List of absolute filepaths
+            index_request (IndexRequest): The specification for matching patterns and so on
+            permissive (bool, optional): Whether to raise an Exception on error
+
+        Raises:
+            IndexingError: Raised (when permssive is False) when an error occurs
+
+        Returns:
+            list: String names of successfully indexed files
+        """
+        indexed = list()
+        try:
+            patts = index_request.regex()
+            for file_name in files_list:
+                # If patterns is not specified
+                if patts is not None:
+                    if not patts.search(os.path.basename(file_name)):
+                        continue
                 try:
-                    self.stores['fixity'].index({'name': file})
+                    self.stores['fixity'].index({'name': file_name})
+                    indexed.append(file_name)
                 except Exception as exc:
                     logger.warning(
-                        'Failed to capture fixity for {}: {}'.format(file, exc))
-
-            # Add the file's basename to a list of indexed files
-            # which we will return
-            # TODO - assess whether to return the original path instead
-            indexed.append((os.path.basename(file), resp['uuid'], resp['type']))
-
-            # Throw in an elapsed check so we can learn how long indexing,
-            # an expensive operation, takes.
-            # TODO - is there a centralized performance logging tool for Python
-            elapsed_time = microseconds() - start_time
-            logger.info('INDEXED {} in {} usec'.format(
-                resp['uuid'], elapsed_time))
-
-        return indexed
+                        'Failed to capture fixity for {}: {}'.format(
+                            file_name, exc))
+            return indexed
+        except Exception as mexc:
+            if permissive:
+                return indexed
+            else:
+                raise IndexingError(mexc)

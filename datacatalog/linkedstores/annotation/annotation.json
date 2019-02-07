@@ -1,0 +1,87 @@
+{
+    "additionalProperties": false,
+    "description": "Free-text annotation",
+    "properties": {
+        "data": {
+            "description": "Payload portion of the annotation",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 512
+                },
+                {
+                    "type": "object"
+                }
+            ]
+        },
+        "date": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) when the annotation was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "type": "string",
+            "enum": [
+                "annotation"
+            ]
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "annotation_uuid.json",
+            "description": "UUID for this specific annotation"
+        },
+        "annotates": {
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "$ref": "challenge_problem_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    },
+                    {
+                        "$ref": "pipelinejob_uuid.json"
+                    },
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ],
+                "type": "string"
+            }
+        }
+    },
+    "required": [
+        "name",
+        "data"
+    ],
+    "title": "Annotation",
+    "type": "object",
+    "_filename": "annotation",
+    "__uuid_type": "annotation",
+    "__uuid_fields": [
+        "date",
+        "data"
+    ],
+    "__collection": "annotations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}

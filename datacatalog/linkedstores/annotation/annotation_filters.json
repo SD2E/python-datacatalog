@@ -1,0 +1,13 @@
+{
+    "object": {
+        "properties": [
+            "uuid",
+            "_admin",
+            "_properties",
+            "annotates"
+        ]
+    },
+    "document": {
+        "properties": []
+    }
+}

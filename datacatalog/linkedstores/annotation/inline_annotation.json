@@ -1,16 +1,13 @@
 {
-    "$comment": "generated: 2019-02-07 09:19:45 +00:00; source: git@github.com:SD2E/python-datacatalog.git@832c8ba",
-    "$id": "https://schema.catalog.sd2e.org/schemas/internal_annotation.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Internal annotation embedded in a document",
+    "description": "Inline annotation in a document",
     "properties": {
         "data": {
             "description": "Payload portion of the annotation",
             "oneOf": [
                 {
-                    "maxLength": 255,
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 255
                 },
                 {
                     "type": "object"
@@ -24,14 +21,14 @@
             "type": "string"
         },
         "name": {
+            "type": "string",
             "enum": [
                 "annotation"
-            ],
-            "type": "string"
+            ]
         },
         "uuid": {
             "$comment": "Computed automatically",
-            "$ref": "internal_annotation_uuid.json",
+            "$ref": "inline_annotation_uuid.json",
             "description": "UUID for this specific annotation"
         }
     },
@@ -39,6 +36,17 @@
         "name",
         "data"
     ],
-    "title": "InternalAnnotation",
-    "type": "object"
+    "title": "InlineAnnotation",
+    "type": "object",
+    "_filename": "inline_annotation",
+    "__uuid_type": "inline_annotation",
+    "__uuid_fields": [
+        "date",
+        "data"
+    ],
+    "__collection": "inline_annotations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
 }

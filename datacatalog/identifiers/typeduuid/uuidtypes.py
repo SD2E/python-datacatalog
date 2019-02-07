@@ -16,7 +16,10 @@ UUIDTYPES = [('generic', '100', 'Catalog Object'),
              ('experiment_design', '114', 'Experiment Design'),
              ('input_classifier', '115', 'Input File Classifier'),
              ('fixity', '116', 'File Fixity Entry'),
-             ('process', '117', 'Named Process')]
+             ('process', '117', 'Named Process'),
+             ('annotation', '118', 'Contributed annotation'),
+             ('inline_annotation', '119', 'Inline annotation')
+             ]
 
 class TypedUUID(object):
     """UUID identifying a catalog object and advertising its internal type"""
