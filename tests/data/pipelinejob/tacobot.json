@@ -2,7 +2,13 @@
     "pipeline_uuid": "10650844-1baa-55c5-a481-5e945b19c065",
     "archive_path": "/sample/tacc-cloud/agavehelpers/upload",
     "archive_patterns": [
-        "ansible.png"
+        {
+            "processing_level": "2",
+            "filters": [
+                "ansible.png"
+            ],
+            "note": "Defined in archive_patterns"
+        }
     ],
     "archive_system": "data-sd2e-community",
     "generated_by": [

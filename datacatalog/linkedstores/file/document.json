@@ -31,9 +31,9 @@
             }
         },
         "notes": {
-            "description": "Free-text annotations written by management pipeline components",
+            "description": "Inline annotations written by automated processes",
             "items": {
-                "type": "string"
+                "$ref": "inline_annotation.json"
             },
             "type": "array"
         },

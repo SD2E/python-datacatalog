@@ -1,4 +1,5 @@
 import re
+import json
 
 __all__ = ['IndexRequest', 'IndexingError', 'FilesLister']
 
@@ -18,8 +19,17 @@ class IndexRequest(object):
                 pass
             setattr(self, attr, value)
 
-    def as_dict():
-        pass
+    def to_dict(self):
+        me = dict()
+        for param, mandatory, attr, default in self.PARAMS:
+            me[param] = getattr(self, attr, None)
+        return me
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(',', ':'))
+
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + str(self.to_dict())
 
     def regex(self):
         """Compile the request's filters list into a Python regex

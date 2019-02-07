@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-07 08:32:16 +00:00; source: git@github.com:SD2E/python-datacatalog.git@832c8ba",
+    "$comment": "generated: 2019-02-07 19:15:36 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3468b3f",
     "$id": "https://schema.catalog.sd2e.org/schemas/file.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -30,9 +30,9 @@
             "type": "string"
         },
         "notes": {
-            "description": "Free-text annotations written by management pipeline components",
+            "description": "Inline annotations written by automated processes",
             "items": {
-                "type": "string"
+                "$ref": "inline_annotation.json"
             },
             "type": "array"
         },
