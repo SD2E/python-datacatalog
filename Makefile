@@ -44,6 +44,7 @@ clean: schemas-clean docs-clean
 # Run all developer environment smoketests
 developer-smoketests: smoketest-virtualenv smoketest-agave smoketest-config smoketest-google smoketest-mongo-local smoketest-pypi smoketest-dockerhub
 
+user-smoketests: smoketest-virtualenv smoketest-agave smoketest-mongo-local
 # Verify usable TACC.cloud API client
 smoketest-agave:
 	python -m pytest --bootstrap -v --longrun -k agave_client_smoke $(PYTEST_SRC)
@@ -65,7 +66,7 @@ smoketest-virtualenv:
 	if [ -z "$(VIRTUAL_ENV)" ]; then \
 		echo "No Python virtualenv is active\n"; \
 		echo "Example setup instructions:"; \
-		echo "% virtualenv <env>; source <env>/bin/activate; pip install -r requirements.txt\n"; \
+		echo "% virtualenv <env>; source <env>/bin/activate; pip install --upgrade -r requirements.txt\n"; \
 		echo "Example load instructions:" ;\
 		echo "% source <env>/bin/activate\n"; \
 		exit 1; fi
@@ -189,3 +190,8 @@ bootstrap-schemas: schemas-build
 .PHONY: uml
 uml:
 	cd uml && pyreverse -o png ../datacatalog
+
+virtualenv:
+	virtualenv env && \
+	source env/bin/activate && \
+	pip install --upgrade -r requirements.txt

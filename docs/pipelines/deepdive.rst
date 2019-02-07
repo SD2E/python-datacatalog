@@ -3,8 +3,10 @@ ManagedPipelineJob: A Deep Dive
 ===============================
 
 This document will demonstrate the specifics of parameterizing a
-``ManagedPipelineJob``. The behaviors documented below also apply to
-``ReactorManagedPipelineJob``, as it is a subclass of ``ManagedPipelineJob``.
+``ManagedPipelineJob``. Detailed descriptions of its parameterization options
+can be found in its `Python API docs <../source/datacatalog.managers.pipelinejobs.html#datacatalog.managers.pipelinejobs.store.ManagedPipelineJob>`_.
+The same basic parameterization applies for ``ReactorManagedPipelineJob`` as it
+is a subclass of ``ManagedPipelineJob``.
 
 .. contents:: :depth: 2
 
@@ -63,12 +65,47 @@ higher, depending on the job configuration. For more complex outputs (such as
 multiple data levels produced by job), additional rounds of indexing can be
 specified.
 
-Initial Setup
--------------
+Setup
+------
 
-To make it easier to reference them later, the various value permutations for
-all usage examples are defined immediately below. Generic boilerplate for
-setting up similar tests for one's own interactive use is also included.
+Several example parameterizations, addressing specific use cases, are presented
+as interactive Python sessions. If you wish to work through them on your own,
+you will need to set up your environment and initialize your session.
+
+Prepare your environment
+########################
+
+The project Makefile includes targets for building, testing, and working with
+the python-datacatalog package. A subset are used to prepare for this
+session. You only need to do these steps if you're working through the
+code samples on your own from a checkout of the ``python-datacatalog`` repo.
+
+.. code-block:: shell
+
+   $ make virtualenv
+   virtualenv env
+   ...
+   ..
+   .
+   Successfully installed agavepy-0.7.3 jsonschema-3.0.0a3
+   $ make mongo-up
+   cd docker && docker-compose up -d --force-recreate --quiet-pull
+   Creating network "docker_mongotest" with the default driver
+   Creating docker_mongodb_1 ... done
+   $ make bootstrap-tests
+   python -m bootstrap.create_database
+   __main__ - DEBUG - Reading project config
+   ...
+   ..
+   .
+   manage_files.py.INFO: Registered /uploads/tacc/example/123.txt
+   $ make user-smoketests
+
+Initialize an interactive python-datacatalog session
+####################################################
+
+The python-datacatalog is usually used in a scripting context, but its main
+classes can easily be instantiated in an interactive Python sesssion.
 
 .. code-block:: pycon
 
@@ -81,14 +118,10 @@ setting up similar tests for one's own interactive use is also included.
    >>> measurements3 = ['measurement.tacc.0xDEADBEF1']
    >>> data_w_inputs = {'alpha': 0.5, 'inputs': ['agave://data-sd2e-community/uploads/tacc/example/345.txt'], 'parameters': {'ref1': 'agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa'}}
 
-.. note: Load above-referenced experiments, measurements, etc. into a local
-   test database using ``make bootstrap-tests``
-
-.. note: ``settings`` comes from a file `settings.py`` created in the main
-   python-datacatalog directory. An example is included with the repository
-   that will point to a local Docker-based MongoDb. The value for
-   ``pipelines.pipeline_uuid`` must be ``106c46ff-8186-5756-a934-071f4497b58d``
-   for these specific examples to work.
+.. attention::  The Python imports, variable names, and variable values from
+   this code block are implicit in the worked examples. For example, when
+   ``measurements1`` is used, it always refers to ``['measurement.tacc.0xDEADBEEF', 'measurement.tacc.0xDEADBEF0']``. You can always directly set ``experiment_id``, ``measurement_id``, or
+   ``sample_id`` to the desired values.
 
 UUID, Parentage, and Archive Path
 ---------------------------------
@@ -97,11 +130,12 @@ A ``ManagedPipelineJob`` is configured by passing keyword arguments at
 instantiation: i.e.) ``ManagedPipelineJob(mongodb, pipelines, <param1=value1>...)``.
 The combination and value of these arguments establish the UUID, parental
 linkage, and archive path for the **PipelineJob**. This is entirely
-**deterministic**, which will be demonstrated below. For more details on what
-arguments are available (and how to use them), please consult the
-**ManagedPipelineJob API** documentation.
+**deterministic**, which will be demonstrated in the examples below.
 
-Only Measurement
+For more details on what arguments are available (and how to use them), please
+consult the `ManagedPipelineJob API documentaion <../source/datacatalog.managers.pipelinejobs.html#datacatalog.managers.pipelinejobs.store.ManagedPipelineJob>`_.
+
+Only measurement
 ################
 
 This is the default, simplest configuration. Pass one or more values for
@@ -128,7 +162,7 @@ Note the contents of ``child_of`` - the two UUIDs reference the specified
 measurement_id values, and also note this component of the archive path
 ``lAdLj59APx0e6E4gD29V6AND``, which is unique to the specified measurements.
 
-Only Sample
+Only sample
 ###########
 
 Now, let's try to change the archive path so that jobs that work on multiple
@@ -161,7 +195,39 @@ because the sample is actually parent to a third measurement not included in
 the original set of ``measurements`` from the first demonstration! Furthermore,
 since the metadata linkage is different, the job UUID differs as well.
 
-Measurement and Sample
+Only experiment
+###############
+
+Setting archive path based on *experiment* works the same for *sample*.
+
+Pass in just a value for an **experiment** that is parent to the samples that
+are parent to the measurements. Behind the scenes, a mapping function expands
+the experiment to a set of samples then expands those to measurements. Thus,
+in this example:
+
+* Job UUID is based on pipeline, the experiment's measurements, and an empty ``data``
+* Job is a child of the the experiment's measurements
+* Job archive path reflects a specific **experiment_id**
+
+.. code-block:: pycon
+
+   >>> mpr = Job(settings.mongodb, settings.pipelines, experiment_id=experiments)
+   >>> mpr.setup()
+   uuid : 107e9375-3682-55b0-9ff3-8c33792aae2f
+   pipeline_uuid : 106c46ff-8186-5756-a934-071f4497b58d
+   data : {}
+   child_of : ['104dae4d-a677-5991-ae1c-696d2ee9884e', '1041ab3f-5221-5c79-8781-8838dfb6eef9', '10483e8d-6602-532a-8941-176ce20dd05a']
+   generated_by : ['106c46ff-8186-5756-a934-071f4497b58d']
+   acted_on : []
+   acted_using : []
+   archive_uri: agave://data-sd2e-community/products/v2/106c46ff81865756a934071f4497b58d/Db6rzKZnnyA8E5qvwvxjpwZ4/PAVpwrObxp5YjYRvrJOd5yVp
+
+The contents of ``child_of`` are three measurements who are children of sample
+``sample.tacc.20001'`` which is a child of ``experiment.tacc.10001``. Also note
+that the job UUID is different from the samples- or measurements-based
+parameterizations, as expected.
+
+Measurement and sample
 ######################
 
 The key to sending output from multiple measurements to a single archive path
@@ -204,6 +270,30 @@ its archive_path will be set to the sample-based location.
    acted_on : []
    acted_using : []
    archive_uri: agave://data-sd2e-community/products/v2/106c46ff81865756a934071f4497b58d/kZgygQV2EDAAkDLRzrep1gO2/PAVpwrObxp5YjYRvrJOd5yVp
+
+Measurement and experiment
+##########################
+
+For the sake of completion, here is an example of specifying specific
+measurements and the experiement.
+
+.. code-block:: pycon
+
+   >>> mps = Job(settings.mongodb, settings.pipelines, experiment_id=experiments, measurement_id=measurements1)
+   >>> mps.setup()
+   uuid : 107ece67-9a94-57a1-bcb5-59b71de4fb13
+   pipeline_uuid : 106c46ff-8186-5756-a934-071f4497b58d
+   data : {}
+   child_of : ['104dae4d-a677-5991-ae1c-696d2ee9884e', '10483e8d-6602-532a-8941-176ce20dd05a']
+   generated_by : ['106c46ff-8186-5756-a934-071f4497b58d']
+   acted_on : []
+   acted_using : []
+   archive_uri: agave://data-sd2e-community/products/v2/106c46ff81865756a934071f4497b58d/Db6rzKZnnyA8E5qvwvxjpwZ4/PAVpwrObxp5YjYRvrJOd5yVp
+
+The resulting job is a child of two measurements and the archive path is based
+on the experiment_id. The job UUID is the same as other jobs that are linked
+specifically to measurements ``104dae4d-a677-5991-ae1c-696d2ee9884e`` and
+``10483e8d-6602-532a-8941-176ce20dd05a``.
 
 Parameterization Data
 ----------------------
