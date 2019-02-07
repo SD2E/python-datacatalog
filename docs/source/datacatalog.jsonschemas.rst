@@ -9,10 +9,18 @@ datacatalog.jsonschemas package
 Submodules
 ----------
 
-datacatalog.jsonschemas.datetimeenc module
-------------------------------------------
+datacatalog.jsonschemas.encoders module
+---------------------------------------
 
-.. automodule:: datacatalog.jsonschemas.datetimeenc
+.. automodule:: datacatalog.jsonschemas.encoders
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.jsonschemas.exceptions module
+-----------------------------------------
+
+.. automodule:: datacatalog.jsonschemas.exceptions
     :members:
     :undoc-members:
     :show-inheritance:
@@ -21,6 +29,14 @@ datacatalog.jsonschemas.formatchecker module
 --------------------------------------------
 
 .. automodule:: datacatalog.jsonschemas.formatchecker
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.jsonschemas.objects module
+--------------------------------------
+
+.. automodule:: datacatalog.jsonschemas.objects
     :members:
     :undoc-members:
     :show-inheritance:

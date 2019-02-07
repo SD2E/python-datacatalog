@@ -11,6 +11,7 @@ Subpackages
 
 .. toctree::
 
+    datacatalog.linkedstores.annotation
     datacatalog.linkedstores.basestore
     datacatalog.linkedstores.challenge_problem
     datacatalog.linkedstores.experiment
