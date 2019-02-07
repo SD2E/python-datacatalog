@@ -30,6 +30,13 @@
                 "$ref": "lab_label.json"
             }
         },
+        "notes": {
+            "description": "Free-text annotations written by management pipeline components",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
         "_visible": {
             "description": "Whether the file has been marked as unavailable",
             "type": "boolean"
