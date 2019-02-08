@@ -168,7 +168,18 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
                         seen_contents.add(inducer_split[1])
                         contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
                 else:
-                    if inducer not in seen_contents:
+                    # Special case for YS. Both means Arabinose and IPTG
+                    if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+                        inducer = "Arabinose"
+                        if inducer not in seen_contents:
+                            seen_contents.add(inducer)
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+
+                        inducer = "IPTG"
+                        if inducer not in seen_contents:
+                            seen_contents.add(inducer)
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                    elif inducer not in seen_contents:
                         seen_contents.add(inducer)
                         contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
 
