@@ -305,6 +305,12 @@ def test_pipejob_event_setup_get_callback(client_w_param_data):
     assert client_w_param_data.uuid == resp_job_uuid
     assert client_w_param_data.callback.startswith('https://')
 
+def test_pipejob_event_update_before_run(client_w_param_data):
+    """Check that update() can happen before run()
+    """
+    resp = client_w_param_data.update(data={'this_data': 'was sent before the "run" event'})
+    assert resp['state'] == 'CREATED'
+
 def test_pipejob_event_run(client_w_param_data):
     """Check that run() can happen now
     """

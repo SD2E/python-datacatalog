@@ -20,7 +20,8 @@ class JobManager(Manager):
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
         ('pipeline_uuid', False, 'pipeline_uuid', None),
         ('token', False, 'token', None),
-        ('uuid', False, 'uuid', None)]
+        ('uuid', False, 'uuid', None),
+        ('state', False, 'state', None)]
     ADMIN_EVENTS = ['reset', 'ready', 'delete', 'purge']
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):

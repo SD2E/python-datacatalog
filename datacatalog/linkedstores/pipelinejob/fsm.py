@@ -51,7 +51,7 @@ class JobStateMachine(Machine):
     transitions = [
         {'trigger': 'create', 'source': 'CREATED', 'dest': 'CREATED'},
         {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
-        {'trigger': 'update', 'source': ['RUNNING', 'VALIDATING', 'INDEXING'], 'dest': '='},
+        {'trigger': 'update', 'source': ['CREATED', 'RUNNING', 'VALIDATING', 'INDEXING'], 'dest': '='},
         {'trigger': 'resource', 'source': ['CREATED', 'RUNNING'], 'dest': '='},
         {'trigger': 'fail', 'source': ['RUNNING', 'VALIDATING', 'INDEXING'], 'dest': 'FAILED'},
         {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
