@@ -8,6 +8,7 @@ import validators
 import logging
 from pprint import pprint
 from ...tokens import validate_admin_token
+from ...tokens.admin import internal_get_admin_token
 from ...tokens import admin
 from ..common import Manager, data_merge
 from .exceptions import ManagedPipelineJobError
@@ -158,7 +159,14 @@ class JobManager(Manager):
     def fail(self, data={}, token=None):
         """Wrapper for **fail**
         """
-        return self.handle('fail', data, token=token)
+        # This lets job workflows simply call fail() if the job
+        # has not yet started running. We could also allow CREATED
+        # to go to FAILED, thus preserving history. To do that, we
+        # need to back this code out and update the FSM
+        if getattr(self, 'cancelable', False):
+            return self.cancel(token=internal_get_admin_token())
+        else:
+            return self.handle('fail', data, token=token)
 
     def finish(self, data={}, token=None):
         """Wrapper for **finish**

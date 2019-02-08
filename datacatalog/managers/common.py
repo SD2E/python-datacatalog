@@ -278,7 +278,7 @@ class Manager(object):
             child_ids.append(chrec.get(child_id_field, None))
 
         # Return non-redundant set of child UUIDs
-        child_ids = list(set(child_ids))
+        child_ids = sorted(list(set(child_ids)))
         return child_ids
 
     def designs_from_challenges(self, ids, permissive=True):
@@ -349,14 +349,16 @@ class Manager(object):
             ids, permissive=permissive)
         measurements = self.measurements_from_samples(
             samples, permissive=permissive)
-        return measurements
+        return sorted(measurements)
 
     def measurements_from_designs(self, ids, permissive=True):
         experiments = self.experiments_from_designs(
             ids, permissive=permissive)
-        return self.measurements_from_experiments(experiments, permissive=True)
+        return sorted(
+            self.measurements_from_experiments(experiments, permissive=True))
 
     def measurements_from_challenges(self, ids, permissive=True):
         designs = self.designs_from_challenges(
             ids, permissive=permissive)
-        return self.measurements_from_designs(designs, permissive=True)
+        return sorted(
+            self.measurements_from_designs(designs, permissive=True))

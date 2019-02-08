@@ -90,7 +90,7 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     def delete(self, job_uuid, token, soft=False):
         # Special kind of event
         validate_admin_token(token, permissive=False)
-        return self.delete_document(job_uuid, token, soft)
+        return self.delete_document(job_uuid, token=token, soft=soft)
 
     def history(self, job_uuid, limit=None, skip=None):
         pass

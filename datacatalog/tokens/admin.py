@@ -71,6 +71,9 @@ def get_admin_lifetime():
     return int(environ.get(
         'CATALOG_ADMIN_TOKEN_LIFETIME', ADMIN_TOKEN_LIFETIME))
 
+def internal_get_admin_token(key=None):
+    return __get_admin_tokens(key=key)[0]
+
 def __get_admin_tokens(key=None):
     """Gets current and previous token for a key.
     """

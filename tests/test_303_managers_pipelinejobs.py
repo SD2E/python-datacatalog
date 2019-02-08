@@ -281,7 +281,7 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
 def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
     """Checks that a specific parameterization yields expected job.uuid
     """
-    response_job_uuid = '1079eaaf-bd5c-5246-8515-7e325a1b4dd5'
+    response_job_uuid = '10724289-c1de-5165-9a4e-314280bc0125'
     client_w_param.setup(data={'example_data': 'datadata'})
     assert client_w_param.pipeline_uuid == pipeline_uuid
     assert 'example_data' in client_w_param.data
@@ -290,7 +290,7 @@ def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
 
 def test_pipeinstance_event_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
-    job_uuid = '1079eaaf-bd5c-5246-8515-7e325a1b4dd5'
+    job_uuid = '10724289-c1de-5165-9a4e-314280bc0125'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     assert base.archive_path.startswith('/products/v2/106')
     assert len(base.child_of) > 0
@@ -300,10 +300,23 @@ def test_pipeinstance_event_init(mongodb_settings, agave):
 def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
-    resp_job_uuid = '107b1f9d-bd9a-5a5b-a165-b0b5ae524148'
+    resp_job_uuid = '107dffbf-07fc-597e-9856-1c9e7308b8d6'
     client_w_param_data.setup()
     assert client_w_param_data.uuid == resp_job_uuid
     assert client_w_param_data.callback.startswith('https://')
+
+def test_pipejob_create_fail_create(client_w_param_data):
+    """Check that job can fail before RUNNING by way of cancel()
+    """
+    c1 = None
+    c2 = None
+    client_w_param_data.setup()
+    c1 = client_w_param_data.uuid
+    client_w_param_data.fail()
+    client_w_param_data.setup()
+    c2 = client_w_param_data.uuid
+    assert c1 == c2
+    #  assert client_w_param_data.uuid is None
 
 def test_pipejob_event_update_before_run(client_w_param_data):
     """Check that update() can happen before run()
@@ -433,7 +446,7 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
 #     assert len(listed) == 1
 
 # @delete
-# @pytest.mark.parametrize("job_uuid_del", ['1079eaaf-bd5c-5246-8515-7e325a1b4dd5', '107b1f9d-bd9a-5a5b-a165-b0b5ae524148', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
+# @pytest.mark.parametrize("job_uuid_del", ['10724289-c1de-5165-9a4e-314280bc0125', '107dffbf-07fc-597e-9856-1c9e7308b8d6', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
 # def test_pipejob_event_prep(client_w_param_data, job_uuid_del, admin_token):
 #     """Check that reset cannot happen with invalid token
 #     """
