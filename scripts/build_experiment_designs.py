@@ -1,3 +1,4 @@
+import argparse
 import copy
 import json
 import os
@@ -16,7 +17,7 @@ from tacconfig import config
 from .drivedocs.challenge import ChallengeMapping
 from .drivedocs.exptref import ExperimentReferenceMapping
 
-def regenerate(update_catalog=False, mongodb=None):
+def regenerate(args, update_catalog=False, mongodb=None):
 
     if datacatalog.config.get_osenv_bool('MAKETESTS'):
         DESTPATH = os.path.join(tempfile.mkdtemp(), 'experiment_reference.json')
@@ -25,6 +26,10 @@ def regenerate(update_catalog=False, mongodb=None):
         update_catalog = True
 
     settings = config.read_config()
+    env = args.environment
+    if env is None:
+        env = 'development'
+    db = settings.get(env)
 
     schema = {'description': 'Experiment reference enumeration',
               'type': 'string',
@@ -44,7 +49,7 @@ def regenerate(update_catalog=False, mongodb=None):
             mapping.populate()
             if update_catalog:
                 if mongodb is None:
-                    mongodb = settings.get('mongodb')
+                    mongodb = db['mongodb']
                 store = datacatalog.linkedstores.experiment_design.ExperimentDesignStore(mongodb)
                 for doc in mapping.filescache:
                     # print(doc)
@@ -59,8 +64,16 @@ def regenerate(update_catalog=False, mongodb=None):
     json.dump(schema, open(DESTPATH, 'w'), indent=2)
     return True
 
-def main():
-    regenerate()
+def main(args):
+    regenerate(args)
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-production', help='manage production deployment', action='store_const',
+                        const='production', dest='environment')
+    parser.add_argument('-staging', help='manage staging deployment', action='store_const',
+                        const='staging', dest='environment')
+    parser.add_argument('-development', help='manage development deployment', action='store_const',
+                        const='development', dest='environment')
+    args = parser.parse_args()
+    main(args)

@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 import copy
@@ -97,7 +98,7 @@ def compare_schemas(old, new):
     else:
         return False
 
-def regenerate(filters=None):
+def regenerate(filters=None, args=None):
 
     template = Template(INDEX)
     elements = list()
@@ -141,12 +142,18 @@ def main():
     logger.setLevel(logging.DEBUG)
     parser = argparse.ArgumentParser()
     parser.add_argument("--filter", help="Comma-separated list of JSONschema packages")
+    parser.add_argument('-production', help='manage production deployment', action='store_const',
+                        const='production', dest='environment')
+    parser.add_argument('-staging', help='manage staging deployment', action='store_const',
+                        const='staging', dest='environment')
+    parser.add_argument('-development', help='manage development deployment', action='store_const',
+                        const='development', dest='environment')
     args = parser.parse_args()
     if args.filter:
         filters = args.filter.split(',')
     else:
         filters = None
-    regenerate(filters)
+    regenerate(filters, args)
 
 if __name__ == '__main__':
     main()

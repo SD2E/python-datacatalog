@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-07 19:15:36 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3468b3f",
+    "$comment": "generated: 2019-02-11 19:37:08 +00:00; source: git@github.com:SD2E/python-datacatalog.git@d5b033d",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -9,6 +9,7 @@
         "Overview-Immortality",
         "PubDataAnal-Immortality",
         "Unknown",
+        "190208-High-Throughput",
         "181127-High-Throughput",
         "181114-Gyu-Rie-Lee",
         "Franziska-Ta-Yi-BM2",
@@ -46,6 +47,7 @@
         "Overview-Immortality",
         "PubDataAnal-Immortality",
         "Unknown",
+        "190208-High-Throughput",
         "181127-High-Throughput",
         "181114-Gyu-Rie-Lee",
         "Franziska-Ta-Yi-BM2",
