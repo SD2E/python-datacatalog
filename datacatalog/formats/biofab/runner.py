@@ -41,9 +41,12 @@ standard_attr = "standard"
 lot_attr = "Lot No."
 
 negative_control = False
+is_sytox = False
 
 DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
-DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
+SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
+NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A"]
+
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
@@ -234,12 +237,17 @@ def add_measurement_group_id(measurement_doc, file, output_doc):
 
 
 def add_measurement_type(file, measurement_doc):
+    global is_sytox
     if type_attr in file:
         assay_type = file[type_attr]
         if assay_type == "FCS":
             measurement_type = SampleConstants.MT_FLOW
             if SampleConstants.M_CHANNELS not in measurement_doc:
-                measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                if is_sytox:
+                    measurement_doc[SampleConstants.M_CHANNELS] = SYTOX_DEFAULT_CYTOMETER_CHANNELS
+                else:
+                    measurement_doc[SampleConstants.M_CHANNELS] = NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS
+
             if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                 measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
         elif assay_type == "CSV":
@@ -432,6 +440,22 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
     output_doc[SampleConstants.LAB] = biofab_doc.get("attributes", {}).get("lab", lab)
     output_doc[SampleConstants.SAMPLES] = []
+
+    # is this a Sytox plan? Per:
+    # Biofab has a mix of Sytox and Non-Sytox YS plans.
+    # We need to peek ahead, as this affects FCS channel mappings
+    global is_sytox
+    try:
+        sytox_found = jq(".items[] | select (.attributes.control == \"positive_sytox\")").transform(biofab_doc)
+        if sytox_found is not None and len(sytox_found) > 0:
+            print(sytox_found)
+            print("Sytox found for plan: {}".format(original_experiment_id))
+            is_sytox = True
+        else:
+            print("No Sytox found for plan: {}".format(original_experiment_id))
+            is_sytox = False
+    except StopIteration:
+        print("Warning, could not find sytox control for plan: {}".format(original_experiment_id))
 
     missing_part_of_items = set()
 
