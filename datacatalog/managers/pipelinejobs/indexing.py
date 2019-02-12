@@ -8,6 +8,7 @@ __all__ = ['IndexRequest', 'IndexingError']
 class IndexRequest(object):
     PARAMS = [('processing_level', True, 'processing_level', '1'),
               ('filters', True, 'filters', []),
+              ('patterns', True, 'filters', []),
               ('note', False, 'note', None),
               ('fixity', False, 'fixity', True)]
 

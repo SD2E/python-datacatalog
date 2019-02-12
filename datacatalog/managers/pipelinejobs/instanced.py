@@ -129,20 +129,25 @@ class ManagedPipelineJobInstance(Manager):
             index_iterations.append(index_req)
         elif filters is None:
             archive_patterns = getattr(self, 'archive_patterns', [])
+            print('PATTERNS', archive_patterns)
             if archive_patterns != []:
                 for ap in archive_patterns:
                     index_req = None
                     if isinstance(ap, dict):
+                        # print('FORMATTING', ap)
                         index_req = IndexRequest(**ap)
                     elif isinstance(ap, list):
+                        # print('TRANSLATING', ap)
                         index_req = IndexRequest(
                             processing_level='1',
                             filters=ap,
                             fixity=True,
                             note='Translated from legacy list representation')
                     if index_req is not None:
+                        print('INDEX_REQ', index_req)
                         index_iterations.append(index_req)
             else:
+                print('INDEXING ALL FILES')
                 index_req = IndexRequest(
                     processing_level=processing_level, filters=[],
                     fixity=fixity, note='Request to index all files')
@@ -198,6 +203,8 @@ class ManagedPipelineJobInstance(Manager):
                 patts = index_request.regex()
             else:
                 patts = None
+            print('FILES', len(files_list))
+            print('PATTS', patts)
             for file_name in files_list:
                 # If patterns is not specified
                 if patts is not None:
