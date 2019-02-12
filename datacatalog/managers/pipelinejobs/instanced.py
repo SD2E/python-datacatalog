@@ -6,6 +6,9 @@ import sys
 import validators
 import logging
 from pprint import pprint
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from functools import partial
 from ... import identifiers
 from ...utils import microseconds
 from ..common import Manager, data_merge
@@ -165,7 +168,8 @@ class ManagedPipelineJobInstance(Manager):
         fixity_iterations = list()
         for idxr in index_iterations:
             if idxr.fixity is True:
-                fixity_iterations.append(idxr)
+                pass
+                #fixity_iterations.append(idxr)
                 # raise SystemError(idxr)
             result = self.build_metadata_index(path_listing, idxr)
             if isinstance(result, list):
@@ -182,6 +186,45 @@ class ManagedPipelineJobInstance(Manager):
         logger.info('INDEXED {} in {} usec'.format(self.uuid, elapsed_time))
         return indexed
 
+    def metadata_index_one_file(self, patts, processing_level, note, file_name):
+        """Index one file to the current job
+        """
+        indexed = list()
+        print('INDEXING', file_name)
+        try:
+            if patts is not None:
+                if not patts.search(os.path.basename(file_name)):
+                    return indexed
+            ftype = getattr(infer_filetype(
+                file_name, check_exists=False, permissive=True), 'label')
+            frec = FileRecord(
+                {'name': file_name,
+                 'type': ftype,
+                 'level': processing_level})
+            if note is not None:
+                frec['notes'] = [
+                    InlineAnnotationDocument(data=note)
+                ]
+            resp = self.stores['file'].add_update_document(frec)
+            # Link the new file record to its generating job
+            if resp is not None:
+                self.stores['file'].add_link(
+                    resp['uuid'], self.uuid, 'generated_by')
+            indexed.append(file_name)
+            print('INDEXED', file_name)
+            return indexed
+        except Exception as mexc:
+            if not permissive:
+                raise IndexingError(mexc)
+            else:
+                return indexed
+
+    def dummy(self, patts, processing_level, note, file_name):
+        print('DUMMY_FILE', file_name)
+        print('DUMMY_PATTS', patts)
+        print('THREAD {}'.format(threading.current_thread().name))
+        return file_name
+
     def build_metadata_index(self, files_list, index_request, permissive=False):
         """Associates files matching an IndexRequest to the current job
 
@@ -196,6 +239,8 @@ class ManagedPipelineJobInstance(Manager):
         Returns:
             list: String names of successfully indexed files
         """
+        print('INDEX_REQUEST', index_request)
+        print('FILES', len(files_list))
         indexed = list()
         try:
             # filters will always be a list
@@ -203,41 +248,49 @@ class ManagedPipelineJobInstance(Manager):
                 patts = index_request.regex()
             else:
                 patts = None
-            print('FILES', len(files_list))
-            print('PATTS', patts)
-            for file_name in files_list:
-                # If patterns is not specified
-                if patts is not None:
-                    if not patts.search(os.path.basename(file_name)):
-                        continue
 
-                # Create a 'files' record and associate with job UUID
-                #
-                # Note: We make an attempt to guess filetype but without
-                # guaranteed access to the physical file, we're limited
-                # to what can be learned from the filename.
-                ftype = getattr(infer_filetype(
-                    file_name, check_exists=False, permissive=True), 'label')
-                frec = FileRecord(
-                    {'name': file_name,
-                     'type': ftype,
-                     'level': index_request.processing_level})
-                # Transform the note from the archving request into InlineAnnotation
-                if index_request.note is not None:
-                    frec['notes'] = [InlineAnnotationDocument(
-                        data=index_request.note)]
-                resp = self.stores['file'].add_update_document(frec)
-                # Link the new file record to its generating job
-                if resp is not None:
-                    self.stores['file'].add_link(
-                        resp['uuid'], self.uuid, 'generated_by')
-                    indexed.append(file_name)
-            return indexed
-        except Exception as mexc:
-            if permissive:
-                return indexed
-            else:
-                raise IndexingError(mexc)
+            processing_level = index_request.processing_level
+            note = index_request.note
+            with ThreadPoolExecutor() as executor:
+                fn = partial(self.metadata_index_one_file, patts, processing_level, note)
+                executor.map(fn, files_list, timeout=1000)
+                print('RESULT', executor.result())
+
+        except Exception:
+            raise
+        #     for file_name in files_list:
+        #         # If patterns is not specified
+        #         if patts is not None:
+        #             if not patts.search(os.path.basename(file_name)):
+        #                 continue
+
+        #         # Create a 'files' record and associate with job UUID
+        #         #
+        #         # Note: We make an attempt to guess filetype but without
+        #         # guaranteed access to the physical file, we're limited
+        #         # to what can be learned from the filename.
+        #         ftype = getattr(infer_filetype(
+        #             file_name, check_exists=False, permissive=True), 'label')
+        #         frec = FileRecord(
+        #             {'name': file_name,
+        #              'type': ftype,
+        #              'level': index_request.processing_level})
+        #         # Transform the note from the archving request into InlineAnnotation
+        #         if index_request.note is not None:
+        #             frec['notes'] = [InlineAnnotationDocument(
+        #                 data=index_request.note)]
+        #         resp = self.stores['file'].add_update_document(frec)
+        #         # Link the new file record to its generating job
+        #         if resp is not None:
+        #             self.stores['file'].add_link(
+        #                 resp['uuid'], self.uuid, 'generated_by')
+        #             indexed.append(file_name)
+        #     return indexed
+        # except Exception as mexc:
+        #     if permissive:
+        #         return indexed
+        #     else:
+        #         raise IndexingError(mexc)
 
     def build_fixity_index(self, files_list, index_request, permissive=False):
         """Indexes fixity for each file in files_list matching an IndexRequest
