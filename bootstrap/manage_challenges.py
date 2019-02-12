@@ -19,7 +19,7 @@ SELF = __file__
 THIS = os.path.dirname(SELF)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
-DATA = os.path.join(THIS, 'challenges')
+DATA = os.path.join(THIS, 'challenge_problems')
 
 # Use local not installed install of datacatalog
 sys.path.insert(0, GPARENT)

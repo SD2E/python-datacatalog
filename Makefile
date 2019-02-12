@@ -3,6 +3,7 @@ PYTEST_SRC ?= tests/
 # PYTEST_RUN_OPTS ?= -s -vvv
 PYTEST_FAIL_OPTS ?= --maxfail=100
 PYTEST_RUN_OPTS ?= -s $(PYTEST_FAIL_OPTS)
+EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production
 BOOTSTRAP_ENV ?= -localhost
@@ -186,6 +187,10 @@ bootstrap-views:
 	python -m bootstrap.manage_views auto $(BOOTSTRAP_ENV)
 
 bootstrap-schemas: schemas-build
+
+# Currently, export values from production to enviromnent to bootstrap directories
+exports:
+	for C in $(EXPORTS); do python -m scripts.export_collection $$C -production -o "bootstrap/$${C}s/production-export.json"; done
 
 .PHONY: uml
 uml:
