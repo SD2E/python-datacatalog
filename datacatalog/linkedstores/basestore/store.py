@@ -31,6 +31,7 @@ from ... import tenancy
 
 from .heritableschema import DocumentSchema, HeritableDocumentSchema
 from .heritableschema import formatChecker, DateTimeEncoder
+from .extensible import ExtensibleAttrDict
 from .exceptions import *
 
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
@@ -267,25 +268,45 @@ class LinkedStore(object):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def query(self, query={}, projection={}):
+    def query(self, query={}, projection=None,
+              attr_dict=False, attr_filters={'private_prefix': '_', 'filters': []}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
         Args:
             query (dict): An object describing a MongoDB query
             projection (dict): An object describing a MongoDB projection
+            filters (dict): {private_prefix': '_', filters: []}
         """
+        query_kwargs = dict()
         try:
             if not isinstance(query, dict):
                 query = json.loads(query)
-            if not isinstance(projection, dict):
-                projection = json.loads(projection)
         except Exception as exc:
             raise CatalogError('Query was not resolvable as dict', exc)
 
+        if projection is not None:
+            if isinstance(projection, dict):
+                proj = projection
+            elif isinstance(projection, str):
+                proj = json.loads(projection)
+            else:
+                raise CatalogError('Projection was passed but not resolvable into a dictionary')
+            # All went well - add a projection keyword argument
+            query_kwargs['projection'] = proj
+
         try:
-            return self.coll.find(query, projection=projection)
+            result = self.coll.find(query, **query_kwargs)
+            if attr_dict is False:
+                return result
+            else:
+                filtered_result = list()
+                for r in result:
+                    filtered_result.append(
+                        ExtensibleAttrDict(r).as_dict(**attr_filters))
+                return filtered_result
         except Exception as exc:
             raise CatalogError('Query failed', exc)
+
 
     # def update(self, query={}, update={}):
     #     """Update the LinkedStore MongoDB collection
