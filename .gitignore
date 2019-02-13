@@ -6,7 +6,7 @@ dist/
 *egg-info/
 build/
 env/
-settings.py
+# settings.py
 .pytest_cache/
 config.yml
 service_account.json
