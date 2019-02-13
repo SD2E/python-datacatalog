@@ -1,0 +1,97 @@
+---
+debug: true
+logs:
+  level: INFO
+experiment_reference:
+  schema_default_status: DRAFT
+  google_sheets_dir: /
+  google_sheets_id: 1FYOFr76pBaUDIS-lBnYOF0fFFL5b3
+  slugify:
+    stopwords:
+      - Archive
+      - CP
+      - Experimental
+      - Experiment
+      - Request
+      - docx
+      - doc
+      - Template
+    case: title
+    separator: '-'
+    case_insensitive: False
+google_client:
+  type: service_account
+  project_id: tacc-sheets-1576313427905
+  private_key_id: 20ae3f9c1e1483c7a0f5e2b4b561638b96651c2e
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzGCxxoudKI73J
+    UYdnjJZxnB/r6uuYDMAO/MHro0TfVEDooPjAPjoDJ6+QvxbptwW0t+UAyBdB4+nT
+    K0cVnMX6Kpssg9rJxcgChm5xapT9NooqLuoSjPiTb1odG9SigIfqsacOBNDm+pFl
+    czAE9hEjpynQV5T7vTMNCNx8jd98/R/P8Pnu41gBdO30rngw8oaMSwSJwaIi9jyv
+    F2GoylAO0Sq4C4oURYry1KQZIDrITAtu3C6QT2++2NOD8nR9k1LyEyGr7stU61Hv
+    zNYCFOzcKrkPXS6V896izLmZ81MD4Zn+IqMF+UU4IBvHmHTiRLk0NiNCsYxsYQ9i
+    STh9Dq3zAgMBAAECggEABmtOZIBPQ/QGAGpArTB3z/ilmEIiUZ/bXm4m0ThX5p1R
+    ekUSxWk1kRliDJEc1CGwPar9tUp2svDlV6FMefTVj8LpLu5G8EZ7hcOlv8DvOCg1
+    SY/G6gVNf5nJvlYjm4Tb9Zemf6/GK335XLNWNVKoft1ik/NeVKNJFtn27rL4WnYw
+    ejR1ve52LwkddfI6w5N8tFoKFYo5PMTHVpqpPj015oWqWyY9GDKXRarhPYwoUCmo
+    Ing2hK2GvDWFzzyO7GWVSsOXQkQeW2A9E7noD0l619RTw/i4jAEWYGbj83p5iguU
+    1qaWbJOHc0APpdLSiGfX+OnA01pYJeRKO9GPZEfkaQKBgQDhgOuLQag/dMAR+dAD
+    rHXARhmR2mTZNHVKCkQuoIFyYRh4ghmqnI2JOfOBj7k73F08u4aJ0uWi6hnQ300h
+    Ohz9KL0KCe8Ja/gp8Uhfzi9hixfcPPpE/P1m6MiY2I87JcLsymNtSod0blLK/Kjd
+    EgQPkFyOsdEmhxKQlUGICXKQjwKBgQDLUInKw+CE0ve4celijnyGpVzicB54nMPZ
+    +NnBQ/Um8ao2+L2kyZlU2QNBqL71u3Ba8oGsfVOhs+oOcIMWWOBotisKrfIs/GSO
+    xMIrT4T4s5NJxZUY0SDt61sqofUlpto/ildzShubhRZYUzjKW0X2LBum+O+1wROh
+    jfOdEe4QQxjwV5XxKH1xzrznaz2XQKBgDwD9axK4LxLntTeJV/AY45qvYLXh2jbg
+    B4M4GyimOaRG18GsHvhbWqZrK4e9hmeLcd+mkfkz/5xAUgHHp31oAJAzVpxU1j66
+    Hi7fUVPsfuI9AI3Ip4GUzkwceIhxifecLdx+jUOk64cXd8dnEdPEv+rdAoGBAMDt
+    muOi/fFsdA89YNbaGMZ4MmzZMcEIGT1Ey/V+NCqRVhE19ldhyjNefp2WsCZkiFh1
+    GKtA+hqnLRQZl7i9pld5JCqnVjtlIChxLBD881RAqzps2G+lOxcpp+gLqaHh8+Yp
+    s5Q+NXZdUvfbeN9kvz27Wz4VqPoSzjsWhZ59vkstAoGAdfhQ0g93rgJeaQ6H1eKV
+    qJd3FG+6mCgikuqtdc5V8ilqg5BepOUGgPIbu2Jd7Qhp8GWCVpYoaQN7qLQmruNj
+    p8A6OqP2wvGu+jyGw1D9KjTUyGkM++kYBWceDa0GbkeorbUlQlyPmrAHy5ymaBh+
+    2Ib37DwywVLb0AuuE2MnBFk=
+    -----END PRIVATE KEY-----
+  client_email: "expt-ref-01@tacc-sheets-1576313427905.iam.gserviceaccount.com"
+  client_id: 910448072408521106806
+  auth_uri: https://accounts.google.com/o/oauth2/auth
+  token_uri: https://oauth2.googleapis.com/token
+  auth_provider_x509_cert_url: https://www.googleapis.com/oauth2/v1/certs
+  client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/expt-ref-01%40tacc-sheets-1576313427905.iam.gserviceaccount.com"
+pipelines:
+  pipeline_uuid: 106c46ff-8186-5756-a934-071f4497b58d
+  updates_nonce: ~
+  pipeline_manager_id: G1p783PxpalBB
+  job_manager_id: G56vjoAVzGkkq
+  api_server: https://api.tacc.cloud
+  job_indexer_id: G56vjoAVzGkkq
+  job_indexer_nonce: ~
+production:
+  mongodb:
+    database: catalog_test
+    host: batalog.tacc.cloud
+    port: 37020
+    username: catalog
+    password: FbgG9VR5Pgv5nTanHJ8nuPNS
+staging:
+  mongodb:
+    database: catalog_dev
+    host: batalog.tacc.cloud
+    port: 37020
+    username: batalog
+    password: FbgG9VR5Pgv5nTanHJ8nuPNS
+development:
+  mongodb:
+    database: catalog_dev
+    host: batalog.tacc.cloud
+    port: 37020
+    username: batalog
+    password: 3FbgG9VR5Pgv5nTanHJ8nuPNS
+localhost:
+  mongodb:
+    database: catalog_local
+    host: localhost
+    port: 27017
+    username: catalog
+    password: catalog
+    root_password: DNCQJGu4ZrUhMabybnG6Mx5YrGhE2EPf
