@@ -1,21 +1,32 @@
 import argparse
 import copy
 import json
+import logging
 import os
 import sys
 import tempfile
 from pprint import pprint
 
 HERE = os.getcwd()
-THIS = os.path.dirname(__file__)
+SELF = __file__
+THIS = os.path.dirname(SELF)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
 
+# Use local not installed install of datacatalog
+if GPARENT not in sys.path:
+    sys.path.insert(0, GPARENT)
 import datacatalog
 from tacconfig import config
 
 from .drivedocs.challenge import ChallengeMapping
 from .drivedocs.exptref import ExperimentReferenceMapping
+
+logger = logging.getLogger(os.path.basename(SELF))
+logger.setLevel(logging.DEBUG)
+loghandler = logging.StreamHandler()
+loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
+logger.addHandler(loghandler)
 
 def regenerate(args, update_catalog=False, mongodb=None):
 
@@ -25,7 +36,13 @@ def regenerate(args, update_catalog=False, mongodb=None):
         DESTPATH = os.path.join(os.getcwd(), 'datacatalog', 'definitions', 'jsondocs', 'experiment_reference.json')
         update_catalog = True
 
-    settings = config.read_config()
+    logger.debug('Project config: ' + PARENT + '/config.yml')
+    project_settings = config.read_config(places_list=[PARENT])
+    logger.debug('Local config:' + THIS + '/config.yml')
+    bootstrap_settings = config.read_config(places_list=[THIS])
+    settings = datacatalog.dicthelpers.data_merge(
+        project_settings, bootstrap_settings)
+
     env = args.environment
     if env is None:
         env = 'development'
@@ -55,6 +72,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
                     # print(doc)
                     if doc['experiment_design_id'] != 'Unknown':
                         doc['child_of'].append(cp_uuid)
+                    logger.info('SYNCING {}'.format(doc.get('title', None)))
                     store.add_update_document(doc)
 
             for rec in mapping.filescache:
@@ -69,6 +87,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('-v', help='verbose output', action='store_true', dest='verbose')
     parser.add_argument('-production', help='manage production deployment', action='store_const',
                         const='production', dest='environment')
     parser.add_argument('-staging', help='manage staging deployment', action='store_const',

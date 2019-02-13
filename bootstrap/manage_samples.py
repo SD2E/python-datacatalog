@@ -14,18 +14,20 @@ from agavepy.agave import Agave
 from tacconfig import config
 from .utils import to_json_abstract
 
+COLLECTION = 'samples'
 HERE = os.getcwd()
 SELF = __file__
 THIS = os.path.dirname(SELF)
 PARENT = os.path.dirname(THIS)
 GPARENT = os.path.dirname(PARENT)
-DATA = os.path.join(THIS, 'samples')
+DATA = os.path.join(THIS, COLLECTION)
 
 # Use local not installed install of datacatalog
-sys.path.insert(0, GPARENT)
-
+if GPARENT not in sys.path:
+    sys.path.insert(0, GPARENT)
 import datacatalog
-logger = logging.getLogger(os.path.basename(__file__))
+
+logger = logging.getLogger(os.path.basename(SELF))
 logger.setLevel(logging.DEBUG)
 loghandler = logging.StreamHandler()
 loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
@@ -63,9 +65,9 @@ def dblist(idb, settings):
 
 def main(args):
 
-    logger.debug('Reading project config')
-    project_settings = config.read_config()
-    logger.debug('Reading bootstrap config from ' + THIS + '/config.yml')
+    logger.debug('Project config: ' + PARENT + '/config.yml')
+    project_settings = config.read_config(places_list=[PARENT])
+    logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     settings = datacatalog.dicthelpers.data_merge(
         project_settings, bootstrap_settings)
@@ -76,6 +78,8 @@ def main(args):
 
     if args.verbose is True:
         settings['verbose'] = True
+    else:
+        settings['verbose'] = False
 
     mongodb = settings.get(env).get('mongodb')
 

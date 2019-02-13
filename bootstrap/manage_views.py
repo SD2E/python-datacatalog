@@ -60,9 +60,9 @@ def autodiscover(idb, settings):
 
 def main(args):
 
-    logger.debug('Reading project config')
-    project_settings = config.read_config()
-    logger.debug('Reading bootstrap config from ' + THIS + '/config.yml')
+    logger.debug('Project config: ' + PARENT + '/config.yml')
+    project_settings = config.read_config(places_list=[PARENT])
+    logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     settings = datacatalog.dicthelpers.data_merge(
         project_settings, bootstrap_settings)
@@ -73,6 +73,8 @@ def main(args):
 
     if args.verbose is True:
         settings['verbose'] = True
+    else:
+        settings['verbose'] = False
 
     mongodb = settings.get(env).get('mongodb')
     mongodb_uri = datacatalog.mongo.get_mongo_uri(mongodb)

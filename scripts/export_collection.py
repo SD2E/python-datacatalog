@@ -24,7 +24,7 @@ from datacatalog.jsonschemas.encoders import DateTimeEncoder
 # TODO Build this dynamically, possibly using managers.common.Manager
 COLLECTIONS = ['challenge_problem', 'experiment_design', 'experiment', 'measurement', 'sample', 'reference']
 
-logger = logging.getLogger(os.path.basename(__file__))
+logger = logging.getLogger(os.path.basename(SELF))
 logger.setLevel(logging.DEBUG)
 loghandler = logging.StreamHandler()
 loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s'))
@@ -43,9 +43,9 @@ def json_datetime_serializer(obj):
 
 def main(args):
 
-    logger.debug('Reading project config')
+    logger.debug('Project config: ' + PARENT + '/config.yml')
     project_settings = config.read_config(places_list=[PARENT])
-    logger.debug('Reading config from ' + THIS + '/config.yml')
+    logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
     settings = datacatalog.dicthelpers.data_merge(
         project_settings, bootstrap_settings)
