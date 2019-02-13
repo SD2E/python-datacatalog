@@ -32,8 +32,9 @@ def test_mgr_common_get_selfs_w_ref(mongodb_settings, agave):
     # test de-duplication and URI resolution work
     assert len(selfs) == 3
 
+@pytest.mark.skipif(True, reason='deprecated in branch "file_id_not_identifier"')
 def test_mgr_common_get_selfs_w_file_id(mongodb_settings, agave):
-    inputs = ['biofab.file.100']
+    inputs = ['file.biofab.10001']
     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
     selfs = base.self_from_inputs(inputs)
     # test de-duplication and URI resolution work

@@ -98,11 +98,11 @@
     "__collection": "files",
     "__indexes": [
         "type",
-        "level"
+        "level",
+        "file_id"
     ],
     "__identifiers": [
         "uuid",
-        "name",
-        "file_id"
+        "name"
     ]
 }
