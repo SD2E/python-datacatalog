@@ -8,6 +8,7 @@ from pprint import pprint
 
 from ... import linkedstores
 from ... import jsonschemas
+from ...identifiers.typeduuid import get_uuidtype
 # from ... import linkedstores
 
 def dynamic_import(module, package='datacatalog'):
@@ -88,17 +89,20 @@ class SampleSetProcessor(object):
     def process_experiment(self, parent_uuid=None, strategy='merge'):
         try:
             # For now, this is a dummy experimental record
-            expt_doc = {'experiment_id': self.experiment_id}
-            if 'child_of' in expt_doc:
-                expt_doc['child_of'].append(parent_uuid)
-            else:
-                expt_doc['child_of'] = [parent_uuid]
+            expt_doc = {
+                'experiment_id': self.experiment_id,
+                'child_of': [parent_uuid]
+            }
+            # if 'child_of' in expt_doc:
+            #     expt_doc['child_of'].append(parent_uuid)
+            # else:
+            #     expt_doc['child_of'] = [parent_uuid]
             # For now, ALWAYS replace lab-specific experiment record
             resp = self.stores['experiment'].add_update_document(
                 expt_doc, strategy=self._update_param('replace'))
-
-            parent_uuid = resp['uuid']
-            self.process_samples(parent_uuid=parent_uuid,
+            new_parent_uuid = resp['uuid']
+            assert get_uuidtype(new_parent_uuid) == 'experiment', '{} is mistyped'.format(new_parent_uuid)
+            self.process_samples(parent_uuid=new_parent_uuid,
                                  strategy=self._update_param(strategy))
             return True
         except Exception as exc:
@@ -106,6 +110,7 @@ class SampleSetProcessor(object):
 
     def process_samples(self, parent_uuid=None, strategy='merge'):
         try:
+            # Samples was cached as _samples at init()
             if not isinstance(self._samples, list):
                 raise TypeError('"samples" must be a list')
             for sample in self._samples:
@@ -113,14 +118,17 @@ class SampleSetProcessor(object):
                     sample['child_of'].append(parent_uuid)
                 else:
                     sample['child_of'] = [parent_uuid]
+                # Don't propagate measurements subdocument in sample record.
+                # That's what the linkages are for!
                 if 'measurements' in sample:
                     measurements = sample.pop('measurements')
                 else:
                     measurements = None
                 resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
-                parent_uuid = resp['uuid']
+                new_parent_uuid = resp['uuid']
+                assert get_uuidtype(new_parent_uuid) == 'sample', '{} is mistyped'.format(new_parent_uuid)
                 if 'measurements' is not None:
-                    self.process_measurements(measurements, parent_uuid, strategy=self._update_param(strategy))
+                    self.process_measurements(measurements, new_parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process sample(s)', exc)
@@ -139,9 +147,10 @@ class SampleSetProcessor(object):
                 else:
                     files = None
                 resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
-                parent_uuid = resp['uuid']
+                new_parent_uuid = resp['uuid']
+                assert get_uuidtype(new_parent_uuid) == 'measurement', '{} is mistyped'.format(new_parent_uuid)
                 if 'files' is not None:
-                    self.process_files(files, parent_uuid, strategy=self._update_param(strategy))
+                    self.process_files(files, new_parent_uuid, strategy=self._update_param(strategy))
             return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process measurement(s)', exc)
