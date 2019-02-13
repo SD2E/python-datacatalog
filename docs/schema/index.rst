@@ -1,8 +1,8 @@
 .. _schema_idx:
 
-===============
-Database Schema
-===============
+======
+Schema
+======
 
 .. toctree::
    :maxdepth: 2

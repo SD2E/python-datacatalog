@@ -1,6 +1,6 @@
-=======
-MongoDB
-=======
+================
+MongoDB Database
+================
 
 SD2 Data Catalog is hosted on a clustered MongoDB service. The database is
 directly accessible to MongoDB clients via a URL resembling the following

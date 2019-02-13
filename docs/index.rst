@@ -6,42 +6,35 @@
 SD2 Data Catalog
 ================
 
+.. image:: https://img.shields.io/badge/stability-under%20development-yellow.png
+
 .. toctree::
     :maxdepth: 1
-    :caption: About the System
+    :caption: About
 
     intro/index
-    schema/index
-    python/index
+    components/index
 
 .. toctree::
     :maxdepth: 1
-    :caption: Connecting
+    :caption: Connect
 
-    database/index
-    services/index
-
-.. toctree::
-    :maxdepth: 1
-    :caption: Integrating Workflows
-
-    pipelines/index.rst
+    connect/index.rst
 
 .. toctree::
     :maxdepth: 1
-    :caption: Scenario Guides
+    :caption: Use
 
-    guides/jupyter_query.rst
-    guides/custom_metadata.rst
-    guides/redash_query.rst
-    guides/redash_dashboard.rst
-    guides/redash_notification.rst
-    guides/reactor_simple.rst
+    guides/index
+    annotate/index
+    pipelines/index
+    manage/index
 
 .. toctree::
     :maxdepth: 1
     :caption: Advanced Topics
 
+    manage/index
     schema/develop
     python/develop
 
