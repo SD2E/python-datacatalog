@@ -185,7 +185,7 @@ class SampleSetProcessor(object):
             bool: Returns `True` on success
         """
         # HACK Avoid RecursionError('maximum recursion depth exceeded in comparison',)
-        sys.setrecursionlimit(10000)
+        sys.setrecursionlimit(50000)
         try:
             expt_design_uuid = getattr(self, 'experiment_design').get('uuid')
             return self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
