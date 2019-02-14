@@ -4,30 +4,32 @@
 Key Features
 ============
 
-- Extensible data model that represents:
+Data Catalog design is based on over 30 years of collective experience with
+integrating and managing large, measured data. Its data model includes:
    - Topics, designs, experiments, samples, and measurement artifacts
    - Reference data files
    - Analysis and ETL pipelines and jobs
+   - Linkages with external resources
    - Complex types like temperature, liquid media component, and time point
-   - Linkages to external data via URI and typed identifiers
-   - Complex parentage and derivation relationships
-- Pythonic search API plus support for MongoDB-compatible JSON queries
+   - Sophistcated parentage and derivation relationships
+   - Multiple data processing levels
+
+Furthermore, it is designed to be easy to extend and maintain, with strong
+models of document history, delegated or deferred edit authority, and fine-
+grained tracking of ownership and attribution:
 - Data model defined and extended using JSONschema Draft 7
-- Documents mantain creation, update, revision, and source reference
-- JSON-diff journal enables fine-grained change tracking
-- Support for authenticated document updates is available
-- Multiple tenants, projects, and users are supported
-- Leverages clustered MongoDB for scalability and durability
+- Documents mantain creation, update, and revision history
+- Document- and role-level authorization for edits and updates
+- Support for multiple tenants, projects, and users
 
 =========
 Use Cases
 =========
 
-``DataCatalog`` is currently a basis for code that:
+Data Catalog code and services are currently used to:
 
-- Transforms and load lab-provided metadata traces into a project Data Catalog
-- Captures and manage fixity for raw and processed data products
-- Describes ETL and processing pipelines and jobs
-- Helps with aggregate reporting and integrity checking
-- Provides RESTful web services and other user interfaces
-- Constructs and maintains project Science Tables
+- Transform and load lab-provided metadata traces into a project Data Catalog
+- Capture and verify fixity for raw and processed data products
+- Describe and manage ETL and processing pipelines and jobs
+- Support aggregate reporting and integrity checking
+- Enable data discovery amd exploration

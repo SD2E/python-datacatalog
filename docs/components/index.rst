@@ -16,7 +16,7 @@ pipelines via interfaces to the Data Catalog.
 
     ../mongo/over
     ../schema/over
-    ../python/over
+    ../python/abstract
     ../repo/over
     ../reactors/over
     ../pipelines/over

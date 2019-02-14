@@ -21,6 +21,7 @@ sys.path.insert(0, os.path.abspath('../'))
 
 from datacatalog.jsonschemas.schema import BASE_URL as PROJECT_SCHEMA_BASE_URL
 from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
+from datacatalog.identifiers import typeduuid
 from datacatalog.tokens import get_admin_lifetime
 
 def rstjinja(app, docname, source):
@@ -47,6 +48,9 @@ def table_pipelinejob_events():
 
 def opt_admin_token_lifetime():
     return str(get_admin_lifetime())
+
+def table_typeduuid_types():
+    return tabulate(typeduuid.UUIDTYPES, ['Type', 'Prefix', 'Description'], tablefmt='rst')
 
 html_context = {
     'project_schema_base_url': PROJECT_SCHEMA_BASE_URL,

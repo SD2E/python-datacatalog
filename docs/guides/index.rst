@@ -5,9 +5,9 @@ Finding and Discovering Data
 .. toctree::
     :maxdepth: 1
 
-    jupyter_query.rst
-    custom_metadata.rst
-    redash_query.rst
-    redash_dashboard.rst
-    redash_notification.rst
-    reactor_simple.rst
+    jupyter_query
+    custom_metadata
+    redash_query
+    redash_dashboard
+    redash_notification
+    reactor_simple

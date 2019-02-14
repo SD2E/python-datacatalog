@@ -1,19 +1,12 @@
 .. _python_package:
 
-==============
-Python Package
-==============
-
-Essential application logic and helper code to maintain and interact with a
-flexible, expressive metadata framework is encapsulated in the ``DataCatalog``
-package.
-
 .. toctree::
    :maxdepth: 2
 
+   over
    install
-   features
-   packages
+   arch/index
+   usage/index
    ../source/modules
 
 .. only::  subproject and html
@@ -22,4 +15,3 @@ package.
    =======
 
    * :ref:`genindex`
-

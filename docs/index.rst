@@ -7,6 +7,10 @@ SD2 Data Catalog
 ================
 
 .. image:: https://img.shields.io/badge/stability-under%20development-yellow.png
+.. image:: https://img.shields.io/badge/schema-1.0.0-blue.png
+.. image:: https://img.shields.io/badge/python-3.5-brightgreen.png
+.. image:: https://img.shields.io/badge/mongodb-3.6-brightgreen.png
+.. image:: https://img.shields.io/badge/jsonschema-draft%2007-brightgreen.png
 
 .. toctree::
     :maxdepth: 1
@@ -23,12 +27,17 @@ SD2 Data Catalog
 
 .. toctree::
     :maxdepth: 1
-    :caption: Use
+    :caption: Python Package
+
+    python/index.rst
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Usage Scenarios
 
     guides/index
     annotate/index
     pipelines/index
-    manage/index
 
 .. toctree::
     :maxdepth: 1

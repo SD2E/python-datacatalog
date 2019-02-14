@@ -17,12 +17,4 @@ datacatalog.managers.sampleset.processor module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.managers.sampleset.validate module
-----------------------------------------------
-
-.. automodule:: datacatalog.managers.sampleset.validate
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 

@@ -127,7 +127,19 @@ Autodoc and the Napoleon preprocessor.
 - `Example Google style docstrings <https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google>`_
 - `Napoleon <https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html>`_
 
-.. code-block:: console
-   :caption: Regenerate all project documentation
+The docs are built using Sphinx and some Makefile targets. An example console
+session is illustrated below:
 
-   make docs-clean && make docs
+.. code-block:: console
+
+   $ make docs-clean && make docs-autodoc && make docs
+   cd docs && make clean
+   Removing everything under '_build'...
+   cd uml && pyreverse -o png ../datacatalog
+   parsing ../datacatalog/__init__.py...
+   ...
+   The HTML pages are in _build/html
+
+A couple of notes:
+1. There will be warnings in **RED**. Some will be significant and some are just unsupressable noise. Look for outright errors and failures.
+2. If you are iterating  rapidly on just documentation and have not changed any Python code, you can omit the ``make docs-autodoc`` command
