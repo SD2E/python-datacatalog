@@ -1,8 +1,8 @@
 .. _connect_pymongo:
 
-=====================
-Connect using PyMongo
-=====================
+========
+PyMongo
+========
 
 The PyMongo package is a Pythonic interface for connecting to, querying,
 and generally manipulating information in the Data Catalog. One can interact

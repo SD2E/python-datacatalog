@@ -1,3 +1,6 @@
+==========================================
+Building Data Catalog-Aware ETL Pipelines
+==========================================
 
 .. toctree::
    :maxdepth: 1
