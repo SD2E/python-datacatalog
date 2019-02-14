@@ -105,7 +105,7 @@ def mock(text_value=None, uuid_type=None, binary=True):
     return catalog_uuid(text_value, uuid_type, binary, namespace=UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
-    """Validate whether a string is a valid TypedUUID
+    """Validate whether a string is a TypedUUID
 
     Args:
         uuid_string (str): the value to validate
@@ -117,7 +117,14 @@ def validate(uuid_string, permissive=False):
     Returns:
         bool: Validation result
     """
-    return validate_uuid5(uuid_string, permissive=permissive)
+    if validate_uuid5(uuid_string, permissive=permissive):
+        try:
+            get_uuidtype(uuid_string)
+        except ValueError:
+            if permissive is True:
+                return False
+            else:
+                raise ValueError('Not a valid TypedUUID')
 
 def get_uuidtype(query_uuid):
     """Determine the class for a UUID

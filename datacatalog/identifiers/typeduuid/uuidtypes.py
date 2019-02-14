@@ -1,24 +1,24 @@
 from ..schemas import JSONSchemaBaseObject, JSONSchemaCollection
 
-UUIDTYPES = [('generic', '100', 'Catalog Object'),
+UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('challenge_problem', '101', 'Challenge Problem'),
              ('experiment', '102', 'Experiment'),
+             ('experiment_design', '114', 'Experiment Design'),
              ('sample', '103', 'Sample'),
              ('measurement', '104', 'Measurement'),
-             ('file', '105', 'File'),
+             ('file', '105', 'File Metadata'),
+             ('fixity', '116', 'File Fixity'),
              ('pipeline', '106', 'Pipeline'),
              ('pipelinejob', '107', 'PipelineJob'),
              ('pipelinejob_event', '108', 'PipelineJob Event'),
-             ('reference', '109', 'Reference Asset'),
+             ('process', '117', 'Named Process'),
+             ('reference', '109', 'Named Reference'),
              ('product', '110', 'PipelineJob Product'),
              ('upload', '111', 'Uploaded File'),
+             ('annotation', '118', 'Contributed Free-text Annotation'),
+             ('inline_annotation', '119', 'Inline Free-text Annotation'),
              ('dashboard', '113', 'Redash Dashboard'),
-             ('experiment_design', '114', 'Experiment Design'),
-             ('input_classifier', '115', 'Input File Classifier'),
-             ('fixity', '116', 'File Fixity Entry'),
-             ('process', '117', 'Named Process'),
-             ('annotation', '118', 'Contributed annotation'),
-             ('inline_annotation', '119', 'Inline annotation')
+             ('input_classifier', '115', 'Input File Classifier')
              ]
 
 class TypedUUID(object):
