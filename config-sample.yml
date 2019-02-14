@@ -68,14 +68,14 @@ pipelines:
   job_indexer_nonce: ~
 production:
   mongodb:
-    database: catalog_test
+    database: catalog_none
     host: batalog.tacc.cloud
     port: 37020
     username: catalog
     password: FbgG9VR5Pgv5nTanHJ8nuPNS
 staging:
   mongodb:
-    database: catalog_dev
+    database: catalog_staging
     host: batalog.tacc.cloud
     port: 37020
     username: batalog
