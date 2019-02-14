@@ -27,6 +27,7 @@
     "Yeast-Gates",
     "YeastSTATES-3-Node-Bistable-Circuit",
     "YeastSTATES-Cello-Characterization",
+    "Exp-NC-NAND-Gate-Iteration",
     "NovelChassis-NAND-Ecoli-Titration",
     "YeastStates-TimeSeries-Merged",
     "YeastStates-TimeSeries-LowThroughput",
@@ -35,7 +36,6 @@
     "NovelChassisYeastStates-TimeSeries",
     "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
     "NovelChassis-NAND-Gate",
-    "Exp-NC-NAND-Gate-Iteration",
     "NovelChassis-Parts-Discovery",
     "Riboswitches"
   ]

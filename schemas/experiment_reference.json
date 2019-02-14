@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-13 20:22:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@aaefc08",
+    "$comment": "generated: 2019-02-14 00:07:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0b14bbf",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -30,6 +30,7 @@
         "Yeast-Gates",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Cello-Characterization",
+        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-NAND-Ecoli-Titration",
         "YeastStates-TimeSeries-Merged",
         "YeastStates-TimeSeries-LowThroughput",
@@ -38,7 +39,6 @@
         "NovelChassisYeastStates-TimeSeries",
         "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
         "NovelChassis-NAND-Gate",
-        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-Parts-Discovery",
         "Riboswitches"
     ],
@@ -68,6 +68,7 @@
         "Yeast-Gates",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Cello-Characterization",
+        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-NAND-Ecoli-Titration",
         "YeastStates-TimeSeries-Merged",
         "YeastStates-TimeSeries-LowThroughput",
@@ -76,7 +77,6 @@
         "NovelChassisYeastStates-TimeSeries",
         "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
         "NovelChassis-NAND-Gate",
-        "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-Parts-Discovery",
         "Riboswitches"
     ],

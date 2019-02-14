@@ -3,6 +3,8 @@
 __version__ = '1.0.0'
 
 FILETYPES = [
+    ('ABI', 'ABI Sequencer Chromatogram file', ['.ab1$', '.abi$', '.ab$', '.ab!$']),
+    ('SCF', 'Standard Chromatogram Format file', ['.scf$']),
     ('LOG', 'Log file', ['.err$', '.out$', '.log$']),
     ('ENV', 'Environment file', ['.env$', '.rc$']),
     ('FASTQC', 'FASTQC outputs', ['fastqc.html$', 'fastqc.zip$']),
@@ -25,7 +27,7 @@ FILETYPES = [
     ('BPROV', 'Biofab Provenance (JSON)', ['^provenance_dump.json$']),
     ('INI', 'INI config file', ['.ini$']),
     ('SECRETS', 'Abaco secrets file', ['^secrets.json$']),
-    ('CONFIG', 'Config file', ['config.rc$', 'reactor.rc$', 'config.yml$']),
+    ('CONFIG', 'Configuration file', ['config.rc$', 'reactor.rc$', 'config.yml$']),
     ('GIT', 'Git file', ['.git']),
     ('JENKINS', 'Jenkins Pipeline file', ['^Jenkinsfile$']),
     ('DOCKERFILE', 'Docker build file', ['^Dockerfile$']),

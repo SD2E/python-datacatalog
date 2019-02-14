@@ -6,7 +6,7 @@ from .unknown import UnknownFileType
 from . import rules
 from . import mime
 
-def infer_filetype(filename, check_exists=True, permissive=True):
+def infer_filetype(filename, check_exists=False, permissive=True):
     """Infer a file's canonical ``file type``
 
     Args:

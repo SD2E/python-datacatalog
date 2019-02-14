@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-18 16:01:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@a608d1a",
+    "$comment": "generated: 2019-02-14 00:07:30 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0b14bbf",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -10,6 +10,7 @@
         "3GPP2",
         "7Z-COMPRESSED",
         "AAC",
+        "ABI",
         "ABIWORD",
         "AC3",
         "ACE",
@@ -570,6 +571,7 @@
         "SATURN-ROM",
         "SC",
         "SCALA",
+        "SCF",
         "SCHEME",
         "SCONS",
         "SCPLS",
