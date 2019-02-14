@@ -10,36 +10,13 @@ from pprint import pprint
 from ... import linkedstores
 from ... import jsonschemas
 from ...identifiers import typeduuid
+from ..common import Manager, ManagerError
 
-def dynamic_import(module, package='datacatalog'):
-    return importlib.import_module(module, package=package)
-
-class CatalogManagerError(linkedstores.basestore.CatalogError):
+class CatalogManagerError(ManagerError):
     pass
 
-class CatalogManager(object):
-    """Manager class for operations spanning LinkedStore collections"""
-
-    def __init__(self, mongodb_settings):
-        # Assemble dict of stores keyed by classname
-        self.stores = CatalogManager.init_stores(mongodb_settings)
-        self.document = dict()
-
-    @classmethod
-    def init_stores(cls, mongodb_settings):
-        # Assemble dict of stores keyed):
-        stores = dict()
-        for pkg in tuple(jsonschemas.schemas.STORE_SCHEMAS):
-            try:
-                m = dynamic_import('.' + pkg, package='datacatalog')
-                store = m.StoreInterface(mongodb_settings)
-                store_name = getattr(store, 'schema_name')
-                store_basename = store_name.split('.')[-1]
-                if store_basename != 'basestore':
-                    stores[store_basename] = store
-            except ModuleNotFoundError as mexc:
-                print('Module not found: {}'.format(pkg), mexc)
-        return stores
+class CatalogManager(Manager):
+    """Supports operations spanning multiple LinkedStore collections"""
 
     def get_uuidtype(self, uuid):
         """Identify the named type for a given UUID
@@ -63,7 +40,42 @@ class CatalogManager(object):
             dict: The document that was retrieved
         """
         storename = self.get_uuidtype(uuid)
-        return self.stores[storename].find_one_by_uuid(uuid)
+        return self.sanitize(
+            self.stores[storename].find_one_by_uuid(uuid))
+
+    def get_by_identifier(self, identifier_string):
+        """Search LinkedStores for a string identifier
+
+        Args:
+            identifier_string (str): An identifier string
+        Returns:
+            dict: The document that was retrieved
+        """
+        # TODO - use any namespacing in identifier_string to select intitial store to query
+        for sname, store in self.stores.items():
+            for i in store.get_identifiers():
+                query = {i: identifier_string}
+                resp = store.coll.find_one(query)
+                if resp is not None:
+                    return self.sanitize(resp)
+        return None
+
+    def get_by_uuids(self, uuids):
+        """Returns a list of LinkedStore documents by UUID
+
+        Args:
+            uuids (list): List of document UUIDs
+
+        Returns:
+            list The document that was retrieved
+        """
+        recs = list()
+        for uuid in uuids:
+            resp = self.get_by_uuid(uuid)
+            if resp is not None:
+                recs.append(resp)
+        sorted_recs = sorted(recs, key=lambda k: k['uuid'])
+        return sorted_recs
 
     def delete_by_uuid(self, uuid, token=None):
         """Deletes LinkedStore document and all linked references
@@ -78,8 +90,11 @@ class CatalogManager(object):
         storename = self.get_uuidtype(uuid)
         self.stores[storename].coll.find_one_and_delete({'uuid': uuid})
         for name, store in self.stores.items():
-            for linkage in linkedstores.basestore.store.LinkedStore.LINK_FIELDS:
-                store.coll.update_many({linkage: {'$in': [uuid]}}, {'$pull': {linkage: uuid}})
+            try:
+                for linkage in store.LINK_FIELDS:
+                    store.coll.update_many({linkage: {'$in': [uuid]}}, {'$pull': {linkage: uuid}})
+            except Exception:
+                raise
         return True
 
     def link(self, uuid1, uuid2, type='child_of', token=None):

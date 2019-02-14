@@ -1,4 +1,4 @@
-from .processor import SampleSetProcessor
+from .processor import SampleSetProcessor, UnknownReference, SampleSetProcessorError
 
 CHILD_OF = [('experiment_design', 'challenge_problem'),
             ('experiment', 'experiment_design'),
@@ -7,3 +7,5 @@ CHILD_OF = [('experiment_design', 'challenge_problem'),
             ('file', 'measurement'),
             ('pipelinejob', 'pipeline'),
             ('file', 'pipelinejob')]
+
+__all__ = ['SampleSetProcessor']

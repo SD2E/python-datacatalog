@@ -15,9 +15,9 @@ from ..tenancy import current_tenant_uri
 from ..dicthelpers import data_merge
 from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
-# def dynamic_import(module, package='datacatalog'):
-#     return importlib.import_module(module, package=package)
+from ..extensible import ExtensibleAttrDict
 
+__all__ = ['Manager', 'ManagerError']
 class ManagerError(linkedstores.basestore.CatalogError):
     """Error has occurred inside a Manager"""
     pass
@@ -41,10 +41,17 @@ class Manager(object):
                 store = m.StoreInterface(mongodb, agave=agave)
                 store_name = getattr(store, 'schema_name')
                 store_basename = store_name.split('.')[-1]
-                stores[store_basename] = store
+                if store_basename != 'basestore':
+                    stores[store_basename] = store
             except ModuleNotFoundError as mexc:
                 print('Module not found: {}'.format(pkg), mexc)
         return stores
+
+    def sanitize(self, mongo_document):
+        """Strips out non-public fields from a JSON document
+        """
+        a = ExtensibleAttrDict(mongo_document)
+        return a.as_dict(private_prefix='_')
 
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs

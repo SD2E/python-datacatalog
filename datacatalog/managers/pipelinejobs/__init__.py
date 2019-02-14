@@ -11,3 +11,5 @@ from .reactor import ReactorManagedPipelineJob
 
 from .exceptions import ManagedPipelineJobError
 # Streamlined interface for launching from wihtin a Reactor
+__all__ = ['ManagedPipelineJob', 'ReactorManagedPipelineJob',
+           'ManagedPipelineJobInstance', 'ManagedPipelineJobError']
