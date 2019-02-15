@@ -120,6 +120,7 @@ def validate(uuid_string, permissive=False):
     if validate_uuid5(uuid_string, permissive=permissive):
         try:
             get_uuidtype(uuid_string)
+            return True
         except ValueError:
             if permissive is True:
                 return False
