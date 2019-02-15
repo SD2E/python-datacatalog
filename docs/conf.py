@@ -15,6 +15,7 @@
 import os
 import sys
 import string
+import urllib.parse
 from tabulate import tabulate
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
@@ -23,6 +24,10 @@ from datacatalog.jsonschemas.schema import BASE_URL as PROJECT_SCHEMA_BASE_URL
 from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
 from datacatalog.identifiers import typeduuid
 from datacatalog.tokens import get_admin_lifetime
+from datacatalog import __version__ as code_version
+from datacatalog import __schema_version__ as schema_version_tuple
+from datacatalog import __schema_major_version__ as schema_major_version
+from datacatalog import __jsonschema_version__ as jsonschema_version
 
 def rstjinja(app, docname, source):
     """
@@ -52,15 +57,21 @@ def opt_admin_token_lifetime():
 def table_typeduuid_types():
     return tabulate(typeduuid.UUIDTYPES, ['Type', 'Prefix', 'Description'], tablefmt='rst')
 
+def text_schema_version():
+    return '.'.join(list(schema_version_tuple))
+
+def text_jsonschema_version():
+    return urllib.parse.quote(jsonschema_version)
+
 html_context = {
     'project_schema_base_url': PROJECT_SCHEMA_BASE_URL,
     'project_schema_browser_url': 'https://browser.catalog.sd2e.org',
     'pipelinejob_states': table_pipelinejob_states(),
     'pipelinejob_events': table_pipelinejob_events(),
-    'typeduuid_types': table_typeduuid_types()
+    'typeduuid_types': table_typeduuid_types(),
+    'schema_version': text_schema_version(),
+    'jsonschema_version': text_jsonschema_version()
 }
-
-
 
 # -- Project information -----------------------------------------------------
 
@@ -69,9 +80,9 @@ copyright = '2018, Matt Vaughn, Niall Gaffney, Mark Weston'
 author = 'Matt Vaughn, Niall Gaffney, Mark Weston'
 
 # The short X.Y version
-version = ''
+version = code_version
 # The full version, including alpha/beta/rc tags
-release = '1.0.0-alpha-01'
+release = '{}#{}'.format(code_version, '.'.join(list(schema_version_tuple)))
 
 # -- General configuration ---------------------------------------------------
 

@@ -7,10 +7,10 @@ SD2 Data Catalog
 ================
 
 .. image:: https://img.shields.io/badge/stability-under%20development-yellow.png
-.. image:: https://img.shields.io/badge/schema-1.0.0-blue.png
+.. image:: https://img.shields.io/badge/schema-{{schema_version}}-blue.png
+.. image:: https://img.shields.io/badge/jsonschema-{{jsonschema_version}}-blue.png
 .. image:: https://img.shields.io/badge/python-3.5-brightgreen.png
 .. image:: https://img.shields.io/badge/mongodb-3.6-brightgreen.png
-.. image:: https://img.shields.io/badge/jsonschema-draft%2007-brightgreen.png
 
 .. toctree::
     :maxdepth: 1

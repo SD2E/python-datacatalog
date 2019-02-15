@@ -6,3 +6,5 @@ from .schemas import JSONSchemaCollection, get_all_schemas
 from .encoders import DateTimeEncoder, DateTimeConverter
 from .formatchecker import formatChecker
 from .exceptions import *
+from .version import *
+
