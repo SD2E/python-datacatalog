@@ -139,6 +139,7 @@ def test_pipejob_inputs_list(mongodb_settings, pipelinejobs_config,
     # The experiment_id will resolve as well
     assert len(base.acted_on) == 2
 
+@pytest.mark.skip(reason="we have disabled resolving metadata linkage from inputs")
 def test_pipejob_inputs_no_link_or_data(mongodb_settings, pipelinejobs_config,
                                         agave, pipeline_uuid):
     inputs = ['agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs', 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs']
@@ -281,7 +282,7 @@ def test_pipejob_data_input_parameters_resolve(mongodb_settings, pipelinejobs_co
 def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
     """Checks that a specific parameterization yields expected job.uuid
     """
-    response_job_uuid = '10724289-c1de-5165-9a4e-314280bc0125'
+    response_job_uuid = '107653ca-020f-5f03-9663-41cff415b087'
     client_w_param.setup(data={'example_data': 'datadata'})
     assert client_w_param.pipeline_uuid == pipeline_uuid
     assert 'example_data' in client_w_param.data
@@ -290,7 +291,7 @@ def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
 
 def test_pipeinstance_event_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
-    job_uuid = '10724289-c1de-5165-9a4e-314280bc0125'
+    job_uuid = '107653ca-020f-5f03-9663-41cff415b087'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
     assert base.archive_path.startswith('/products/v2/106')
     assert len(base.child_of) > 0
@@ -300,7 +301,7 @@ def test_pipeinstance_event_init(mongodb_settings, agave):
 def test_pipejob_event_setup_get_callback(client_w_param_data):
     """Check that callback can be materialized but not until after setup()
     """
-    resp_job_uuid = '107dffbf-07fc-597e-9856-1c9e7308b8d6'
+    resp_job_uuid = '107f033e-3a25-5f30-9666-542d6ce0e0aa'
     client_w_param_data.setup()
     assert client_w_param_data.uuid == resp_job_uuid
     assert client_w_param_data.callback.startswith('https://')
@@ -446,7 +447,7 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
 #     assert len(listed) == 1
 
 # @delete
-# @pytest.mark.parametrize("job_uuid_del", ['10724289-c1de-5165-9a4e-314280bc0125', '107dffbf-07fc-597e-9856-1c9e7308b8d6', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
+# @pytest.mark.parametrize("job_uuid_del", ['107653ca-020f-5f03-9663-41cff415b087', '107f033e-3a25-5f30-9666-542d6ce0e0aa', '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'])
 # def test_pipejob_event_prep(client_w_param_data, job_uuid_del, admin_token):
 #     """Check that reset cannot happen with invalid token
 #     """
