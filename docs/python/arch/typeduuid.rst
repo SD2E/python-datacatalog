@@ -16,7 +16,7 @@ Here are a couple of examples to illustrate:
 TypedUUID Types
 ----------------
 
-{{ table_typeduuid_types }}
+{{ typeduuid_types }}
 
 Documentation
 -------------

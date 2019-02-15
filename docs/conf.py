@@ -56,7 +56,8 @@ html_context = {
     'project_schema_base_url': PROJECT_SCHEMA_BASE_URL,
     'project_schema_browser_url': 'https://browser.catalog.sd2e.org',
     'pipelinejob_states': table_pipelinejob_states(),
-    'pipelinejob_events': table_pipelinejob_events()
+    'pipelinejob_events': table_pipelinejob_events(),
+    'typeduuid_types': table_typeduuid_types()
 }
 
 
