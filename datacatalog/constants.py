@@ -12,8 +12,8 @@ from attrdict import AttrDict
 from uuid import uuid3, NAMESPACE_DNS
 
 __version__ = 3
-DNS_FOR_NAMESPACE = 'sd2e.org'
-UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
+DNS_DOMAIN = 'sd2e.org'
+UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_DOMAIN)
 
 class AgaveSystems(object):
     storage = {'data-sd2e-community': {
@@ -23,10 +23,10 @@ class AgaveSystems(object):
         'pagesize': 50}}
 
 class Constants(object):
-    DNS_FOR_NAMESPACE = 'sd2e.org'
-    MOCK_DNS_FOR_NAMESPACE = 'sd2e.club'
-    UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_FOR_NAMESPACE)
-    UUID_MOCK_NAMESPACE = uuid3(NAMESPACE_DNS, MOCK_DNS_FOR_NAMESPACE)
+    DNS_DOMAIN = 'sd2e.org'
+    MOCK_DNS_DOMAIN = 'sd2e.club'
+    UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_DOMAIN)
+    UUID_MOCK_NAMESPACE = uuid3(NAMESPACE_DNS, MOCK_DNS_DOMAIN)
     ABACO_HASHIDS_SALT = 'eJa5wZlEX4eWU'
     TYPEDUUID_HASHIDS_SALT = 'xCPJ7PKTdp8BYYb4twh9xNYD'
     MOCK_IDS_SALT = '97JFXMGWBDaFWt8a4d9NJR7z3erNcAve'
