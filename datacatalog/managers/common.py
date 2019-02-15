@@ -210,11 +210,10 @@ class Manager(object):
             # try to resolve the file record
             # if found:
             #     break
-
         # Filter out anything that may have come back that's not a UUID
         # Set permissive to True to simply filter out values that dont validate
         uuid_links = [l for l in links if typeduuid.validate(
-            l, permissive=False) is True]
+            l, permissive=True) is True]
         uuid_links = sorted(list(set(uuid_links)))
         return uuid_links
 
