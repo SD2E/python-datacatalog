@@ -425,6 +425,8 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                     # OFF with both IPTG and arabinose, ON otherwise, genomic (low level)
                     # we also need to indicate the control channels for the fluorescence control
                     # this is not known by the lab typically, has to be provided externally
+                    # per discussion with NC group use 18H timepoint, no inducers
+                    # this experiment does not have a constitutive positive control!
                     if SampleConstants.CONTENTS not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                         if is_nc_iteration_titration:
@@ -441,7 +443,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                                     found_iptg = True
                                 if content_label == "L-arabinose":
                                     found_arab = True
-                        if found_arab and not found_iptg:
+                        if not found_arab and not found_iptg and time_val is not None and time_val=="18:hour":
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                             if is_nc_iteration_titration:
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
