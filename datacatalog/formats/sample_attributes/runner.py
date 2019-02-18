@@ -53,7 +53,6 @@ def get_tx_data(eid, email, token):
     
 def convert_sample_attributes(schema_file, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
-    #print("schema_file: {} input_file: {} verbose: {} output: {} output_file: {} config: {} enforce_validation: {} reactor: {}".format(schema_file, input_file, verbose, output, output_file, config, enforce_validation, reactor))
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
         print("Helper loaded")

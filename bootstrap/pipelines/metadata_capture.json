@@ -1,0 +1,77 @@
+{
+    "name": "Metadata Ingest Manager",
+    "description": "A set of Reactors that detect upload of a JSON document containing sample metadata, detects its format (based on JSON schemas for each lab's products), converts it to the current SD2 program schema, and uploads the resulting metadata file to Agave-managed storage. The file is then ingested into the MongoDB database that powers the Data Catalog.",
+    "components": [
+        {
+            "uri": "https://s3-data-upload.sd2e.org:9001/",
+            "options": {
+                "image": "minio/mc:RELEASE.2017-10-14T00-51-16Z",
+                "bucket": "uploads"
+            }
+        },
+        {
+            "uri": "amqp://wombat.rmq.cloudamqp.com/jrpzcdwt",
+            "identifier": "taccmon-staging",
+            "options": {
+                "vhost": "jrpzcdwt"
+            }
+        },
+        {
+            "image": "sd2e/route_uploads_json:latest",
+            "hostname": "services.sd2e.org"
+        },
+        {
+            "image": "sd2e/process_uploads_json:latest",
+            "hostname": "services.sd2e.org"
+        },
+        {
+            "id": "6rgbzrjRKoBDk",
+            "image": "index.docker.io/sd2e/etl_pipeline_support:latest"
+        },
+        {
+            "uri": "https://hub.sd2e.org",
+            "options": {
+                "release": "1.4.0"
+            }
+        },
+        {
+            "image": "sd2etest/sd2-dictionary-maintainer:1.1.1",
+            "hostname": "services.sd2e.org"
+        },
+        {
+            "uri": "https://docs.google.com/spreadsheets/d/1oLJTTydL_5YPyk-wY-dspjIw_bPZ3oCiWiK0xtG8t3g"
+        },
+        {
+            "id": "D0bvrrM4qLwgr",
+            "image": "index.docker.io/sd2e/ingest_samples_json:latest"
+        },
+        {
+            "uri": "agave://data-sd2e-community/uploads",
+            "options": {
+                "tenant": "sd2e",
+                "owner": "sd2eadm",
+                "match": "*metadata-[A-Z0-9a-z-]+.json$"
+            }
+        },
+        {
+            "uri": "mongodb://catalog@catalog.sd2e.org:27020/admin?readPreference=primary",
+            "options": {
+                "database": "catalog",
+                "username": "catalog",
+                "replica": null
+            }
+        }
+    ],
+    "processing_levels": [
+        "0"
+    ],
+    "accepts": [
+        "JSON"
+    ],
+    "produces": [
+        "SAMPLES",
+        "CSV"
+    ],
+    "pipeline_type": "metadata-management",
+    "id": "metadata-capture-0.0.1"
+}

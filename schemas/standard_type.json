@@ -1,0 +1,25 @@
+{
+    "$comment": "generated: 2019-01-29 01:26:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
+    "$id": "https://schema.catalog.sd2e.org/schemas/standard_type.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "enumerated standard type",
+    "enum": [
+        "BEAD_FLUORESCENCE",
+        "BEAD_SIZE",
+        "WATER",
+        "LUDOX",
+        "FLUORESCEIN",
+        "MEDIA_BLANK"
+    ],
+    "examples": [
+        "BEAD_FLUORESCENCE",
+        "BEAD_SIZE",
+        "WATER",
+        "LUDOX",
+        "FLUORESCEIN",
+        "MEDIA_BLANK"
+    ],
+    "title": "Standard Type",
+    "type": "string"
+}

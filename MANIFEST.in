@@ -1,2 +1,3 @@
-datacatalog/formats/*/*.json
-datacatalog/jobs/*.json
+datacatalog/linkedstores/*/*.json
+datacatalog/definitions/jsondocs/*.json
+datacatalog/compositions/*/*.json

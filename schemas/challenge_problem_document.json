@@ -1,0 +1,108 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "description": "Challenge Problem Reference",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "aliases": {
+            "description": "Aliases for the challenge problem identifier",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "child_of": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "When the challenge problem reference document was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "id": {
+            "$ref": "challenge_problem_id.json",
+            "description": "Canonical string identifier for the challenge problem"
+        },
+        "title": {
+            "description": "Human-readable title for the challenge problem",
+            "type": "string"
+        },
+        "updated": {
+            "$comment": "Computed automatically",
+            "description": "When the challenge problem reference document was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "url": {
+            "$ref": "challenge_problem_url.json",
+            "description": "URI containing complete challenge problem"
+        },
+        "uuid": {
+            "$ref": "challenge_problem_uuid.json"
+        }
+    },
+    "required": [
+        "id",
+        "title"
+    ],
+    "title": "ChallengeProblem",
+    "type": "object"
+}

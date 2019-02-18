@@ -1,0 +1,5 @@
+{
+    "description": "SD2 SynBioHub reference",
+    "pattern": "^https://hub\\.sd2e\\.org|NO PROGRAM DICTIONARY ENTRY",
+    "type": "string"
+}

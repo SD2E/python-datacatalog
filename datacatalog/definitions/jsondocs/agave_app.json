@@ -1,0 +1,29 @@
+{
+    "description": "Agave application",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string",
+            "$ref": "agave_appid.json"
+        },
+        "inputs": {
+            "type": "object",
+            "description": "Predefined inputs for jobs spawned by the app"
+        },
+        "parameters": {
+            "type": "object",
+            "description": "Predefined parameters for the jobs spawned by the app",
+            "properties": {
+                "CONTAINER_IMAGE": {
+                    "$ref": "container_repo.json",
+                    "description": "Container image repository for the deployed app"
+                }
+            }
+        }
+    },
+    "required": [
+        "id",
+        "inputs",
+        "parameters"
+    ]
+}

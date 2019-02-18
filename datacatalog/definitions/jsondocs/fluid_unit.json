@@ -1,0 +1,12 @@
+{
+    "description": "Unit of fluid measurement",
+    "enum": [
+        "%",
+        "M",
+        "mM",
+        "X",
+        "g/L",
+        "micromole"
+    ],
+    "type": "string"
+}

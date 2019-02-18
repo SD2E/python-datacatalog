@@ -2,18 +2,15 @@
 import json
 import sys
 import os
-from jsonschema import validate
-from jsonschema import ValidationError
 import six
 from jq import jq
-# Hack hack
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common import SampleConstants
-from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_lab_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
+from jsonschema import validate, ValidationError
+from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from sbol import *
-from datacatalog.agavehelpers import AgaveHelper
+from ..agavehelpers import AgaveHelper
+from .common import SampleConstants
+from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 
 # common across methods
 attributes_attr = "attributes"
@@ -119,9 +116,9 @@ def add_experimental_design(biofab_sample, output_doc, config, lab, original_exp
             add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
 def add_timepoint(time_val, measurement_doc, input_item_id, biofab_doc):
-    if time_val != None:
+    if time_val is not None:
         measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
-    elif input_item_id != None:
+    elif input_item_id is not None:
         try:
             time_val = jq(".operations[] | select(.inputs[].item_id ==\"" + input_item_id + "\").inputs[] | select (.name == \"Timepoint (hr)\").value").transform(biofab_doc)
             measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val + ":hour")
@@ -235,9 +232,10 @@ def add_measurement_group_id(measurement_doc, file, output_doc):
 
     measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(mg_val, output_doc[SampleConstants.LAB])
 
-
 def add_measurement_type(file, measurement_doc):
+
     global is_sytox
+
     if type_attr in file:
         assay_type = file[type_attr]
         if assay_type == "FCS":
@@ -247,7 +245,6 @@ def add_measurement_type(file, measurement_doc):
                     measurement_doc[SampleConstants.M_CHANNELS] = SYTOX_DEFAULT_CYTOMETER_CHANNELS
                 else:
                     measurement_doc[SampleConstants.M_CHANNELS] = NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS
-
             if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                 measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
         elif assay_type == "CSV":
@@ -278,10 +275,10 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
         sample_doc[SampleConstants.MEASUREMENTS] = []
     sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
-    #NC Specific Channels
+    # NC Specific Channels
     if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS and \
-        measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
-            measurement_doc[SampleConstants.M_CHANNELS] = ["FSC-A", "SSC-A", "FL1-A"]
+            measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
+        measurement_doc[SampleConstants.M_CHANNELS] = ["FSC-A", "SSC-A", "FL1-A"]
 
     # NC does not provide control mappings
     # Use the default NC negative strain, if CP matches
@@ -309,7 +306,6 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
                 if not found:
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                     sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
-
 
     output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
@@ -365,7 +361,7 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                 if inducer_media_attr in last_source_lookup[attributes_attr]:
                     combined_inducer = last_source_lookup[attributes_attr][inducer_media_attr]
                     if combined_inducer != "None":
-                        #"IPTG_0.25|arab_25.0"
+                        # "IPTG_0.25|arab_25.0"
                         combined_inducer_split = combined_inducer.split("|")
                         found_inducer_media = True
                         for inducer in combined_inducer_split:
@@ -390,19 +386,19 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                                     else:
                                         if index + 1 < len(inducer_split):
                                             val1 = inducer_split[index]
-                                            val2 = inducer_split[index+1]
+                                            val2 = inducer_split[index + 1]
                                             try:
                                                 float(val2)
-                                                #arab_25.0
+                                                # arab_25.0
                                                 reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query, val2))
                                                 seen_index.add(index)
-                                                seen_index.add(index+1)
+                                                seen_index.add(index + 1)
                                             except ValueError:
-                                                #Kan
+                                                # Kan
                                                 reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query))
                                                 seen_index.add(index)
                                         else:
-                                            #Kan
+                                            # Kan
                                             val1 = inducer_split[index]
                                             reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query))
                                             seen_index.add(index)
@@ -615,9 +611,6 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
 
         add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
 
-        # TODO
-        #measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_props["measurement_name"]
-
         add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
 
         add_measurement_doc(measurement_doc, sample_doc, output_doc)
@@ -738,7 +731,9 @@ def convert_biofab(schema_file, encoding, input_file, verbose=True, output=True,
     try:
         validate(output_doc, schema)
         # if verbose:
+
         #print(json.dumps(output_doc, indent=4))
+
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join("output/biofab", os.path.basename(input_file))

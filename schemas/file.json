@@ -1,0 +1,49 @@
+{
+    "$comment": "generated: 2019-02-07 19:15:36 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3468b3f",
+    "$id": "https://schema.catalog.sd2e.org/schemas/file.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "An uploaded or generated file",
+    "properties": {
+        "file_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "File id (internal to experimental facility or data provider)"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "lab_label": {
+            "description": "Provider-defined label",
+            "items": {
+                "$ref": "lab_label.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "notes": {
+            "description": "Inline annotations written by automated processes",
+            "items": {
+                "$ref": "inline_annotation.json"
+            },
+            "type": "array"
+        },
+        "type": {
+            "$ref": "filetype_label.json",
+            "description": "Enumerated file type"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "title": "FileMetadata",
+    "type": "object"
+}

@@ -2,11 +2,25 @@ from attrdict import AttrDict
 from xdg.Mime import MIMEtype
 
 class FileTypeError(ValueError):
+    """Error that occurs when working with FileTypes"""
     pass
 
+class FileTypeComment(str):
+    """Verbose human-readable name for a file type"""
+    def __new__(cls, value):
+        value = str(value).lower()
+        return str.__new__(cls, value)
+
+class FileTypeLabel(str):
+    """Short, human-readable label for a file type"""
+    def __new__(cls, value):
+        value = str(value).lower()
+        return str.__new__(cls, value)
+
 class FileType(AttrDict):
+    """Defines a ``type`` that a file can be"""
+
     def __init__(self, mimetype=None, label=None, comment=None):
-        print(label, comment)
         if mimetype is not None and isinstance(mimetype, MIMEtype):
             label = mimetype.subtype
             if label.startswith('x-'):

@@ -6,8 +6,11 @@ dist/
 *egg-info/
 build/
 env/
-settings.py
+# settings.py
 .pytest_cache/
-.vscode/
-service_account.json
 config.yml
+service_account.json
+.vscode/
+docs/_build/
+staging/
+.env

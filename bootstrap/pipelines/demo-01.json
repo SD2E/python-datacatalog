@@ -1,0 +1,22 @@
+{
+    "name": "Jobs Demo",
+    "description": "(Demo) Demonstrate integration of Reactors, Apps, and Pipelines",
+    "components": [
+        {
+            "id": "D0ZxR0wPLpoJA",
+            "image": "index.docker.io/sd2e/jobs-demo-1:latest",
+            "options": {}
+        }
+    ],
+    "processing_levels": [
+        "1"
+    ],
+    "accepts": [
+        "*"
+    ],
+    "produces": [
+        "*"
+    ],
+    "pipeline_type": "generic-process",
+    "id": "sd2e/managedpipelinejob:101"
+}

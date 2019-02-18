@@ -1,0 +1,30 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/media_component.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Component in a fluid growth medium",
+    "properties": {
+        "name": {
+            "$ref": "mapped_name.json",
+            "description": "A mapped lab id for a media reference"
+        },
+        "unit": {
+            "$ref": "fluid_unit.json",
+            "description": "Unit of fluid measure"
+        },
+        "value": {
+            "description": "Numeric amount or fraction",
+            "type": "number"
+        },
+        "volume": {
+            "$ref": "volume.json",
+            "description": "Volume reference for media"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "title": "Media Component",
+    "type": "object"
+}

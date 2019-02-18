@@ -1,0 +1,85 @@
+{
+    "additionalProperties": false,
+    "title": "Product",
+    "description": "A file product of a ETL or processing job",
+    "properties": {
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "file_id": {
+            "description": "File id (internal). If generated, must be globally unique.",
+            "$ref": "namespaced_identifier.json"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "type": {
+            "description": "Enumerated file type",
+            "$ref": "filetype_label.json"
+        },
+        "lab_label": {
+            "description": "Provider-defined label",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "$ref": "lab_label.json"
+            }
+        },
+        "_visible": {
+            "description": "Whether the file has been marked as unavailable",
+            "type": "boolean"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "name",
+        "type",
+        "child_of"
+    ],
+    "type": "object",
+    "_filename": "product",
+    "__uuid_type": "file",
+    "__uuid_fields": [
+        "name"
+    ],
+    "__collection": "files",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "name"
+    ]
+}

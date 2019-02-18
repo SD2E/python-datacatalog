@@ -2,8 +2,12 @@ import sys
 import json
 from ..converter import Converter, ConversionError, ValidationError
 class SampleAttributes(Converter):
+    """Convert generic samples attributes file to sample-set schema"""
+    VERSION = '0.0.1'
+    FILENAME = 'sample_attributes'
+
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
-        # schema_file, input_file, verbose=True, output=True, output_file=None
+        """Do the conversion by running a method in runner.py"""
         from .runner import convert_sample_attributes
         passed_config = config if config != {} else self.options
         tx_email = passed_config['tx_email']

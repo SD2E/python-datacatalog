@@ -1,0 +1,133 @@
+{
+    "$comment": "generated: 2018-12-18 18:24:05 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e1c8ef9",
+    "$id": "https://schema.catalog.sd2e.org/schemas/fixity_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Fixity record for a file",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "description": "Whether the file is marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "checksum": {
+            "$comment": "Computed automatically",
+            "description": "sha-256 checksum of the file",
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "fingerprint": {
+            "$comment": "Computed automatically",
+            "description": "xxHash64 fingerprint of the file",
+            "type": "integer"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "modified": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "size": {
+            "$comment": "Computed automatically",
+            "description": "File size in bytes",
+            "type": "integer"
+        },
+        "type": {
+            "$comment": "Computed automatically",
+            "$ref": "filetype_label.json",
+            "description": "Detected file type"
+        },
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "version": {
+            "$comment": "Computed automatically",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "title": "FileFixity",
+    "type": "object"
+}

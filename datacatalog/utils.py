@@ -10,28 +10,36 @@ from builtins import *
 import datetime
 import json
 import uuid
+import arrow
+import importlib
+import inspect
+from time import sleep, time
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
-
-from .constants import Constants
 
 SCHEMA_FILE = '/schemas/default.jsonschema'
 
 def current_time():
     """Current UTC time
-
     Returns:
         A ``datetime`` object rounded to millisecond precision
     """
-    return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000)/1000)
+    return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000) / 1000)
 
 def msec_precision(datetimeval):
-    return datetime.datetime.fromtimestamp(int(datetimeval.timestamp() * 1000)/1000)
+    dt = arrow.get(datetimeval)
+    dts = dt.timestamp
+    dtsp = ((dts * 1000) / 1000)
+    return datetime.datetime.fromtimestamp(dtsp)
+
+def microseconds():
+    """Get currrent time in microseconds as ``int``
+    """
+    return int(round(time() * 1000 * 1000))
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds
-
     Args:
         dt (datetime): Optional datetime object. [current_time()]
         rounded (bool): Whether to round respose to nearest int
@@ -44,30 +52,6 @@ def time_stamp(dt=None, rounded=False):
         return int(dt.timestamp())
     else:
         return dt.timestamp()
-
-def catalog_uuid(filename, binary=True):
-    """Returns a UUID5 in the prescribed namespace
-    This function will either a text UUID or a BSON-encoded binary UUID,
-    depending on the optional value ``binary``.
-    Args:
-        filename (string) nominally, a file path, but can be any str
-        binary (bool): whether to encode result as BSON binary
-    Returns:
-        new_uuid: The computable UUID in string or binary-encoded form
-    """
-
-    if filename.startswith('/'):
-        filename = filename[1:]
-    if filename.startswith(Constants.UPLOADS_ROOT):
-        filename = filename[len(Constants.UPLOADS_ROOT):]
-    if filename.startswith('/'):
-        filename = filename[1:]
-
-    new_uuid = uuid.uuid5(Constants.UUID_NAMESPACE, filename)
-    if binary is False:
-        return str(new_uuid)
-    else:
-        return Binary(new_uuid.bytes, OLD_UUID_SUBTYPE)
 
 def text_uuid_to_binary(text_uuid):
     try:
@@ -111,3 +95,15 @@ def validate_file_to_schema(filename, schema_file=SCHEMA_FILE, permissive=False)
             raise Exception("file validation failed", e)
         else:
             return False
+
+def dynamic_import(module, package=None):
+    """Dynamically import a module by name at runtime
+
+    Args:
+        module (str): The name of the module to import
+        package (str, optional): The package to import ``module`` from
+
+    Returns:
+        object: The imported module
+    """
+    return importlib.import_module(module, package=package)

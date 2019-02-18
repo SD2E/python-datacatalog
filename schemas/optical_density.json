@@ -1,0 +1,22 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/optical_density.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "An optical density specification or measurement",
+    "properties": {
+        "unit": {
+            "$ref": "od_unit.json"
+        },
+        "value": {
+            "description": "Numeric value",
+            "type": "number"
+        }
+    },
+    "required": [
+        "unit",
+        "value"
+    ],
+    "title": "Optical Density",
+    "type": "object"
+}

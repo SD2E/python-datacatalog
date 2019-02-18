@@ -1,0 +1,60 @@
+{
+    "$comment": "generated: 2018-12-18 18:24:05 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e1c8ef9",
+    "$id": "https://schema.catalog.sd2e.org/schemas/fixity.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Fixity record for a file",
+    "properties": {
+        "checksum": {
+            "$comment": "Computed automatically",
+            "description": "sha-256 checksum of the file",
+            "type": "string"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "fingerprint": {
+            "$comment": "Computed automatically",
+            "description": "xxHash64 fingerprint of the file",
+            "type": "integer"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "modified": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "size": {
+            "$comment": "Computed automatically",
+            "description": "File size in bytes",
+            "type": "integer"
+        },
+        "type": {
+            "$comment": "Computed automatically",
+            "$ref": "filetype_label.json",
+            "description": "Detected file type"
+        },
+        "version": {
+            "$comment": "Computed automatically",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "title": "FileFixity",
+    "type": "object"
+}

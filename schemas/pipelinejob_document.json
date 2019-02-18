@@ -1,0 +1,174 @@
+{
+    "$comment": "generated: 2019-01-28 16:44:58 +00:00; source: git@github.com:SD2E/python-datacatalog.git@8db7b9e",
+    "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Description and history of a computing job",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "default": true,
+            "type": "boolean",
+            "value": true
+        },
+        "acted_on": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acted_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "agent": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_actorid.json"
+                },
+                {
+                    "$ref": "agave_appid.json"
+                }
+            ]
+        },
+        "archive_path": {
+            "description": "Absolute path to the job's outputs",
+            "type": "string"
+        },
+        "archive_path_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "archive_system": {
+            "description": "Storage resource housing the job's outputs",
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    }
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "data": {
+            "description": "Run-time parameterization of the job",
+            "type": "object"
+        },
+        "generated_by": {
+            "items": {
+                "$ref": "pipeline_uuid.json"
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "history": {
+            "description": "Annotated history of job events",
+            "items": {
+                "$ref": "pipelinejob_event.json"
+            },
+            "type": "array"
+        },
+        "pipeline_uuid": {
+            "$ref": "pipeline_uuid.json",
+            "description": "UUID of the pipeline that created this job"
+        },
+        "session": {
+            "description": "Short alphanumeric correlation string (optional)",
+            "type": "string"
+        },
+        "state": {
+            "$ref": "pipelinejob_statename.json"
+        },
+        "task": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_execid.json"
+                },
+                {
+                    "$ref": "agave_job_uuid.json"
+                }
+            ]
+        },
+        "updated": {
+            "description": "When the job record was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "uuid": {
+            "$ref": "generic_uuid.json"
+        }
+    },
+    "required": [
+        "pipeline_uuid",
+        "archive_path",
+        "data"
+    ],
+    "title": "PipelineJob",
+    "type": "object"
+}

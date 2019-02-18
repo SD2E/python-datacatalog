@@ -1,0 +1,26 @@
+{
+    "additionalProperties": false,
+    "description": "Component in a fluid growth medium",
+    "properties": {
+        "name": {
+            "$ref": "mapped_name.json",
+            "description": "A mapped lab id for a media reference"
+        },
+        "unit": {
+            "$ref": "fluid_unit.json",
+            "description": "Unit of fluid measure"
+        },
+        "value": {
+            "description": "Numeric amount or fraction",
+            "type": "number"
+        },
+        "volume": {
+            "description": "Volume reference for media",
+            "$ref": "volume.json"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object"
+}

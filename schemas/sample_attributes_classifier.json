@@ -1,0 +1,52 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/sample_attributes_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "items": {
+        "properties": {
+            "attributes": {
+                "properties": {
+                    "bead_colony": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "media": {
+                        "type": "string"
+                    },
+                    "od": {
+                        "type": "number"
+                    },
+                    "replicate": {
+                        "type": "integer"
+                    },
+                    "strain": {
+                        "type": "string"
+                    },
+                    "timepoints": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "files"
+                ],
+                "type": "object"
+            },
+            "sample": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "attributes",
+            "sample"
+        ],
+        "type": "object"
+    },
+    "title": "Sample Attributes Format Classification Schema",
+    "type": "array"
+}

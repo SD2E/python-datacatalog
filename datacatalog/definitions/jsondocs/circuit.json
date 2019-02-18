@@ -1,0 +1,20 @@
+{
+    "description": "Enumerated logic circuit, e.g for yeast_gates CP",
+    "enum": [
+        "AND",
+        "NAND",
+        "NOR",
+        "OR",
+        "XNOR",
+        "XOR"
+    ],
+    "type": "string",
+    "examples": [
+        "AND",
+        "NAND",
+        "NOR",
+        "OR",
+        "XNOR",
+        "XOR"
+    ]
+}

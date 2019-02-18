@@ -1,0 +1,125 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/measurement_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A measurement for a sample, including links to its output file(s)",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "channel": {
+            "description": "For flow cytometry, the name of the channel used by this measurement",
+            "type": "string"
+        },
+        "channels": {
+            "description": "For FLOW, a list of name(s) of the channels this measurement used",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "child_of": {
+            "items": {
+                "$ref": "sample_uuid.json",
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "id": {
+            "$ref": "identifier.json",
+            "description": "Distinguishing identifier for the specified document"
+        },
+        "instrument_configuration": {
+            "$ref": "agave_files_uri.json",
+            "description": "e.g. Cytometer configuration"
+        },
+        "library_prep": {
+            "$ref": "library_prep.json",
+            "description": "RNA_SEQ library preparation method"
+        },
+        "measurement_group_id": {
+            "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
+            "type": "string"
+        },
+        "measurement_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "A localized, unique measurement id relating a given sample to one or more files"
+        },
+        "measurement_name": {
+            "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
+            "type": "string"
+        },
+        "measurement_type": {
+            "$ref": "measurement_type.json"
+        },
+        "reference_sequence": {
+            "$ref": "agave_files_uri.json",
+            "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff"
+        },
+        "timepoint": {
+            "$ref": "time_point.json"
+        },
+        "uuid": {
+            "$ref": "generic_uuid.json"
+        }
+    },
+    "required": [
+        "measurement_id",
+        "measurement_type",
+        "child_of"
+    ],
+    "title": "Measurement",
+    "type": "object"
+}

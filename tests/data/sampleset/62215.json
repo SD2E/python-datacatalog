@@ -1,0 +1,4704 @@
+{
+    "experiment_id": "experiment.uw_biofab.11291",
+    "challenge_problem": "YEAST_STATES",
+    "experiment_reference": "Yeast-Gates",
+    "experiment_reference_url": "https://docs.google.com/document/d/14wB9eJL3p3oDBkPR6Tzowh_YGyGJ0XAL2vw5-zNwuw0",
+    "lab": "UW_BIOFAB",
+    "samples": [
+        {
+            "sample_id": "sample.uw_biofab.124077/F6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21734"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21735"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21736"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21737"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21738"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21739"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21740"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21741"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21742"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21743"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21744"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21745"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21746"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21747"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21748"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21749"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21750"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21751"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21752"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21753"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21754"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21755"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21756"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21758"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21757"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21759"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21760"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21761"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21762"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21763"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21765"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21764"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21766"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/A12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-A12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21767"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/A12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21768"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21770"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/B6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-B06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21769"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/B6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21771"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21772"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21773"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21774"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21775"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21776"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21777"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/C8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-C08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21778"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/C8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21779"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21780"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21781"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21782"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21783"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21784"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21785"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21786"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21787"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21788"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21789"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21790"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/D11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-D11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21791"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/D11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21792"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21793"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21794"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21795"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21796"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21797"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21798"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21799"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21800"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21801"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21802"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/E8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-E08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21803"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/E8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21804"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21805"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+                "label": "UWBIOFAB_Scerevisiae_MATa/alpha",
+                "lab_id": "name.uw_biofab.22544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21806"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21807"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/F10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8544/1",
+                "label": "UWBF_NAND_00",
+                "circuit": "NAND",
+                "input_state": "00",
+                "lab_id": "name.uw_biofab.8544"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-F10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21808"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/F10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21809"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21810"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G7",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G07.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21811"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G7.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G9",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G09.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21812"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G9.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G10",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G10.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21813"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G10.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G8",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G08.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21814"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G8.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8545/1",
+                "label": "UWBF_NAND_01",
+                "circuit": "NAND",
+                "input_state": "10",
+                "lab_id": "name.uw_biofab.8545"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21815"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G12",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G12.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21816"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G12.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H1",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21817"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H1.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H2",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H02.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21818"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H2.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H3",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H03.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21819"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H3.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H5",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H05.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21820"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H5.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H4",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H04.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21821"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H4.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/H6",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8542/1",
+                "label": "UWBF_NAND_11",
+                "circuit": "NAND",
+                "input_state": "11",
+                "lab_id": "name.uw_biofab.8542"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-H06.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21822"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/H6.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "sample_id": "sample.uw_biofab.124077/G11",
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/UWBF_8543/1",
+                "label": "UWBF_NAND_10",
+                "circuit": "NAND",
+                "input_state": "01",
+                "lab_id": "name.uw_biofab.8543"
+            },
+            "measurements": [
+                {
+                    "timepoint": {
+                        "value": 16.0,
+                        "unit": "hour"
+                    },
+                    "files": [
+                        {
+                            "name": "124077-G11.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21823"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.124077/G11.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        },
+        {
+            "standard_type": "BEAD_FLUORESCENCE",
+            "standard_attributes": {
+                "bead_model": "SpheroTech URCP-38-2K",
+                "bead_batch": "AJ02"
+            },
+            "sample_id": "sample.uw_biofab.109594",
+            "strain": {
+                "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/beads_spherotech_rainbow/1",
+                "label": "beads_spherotech_rainbow",
+                "lab_id": "name.uw_biofab.21849"
+            },
+            "contents": [
+                {
+                    "name": {
+                        "sbh_uri": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+                        "label": "Yeast_Extract_Peptone_Adenine_Dextrose (a.k.a. YPAD Media)",
+                        "lab_id": "name.uw_biofab.YPAD"
+                    }
+                }
+            ],
+            "temperature": {
+                "value": 30.0,
+                "unit": "celsius"
+            },
+            "measurements": [
+                {
+                    "files": [
+                        {
+                            "name": "109594-A01.fcs",
+                            "type": "FCS",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.21626"
+                        }
+                    ],
+                    "channels": [
+                        "FSC-A",
+                        "SSC-A",
+                        "FL1-A",
+                        "FL4-A"
+                    ],
+                    "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json",
+                    "measurement_type": "FLOW",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.109594.1",
+                    "measurement_group_id": "measurement.uw_biofab.62215"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "description": "A data processing level",
+    "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "Reference"
+    ],
+    "type": "string"
+}

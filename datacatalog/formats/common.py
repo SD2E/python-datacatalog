@@ -1,6 +1,8 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
+# FIXME: Refactor how we get resolve experiment references to use the experiments store
+from experiment_reference import ExperimentReferenceMapping, MappingNotFound
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -47,6 +49,7 @@ class SampleConstants():
     CHALLENGE_PROBLEM = "challenge_problem"
 
     CP_NOVEL_CHASSIS = "NOVEL_CHASSIS"
+
     CP_YEAST_STATES = "YEAST_STATES"
 
     EXPERIMENT_REFERENCE = "experiment_reference"
@@ -137,6 +140,7 @@ class SampleConstants():
     M_LAB_LABEL = "lab_label"
     M_LAB_LABEL_RAW = "RAW"
     M_LAB_LABEL_PROCESSED = "PROCESSED"
+
     M_CHANNELS = "channels"
     M_INSTRUMENT_CONFIGURATION = "instrument_configuration"
 
@@ -221,6 +225,35 @@ def map_experiment_reference(config, output_doc):
             print("Overwriting challenge problem with lookup {} ".format(match["id"]))
             output_doc[SampleConstants.CHALLENGE_PROBLEM] = match["id"]
             break
+
+expt_ref_mapper = None
+
+def map_experiment_reference(config, output_doc):
+    global expt_ref_mapper
+
+    if expt_ref_mapper is None:
+        expt_ref_mapper = ExperimentReferenceMapping(mapper_config=config['experiment_reference'],
+                                                     google_client=config['google_client'])
+        expt_ref_mapper.populate()
+
+    mapped = False
+    try:
+        # URI to id
+        if SampleConstants.EXPERIMENT_REFERENCE_URL in output_doc:
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
+            mapped = True
+    except Exception as exc:
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
+        raise Exception(exc)
+
+    if not mapped:
+        try:
+            # id to URI
+            if SampleConstants.EXPERIMENT_REFERENCE in output_doc:
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = expt_ref_mapper.id_to_uri(output_doc[SampleConstants.EXPERIMENT_REFERENCE])
+        except Exception as exc:
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
+            raise Exception(exc)
 
 def convert_value_unit(value_unit):
     value_unit_split = value_unit.split(":")

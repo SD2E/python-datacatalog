@@ -5,16 +5,13 @@ import os
 import six
 import collections
 import pymongo
-
-from jsonschema import validate
-from jsonschema import ValidationError
-# Hack hack
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common import SampleConstants
-from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from jsonschema import validate, ValidationError
+from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from sbol import *
+from ..agavehelpers import AgaveHelper
+from .common import SampleConstants
+from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from .mappings import SampleContentsFilter
 from datacatalog.agavehelpers import AgaveHelper
 
@@ -93,7 +90,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
 
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
-        #sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
+        # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab)
 
         contents = []
@@ -178,7 +175,6 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
-
         # do some cleaning
         temp_prop = "SD2_incubation_temperature"
 
@@ -198,6 +194,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         tx_sample_prop = "SD2_TX_sample_id"
+
         reference_time_point = None
         if tx_sample_prop in props:
             # pull out the aliquot id and namespace it for TX
@@ -345,6 +342,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                 elif measurement_name == "P63 Received Aug 2018 (WF: 15724, SEQ_WF: 16402)":
                     print("Setting Yeast States Challenge Problem by Inference")
                     output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_STATES
+
                     # workflow id from ginkgo
                     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(YS_WF_ID, lab)
                     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-gRNA-Seq-Diagnosis"
@@ -379,6 +377,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                         measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_TITRATION_CYTOMETER_CHANNELS
                     else:
                         measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+
                 if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     if is_nc_iteration_titration:
                         measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION
@@ -485,6 +484,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
+
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
@@ -497,7 +497,8 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
     try:
         validate(output_doc, schema)
         # if verbose:
-        #print(json.dumps(output_doc, indent=4))
+        # print(json.dumps(output_doc, indent=4))
+
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join(

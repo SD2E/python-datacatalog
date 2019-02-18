@@ -1,0 +1,12 @@
+{
+    "$comment": "generated: 2019-01-29 18:53:06 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b80ca20",
+    "$id": "https://schema.catalog.sd2e.org/schemas/agave_app_uuid.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Agave API app UUID",
+    "examples": [
+        "3085625318553817576-242ac11b-0001-005"
+    ],
+    "pattern": "-005$",
+    "type": "string"
+}

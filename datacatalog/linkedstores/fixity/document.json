@@ -1,0 +1,85 @@
+{
+    "additionalProperties": false,
+    "title": "FileFixity",
+    "description": "Fixity record for a file",
+    "properties": {
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "level": {
+            "$ref": "processing_level.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "type": {
+            "description": "Detected file type",
+            "$ref": "filetype_label.json",
+            "$comment": "Computed automatically"
+        },
+        "created": {
+            "format": "date-time",
+            "type": "string",
+            "$comment": "Computed automatically"
+        },
+        "modified": {
+            "format": "date-time",
+            "type": "string",
+            "$comment": "Computed automatically"
+        },
+        "version": {
+            "type": "integer",
+            "$comment": "Computed automatically"
+        },
+        "checksum": {
+            "type": "string",
+            "description": "sha-256 checksum of the file",
+            "$comment": "Computed automatically"
+        },
+        "fingerprint": {
+            "type": "integer",
+            "description": "xxHash64 fingerprint of the file",
+            "$comment": "Computed automatically"
+        },
+        "size": {
+            "type": "integer",
+            "description": "File size in bytes",
+            "$comment": "Computed automatically"
+        },
+        "_visible": {
+            "description": "Whether the file is marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object",
+    "_filename": "fixity",
+    "__collection": "fixities",
+    "__uuid_type": "fixity",
+    "__uuid_fields": [
+        "name"
+    ],
+    "__indexes": [
+        "fingerprint",
+        "checksum"
+    ],
+    "__identifiers": [
+        "uuid",
+        "name"
+    ]
+}

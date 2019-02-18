@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Pipeline Job Event",
+    "description": "Event record belonging to a PipelineJob",
+    "type": "object",
+    "properties": {
+        "name": {
+            "description": "Enumerated name of the event",
+            "$ref": "pipelinejob_eventname.json"
+        },
+        "uuid": {
+            "description": "UUID for this specific event",
+            "$ref": "pipelinejob_event_uuid.json",
+            "$comment": "Computed automatically"
+        },
+        "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time (UTC) when the event occurred",
+            "$comment": "Computed automatically"
+        },
+        "data": {
+            "description": "Data payload accompanying event",
+            "type": "object"
+        }
+    },
+    "required": [
+        "uuid",
+        "name"
+    ],
+    "_filename": "pipelinejob_event",
+    "__uuid_type": "pipelinejob_event",
+    "__uuid_fields": [
+        "name",
+        "created"
+    ],
+    "__identifiers": [
+        "uuid"
+    ],
+    "additionalProperties": false
+}

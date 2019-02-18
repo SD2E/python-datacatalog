@@ -5,24 +5,20 @@ import os
 import six
 import pymongo
 
-from jsonschema import validate
-from jsonschema import ValidationError
-# Hack hack
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common import SampleConstants
-from common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from jsonschema import validate, ValidationError
+from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from sbol import *
-from datacatalog.agavehelpers import AgaveHelper
+
+from ..agavehelpers import AgaveHelper
+from .common import SampleConstants
+from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 
 """
 Schema closely aligns with V1 target schema
 Walk and expand to dictionary/attribute blocks
 as necessary
 """
-
-
 def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -69,6 +65,7 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
     client = pymongo.MongoClient(db_uri)
     db = client[config['samples_db']]
     samples_table = db.samples
+
 
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
@@ -189,7 +186,6 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
-
             # TX does not mark size beads consistently
             if strain == "SizeBeadControl":
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
@@ -299,7 +295,6 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                         sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
 
-
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
 
@@ -331,6 +326,7 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
                         measurement_doc[SampleConstants.M_CHANNELS] = ["BL1-A", "FSC-A", "SSC-A"]
                     else:
                         measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+
                 if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
@@ -385,7 +381,7 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
     try:
         validate(output_doc, schema)
         # if verbose:
-        #print(json.dumps(output_doc, indent=4))
+        # print(json.dumps(output_doc, indent=4))
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join(

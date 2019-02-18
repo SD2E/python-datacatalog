@@ -1,0 +1,92 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/transcriptic_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "challenge_problem": {
+            "type": "string"
+        },
+        "experiment_id": {
+            "type": "string"
+        },
+        "experiment_reference": {
+            "type": "string"
+        },
+        "lab": {
+            "type": "string"
+        },
+        "samples": {
+            "items": {
+                "properties": {
+                    "contents": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "experimental_media": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "sha256": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "type"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "inoculation_density": {
+                        "type": "string"
+                    },
+                    "sample_id": {
+                        "type": "string"
+                    },
+                    "strain": {
+                        "type": "string"
+                    },
+                    "temperature": {
+                        "type": "string"
+                    },
+                    "timepoint": {
+                        "type": "string"
+                    },
+                    "tx_sample_id": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "files",
+                    "sample_id",
+                    "temperature",
+                    "timepoint",
+                    "tx_sample_id"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "challenge_problem",
+        "experiment_id",
+        "experiment_reference",
+        "lab",
+        "samples"
+    ],
+    "title": "Transcriptic Samples Format Classification Schema",
+    "type": "object"
+}

@@ -1,0 +1,24 @@
+{
+    "description": "Enumerated control type",
+    "type": "string",
+    "enum": [
+        "HIGH_FITC",
+        "EMPTY_VECTOR",
+        "BASELINE",
+        "TREATMENT_1",
+        "TREATMENT_2",
+        "BASELINE_MEDIA_PR",
+        "CELL_DEATH_NEG_CONTROL",
+        "CELL_DEATH_POS_CONTROL"
+    ],
+    "examples": [
+        "HIGH_FITC",
+        "EMPTY_VECTOR",
+        "BASELINE",
+        "TREATMENT_1",
+        "TREATMENT_2",
+        "BASELINE_MEDIA_PR",
+        "CELL_DEATH_NEG_CONTROL",
+        "CELL_DEATH_POS_CONTROL"
+    ]
+}

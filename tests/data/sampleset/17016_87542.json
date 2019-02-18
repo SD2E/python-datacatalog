@@ -1,0 +1,30 @@
+{
+    "experiment_id": "experiment.uw_biofab.17016",
+    "challenge_problem": "NOVEL_CHASSIS",
+    "experiment_reference": "NovelChassis-NAND-Gate",
+    "experiment_reference_url": "https://docs.google.com/document/d/14lKgNOjJTJKccQ-0n1OphbZ8GTKOq2DFOdzEjoAGoP4",
+    "lab": "UW_BIOFAB",
+    "samples": [
+        {
+            "sample_id": "sample.uw_biofab.87542_24512",
+            "measurements": [
+                {
+                    "files": [
+                        {
+                            "name": "novel_chassis_experimental_design_v4.csv",
+                            "type": "CSV",
+                            "lab_label": [
+                                "RAW"
+                            ],
+                            "level": "0",
+                            "file_id": "file.uw_biofab.24512"
+                        }
+                    ],
+                    "measurement_type": "EXPERIMENTAL_DESIGN",
+                    "measurement_id": "measurement.uw_biofab.sample.uw_biofab.87542_24512.1",
+                    "measurement_group_id": "measurement.uw_biofab.87542"
+                }
+            ]
+        }
+    ]
+}

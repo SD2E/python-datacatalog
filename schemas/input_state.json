@@ -1,0 +1,21 @@
+{
+    "$comment": "generated: 2019-01-29 01:26:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
+    "$id": "https://schema.catalog.sd2e.org/schemas/input_state.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "An input state for a strain circuit. Currently only encodes two input states.",
+    "enum": [
+        "00",
+        "01",
+        "10",
+        "11"
+    ],
+    "examples": [
+        "00",
+        "01",
+        "10",
+        "11"
+    ],
+    "title": "Input State",
+    "type": "string"
+}

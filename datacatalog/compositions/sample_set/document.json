@@ -1,0 +1,45 @@
+{
+    "title": "SampleSet",
+    "type": "object",
+    "description": "Describes a set of samples produced by an experimental facility or data provider",
+    "additionalProperties": false,
+    "properties": {
+        "id": {
+            "description": "String identifier for the sample set",
+            "$ref": "identifier.json"
+        },
+        "challenge_problem": {
+            "$ref": "challenge_problem_id.json"
+        },
+        "experiment_id": {
+            "$ref": "namespaced_identifier.json"
+        },
+        "experiment_reference": {
+            "$ref": "experiment_reference.json"
+        },
+        "experiment_reference_url": {
+            "$ref": "experiment_url.json"
+        },
+        "lab": {
+            "$ref": "lab.json"
+        },
+        "samples": {
+            "type": "array",
+            "items": {
+                "$ref": "sample.json"
+            }
+        }
+    },
+    "required": [
+        "id",
+        "challenge_problem",
+        "experiment_id",
+        "experiment_reference",
+        "lab",
+        "samples"
+    ],
+    "_filename": "sample_set",
+    "__collection": null,
+    "__uuid_type": "generic",
+    "__indexes": []
+}

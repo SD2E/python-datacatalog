@@ -10,8 +10,8 @@ import re
 import os
 from requests import HTTPError
 from agavepy.agave import Agave, AgaveError
-from .constants import AgaveSystems
-from .configs import CatalogStore
+
+from .constants import AgaveSystems, CatalogStore
 
 # TODO Factor the command runners into a class that handles the setup
 # TODO Implement a more declarative form of support for these commands based on plugins
@@ -21,37 +21,57 @@ DEF_STORAGE_SYSTEM = 'data-sd2e-community'
 
 
 class AgaveHelperException(Exception):
+    """Error is can be sourced specifically to AgaveHelper"""
     pass
 
+class AgaveHelperError(AgaveError):
+    """Error is can be sourced specifically to Agave from within AgaveHelper"""
+    pass
 
 class AgaveHelper(object):
+    """Uses an active API client to provide various utility functions
+    """
+
     def __init__(self, client):
         self.STORAGE_SYSTEM = os.environ.get(
             'CATALOG_STORAGE_SYSTEM', CatalogStore.agave_storage_system)
+        """The Agave storage system for mapping paths and resolving URI"""
         self.STORAGE_PREFIX = os.environ.get(
             'CATALOG_ROOT_DIR', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['root_dir'])
+        """The absolute POSIX path to the storage systems root directory"""
         self.STORAGE_PAGESIZE = os.environ.get(
             'CATALOG_FILES_API_PAGESIZE', AgaveSystems.storage[DEF_STORAGE_SYSTEM]['pagesize'])
+        """Number of records to return at once from Agave API calls"""
         self.client = client
-        # Check for existence of posix mapped directory, and if it exists, we can
-        # trust the POSIX methods when they return False
-        if os.path.exists(self.STORAGE_PREFIX):
-            self.trust_posix = True
-        else:
-            self.trust_posix = False
+        """An active, authenticated Agave API client"""
 
     def mapped_posix_path(self, path, storage_system=None):
-        # if storage_system is None:
-        #     storage_system = self.STORAGE_SYSTEM
-        #     prefix = AgaveSystems.storage[storage_system]['root_dir']
-        # else:
+        """Get the absolute POSIX path for an Agave directory
+
+        Args:
+            path (str): An Agave absolute path
+            storage_system (str, optional): The storage system against which to resolve the POSIX path
+        Returns:
+            str: The path as a string
+        """
         prefix = self.STORAGE_PREFIX
         if path.startswith('/'):
             path = path[1:]
         return os.path.join(prefix, path)
 
     def paths_to_agave_uris(self, filepaths, storage_system=None):
-        """Transform a list of absolute paths on a storage system to agave-canonical URIs"""
+        """Transform a list of paths on a storage system to agave URI
+
+        Args:
+            filepaths (list): A list of agave storage system paths
+            storage_system (str, optional): The storage system where these paths reside
+
+        Returns:
+            list: The paths in `agave://` format
+
+        Warning:
+            The resulting URIs are not validated
+        """
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         uri_list = []
@@ -62,6 +82,18 @@ class AgaveHelper(object):
         return uri_list
 
     def exists(self, path, storage_system=None):
+        """Check if a path exists on an Agave storage resource
+
+        Args:
+            path (str): An Agave absolute path
+            storage_system (str, optional): The storage system against which to resolve the POSIX path
+
+        Raises:
+            AgaveHelperException: The function has failed due an API error
+
+        Returns:
+            bool: Whether the path exists or not
+        """
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         try:
@@ -112,6 +144,18 @@ class AgaveHelper(object):
         raise NotImplementedError()
 
     def isfile(self, path, storage_system=None):
+        """Check if a path on an Agave storage resource is a file
+
+        Args:
+            path (str): An Agave absolute path
+            storage_system (str, optional): The storage system against which to resolve the POSIX path
+
+        Raises:
+            AgaveHelperException: The function has failed due an API error
+
+        Returns:
+            bool: Whether the path is a file or not
+        """
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         try:
@@ -133,6 +177,18 @@ class AgaveHelper(object):
             raise NotImplementedError(aexc)
 
     def isdir(self, path, storage_system=None):
+        """Check if a path on an Agave storage resource is a directory
+
+        Args:
+            path (str): An Agave absolute path
+            storage_system (str, optional): The storage system against which to resolve the POSIX path
+
+        Raises:
+            AgaveHelperException: The function has failed due an API error
+
+        Returns:
+            bool: Whether the path is a directory or not
+        """
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         try:
@@ -157,25 +213,27 @@ class AgaveHelper(object):
         raise NotImplementedError()
 
     def listdir(self, path, recurse, storage_system=None, directories=True):
-        """Return a list containing the names of the entries in the directory
-        given by path.
+        """Get the contents of a directory on an Agave storage resource
 
-        Gets a directory listing from the default storage system unless specified.
-        For performance, direct POSIX is tried first, then API if that fails.
+        Args:
+            path (str): An Agave absolute path to directory
+            storage_system (str, optional): The storage system where `path` is found
+            directories (bool, optional): Whether to include directories in response
 
-        Parameters:
-        path:str - storage system-absolute path to list
-        Arguments:
-        storage_system:str - non-default Agave storage system
         Returns:
-        listing:list - all directory contents
+            list: Directory contents as a list of strings
         """
+        dirlisting = list()
         if storage_system is None:
             storage_system = self.STORAGE_SYSTEM
         try:
-            return self.listdir_agave_posix(path, recurse, storage_system, directories)
+            dirlisting = self.listdir_agave_posix(path, recurse, storage_system, directories)
         except Exception:
-            return self.listdir_agave_native(path, recurse, storage_system, directories)
+            dirlisting = self.listdir_agave_native(path, recurse, storage_system, directories)
+
+        # Ensure listing is non-redundant
+        # FIXME - figure out why there are redundant entries
+        return list(set(dirlisting))
 
     def listdir_agave_posix(self, path, recurse=True, storage_system=None, directories=True, current_listing=[]):
         if storage_system is None:
@@ -226,10 +284,44 @@ class AgaveHelper(object):
                             f['path'], recurse, storage_system, directories, current_listing=listing)
         return sorted(listing)
 
-def from_agave_uri(uri=None, Validate=False):
-    """Parse an Agave URI into a tuple (systemId, directoryPath, fileName)
-    Validation that it points to a real resource is not implemented. The
-    same caveats about validation apply here as in to_agave_uri()"""
+    def delete(self, filePath, systemId):
+        self.client.files.delete(filePath, systemId=systemId)
+
+    def mkdir(self, dirName, systemId,
+              basePath='/', sync=False, timeOut=60):
+        """
+        Creates a directory dirName on a storage system at basePath
+
+        Like mkdir -p this is imdepotent. It will create the child path
+        tree so long as paths are specified correctly, but will do
+        nothing if all directories are already in place.
+        """
+        try:
+            self.client.files.manage(systemId=systemId,
+                                     body={'action': 'mkdir', 'path': dirName},
+                                     filePath=basePath)
+        except HTTPError as h:
+            http_err_resp = process_agave_httperror(h)
+            raise Exception(http_err_resp)
+        except Exception as e:
+            raise AgaveError(
+                "Unable to mkdir {} at {}/{}: {}".format(
+                    dirName, systemId, basePath, e))
+        return True
+
+def from_agave_uri(uri=None, validate=False):
+    """Partition an Agave storage URI into its components
+
+    Args:
+        uri (str): An agave-canonical files URI
+        validate (bool, optional): Whether to validate the URL using an API call
+
+    Raises:
+        AgaveError: Occurs when invalid URI is passed
+
+    Returns:
+        tuple: Three strings are returned: storageSystem, directoryPath, and fileName
+    """
     systemId = None
     dirPath = None
     fileName = None
@@ -252,3 +344,24 @@ def from_agave_uri(uri=None, Validate=False):
     except Exception as e:
         raise AgaveError(
             "Error resolving directory path or file name: {}".format(e))
+
+def process_agave_httperror(http_error_object):
+
+    h = http_error_object
+    # extract HTTP response code
+    code = -1
+    try:
+        code = h.response.status_code
+        assert isinstance(code, int)
+    except Exception:
+        # we have no idea what the hell happened
+        code = 418
+
+    # extract HTTP reason
+    reason = 'UNKNOWN ERROR'
+    try:
+        reason = h.response.reason
+    except Exception:
+        pass
+
+    return reason

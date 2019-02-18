@@ -1,0 +1,10 @@
+{
+    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$id": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "SD2 SynBioHub reference",
+    "pattern": "^https://hub\\.sd2e\\.org|NO PROGRAM DICTIONARY ENTRY",
+    "title": "Sd2 Synbiohub Uri",
+    "type": "string"
+}

@@ -1,0 +1,481 @@
+import copy
+import json
+import importlib
+import inspect
+import itertools
+import os
+import sys
+from pprint import pprint
+
+from ..linkedstores import DEFAULT_LINK_FIELDS
+from .. import linkedstores
+from .. import jsonschemas
+from ..utils import dynamic_import
+from ..tenancy import current_tenant_uri
+from ..dicthelpers import data_merge
+from ..agavehelpers import from_agave_uri
+from ..identifiers import typeduuid
+from ..extensible import ExtensibleAttrDict
+
+__all__ = ['Manager', 'ManagerError']
+class ManagerError(linkedstores.basestore.CatalogError):
+    """Error has occurred inside a Manager"""
+    pass
+
+class Manager(object):
+    """Manages operations across LinkedStores"""
+
+    def __init__(self, mongodb, agave=None, *args, **kwargs):
+        # Assemble dict of stores keyed by classname
+        self.stores = Manager.init_stores(mongodb, agave=agave)
+        self.client = agave
+        self.api_server = kwargs.get('api_server', current_tenant_uri())
+
+    @classmethod
+    def init_stores(cls, mongodb, agave=None):
+        # Assemble dict of stores keyed):
+        stores = dict()
+        for pkg in tuple(jsonschemas.schemas.STORE_SCHEMAS):
+            try:
+                m = dynamic_import('.' + pkg, package='datacatalog')
+                store = m.StoreInterface(mongodb, agave=agave)
+                store_name = getattr(store, 'schema_name')
+                store_basename = store_name.split('.')[-1]
+                if store_basename != 'basestore':
+                    stores[store_basename] = store
+            except ModuleNotFoundError as mexc:
+                print('Module not found: {}'.format(pkg), mexc)
+        return stores
+
+    def sanitize(self, mongo_document):
+        """Strips out non-public fields from a JSON document
+        """
+        a = ExtensibleAttrDict(mongo_document)
+        return a.as_dict(private_prefix='_')
+
+    def get_uuidtype(self, uuid):
+        """Identify the named type for a given UUID
+
+        Args:
+            uuid (str): UUID to classify by type
+
+        Returns:
+            str: Named type of the UUID
+        """
+        typeduuid.validate(uuid)
+        return typeduuid.get_uuidtype(uuid)
+
+    def get_by_uuid(self, uuid):
+        """Returns a LinkedStore document by UUID
+
+        Args:
+            uuid (str): UUID of the document to retrieve
+
+        Returns:
+            dict: The document that was retrieved
+        """
+        storename = self.get_uuidtype(uuid)
+        return self.sanitize(
+            self.stores[storename].find_one_by_uuid(uuid))
+
+    def get_by_identifier(self, identifier_string):
+        """Search LinkedStores for a string identifier
+
+        Args:
+            identifier_string (str): An identifier string
+        Returns:
+            dict: The document that was retrieved
+        """
+        # TODO - use any namespacing in identifier_string to select intitial store to query
+        for sname, store in self.stores.items():
+            for i in store.get_identifiers():
+                query = {i: identifier_string}
+                resp = store.coll.find_one(query)
+                if resp is not None:
+                    return self.sanitize(resp)
+        return None
+
+    def get_by_uuids(self, uuids):
+        """Returns a list of LinkedStore documents by UUID
+
+        Args:
+            uuids (list): List of document UUIDs
+
+        Returns:
+            list The document that was retrieved
+        """
+        recs = list()
+        for uuid in uuids:
+            resp = self.get_by_uuid(uuid)
+            if resp is not None:
+                recs.append(resp)
+        sorted_recs = sorted(recs, key=lambda k: k['uuid'])
+        return sorted_recs
+
+    def derivation_from_inputs(self, inputs=[]):
+        """Retrieve derived_from linkages for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        return self.linkage_from_inputs(inputs=inputs, target='derived_from')
+
+    def generator_from_inputs(self, inputs=[]):
+        """Retrieve generated_by linkages for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        return self.linkage_from_inputs(inputs=inputs, target='generated_by')
+
+    def parent_from_inputs(self, inputs=[]):
+        """Retrieve child_of linkages for a set of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        return self.linkage_from_inputs(inputs=inputs, target='child_of')
+
+    def self_from_inputs(self, inputs=[]):
+        """Retrieve canonical linkage UUIDs for a list of inputs
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        return self.linkage_from_inputs(inputs=inputs, target='self')
+
+    def linkage_from_inputs(self, inputs=[], target='child_of'):
+        """Retrieve linkage targets from a set of inputs
+
+        Filepaths will be resolved against the ``file``
+        collection and will return a reference to their immediate
+        parent. URIs will be resolved against the ``reference`` collection
+        and will return a reference to themselves.
+
+        Args:
+            inputs (list): Identifier values for one or more inputs (e.g. ``name``, ``file_id``, ``uri``)
+            target (str): Linkage type to retrieve
+
+        Returns:
+            list: a set of Typed UUIDs
+        """
+        # STORES = [('file', 'name', 'child_of')]
+        STORES = [('reference', ['uri', 'reference_id'], target),
+                  ('file', ['name', 'file_id'], target)]
+
+        if target not in DEFAULT_LINK_FIELDS and target != 'self':
+            raise ValueError(
+                "{} is an invalid value for 'target'. Valid options include: {}".format(target, DEFAULT_LINK_FIELDS))
+
+        links = list()
+        for idstr in inputs:
+            # print('RESOLVING ' + idstr)
+            found = False
+            for store_name, search_keys, linkage in STORES:
+                # print('STORE ' + store_name)
+                if not isinstance(idstr, str):
+                    raise ValueError(
+                        "{} is a {} not a string".format(idstr, type(idstr)))
+                for key in search_keys:
+                    # Resolve agave URL into file.name
+                    # print('KEY ' + key)
+                    if store_name == 'file' and key == 'name' and idstr.startswith('agave:'):
+                        agsys, agpath, agfile = from_agave_uri(idstr)
+                        idstr = os.path.join(agpath, agfile)
+                    query = {key: idstr}
+                    resp = self.stores[store_name].find_one_by_id(**query)
+                    if resp is not None:
+                        if linkage == 'self':
+                            # print('SELF ' + resp.get('uuid'))
+                            links.extend([resp.get('uuid')])
+                            found = True
+                        else:
+                            links.extend(resp.get(linkage, []))
+                        break
+                if found:
+                    break
+            # Break if we find the reference form for a file. Otherwise,
+            # try to resolve the file record
+            # if found:
+            #     break
+        # Filter out anything that may have come back that's not a UUID
+        # Set permissive to True to simply filter out values that dont validate
+        uuid_links = [l for l in links if typeduuid.validate(
+            l, permissive=True) is True]
+        uuid_links = sorted(list(set(uuid_links)))
+        return uuid_links
+
+    def lineage_from_uuid(self, query_uuid, target='child_of', permissive=True):
+        """Get self-inclusive lineage for a given UUID
+
+        Args:
+            query_uuid (str): The UUID to query on
+            target (str, optional): The kind of linkage to follow
+            permissive (bool, optional): Whether to raise a ValueError if a
+            simple lineage can't be determined.
+
+        Raises:
+            ValueError: Raised if ``permissive==False`` and complete lineage traversal cannot be achieved
+
+        Returns:
+            list: Ordered list of tuples (``<collection_level>``, ``<uuid5>``)
+
+        Note:
+            The lineage will include a reference to the original query
+            at position 0. Access the UUID of immediate parent as follows:
+            ``my_lineage[1][1]``.
+        """
+
+        DEFAULT_LINK_HIERARCHY = ['file', 'measurement', 'sample',
+                                  'experiment', 'experiment_design',
+                                  'challenge_problem']
+        LINK_HIERARCHY = copy.copy(DEFAULT_LINK_HIERARCHY)
+        lineage = list()
+
+        uuid_type = typeduuid.get_uuidtype(query_uuid)
+        # print('TypedUUID', uuid_type)
+
+        for link_level in DEFAULT_LINK_HIERARCHY:
+            if link_level != uuid_type:
+                LINK_HIERARCHY.pop()
+            else:
+                break
+
+        current_query_uuid = query_uuid
+        lineage.append((uuid_type, current_query_uuid))
+
+        try:
+            for x in range(0, len(LINK_HIERARCHY)):
+                try:
+                    store_name = LINK_HIERARCHY[x]
+                    parent_store_name = LINK_HIERARCHY[x + 1]
+                    resp1 = self.stores[store_name].find_one_by_uuid(current_query_uuid)
+                    if resp1 is not None:
+                        parent_uuid_list = resp1.get(target, [])
+                        if len(parent_uuid_list) == 1:
+                            current_query_uuid = parent_uuid_list[0]
+                            # lineage[parent_store_name] = current_query_uuid
+                            lineage.append((parent_store_name, current_query_uuid))
+                        else:
+                            raise ValueError(
+                                'Stopped computing lineage because {} has {} parents.'.format(
+                                    current_query_uuid, len(parent_uuid_list)))
+                except IndexError:
+                    break
+        except ValueError as verr:
+            if permissive:
+                print(verr)
+            else:
+                raise
+
+        return lineage
+
+    def level_from_lineage(self, lineage, level='experiment', permissive=False):
+        """Traverse a lineage and return value for a specific level"""
+        for name, value in lineage:
+            if name == level:
+                return value
+        if permissive:
+            return None
+        else:
+            raise ValueError('Failed to retrieve level {} from lineage'.format(level))
+
+    def self_from_ids(self, ids, enforce_type=True, permissive=False):
+        """Resolve UUIDs from one or more identifiers
+
+        Args:
+            ids (str/list): String or list of string identifiers
+            enforce_type (bool, optional): Whether all identifiers must be of same type
+            permissive (bool, optional): Whether to return None or raise exception when encountering an error
+
+        Raises:
+            ValueError: Raised when identifiers can't be resolved or type enforcement fails
+
+        Returns:
+            list: One or UUID strings
+        """
+        try:
+            selfs = list()
+            self_types = list()
+            if not isinstance(ids, list):
+                qids = [ids]
+            else:
+                qids = ids
+
+            for qid in qids:
+                quuid = None
+                quuid_type = None
+                try:
+                    quuid_type = typeduuid.get_uuidtype(qid)
+                    quuid = qid
+                except Exception:
+                    resp = self.get_by_identifier(qid)
+                    if resp is not None:
+                        quuid = resp['uuid']
+                        quuid_type = typeduuid.get_uuidtype(quuid)
+                if quuid is not None:
+                    selfs.append(quuid)
+                if quuid_type is not None:
+                    self_types.append(quuid_type)
+
+            if enforce_type:
+                if len(list(set(self_types))) > 1:
+                    raise ValueError('Cannot resolve a list of identifiers with mixed types')
+            selfs = sorted(list(set(selfs)))
+            if len(selfs) > 0:
+                return selfs
+            else:
+                raise ValueError('Unable to resolve any identifers to UUIDs')
+        except Exception:
+            if permissive is True:
+                return None
+            else:
+                raise
+
+    def kids_from_parents(self, ids, parent='experiment',
+                          parent_id='experiment_id', kid='sample',
+                          kid_id='uuid', permissive=False):
+
+        if not isinstance(ids, list):
+            qids = [ids]
+        else:
+            qids = ids
+
+        query_ids = list()
+        child_ids = list()
+
+        parent_coll = parent
+        parent_id_field = parent_id
+        child_coll = kid
+        child_id_field = kid_id
+
+        # Resolve ids into UUIDs. If ids are not valid UUIDs, consult collection
+        for qid in qids:
+            try:
+                if typeduuid.get_uuidtype(qid) == parent:
+                    query_ids.append(qid)
+                else:
+                    raise ValueError
+            except ValueError:
+                # Not a resolvable UUID with correct type
+                pquery = {parent_id_field: qid}
+                resp = self.stores[parent_coll].find_one_by_id(**pquery)
+                if resp is not None:
+                    quid = resp.get('uuid', None)
+                    if quid is not None:
+                        query_ids.append(quid)
+        # Filter redundant members
+        query_ids = list(set(query_ids))
+
+        # Implementing N_from_N is just a lookup of N -> UUID5s
+        if parent == kid:
+            return query_ids
+
+        # Get child collection records whose child_of contains query_ids
+        chquery = dict()
+        chquery["child_of"] = {
+            "$in": query_ids
+        }
+        chprojection = dict()
+        chprojection['uuid'] = 1.0
+        chresp = self.stores[child_coll].query(chquery, projection=chprojection)
+        for chrec in chresp:
+            child_ids.append(chrec.get(child_id_field, None))
+
+        # Return non-redundant set of child UUIDs
+        child_ids = sorted(list(set(child_ids)))
+        return child_ids
+
+    def designs_from_challenges(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='challenge_problem',
+            parent_id='id',
+            kid='experiment_design',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def experiments_from_designs(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment_design',
+            parent_id='experiment_design_id',
+            kid='experiment',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def samples_from_experiments(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment',
+            parent_id='experiment_id',
+            kid='sample',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_measurements(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='measurement',
+            parent_id='measurement_id',
+            kid='measurement',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def samples_from_samples(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='sample',
+            parent_id='sample_id',
+            kid='sample',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def experiments_from_experiments(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='experiment',
+            parent_id='experiment_id',
+            kid='experiment',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_samples(self, ids, permissive=True):
+        return self.kids_from_parents(
+            ids,
+            parent='sample',
+            parent_id='sample_id',
+            kid='measurement',
+            kid_id='uuid',
+            permissive=permissive)
+
+    def measurements_from_experiments(self, ids, permissive=True):
+        samples = self.samples_from_experiments(
+            ids, permissive=permissive)
+        measurements = self.measurements_from_samples(
+            samples, permissive=permissive)
+        return sorted(measurements)
+
+    def measurements_from_designs(self, ids, permissive=True):
+        experiments = self.experiments_from_designs(
+            ids, permissive=permissive)
+        return sorted(
+            self.measurements_from_experiments(experiments, permissive=True))
+
+    def measurements_from_challenges(self, ids, permissive=True):
+        designs = self.designs_from_challenges(
+            ids, permissive=permissive)
+        return sorted(
+            self.measurements_from_designs(designs, permissive=True))

@@ -4,23 +4,27 @@ import importlib
 import inspect
 import itertools
 import magic
-
 from pprint import pprint
 from . import *
 from .converter import Converter, ConversionError
+from ..utils import dynamic_import
 
 FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes']
-
-def dynamic_import(module, package=None):
-    return importlib.import_module(module, package=package)
+"""Class names for document types that can be converted to Data Catalog records"""
 
 class NoClassifierError(ConversionError):
+    """Unable to classify a document, preventing its conversion"""
     pass
 
 def get_converters(options={}):
+    """Discover and return Converters
+
+    Returns:
+        list: One or more ``Converter`` objects
+    """
     matches = list()
     for pkg in FORMATS:
-        converter = globals()[pkg](options=options)
+        converter = globals()[pkg](options)
         matches.append(converter)
     return matches
 
