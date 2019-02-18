@@ -21,6 +21,15 @@ DNS_DOMAIN = os.environ.get(
 # TODO - Move this to typeduuid module
 # UUID_NAMESPACE = uuid3(NAMESPACE_DNS, DNS_DOMAIN)
 
+# Debug mode and document source for records
+# TODO - Update places in code that use the older debug_mode
+DEBUG_MODE = parse_boolean(
+    os.environ.get('LOCALONLY', os.environ.get('DEBUG', 'false')))
+# A text flag in each record indicating its source. Used primarily to
+# make it very clear whether records are from testing behavior
+# TODO - Add this to basestore template for _properties.source
+RECORD_PROPERTIES_SOURCE = os.environ.get('CATALOG_RECORDS_SOURCE', 'testing')
+
 # Identifier salts
 ABACO_HASHIDS_SALT = os.environ.get(
     'CATALOG_ABACO_HASHIDS_SALT', 'eJa5wZlEX4eWU')
@@ -58,9 +67,20 @@ REFERENCES_SYSTEM = os.environ.get('CATALOG_PREFERENCES_SYSTEM', STORAGE_SYSTEM)
 REFERENCES_VERSION = os.environ.get('CATALOG_REFERENCES_VERSION', STORAGE_MANAGED_VERSION)
 
 # MongoDB
+# TODO - Come up w solid operational plan for how these complement other config mechanisms
 MONGODB_HOST = os.environ.get('CATALOG_MONGODB_HOST', 'catalog.sd2e.org')
 MONGODB_PORT = os.environ.get('CATALOG_MONGODB_PORT', 27020)
+MONGODB_USERNAME = os.environ.get('CATALOG_MONGODB_USERNAME', 'user')
+MONGODB_PASSWORD = os.environ.get('CATALOG_MONGODB_PASSWORD', '$user!<123')
 MONGODB_DATABASE = os.environ.get('CATALOG_MONGODB_DATABASE', 'catalog')
+
+# Callback targets
+# TODO - These are in anticipation of webhook support on given actions
+# Email target
+DEFAULT_CALLBACK_EMAIL = os.environ.get('CATALOG_CALLBACK_EMAIL', 'null@sd2e.org')
+# POST target
+DEFAULT_CALLBACK_URI = os.environ.get('CATALOG_CALLBACK_URI', 'https://devnull.com/')
+
 
 REDIS_URL = os.environ.get('REDASH_REDIS_URL', os.environ.get('REDIS_URL', "redis://localhost:6379/0"))
 PROXIES_COUNT = int(os.environ.get('REDASH_PROXIES_COUNT', "1"))
