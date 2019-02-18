@@ -41,13 +41,6 @@ build:
 clean: schemas-clean docs-clean
 	rm -rf build *egg-info dist
 	find . -d -name '*__pycache__*' -exec rm -rf {} \;
-<<<<<<< HEAD
-
-tests:
-
-tests-classify:
-	python -m pytest -s -vvv -k "format_imports" $(PYTEST_SRC)
-=======
 	find . -d -name '*.pytest_cache*' -exec rm -rf {} \;
 
 # Run all developer environment smoketests
@@ -208,4 +201,3 @@ virtualenv:
 	virtualenv env && \
 	source env/bin/activate && \
 	pip install --upgrade -r requirements.txt
->>>>>>> origin/2_0
