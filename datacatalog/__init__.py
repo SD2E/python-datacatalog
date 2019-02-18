@@ -1,3 +1,6 @@
+name = "datacatalog"
+from .version import __version__, __schema_version__, __schema_major_version__, __jsonschema_version__
+
 from . import constants
 from . import config
 from . import debug_mode
@@ -16,5 +19,3 @@ from . import pathmappings
 from . import tenancy
 from . import utils
 from . import views
-
-name = "datacatalog"

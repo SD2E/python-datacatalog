@@ -9,6 +9,6 @@ MongoDB
     connection_uri
     shell
     gui
-    ../redhash/mongo
+    ../redash/mongo
     langs
     references

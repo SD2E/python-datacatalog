@@ -47,14 +47,13 @@ class ManagedPipelineJob(JobManager):
 
     The job's ``archive_path`` is generated as follows (if ``archive_path`` is
     not specified at ``init()``): It begins with a prefix `/products/v2`, to
-    which is added a representation of the **pipeline**. Next, the contents of
-    the job's ``data`` slot (which contains parameterization details) are hashed
-    and added to the path. Finally, depending on whether ``measurement_id``,
-    ``sample_id``, or ``experiment_id`` were passed, the primary identifiers at
-    that level of the metadata hieararchy are hashed to produce a distinct
-    signature, which is appended to the path. The net result is that each
-    combination of pipeline, parameterization, and metadata linkages is
-    stored in a unique, collision-proof storage location.
+    which is added a compressed version of the **pipeline** UUID. Next, the
+    UUIDs of the metadata associations (experiment, sample, measurement) are
+    hashed and added to the path. Finally, contents of the job's ``data`` key
+    are serialized, hashed, and added to the path. The net result of this
+    strategy is that each combination of pipeline, metadata linkage, and
+    run-time parameterization can be uniquely referenced and is stored in a
+    collision-proofed location on the storage resource.
 
     Args:
         mongodb (mongo.Connection): Connection to system MongoDB with write access to ``jobs``
@@ -81,7 +80,8 @@ class ManagedPipelineJob(JobManager):
         task (str, optional): The specific instance of agent
 
     Note:
-        At least one of (experiment_id, sample_id, measurement_id) must be passed to ``init()`` to explicitly connect a job to upstream experimental metadata.
+        Only one of (experiment_id, sample_id, measurement_id) may be be passed
+        when initializing an instance of ManagedPipelineJob.
     """
 
     PARAMS = [
@@ -178,36 +178,18 @@ class ManagedPipelineJob(JobManager):
         archive_path_els.append(getattr(self, 'pipeline_uuid'))
 
         # Establish **child_of**
-        #
-        # Connect with experiment/sample/measurement
-        archive_path_metadata_els = None
         # Experiment metadata association
         child_of_list = list()
-        try:
-            # If measurements are passed, use them for linkage and
-            meas_provided = False
-            if kwargs.get('measurement_id', None) is not None:
-                child_of_list = self.measurements_from_measurements(kwargs.get('measurement_id'))
+        archive_path_metadata_els = list()
+        for param in ('experiment_design_id',
+                      'experiment_id', 'sample_id', 'measurement_id'):
+            query_ids = kwargs.get(param, None)
+            if query_ids is not None:
+                child_of_list = self.self_from_ids(query_ids,
+                                                   enforce_type=True,
+                                                   permissive=False)
                 archive_path_metadata_els = copy.copy(child_of_list)
-                meas_provided = True
-            if kwargs.get('sample_id', None) is not None:
-                if meas_provided is False:
-                    child_of_list = self.measurements_from_samples(kwargs.get('sample_id'))
-                archive_path_metadata_els = self.samples_from_samples(
-                    kwargs.get('sample_id'))
-            elif kwargs.get('experiment_id', None) is not None:
-                if meas_provided is False:
-                    child_of_list = self.measurements_from_experiments(kwargs.get('experiment_id'))
-                archive_path_metadata_els = self.experiments_from_experiments(
-                    kwargs.get('experiment_id'))
-            if not len(child_of_list) > 0:
-                raise ValueError("Failed to link job to measurements")
-            if not len(archive_path_metadata_els) > 0:
-                raise ValueError("Failed to identify metadata elements for archive path")
-        except ValueError:
-            child_of_list = [DEFAULT_MEASUREMENT_ID]
-            archive_path_metadata_els = copy.copy(child_of_list)
-        # Set the actual linkage to measurements
+                break
         relations['child_of'] = child_of_list
 
         # Serialize and hash measurement(s), then add to path elements list

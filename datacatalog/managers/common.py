@@ -53,6 +53,65 @@ class Manager(object):
         a = ExtensibleAttrDict(mongo_document)
         return a.as_dict(private_prefix='_')
 
+    def get_uuidtype(self, uuid):
+        """Identify the named type for a given UUID
+
+        Args:
+            uuid (str): UUID to classify by type
+
+        Returns:
+            str: Named type of the UUID
+        """
+        typeduuid.validate(uuid)
+        return typeduuid.get_uuidtype(uuid)
+
+    def get_by_uuid(self, uuid):
+        """Returns a LinkedStore document by UUID
+
+        Args:
+            uuid (str): UUID of the document to retrieve
+
+        Returns:
+            dict: The document that was retrieved
+        """
+        storename = self.get_uuidtype(uuid)
+        return self.sanitize(
+            self.stores[storename].find_one_by_uuid(uuid))
+
+    def get_by_identifier(self, identifier_string):
+        """Search LinkedStores for a string identifier
+
+        Args:
+            identifier_string (str): An identifier string
+        Returns:
+            dict: The document that was retrieved
+        """
+        # TODO - use any namespacing in identifier_string to select intitial store to query
+        for sname, store in self.stores.items():
+            for i in store.get_identifiers():
+                query = {i: identifier_string}
+                resp = store.coll.find_one(query)
+                if resp is not None:
+                    return self.sanitize(resp)
+        return None
+
+    def get_by_uuids(self, uuids):
+        """Returns a list of LinkedStore documents by UUID
+
+        Args:
+            uuids (list): List of document UUIDs
+
+        Returns:
+            list The document that was retrieved
+        """
+        recs = list()
+        for uuid in uuids:
+            resp = self.get_by_uuid(uuid)
+            if resp is not None:
+                recs.append(resp)
+        sorted_recs = sorted(recs, key=lambda k: k['uuid'])
+        return sorted_recs
+
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs
 
@@ -151,11 +210,10 @@ class Manager(object):
             # try to resolve the file record
             # if found:
             #     break
-
         # Filter out anything that may have come back that's not a UUID
         # Set permissive to True to simply filter out values that dont validate
         uuid_links = [l for l in links if typeduuid.validate(
-            l, permissive=False) is True]
+            l, permissive=True) is True]
         uuid_links = sorted(list(set(uuid_links)))
         return uuid_links
 
@@ -233,6 +291,58 @@ class Manager(object):
             return None
         else:
             raise ValueError('Failed to retrieve level {} from lineage'.format(level))
+
+    def self_from_ids(self, ids, enforce_type=True, permissive=False):
+        """Resolve UUIDs from one or more identifiers
+
+        Args:
+            ids (str/list): String or list of string identifiers
+            enforce_type (bool, optional): Whether all identifiers must be of same type
+            permissive (bool, optional): Whether to return None or raise exception when encountering an error
+
+        Raises:
+            ValueError: Raised when identifiers can't be resolved or type enforcement fails
+
+        Returns:
+            list: One or UUID strings
+        """
+        try:
+            selfs = list()
+            self_types = list()
+            if not isinstance(ids, list):
+                qids = [ids]
+            else:
+                qids = ids
+
+            for qid in qids:
+                quuid = None
+                quuid_type = None
+                try:
+                    quuid_type = typeduuid.get_uuidtype(qid)
+                    quuid = qid
+                except Exception:
+                    resp = self.get_by_identifier(qid)
+                    if resp is not None:
+                        quuid = resp['uuid']
+                        quuid_type = typeduuid.get_uuidtype(quuid)
+                if quuid is not None:
+                    selfs.append(quuid)
+                if quuid_type is not None:
+                    self_types.append(quuid_type)
+
+            if enforce_type:
+                if len(list(set(self_types))) > 1:
+                    raise ValueError('Cannot resolve a list of identifiers with mixed types')
+            selfs = sorted(list(set(selfs)))
+            if len(selfs) > 0:
+                return selfs
+            else:
+                raise ValueError('Unable to resolve any identifers to UUIDs')
+        except Exception:
+            if permissive is True:
+                return None
+            else:
+                raise
 
     def kids_from_parents(self, ids, parent='experiment',
                           parent_id='experiment_id', kid='sample',

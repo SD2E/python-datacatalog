@@ -129,3 +129,20 @@ def test_mgr_common_measurements_from_challenges(mongodb_settings):
     base = datacatalog.managers.common.Manager(mongodb_settings)
     result = base.measurements_from_challenges(cps)
     assert len(result) == 3
+
+@pytest.mark.parametrize("identifiers, enforce, num, success", [
+    ('86753095', False, 0, False),
+    ('sample.tacc.20001', False, 1, True),
+    (['sample.tacc.20001', 'sample.tacc.20001'], False, 1, True),
+    (['sample.tacc.20001', 'measurement.tacc.0xDEADBEEF'], False, 2, True),
+    (['sample.tacc.20001', 'measurement.tacc.0xDEADBEEF'], True, 0, False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', True, 1, True)])
+def test_mgr_common_self_from_ids(identifiers, enforce, num, success, mongodb_settings):
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    if success is True:
+        resp = base.self_from_ids(identifiers, enforce_type=enforce, permissive=False)
+        assert isinstance(resp, list)
+        assert len(resp) == num
+    else:
+        with pytest.raises(ValueError):
+            resp = base.self_from_ids(identifiers, enforce_type=enforce, permissive=False)
