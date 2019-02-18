@@ -24,7 +24,7 @@ def get_converters(options={}):
     """
     matches = list()
     for pkg in FORMATS:
-        converter = globals()[pkg](options)
+        converter = globals()[pkg](options=options)
         matches.append(converter)
     return matches
 
