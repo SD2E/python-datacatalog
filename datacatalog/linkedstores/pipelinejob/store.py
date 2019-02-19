@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-
 import base64
 import inspect
 import json
@@ -96,18 +88,15 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         pass
 
     def validate_pipeline_uuid(self, pipeline_uuid):
-        if self.debug_mode() is True:
-            return True
-        else:
-            try:
-                pipe = self.pipes_coll.find_one({'uuid': pipeline_uuid})
-                if pipe is not None:
-                    return True
-                else:
-                    raise UnknownPipeline(
-                        'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
-            except Exception as exc:
-                raise Exception('Failed to validate pipeline UUID', exc)
+        try:
+            pipe = self.pipes_coll.find_one({'uuid': pipeline_uuid})
+            if pipe is not None:
+                return True
+            else:
+                raise UnknownPipeline(
+                    'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
+        except Exception as exc:
+            raise Exception('Failed to validate pipeline UUID', exc)
 
     def list_job_archive_path(self, job_uuid, recurse=True, directories=False, **kwargs):
         """Returns contents of a job's archive_path

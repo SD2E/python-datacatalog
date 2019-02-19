@@ -4,7 +4,6 @@ from . import settings
 
 from . import constants
 from . import config
-from . import debug_mode
 from . import extensible
 
 from . import agavehelpers

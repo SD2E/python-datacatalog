@@ -18,9 +18,9 @@ from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
 
+from ... import settings
 from ... import config
 from ...constants import CatalogStore
-from ...debug_mode import debug_mode
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...identifiers.typeduuid import catalog_uuid
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
@@ -37,7 +37,7 @@ from .exceptions import *
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
            'CatalogQueryError', 'DuplicateKeyError', 'time_stamp',
-           'msec_precision', 'validate_token', 'debug_mode',
+           'msec_precision', 'validate_token',
            'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS',
            'AgaveError', 'AgaveHelperError', 'validate_admin_token']
 
@@ -1016,7 +1016,7 @@ class LinkedStore(object):
 
     def debug_mode(self):
         """Returns True if system is running in debug mode"""
-        return debug_mode()
+        return settings.DEBUG_MODE
 
 class StoreInterface(LinkedStore):
     """Alias for the LinkedStore defined in this module

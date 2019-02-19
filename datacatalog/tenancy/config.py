@@ -60,7 +60,8 @@ def current_username():
     """
     username_vars = ('TACC_USERNAME', 'AGAVE_USERNAME',
                      'JUPYTERHUB_USER',
-                     '_abaco_username')
+                     '_abaco_username',
+                     'USER')
     for uname in username_vars:
         if environ.get(uname, None) is not None:
             username = environ.get(uname)

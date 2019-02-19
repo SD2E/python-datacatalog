@@ -4,7 +4,7 @@ import importlib
 import inspect
 import itertools
 from pprint import pprint
-from ..debug_mode import debug_mode
+from .. import settings
 from ..utils import dynamic_import
 
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -53,12 +53,12 @@ def get_all_schemas(filters=[]):
     """
     schemata = JSONSchemaCollection(dict())
     for pkg in list(itertools.chain.from_iterable(SCHEMAS)):
-        if debug_mode():
+        if settings.DEBUG_MODE:
             print('SCHEMA PACKAGE', pkg)
         if isinstance(filters, list) and filters != []:
             if pkg not in filters:
                 continue
-        if debug_mode():
+        if settings.DEBUG_MODE:
             print('SCHEMA: {}'.format(pkg))
         m = dynamic_import('.' + pkg + '.schemas', package='datacatalog')
         package_schemas = m.get_schemas()

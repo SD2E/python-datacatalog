@@ -12,6 +12,14 @@ def pytest_addoption(parser):
     parser.addoption('--bootstrap', action='store_true', dest="bootstrap",
                      default=False, help="Run bootstrapping tests for development environment")
 
+@pytest.fixture(scope='function')
+def mocktenant(monkeypatch):
+    monkeypatch.setenv("CATALOG_DNS_DOMAIN", "salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_TENANT", "salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_API_SERVER'", "https://api.salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_MANAGER_ACCOUNT'", "salsita")
+    monkeypatch.setenv("CATALOG_TACC_PROJECT_NAME'", "Salsalogic")
+
 @pytest.fixture(scope='session')
 def nonce():
     return abaco.nonceid.generate()
