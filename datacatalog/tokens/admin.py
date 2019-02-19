@@ -1,17 +1,8 @@
 import time
 import hashlib
-from os import environ
-from ..debug_mode import debug_mode
-from .config import TOKEN_LENGTH
+from .. import settings
 from .classes import Token
 from .exceptions import InvalidAdminToken
-
-ADMIN_TOKEN_KEY = 'XB]6f^~T3)EDxB(3A6F@CE>JTU.T>whH'
-"""Default key for generating admin tokens"""
-ADMIN_TOKEN_SECRET = 'T}gLWL-*E%<wWfh9JgV4)Rw;s5MwcB2='
-"""Default secret for generating admin tokens"""
-ADMIN_TOKEN_LIFETIME = 30
-"""Lifetime in seconds for administrative tokens"""
 
 def get_admin_token(key, previous=False):
     """Returns a token with administrative priviledges
@@ -37,7 +28,8 @@ def get_admin_token(key, previous=False):
     argset.extend(str(int(ts / expires)))
     str_argset = [str(a) for a in argset if True]
     msg = ':'.join(str_argset)
-    tok = Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[0:TOKEN_LENGTH])
+    tok = Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[
+        0:settings.TOKEN_LENGTH])
     return tok
 
 def validate_admin_token(token, key=None, permissive=True):
@@ -65,12 +57,6 @@ def validate_admin_token(token, key=None, permissive=True):
     else:
         raise InvalidAdminToken('Administrative token was not valid')
 
-def get_admin_lifetime():
-    """Returns the expiration time for newly-minted tokens
-    """
-    return int(environ.get(
-        'CATALOG_ADMIN_TOKEN_LIFETIME', ADMIN_TOKEN_LIFETIME))
-
 def internal_get_admin_token(key=None):
     return __get_admin_tokens(key=key)[0]
 
@@ -85,8 +71,16 @@ def __get_admin_tokens(key=None):
     return toks
 
 def __get_admin_salt():
-    return environ.get('CATALOG_ADMIN_SALT', ADMIN_TOKEN_SECRET)
+    """Internal: Get configured secret for generating admin tokens
+    """
+    return settings.ADMIN_TOKEN_SECRET
 
 def get_admin_key():
-    return environ.get('CATALOG_ADMIN_TOKEN_KEY', ADMIN_TOKEN_KEY)
+    """Get configured key for generating admin tokens
+    """
+    return settings.ADMIN_TOKEN_KEY
 
+def get_admin_lifetime():
+    """Get configured expiration time in seconds for new admin tokens
+    """
+    return settings.ADMIN_TOKEN_LIFETIME

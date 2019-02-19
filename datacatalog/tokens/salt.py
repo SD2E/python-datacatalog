@@ -1,10 +1,9 @@
 import os
 import base64
-from os import environ
-from .config import SALT_LENGTH
+from .. import settings
 from .classes import Salt
 
-def generate_salt(length=SALT_LENGTH):
+def generate_salt(length=settings.SALT_LENGTH):
     """Generates a cryptographic salt
 
     Args:

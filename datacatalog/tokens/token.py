@@ -2,11 +2,10 @@ import hashlib
 import base64
 import time
 from os import environ
-from .config import TOKEN_LENGTH
-from ..debug_mode import debug_mode
+from .. import settings
+from .admin import validate_admin_token, __get_admin_salt, get_admin_key
 from .classes import Token
 from .exceptions import InvalidToken
-from .admin import validate_admin_token, __get_admin_salt, get_admin_key
 
 def get_token(salt, *args):
     """Deterministically generates a token from arguments
@@ -24,7 +23,8 @@ def get_token(salt, *args):
     argset.extend(args)
     str_argset = [str(a) for a in argset if True]
     msg = ':'.join(str_argset)
-    return Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[0:TOKEN_LENGTH])
+    return Token(hashlib.sha256(msg.encode('utf-8')).hexdigest()[
+        0:settings.TOKEN_LENGTH])
 
 def validate_token(token, salt=None, *args, permissive=True):
     """Validate a token
