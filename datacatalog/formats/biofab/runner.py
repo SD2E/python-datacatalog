@@ -8,9 +8,9 @@ from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-from ..agavehelpers import AgaveHelper
-from .common import SampleConstants
-from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ...agavehelpers import AgaveHelper
+from ..common import SampleConstants
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 
 # common across methods
 attributes_attr = "attributes"
