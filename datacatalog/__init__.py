@@ -1,5 +1,6 @@
 name = "datacatalog"
 from .version import __version__, __schema_version__, __schema_major_version__, __jsonschema_version__
+from . import settings
 
 from . import constants
 from . import config

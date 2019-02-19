@@ -1,4 +1,5 @@
 from os import environ
+from .. import settings
 
 __all__ = ['current_username', 'current_tenant',
            'current_tenant_uri', 'current_project']
