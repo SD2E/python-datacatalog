@@ -2,19 +2,20 @@ from os import environ
 from .. import settings
 
 __all__ = ['current_username', 'current_tenant',
-           'current_tenant_uri', 'current_project']
+           'current_tenant_uri', 'current_project',
+           'current_admin_username']
 class TenantURL(str):
-    """TACC.cloud tenant nase URL"""
+    """TACC.cloud tenant base URL"""
     def __new__(cls, value):
         value = str(value).lower()
         return str.__new__(cls, value)
 class TenantName(str):
-    """TACC.cloud tenant"""
+    """TACC.cloud tenant name"""
     def __new__(cls, value):
         value = str(value).lower()
         return str.__new__(cls, value)
 class ProjectName(str):
-    """TACC.cloud project"""
+    """TACC.cloud project name"""
     def __new__(cls, value):
         value = str(value).lower()
         return str.__new__(cls, value)
@@ -30,7 +31,7 @@ def current_tenant_uri():
     Returns:
         TenantURL: current tenant base URI
     """
-    return TenantURL(environ.get('TENANT_BASE)URL', 'https://api.sd2e.org'))
+    return TenantURL(settings.TACC_API_SERVER)
 
 def current_tenant():
     """Retrieve the current TACC.cloud tenant
@@ -38,7 +39,7 @@ def current_tenant():
     Returns:
         TenantName: current tenant name
     """
-    return TenantName(environ.get('TENANT_ID', 'sd2e'))
+    return TenantName(settings.TACC_TENANT)
 
 def current_project():
     """Retrieve the current TACC.cloud project
@@ -46,18 +47,31 @@ def current_project():
     Returns:
         ProjectName: current project name
     """
-    return ProjectName(environ.get('PROJECT_ID', 'SD2E-Community'))
+    return ProjectName(settings.TACC_PROJECT_NAME)
 
 def current_username():
     """Retrieve the current TACC.cloud username
 
     Returns:
         Username: current username
+
+    Raises:
+        ValueError: This is raised on failure to find a username
     """
-    username_vars = ('TACC_USERNAME', 'AGAVE_USERNAME', 'JUPYTERHUB_USER')
-    username = 'sd2eadm'
+    username_vars = ('TACC_USERNAME', 'AGAVE_USERNAME',
+                     'JUPYTERHUB_USER',
+                     '_abaco_username')
     for uname in username_vars:
         if environ.get(uname, None) is not None:
             username = environ.get(uname)
-            break
-    return Username(username)
+            return Username(username)
+    raise ValueError('No TACC.cloud username could be found in the current environment')
+
+
+def current_admin_username():
+    """Retrieve the TACC.cloud tenant admin username
+
+    Returns:
+        Username: tenant admin username
+    """
+    return Username(settings.TACC_MANAGER_ACCOUNT)
