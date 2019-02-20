@@ -41,7 +41,7 @@ def test_ex_get(samplesetprocessor):
         resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
         assert resp['experiment_id'] == doc['experiment_id']
 
-# @longrun
+@longrun
 # @pytest.mark.parametrize("filename", ['samples-biofab.json', 'samples-transcriptic.json', 'samples-ginkgo.json'])
 @pytest.mark.parametrize("filename", ['samples-biofab-022019.json', 'samples-transcriptic-022019.json'])
 def test_iter_process_merge(mongodb_settings, filename):

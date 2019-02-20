@@ -117,7 +117,7 @@ def test_files_disk_delete(mongodb_settings):
 @pytest.mark.parametrize("filename,fuuid", [
     ('/uploads/science results.xlsx', '1051858c-1a3e-587d-9648-1decc092d6f0'),
     ('/uploads/science%20results.xlsx', '1051858c-1a3e-587d-9648-1decc092d6f0')])
-def test_files_encode_path(mongodb_settings, filename, fuuid):
+def test_files_safen_path(mongodb_settings, filename, fuuid):
     """Verify that regular and url-encoded paths are equivalent
     """
     base = FileStore(mongodb_settings)

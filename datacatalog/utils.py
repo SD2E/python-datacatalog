@@ -11,8 +11,9 @@ import uuid
 import arrow
 import importlib
 import inspect
-from unicodedata import normalize
-from re import sub
+import re
+import os
+import unicodedata
 from time import sleep, time
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
@@ -37,16 +38,26 @@ def decode_path(encoded_file_path):
     """
     return unquote(encoded_file_path)
 
-def safen_path(file_path):
+def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=True):
     """Returns a safened version of a path
 
     Trailing whitespace is removed, Unicode characters (sorry!) are transformed
     to ASCII equivalents, and whitespaces are replaced with a dash character.
     """
     safe_file_path = file_path.strip()
-    safe_file_path = normalize('NFKD', safe_file_path).encode('ascii', 'ignore').decode('ascii')
-    safe_file_path = sub(r'\s+', '-', safe_file_path)
-    safe_file_path = encode_path(decode_path(safe_file_path))
+    # Resolve dot-dot and other navigations into a canonical path
+    safe_file_path = normpath(safe_file_path)
+    # Unicode is nice in practice
+    # TODO - Honor a global setting for whether to transform or leave Unicode
+    if no_unicode:
+        safe_file_path = unicodedata.normalize(
+            'NFKD', safe_file_path).encode('ascii', 'ignore').decode('ascii')
+    # Bad spaces. Bad!
+    if no_spaces:
+        safe_file_path = re.sub(r'\s+', '-', safe_file_path)
+    # Pick up any lingering URL-unsafe characters
+    if url_quote:
+        safe_file_path = encode_path(decode_path(safe_file_path))
     return safe_file_path
 
 def msec_precision(datetimeval):
@@ -59,6 +70,17 @@ def microseconds():
     """Get currrent time in microseconds as ``int``
     """
     return int(round(time() * 1000 * 1000))
+
+def normalize(filepath):
+    # Prefixes are terminated with '/' to indicate they are directories. In
+    # order to avoid double-slashes, which causes os.path.join() to fail,
+    # strip out leading slash
+    fp = re.sub('^(/)+', '', filepath)
+    return fp
+
+def normpath(filepath):
+    fp = re.sub('^(/)+', '/', filepath)
+    return os.path.normpath(fp)
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds
