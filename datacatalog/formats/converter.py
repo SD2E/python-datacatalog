@@ -4,7 +4,6 @@ import sys
 import inspect
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
-from .targetschemas import SamplesJSON
 # from .runner import convert_file
 
 class ConversionError(Exception):
@@ -46,7 +45,7 @@ class Converter(object):
 
         # Default output schema
         if targetschema is None:
-            self.targetschema = SamplesJSON().file
+            self.targetschema = { "$ref" : "https://schema.catalog.sd2e.org/schemas/sample_set.json" }
         else:
             self.targetschema = targetschema
 

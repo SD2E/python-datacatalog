@@ -16,7 +16,7 @@ from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from .mappings import SampleContentsFilter
 
-def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -45,7 +45,6 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
-    schema = json.load(open(schema_file))
     ginkgo_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}

@@ -50,7 +50,7 @@ def get_tx_data(eid, email, token):
             
     return None
     
-def convert_sample_attributes(schema_file, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_sample_attributes(schema, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -61,7 +61,6 @@ def convert_sample_attributes(schema_file, encoding, input_file, email, token, v
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
-    schema = json.load(open(schema_file))
     sample_attributes_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
