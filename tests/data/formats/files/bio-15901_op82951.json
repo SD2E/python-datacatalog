@@ -1,0 +1,68 @@
+{
+  "plan_id": "15901",
+  "plan_name": "NC_TEST_1_061318",
+  "plan_inputs": [],
+  "operations": [
+    {
+      "operation_id": "82951",
+      "operation_type": {
+        "operation_type_id": "471",
+        "category": "Induction - High Throughput",
+        "name": "NC_Inoculation & Media"
+      },
+      "inputs": [
+        {
+          "name": "Experimental_Plan",
+          "field_value_id": "422915",
+          "value": "novel_chassis_experimental_design_v3"
+        },
+        {
+          "name": "Kanamycin Concentration (\u00b5g/mL)",
+          "field_value_id": "422916",
+          "value": "50"
+        },
+        {
+          "name": "Chloramphenicol Concentration (\u00b5g/mL)",
+          "field_value_id": "422917",
+          "value": "35"
+        },
+        {
+          "name": "Temperature (\u00b0C)",
+          "field_value_id": "422918",
+          "value": "37"
+        },
+        {
+          "name": "Allow Edges",
+          "field_value_id": "422919",
+          "value": "Yes"
+        }
+      ],
+      "start_time": "2018-06-14T00:27:22+00:00",
+      "end_time": "2018-06-14T00:28:06+00:00",
+      "attributes": {
+        "job_crash": "Operation canceled when job 68065 crashed",
+        "experimental_design_document": 23962
+      }
+    }
+  ],
+  "jobs": [],
+  "items": [],
+  "files": [
+    {
+      "file_id": "23962",
+      "filename": "novel_chassis_experimental_design_v3.csv",
+      "size": 2307,
+      "type": "CSV",
+      "generated_by": {
+        "operation_id": "82951"
+      }
+    }
+  ],
+  "attributes": {
+    "concentration": 447.5,
+    "volume": 48,
+    "lab": "UW_BIOFAB",
+    "challenge_problem": "NOVEL_CHASSIS",
+    "experiment_reference": "NovelChassis-NAND-Gate"
+  }
+}
