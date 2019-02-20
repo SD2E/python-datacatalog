@@ -1,0 +1,1652 @@
+[
+    {
+        "attributes": {
+            "bead_colony": "https://hub.sd2e.org/user/sd2e/design/beads_spherotech_rainbow/1",
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31509.fcs"
+            ],
+            "replicate": 2
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s877_R31509/1"
+    },
+    {
+        "attributes": {
+            "bead_colony": "https://hub.sd2e.org/user/sd2e/design/beads_spherotech_rainbow/1",
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31424.fcs"
+            ],
+            "replicate": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s877_R31424/1"
+    },
+    {
+        "attributes": {
+            "bead_colony": "https://hub.sd2e.org/user/sd2e/design/beads_spherotech_rainbow/1",
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31339.fcs"
+            ],
+            "replicate": 0
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s877_R31339/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s837_R31227/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s837_R31142/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s837_R31057/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6256_R18715_R30771.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6256_R18715_R30771/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6256_R18602_R30640.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6256_R18602_R30640/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6256_R18489_R30509.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6256_R18489_R30509/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6152_R18362_R30378.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6152_R18362_R30378/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6152_R18249_R30247.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6152_R18249_R30247/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6152_R18136_R30116.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6152_R18136_R30116/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6048_R18009_R29985.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6048_R18009_R29985/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6048_R17896_R29854.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6048_R17896_R29854/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R6048_R17783_R29723.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6048_R17783_R29723/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5944_R17656_R29592.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5944_R17656_R29592/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5944_R17543_R29461.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5944_R17543_R29461/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5944_R17430_R29330.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5944_R17430_R29330/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5840_R17303_R29199.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5840_R17303_R29199/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5840_R17190_R29068.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5840_R17190_R29068/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5840_R17077_R28937.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5840_R17077_R28937/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5736_R16950_R28806.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5736_R16950_R28806/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5736_R16837_R28675.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5736_R16837_R28675/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1871_R5736_R16724_R28544.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5736_R16724_R28544/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5612_R16597_R28413.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5612_R16597_R28413/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5612_R16484_R28282.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5612_R16484_R28282/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5612_R16371_R28151.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5612_R16371_R28151/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5508_R16244_R28020.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5508_R16244_R28020/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5508_R16131_R27889.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5508_R16131_R27889/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5508_R16018_R27758.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5508_R16018_R27758/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5404_R15891_R27627.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5404_R15891_R27627/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5404_R15778_R27496.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5404_R15778_R27496/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5404_R15665_R27365.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5404_R15665_R27365/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5300_R15538_R27234.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5300_R15538_R27234/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5300_R15425_R27103.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5300_R15425_R27103/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5300_R15312_R26972.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5300_R15312_R26972/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5196_R15185_R26841.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5196_R15185_R26841/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5196_R15072_R26710.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5196_R15072_R26710/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5196_R14959_R26579.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5196_R14959_R26579/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5092_R14832_R26448.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5092_R14832_R26448/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5092_R14719_R26317.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5092_R14719_R26317/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1898_R5092_R14606_R26186.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5092_R14606_R26186/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4968_R14479_R26055.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4968_R14479_R26055/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4968_R14366_R25924.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4968_R14366_R25924/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4968_R14253_R25793.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4968_R14253_R25793/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4864_R14126_R25662.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4864_R14126_R25662/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4864_R14013_R25531.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4864_R14013_R25531/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4864_R13900_R25400.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4864_R13900_R25400/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4760_R13773_R25269.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4760_R13773_R25269/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4760_R13660_R25138.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4760_R13660_R25138/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4760_R13547_R25007.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4760_R13547_R25007/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4656_R13420_R24876.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4656_R13420_R24876/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4656_R13307_R24745.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4656_R13307_R24745/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4656_R13194_R24614.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4656_R13194_R24614/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4552_R13067_R24483.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4552_R13067_R24483/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4552_R12954_R24352.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4552_R12954_R24352/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4552_R12841_R24221.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4552_R12841_R24221/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4448_R12714_R24090.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4448_R12714_R24090/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4448_R12601_R23959.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4448_R12601_R23959/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1925_R4448_R12488_R23828.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4448_R12488_R23828/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4324_R12361_R23697.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4324_R12361_R23697/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4324_R12248_R23566.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4324_R12248_R23566/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4324_R12135_R23435.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4324_R12135_R23435/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4220_R12008_R23304.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4220_R12008_R23304/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4220_R11895_R23173.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4220_R11895_R23173/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4220_R11782_R23042.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4220_R11782_R23042/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4116_R11655_R22911.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4116_R11655_R22911/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4116_R11542_R22780.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4116_R11542_R22780/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4116_R11429_R22649.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4116_R11429_R22649/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4012_R11302_R22518.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4012_R11302_R22518/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4012_R11189_R22387.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4012_R11189_R22387/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R4012_R11076_R22256.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4012_R11076_R22256/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3908_R10949_R22125.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3908_R10949_R22125/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3908_R10836_R21994.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3908_R10836_R21994/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3908_R10723_R21863.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3908_R10723_R21863/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3804_R10596_R21732.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3804_R10596_R21732/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3804_R10483_R21601.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3804_R10483_R21601/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1952_R3804_R10370_R21470.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3804_R10370_R21470/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3680_R10243_R21339.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3680_R10243_R21339/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3680_R10130_R21208.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3680_R10130_R21208/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3680_R10017_R21077.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3680_R10017_R21077/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3576_R9890_R20946.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3576_R9890_R20946/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3576_R9777_R20815.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3576_R9777_R20815/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3576_R9664_R20684.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3576_R9664_R20684/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3472_R9537_R20553.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3472_R9537_R20553/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3472_R9424_R20422.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3472_R9424_R20422/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3472_R9311_R20291.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3472_R9311_R20291/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3368_R9184_R20160.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3368_R9184_R20160/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3368_R9071_R20029.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3368_R9071_R20029/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3368_R8958_R19898.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3368_R8958_R19898/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3264_R8831_R19767.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3264_R8831_R19767/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3264_R8718_R19636.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3264_R8718_R19636/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3264_R8605_R19505.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3264_R8605_R19505/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3160_R8478_R19374.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 7.5e-05,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3160_R8478_R19374/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3160_R8365_R19243.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.00015,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3160_R8365_R19243/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s1979_R3160_R8252_R19112.fcs",
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/2/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "od": 0.0003,
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1",
+            "timepoints": 1
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3160_R8252_R19112/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6256/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6152/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R6048/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5944/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5840/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6389/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1871_R5736/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5612/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5508/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5404/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5300/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5196/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6390/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1898_R5092/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4968/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4864/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4760/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4656/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4552/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6391/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1925_R4448/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4324/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4220/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4116/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R4012/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3908/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBF_6388/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1952_R3804/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 2,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3680/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 1,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3576/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 0,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3472/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 3,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3368/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 5,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3264/1"
+    },
+    {
+        "attributes": {
+            "files": [
+                "agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/1/instrument_output/od.csv"
+            ],
+            "media": "https://hub.sd2e.org/user/sd2e/design/culture_media_4/1",
+            "replicate": 4,
+            "strain": "https://hub.sd2e.org/user/sd2e/design/UWBIOFAB_22544/1"
+        },
+        "sample": "https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bbktv6x4xke/s1979_R3160/1"
+    }
+]
