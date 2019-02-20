@@ -17,6 +17,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
+from ...utils import encode_path, decode_path
 from ..basestore import LinkedStore
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
@@ -84,7 +85,8 @@ class FileStore(LinkedStore):
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         if 'name' in document_dict:
-            document_dict['name'] = normpath(document_dict['name'])
+            document_dict['name'] = encode_path(
+                decode_path(normpath(document_dict['name'])))
         # Generate file_id from name if not present
         if 'file_id' not in document_dict:
             document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(catalog_uuid(document_dict['name'], uuid_type='file'))

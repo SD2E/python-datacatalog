@@ -13,7 +13,7 @@ PARENT = os.path.dirname(HERE)
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data import file
-from datacatalog.linkedstores.file import FileStore
+from datacatalog.linkedstores.file import FileStore, FileRecord
 
 def test_files_db_init(mongodb_settings):
     base = FileStore(mongodb_settings)
@@ -113,3 +113,14 @@ def test_files_disk_delete(mongodb_settings):
     for filename, file_uuid in file.LOADS:
         resp = base.delete_document(file_uuid)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}
+
+@pytest.mark.parametrize("filename,fuuid", [
+    ('/uploads/science results.xlsx', '1051858c-1a3e-587d-9648-1decc092d6f0'),
+    ('/uploads/science%20results.xlsx', '1051858c-1a3e-587d-9648-1decc092d6f0')])
+def test_files_encode_path(mongodb_settings, filename, fuuid):
+    """Verify that regular and url-encoded paths are equivalent
+    """
+    base = FileStore(mongodb_settings)
+    doc = FileRecord({'name': filename})
+    resp = base.add_update_document(doc)
+    assert resp['uuid'] == fuuid
