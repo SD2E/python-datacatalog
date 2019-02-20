@@ -154,7 +154,7 @@ class SampleConstants():
     F_TYPE_AB1 = "AB1"
     F_TYPE_BAI = "BAI"
     F_TYPE_BAM = "BAM"
-    F_TYPE_JPG = "JPG"
+    F_TYPE_JPG = "JPEG"
 
 design_table = None
 challenge_table = None
