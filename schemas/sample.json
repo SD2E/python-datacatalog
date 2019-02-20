@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-17 23:26:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f7703d6",
+    "$comment": "generated: 2019-02-20 15:37:03 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@7abcb3d",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -32,6 +32,10 @@
         "control_type": {
             "$ref": "control_type.json",
             "description": "Enumerated control type"
+        },
+        "genetic_construct": {
+            "$ref": "#/definitions/mapped_name",
+            "description": "genetic construct reference (mapped by SBH Librarian)"
         },
         "id": {
             "$ref": "identifier.json",

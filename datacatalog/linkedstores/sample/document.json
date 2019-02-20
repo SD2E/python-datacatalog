@@ -77,6 +77,10 @@
             "description": "enumerated standard type",
             "$ref": "standard_type.json"
         },
+        "genetic_construct": {
+            "$ref": "#/definitions/mapped_name",
+            "description": "genetic construct reference (mapped by SBH Librarian)"
+        },
         "strain": {
             "$ref": "mapped_name.json",
             "description": "Strain reference (mapped by SBH Librarian)"
