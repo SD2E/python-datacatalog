@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-29 01:26:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
+    "$comment": "generated: 2019-02-20 17:02:59 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@775a9bb",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement_type.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -7,6 +7,8 @@
     "enum": [
         "FLOW",
         "RNA_SEQ",
+        "DNA_SEQ",
+        "IMAGE",
         "PLATE_READER",
         "PROTEOMICS",
         "EXPERIMENTAL_DESIGN",
@@ -16,6 +18,8 @@
     "examples": [
         "FLOW",
         "RNA_SEQ",
+        "DNA_SEQ",
+        "IMAGE",
         "PLATE_READER",
         "PROTEOMICS",
         "EXPERIMENTAL_DESIGN",

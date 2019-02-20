@@ -1,3 +1,4 @@
+import re
 import os
 from .levels import level_for_filepath, prefix_for_level, store_for_level
 
@@ -14,12 +15,12 @@ STORES = {'data-sd2e-community': {
 def normalize(filepath):
     # Prefixes are terminated with '/' to indicate they are directories. Thus,
     # to avoid double-slashes, all paths should have leading slashes trimmed.
-    if filepath.startswith('/'):
-        filepath = filepath[1:]
-    return filepath
+    fp = re.sub('^(/)+', '', filepath)
+    return fp
 
 def normpath(filepath):
-    return os.path.normpath(filepath)
+    fp = re.sub('^(/)+', '/', filepath)
+    return os.path.normpath(fp)
 
 def abspath(filepath, validate=False):
     # Resolve the native POSIX path for a given managed file path

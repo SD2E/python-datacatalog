@@ -301,13 +301,18 @@ class ManagedPipelineJob(JobManager):
             str: A callback URL
         """
 
-        uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
-            self.api_server, self.config['job_manager_id'],
-            self.config['job_manager_nonce'],
-            self.token, self.uuid)
-        # Sanity check - was a valid URL assembled?
-        validators.url(uri)
-        return uri
+        try:
+            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
+                self.api_server, self.config['job_manager_id'],
+                self.config['job_manager_nonce'],
+                self.token, self.uuid)
+            # Sanity check - was a valid URL assembled?
+            validators.url(uri)
+            return uri
+        except KeyError:
+            return None
+        except Exception:
+            raise
 
     def build_indexer_webhook(self):
         """Return a webhook to index job outputs via web callback
@@ -318,13 +323,18 @@ class ManagedPipelineJob(JobManager):
             str: A callback URL
         """
 
-        uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
-            self.api_server, self.config['job_indexer_id'],
-            self.config['job_indexer_nonce'],
-            self.token, self.uuid)
-        # Sanity check - was a valid URL assembled?
-        validators.url(uri)
-        return uri
+        try:
+            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
+                self.api_server, self.config['job_indexer_id'],
+                self.config['job_indexer_nonce'],
+                self.token, self.uuid)
+            # Sanity check - was a valid URL assembled?
+            validators.url(uri)
+            return uri
+        except KeyError:
+            return None
+        except Exception:
+            raise
 
     def __repr__(self):
         reprvals = list()

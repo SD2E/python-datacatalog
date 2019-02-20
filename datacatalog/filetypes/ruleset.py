@@ -12,7 +12,7 @@ FILETYPES = [
     ('FASTA', 'FASTA sequence file', ['.fa$', '.fasta$', '.fa.gz$', '.fasta.gz$', '.fas$']),
     ('TSV', 'Tab-separated values (override TAB-SEPARATED-VALUES)', ['.tab$', '.tsv$']),
     ('BAM', 'Binary SAM', ['.bam$']),
-    ('BAM', 'Binary SAM Index', ['.bai$']),
+    ('BAI', 'Binary SAM Index', ['.bai$']),
     ('VCF', 'Variant Call Format', ['.vcf$']),
     ('BCF', 'Binary Variant Call Format', ['.bcf$']),
     ('MD5', 'MD5 checksum file', ['.md5$']),
