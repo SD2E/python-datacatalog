@@ -1,7 +1,9 @@
 import os
 import sys
+import importlib
+import inspect
 import itertools
-
+import magic
 from pprint import pprint
 from . import *
 from .converter import Converter, ConversionError
@@ -22,31 +24,32 @@ def get_converters(options={}):
     """
     matches = list()
     for pkg in FORMATS:
-        converter = globals()[pkg](options)
+        converter = globals()[pkg](options=options)
         matches.append(converter)
     return matches
 
 def get_converter(json_filepath, options={}, expect=None):
-    """Given a JSON document get the appropriate ``Converter``
-
-    Args:
-        json_filepath: Path to a file
-
-    Raises:
-        NoClassifierError: No converter could be materialized
-
-    Returns:
-        Converter: A typed instance of Converter that can transform a JSON file
-    """
     exceptions = list()
     if expect is None:
         converters = get_converters(options)
     else:
         converters = [globals()[expect](options)]
 
+    encoding = magic.from_file(json_filepath)
+
+    if encoding == "UTF-8 Unicode text":
+        encoding = "utf-8"
+    elif encoding == "ASCII text":
+        encoding = "ascii"
+    elif encoding == "ASCII text, with very long lines, with no line terminators":
+        encoding = "ascii"
+    else:
+        raise ValueError("Unknown encoding: {}".format(encoding))
+
+    print("Detected encoding {}".format(encoding))
     for conv in converters:
         try:
-            conv.validate_input(json_filepath)
+            conv.validate_input(json_filepath, encoding)
             return conv
         except Exception as exc:
             exceptions.append(exc)

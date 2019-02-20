@@ -1,7 +1,6 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
-# FIXME: Refactor how we get resolve experiment references to use the experiments store
-from experiment_reference import ExperimentReferenceMapping, MappingNotFound
+import pymongo
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -12,6 +11,7 @@ class SampleConstants():
     """
     def infer_file_type(file_name):
         # FIXME: Use datacatalog.filetypes.infer_filetype(fname)
+        file_name = file_name.lower()
         if file_name.endswith("fastq.gz"):
             return SampleConstants.F_TYPE_FASTQ
         elif file_name.endswith("zip"):
@@ -21,13 +21,21 @@ class SampleConstants():
         elif file_name.endswith("sraw"):
             return SampleConstants.F_TYPE_SRAW
         elif file_name.endswith("txt"):
-            return SampleConstants.F_TYPE_TXT
+            return SampleConstants.F_TYPE_PLAIN
         elif file_name.endswith("csv"):
             return SampleConstants.F_TYPE_CSV
-        elif file_name.endswith("mzML"):
+        elif file_name.endswith("mzml"):
             return SampleConstants.F_TYPE_MZML
         elif file_name.endswith("msf"):
             return SampleConstants.F_TYPE_MSF
+        elif file_name.endswith("ab1"):
+            return SampleConstants.F_TYPE_ABI
+        elif file_name.endswith("bai"):
+            return SampleConstants.F_TYPE_BAI
+        elif file_name.endswith("bam"):
+            return SampleConstants.F_TYPE_BAM
+        elif file_name.endswith("jpg"):
+            return SampleConstants.F_TYPE_JPG
         else:
             raise ValueError("Could not parse FT: {}".format(file_name))
 
@@ -39,10 +47,8 @@ class SampleConstants():
     CHALLENGE_PROBLEM = "challenge_problem"
 
     CP_NOVEL_CHASSIS = "NOVEL_CHASSIS"
-    CP_YEAST_GATES = "YEAST_STATES"
 
-    CP_UNKNOWN = "UNKNOWN"
-    CP_REF_UNKNOWN = "Unknown"
+    CP_YEAST_STATES = "YEAST_STATES"
 
     EXPERIMENT_REFERENCE = "experiment_reference"
     EXPERIMENT_REFERENCE_URL = "experiment_reference_url"
@@ -58,7 +64,9 @@ class SampleConstants():
     SAMPLE_ID = "sample_id"
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
+    GENETIC_CONSTRUCT = "genetic_construct"
     CONTENTS = "contents"
+    INDUCER = "inducer"
     MEDIA = "media"
     CONCENTRATION = "concentration"
     MEDIA_RS_ID = "media_rs_id"
@@ -81,7 +89,9 @@ class SampleConstants():
     STANDARD_TYPE = "standard_type"
     STANDARD_FOR = "standard_for"
     STANDARD_FLUORESCEIN = "FLUORESCEIN"
+    STANDARD_MEDIA_BLANK = "MEDIA_BLANK"
     STANDARD_BEAD_FLUORESCENCE = "BEAD_FLUORESCENCE"
+    STANDARD_BEAD_SIZE = "BEAD_SIZE"
 
     CONTROL_TYPE = "control_type"
     CONTROL_FOR = "control_for"
@@ -90,6 +100,7 @@ class SampleConstants():
     CONTROL_HIGH_FITC = "HIGH_FITC"
     CONTROL_CELL_DEATH_POS_CONTROL = "CELL_DEATH_POS_CONTROL"
     CONTROL_CELL_DEATH_NEG_CONTROL = "CELL_DEATH_NEG_CONTROL"
+    CONTROL_CHANNEL = "control_channel"
 
     # sample attributes
     STANDARD_ATTRIBUTES = "standard_attributes"
@@ -115,14 +126,19 @@ class SampleConstants():
     MEASUREMENT_LIBRARY_PREP_NORMAL = "NORMAL"
     MEASUREMENT_LIBRARY_PREP_MINIATURIZED = "MINIATURIZED"
     MT_RNA_SEQ = "RNA_SEQ"
+    MT_DNA_SEQ = "DNA_SEQ"
     MT_FLOW = "FLOW"
+    MT_IMAGE = "IMAGE"
+    MT_SEQUENCING_CHROMATOGRAM = "SEQUENCING_CHROMATOGRAM"
+    MT_EXPERIMENTAL_DESIGN = "EXPERIMENTAL_DESIGN"
     MT_PLATE_READER = "PLATE_READER"
     MT_PROTEOMICS = "PROTEOMICS"
     M_NAME = "name"
     M_TYPE = "type"
-    M_STATE = "state"
-    M_STATE_RAW = "RAW"
-    M_STATE_PROCESSED = "PROCESSED"
+    M_LAB_LABEL = "lab_label"
+    M_LAB_LABEL_RAW = "RAW"
+    M_LAB_LABEL_PROCESSED = "PROCESSED"
+
     M_CHANNELS = "channels"
     M_INSTRUMENT_CONFIGURATION = "instrument_configuration"
 
@@ -132,38 +148,81 @@ class SampleConstants():
     F_TYPE_CSV = "CSV"
     F_TYPE_FCS = "FCS"
     F_TYPE_ZIP = "ZIP"
-    F_TYPE_TXT = "TXT"
+    F_TYPE_PLAIN = "PLAIN"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
+    F_TYPE_ABI = "ABI"
+    F_TYPE_BAI = "BAI"
+    F_TYPE_BAM = "BAM"
+    F_TYPE_JPG = "JPEG"
 
-expt_ref_mapper = None
+design_table = None
+challenge_table = None
 
 def map_experiment_reference(config, output_doc):
-    global expt_ref_mapper
+    global design_table
+    global challenge_table
 
-    if expt_ref_mapper is None:
-        expt_ref_mapper = ExperimentReferenceMapping(mapper_config=config['experiment_reference'],
-                                                     google_client=config['google_client'])
-        expt_ref_mapper.populate()
+    if design_table is None:
+        db_uri = config['cp_db_uri']
+        client = pymongo.MongoClient(db_uri)
+        db = client[config['cp_db']]
+        design_table = db.experiment_designs
+        challenge_table = db.challenges
 
+    parent = None
     mapped = False
     try:
         # URI to id
         if SampleConstants.EXPERIMENT_REFERENCE_URL in output_doc:
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = expt_ref_mapper.uri_to_id(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL])
+            uri = output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL]
+            sharing = "/edit?usp=sharing"
+            if uri.endswith(sharing):
+                uri = uri[:len(uri)-len(sharing)]
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = uri
+
+            query = {}
+            query["uri"] = uri
+
+            matches = list(design_table.find(query).limit(1))
+            for match in matches:
+                parent = match["child_of"][0]
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE] = match["experiment_design_id"]
+                break
             mapped = True
     except Exception as exc:
-        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
         raise Exception(exc)
 
     if not mapped:
         try:
             # id to URI
             if SampleConstants.EXPERIMENT_REFERENCE in output_doc:
-                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = expt_ref_mapper.id_to_uri(output_doc[SampleConstants.EXPERIMENT_REFERENCE])
+
+                query = {}
+                query["experiment_design_id"] = output_doc[SampleConstants.EXPERIMENT_REFERENCE]
+
+                matches = list(design_table.find(query).limit(1))
+                for match in matches:
+                    parent = match["child_of"][0]
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = match["uri"]
+                    break
+
         except Exception as exc:
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = SampleConstants.CP_REF_UNKNOWN
             raise Exception(exc)
+
+    print("Mapped experiment reference {}".format(output_doc[SampleConstants.EXPERIMENT_REFERENCE]))
+    print("Mapped experiment reference URL {}".format(output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL]))
+
+    # We have a reference, now, resolve the CP
+    if parent is not None:
+        query = {}
+        query["uuid"] = parent
+        matches = list(challenge_table.find(query).limit(1))
+
+        for match in matches:
+            print("Overwriting challenge problem with lookup {} ".format(match["id"]))
+            output_doc[SampleConstants.CHALLENGE_PROBLEM] = match["id"]
+            break
 
 def convert_value_unit(value_unit):
     value_unit_split = value_unit.split(":")
@@ -176,10 +235,10 @@ def convert_value_unit(value_unit):
         value_unit_split[0] = float(value)
     return value_unit_split
 
-def create_media_component(media_name, media_id, lab, sbh_query, value_unit=None):
+def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None):
     m_c_object = {}
 
-    m_c_object[SampleConstants.NAME] = create_mapped_name(media_name, media_id, lab, sbh_query)
+    m_c_object[SampleConstants.NAME] = create_mapped_name(experiment_id, media_name, media_id, lab, sbh_query)
     if value_unit:
         value_unit_split = convert_value_unit(value_unit)
         m_c_object[SampleConstants.VALUE] = value_unit_split[0]
@@ -198,7 +257,7 @@ def create_media_component(media_name, media_id, lab, sbh_query, value_unit=None
 sbh_cache = {}
 mapping_failures = {}
 
-def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
+def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, strain=False):
     m_n_object = {}
 
     sbh_lab = None
@@ -219,6 +278,21 @@ def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
         designs = sbh_cache[id_to_map]
     else:
         designs = sbh_query.query_designs_by_lab_ids(sbh_lab, [id_to_map], verbose=True)
+        if len(designs) == 0 and id_to_map.startswith("https://hub.sd2e.org/user/sd2e/design"):
+            print("Trying to map SBH URI directly")
+            # Are we parsing a URI directly, not an internal lab id?
+            query = """PREFIX sbol: <http://sbols.org/v2#>
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX sd2: <http://sd2e.org#>
+            SELECT ?identity ?name ?id WHERE {{
+                <https://hub.sd2e.org/user/sd2e/design/design_collection/1> sbol:member ?identity .
+                ?identity dcterms:title ?name .
+                VALUES (?identity) {{ (<{}>) }}
+                VALUES (?id) {{ (<{}>) }}
+            }}""".format(id_to_map, id_to_map)
+            designs = sbh_query.fetch_SPARQL(SD2Constants.SD2_SERVER, query)
+            # format like query_designs_by_lab_ids verbose
+            designs = sbh_query.format_query_result(designs, ['identity', 'name'], 'id')
         sbh_cache[id_to_map] = designs
 
     if len(designs) > 0 and id_to_map in designs:
@@ -254,8 +328,11 @@ def create_mapped_name(name_to_map, id_to_map, lab, sbh_query, strain=False):
         m_n_object[SampleConstants.SBH_URI] = "NO PROGRAM DICTIONARY ENTRY"
         if name_to_map not in mapping_failures:
             mapping_failures[name_to_map] = id_to_map
+            mapping_type = "Reagent"
+            if strain:
+                mapping_type = "Strain"
             with open('create_mapped_name_failures.csv', 'a+') as unmapped:
-                unmapped.write('"{}","{}","{}"\n'.format(lab, name_to_map, id_to_map))
+                unmapped.write('"{}","{}","{}","{}","{}"\n'.format(experiment_id, sbh_lab, name_to_map, id_to_map, mapping_type))
 
     # m_n_object[SampleConstants.AGAVE_URI] =
     m_n_object[SampleConstants.LAB_ID] = namespace_lab_id(id_to_map, lab)

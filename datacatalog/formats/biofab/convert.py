@@ -10,7 +10,7 @@ class Biofab(Converter):
         """Do the conversion by running a method in runner.py"""
         from .runner import convert_biofab
         passed_config = config if config != {} else self.options
-        return convert_biofab(self.targetschema, input_fp,
+        return convert_biofab(self.targetschema, self.encoding, input_fp,
                               verbose=verbose,
                               config=passed_config,
                               output_file=output_fp,

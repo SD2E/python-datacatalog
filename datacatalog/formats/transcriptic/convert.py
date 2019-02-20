@@ -11,7 +11,7 @@ class Transcriptic(Converter):
         """Do the conversion by running a method in runner.py"""
         from .runner import convert_transcriptic
         passed_config = config if config != {} else self.options
-        return convert_transcriptic(self.targetschema, input_fp,
+        return convert_transcriptic(self.targetschema, self.encoding, input_fp,
                                     verbose=verbose,
                                     config=passed_config,
                                     output_file=output_fp, enforce_validation=enforce_validation)

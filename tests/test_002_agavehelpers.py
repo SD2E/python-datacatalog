@@ -24,7 +24,6 @@ def test_mapped_posix_path(agave, filename, system):
     pp = h.mapped_posix_path(filename, storage_system=system)
     assert pp == target
 
-
 @longrun
 def test_listdir_posix(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')

@@ -10,7 +10,7 @@ class Ginkgo(Converter):
         """Do the conversion by running a method in runner.py"""
         from .runner import convert_ginkgo
         passed_config = config if config != {} else self.options
-        return convert_ginkgo(self.targetschema, input_fp,
+        return convert_ginkgo(self.targetschema, self.encoding, input_fp,
                               verbose=verbose,
                               config=passed_config,
                               output_file=output_fp,

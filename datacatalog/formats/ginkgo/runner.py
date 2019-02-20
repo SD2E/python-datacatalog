@@ -3,18 +3,20 @@ import json
 import sys
 import os
 import six
+import collections
+import pymongo
 
 from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 
-from ..agavehelpers import AgaveHelper
-from .common import SampleConstants
-from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ...agavehelpers import AgaveHelper
+from ..common import SampleConstants
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 from .mappings import SampleContentsFilter
 
-def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -22,11 +24,17 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     else:
         print("Helper not loaded")
 
+    props_attr = "properties"
+
     # default values for FCS support; replace with trace information as available
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
     DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
+
+    # changed for NC Exp-NC-NAND-Gate-Iteration, NovelChassis-NAND-Ecoli-Titration
+    NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/ZE5-20180912.json"
+    NC_ITERATION_TITRATION_CYTOMETER_CHANNELS = ["YFP-A", "SSC 488/10-A", "FSC 488/10-A"]
 
     # For inference
     # Novel Chassis Nand
@@ -37,8 +45,7 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
-    schema = json.load(open(schema_file))
-    ginkgo_doc = json.load(open(input_file))
+    ginkgo_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
 
@@ -48,7 +55,40 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
 
-    for ginkgo_sample in ginkgo_doc:
+    db_uri = config['cp_db_uri']
+    client = pymongo.MongoClient(db_uri)
+    db = client[config['samples_db']]
+    samples_table = db.samples
+    measurements_table = db.measurements
+
+    is_nc_iteration_titration = False
+
+    if "experimental_reference" in ginkgo_doc:
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = ginkgo_doc["experimental_reference"]
+        map_experiment_reference(config, output_doc)
+
+        # Without an intent document, we have to determine this at conversion time
+        # To provide channel and cytometer mappings
+        if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "Exp-NC-NAND-Gate-Iteration" or output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Ecoli-Titration":
+            is_nc_iteration_titration = True
+
+    if "internal_workflow_id" in ginkgo_doc:
+        list_of_wf_ids = ginkgo_doc["internal_workflow_id"]
+        if isinstance(list_of_wf_ids, list):
+            experiment_id = '.'.join(str(wf_id) for wf_id in list_of_wf_ids)
+        elif isinstance(list_of_wf_ids, six.string_types):
+            experiment_id = list_of_wf_ids
+        else:
+            raise ValueError("Could not parse internal workflow id{}".format(list_of_wf_ids))
+
+        output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(experiment_id, lab)
+
+    if "samples" in ginkgo_doc:
+        ginkgo_iterator = ginkgo_doc["samples"]
+    else:
+        ginkgo_iterator = ginkgo_doc
+
+    for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab)
@@ -71,11 +111,32 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             sample_doc[SampleConstants.CONTENTS] = contents
 
         for strain in ginkgo_sample["content"]["strain"]:
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain["name"], strain["id"], lab, sbh_query, strain=True)
+            # this can either be a dict or an int
+            strain_name = None
+            strain_id = None
+            if type(strain) == int:
+                strain_name = str(strain)
+                strain_id = str(strain)
+            elif isinstance(strain, collections.Mapping):
+                strain_name = strain["name"]
+                strain_id = strain["id"]
+            else:
+                raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
+
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
             # TODO multiple strains?
             continue
 
-        props = ginkgo_sample["properties"]
+        if "molecule" in ginkgo_sample["content"]:
+            for molecule in ginkgo_sample["content"]["molecule"]:
+                sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
+                # TODO multiple genetic constructs?
+                continue
+
+        if props_attr in ginkgo_sample:
+            props = ginkgo_sample[props_attr]
+        else:
+            props = {}
 
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in ginkgo_sample:
@@ -127,14 +188,68 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
         if replicate_prop in props:
             replicate_val = props[replicate_prop]
             if isinstance(replicate_val, six.string_types):
-                replicate_val = int(replicate_val)
+                # Ginkgo sometimes sends floats here.
+                replicate_val_f = float(replicate_val)
+                replicate_val = int(replicate_val_f)
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         tx_sample_prop = "SD2_TX_sample_id"
+
+        reference_time_point = None
         if tx_sample_prop in props:
             # pull out the aliquot id and namespace it for TX
-            # e.g. aq1bszwpwmtqux/ct1bsxfcxdqw55
-            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(props[tx_sample_prop].split("/")[0], SampleConstants.LAB_TX)
+            # e.g. ct1c9q78m7wt8y/aq1c9sy3e2242e
+            # Plate then Sample
+            tx_sample_id = props[tx_sample_prop].split("/")[1]
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+
+            # Bring over sample metadata from TX sample
+            query = {}
+            query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+
+            s_matches = list(samples_table.find(query).limit(1))
+            if len(s_matches) == 0:
+                # try alternative parsing - aliquot first
+                tx_sample_id = props[tx_sample_prop].split("/")[0]
+                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+
+                query = {}
+                query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+                s_matches = list(samples_table.find(query).limit(1))
+                if len(s_matches) == 0:
+                    raise ValueError("Error: Could not find referenced sample: {}".format(query["sample_id"]))
+
+            s_match = s_matches[0]
+            if "replicate" in s_match:
+                sample_doc[SampleConstants.REPLICATE] = s_match["replicate"]
+
+            if "strain" in s_match:
+                tx_strain_name = s_match["strain"]["lab_id"].split(".")[-1]
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), tx_strain_name, tx_strain_name, SampleConstants.LAB_TX, sbh_query, strain=True)
+
+            if "contents" in s_match:
+                for content in s_match["contents"]:
+                    if content != "None":
+                        if SampleConstants.CONTENTS not in sample_doc:
+                            sample_doc[SampleConstants.CONTENTS] = []
+                        tx_content_name = content["name"]["lab_id"].split(".")[-1]
+                        sample_doc[SampleConstants.CONTENTS].append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), tx_content_name, tx_content_name, SampleConstants.LAB_TX, sbh_query))
+
+            if "temperature" in s_match:
+                sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(s_match["temperature"]["value"]) + ":" + s_match["temperature"]["unit"])
+
+            # Bring over measurement metadata from TX sample
+            # Bring over metadata from TX sample
+            query = {}
+            query["child_of"] = s_match["uuid"]
+
+            m_matches = list(measurements_table.find(query).limit(1))
+            if len(m_matches) == 0:
+                raise ValueError("Error: Could not find referenced sample measurement: {}".format(query["child_of"]))
+
+            m_match = m_matches[0]
+            if "timepoint" in m_match:
+                reference_time_point = create_value_unit(str(m_match["timepoint"]["value"]) + ":" + m_match["timepoint"]["unit"])
 
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
@@ -183,6 +298,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 if time_val.endswith("hours"):
                     time_val = time_val.replace("hours", "hour")
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+            elif reference_time_point != None:
+                measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
 
             measurement_doc[SampleConstants.FILES] = []
 
@@ -197,6 +314,8 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                 measurement_type = SampleConstants.MT_PLATE_READER
             elif assay_type == "Global Proteomics":
                 measurement_type = SampleConstants.MT_PROTEOMICS
+            elif assay_type == "NGS (Genome)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
 
@@ -221,8 +340,9 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                     # fill in URI
                     map_experiment_reference(config, output_doc)
                 elif measurement_name == "P63 Received Aug 2018 (WF: 15724, SEQ_WF: 16402)":
-                    print("Setting Yeast Gates Challenge Problem by Inference")
-                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_GATES
+                    print("Setting Yeast States Challenge Problem by Inference")
+                    output_doc[SampleConstants.CHALLENGE_PROBLEM] = SampleConstants.CP_YEAST_STATES
+
                     # workflow id from ginkgo
                     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(YS_WF_ID, lab)
                     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-gRNA-Seq-Diagnosis"
@@ -253,9 +373,16 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    if is_nc_iteration_titration:
+                        measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_TITRATION_CYTOMETER_CHANNELS
+                    else:
+                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+
                 if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
-                    measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
+                    if is_nc_iteration_titration:
+                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION
+                    else:
+                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # Use default NC negative strain, if CP matches
             # Match on lab ID for now, as this is unambiguous given dictionary name changes
@@ -263,15 +390,21 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
             if SampleConstants.CONTROL_TYPE not in sample_doc and \
                 SampleConstants.STRAIN in sample_doc and \
                     output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
-                if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]):
+                # MG1655_WT or MG1655_empty_landing_pads
+                if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]) or \
+                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("346047", output_doc[SampleConstants.LAB]):
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                # MG1655_pJS007_LALT__I1__IcaRA
                 elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]):
                     # ON without IPTG, OFF with IPTG, plasmid (high level)
                     # we also need to indicate the control channels for the fluorescence control
                     # this is not known by the lab typically, has to be provided externally
                     if SampleConstants.CONTENTS not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                        sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                        if is_nc_iteration_titration:
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                        else:
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
                     else:
                         found = False
                         for content in sample_doc[SampleConstants.CONTENTS]:
@@ -281,15 +414,48 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                     found = True
                         if not found:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                            if is_nc_iteration_titration:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                            else:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                elif output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Ecoli-Titration" and \
+                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("190119", output_doc[SampleConstants.LAB]):
+                    # MG1655_NAND_Circuit
+                    # OFF with both IPTG and arabinose, ON otherwise, genomic (low level)
+                    # we also need to indicate the control channels for the fluorescence control
+                    # this is not known by the lab typically, has to be provided externally
+                    # per discussion with NC group use 18H timepoint, no inducers
+                    # this experiment does not have a constitutive positive control!
+                    if SampleConstants.CONTENTS not in sample_doc:
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                        if is_nc_iteration_titration:
+                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                        else:
                             sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                    else:
+                        found_iptg = False
+                        found_arab = False
+                        for content in sample_doc[SampleConstants.CONTENTS]:
+                            if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
+                                content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
+                                if content_label == "IPTG":
+                                    found_iptg = True
+                                if content_label == "L-arabinose":
+                                    found_arab = True
+                        if not found_arab and not found_iptg and time_val is not None and time_val=="18:hour":
+                            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                            if is_nc_iteration_titration:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                            else:
+                                sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
             file_counter = 1
             for key in measurement_props["dataset_files"].keys():
-                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
-
                 if key == "processed":
                     for processed in measurement_props["dataset_files"]["processed"]:
                         for sub_processed in processed:
+                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+
                             file_type = SampleConstants.infer_file_type(sub_processed)
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_processed,
@@ -297,9 +463,12 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
                                  SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                            file_counter = file_counter + 1
                 elif key == "raw":
                     for raw in measurement_props["dataset_files"]["raw"]:
                         for sub_raw in raw:
+                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+
                             file_type = SampleConstants.infer_file_type(sub_raw)
                             measurement_doc[SampleConstants.FILES].append(
                                 {SampleConstants.M_NAME: sub_raw,
@@ -307,28 +476,29 @@ def convert_ginkgo(schema_file, input_file, verbose=True, output=True, output_fi
                                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                                  SampleConstants.FILE_ID: file_id,
                                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                            file_counter = file_counter + 1
                 else:
                     raise ValueError("Unknown measurement type: {}".format(key))
-
-                file_counter = file_counter + 1
 
             if SampleConstants.MEASUREMENTS not in sample_doc:
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
-            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
+
+            #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
-    print('Samples in file: {}'.format(len(ginkgo_doc)))
+    print('Samples in file: {}'.format(len(ginkgo_iterator)))
     print('Samples with data: {}'.format(samples_w_data))
 
     try:
         validate(output_doc, schema)
         # if verbose:
         # print(json.dumps(output_doc, indent=4))
+
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join(

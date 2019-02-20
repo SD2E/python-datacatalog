@@ -3,24 +3,23 @@ import json
 import sys
 import os
 import six
+import pymongo
 
 from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 
-from ..agavehelpers import AgaveHelper
-from .common import SampleConstants
-from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ...agavehelpers import AgaveHelper
+from ..common import SampleConstants
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 
 """
 Schema closely aligns with V1 target schema
 Walk and expand to dictionary/attribute blocks
 as necessary
 """
-
-
-def convert_transcriptic(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -36,8 +35,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
 
-    schema = json.load(open(schema_file))
-    transcriptic_doc = json.load(open(input_file))
+    transcriptic_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
 
@@ -50,7 +48,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
     cp = transcriptic_doc[SampleConstants.CHALLENGE_PROBLEM]
     # TX's name for YG...
     if cp == "YG":
-        cp = SampleConstants.CP_YEAST_GATES
+        cp = SampleConstants.CP_YEAST_STATES
     elif cp == "NC":
         cp = SampleConstants.CP_NOVEL_CHASSIS
     else:
@@ -61,6 +59,12 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = transcriptic_doc[SampleConstants.EXPERIMENT_REFERENCE]
 
     map_experiment_reference(config, output_doc)
+
+    db_uri = config['cp_db_uri']
+    client = pymongo.MongoClient(db_uri)
+    db = client[config['samples_db']]
+    samples_table = db.samples
+
 
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
@@ -79,33 +83,101 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
 
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab)
 
+        # parse inducer, strain, and replicate from parents, if available
+        if "parents" in transcriptic_sample:
+            parents = transcriptic_sample["parents"]
+
+            parent_replicates = set()
+            parent_strains = set()
+            parent_contents = set()
+
+            for parent in parents:
+                parent_sample_id_split = parent.split("/")
+                parent_sample_id = parent_sample_id_split[0]
+                query = {}
+                query["sample_id"] = namespace_sample_id(parent_sample_id, lab)
+
+                matches = list(samples_table.find(query).limit(1))
+                if len(matches) == 0:
+                    raise ValueError("Error: Could not find parent: {}".format(query["sample_id"]))
+
+                for match in matches:
+                    if "replicate" in match:
+                        parent_replicates.add(match["replicate"])
+                    if "strain" in match:
+                        parent_strains.add(match["strain"]["lab_id"].split(".")[-1])
+                    if "contents" in match:
+                        for content in match["contents"]:
+                            if content != "None":
+                                parent_contents.add(content["name"]["lab_id"].split(".")[-1])
+
+            if len(parent_replicates) != 1:
+                raise ValueError("Zero or more than one parent replicate? {} {}".format(parents, parent_replicates))
+            if len(parent_strains) != 1:
+                raise ValueError("Zero or more than one parent strain? {} {}".format(parents, parent_strains))
+
+            if SampleConstants.REPLICATE not in transcriptic_sample or transcriptic_sample[SampleConstants.REPLICATE] == None:
+                transcriptic_sample[SampleConstants.REPLICATE] = list(parent_replicates)[0]
+            if SampleConstants.STRAIN not in transcriptic_sample:
+                transcriptic_sample[SampleConstants.STRAIN] = list(parent_strains)[0]
+            if SampleConstants.CONTENTS not in transcriptic_sample:
+                transcriptic_sample[SampleConstants.CONTENTS] = list(parent_contents)
+
         # media
         contents = []
+        # parent can override child values, track these
+        seen_contents = set()
         if SampleConstants.CONTENTS in transcriptic_sample:
-            for reagent in transcriptic_sample[SampleConstants.CONTENTS]:
+            # this is sometimes a list, sometimes a single value...
+            sample_contents = transcriptic_sample[SampleConstants.CONTENTS]
+            if not isinstance(sample_contents, list):
+                sample_contents = [sample_contents]
+
+            for reagent in sample_contents:
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
-                    if len(transcriptic_sample[SampleConstants.CONTENTS]) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
-                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
-                    else:
-                        contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
+                    if reagent not in seen_contents:
+                        seen_contents.add(reagent)
+                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                            contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
+                        else:
+                            contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
 
         if SampleConstants.MEDIA in transcriptic_sample and SampleConstants.MEDIA_RS_ID in transcriptic_sample:
             media = transcriptic_sample[SampleConstants.MEDIA]
             media_id = transcriptic_sample[SampleConstants.MEDIA_RS_ID]
-            contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
+            if media_id not in seen_contents:
+                seen_contents.add(media_id)
+                contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
 
         if SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
-            # "Arabinose+IPTG"
+            #"Arabinose+IPTG"
             if inducer != "None":
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
-                    contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
-                    contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
+                    if inducer_split[0] not in seen_contents:
+                        seen_contents.add(inducer_split[0])
+                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
+                    if inducer_split[1] not in seen_contents:
+                        seen_contents.add(inducer_split[1])
+                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
                 else:
-                    contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                    # Special case for YS. Both means Arabinose and IPTG
+                    if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+                        inducer = "Arabinose"
+                        if inducer not in seen_contents:
+                            seen_contents.add(inducer)
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+
+                        inducer = "IPTG"
+                        if inducer not in seen_contents:
+                            seen_contents.add(inducer)
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                    elif inducer not in seen_contents:
+                        seen_contents.add(inducer)
+                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
@@ -113,7 +185,13 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
+            # TX does not mark size beads consistently
+            if strain == "SizeBeadControl":
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
+                # this is a reagent
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+            else:
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
         sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(transcriptic_sample[SampleConstants.TEMPERATURE])
@@ -132,18 +210,25 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         # time
-        time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
-
-        # enum fix
-        if time_val.endswith("hours"):
-            time_val = time_val.replace("hours", "hour")
+        time_val = None
+        if SampleConstants.TIMEPOINT in transcriptic_sample:
+            time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
+            # enum fix
+            if time_val.endswith("hours"):
+                time_val = time_val.replace("hours", "hour")
+            if time_val.endswith("minutes"):
+                minute_split = time_val.split(":minutes")
+                minute_val = float(minute_split[0])/60.0
+                time_val = str(minute_val) + ":hour"
 
         # controls and standards
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in transcriptic_sample:
             sample_doc[SampleConstants.STANDARD_TYPE] = transcriptic_sample[SampleConstants.STANDARD_TYPE]
         if SampleConstants.STANDARD_FOR in transcriptic_sample:
-            sample_doc[SampleConstants.STANDARD_FOR] = transcriptic_sample[SampleConstants.STANDARD_FOR]
+            standard_for = transcriptic_sample[SampleConstants.STANDARD_FOR]
+            if len(standard_for) != 0 or sample_doc[SampleConstants.STANDARD_TYPE] != SampleConstants.STANDARD_MEDIA_BLANK:
+                sample_doc[SampleConstants.STANDARD_FOR] = standard_for
 
         # map control for, type
         if SampleConstants.CONTROL_TYPE in transcriptic_sample:
@@ -180,13 +265,46 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             elif original_sample_id == "WT-Live-Control":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
 
+        # Novel Chassis Positive and Negative Controls
+        # TODO: Refactor into common function, vs. lab specific?
+        # NC does not provide control mappings
+        # Use the default NC negative strain, if CP matches
+        # Match on lab ID for now, as this is unambiguous given dictionary common name changes
+        # do the same thing for positive control
+        if SampleConstants.CONTROL_TYPE not in sample_doc and \
+            SampleConstants.STRAIN in sample_doc and \
+                output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+            if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("MG1655_WT", output_doc[SampleConstants.LAB]):
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+            elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("MG1655_pJS007_LALT__I1__IcaRA", output_doc[SampleConstants.LAB]):
+                # ON without IPTG, OFF with IPTG, plasmid (high level)
+                # we also need to indicate the control channels for the fluorescence control
+                # this is not known by the lab typically, has to be provided externally
+                if SampleConstants.CONTENTS not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
+                else:
+                    found = False
+                    for content in sample_doc[SampleConstants.CONTENTS]:
+                        if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
+                            content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
+                            if content_label == "IPTG":
+                                found = True
+                    if not found:
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                        sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
+
         # determinstically derive measurement ids from sample_id + counter (local to sample)
         measurement_counter = 1
+
+        # TX sending duplicate files
+        seen_files_per_sample = set()
 
         for file in transcriptic_sample[SampleConstants.FILES]:
             measurement_doc = {}
 
-            measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+            if time_val is not None:
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
 
             measurement_doc[SampleConstants.FILES] = []
 
@@ -201,7 +319,13 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    # NC specific channels
+                    if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS and \
+                    measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
+                        measurement_doc[SampleConstants.M_CHANNELS] = ["BL1-A", "FSC-A", "SSC-A"]
+                    else:
+                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+
                 if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
@@ -219,10 +343,20 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
             measurement_counter = measurement_counter + 1
 
             file_name = file[SampleConstants.M_NAME]
+
+            if file_name in seen_files_per_sample:
+                print("Warning, duplicate filename, skipping, {}".format(file_name))
+                continue
+            else:
+                seen_files_per_sample.add(file_name)
+
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
             if file_name.startswith('s3'):
-                file_name_final = file_name.split('/')[-1]
+                file_name_final = file_name.split(original_experiment_id)[-1]
+                if file_name_final.startswith("/"):
+                    file_name_final = file_name_final[1:]
+
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,
                  SampleConstants.M_TYPE: file_type,
@@ -234,7 +368,7 @@ def convert_transcriptic(schema_file, input_file, verbose=True, output=True, out
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
-            print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
+            #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []
