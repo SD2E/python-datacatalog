@@ -38,7 +38,7 @@ def decode_path(encoded_file_path):
     """
     return unquote(encoded_file_path)
 
-def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=True):
+def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=False):
     """Returns a safened version of a path
 
     Trailing whitespace is removed, Unicode characters (sorry!) are transformed

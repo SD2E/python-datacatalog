@@ -78,8 +78,8 @@ class FileRecord(collections.UserDict):
         super().__init__(value, *args, **kwargs)
         self['name'] = safen_path(self['name'],
                                   no_unicode=False,
-                                  no_spaces=False,
-                                  url_quote=True)
+                                  no_spaces=True,
+                                  url_quote=False)
 
     def set_token(self, value):
         self['_update_token'] = str(value)
