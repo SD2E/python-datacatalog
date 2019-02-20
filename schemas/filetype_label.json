@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-20 16:00:29 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@dab05ab",
+    "$comment": "generated: 2019-02-20 16:29:46 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@e0b3c3a",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -49,6 +49,7 @@
         "ATOM+XML",
         "AUTHORS",
         "AWK",
+        "BAI",
         "BAM",
         "BASIC",
         "BCF",
