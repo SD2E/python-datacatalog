@@ -29,7 +29,7 @@ class SampleConstants():
         elif file_name.endswith("msf"):
             return SampleConstants.F_TYPE_MSF
         elif file_name.endswith("ab1"):
-            return SampleConstants.F_TYPE_AB1
+            return SampleConstants.F_TYPE_ABI
         elif file_name.endswith("bai"):
             return SampleConstants.F_TYPE_BAI
         elif file_name.endswith("bam"):
@@ -151,7 +151,7 @@ class SampleConstants():
     F_TYPE_PLAIN = "PLAIN"
     F_TYPE_MZML = "MZML"
     F_TYPE_MSF = "MSF"
-    F_TYPE_AB1 = "AB1"
+    F_TYPE_ABI = "ABI"
     F_TYPE_BAI = "BAI"
     F_TYPE_BAM = "BAM"
     F_TYPE_JPG = "JPEG"
