@@ -213,9 +213,9 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
 
         if SampleConstants.CONTROL_TYPE not in sample_doc and SampleConstants.STRAIN in sample_doc:
             #print("strain: {}".format(sample_doc[SampleConstants.STRAIN]))
-            if "UWBIOFAB_22544" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
+            if "UWBIOFAB_22544" in sample_doc[SampleConstants.STRAIN][SampleConstants.SBH_URI]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-            elif "UWBF_6390" in sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL]:
+            elif "UWBF_6390" in sample_doc[SampleConstants.STRAIN][SampleConstants.SBH_URI]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
 
