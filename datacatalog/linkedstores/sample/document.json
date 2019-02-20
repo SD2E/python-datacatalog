@@ -78,7 +78,7 @@
             "$ref": "standard_type.json"
         },
         "genetic_construct": {
-            "$ref": "#/definitions/mapped_name",
+            "$ref": "mapped_name.json",
             "description": "genetic construct reference (mapped by SBH Librarian)"
         },
         "strain": {
