@@ -39,7 +39,7 @@
             "items": {
                 "$ref": "measurement.json"
             },
-            "minItems": 1,
+            "minItems": 0,
             "type": "array"
         },
         "replicate": {
@@ -76,6 +76,10 @@
         "standard_type": {
             "description": "enumerated standard type",
             "$ref": "standard_type.json"
+        },
+        "genetic_construct": {
+            "$ref": "mapped_name.json",
+            "description": "genetic construct reference (mapped by SBH Librarian)"
         },
         "strain": {
             "$ref": "mapped_name.json",

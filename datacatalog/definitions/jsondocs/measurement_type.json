@@ -4,6 +4,8 @@
     "enum": [
         "FLOW",
         "RNA_SEQ",
+        "DNA_SEQ",
+        "IMAGE",
         "PLATE_READER",
         "PROTEOMICS",
         "EXPERIMENTAL_DESIGN",
