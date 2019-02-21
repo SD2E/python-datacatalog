@@ -1,0 +1,7010 @@
+{
+  "plan_id": "9883",
+  "plan_name": "YG_Harmonization_NOR_Wk_031218",
+  "plan_inputs": [
+    "109594",
+    "118359",
+    "119692",
+    "34379",
+    "34378",
+    "119694"
+  ],
+  "operations": [
+    {
+      "operation_id": "55012",
+      "operation_type": {
+        "operation_type_id": "322",
+        "category": "Flow Cytometry",
+        "name": "Flow Cytometry 96 well (old)"
+      },
+      "inputs": [
+        {
+          "name": "96 well plate",
+          "field_value_id": "336770",
+          "item_id": "120779",
+          "routing_id": "A"
+        },
+        {
+          "name": "well volume (\u00b5L)",
+          "field_value_id": "336771",
+          "value": "300"
+        },
+        {
+          "name": "calibration beads",
+          "field_value_id": "336772",
+          "item_id": "109594",
+          "routing_id": "B"
+        },
+        {
+          "name": "sample type",
+          "field_value_id": "336773",
+          "value": "Yeast"
+        }
+      ],
+      "start_time": "2018-03-13T16:43:00+00:00",
+      "end_time": "2018-03-13T22:31:14+00:00",
+      "attributes": {
+        "measurement_operation": true,
+        "measurement_type": "FLOW",
+        "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11272017/cytometer_configuration.json",
+        "channels": [
+          "FL1-A",
+          "FL4-A"
+        ]
+      }
+    },
+    {
+      "operation_id": "55011",
+      "operation_type": {
+        "operation_type_id": "380",
+        "category": "YG_Harmonization",
+        "name": "4. Measure OD and GFP"
+      },
+      "inputs": [
+        {
+          "name": "96 Deep Well Plate",
+          "field_value_id": "336767",
+          "item_id": "120727",
+          "routing_id": "well"
+        },
+        {
+          "name": "Timepoint (hr)",
+          "field_value_id": "336768",
+          "value": "16"
+        }
+      ],
+      "start_time": "2018-03-13T15:23:28+00:00",
+      "end_time": "2018-03-13T16:41:31+00:00",
+      "attributes": {
+        "measurement_operation": true,
+        "measurement_type": "PLATE_READER",
+        "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/synergy_ht/216503/03132018/platereader_configuration.json"
+      }
+    },
+    {
+      "operation_id": "55013",
+      "operation_type": {
+        "operation_type_id": "378",
+        "category": "YG_Harmonization",
+        "name": "3. Synchronize by OD"
+      },
+      "inputs": [
+        {
+          "name": "96 Well Flat Bottom",
+          "field_value_id": "336774",
+          "item_id": "120720",
+          "routing_id": "Plate"
+        },
+        {
+          "name": "Final OD",
+          "field_value_id": "336775",
+          "value": "{'final_OD':[0.0003,0.00015,0.000075]}"
+        }
+      ],
+      "start_time": "2018-03-13T00:39:02+00:00",
+      "end_time": "2018-03-13T01:33:14+00:00",
+      "attributes": {
+        "measurement_operation": true,
+        "measurement_type": "PLATE_READER",
+        "instrument_configuration": "agave://data-sd2e-community/biofab/instruments/synergy_ht/216503/03132018/platereader_configuration.json"
+      }
+    },
+    {
+      "operation_id": "57581",
+      "operation_type": {
+        "operation_type_id": "377",
+        "category": "YG_Harmonization",
+        "name": "2. Resuspension and Outgrowth"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Plate",
+          "field_value_id": "345094",
+          "item_id": "120520",
+          "routing_id": "Plate"
+        },
+        {
+          "name": "Biological Replicates",
+          "field_value_id": "345096",
+          "value": "6"
+        },
+        {
+          "name": "Yeast Plate",
+          "field_value_id": "345098",
+          "item_id": "120521",
+          "routing_id": "Plate"
+        },
+        {
+          "name": "Yeast Plate",
+          "field_value_id": "345099",
+          "item_id": "120522",
+          "routing_id": "Plate"
+        },
+        {
+          "name": "Yeast Plate",
+          "field_value_id": "345100",
+          "item_id": "120523",
+          "routing_id": "Plate"
+        },
+        {
+          "name": "Yeast Plate",
+          "field_value_id": "345101",
+          "item_id": "120524",
+          "routing_id": "Plate"
+        }
+      ],
+      "start_time": "2018-03-12T15:52:00+00:00",
+      "end_time": "2018-03-13T00:34:10+00:00"
+    },
+    {
+      "operation_id": "55015",
+      "operation_type": {
+        "operation_type_id": "376",
+        "category": "YG_Harmonization",
+        "name": "1. To Single Colonies"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Glycerol Stock",
+          "field_value_id": "336784",
+          "item_id": "118359",
+          "routing_id": "C"
+        }
+      ],
+      "start_time": "2018-03-10T00:37:15+00:00",
+      "end_time": "2018-03-10T19:35:46+00:00"
+    },
+    {
+      "operation_id": "55016",
+      "operation_type": {
+        "operation_type_id": "376",
+        "category": "YG_Harmonization",
+        "name": "1. To Single Colonies"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Glycerol Stock",
+          "field_value_id": "336786",
+          "item_id": "119692",
+          "routing_id": "C"
+        }
+      ],
+      "start_time": "2018-03-10T00:37:15+00:00",
+      "end_time": "2018-03-10T19:35:46+00:00"
+    },
+    {
+      "operation_id": "55017",
+      "operation_type": {
+        "operation_type_id": "376",
+        "category": "YG_Harmonization",
+        "name": "1. To Single Colonies"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Glycerol Stock",
+          "field_value_id": "336788",
+          "item_id": "34379",
+          "routing_id": "C"
+        }
+      ],
+      "start_time": "2018-03-10T00:37:15+00:00",
+      "end_time": "2018-03-10T19:35:46+00:00"
+    },
+    {
+      "operation_id": "55018",
+      "operation_type": {
+        "operation_type_id": "376",
+        "category": "YG_Harmonization",
+        "name": "1. To Single Colonies"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Glycerol Stock",
+          "field_value_id": "336790",
+          "item_id": "34378",
+          "routing_id": "C"
+        }
+      ],
+      "start_time": "2018-03-10T00:37:15+00:00",
+      "end_time": "2018-03-10T19:35:46+00:00"
+    },
+    {
+      "operation_id": "55019",
+      "operation_type": {
+        "operation_type_id": "376",
+        "category": "YG_Harmonization",
+        "name": "1. To Single Colonies"
+      },
+      "inputs": [
+        {
+          "name": "Yeast Glycerol Stock",
+          "field_value_id": "336792",
+          "item_id": "119694",
+          "routing_id": "C"
+        }
+      ],
+      "start_time": "2018-03-10T00:37:15+00:00",
+      "end_time": "2018-03-10T19:35:46+00:00"
+    }
+  ],
+  "jobs": [],
+  "items": [
+    {
+      "item_id": "109594",
+      "type": "item",
+      "attributes": {
+        "Lot No.": "AJ02",
+        "standard": "BEAD_FLUORESCENCE"
+      },
+      "sample": {
+        "sample_id": "21849",
+        "sample_name": "Spherotech ultra rainbow"
+      },
+      "object_type": {
+        "object_type_id": "724",
+        "object_type_name": "Bead droplet dispenser"
+      }
+    },
+    {
+      "item_id": "120779/F2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/F3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/F4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/F9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/F6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/F7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/F8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/E8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/F10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/E5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/F11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/D10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/E7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/E4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/F12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/F5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/G8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/G9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/E2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/H2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/F1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/H3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/H4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/A7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/B9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/A8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/C6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/C3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/A5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/C5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/C2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/C9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/B8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/D7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/A11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/C1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/A1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/D1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/A10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/D4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/C8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/G3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/H1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/A6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/G2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/D2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/B4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/G7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/C7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/E12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/A12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/H6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/D6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/B5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/H5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/C10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/B3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/C4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120779/B7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/A9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/D5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120779/A4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/A3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/C11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/A2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/C12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120779/B11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779/E1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "part_of": "120779",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120779",
+      "type": "collection",
+      "generated_by": {
+        "operation_id": "55011"
+      },
+      "sources": [
+        "120727"
+      ],
+      "attributes": {
+        "optical_density": {
+          "16_hr": [
+            [
+              0.997,
+              1.083,
+              1.075,
+              1.053,
+              1.091,
+              0.936,
+              0.058,
+              0.084,
+              0.09,
+              0.147,
+              0.069,
+              0.099
+            ],
+            [
+              0.213,
+              0.131,
+              0.115,
+              0.161,
+              0.487,
+              0.211,
+              0.111,
+              0.206,
+              0.131,
+              0.118,
+              0.137,
+              0.161
+            ],
+            [
+              0.123,
+              0.056,
+              0.08,
+              0.181,
+              0.172,
+              0.293,
+              0.011,
+              0.008,
+              0.01,
+              0.009,
+              0.02,
+              0.45
+            ],
+            [
+              0.499,
+              0.556,
+              0.235,
+              0.155,
+              0.063,
+              0.138,
+              0.184,
+              0.022,
+              0.016,
+              0.017,
+              0.114,
+              0.072
+            ],
+            [
+              0.035,
+              0.06,
+              0.033,
+              0.032,
+              0.023,
+              0.041,
+              0.028,
+              0.02,
+              0.029,
+              0.059,
+              0.063,
+              0.111
+            ],
+            [
+              0.143,
+              0.009,
+              0.005,
+              0.006,
+              0.012,
+              0.019,
+              0.001,
+              0.01,
+              0.003,
+              0.014,
+              0.009,
+              0.038
+            ],
+            [
+              0.704,
+              0.543,
+              0.482,
+              0.37,
+              0.039,
+              0.03,
+              0.067,
+              0.032,
+              0.0,
+              0.017,
+              0.009,
+              0.01
+            ],
+            [
+              0.027,
+              0.02,
+              0.031,
+              0.066,
+              0.03,
+              0.047,
+              0.002,
+              0.003,
+              0.003,
+              0.0,
+              0.0,
+              -0.001
+            ]
+          ]
+        },
+        "gfp_fluorescence": {
+          "16_hr": [
+            [
+              3.0,
+              6.0,
+              6.0,
+              6.0,
+              8.0,
+              4.0,
+              4.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              2.0,
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              6.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              8.0,
+              9.0,
+              3.0,
+              2.0,
+              2.0,
+              2.0,
+              2.0,
+              2.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              2.0,
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              2.0,
+              3.0
+            ],
+            [
+              2.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              1.0,
+              2.0,
+              1.0
+            ],
+            [
+              5.0,
+              4.0,
+              3.0,
+              4.0,
+              2.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              2.0,
+              1.0,
+              2.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              3.0,
+              -2.0,
+              -2.0,
+              -2.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        },
+        "SAMPLE_uploads": [
+          {
+            "created_at": "2018-03-13T15:18:48-07:00",
+            "id": 20475,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:48-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F02.fcs",
+            "upload_file_size": 34619,
+            "upload_updated_at": "2018-03-13T15:18:48-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:48-07:00",
+            "id": 20476,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:48-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F03.fcs",
+            "upload_file_size": 19835,
+            "upload_updated_at": "2018-03-13T15:18:48-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:48-07:00",
+            "id": 20477,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:48-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F04.fcs",
+            "upload_file_size": 25883,
+            "upload_updated_at": "2018-03-13T15:18:48-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:48-07:00",
+            "id": 20479,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:48-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F09.fcs",
+            "upload_file_size": 20843,
+            "upload_updated_at": "2018-03-13T15:18:48-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:48-07:00",
+            "id": 20478,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:48-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F06.fcs",
+            "upload_file_size": 64300,
+            "upload_updated_at": "2018-03-13T15:18:48-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20480,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F07.fcs",
+            "upload_file_size": 15187,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20481,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F08.fcs",
+            "upload_file_size": 24371,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20482,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E08.fcs",
+            "upload_file_size": 124220,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20483,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F10.fcs",
+            "upload_file_size": 95270,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20484,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E05.fcs",
+            "upload_file_size": 139788,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20485,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F11.fcs",
+            "upload_file_size": 79590,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20486,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D10.fcs",
+            "upload_file_size": 147854,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20488,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E07.fcs",
+            "upload_file_size": 194892,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:49-07:00",
+            "id": 20487,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:49-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D09.fcs",
+            "upload_file_size": 219364,
+            "upload_updated_at": "2018-03-13T15:18:49-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:50-07:00",
+            "id": 20489,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:50-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E04.fcs",
+            "upload_file_size": 248876,
+            "upload_updated_at": "2018-03-13T15:18:50-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:50-07:00",
+            "id": 20490,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:50-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E06.fcs",
+            "upload_file_size": 238460,
+            "upload_updated_at": "2018-03-13T15:18:50-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:50-07:00",
+            "id": 20491,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:50-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E03.fcs",
+            "upload_file_size": 281804,
+            "upload_updated_at": "2018-03-13T15:18:50-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:50-07:00",
+            "id": 20492,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:50-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F12.fcs",
+            "upload_file_size": 229054,
+            "upload_updated_at": "2018-03-13T15:18:50-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:50-07:00",
+            "id": 20493,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:50-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F05.fcs",
+            "upload_file_size": 290540,
+            "upload_updated_at": "2018-03-13T15:18:50-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:51-07:00",
+            "id": 20494,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:51-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G08.fcs",
+            "upload_file_size": 380700,
+            "upload_updated_at": "2018-03-13T15:18:51-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:51-07:00",
+            "id": 20495,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:51-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G09.fcs",
+            "upload_file_size": 344188,
+            "upload_updated_at": "2018-03-13T15:18:51-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:51-07:00",
+            "id": 20496,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:51-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E09.fcs",
+            "upload_file_size": 348108,
+            "upload_updated_at": "2018-03-13T15:18:51-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:51-07:00",
+            "id": 20497,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:51-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G12.fcs",
+            "upload_file_size": 390166,
+            "upload_updated_at": "2018-03-13T15:18:51-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:52-07:00",
+            "id": 20498,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:52-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E10.fcs",
+            "upload_file_size": 558782,
+            "upload_updated_at": "2018-03-13T15:18:52-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:53-07:00",
+            "id": 20499,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:53-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G11.fcs",
+            "upload_file_size": 627439,
+            "upload_updated_at": "2018-03-13T15:18:53-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:54-07:00",
+            "id": 20501,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:54-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E11.fcs",
+            "upload_file_size": 715639,
+            "upload_updated_at": "2018-03-13T15:18:54-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:54-07:00",
+            "id": 20502,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:54-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D12.fcs",
+            "upload_file_size": 766151,
+            "upload_updated_at": "2018-03-13T15:18:54-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:54-07:00",
+            "id": 20503,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:54-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E02.fcs",
+            "upload_file_size": 764693,
+            "upload_updated_at": "2018-03-13T15:18:54-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:53-07:00",
+            "id": 20500,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:53-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H02.fcs",
+            "upload_file_size": 606941,
+            "upload_updated_at": "2018-03-13T15:18:53-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:55-07:00",
+            "id": 20504,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:55-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G06.fcs",
+            "upload_file_size": 612093,
+            "upload_updated_at": "2018-03-13T15:18:55-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:55-07:00",
+            "id": 20505,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:55-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G10.fcs",
+            "upload_file_size": 674255,
+            "upload_updated_at": "2018-03-13T15:18:55-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:55-07:00",
+            "id": 20506,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:55-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "F01.fcs",
+            "upload_file_size": 998101,
+            "upload_updated_at": "2018-03-13T15:18:55-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:55-07:00",
+            "id": 20507,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:55-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H03.fcs",
+            "upload_file_size": 674645,
+            "upload_updated_at": "2018-03-13T15:18:55-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:55-07:00",
+            "id": 20508,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:55-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G05.fcs",
+            "upload_file_size": 710485,
+            "upload_updated_at": "2018-03-13T15:18:55-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:56-07:00",
+            "id": 20509,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:56-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H04.fcs",
+            "upload_file_size": 1058357,
+            "upload_updated_at": "2018-03-13T15:18:56-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:56-07:00",
+            "id": 20510,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:56-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D11.fcs",
+            "upload_file_size": 1130823,
+            "upload_updated_at": "2018-03-13T15:18:56-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:58-07:00",
+            "id": 20511,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:58-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G01.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:18:58-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:59-07:00",
+            "id": 20512,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A07.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:18:59-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:59-07:00",
+            "id": 20513,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B09.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:18:59-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:59-07:00",
+            "id": 20514,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A08.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:18:59-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:59-07:00",
+            "id": 20515,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C06.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:18:59-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:18:59-07:00",
+            "id": 20516,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:18:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C03.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:18:59-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:00-07:00",
+            "id": 20517,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:00-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A05.fcs",
+            "upload_file_size": 1682528,
+            "upload_updated_at": "2018-03-13T15:19:00-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:00-07:00",
+            "id": 20518,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:00-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C05.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:00-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:00-07:00",
+            "id": 20519,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:00-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C02.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:00-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:01-07:00",
+            "id": 20520,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:01-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B02.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:01-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:01-07:00",
+            "id": 20521,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:01-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C09.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:01-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:01-07:00",
+            "id": 20522,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:01-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B08.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:01-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:02-07:00",
+            "id": 20523,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:02-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D07.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:02-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:03-07:00",
+            "id": 20524,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:03-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B10.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:03-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:03-07:00",
+            "id": 20525,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:03-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A11.fcs",
+            "upload_file_size": 1682535,
+            "upload_updated_at": "2018-03-13T15:19:03-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:03-07:00",
+            "id": 20526,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:03-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C01.fcs",
+            "upload_file_size": 1682531,
+            "upload_updated_at": "2018-03-13T15:19:03-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:03-07:00",
+            "id": 20527,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:03-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B01.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:03-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:03-07:00",
+            "id": 20528,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:03-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B06.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:03-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:04-07:00",
+            "id": 20529,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:04-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G04.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:04-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:04-07:00",
+            "id": 20530,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:04-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A01.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:04-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:04-07:00",
+            "id": 20531,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:04-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D01.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:04-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:04-07:00",
+            "id": 20532,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:04-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A10.fcs",
+            "upload_file_size": 1682532,
+            "upload_updated_at": "2018-03-13T15:19:04-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:05-07:00",
+            "id": 20533,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:05-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D04.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:05-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:05-07:00",
+            "id": 20534,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:05-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C08.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:05-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:05-07:00",
+            "id": 20535,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:05-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G03.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:05-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:05-07:00",
+            "id": 20536,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:05-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H01.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:05-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:06-07:00",
+            "id": 20537,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:06-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A06.fcs",
+            "upload_file_size": 1682527,
+            "upload_updated_at": "2018-03-13T15:19:06-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:07-07:00",
+            "id": 20538,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:07-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G02.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:07-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:07-07:00",
+            "id": 20539,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:07-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D03.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:07-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:07-07:00",
+            "id": 20540,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:07-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D02.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:07-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:07-07:00",
+            "id": 20541,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:07-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B04.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:07-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20542,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "G07.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20543,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C07.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20544,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E12.fcs",
+            "upload_file_size": 1682535,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20545,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D08.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20546,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A12.fcs",
+            "upload_file_size": 1682535,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20548,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H06.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:08-07:00",
+            "id": 20547,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:08-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D06.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:08-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20550,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B05.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20549,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B12.fcs",
+            "upload_file_size": 1682532,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20551,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "H05.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20552,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C10.fcs",
+            "upload_file_size": 1682535,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20553,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B03.fcs",
+            "upload_file_size": 1682531,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:09-07:00",
+            "id": 20554,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:09-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C04.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:09-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20555,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B07.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20556,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A09.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20557,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "D05.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20558,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A04.fcs",
+            "upload_file_size": 1682530,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20559,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A03.fcs",
+            "upload_file_size": 1682528,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20560,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C11.fcs",
+            "upload_file_size": 1682535,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20561,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "A02.fcs",
+            "upload_file_size": 1682527,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20562,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "C12.fcs",
+            "upload_file_size": 1682532,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:19:10-07:00",
+            "id": 20563,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:19:10-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "B11.fcs",
+            "upload_file_size": 1682533,
+            "upload_updated_at": "2018-03-13T15:19:10-07:00"
+          },
+          {
+            "created_at": "2018-03-13T15:27:59-07:00",
+            "id": 20564,
+            "job_id": 58121,
+            "updated_at": "2018-03-13T15:27:59-07:00",
+            "upload_content_type": "application/octet-stream",
+            "upload_file_name": "E01.fcs",
+            "upload_file_size": 1603181,
+            "upload_updated_at": "2018-03-13T15:27:59-07:00"
+          }
+        ],
+        "item_info_names": [
+          "upload"
+        ],
+        "job_crash": "Operation canceled when job 79681 crashed",
+        "aborted": "Operation was canceled when job 79681 was aborted",
+        "status_change": "Status changed to waiting on 2018-09-08 by Justin Vrana",
+        "previously_used_items": "Items previously generated by this operation: 156616",
+        "input_item_replaced": "Input Plasmid was 155157 but was replaced by 156638 (likely when its predecessor recomputed an output)"
+      },
+      "object_type": {
+        "object_type_id": "730",
+        "object_type_name": "96 Well Flat Bottom (black)"
+      }
+    },
+    {
+      "item_id": "120727",
+      "type": "collection",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720"
+      ],
+      "attributes": {
+        "optical_density": {
+          "0_hr_od": [
+            [
+              0.000289,
+              0.000332,
+              0.000308,
+              0.000289,
+              0.000348,
+              0.000234,
+              0.000164,
+              0.000329,
+              0.000356,
+              0.000375,
+              0.000219,
+              0.000356
+            ],
+            [
+              0.000315,
+              0.00025,
+              0.000216,
+              0.000158,
+              0.000453,
+              0.000408,
+              0.000232,
+              0.000438,
+              0.000315,
+              0.000272,
+              0.00028,
+              0.000263
+            ],
+            [
+              0.000201,
+              0.000201,
+              0.00021,
+              0.000367,
+              0.000367,
+              0.000454,
+              0.000144,
+              0.000166,
+              0.000154,
+              0.000144,
+              0.000174,
+              0.000117
+            ],
+            [
+              8.2e-05,
+              0.000164,
+              0.000178,
+              0.000187,
+              0.00011,
+              0.000178,
+              0.000158,
+              0.000125,
+              0.000108,
+              7.9e-05,
+              0.000226,
+              0.000204
+            ],
+            [
+              0.000116,
+              0.000219,
+              0.000158,
+              0.000136,
+              0.00014,
+              0.000131,
+              0.0001,
+              0.0001,
+              0.000105,
+              0.000183,
+              0.000183,
+              0.000227
+            ],
+            [
+              7.2e-05,
+              8.3e-05,
+              7.7e-05,
+              7.2e-05,
+              8.7e-05,
+              5.9e-05,
+              4.1e-05,
+              8.2e-05,
+              8.9e-05,
+              9.4e-05,
+              5.5e-05,
+              8.9e-05
+            ],
+            [
+              7.9e-05,
+              6.3e-05,
+              5.4e-05,
+              3.9e-05,
+              0.000113,
+              0.000102,
+              5.8e-05,
+              0.000109,
+              7.9e-05,
+              6.8e-05,
+              7e-05,
+              6.6e-05
+            ],
+            [
+              5e-05,
+              5e-05,
+              5.2e-05,
+              9.2e-05,
+              9.2e-05,
+              0.000114
+            ]
+          ],
+          "16_hr": [
+            [
+              0.997,
+              1.083,
+              1.075,
+              1.053,
+              1.091,
+              0.936,
+              0.058,
+              0.084,
+              0.09,
+              0.147,
+              0.069,
+              0.099
+            ],
+            [
+              0.213,
+              0.131,
+              0.115,
+              0.161,
+              0.487,
+              0.211,
+              0.111,
+              0.206,
+              0.131,
+              0.118,
+              0.137,
+              0.161
+            ],
+            [
+              0.123,
+              0.056,
+              0.08,
+              0.181,
+              0.172,
+              0.293,
+              0.011,
+              0.008,
+              0.01,
+              0.009,
+              0.02,
+              0.45
+            ],
+            [
+              0.499,
+              0.556,
+              0.235,
+              0.155,
+              0.063,
+              0.138,
+              0.184,
+              0.022,
+              0.016,
+              0.017,
+              0.114,
+              0.072
+            ],
+            [
+              0.035,
+              0.06,
+              0.033,
+              0.032,
+              0.023,
+              0.041,
+              0.028,
+              0.02,
+              0.029,
+              0.059,
+              0.063,
+              0.111
+            ],
+            [
+              0.143,
+              0.009,
+              0.005,
+              0.006,
+              0.012,
+              0.019,
+              0.001,
+              0.01,
+              0.003,
+              0.014,
+              0.009,
+              0.038
+            ],
+            [
+              0.704,
+              0.543,
+              0.482,
+              0.37,
+              0.039,
+              0.03,
+              0.067,
+              0.032,
+              0.0,
+              0.017,
+              0.009,
+              0.01
+            ],
+            [
+              0.027,
+              0.02,
+              0.031,
+              0.066,
+              0.03,
+              0.047,
+              0.002,
+              0.003,
+              0.003,
+              0.0,
+              0.0,
+              -0.001
+            ]
+          ]
+        },
+        "gfp_fluorescence": {
+          "16_hr": [
+            [
+              3.0,
+              6.0,
+              6.0,
+              6.0,
+              8.0,
+              4.0,
+              4.0,
+              0.0,
+              1.0,
+              1.0,
+              0.0,
+              1.0
+            ],
+            [
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              2.0,
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              6.0,
+              0.0,
+              1.0,
+              0.0,
+              1.0,
+              0.0,
+              3.0
+            ],
+            [
+              8.0,
+              9.0,
+              3.0,
+              2.0,
+              2.0,
+              2.0,
+              2.0,
+              2.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ],
+            [
+              1.0,
+              2.0,
+              1.0,
+              1.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              2.0,
+              3.0
+            ],
+            [
+              2.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              1.0,
+              1.0,
+              2.0,
+              2.0,
+              1.0,
+              2.0,
+              1.0
+            ],
+            [
+              5.0,
+              4.0,
+              3.0,
+              4.0,
+              2.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              2.0,
+              1.0,
+              2.0
+            ],
+            [
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              1.0,
+              3.0,
+              -2.0,
+              -2.0,
+              -2.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ]
+        }
+      },
+      "object_type": {
+        "object_type_id": "455",
+        "object_type_name": "96 U-bottom Well Plate"
+      }
+    },
+    {
+      "item_id": "120727/A1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/A7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/A8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/A9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/A10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/A11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/A12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/B1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/B7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/B8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/B9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/B10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/B11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/B12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/C1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/C7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/C8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/C9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/C10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/C11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/C12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/D1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/D7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/D8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/D9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/D10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/D11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/D12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/E7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/E12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/F1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120727/F7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/F8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/F9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/F10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/F11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/F12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/A12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120727/G1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/G7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B7"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/G8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B8"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/G9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B9"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/G10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B10"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/G11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B11"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/G12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/B12"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120727/H1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C1"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/H2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C2"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/H3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C3"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/H4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C4"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/H5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C5"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120727/H6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "55013"
+      },
+      "sources": [
+        "120720/C6"
+      ],
+      "part_of": "120727",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720",
+      "type": "collection",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "object_type": {
+        "object_type_id": "730",
+        "object_type_name": "96 Well Flat Bottom (black)"
+      }
+    },
+    {
+      "item_id": "120720/A1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120520"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      }
+    },
+    {
+      "item_id": "120720/A7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/A8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/A9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/A10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/A11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/A12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120521"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      }
+    },
+    {
+      "item_id": "120720/B1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120522"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/B7",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/B8",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/B9",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/B10",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/B11",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/B12",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120523"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      }
+    },
+    {
+      "item_id": "120720/C1",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/C2",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/C3",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/C4",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/C5",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120720/C6",
+      "type": "part",
+      "generated_by": {
+        "operation_id": "57581"
+      },
+      "sources": [
+        "120524"
+      ],
+      "part_of": "120720",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      }
+    },
+    {
+      "item_id": "120520",
+      "type": "item",
+      "generated_by": {
+        "operation_id": "55015"
+      },
+      "sources": [
+        "118359"
+      ],
+      "attributes": {
+        "correct_colony": 1
+      },
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      },
+      "object_type": {
+        "object_type_id": "350",
+        "object_type_name": "Yeast Plate"
+      }
+    },
+    {
+      "item_id": "120521",
+      "type": "item",
+      "generated_by": {
+        "operation_id": "55016"
+      },
+      "sources": [
+        "119692"
+      ],
+      "attributes": {
+        "correct_colony": 1
+      },
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      },
+      "object_type": {
+        "object_type_id": "350",
+        "object_type_name": "Yeast Plate"
+      }
+    },
+    {
+      "item_id": "120522",
+      "type": "item",
+      "generated_by": {
+        "operation_id": "55017"
+      },
+      "sources": [
+        "34379"
+      ],
+      "attributes": {
+        "correct_colony": 1
+      },
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      },
+      "object_type": {
+        "object_type_id": "350",
+        "object_type_name": "Yeast Plate"
+      }
+    },
+    {
+      "item_id": "120523",
+      "type": "item",
+      "generated_by": {
+        "operation_id": "55018"
+      },
+      "sources": [
+        "34378"
+      ],
+      "attributes": {
+        "correct_colony": 1
+      },
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      },
+      "object_type": {
+        "object_type_id": "350",
+        "object_type_name": "Yeast Plate"
+      }
+    },
+    {
+      "item_id": "120524",
+      "type": "item",
+      "generated_by": {
+        "operation_id": "55019"
+      },
+      "sources": [
+        "119694"
+      ],
+      "attributes": {
+        "correct_colony": 1
+      },
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      },
+      "object_type": {
+        "object_type_id": "350",
+        "object_type_name": "Yeast Plate"
+      }
+    },
+    {
+      "item_id": "118359",
+      "type": "item",
+      "sample": {
+        "sample_id": "22544",
+        "sample_name": "sample_9449/sample_30 diploid isolate #1 from Ginkgo Bioworks"
+      },
+      "object_type": {
+        "object_type_id": "214",
+        "object_type_name": "Yeast Glycerol Stock"
+      }
+    },
+    {
+      "item_id": "119692",
+      "type": "item",
+      "sample": {
+        "sample_id": "6390",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W10"
+      },
+      "object_type": {
+        "object_type_id": "214",
+        "object_type_name": "Yeast Glycerol Stock"
+      }
+    },
+    {
+      "item_id": "34379",
+      "type": "item",
+      "sample": {
+        "sample_id": "6388",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W17"
+      },
+      "object_type": {
+        "object_type_id": "214",
+        "object_type_name": "Yeast Glycerol Stock"
+      }
+    },
+    {
+      "item_id": "34378",
+      "type": "item",
+      "sample": {
+        "sample_id": "6389",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20"
+      },
+      "object_type": {
+        "object_type_id": "214",
+        "object_type_name": "Yeast Glycerol Stock"
+      }
+    },
+    {
+      "item_id": "119694",
+      "type": "item",
+      "sample": {
+        "sample_id": "6391",
+        "sample_name": "pMOD4G-dcas9-mxi1|pMOD6-W17(c3)W20(c6)-eGFP__X__pMOD8A-RGR-W20||pMOD-LTR3-Hyg-pGRR-W36-RGR-W17"
+      },
+      "object_type": {
+        "object_type_id": "214",
+        "object_type_name": "Yeast Glycerol Stock"
+      }
+    }
+  ],
+  "files": [
+    {
+      "file_id": "20385",
+      "filename": "109594-A01.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "109594"
+      ]
+    },
+    {
+      "file_id": "20475",
+      "filename": "120779-F02.fcs",
+      "size": 34619,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F2"
+      ]
+    },
+    {
+      "file_id": "20476",
+      "filename": "120779-F03.fcs",
+      "size": 19835,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F3"
+      ]
+    },
+    {
+      "file_id": "20477",
+      "filename": "120779-F04.fcs",
+      "size": 25883,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F4"
+      ]
+    },
+    {
+      "file_id": "20479",
+      "filename": "120779-F09.fcs",
+      "size": 20843,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F9"
+      ]
+    },
+    {
+      "file_id": "20478",
+      "filename": "120779-F06.fcs",
+      "size": 64300,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F6"
+      ]
+    },
+    {
+      "file_id": "20480",
+      "filename": "120779-F07.fcs",
+      "size": 15187,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F7"
+      ]
+    },
+    {
+      "file_id": "20481",
+      "filename": "120779-F08.fcs",
+      "size": 24371,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F8"
+      ]
+    },
+    {
+      "file_id": "20482",
+      "filename": "120779-E08.fcs",
+      "size": 124220,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E8"
+      ]
+    },
+    {
+      "file_id": "20483",
+      "filename": "120779-F10.fcs",
+      "size": 95270,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F10"
+      ]
+    },
+    {
+      "file_id": "20484",
+      "filename": "120779-E05.fcs",
+      "size": 139788,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E5"
+      ]
+    },
+    {
+      "file_id": "20485",
+      "filename": "120779-F11.fcs",
+      "size": 79590,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F11"
+      ]
+    },
+    {
+      "file_id": "20486",
+      "filename": "120779-D10.fcs",
+      "size": 147854,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D10"
+      ]
+    },
+    {
+      "file_id": "20488",
+      "filename": "120779-E07.fcs",
+      "size": 194892,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E7"
+      ]
+    },
+    {
+      "file_id": "20487",
+      "filename": "120779-D09.fcs",
+      "size": 219364,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D9"
+      ]
+    },
+    {
+      "file_id": "20489",
+      "filename": "120779-E04.fcs",
+      "size": 248876,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E4"
+      ]
+    },
+    {
+      "file_id": "20490",
+      "filename": "120779-E06.fcs",
+      "size": 238460,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E6"
+      ]
+    },
+    {
+      "file_id": "20491",
+      "filename": "120779-E03.fcs",
+      "size": 281804,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E3"
+      ]
+    },
+    {
+      "file_id": "20492",
+      "filename": "120779-F12.fcs",
+      "size": 229054,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F12"
+      ]
+    },
+    {
+      "file_id": "20493",
+      "filename": "120779-F05.fcs",
+      "size": 290540,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F5"
+      ]
+    },
+    {
+      "file_id": "20494",
+      "filename": "120779-G08.fcs",
+      "size": 380700,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G8"
+      ]
+    },
+    {
+      "file_id": "20495",
+      "filename": "120779-G09.fcs",
+      "size": 344188,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G9"
+      ]
+    },
+    {
+      "file_id": "20496",
+      "filename": "120779-E09.fcs",
+      "size": 348108,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E9"
+      ]
+    },
+    {
+      "file_id": "20497",
+      "filename": "120779-G12.fcs",
+      "size": 390166,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G12"
+      ]
+    },
+    {
+      "file_id": "20498",
+      "filename": "120779-E10.fcs",
+      "size": 558782,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E10"
+      ]
+    },
+    {
+      "file_id": "20499",
+      "filename": "120779-G11.fcs",
+      "size": 627439,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G11"
+      ]
+    },
+    {
+      "file_id": "20501",
+      "filename": "120779-E11.fcs",
+      "size": 715639,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E11"
+      ]
+    },
+    {
+      "file_id": "20502",
+      "filename": "120779-D12.fcs",
+      "size": 766151,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D12"
+      ]
+    },
+    {
+      "file_id": "20503",
+      "filename": "120779-E02.fcs",
+      "size": 764693,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E2"
+      ]
+    },
+    {
+      "file_id": "20500",
+      "filename": "120779-H02.fcs",
+      "size": 606941,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H2"
+      ]
+    },
+    {
+      "file_id": "20504",
+      "filename": "120779-G06.fcs",
+      "size": 612093,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G6"
+      ]
+    },
+    {
+      "file_id": "20505",
+      "filename": "120779-G10.fcs",
+      "size": 674255,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G10"
+      ]
+    },
+    {
+      "file_id": "20506",
+      "filename": "120779-F01.fcs",
+      "size": 998101,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/F1"
+      ]
+    },
+    {
+      "file_id": "20507",
+      "filename": "120779-H03.fcs",
+      "size": 674645,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H3"
+      ]
+    },
+    {
+      "file_id": "20508",
+      "filename": "120779-G05.fcs",
+      "size": 710485,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G5"
+      ]
+    },
+    {
+      "file_id": "20509",
+      "filename": "120779-H04.fcs",
+      "size": 1058357,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H4"
+      ]
+    },
+    {
+      "file_id": "20510",
+      "filename": "120779-D11.fcs",
+      "size": 1130823,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D11"
+      ]
+    },
+    {
+      "file_id": "20511",
+      "filename": "120779-G01.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G1"
+      ]
+    },
+    {
+      "file_id": "20512",
+      "filename": "120779-A07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A7"
+      ]
+    },
+    {
+      "file_id": "20513",
+      "filename": "120779-B09.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B9"
+      ]
+    },
+    {
+      "file_id": "20514",
+      "filename": "120779-A08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A8"
+      ]
+    },
+    {
+      "file_id": "20515",
+      "filename": "120779-C06.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C6"
+      ]
+    },
+    {
+      "file_id": "20516",
+      "filename": "120779-C03.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C3"
+      ]
+    },
+    {
+      "file_id": "20517",
+      "filename": "120779-A05.fcs",
+      "size": 1682528,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A5"
+      ]
+    },
+    {
+      "file_id": "20518",
+      "filename": "120779-C05.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C5"
+      ]
+    },
+    {
+      "file_id": "20519",
+      "filename": "120779-C02.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C2"
+      ]
+    },
+    {
+      "file_id": "20520",
+      "filename": "120779-B02.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B2"
+      ]
+    },
+    {
+      "file_id": "20521",
+      "filename": "120779-C09.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C9"
+      ]
+    },
+    {
+      "file_id": "20522",
+      "filename": "120779-B08.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B8"
+      ]
+    },
+    {
+      "file_id": "20523",
+      "filename": "120779-D07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D7"
+      ]
+    },
+    {
+      "file_id": "20524",
+      "filename": "120779-B10.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B10"
+      ]
+    },
+    {
+      "file_id": "20525",
+      "filename": "120779-A11.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A11"
+      ]
+    },
+    {
+      "file_id": "20526",
+      "filename": "120779-C01.fcs",
+      "size": 1682531,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C1"
+      ]
+    },
+    {
+      "file_id": "20527",
+      "filename": "120779-B01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B1"
+      ]
+    },
+    {
+      "file_id": "20528",
+      "filename": "120779-B06.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B6"
+      ]
+    },
+    {
+      "file_id": "20529",
+      "filename": "120779-G04.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G4"
+      ]
+    },
+    {
+      "file_id": "20530",
+      "filename": "120779-A01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A1"
+      ]
+    },
+    {
+      "file_id": "20531",
+      "filename": "120779-D01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D1"
+      ]
+    },
+    {
+      "file_id": "20532",
+      "filename": "120779-A10.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A10"
+      ]
+    },
+    {
+      "file_id": "20533",
+      "filename": "120779-D04.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D4"
+      ]
+    },
+    {
+      "file_id": "20534",
+      "filename": "120779-C08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C8"
+      ]
+    },
+    {
+      "file_id": "20535",
+      "filename": "120779-G03.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G3"
+      ]
+    },
+    {
+      "file_id": "20536",
+      "filename": "120779-H01.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H1"
+      ]
+    },
+    {
+      "file_id": "20537",
+      "filename": "120779-A06.fcs",
+      "size": 1682527,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A6"
+      ]
+    },
+    {
+      "file_id": "20538",
+      "filename": "120779-G02.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G2"
+      ]
+    },
+    {
+      "file_id": "20539",
+      "filename": "120779-D03.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D3"
+      ]
+    },
+    {
+      "file_id": "20540",
+      "filename": "120779-D02.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D2"
+      ]
+    },
+    {
+      "file_id": "20541",
+      "filename": "120779-B04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B4"
+      ]
+    },
+    {
+      "file_id": "20542",
+      "filename": "120779-G07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/G7"
+      ]
+    },
+    {
+      "file_id": "20543",
+      "filename": "120779-C07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C7"
+      ]
+    },
+    {
+      "file_id": "20544",
+      "filename": "120779-E12.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E12"
+      ]
+    },
+    {
+      "file_id": "20545",
+      "filename": "120779-D08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D8"
+      ]
+    },
+    {
+      "file_id": "20546",
+      "filename": "120779-A12.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A12"
+      ]
+    },
+    {
+      "file_id": "20548",
+      "filename": "120779-H06.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H6"
+      ]
+    },
+    {
+      "file_id": "20547",
+      "filename": "120779-D06.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D6"
+      ]
+    },
+    {
+      "file_id": "20550",
+      "filename": "120779-B05.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B5"
+      ]
+    },
+    {
+      "file_id": "20549",
+      "filename": "120779-B12.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B12"
+      ]
+    },
+    {
+      "file_id": "20551",
+      "filename": "120779-H05.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/H5"
+      ]
+    },
+    {
+      "file_id": "20552",
+      "filename": "120779-C10.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C10"
+      ]
+    },
+    {
+      "file_id": "20553",
+      "filename": "120779-B03.fcs",
+      "size": 1682531,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B3"
+      ]
+    },
+    {
+      "file_id": "20554",
+      "filename": "120779-C04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C4"
+      ]
+    },
+    {
+      "file_id": "20555",
+      "filename": "120779-B07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B7"
+      ]
+    },
+    {
+      "file_id": "20556",
+      "filename": "120779-A09.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A9"
+      ]
+    },
+    {
+      "file_id": "20557",
+      "filename": "120779-D05.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/D5"
+      ]
+    },
+    {
+      "file_id": "20558",
+      "filename": "120779-A04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A4"
+      ]
+    },
+    {
+      "file_id": "20559",
+      "filename": "120779-A03.fcs",
+      "size": 1682528,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A3"
+      ]
+    },
+    {
+      "file_id": "20560",
+      "filename": "120779-C11.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C11"
+      ]
+    },
+    {
+      "file_id": "20561",
+      "filename": "120779-A02.fcs",
+      "size": 1682527,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/A2"
+      ]
+    },
+    {
+      "file_id": "20562",
+      "filename": "120779-C12.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/C12"
+      ]
+    },
+    {
+      "file_id": "20563",
+      "filename": "120779-B11.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/B11"
+      ]
+    },
+    {
+      "file_id": "20564",
+      "filename": "120779-E01.fcs",
+      "size": 1603181,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779/E1"
+      ]
+    },
+    {
+      "file_id": "20386",
+      "filename": "120779-F02.fcs",
+      "size": 34619,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20387",
+      "filename": "120779-F04.fcs",
+      "size": 25883,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20388",
+      "filename": "120779-F03.fcs",
+      "size": 19835,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20389",
+      "filename": "120779-F06.fcs",
+      "size": 64300,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20390",
+      "filename": "120779-F07.fcs",
+      "size": 15187,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20391",
+      "filename": "120779-F08.fcs",
+      "size": 24371,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20392",
+      "filename": "120779-F09.fcs",
+      "size": 20843,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20393",
+      "filename": "120779-E08.fcs",
+      "size": 124220,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20394",
+      "filename": "120779-F10.fcs",
+      "size": 95270,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20395",
+      "filename": "120779-F11.fcs",
+      "size": 79590,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20396",
+      "filename": "120779-G08.fcs",
+      "size": 380700,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20397",
+      "filename": "120779-G09.fcs",
+      "size": 344188,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20398",
+      "filename": "120779-G11.fcs",
+      "size": 627439,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20399",
+      "filename": "120779-H02.fcs",
+      "size": 606941,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20400",
+      "filename": "120779-G10.fcs",
+      "size": 674255,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20401",
+      "filename": "120779-G12.fcs",
+      "size": 390166,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20402",
+      "filename": "120779-D10.fcs",
+      "size": 147854,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20403",
+      "filename": "120779-E07.fcs",
+      "size": 194892,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20404",
+      "filename": "120779-D09.fcs",
+      "size": 219364,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20405",
+      "filename": "120779-E04.fcs",
+      "size": 248876,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20406",
+      "filename": "120779-E06.fcs",
+      "size": 238460,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20407",
+      "filename": "120779-H03.fcs",
+      "size": 674645,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20408",
+      "filename": "120779-E03.fcs",
+      "size": 281804,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20409",
+      "filename": "120779-F05.fcs",
+      "size": 290540,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20410",
+      "filename": "120779-G06.fcs",
+      "size": 612093,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20411",
+      "filename": "120779-E05.fcs",
+      "size": 139788,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20412",
+      "filename": "120779-F12.fcs",
+      "size": 229054,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20413",
+      "filename": "120779-E09.fcs",
+      "size": 348108,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20414",
+      "filename": "120779-E10.fcs",
+      "size": 558782,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20415",
+      "filename": "120779-E11.fcs",
+      "size": 715639,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20416",
+      "filename": "120779-G05.fcs",
+      "size": 710485,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20417",
+      "filename": "120779-D12.fcs",
+      "size": 766151,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20418",
+      "filename": "120779-E02.fcs",
+      "size": 764693,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20419",
+      "filename": "120779-A12.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20420",
+      "filename": "120779-F01.fcs",
+      "size": 998101,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20421",
+      "filename": "120779-H04.fcs",
+      "size": 1058357,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20422",
+      "filename": "120779-D11.fcs",
+      "size": 1130823,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20423",
+      "filename": "120779-C09.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20424",
+      "filename": "120779-B05.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20425",
+      "filename": "120779-B08.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20426",
+      "filename": "120779-B07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20427",
+      "filename": "120779-C01.fcs",
+      "size": 1682531,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20428",
+      "filename": "120779-G04.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20429",
+      "filename": "120779-G07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20430",
+      "filename": "120779-B10.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20431",
+      "filename": "120779-H01.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20432",
+      "filename": "120779-A01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20433",
+      "filename": "120779-A05.fcs",
+      "size": 1682528,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20434",
+      "filename": "120779-A03.fcs",
+      "size": 1682528,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20435",
+      "filename": "120779-A04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20436",
+      "filename": "120779-A08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20437",
+      "filename": "120779-A07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20438",
+      "filename": "120779-A09.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20439",
+      "filename": "120779-A10.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20440",
+      "filename": "120779-B02.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20441",
+      "filename": "120779-A06.fcs",
+      "size": 1682527,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20442",
+      "filename": "120779-A02.fcs",
+      "size": 1682527,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20443",
+      "filename": "120779-B01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20444",
+      "filename": "120779-A11.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20445",
+      "filename": "120779-B09.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20446",
+      "filename": "120779-B04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20447",
+      "filename": "120779-B03.fcs",
+      "size": 1682531,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20448",
+      "filename": "120779-B06.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20449",
+      "filename": "120779-C02.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20450",
+      "filename": "120779-B12.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20451",
+      "filename": "120779-C04.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20452",
+      "filename": "120779-B11.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20453",
+      "filename": "120779-C06.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20454",
+      "filename": "120779-C03.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20455",
+      "filename": "120779-C05.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20456",
+      "filename": "120779-C07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20457",
+      "filename": "120779-C08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20458",
+      "filename": "120779-C10.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20459",
+      "filename": "120779-D02.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20460",
+      "filename": "120779-D04.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20461",
+      "filename": "120779-D05.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20462",
+      "filename": "120779-D06.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20463",
+      "filename": "120779-D07.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20464",
+      "filename": "120779-D08.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20465",
+      "filename": "120779-E12.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20466",
+      "filename": "120779-G02.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20467",
+      "filename": "120779-D03.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20468",
+      "filename": "120779-D01.fcs",
+      "size": 1682530,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20469",
+      "filename": "120779-G01.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20470",
+      "filename": "120779-H06.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20471",
+      "filename": "120779-G03.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20472",
+      "filename": "120779-H05.fcs",
+      "size": 1682533,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20473",
+      "filename": "120779-C12.fcs",
+      "size": 1682532,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    },
+    {
+      "file_id": "20474",
+      "filename": "120779-C11.fcs",
+      "size": 1682535,
+      "type": "FCS",
+      "generated_by": {
+        "operation_id": "55012"
+      },
+      "sources": [
+        "120779"
+      ]
+    }
+  ],
+  "attributes": {
+    "from": 9834,
+    "bead_files": [
+      "20385"
+    ],
+    "lab": "UW_BIOFAB",
+    "challenge_problem": "YEAST_GATES",
+    "experiment_reference": "Yeast-Gates"
+  }
+}

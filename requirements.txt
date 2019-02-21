@@ -19,5 +19,7 @@ gitpython
 filetype
 xxhash==1.3.0
 tabulate>=0.8.3
+python-magic>=0.4.15
+chardet>=3.0.4
 # jsonschema>=2.6.0
 # agavepy==0.7.4

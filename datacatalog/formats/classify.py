@@ -7,7 +7,7 @@ import magic
 from pprint import pprint
 from . import *
 from .converter import Converter, ConversionError
-from ..utils import dynamic_import
+from ..utils import dynamic_import, detect_encoding
 
 FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes']
 """Class names for document types that can be converted to Data Catalog records"""
@@ -35,15 +35,19 @@ def get_converter(json_filepath, options={}, expect=None):
     else:
         converters = [globals()[expect](options)]
 
-    encoding = magic.from_file(json_filepath)
+    # encoding = magic.from_file(json_filepath)
 
-    if encoding == "UTF-8 Unicode text":
-        encoding = "utf-8"
-    elif encoding == "ASCII text":
-        encoding = "ascii"
-    elif encoding == "ASCII text, with very long lines, with no line terminators":
-        encoding = "ascii"
-    else:
+    # if encoding == "UTF-8 Unicode text":
+    #     encoding = "utf-8"
+    # elif encoding == "ASCII text":
+    #     encoding = "ascii"
+    # elif encoding == "ASCII text, with very long lines, with no line terminators":
+    #     encoding = "ascii"
+    # else:
+    #     raise ValueError("Unknown encoding: {}".format(encoding))
+
+    encoding = detect_encoding(json_filepath)
+    if encoding not in ('ascii', 'utf-8'):
         raise ValueError("Unknown encoding: {}".format(encoding))
 
     print("Detected encoding {}".format(encoding))

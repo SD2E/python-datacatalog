@@ -5,6 +5,7 @@ from urllib.parse import quote, unquote
 from builtins import str
 from builtins import *
 
+import chardet
 import datetime
 import json
 import uuid
@@ -27,6 +28,12 @@ def current_time():
         A ``datetime`` object rounded to millisecond precision
     """
     return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000) / 1000)
+
+def detect_encoding(file_path):
+    """Uses chardet to detect encoding of a file
+    """
+    return chardet.detect(
+        open(file_path, 'rb').read())['encoding']
 
 def encode_path(file_path):
     """Returns a URL-encoded version of a path
