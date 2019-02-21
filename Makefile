@@ -30,6 +30,12 @@ docs-clean:
 docs-fsm-png:
 	python -m scripts.build_fsm_graph --filename docs/pipelines/fsm --title "PipelineJob States Diagram"
 
+deps: deps-mac
+
+deps-mac:
+	brew install libmagic
+	brew install shared-mime-info
+
 # Release on PyPi
 release: build
 	twine upload dist/*
