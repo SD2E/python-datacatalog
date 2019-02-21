@@ -193,6 +193,12 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 replicate_val = int(replicate_val_f)
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
+        # record parent reference, if it exists
+        parent_id_prop = "parent_id"
+        if parent_id_prop in ginkgo_sample:
+            parent_id = ginkgo_sample[parent_id_prop]
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab)
+
         tx_sample_prop = "SD2_TX_sample_id"
 
         reference_time_point = None
