@@ -167,17 +167,25 @@ bootstrap-experiment-designs: experiment_designs
 bootstrap-experiment-designs-extra:
 	python -m bootstrap.manage_experiment_designs auto $(DB_ENV)
 
-bootstrap-experiments-extra:
+bootstrap-experiments:
 	python -m bootstrap.manage_experiments auto $(DB_ENV)
 
-bootstrap-samples-extra:
+bootstrap-experiments-extra: bootstrap-experiments
+
+bootstrap-samples:
 	python -m bootstrap.manage_samples auto $(DB_ENV)
 
-bootstrap-measurements-extra:
+bootstrap-samples-extra: bootstrap-samples
+
+bootstrap-measurements:
 	python -m bootstrap.manage_measurements auto $(DB_ENV)
+
+bootstrap-measurements-extra: bootstrap-measurements
 
 bootstrap-references:
 	python -m bootstrap.manage_references auto $(DB_ENV)
+
+bootstrap-references-extra: bootstrap-references
 
 bootstrap-files:
 	python -m bootstrap.manage_files auto $(DB_ENV)
