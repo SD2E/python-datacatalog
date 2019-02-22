@@ -266,7 +266,7 @@ class ManagedPipelineJobInstance(Manager):
                     if not patts.search(os.path.basename(file_name)):
                         continue
                 try:
-                    self.stores['fixity'].index({'name': file_name})
+                    self.stores['fixity'].index(file_name)
                     indexed.append(file_name)
                 except Exception as exc:
                     logger.warning(
