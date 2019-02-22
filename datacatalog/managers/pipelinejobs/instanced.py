@@ -53,7 +53,7 @@ class ManagedPipelineJobInstance(Manager):
         for param, req, attr, default in self.PARAMS:
             setattr(self, attr, db_rec.get(param))
         # Dynamically add run, fail, etc methods
-        self._add_event_functions()
+        # self._add_event_functions()
 
     # def _add_event_functions(self):
 
