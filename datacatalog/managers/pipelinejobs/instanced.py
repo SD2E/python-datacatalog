@@ -55,19 +55,19 @@ class ManagedPipelineJobInstance(Manager):
         # Dynamically add run, fail, etc methods
         self._add_event_functions()
 
-    def _add_event_functions(self):
+    # def _add_event_functions(self):
 
-        ename = None
-        for ename, esec in EVENT_DEFS:
-            def fn(data={}, token=None):
-                event_doc = {
-                    'uuid': self.uuid,
-                    'token': getattr(self, 'token', token),
-                    'name': ename,
-                    'data': data}
-                return self.handle(
-                    event_doc, token=token)
-            setattr(self, ename, fn)
+    #     ename = None
+    #     for ename, esec in EVENT_DEFS:
+    #         def fn(data={}, token=None):
+    #             event_doc = {
+    #                 'uuid': self.uuid,
+    #                 'token': getattr(self, 'token', token),
+    #                 'name': ename,
+    #                 'data': data}
+    #             return self.handle(
+    #                 event_doc, token=token)
+    #         setattr(self, ename, fn)
 
     def handle(self, event_doc, token=None):
         """Override super().handle to process events directly rather than by name
