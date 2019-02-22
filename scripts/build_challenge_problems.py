@@ -75,5 +75,7 @@ if __name__ == '__main__':
                         const='staging', dest='environment')
     parser.add_argument('-development', help='manage development deployment', action='store_const',
                         const='development', dest='environment')
+    parser.add_argument('-localhost', help='manage localhost deployment', action='store_const',
+                        const='localhost', dest='environment')
     args = parser.parse_args()
     main(args)
