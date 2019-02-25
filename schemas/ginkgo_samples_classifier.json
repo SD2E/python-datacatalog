@@ -1,8 +1,193 @@
 {
-    "$comment": "generated: 2019-02-20 20:30:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@9a3fc27",
+    "$comment": "generated: 2019-02-21 21:02:33 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fcc606a",
     "$id": "https://schema.catalog.sd2e.org/schemas/ginkgo_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
+    "oneOf": [
+        {
+            "properties": {
+                "experimental_reference": {
+                    "type": "string"
+                },
+                "internal_workflow_id": {
+                    "oneOf": [
+                        {
+                            "items": {
+                                "type": "integer"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "lab": {
+                    "type": "string"
+                },
+                "samples": {
+                    "items": {
+                        "properties": {
+                            "content": {
+                                "properties": {
+                                    "molecule": {
+                                        "items": {
+                                            "properties": {
+                                                "concentration": {
+                                                    "type": "string"
+                                                },
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "concentration",
+                                                "id",
+                                                "name"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "reagent": {
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "name"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    },
+                                    "strain": {
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "molecule",
+                                    "reagent",
+                                    "strain"
+                                ],
+                                "type": "object"
+                            },
+                            "measurements": {
+                                "type": "object"
+                            },
+                            "properties": {
+                                "type": "object"
+                            },
+                            "sample_id": {
+                                "oneOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        "required": [
+                            "content",
+                            "measurements",
+                            "sample_id"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "experimental_reference",
+                "internal_workflow_id",
+                "lab",
+                "samples"
+            ],
+            "type": "object"
+        },
+        {
+            "additionalProperties": true,
+            "items": {
+                "properties": {
+                    "content": {
+                        "properties": {
+                            "molecule": {
+                                "type": "array"
+                            },
+                            "reagent": {
+                                "items": {
+                                    "properties": {
+                                        "concentration": {},
+                                        "id": {},
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "name"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "strain": {
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "name"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "required": [
+                            "molecule",
+                            "reagent",
+                            "strain"
+                        ],
+                        "type": "object"
+                    },
+                    "properties": {
+                        "properties": {
+                            "SD2_incubation_temperature": {},
+                            "SD2_replicate": {},
+                            "SD2_timepoint": {}
+                        },
+                        "type": "object"
+                    },
+                    "sample_id": {}
+                },
+                "required": [
+                    "content",
+                    "properties",
+                    "sample_id"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    ],
     "title": "Ginkgo Samples Format Classification Schema",
     "type": "object"
 }
