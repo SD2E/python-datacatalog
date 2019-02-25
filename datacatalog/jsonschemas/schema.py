@@ -29,6 +29,7 @@ class JSONSchemaBaseObject(object):
               ('additionalProperties', False, 'additionalProperties', False, ''),
               ('type', False, 'type', 'object', ''),
               ('items', False, 'items', None, ''),
+              ('oneOf', False, 'oneOf', None, ''),
               ('properties', False, 'properties', None, ''),
               ('required', False, 'required', None, ''),
               ('pattern', False, 'pattern', None, ''),
