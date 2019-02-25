@@ -63,6 +63,7 @@ def convert_sample_attributes(schema_file, encoding, input_file, email, token, v
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
+    sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
     schema = json.load(open(schema_file))
     sample_attributes_doc = json.load(open(input_file, encoding=encoding))

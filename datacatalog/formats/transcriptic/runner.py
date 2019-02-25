@@ -38,6 +38,7 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
+    sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
     schema = json.load(open(schema_file))
     transcriptic_doc = json.load(open(input_file, encoding=encoding))
