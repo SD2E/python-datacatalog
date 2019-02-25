@@ -44,6 +44,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
+    sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
     ginkgo_doc = json.load(open(input_file, encoding=encoding))
 
