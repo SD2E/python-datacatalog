@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-20 20:30:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@9a3fc27",
+    "$comment": "generated: 2019-02-21 20:35:14 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fcc606a",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_attributes_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
