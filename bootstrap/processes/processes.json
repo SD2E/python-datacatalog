@@ -18,5 +18,10 @@
         "name": "Jupyter Notebook",
         "process_id": "jupyter-notebook",
         "description": "Human-directed process run from within a Jupyter Notebooks environment"
+    },
+    {
+        "name": "Basemount Reactor",
+        "process_id": "basemount-reactor",
+        "description": "Automated process that transfers files from Basespace to managed storage"
     }
 ]
