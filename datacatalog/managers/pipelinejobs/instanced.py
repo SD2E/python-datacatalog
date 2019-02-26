@@ -74,7 +74,9 @@ class ManagedPipelineJobInstance(Manager):
         """
         return self.stores['pipelinejob'].handle(event_doc, token)
 
-    def index(self, level="1", filters=None, fixity=True, token=None):
+    def index(self, level="1", filters=None, fixity=True,
+              token=None, child_of=None, generated_by=None,
+              derived_from=None, derived_using=None):
         """Index the job outputs
         """
         event_doc = {'uuid': self.uuid, 'name': 'index',
@@ -85,7 +87,11 @@ class ManagedPipelineJobInstance(Manager):
         if resp is not None:
             return self.index_archive_path(processing_level=level,
                                            filters=filters,
-                                           fixity=fixity)
+                                           fixity=fixity,
+                                           child_of=child_of,
+                                           generated_by=generated_by,
+                                           derived_from=derived_from,
+                                           derived_using=derived_using)
 
     def indexed(self, token=None):
         """Mark job outputs indexing as completed
@@ -94,13 +100,20 @@ class ManagedPipelineJobInstance(Manager):
         resp = self.handle(event_doc, token=token)
         return resp
 
-    def index_archive_path(self, processing_level="1", filters=None, fixity=True, note=None):
+    def index_archive_path(self, processing_level="1", filters=None,
+                           fixity=True, note=None,
+                           child_of=None, generated_by=None,
+                           derived_from=None, derived_using=None):
         """Discover files in a job archive path and associate with the job``````````````````
 
         Args:
             processing_level (str, optional): "Processing level" for the new file records
             filters (list, optional): Python regular expressions to subselect specific files in target path. Overrides job.archive_patterns.
             fixity (bool, optional): Whether to update a fixity record for the file as well
+            child_of: (str, optional): UUID of the parent for indexed files
+            derived_from: (str, optional): UUID of a file or reference from which all members of the path are derived
+            derived_using: (str, optional): UUID of a file or reference used to derived all members of the path
+            generated_by: (str, optional): UUID of a pipeline or process that is calling this function
 
         Note:
             1. If no value for ``filters`` is passed, the function will run any
@@ -109,6 +122,7 @@ class ManagedPipelineJobInstance(Manager):
             run time. This may impact construction of your filter strings. For
             example, ``['sample.tacc.1', 'sample-tacc-1']`` will be evaluated
             as Python regex ``sample.tacc.1|sample-tacc-1``.
+            3. Linkage parameters passed in to this function will apply to all indexed files
 
         Returns:
             list: Filenames set as ``generated_by`` the specified job
@@ -125,7 +139,9 @@ class ManagedPipelineJobInstance(Manager):
             # Build a new index request from kwargs
             index_req = IndexRequest(
                 processing_level=processing_level, filters=filters,
-                fixity=fixity, note=note)
+                fixity=fixity, note=note, child_of=child_of,
+                derived_from=derived_from, derived_using=derived_using,
+                generated_by=generated_by)
             index_iterations.append(index_req)
         elif filters is None:
             archive_patterns = getattr(self, 'archive_patterns', [])
@@ -142,15 +158,25 @@ class ManagedPipelineJobInstance(Manager):
                             processing_level='1',
                             filters=ap,
                             fixity=True,
-                            note='Translated from legacy list representation')
+                            note='Translated from legacy list representation',
+                            child_of=child_of,
+                            derived_from=derived_from,
+                            derived_using=derived_using,
+                            generated_by=generated_by)
                     if index_req is not None:
                         print('INDEX_REQ', index_req)
                         index_iterations.append(index_req)
             else:
                 print('INDEXING ALL FILES')
                 index_req = IndexRequest(
-                    processing_level=processing_level, filters=[],
-                    fixity=fixity, note='Request to index all files')
+                    processing_level=processing_level,
+                    filters=[],
+                    fixity=fixity,
+                    note='Request to index all files',
+                    child_of=child_of,
+                    derived_from=derived_from,
+                    derived_using=derived_using,
+                    generated_by=generated_by)
                 index_iterations.append(index_req)
 
         # If, somehow, there are no index requests, skip the expensive file
@@ -231,6 +257,14 @@ class ManagedPipelineJobInstance(Manager):
                 if resp is not None:
                     self.stores['file'].add_link(
                         resp['uuid'], self.uuid, 'generated_by')
+                    for linkf in ['child_of', 'derived_from', 'derived_using', 'generated_by']:
+                        linkattr = getattr(index_request, linkf)
+                        if linkf is not None:
+                            try:
+                                self.stores['file'].add_link(resp['uuid'], linkattr, linkf)
+                            except Exception:
+                                print('Failed adding linkage {}-{}-{}'.format(
+                                    resp['uuid'], linkf, linkattr))
                     indexed.append(file_name)
             return indexed
         except Exception as mexc:

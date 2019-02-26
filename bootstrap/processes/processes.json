@@ -18,5 +18,20 @@
         "name": "Jupyter Notebook",
         "process_id": "jupyter-notebook",
         "description": "Human-directed process run from within a Jupyter Notebooks environment"
+    },
+    {
+        "name": "Uploads Indexer",
+        "process_id": "uploads-indexer",
+        "description": "A Reactor that indexes the managed uploads directory"
+    },
+    {
+        "name": "Jobs Indexer",
+        "process_id": "jobs-indexer",
+        "description": "A Reactor that indexes compute job output directories"
+    },
+    {
+        "name": "Products Indexer",
+        "process_id": "products-indexer",
+        "description": "A Reactor that indexes compute job output files to their sources"
     }
 ]

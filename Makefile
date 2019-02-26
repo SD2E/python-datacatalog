@@ -151,7 +151,7 @@ tests-formats-classify:
 bootstrap-tests: bootstrap bootstrap-extras
 
 bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
-bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra
+bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra bootstrap-processes-extra bootstrap-references-extra bootstrap-pipelines-extra bootstrap-views-extra
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
 bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views
@@ -194,12 +194,15 @@ bootstrap-files-extra: bootstrap-files
 
 bootstrap-pipelines:
 	python -m bootstrap.manage_pipelines auto $(DB_ENV)
+bootstrap-pipelines-extra: bootstrap-pipelines
 
 bootstrap-processes:
 	python -m bootstrap.manage_processes auto $(DB_ENV)
+bootstrap-processes-extra: bootstrap-processes
 
 bootstrap-views:
 	python -m bootstrap.manage_views auto $(DB_ENV)
+bootstrap-views-extra: bootstrap-views
 
 bootstrap-schemas: schemas-build
 

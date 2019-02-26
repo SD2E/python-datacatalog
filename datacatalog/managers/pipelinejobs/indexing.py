@@ -10,7 +10,11 @@ class IndexRequest(object):
               ('filters', True, 'filters', []),
               ('patterns', True, 'filters', []),
               ('note', False, 'note', None),
-              ('fixity', False, 'fixity', True)]
+              ('fixity', False, 'fixity', True),
+              ('child_of', False, 'child_of', []),
+              ('generated_by', False, 'generated_by', []),
+              ('derived_from', False, 'derived_from', []),
+              ('derived_using', False, 'derived_using', [])]
 
     def __init__(self, **kwargs):
         for param, mandatory, attr, default in self.PARAMS:
