@@ -44,7 +44,7 @@ class FixityStore(LinkedStore):
         Returns:
             dict: A LinkedStore document containing fixity details
         """
-        print('INDEXING ' + filename)
+        print('FIXITY.STORE.INDEX ' + filename)
         self.name = normpath(filename)
         self.abs_filename = abspath(self.name)
         print('ABSPATH ' + self.abs_filename)
