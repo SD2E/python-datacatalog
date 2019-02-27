@@ -75,3 +75,25 @@ def test_validate_allschemas_drafts(draft, response):
         assert len(raised_exceptions) == 0, "Unexpected validation or schema errors found: %r" % raised_exceptions
     else:
         assert len(raised_exceptions) > 0, "Validation or schema was expected to fail but did not"
+
+@pytest.mark.parametrize("draft,response", [
+    ('draft-07.json', True)])
+def test_validate_allschemas_drafts_tenacity(draft, response):
+    SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
+    schemas = os.listdir(SCHEMAS_PATH)
+    draft_schema = json.load(open(os.path.join(DATA_DIR, draft), 'r'))
+    raised_exceptions = list()
+    for schema in schemas:
+        if schema.endswith('.json'):
+            fname = os.path.join(SCHEMAS_PATH, schema)
+            sch = open(fname, 'r')
+            # Can load as JSON
+            schj = json.load(sch)
+            try:
+                datacatalog.jsonschemas.validate(schj, draft_schema)
+            except Exception as exc:
+                raised_exceptions.append((schema, exc))
+    if response is True:
+        assert len(raised_exceptions) == 0, "Unexpected validation or schema errors found: %r" % raised_exceptions
+    else:
+        assert len(raised_exceptions) > 0, "Validation or schema was expected to fail but did not"

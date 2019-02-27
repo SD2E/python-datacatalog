@@ -17,6 +17,7 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
+from ...jsonschemas import validate as jsonschema_validate
 from ...utils import safen_path
 from ..basestore import LinkedStore
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
@@ -62,7 +63,7 @@ class FileRecord(collections.UserDict):
             except KeyError:
                 pass
         vvalue = json.loads(json.dumps(value, default=DateTimeConverter))
-        jsonschema.validate(vvalue, self.schema.to_dict(),
+        jsonschema_validate(vvalue, self.schema.to_dict(),
                             format_checker=formatChecker())
 
         # Ensure the minimum set of other fields is populated
