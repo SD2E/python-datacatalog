@@ -102,9 +102,25 @@ class ManagedPipelineJobInstance(Manager):
 
     def index_archive_path(self, processing_level="1", filters=None,
                            fixity=True, note=None,
-                           child_of=None, generated_by=None,
-                           derived_from=None, derived_using=None):
-        """Discover files in a job archive path and associate with the job``````````````````
+                           generated_by=None, index_type='archive', **kwargs):
+        return self.index_archive_contents(processing_level, filters, fixity, note, generated_by)
+
+    def index_product_files(self, processing_level="1", filters=None,
+                            fixity=True, note=None,
+                            index_type='products',
+                            **kwargs):
+        return self.index_archive_contents(processing_level, filters, fixity, note)
+
+    def index_archive_contents(self, processing_level="1",
+                               filters=None,
+                               fixity=True,
+                               note=None,
+                               index_type=None,
+                               child_of=None,
+                               generated_by=None,
+                               derived_from=None,
+                               derived_using=None):
+        """Discover files in a job archive path and associate with the job
 
         Args:
             processing_level (str, optional): "Processing level" for the new file records
