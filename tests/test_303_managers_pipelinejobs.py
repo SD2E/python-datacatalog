@@ -289,6 +289,7 @@ def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
     assert client_w_param.archive_path.startswith('/products')
     assert client_w_param.uuid == response_job_uuid
 
+@pytest.mark.skipif(True, reason='We are not currently dynamically populating named event methods in ManagedPipelineJobInstance"')
 def test_pipeinstance_event_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
     job_uuid = '107653ca-020f-5f03-9663-41cff415b087'

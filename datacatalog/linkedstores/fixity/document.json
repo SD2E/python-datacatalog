@@ -53,7 +53,7 @@
             "type": "boolean",
             "value": true
         },
-        "derived_from": {
+        "child_of": {
             "items": {
                 "anyOf": [
                     {
@@ -61,6 +61,7 @@
                     }
                 ]
             },
+            "maxItems": 1,
             "type": "array"
         },
         "generated_by": {
@@ -74,6 +75,7 @@
                     }
                 ]
             },
+            "maxItems": 1,
             "type": "array"
         }
     },

@@ -23,7 +23,6 @@ class FileFixityInstance(ExtensibleAttrDict):
     __PARAMS = [('level', False, 'level', 0),
                 ('_deleted', False, '_deleted', True),
                 ('generated_by', False, 'generated_by', []),
-                ('derived_from', False, 'derived_from', []),
                 ('child_of', False, 'child_of', [])]
     FILTERS = ['_filename']
     COMPARES = ['file_modified', 'size', 'checksum', 'file_type']
@@ -80,7 +79,7 @@ class FileFixityInstance(ExtensibleAttrDict):
         return self
 
     def add_to_list(self, attname, members):
-        if attname in ['child_of', 'derived_from', 'generated_by']:
+        if attname in ['child_of', 'generated_by']:
             orig = getattr(self, attname)
             orig.extend([members])
             new = list(set(orig))
@@ -90,7 +89,7 @@ class FileFixityInstance(ExtensibleAttrDict):
             raise ValueError(attname + ' is not a known list attribute')
 
     def remove_from_list(self, attname, members):
-        if attname in ['child_of', 'derived_from', 'generated_by']:
+        if attname in ['child_of', 'generated_by']:
             orig = getattr(self, attname)
             new = [i for i in orig if i not in [members]]
             setattr(self, attname, new)

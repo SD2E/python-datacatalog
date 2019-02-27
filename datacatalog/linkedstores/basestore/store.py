@@ -680,7 +680,7 @@ class LinkedStore(object):
             # Lift over linkages
             for key in self.LINK_FIELDS:
                 if key in source_document and key in target_document:
-                    document[key] = target_document.get(key, list)
+                    document[key] = target_document.get(key, list())
             # Update the record
             uprec = self.coll.find_one_and_replace(
                 {'uuid': document['uuid']}, document,

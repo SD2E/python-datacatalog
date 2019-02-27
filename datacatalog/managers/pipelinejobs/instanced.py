@@ -261,12 +261,13 @@ class ManagedPipelineJobInstance(Manager):
                     # make another linkage
                     for linkf in ['child_of', 'derived_from', 'derived_using', 'generated_by']:
                         linkattr = getattr(index_request, linkf)
-                        if linkf is not None:
-                            try:
-                                self.stores['file'].add_link(resp['uuid'], linkattr, linkf)
-                            except Exception:
-                                print('Failed adding linkage {}-{}-{}'.format(
-                                    resp['uuid'], linkf, linkattr))
+                        if isinstance(linkattr, (str, list)):
+                            if linkf is not None:
+                                try:
+                                    self.stores['file'].add_link(resp['uuid'], linkattr, linkf)
+                                except Exception:
+                                    print('Failed adding linkage {}-{}-{}'.format(
+                                        resp['uuid'], linkf, linkattr))
                     indexed.append(file_name)
             return indexed
         except Exception as mexc:
@@ -303,11 +304,13 @@ class ManagedPipelineJobInstance(Manager):
                         continue
                 try:
                     print('STORES.FIXITY.INDEX ' + file_name)
-                    self.stores['fixity'].index(file_name)
+                    # We only pass along generated_by - Fixity is much more constrained
+                    self.stores['fixity'].index(
+                        file_name, generated_by=index_request.generated_by)
                     indexed.append(file_name)
                 except Exception as exc:
                     logger.warning(
-                        'Failed to capture fixity for {}: {}'.format(
+                        'Failed to record fixity for {}: {}'.format(
                             file_name, exc))
             return indexed
         except Exception as mexc:
