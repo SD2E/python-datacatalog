@@ -300,7 +300,6 @@ class ManagedPipelineJob(JobManager):
         Returns:
             str: A callback URL
         """
-
         try:
             uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
                 self.api_server, self.config['job_manager_id'],
@@ -309,7 +308,8 @@ class ManagedPipelineJob(JobManager):
             # Sanity check - was a valid URL assembled?
             validators.url(uri)
             return uri
-        except KeyError:
+        except KeyError as kexc:
+            pprint(kexc)
             return None
         except Exception:
             raise

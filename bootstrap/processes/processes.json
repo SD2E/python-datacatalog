@@ -33,5 +33,10 @@
         "name": "Products Indexer",
         "process_id": "products-indexer",
         "description": "A Reactor that indexes compute job output files to their sources"
+    },
+    {
+        "name": "Basemount Reactor",
+        "process_id": "basemount-reactor",
+        "description": "Automated process that transfers files from Basespace to managed storage"
     }
 ]
