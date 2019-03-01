@@ -227,7 +227,8 @@ class LinkedStore(object):
             # Contains names of all indexed fields - useful for validation
             setattr(self, '_indexes', list(set(ALL_INDEXES)))
         except Exception as exc:
-            print('Failed to set or enforce indexes.', exc)
+            # print('Failed to set or enforce indexes.', exc)
+            pass
 
     def get_identifiers(self):
         """Returns names of keys whose values will be distinct"""
@@ -404,7 +405,7 @@ class LinkedStore(object):
                     if isinstance(val, dict):
                         # print('DICT', val)
                         val = json.dumps(val, sort_keys=True, separators=(',', ':'))
-                        print(val)
+                        # print(val)
                     else:
                         val = str(val)
                     ary.append(val)
@@ -599,7 +600,7 @@ class LinkedStore(object):
                 for linkage in self.LINK_FIELDS:
                     if linkage in db_record:
                         del db_record[linkage]
-                pprint(db_record)
+                # pprint(db_record)
                 return self.add_update_document(db_record)
             else:
                 raise CatalogError('{} is not a known update strategy'.format(strategy))
@@ -635,7 +636,7 @@ class LinkedStore(object):
             resp['_update_token'] = token
             return resp
         except DuplicateKeyError:
-            print('Unexpectedly found this document in database')
+            # print('Unexpectedly found this document in database')
             return self.update_document({'uuid': document['uuid']}, document, token)
         except Exception as exc:
             raise CatalogError('Failed to create document', exc)
@@ -912,32 +913,36 @@ class LinkedStore(object):
                 raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)
 
     def add_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Link another LinkedStore document with the present document
+        """Link a Data Catalog record with one or more Data Catalog records
 
         Args:
-            uuid (str): UUID of the LinkedStore document to modify
-            linked_uuid (str): UUID of the LinkedStore document to link
-            relation (str, optional): Name of the relation to modify
-            token (str): Alphanumeric string authorizing edits to the document
+            uuid (str): UUID of the subject record
+            linked_uuid (str, list): UUID (or list) of the object record(s)
+            relation (str, optional): Name of the relation add
+            token (str): String token authorizing edits to the subject record
 
         Returns:
-            dict: The content of the updated LinkedStore document
+            dict: Contents of the revised Data Catalog record
 
         Raises:
             CatalogError: Returned if an invalid relation type or unknown UUID is encountered
         """
         rels = list()
+        if isinstance(linked_uuid, str):
+            linked_uuid = [linked_uuid]
         try:
             doc = self.find_one_by_uuid(uuid)
             if doc is not None:
                 if relation in list(doc.keys()):
                     rels = doc.get(relation)
-                    if linked_uuid not in rels:
-                        rels.append(linked_uuid)
-                        rels = sorted(rels)
+                    for luuid in linked_uuid:
+                        if luuid not in rels:
+                            if uuid != luuid:
+                                rels.append(luuid)
+                                rels = sorted(rels)
                 # Create relation if allowed by schema
                 elif relation in list(self.document_schema['properties'].keys()):
-                    rels = [linked_uuid]
+                    rels = linked_uuid
                 else:
                     raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
 
@@ -950,16 +955,16 @@ class LinkedStore(object):
             raise
 
     def remove_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Unlink another LinkedStore document from the present document
+        """Unlink one Data Catalog record from another
 
         Args:
-            uuid (str): UUID of the LinkedStore document to modify
-            linked_uuid (str): UUID of the LinkedStore document to unlink
-            relation (str, optional): Name of the relation to modify
-            token (str): Alphanumeric string authorizing edits to the document
+            uuid (str): UUID of the subject record
+            linked_uuid (str): UUID of the object record
+            relation (str, optional): Name of the relation to remove
+            token (str): String token authorizing edits to the subject record
 
         Returns:
-            dict: The content of the updated LinkedStore document
+            dict: Contents of the revised Data Catalog record
 
         Raises:
             CatalogError: Returned if an invalid relation type or unknown UUID is encountered

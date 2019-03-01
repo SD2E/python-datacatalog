@@ -46,7 +46,7 @@ class FixityStore(LinkedStore):
         Returns:
             dict: A LinkedStore document containing fixity details
         """
-        print('FIXITY.STORE.INDEX ' + filename)
+        # print('FIXITY.STORE.INDEX ' + filename)
         self.name = normpath(filename)
         self.abs_filename = abspath(self.name)
         fixity_uuid = self.get_typeduuid(self.name)

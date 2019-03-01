@@ -1,0 +1,34 @@
+{
+    "description": "Indexing requests for connecting products with the job that generated them",
+    "type": "object",
+    "properties": {
+        "processing_level": {
+            "$ref": "processing_level.json"
+        },
+        "patterns": {
+            "description": "Regular expression filters for filenames",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    },
+                    {
+                        "$ref": "process_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "processing_level",
+        "patterns"
+    ],
+    "additionalProperties": false
+}

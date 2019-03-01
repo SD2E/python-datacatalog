@@ -1,0 +1,55 @@
+{
+    "description": "Indexing requests for connecting products with their sources and references",
+    "type": "object",
+    "properties": {
+        "patterns": {
+            "description": "Regular expression filters for filenames",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "derived_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    },
+                    {
+                        "$ref": "process_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "processing_level",
+        "derived_from",
+        "derived_using"
+    ],
+    "additionalProperties": false
+}

@@ -19,7 +19,7 @@ from ...linkedstores.pipelinejob.fsm import EVENT_DEFS
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
-from .indexing import IndexRequest, IndexingError
+from .indexing import ArchiveIndexRequest, ProductIndexRequest, IndexingError, IndexType
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -40,6 +40,7 @@ class ManagedPipelineJobInstance(Manager):
         ('archive_path', False, 'archive_path', None),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
         ('archive_patterns', False, 'archive_patterns', []),
+        ('product_patterns', False, 'product_patterns', []),
         ('generated_by', False, 'generated_by', []),
         ('child_of', False, 'child_of', []),
         ('acted_on', False, 'acted_on', []),
@@ -74,24 +75,29 @@ class ManagedPipelineJobInstance(Manager):
         """
         return self.stores['pipelinejob'].handle(event_doc, token)
 
-    def index(self, level="1", filters=None, fixity=True,
-              token=None, child_of=None, generated_by=None,
-              derived_from=None, derived_using=None):
+    def index(self, level="1", token=None, transition=False, **kwargs):
         """Index the job outputs
         """
-        event_doc = {'uuid': self.uuid, 'name': 'index',
-                     'data': {'level': level,
-                              'filters': filters,
-                              'fixity': fixity}}
+        LINKAGES = ['child_of']
+        pass_kwargs = dict()
+        for link in LINKAGES:
+            pass_kwargs[link] = kwargs.get(link, None)
+        event_doc = {'uuid': self.uuid,
+                     'name': 'index',
+                     'data': {}}
         resp = self.handle(event_doc, token=token)
         if resp is not None:
-            return self.index_archive_path(processing_level=level,
-                                           filters=filters,
-                                           fixity=fixity,
-                                           child_of=child_of,
-                                           generated_by=generated_by,
-                                           derived_from=derived_from,
-                                           derived_using=derived_using)
+            indexed = list()
+            resp = self.index_archive_path(token=token, **pass_kwargs)
+            if isinstance(resp, list):
+                indexed.extend(resp)
+            resp = self.index_archive_products(token=token, **pass_kwargs)
+            if isinstance(resp, list):
+                indexed.extend(resp)
+        if transition is True:
+            return self.indexed(token=token)
+        else:
+            return list(set(indexed))
 
     def indexed(self, token=None):
         """Mark job outputs indexing as completed
@@ -100,32 +106,63 @@ class ManagedPipelineJobInstance(Manager):
         resp = self.handle(event_doc, token=token)
         return resp
 
-    def index_archive_path(self, processing_level="1", filters=None,
-                           fixity=True, note=None,
-                           generated_by=None, index_type='archive', **kwargs):
-        return self.index_archive_contents(processing_level, filters, fixity, note, generated_by)
+    def index_archive_path(self,
+                           token=None,
+                           level="1",
+                           filters=None,
+                           fixity=True,
+                           note=None,
+                           **kwargs):
+        INDEX_TYPE = IndexType('archive')
+        LINKAGES = ['child_of']
+        pass_kwargs = dict()
+        for link in LINKAGES:
+            pass_kwargs[link] = kwargs.get(link, None)
+        return self._index_archive_contents(level=level,
+                                            filters=filters,
+                                            fixity=fixity,
+                                            note=note,
+                                            index_type=INDEX_TYPE,
+                                            **pass_kwargs)
 
-    def index_product_files(self, processing_level="1", filters=None,
-                            fixity=True, note=None,
-                            index_type='products',
-                            **kwargs):
-        return self.index_archive_contents(processing_level, filters, fixity, note)
-
-    def index_archive_contents(self, processing_level="1",
+    def index_archive_products(self,
+                               token=None,
+                               level=None,
                                filters=None,
-                               fixity=True,
+                               fixity=False,
                                note=None,
-                               index_type=None,
-                               child_of=None,
-                               generated_by=None,
-                               derived_from=None,
-                               derived_using=None):
-        """Discover files in a job archive path and associate with the job
+                               **kwargs):
+        INDEX_TYPE = IndexType('product')
+        LINKAGES = ['child_of']
+        PARAMS = [('level', False, 'level', None)]
+        pass_kwargs = dict()
+        for link in LINKAGES:
+            pass_kwargs[link] = kwargs.get(link, None)
+        for param, req, attr, default in PARAMS:
+            val = kwargs.get(param, None)
+            if req and val is None:
+                val = default
+                pass_kwargs[attr] = val
+        return self._index_archive_contents(filters=filters,
+                                            fixity=fixity,
+                                            note=note,
+                                            index_type=INDEX_TYPE,
+                                            **pass_kwargs)
+
+    def _index_archive_contents(self, level="1",
+                                filters=None,
+                                fixity=True,
+                                note=None,
+                                index_type=None,
+                                **kwargs):
+        """Indexes product files in an archive path to a job or their sources
 
         Args:
-            processing_level (str, optional): "Processing level" for the new file records
             filters (list, optional): Python regular expressions to subselect specific files in target path. Overrides job.archive_patterns.
             fixity (bool, optional): Whether to update a fixity record for the file as well
+
+        Keyword Args:
+            level (str, optional): "Processing level" for the new file records
             child_of: (str, optional): UUID of the parent for indexed files
             derived_from: (str, optional): UUID of a file or reference from which all members of the path are derived
             derived_using: (str, optional): UUID of a file or reference used to derived all members of the path
@@ -146,54 +183,68 @@ class ManagedPipelineJobInstance(Manager):
         start_time = microseconds()
         indexed = list()
 
-        # Assemble a list of indexing operations
-        #
-        # Passing a non-empty 'filters' list indicates that the specified
-        # indexing action, rather than the defaults, are to be performed
+        # Validate index type
+        index_type = IndexType(index_type)
+        # print('INDEX_TYPE', index_type)
+
+        # Get linkages from kwargs
+        LINKAGES = ['child_of', 'generated_by', 'derived_from', 'derived_using']
+        indexr_kwargs = dict()
+        for link in LINKAGES:
+            if link in kwargs:
+                indexr_kwargs[link] = kwargs.get(link, '[]')
+        # print('LINKS', indexr_kwargs)
+
+        def make_index_request(*args, **kwargs):
+            if index_type == 'archive':
+                return ArchiveIndexRequest(*args, **kwargs)
+            else:
+                return ProductIndexRequest(*args, **kwargs)
+
         index_iterations = list()
         if isinstance(filters, list) and filters != []:
             # Build a new index request from kwargs
-            index_req = IndexRequest(
-                processing_level=processing_level, filters=filters,
-                fixity=fixity, note=note, child_of=child_of,
-                derived_from=derived_from, derived_using=derived_using,
-                generated_by=generated_by)
+            index_req = make_index_request(
+                level=level,
+                filters=filters,
+                fixity=fixity,
+                note=note,
+                **indexr_kwargs)
             index_iterations.append(index_req)
         elif filters is None:
-            archive_patterns = getattr(self, 'archive_patterns', [])
-            print('PATTERNS', archive_patterns)
-            if archive_patterns != []:
-                for ap in archive_patterns:
+            index_patterns = getattr(self, index_type.patterns_field, [])
+            # print('INDEX_PATTERNS', index_patterns)
+            if index_patterns != []:
+                for ap in index_patterns:
                     index_req = None
                     if isinstance(ap, dict):
                         # print('FORMATTING', ap)
-                        index_req = IndexRequest(**ap)
+                        index_req = make_index_request(**ap)
                     elif isinstance(ap, list):
                         # print('TRANSLATING', ap)
-                        index_req = IndexRequest(
-                            processing_level='1',
-                            filters=ap,
-                            fixity=True,
-                            note='Translated from legacy list representation',
-                            child_of=child_of,
-                            derived_from=derived_from,
-                            derived_using=derived_using,
-                            generated_by=generated_by)
+                        if index_type == 'archive':
+                            index_req = make_index_request(
+                                level='1',
+                                filters=ap,
+                                fixity=True,
+                                note='Translated "filters" from list form',
+                                **indexr_kwargs)
+                        else:
+                            raise ValueError(
+                                'List form of "filters" is restricted to "path" indexing')
                     if index_req is not None:
-                        print('INDEX_REQ', index_req)
+                        # print('INDEX_REQUEST', index_req)
                         index_iterations.append(index_req)
             else:
-                print('INDEXING ALL FILES')
-                index_req = IndexRequest(
-                    processing_level=processing_level,
-                    filters=[],
-                    fixity=fixity,
-                    note='Request to index all files',
-                    child_of=child_of,
-                    derived_from=derived_from,
-                    derived_using=derived_using,
-                    generated_by=generated_by)
-                index_iterations.append(index_req)
+                if index_type == 'archive':
+                    # print('INDEXING ALL FILES IN PATH')
+                    index_req = make_index_request(
+                        level=level,
+                        filters=[],
+                        fixity=fixity,
+                        note='Index all files',
+                        **indexr_kwargs)
+                    index_iterations.append(index_req)
 
         # If, somehow, there are no index requests, skip the expensive file
         # listing and return an empty list
@@ -209,12 +260,12 @@ class ManagedPipelineJobInstance(Manager):
             if idxr.fixity is True:
                 fixity_iterations.append(idxr)
                 # raise SystemError(idxr)
-            result = self.build_metadata_index(path_listing, idxr)
+            result = self._build_metadata_index(path_listing, idxr)
             if isinstance(result, list):
                 indexed.extend(result)
 
         for idxr in fixity_iterations:
-            result = self.build_fixity_index(path_listing, idxr)
+            result = self._build_fixity_index(path_listing, idxr)
             if isinstance(result, list):
                 indexed.extend(result)
 
@@ -224,12 +275,12 @@ class ManagedPipelineJobInstance(Manager):
         logger.info('INDEXED {} in {} usec'.format(self.uuid, elapsed_time))
         return indexed
 
-    def build_metadata_index(self, files_list, index_request, permissive=False):
-        """Associates files matching an IndexRequest to the current job
+    def _build_metadata_index(self, files_list, index_request, permissive=False):
+        """Associates files to jobs or sources as per an IndexRequest
 
         Args:
             files_list (list): List of absolute filepaths
-            index_request (IndexRequest): The specification for matching patterns and so on
+            index_request (IndexRequest): Pattern matching and linkage specification
             permissive (bool, optional): Whether to raise an Exception on error
 
         Raises:
@@ -245,8 +296,8 @@ class ManagedPipelineJobInstance(Manager):
                 patts = index_request.regex()
             else:
                 patts = None
-            print('FILES', len(files_list))
-            print('PATTS', patts)
+            # print('FILES', len(files_list))
+            # print('PATTS', patts)
             for file_name in files_list:
                 # If patterns is not specified
                 if patts is not None:
@@ -260,30 +311,32 @@ class ManagedPipelineJobInstance(Manager):
                 # to what can be learned from the filename.
                 ftype = getattr(infer_filetype(
                     file_name, check_exists=False, permissive=True), 'label')
-                frec = FileRecord(
-                    {'name': file_name,
-                     'type': ftype,
-                     'level': index_request.processing_level})
-                # Transform the note from the archving request into InlineAnnotation
+                fdict = {'name': file_name, 'type': ftype}
+                if getattr(index_request, 'level', None) is not None:
+                    fdict['level'] = getattr(index_request, 'level')
+                frec = FileRecord(fdict)
+                # Transform note from the IndexRequest into an InlineAnnotation
                 if index_request.note is not None:
                     frec['notes'] = [InlineAnnotationDocument(
                         data=index_request.note)]
                 resp = self.stores['file'].add_update_document(frec)
                 # Build linkages
                 if resp is not None:
+                    # Force generated_by to be the job.UUID
                     self.stores['file'].add_link(
                         resp['uuid'], self.uuid, 'generated_by')
                     # Generated by is repeated here in case the caller wants to
                     # make another linkage
-                    for linkf in ['child_of', 'derived_from', 'derived_using', 'generated_by']:
-                        linkattr = getattr(index_request, linkf)
+                    for linkf in ['derived_from', 'derived_using']:
+                        linkattr = getattr(index_request, linkf, None)
                         if isinstance(linkattr, (str, list)):
                             if linkf is not None:
                                 try:
                                     self.stores['file'].add_link(resp['uuid'], linkattr, linkf)
-                                except Exception:
-                                    print('Failed adding linkage {}-{}-{}'.format(
-                                        resp['uuid'], linkf, linkattr))
+                                except Exception as exc:
+                                    print('Failed adding linkage {}<=[{}]={}: {}'.format(
+                                        resp['uuid'], linkf, linkattr, exc))
+                                    pass
                     indexed.append(file_name)
             return indexed
         except Exception as mexc:
@@ -292,7 +345,7 @@ class ManagedPipelineJobInstance(Manager):
             else:
                 raise IndexingError(mexc)
 
-    def build_fixity_index(self, files_list, index_request, permissive=False):
+    def _build_fixity_index(self, files_list, index_request, permissive=False):
         """Indexes fixity for each file in files_list matching an IndexRequest
 
         Args:
@@ -319,7 +372,6 @@ class ManagedPipelineJobInstance(Manager):
                     if not patts.search(os.path.basename(file_name)):
                         continue
                 try:
-                    print('STORES.FIXITY.INDEX ' + file_name)
                     # We only pass along generated_by - Fixity is much more constrained
                     self.stores['fixity'].index(
                         file_name, generated_by=index_request.generated_by)

@@ -98,6 +98,9 @@
                 "anyOf": [
                     {
                         "$ref": "reference_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
                     }
                 ]
             },

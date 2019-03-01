@@ -1,18 +1,59 @@
 import re
 import json
+from enum import Enum
 
-__all__ = ['IndexRequest', 'IndexingError']
+__all__ = ['ArchiveIndexRequest', 'ProductIndexRequest', 'IndexType', 'IndexingError']
 
-# from ...definitions.enumclasses import processing_level
+class IndexType(str):
+    """An indexing type"""
+    MEMBERS = ['archive', 'product']
 
-class IndexRequest(object):
-    PARAMS = [('processing_level', True, 'processing_level', '1'),
-              ('filters', True, 'filters', []),
-              ('patterns', True, 'filters', []),
+    def __new__(cls, value):
+        value = str(value).lower()
+        if value not in cls.MEMBERS:
+            raise ValueError('{} is not a valid {}'.format(value, cls.__name__))
+        return str.__new__(cls, value)
+
+    @property
+    def patterns_field(self):
+        return self + '_patterns'
+
+class ArchiveIndexRequest(object):
+    PARAMS = [('patterns', True, 'filters', []),
               ('note', False, 'note', None),
               ('fixity', False, 'fixity', True),
-              ('child_of', False, 'child_of', []),
               ('generated_by', False, 'generated_by', []),
+              ('level', True, 'level', '1')]
+
+    def __init__(self, **kwargs):
+        for param, mandatory, attr, default in self.PARAMS:
+            try:
+                value = (kwargs[param] if mandatory else kwargs.get(param, default))
+                setattr(self, attr, value)
+            except KeyError:
+                pass
+
+    def to_dict(self):
+        me = dict()
+        for param, mandatory, attr, default in self.PARAMS:
+            me[attr] = getattr(self, attr, None)
+        return me
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(',', ':'))
+
+    def __repr__(self):
+        return self.__class__.__name__ + ':' + str(self.to_dict())
+
+    def regex(self):
+        """Compile the request's filters list into a Python regex
+        """
+        return re.compile('|'.join(getattr(self, 'filters', [])))
+
+class ProductIndexRequest(object):
+    PARAMS = [('patterns', True, 'filters', []),
+              ('note', False, 'note', None),
+              ('fixity', False, 'fixity', False),
               ('derived_from', False, 'derived_from', []),
               ('derived_using', False, 'derived_using', [])]
 
@@ -20,19 +61,19 @@ class IndexRequest(object):
         for param, mandatory, attr, default in self.PARAMS:
             try:
                 value = (kwargs[param] if mandatory else kwargs.get(param, default))
+                setattr(self, attr, value)
             except KeyError:
                 pass
-            setattr(self, attr, value)
 
     def to_dict(self):
         me = dict()
         for param, mandatory, attr, default in self.PARAMS:
-            me[param] = getattr(self, attr, None)
+            me[attr] = getattr(self, attr, None)
         return me
 
     def to_json(self):
-        return json.dumps(self.to_dict(), sort_keys=True, separators=(',', ':'))
 
+        return json.dumps(self.to_dict(), sort_keys=True, separators=(',', ':'))
     def __repr__(self):
         return self.__class__.__name__ + ':' + str(self.to_dict())
 
