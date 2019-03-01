@@ -939,7 +939,7 @@ class LinkedStore(object):
                         if luuid not in rels:
                             if uuid != luuid:
                                 rels.append(luuid)
-                                rels = sorted(rels)
+                    rels = sorted(rels)
                 # Create relation if allowed by schema
                 elif relation in list(self.document_schema['properties'].keys()):
                     rels = linked_uuid

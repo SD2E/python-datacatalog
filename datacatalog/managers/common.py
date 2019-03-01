@@ -8,6 +8,7 @@ import sys
 from pprint import pprint
 
 from ..linkedstores import DEFAULT_LINK_FIELDS
+from ..linkages import Linkage
 from .. import linkedstores
 from .. import jsonschemas
 from ..utils import dynamic_import
@@ -138,6 +139,33 @@ class Manager(object):
             raise ValueError(
                 'Failed to resolve {} to a UUID: {}'.format(identifier, exc))
         return uuid, uuid_type
+
+    def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):
+        """User-friendly method to link two Data Catalog documents
+
+        Args:
+            identifier (str): Identifier string for record to be modified
+            linked_identifier (str): Identifier string for record to be linked
+            linkage_name (str): A valid linkage name
+            token: String token authorizing edits to target record
+
+        Raises:
+            ValueError: Raised when invalid or unknown identifers are encountered
+
+        Returns:
+            dict: The modified record, including its new linkage
+        """
+        uuid, uuid_type = self.get_uuid_from_identifier(identifier)
+        linkage_name = Linkage(linkage_name)
+        if isinstance(linked_identifier, str):
+            linked_identifier = [linked_identifier]
+        linked_uuid_values = list()
+        for lindent in linked_identifier:
+            luuid, luuid_type = self.get_uuid_from_identifier(lindent)
+            linked_uuid_values.append(luuid)
+        resp = self.stores[uuid_type].add_link(
+            uuid, linked_uuid_values, relation=linkage_name, token=token)
+        return resp
 
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs
