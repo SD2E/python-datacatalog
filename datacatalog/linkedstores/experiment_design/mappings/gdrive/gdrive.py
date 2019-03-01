@@ -100,7 +100,7 @@ class ExperimentReferenceMapping(object):
                 self.config['google_sheets_dir'],
                 self.config['google_sheets_id'],
                 self._drive_service)
-            pprint('files_listing', files_listing)
+            # pprint('files_listing', files_listing)
             self.filescache = self.encode_files(files_listing)
         except Exception as exc:
             raise GoogleSheetsError('Error fetching file listing', exc)

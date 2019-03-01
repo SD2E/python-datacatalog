@@ -31,11 +31,12 @@ def credentials():
         credentials_file_path = os.path.join(PWD, credentials_file)
 
         if os.path.exists(credentials_file):
-            print(("Loading from file {}".format(credentials_file)))
+            # print(("Loading from file {}".format(credentials_file)))
             credentials = json.load(open(credentials_file_path, 'r'))
             return credentials
     except Exception as e:
-        print("Error loading credentials file: {}".format(e))
+        # print("Error loading credentials file: {}".format(e))
+        pass
 
     # user credential store
     try:
@@ -46,7 +47,7 @@ def credentials():
             ag_cred_store = os.path.expanduser('~/.agave/current')
 
         if os.path.exists(ag_cred_store):
-            print("Loading from credential store {}".format(ag_cred_store))
+            # print("Loading from credential store {}".format(ag_cred_store))
             tempcred = json.load(open(ag_cred_store, 'r'))
             # Translate from agave/current format
             credentials['apiserver'] = tempcred.get('baseurl', None)
@@ -61,10 +62,11 @@ def credentials():
             credentials['tenantid'] = tempcred.get('tenantid', None)
             return credentials
     except Exception as e:
-        print("Error loading user credential store: {}".format(e))
+        # print("Error loading user credential store: {}".format(e))
+        pass
 
     # load from environment
-    print("Loading from environment variables")
+    # print("Loading from environment variables")
     for env in ('apikey', 'apisecret', 'username', 'password',
                 'apiserver', 'verify_certs', 'refresh_token',
                 'token', 'client_name', 'tenantid'):

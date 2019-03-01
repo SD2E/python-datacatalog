@@ -14,6 +14,7 @@ from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data.fixity import files
 from datacatalog.linkedstores.fixity import FixityStore
+from datacatalog.linkedstores.file import FileStore
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
@@ -50,6 +51,29 @@ def test_fixity_checksum(monkeypatch, mongodb_settings):
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['checksum'] == cksum
+
+@pytest.mark.parametrize("generator_uuid", [
+    ('1176bd3e-8666-547b-bc36-25a3b62fc271'),
+    ('1179fdd6-71e0-504e-bab1-021ce3a72e35')])
+def test_fixity_generated_by(monkeypatch, mongodb_settings, generator_uuid):
+    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings)
+    for fname, cksum, tsize, ftype in files.TESTS:
+        # 1179fdd6-71e0-504e-bab1-021ce3a72e35 is tests-pytest
+        resp = fixity_store.index(fname, generated_by=generator_uuid)
+        assert generator_uuid in resp['generated_by']
+        resp = fixity_store.index(fname, generated_by=[generator_uuid])
+        assert generator_uuid in resp['generated_by']
+
+def test_fixity_no_overrde_child_of(monkeypatch, mongodb_settings):
+    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings)
+    file_store = FileStore(mongodb_settings)
+    for fname, cksum, tsize, ftype in files.TESTS:
+        file_uuid = file_store.get_typeduuid(fname, binary=False)
+        # This is one of the test files not indexed in the Fixity test collection
+        resp = fixity_store.index(fname, child_of='105fb204-530b-5915-9fd6-caf88ca9ad8a')
+        assert resp['child_of'] == [file_uuid]
 
 @pytest.mark.parametrize("filename,fuuid", [
     ('/uploads/science-results.xlsx', '1166d16b-4c87-5ead-a25a-60ae90b527fb'),

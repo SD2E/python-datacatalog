@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-18 18:24:05 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e1c8ef9",
+    "$comment": "generated: 2019-02-27 11:04:41 +00:00; source: git@github.com:SD2E/python-datacatalog.git@4229b01",
     "$id": "https://schema.catalog.sd2e.org/schemas/fixity_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -66,8 +66,14 @@
         },
         "child_of": {
             "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ],
                 "type": "string"
             },
+            "maxItems": 1,
             "type": "array"
         },
         "created": {
@@ -75,20 +81,24 @@
             "format": "date-time",
             "type": "string"
         },
-        "derived_from": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "file_uuid.json"
-                    }
-                ]
-            },
-            "type": "array"
-        },
         "fingerprint": {
             "$comment": "Computed automatically",
             "description": "xxHash64 fingerprint of the file",
             "type": "integer"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    },
+                    {
+                        "$ref": "process_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "type": "array"
         },
         "id": {
             "$ref": "identifier.json",

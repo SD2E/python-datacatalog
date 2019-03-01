@@ -66,7 +66,7 @@ def text_uuid_to_binary(text_uuid):
 
 def binary_uuid_to_text(binary_uuid):
     try:
-        print(type(binary_uuid))
+        # print(type(binary_uuid))
         return str(uuid.UUID(bytes=binary_uuid))
     except Exception as exc:
         raise ValueError('Failed to convert binary UUID to string', exc)

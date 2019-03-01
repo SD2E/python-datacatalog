@@ -16,7 +16,7 @@ DATA_DIR = os.path.join(HERE, 'data/sampleset')
 
 def resolver(base_uri=JSONSCHEMA_BASE_URL, schema='sample_set'):
     remote_uri = base_uri + schema + '.json'
-    print('REMOTE_URI', remote_uri)
+    # print('REMOTE_URI', remote_uri)
     return jsonschema.RefResolver('', '').resolve_remote(remote_uri)
 
 @networked

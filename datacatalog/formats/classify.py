@@ -38,7 +38,7 @@ def get_converter(json_filepath, options={}, expect=None):
     if encoding not in ('ascii', 'utf-8'):
         raise ValueError("Unknown encoding: {}".format(encoding))
 
-    print("Detected encoding {}".format(encoding))
+    # print("Detected encoding {}".format(encoding))
     for conv in converters:
         try:
             conv.validate_input(json_filepath, encoding)

@@ -34,8 +34,7 @@ class FixityIndexer(object):
                 ('level', 'level', False, None),
                 ('uuid', 'uuid', False, None),
                 ('child_of', 'child_of', False, []),
-                ('generated_by', 'generated_by', False, []),
-                ('derived_from', 'derived_from', False, [])]
+                ('generated_by', 'generated_by', False, [])]
 
     def __init__(self, abs_filename, schema={}, **kwargs):
         self.name = kwargs.get('name')

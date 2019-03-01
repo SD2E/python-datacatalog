@@ -62,10 +62,8 @@ class JobStateMachine(Machine):
         {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
         {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
         {'trigger': 'retire', 'source': ['REJECTED', 'FINALIZED'], 'dest': 'RETIRED'},
-        {'trigger': 'reset', 'source': ['FAILED', 'FINISHED', 'REJECTED',
-                                        'RESET', 'VALIDATED'], 'dest': 'RESET'},
+        {'trigger': 'reset', 'source': '*', 'dest': 'RESET'},
         {'trigger': 'ready', 'source': ['RESET'], 'dest': 'CREATED'}
-
     ]
 
     def __init__(self, state=states[0]):
