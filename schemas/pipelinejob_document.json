@@ -1,8 +1,9 @@
 {
-    "$comment": "generated: 2019-01-28 16:44:58 +00:00; source: git@github.com:SD2E/python-datacatalog.git@8db7b9e",
+    "$comment": "generated: 2019-03-01 19:23:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e10419b",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
+    "definitions": {},
     "description": "Description and history of a computing job",
     "properties": {
         "_admin": {
@@ -90,18 +91,18 @@
             ]
         },
         "archive_path": {
-            "description": "Absolute path to the job's outputs",
+            "description": "Absolute path to the job products",
             "type": "string"
         },
-        "archive_path_patterns": {
+        "archive_patterns": {
             "description": "Optional list of regular expressions defining specific outputs in archive_path",
             "items": {
-                "type": "string"
+                "$ref": "archive_patterns.json"
             },
             "type": "array"
         },
         "archive_system": {
-            "description": "Storage resource housing the job's outputs",
+            "description": "Agave storage resource housing the job products",
             "type": "string"
         },
         "child_of": {
@@ -137,6 +138,13 @@
         "pipeline_uuid": {
             "$ref": "pipeline_uuid.json",
             "description": "UUID of the pipeline that created this job"
+        },
+        "product_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "items": {
+                "$ref": "product_patterns.json"
+            },
+            "type": "array"
         },
         "session": {
             "description": "Short alphanumeric correlation string (optional)",
