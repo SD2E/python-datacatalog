@@ -112,6 +112,33 @@ class Manager(object):
         sorted_recs = sorted(recs, key=lambda k: k['uuid'])
         return sorted_recs
 
+    def get_uuid_from_identifier(self, identifier):
+        """Resolve an identifier into its corresponding UUID
+
+        Args:
+            identifier (str): A known distinct identifier from any colllection
+
+        Returns:
+            uuid: The string UUID for ``identifier``
+            uuid_type: The TypedUUID type for ``uuid``
+        """
+        uuid = None
+        uuid_type = None
+        try:
+            uuid_type = self.get_uuidtype(identifier)
+            uuid = identifier
+        except ValueError:
+            resp = self.get_by_identifier(identifier)
+            if resp is None:
+                raise ValueError(
+                    'Failed to resolve {} to a UUID'.format(identifier))
+            uuid = resp.get('uuid')
+            uuid_type = self.get_uuidtype(uuid)
+        except Exception as exc:
+            raise ValueError(
+                'Failed to resolve {} to a UUID: {}'.format(identifier, exc))
+        return uuid, uuid_type
+
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs
 

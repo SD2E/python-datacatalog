@@ -146,3 +146,19 @@ def test_mgr_common_self_from_ids(identifiers, enforce, num, success, mongodb_se
     else:
         with pytest.raises(ValueError):
             resp = base.self_from_ids(identifiers, enforce_type=enforce, permissive=False)
+
+@pytest.mark.parametrize("identifier, uuid_type, success", [
+    ('86753095', None, False),
+    ('sample.tacc.20001', 'sample', True),
+    ('/uploads/tacc/example/123.txt', 'file', True),
+    ('agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa', 'reference', True),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', 'challenge_problem', True),
+    ('https://cnn.com', 'reference', False)])
+def test_mgr_common_uuid_from_identifier(identifier, uuid_type, success, mongodb_settings):
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    if success is True:
+        uid, utype = base.get_uuid_from_identifier(identifier)
+        assert utype == utype
+    else:
+        with pytest.raises(ValueError):
+            base.get_uuid_from_identifier(identifier)
