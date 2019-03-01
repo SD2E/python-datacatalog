@@ -332,7 +332,7 @@ class ManagedPipelineJobInstance(Manager):
                         if isinstance(linkattr, (str, list)):
                             if linkf is not None:
                                 try:
-                                    self.stores['file'].add_link(resp['uuid'], linkattr, linkf)
+                                    self.link(resp['uuid'], linkattr, linkf)
                                 except Exception as exc:
                                     print('Failed adding linkage {}<=[{}]={}: {}'.format(
                                         resp['uuid'], linkf, linkattr, exc))
