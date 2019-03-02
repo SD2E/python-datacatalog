@@ -75,8 +75,7 @@ class FixityStore(LinkedStore):
             except Exception:
                 raise
         # pprint(db_record)
-        indexer = FixityIndexer(
-            self.name, schema=self.schema, **db_record).sync()
+        indexer = FixityIndexer(schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
         # print('FIXITYRECORD')
         # pprint(fixity_record)
