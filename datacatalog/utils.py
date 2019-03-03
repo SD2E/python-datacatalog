@@ -16,6 +16,7 @@ import re
 import os
 import unicodedata
 from time import sleep, time
+from datacatalog import settings
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
@@ -45,7 +46,7 @@ def decode_path(encoded_file_path):
     """
     return unquote(encoded_file_path)
 
-def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=False):
+def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, url_quote=False):
     """Returns a safened version of a path
 
     Trailing whitespace is removed, Unicode characters (sorry!) are transformed

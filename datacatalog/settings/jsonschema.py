@@ -1,7 +1,7 @@
 import os
 from .helpers import fix_assets_path, array_from_string, parse_boolean, int_or_none, set_from_string
 
-__all__ = ['SCHEMA_BASEURL', 'SCHEMA_REFERENCE']
+__all__ = ['SCHEMA_BASEURL', 'SCHEMA_REFERENCE', 'SCHEMA_NO_COMMENT']
 
 # JSON Schema
 # TODO - Fix jsonschemas.schema to use this

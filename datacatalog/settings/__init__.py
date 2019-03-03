@@ -39,7 +39,8 @@ REFERENCES_ROOT = os.environ.get('CATALOG_REFERENCES_ROOT', 'references')
 REFERENCES_SYSTEM = os.environ.get('CATALOG_PREFERENCES_SYSTEM', STORAGE_SYSTEM)
 REFERENCES_VERSION = os.environ.get('CATALOG_REFERENCES_VERSION', STORAGE_MANAGED_VERSION)
 
-
+# Path naming preferences
+UNICODE_PATHS = parse_boolean(os.environ.get('CATALOG_UNICODE_PATHS', '0'))
 
 # REDIS_URL = os.environ.get('REDASH_REDIS_URL', os.environ.get('REDIS_URL', "redis://localhost:6379/0"))
 # PROXIES_COUNT = int(os.environ.get('REDASH_PROXIES_COUNT', "1"))
