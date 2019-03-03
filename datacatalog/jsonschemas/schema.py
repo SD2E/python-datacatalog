@@ -4,22 +4,16 @@ import re
 from os import environ
 from . import config
 from .objects import get_class_object
+from datacatalog import settings
 
-BASE_URL = 'https://schema.catalog.sd2e.org/schemas/'
-"""Default base URL against which JSONschema documents are resolved"""
-BASE_SCHEMA = 'http://json-schema.org/draft-07/schema#'
-"""References in-use JSON schema version"""
-
-FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
-ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-INDENT = 4
-SORT_KEYS = True
 
 class JSONSchemaBaseObject(object):
     """Interface to JSON schema plus datacatalog-specific extensions"""
     COLLECTION = 'generic'
-    BASEREF = environ.get('PROJECT_SCHEMA_BASE_URL', BASE_URL)
-    BASESCHEMA = environ.get('PROJECT_SCHEMA_REF', BASE_SCHEMA)
+    BASEREF = settings.SCHEMA_BASEURL
+    BASESCHEMA = settings.SCHEMA_REFERENCE
+    INDENT = 4
+    SORT_KEYS = True
     PARAMS = [('schema', False, 'schema', BASESCHEMA, '$'),
               ('comment', False, 'comment', '', '$'),
               ('id', False, 'id', '', '$'),
@@ -59,7 +53,10 @@ class JSONSchemaBaseObject(object):
         self.update_id()
 
     def update_id(self):
-        """Build ``schema.$id`` into a valid URI around ``self._filename``
+        """Dynamically builds ``schema.$id``
+
+        Transforms ``self._filename`` into a schema.id URL in
+        the current namespace.
         """
         temp_fname = getattr(self, '_filename')
         if self._snake_case:
@@ -71,12 +68,11 @@ class JSONSchemaBaseObject(object):
         setattr(self, 'id', schema_id)
 
     def update_comment(self):
-        """Create ``schema.$comment`` with date, source URL,
-        and git commit hash (if available) on demand.
+        """Dynamically populate ``schema.$comment``
+
+        Combines existing comment with date, rep URL, and git commit hash
         """
-
-        if not config.get_osenv_bool('PROJECT_SCHEMA_NO_COMMENT'):
-
+        if settings.SCHEMA_NO_COMMENT is False:
             # Dynamically loade since it's expensive to check for git
             from ..githelpers import get_sha1_short, get_remote_uri
 
@@ -94,7 +90,9 @@ class JSONSchemaBaseObject(object):
             setattr(self, 'comment', comment_string)
 
     def to_dict(self, private_prefix='_', **kwargs):
-        """Express the schema as a ``dict`` filtering private keys
+        """Render the schema as a ``dict``
+
+        Private keys are filtered.
         """
         my_dict = dict()
         for key, mandatory, param, default, keyfix in self.PARAMS:
@@ -109,15 +107,19 @@ class JSONSchemaBaseObject(object):
         return my_dict
 
     def to_jsonschema(self, **kwargs):
-        """Express the schema as a JSON-formatted string
+        """Render the schema as a JSON-formatted string
         """
         self.update_comment()
-        my_json = json.dumps(self.to_dict(**kwargs), indent=INDENT, sort_keys=SORT_KEYS)
+        my_json = json.dumps(self.to_dict(**kwargs),
+                             indent=self.INDENT,
+                             sort_keys=self.SORT_KEYS)
         return my_json
 
     def get_class(self, classname=None):
         return get_class_object(self.to_dict(), classname=classname)
 
 def camel_to_snake(name):
+    FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
+    ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
     s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
     return ALL_CAP_RE.sub(r'\1_\2', s1).lower()

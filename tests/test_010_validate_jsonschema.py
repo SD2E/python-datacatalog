@@ -7,14 +7,14 @@ from pprint import pprint
 from . import longrun, delete, networked
 # import datacatalog
 import jsonschema
-from datacatalog.jsonschemas.schema import BASE_URL as JSONSCHEMA_BASE_URL
+from datacatalog.jsonschemas.schema import JSONSchemaBaseObject
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/sampleset')
 
-def resolver(base_uri=JSONSCHEMA_BASE_URL, schema='sample_set'):
+def resolver(base_uri=JSONSchemaBaseObject.BASEREF, schema='sample_set'):
     remote_uri = base_uri + schema + '.json'
     # print('REMOTE_URI', remote_uri)
     return jsonschema.RefResolver('', '').resolve_remote(remote_uri)

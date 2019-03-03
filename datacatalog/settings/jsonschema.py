@@ -12,3 +12,4 @@ SCHEMA_REFERENCE = os.environ.get(
     'CATALOG_SCHEMA_REFERENCE',
     'http://json-schema.org/draft-07/schema#')
 """The JSON schema specification we adhere to"""
+SCHEMA_NO_COMMENT = False

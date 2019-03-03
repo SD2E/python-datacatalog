@@ -53,13 +53,9 @@ def get_all_schemas(filters=[]):
     """
     schemata = JSONSchemaCollection(dict())
     for pkg in list(itertools.chain.from_iterable(SCHEMAS)):
-        if settings.DEBUG_MODE:
-            print('SCHEMA PACKAGE', pkg)
         if isinstance(filters, list) and filters != []:
             if pkg not in filters:
                 continue
-        if settings.DEBUG_MODE:
-            print('SCHEMA: {}'.format(pkg))
         m = dynamic_import('.' + pkg + '.schemas', package='datacatalog')
         package_schemas = m.get_schemas()
         schemata = {**schemata, **package_schemas}
