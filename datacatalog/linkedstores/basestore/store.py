@@ -147,7 +147,7 @@ class LinkedStore(object):
         """List of identifying keys for this LinkedStore
         """
         self.otherindexes = None
-        """Indexed fields defined in document.json
+        """Indexed fields defined in schema.json
         """
         self.name = None
         """Human-readable name of the LinkedStore schema

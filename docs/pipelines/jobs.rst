@@ -79,7 +79,7 @@ inspecting its schema, which is accessible online:
 - Object Schema
    - `URI <{{ project_schema_base_url }}/pipelinejob.json>`_
 - Document Schema
-   - `URI <{{ project_schema_base_url }}/pipelinejob_document.json>`_
+   - `URI <{{ project_schema_base_url }}/pipelinejob_schema.json>`_
    - `Browser <{{project_schema_browser_url}}/pipeline_job.html>`_
 
 Pipelines

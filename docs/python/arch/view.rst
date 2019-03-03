@@ -14,7 +14,7 @@ definitions are in alignment.
 Examples
 --------
 
-.. literalinclude:: ../../../datacatalog/views/jobs_view/document.json
+.. literalinclude:: ../../../datacatalog/views/jobs_view/schema.json
    :language: python
    :linenos:
    :caption: JSON schema template

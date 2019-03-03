@@ -14,11 +14,11 @@ class SampleSetDocument(DocumentSchema):
         schemaj = dict()
         try:
             modfile = inspect.getfile(self.__class__)
-            schemafile = os.path.join(os.path.dirname(modfile), 'document.json')
+            schemafile = os.path.join(os.path.dirname(modfile), 'schema.json')
             schemaj = json.load(open(schemafile, 'r'))
             if inheritance is True:
                 parent_modfile = inspect.getfile(self.__class__.__bases__[0])
-                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), 'document.json')
+                parent_schemafile = os.path.join(os.path.dirname(parent_modfile), 'schema.json')
                 pschemaj = json.load(open(parent_schemafile, 'r'))
                 schemaj = data_merge(pschemaj, schemaj)
         except Exception:

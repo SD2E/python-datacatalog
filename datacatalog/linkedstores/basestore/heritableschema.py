@@ -21,11 +21,11 @@ class HeritableDocumentSchema(DocumentSchema):
     """Extends DocumentSchema with inheritance from parent object's JSON schema
 
     HeritableDocumentSchema objects validate build a schema from their local
-    `document.json`, but that document is layered over the contents of the
+    `schema.json`, but that document is layered over the contents of the
     schema defined by the root class using a right-favoring merge. Filters,
     which are used in formatting object vs document schemas, are not inherited.
     """
-    DEFAULT_DOCUMENT_NAME = 'document.json'
+    DEFAULT_DOCUMENT_NAME = 'schema.json'
     """Filename of the JSON schema document, relative to __file__."""
     DEFAULT_FILTERS_NAME = 'filters.json'
     """Filename of the JSON schema filters document, relative to __file__."""

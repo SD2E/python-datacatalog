@@ -47,8 +47,8 @@ Documement Schemas
 Documement Schemas represent multiple types and cardinalities of inheritance
 and derivation relationships.
 
-- `CatalogStore <{{ project_schema_base_url }}/challenge_problem_document.json>`_
-- `PipelineJobStore <{{ project_schema_base_url }}/pipelinejob_document.json>`_
+- `CatalogStore <{{ project_schema_base_url }}/challenge_problem_schema.json>`_
+- `PipelineJobStore <{{ project_schema_base_url }}/pipelinejob_schema.json>`_
 
 Interactive Browsers
 --------------------
