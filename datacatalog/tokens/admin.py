@@ -1,6 +1,6 @@
 import time
 import hashlib
-from .. import settings
+from datacatalog import settings
 from .classes import Token
 from .exceptions import InvalidAdminToken
 

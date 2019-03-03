@@ -1,6 +1,6 @@
 import os
 import base64
-from .. import settings
+from datacatalog import settings
 from .classes import Salt
 
 def generate_salt(length=settings.SALT_LENGTH):

@@ -2,7 +2,7 @@ import hashlib
 import base64
 import time
 from os import environ
-from .. import settings
+from datacatalog import settings
 from .admin import validate_admin_token, __get_admin_salt, get_admin_key
 from .classes import Token
 from .exceptions import InvalidToken
