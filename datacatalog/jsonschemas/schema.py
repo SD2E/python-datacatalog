@@ -1,11 +1,9 @@
 import arrow
 import json
-import re
 from os import environ
-from . import config
-from .objects import get_class_object
 from datacatalog import settings
-
+from ..utils import camel_to_snake
+from .objects import get_class_object
 
 class JSONSchemaBaseObject(object):
     """Interface to JSON schema plus datacatalog-specific extensions"""
@@ -78,7 +76,8 @@ class JSONSchemaBaseObject(object):
 
             # Create a descriptive $comment for all schema document
             comments = list()
-            comments.append('generated: {}'.format(arrow.utcnow().format('YYYY-MM-DD HH:mm:ss ZZ')))
+            comments.append('generated: {}'.format(
+                arrow.utcnow().format(settings.DATE_FORMAT)))
             try:
                 # If we are able to resolve a git reference
                 short_hash = get_sha1_short()
@@ -118,8 +117,3 @@ class JSONSchemaBaseObject(object):
     def get_class(self, classname=None):
         return get_class_object(self.to_dict(), classname=classname)
 
-def camel_to_snake(name):
-    FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
-    ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
-    s1 = FIRST_CAP_RE.sub(r'\1_\2', name)
-    return ALL_CAP_RE.sub(r'\1_\2', s1).lower()

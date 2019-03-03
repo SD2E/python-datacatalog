@@ -23,6 +23,14 @@ from jsonschema import validate, RefResolver
 
 SCHEMA_FILE = '/schemas/default.jsonschema'
 
+def camel_to_snake(text_string):
+    """Transform a CamelCase string into snake_case
+    """
+    FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
+    ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
+    s1 = FIRST_CAP_RE.sub(r'\1_\2', text_string)
+    return ALL_CAP_RE.sub(r'\1_\2', s1).lower()
+
 def current_time():
     """Current UTC time
     Returns:

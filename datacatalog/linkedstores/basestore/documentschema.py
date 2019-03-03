@@ -6,10 +6,10 @@ import json
 from pprint import pprint
 from slugify import slugify
 
-from ...jsonschemas import JSONSchemaBaseObject, camel_to_snake
+from ...jsonschemas import JSONSchemaBaseObject
 from ...jsonschemas import formatChecker, DateTimeEncoder
 from ...identifiers import typeduuid
-from ...utils import time_stamp, current_time, msec_precision
+from ...utils import camel_to_snake, current_time, msec_precision, time_stamp
 
 class DocumentSchema(JSONSchemaBaseObject):
     """Extends the JSON schema-driven document class with LinkedStore functions
