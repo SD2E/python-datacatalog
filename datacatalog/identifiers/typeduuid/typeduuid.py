@@ -12,23 +12,16 @@ import bson
 import uuid
 from pprint import pprint
 from hashids import Hashids
+from datacatalog import settings
 
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
-
-from .. import constants
 from ..identifier import random_string, Identifier
-from .. import constants
-# from .uuidtypes import UUIDTYPES, TypedUUID, TypedCatalogUUID
 from .uuidtypes import UUIDTYPES, TypedUUID, CatalogUUID
 
 uuidtypes = dict()
 for uuidt, prefix, title in UUIDTYPES:
     uuidtypes[uuidt] = TypedUUID(uuidt, prefix, title)
-
-UUID_NAMESPACE = constants.Constants.UUID_NAMESPACE
-UUID_MOCK_NAMESPACE = constants.Constants.UUID_MOCK_NAMESPACE
-UUID_HASH_SALT = constants.Constants.TYPEDUUID_HASHIDS_SALT
 
 class TypedCatalogUUID(CatalogUUID):
     def __init__(self, **kwargs):
@@ -41,7 +34,7 @@ class TypedCatalogUUID(CatalogUUID):
             'Why did it have to be snakes?', uuid_type=kwargs.get('kind', 'generic'), binary=False)])
         super(TypedCatalogUUID, self).update_id()
 
-def uuid_to_hashid(uuid_string, salt=UUID_HASH_SALT):
+def uuid_to_hashid(uuid_string, salt=settings.TYPEDUUID_HASHIDS_SALT):
     """Convert a UUID to a HashId to save space. Good for file path building."""
     hashids = Hashids(salt=salt)
     return hashids.encode(uuid.UUID(uuid_string).int)
@@ -102,7 +95,8 @@ def mock(text_value=None, uuid_type=None, binary=True):
     """
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, uuid_type, binary, namespace=UUID_MOCK_NAMESPACE)
+    return catalog_uuid(text_value, uuid_type, binary,
+                        namespace=settings.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
     """Validate whether a string is a TypedUUID
@@ -148,7 +142,7 @@ def get_uuidtype(query_uuid):
     raise ValueError('{} is not a known class of TypedUUID'.format(query_uuid))
 
 def catalog_uuid(text_value, uuid_type='generic',
-                 namespace=UUID_NAMESPACE,
+                 namespace=settings.UUID_NAMESPACE,
                  binary=False):
     """Returns a TypedUUID5 for text_value
 

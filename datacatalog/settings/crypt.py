@@ -1,19 +1,12 @@
 import os
 from .helpers import fix_assets_path, array_from_string, parse_boolean, int_or_none, set_from_string
 
-__all__ = ['ABACO_HASHIDS_SALT', 'TYPEDUUID_HASHIDS_SALT', 'MOCK_IDS_SALT',
-           'JOBS_TOKEN_SALT', 'PIPELINES_TOKEN_SALT', 'ADMIN_TOKEN_KEY',
+__all__ = ['JOBS_TOKEN_SALT', 'PIPELINES_TOKEN_SALT', 'ADMIN_TOKEN_KEY',
            'ADMIN_TOKEN_SECRET', 'ADMIN_TOKEN_LIFETIME', 'TOKEN_LENGTH',
            'SALT_LENGTH']
 
 TOKEN_LENGTH = int(os.environ.get('CATALOG_TOKEN_LENGTH', '16'))
 SALT_LENGTH = int(os.environ.get('CATALOG_SALT_LENGTH', '16'))
-
-ABACO_HASHIDS_SALT = 'eJa5wZlEX4eWU'
-TYPEDUUID_HASHIDS_SALT = os.environ.get(
-    'CATALOG_TYPEDUUID_HASHIDS_SALT', 'xCPJ7PKTdp8BYYb4twh9xNYD')
-MOCK_IDS_SALT = os.environ.get(
-    'CATALOG_MOCK_IDS_SALT', '97JFXMGWBDaFWt8a4d9NJR7z3erNcAve')
 
 # Token salts and keys
 JOBS_TOKEN_SALT = os.environ.get(
