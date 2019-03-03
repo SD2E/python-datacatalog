@@ -1,29 +1,10 @@
 from os import environ
-from .. import settings
+from datacatalog import settings
+from .classes import *
 
 __all__ = ['current_username', 'current_tenant',
            'current_tenant_uri', 'current_project',
            'current_admin_username']
-class TenantURL(str):
-    """TACC.cloud tenant base URL"""
-    def __new__(cls, value):
-        value = str(value).lower()
-        return str.__new__(cls, value)
-class TenantName(str):
-    """TACC.cloud tenant name"""
-    def __new__(cls, value):
-        value = str(value).lower()
-        return str.__new__(cls, value)
-class ProjectName(str):
-    """TACC.cloud project name"""
-    def __new__(cls, value):
-        value = str(value).lower()
-        return str.__new__(cls, value)
-class Username(str):
-    """TACC.cloud username"""
-    def __new__(cls, value):
-        value = str(value).lower()
-        return str.__new__(cls, value)
 
 def current_tenant_uri():
     """Retrieve the current TACC.cloud tenant
