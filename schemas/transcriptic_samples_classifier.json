@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 2019-02-21 20:35:14 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fcc606a",
     "$id": "https://schema.catalog.sd2e.org/schemas/transcriptic_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -20,10 +20,17 @@
             "items": {
                 "properties": {
                     "contents": {
-                        "items": {
-                            "type": "string"
-                        },
-                        "type": "array"
+                        "oneOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
                     },
                     "experimental_media": {
                         "type": "string"
@@ -72,7 +79,6 @@
                     "files",
                     "sample_id",
                     "temperature",
-                    "timepoint",
                     "tx_sample_id"
                 ],
                 "type": "object"

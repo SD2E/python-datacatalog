@@ -45,7 +45,7 @@ directory of the python-datacatalog repository.
             "*"
         ],
         "produces": [
-            "PLAINTEXT"
+            "PLAIN"
         ],
         "pipeline_type": "generic-process",
         "id": "sd2e/managedpipelinejob:101"

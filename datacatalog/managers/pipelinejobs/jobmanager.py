@@ -183,7 +183,7 @@ class JobManager(Manager):
         """
         return self.handle('indexed', data, token=token)
 
-    def reset(self, data={}, token=None):
+    def reset(self, data={}, token=None, permissive=False):
         """Wrapper for **reset**
 
         Note: This event encapsulates both the 'reset' and subsequent 'ready'
@@ -192,7 +192,8 @@ class JobManager(Manager):
 
         validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
         resp = self.handle('reset', data, token=token)
-        self._clear_archive_path()
+        self._clear_archive_path(permissive=permissive)
+        # print('Sending READY')
         resp = self.handle('ready', data, token=token)
         return resp
 
@@ -223,7 +224,7 @@ class JobManager(Manager):
         vals.append('archive_uri: ' + self.archive_uri())
         return '\n'.join(vals)
 
-    def _clear_archive_path(self, mock=True):
+    def _clear_archive_path(self, mock=True, permissive=True):
         """Administratively clears a job's archive path
 
         Path is cleared quickly by deleting the directory then recreating it.
@@ -246,11 +247,14 @@ class JobManager(Manager):
             if not ag_path.startswith('/products'):
                 raise ValueError('Only paths in /products may be cleared')
             if mock:
-                print('mock.delete', ag_path, ag_sys)
-                print('mock.mkdir', ag_path, ag_sys)
+                print('clear_archive_path.mock.delete', ag_path, ag_sys)
+                print('clear_archive_path.mock.mkdir', ag_path, ag_sys)
             else:
                 helper.delete(ag_path, ag_sys)
                 helper.mkdir(ag_path, ag_sys)
         except Exception as clexc:
-            raise ManagedPipelineJobError(clexc)
+            if permissive is False:
+                raise ManagedPipelineJobError(clexc)
+            else:
+                return False
         return True

@@ -1,11 +1,12 @@
 import os
 import sys
+import importlib
+import inspect
 import itertools
-
 from pprint import pprint
 from . import *
 from .converter import Converter, ConversionError
-from ..utils import dynamic_import
+from ..utils import dynamic_import, detect_encoding
 
 FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes']
 """Class names for document types that can be converted to Data Catalog records"""
@@ -22,31 +23,25 @@ def get_converters(options={}):
     """
     matches = list()
     for pkg in FORMATS:
-        converter = globals()[pkg](options)
+        converter = globals()[pkg](options=options)
         matches.append(converter)
     return matches
 
 def get_converter(json_filepath, options={}, expect=None):
-    """Given a JSON document get the appropriate ``Converter``
-
-    Args:
-        json_filepath: Path to a file
-
-    Raises:
-        NoClassifierError: No converter could be materialized
-
-    Returns:
-        Converter: A typed instance of Converter that can transform a JSON file
-    """
     exceptions = list()
     if expect is None:
         converters = get_converters(options)
     else:
         converters = [globals()[expect](options)]
 
+    encoding = detect_encoding(json_filepath)
+    if encoding not in ('ascii', 'utf-8'):
+        raise ValueError("Unknown encoding: {}".format(encoding))
+
+    # print("Detected encoding {}".format(encoding))
     for conv in converters:
         try:
-            conv.validate_input(json_filepath)
+            conv.validate_input(json_filepath, encoding)
             return conv
         except Exception as exc:
             exceptions.append(exc)

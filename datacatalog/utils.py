@@ -1,18 +1,20 @@
+from future.standard_library import install_aliases
+install_aliases()
+from urllib.parse import quote, unquote
 
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
 from builtins import str
 from builtins import *
 
+import chardet
 import datetime
 import json
 import uuid
 import arrow
 import importlib
 import inspect
+import re
+import os
+import unicodedata
 from time import sleep, time
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
@@ -27,6 +29,44 @@ def current_time():
     """
     return datetime.datetime.fromtimestamp(int(datetime.datetime.utcnow().timestamp() * 1000) / 1000)
 
+def detect_encoding(file_path):
+    """Uses chardet to detect encoding of a file
+    """
+    return chardet.detect(
+        open(file_path, 'rb').read())['encoding']
+
+def encode_path(file_path):
+    """Returns a URL-encoded version of a path
+    """
+    return quote(file_path)
+
+def decode_path(encoded_file_path):
+    """Returns a URL-decoded version of a path
+    """
+    return unquote(encoded_file_path)
+
+def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=False):
+    """Returns a safened version of a path
+
+    Trailing whitespace is removed, Unicode characters (sorry!) are transformed
+    to ASCII equivalents, and whitespaces are replaced with a dash character.
+    """
+    safe_file_path = file_path.strip()
+    # Resolve dot-dot and other navigations into a canonical path
+    safe_file_path = normpath(safe_file_path)
+    # Unicode is nice in practice
+    # TODO - Honor a global setting for whether to transform or leave Unicode
+    if no_unicode:
+        safe_file_path = unicodedata.normalize(
+            'NFKD', safe_file_path).encode('ascii', 'ignore').decode('ascii')
+    # Bad spaces. Bad!
+    if no_spaces:
+        safe_file_path = re.sub(r'\s+', '-', safe_file_path)
+    # Pick up any lingering URL-unsafe characters
+    if url_quote:
+        safe_file_path = encode_path(decode_path(safe_file_path))
+    return safe_file_path
+
 def msec_precision(datetimeval):
     dt = arrow.get(datetimeval)
     dts = dt.timestamp
@@ -37,6 +77,17 @@ def microseconds():
     """Get currrent time in microseconds as ``int``
     """
     return int(round(time() * 1000 * 1000))
+
+def normalize(filepath):
+    # Prefixes are terminated with '/' to indicate they are directories. In
+    # order to avoid double-slashes, which causes os.path.join() to fail,
+    # strip out leading slash
+    fp = re.sub('^(/)+', '', filepath)
+    return fp
+
+def normpath(filepath):
+    fp = re.sub('^(/)+', '/', filepath)
+    return os.path.normpath(fp)
 
 def time_stamp(dt=None, rounded=False):
     """Get time in seconds
@@ -59,11 +110,11 @@ def text_uuid_to_binary(text_uuid):
     except Exception as exc:
         raise ValueError('Failed to convert text UUID to binary', exc)
 
-def validate_file_to_schema(filename, schema_file=SCHEMA_FILE, permissive=False):
+def validate_file_to_schema(file_path, schema_file=SCHEMA_FILE, permissive=False):
     """Validate a JSON document against a specified JSON schema
 
     Args:
-    filename (str): path to the file to validate
+    file_path (str): path to the file to validate
     schema_file (str): path to the requisite JSON schema file [/schemas/default.jsonschema]
     permissive (bool): swallow validation errors and return only boolean [False]
 
@@ -73,7 +124,7 @@ def validate_file_to_schema(filename, schema_file=SCHEMA_FILE, permissive=False)
         Raises validation exceptions if 'permssive' is False.
     """
     try:
-        with open(filename) as object_file:
+        with open(file_path) as object_file:
             object_json = json.loads(object_file.read())
 
         with open(schema_file) as schema:

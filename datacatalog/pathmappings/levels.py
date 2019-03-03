@@ -1,6 +1,9 @@
 import os
 
-LEVELS = {'0': {'prefix': '/uploads/', 'store': 'data-sd2e-community'}, '1': {'prefix': '/products/', 'store': 'data-sd2e-community'}, '2': {'prefix': '/products/', 'store': 'data-sd2e-community'}, 'Reference': {'prefix': '/reference/', 'store': 'data-sd2e-community'}}
+LEVELS = {'0': {'prefix': '/uploads/', 'store': 'data-sd2e-community'},
+          '1': {'prefix': '/products/', 'store': 'data-sd2e-community'},
+          '2': {'prefix': '/products/', 'store': 'data-sd2e-community'},
+          'Reference': {'prefix': '/reference/', 'store': 'data-sd2e-community'}}
 
 def prefix_for_level(level):
     try:
@@ -35,4 +38,5 @@ def level_for_filepath(filepath):
     if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
         return '0'
     else:
-        raise KeyError('Path does not map to a known prefix')
+        return 'User'
+        # raise KeyError('Path does not map to a known prefix')

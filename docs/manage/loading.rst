@@ -19,7 +19,7 @@ file is written to conform to the `file <https://schema.catalog.sd2e.org/schemas
 
    {
       "name": "/uploads/tacc/example/555.txt",
-      "type": "PLAINTEXT",
+      "type": "PLAIN",
       "level": "0",
       "file_id": "file.tacc.90005",
       "child_of": [
@@ -39,7 +39,7 @@ Now, if you search your local ``files`` collection for a record with the
 
    {
        "name" : "/uploads/tacc/example/555.txt",
-       "type" : "PLAINTEXT",
+       "type" : "PLAIN",
        "level" : "0",
        "file_id" : "file.tacc.90005",
        "child_of" : [

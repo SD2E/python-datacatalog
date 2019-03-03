@@ -5,16 +5,12 @@ import os
 import six
 from jq import jq
 from jsonschema import validate, ValidationError
-
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
-
-from ..agavehelpers import AgaveHelper
-from .common import SampleConstants
-# from .common import namespace_sample_id, namespace_file_id, namespace_measurement_id, namespace_experiment_id, create_media_component, create_value_unit, create_mapped_name, map_experiment_reference
-
-from .common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ...agavehelpers import AgaveHelper
+from ..common import SampleConstants
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
 
 # common across methods
 attributes_attr = "attributes"
@@ -42,9 +38,12 @@ standard_attr = "standard"
 lot_attr = "Lot No."
 
 negative_control = False
+is_sytox = False
 
 DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
-DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
+SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
+NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A"]
+
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
@@ -66,7 +65,8 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
     elif "generated_by" in biofab_sample and "operation_id" in biofab_sample["generated_by"]:
         operation_id = biofab_sample["generated_by"]["operation_id"]
     else:
-        raise ValueError("Could not parse operation id")
+        print("Warning, could not parse operation id, skipping")
+        return
 
     file_id = None
     if "file_id" in biofab_sample:
@@ -133,25 +133,34 @@ def add_od(item, sample_doc):
             od = str(od)
         sample_doc[SampleConstants.INOCULATION_DENSITY] = create_value_unit(od + ":" + od600_attr)
 
-def add_control(item, sample_doc):
+def add_control(item, sample_doc, output_doc):
     global negative_control
-    if item is not None and attributes_attr in item and control_attr in item[attributes_attr]:
-        control_val = item[attributes_attr][control_attr]
-        # we also need to indicate the control channels for the fluorescence control
-        # this is not known by the lab typically, has to be provided externally
-        if control_val == "negative_sytox":
-            # have we marked a negative control yet? we can re-use the negative_sytox, which is an unadulterated WT
-            if not negative_control:
+    if item is not None:
+        if attributes_attr in item and control_attr in item[attributes_attr]:
+            control_val = item[attributes_attr][control_attr]
+            # we also need to indicate the control channels for the fluorescence control
+            # this is not known by the lab typically, has to be provided externally
+            if control_val == "negative_sytox":
+                # have we marked a negative control yet? we can re-use the negative_sytox, which is an unadulterated WT
+                if not negative_control:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                    negative_control = True
+                else:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+            elif control_val == "positive_sytox":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL4-A"
+            elif control_val == "positive_gfp":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+        elif SampleConstants.STRAIN in sample_doc and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_YEAST_STATES:
+            # Biofab does not provide control information for earlier YG plans;
+            # Need to drive this from strains (WT and NOR_00)
+            if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("22544", output_doc[SampleConstants.LAB]):
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-                negative_control = True
-            else:
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
-        elif control_val == "positive_sytox":
-            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
-            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL4-A"
-        elif control_val == "positive_gfp":
-            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-            sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+            elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("6390", output_doc[SampleConstants.LAB]):
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
 def add_replicate(item, sample_doc):
     if attributes_attr in item and replicate_attr in item[attributes_attr]:
@@ -201,30 +210,41 @@ def read_bead_fluorescence_from_item(item, sample_doc):
 # generate a measurement id unique to this sample
 # Biofab does not have additional measurements per file, can fix to 1
 def add_measurement_id(measurement_doc, sample_doc, output_doc):
+
+    # namespace with experiment id, as sometimes the sample is shared (e.g. bead samples)
     measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(
-        ".".join([sample_doc[SampleConstants.SAMPLE_ID], "1"]), output_doc[SampleConstants.LAB])
+        ".".join([output_doc[SampleConstants.EXPERIMENT_ID], sample_doc[SampleConstants.SAMPLE_ID], "1"]), output_doc[SampleConstants.LAB])
 
 def add_measurement_group_id(measurement_doc, file, output_doc):
     # record a measurement grouping id to find other linked samples and files
-    file_gen = file["generated_by"]
-    mg_val = None
-    if op_id in file_gen:
-        mg_val = file_gen[op_id]
-    elif job_id in file_gen:
-        mg_val = file_gen[job_id]
+    if "generated_by" not in file:
+        print("Warning, cannot find generated_by, skipping file: {}".format(file))
+        return
     else:
-        raise ValueError("Cannot find measurement group id: {}".format(file))
+        file_gen = file["generated_by"]
+        mg_val = None
+        if op_id in file_gen:
+            mg_val = file_gen[op_id]
+        elif job_id in file_gen:
+            mg_val = file_gen[job_id]
+        else:
+            raise ValueError("Cannot find measurement group id: {}".format(file))
 
     measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(mg_val, output_doc[SampleConstants.LAB])
 
-
 def add_measurement_type(file, measurement_doc):
+
+    global is_sytox
+
     if type_attr in file:
         assay_type = file[type_attr]
         if assay_type == "FCS":
             measurement_type = SampleConstants.MT_FLOW
             if SampleConstants.M_CHANNELS not in measurement_doc:
-                measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                if is_sytox:
+                    measurement_doc[SampleConstants.M_CHANNELS] = SYTOX_DEFAULT_CYTOMETER_CHANNELS
+                else:
+                    measurement_doc[SampleConstants.M_CHANNELS] = NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS
             if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                 measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
         elif assay_type == "CSV":
@@ -235,15 +255,17 @@ def add_measurement_type(file, measurement_doc):
         # Workaround for biofab; uploaded txts are PR
         # Otherwise the above version of this fails
         # Files that did not have a type
-        fn = file['filename']
+        fn = file['filename'].lower()
         if fn.endswith(".txt"):
             measurement_type = SampleConstants.MT_PLATE_READER
         elif fn.endswith(".fastq.gz"):
             measurement_type = SampleConstants.MT_RNA_SEQ
         elif fn.endswith(".ab1"):
             measurement_type = SampleConstants.MT_SEQUENCING_CHROMATOGRAM
+        elif fn.endswith("jpg"):
+            measurement_type = SampleConstants.MT_IMAGE
         else:
-            raise ValueError("Could not parse MT: {}".format(file['filename']))
+            raise ValueError("Could not parse FT: {}".format(file['filename']))
 
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
@@ -386,7 +408,7 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                     if experimental_antibiotic != "None":
                         reagents.append(create_media_component(original_experiment_id, experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
 
-def convert_biofab(schema_file, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
+def convert_biofab(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
@@ -396,9 +418,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
+    sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
-    schema = json.load(open(schema_file))
-    biofab_doc = json.load(open(input_file))
+    biofab_doc = json.load(open(input_file, encoding=encoding))
 
     output_doc = {}
 
@@ -414,6 +436,22 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
     output_doc[SampleConstants.LAB] = biofab_doc.get("attributes", {}).get("lab", lab)
     output_doc[SampleConstants.SAMPLES] = []
+
+    # is this a Sytox plan? Per:
+    # Biofab has a mix of Sytox and Non-Sytox YS plans.
+    # We need to peek ahead, as this affects FCS channel mappings
+    global is_sytox
+    try:
+        sytox_found = jq(".items[] | select (.attributes.control == \"positive_sytox\")").transform(biofab_doc)
+        if sytox_found is not None and len(sytox_found) > 0:
+            print(sytox_found)
+            print("Sytox found for plan: {}".format(original_experiment_id))
+            is_sytox = True
+        else:
+            print("No Sytox found for plan: {}".format(original_experiment_id))
+            is_sytox = False
+    except StopIteration:
+        print("Warning, could not find sytox control for plan: {}".format(original_experiment_id))
 
     missing_part_of_items = set()
 
@@ -458,7 +496,17 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
             else:
                 # lookup provenance not resolving, handle this top down, below
                 # (PlateReader in particular does this)
-                missing_part_of_items.add(file_source)
+                # Special case for FCS files: some plans attach these to the
+                # plate, which causes lots of issues. Skip these.
+                if type_attr in biofab_sample and biofab_sample[type_attr] == "FCS":
+                    lookup_source = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
+                    if type_attr in lookup_source and lookup_source[type_attr] == "collection":
+                        print("Skipping non-sample FCS source: {}".format(file_source))
+                    else:
+                        print("Adding non-sample FCS source: {}".format(file_source))
+                        missing_part_of_items.add(file_source)
+                else:
+                    missing_part_of_items.add(file_source)
                 continue
         else:
             part_of = item[part_of_attr]
@@ -502,7 +550,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
                 add_od(media_source_lookup, sample_doc)
 
-                add_control(media_source_lookup, sample_doc)
+                add_control(media_source_lookup, sample_doc, output_doc)
 
         if "growth_temperature" in plate_source_lookup:
             temperature = plate_source_lookup["attributes"]["growth_temperature"]
@@ -524,7 +572,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
         add_od(item, sample_doc)
 
-        add_control(item, sample_doc)
+        add_control(item, sample_doc, output_doc)
 
         add_replicate(item, sample_doc)
 
@@ -563,9 +611,6 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
         add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
 
-        # TODO
-        # measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_props["measurement_name"]
-
         add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
 
         add_measurement_doc(measurement_doc, sample_doc, output_doc)
@@ -598,7 +643,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
             item_id = item[item_id_attr]
             try:
-                item_source = jq(".items[] | select(.sources[]? | contains (\"" + item_id + "\"))").transform(biofab_doc)
+                item_source = jq(".items[] | select(.sources[]? == \"" + item_id + "\")").transform(biofab_doc)
             except StopIteration:
                 # no source, use the original item
                 item_source = item
@@ -633,7 +678,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
                 add_od(item_source, sample_doc)
 
-                add_control(item_source, sample_doc)
+                add_control(item_source, sample_doc, output_doc)
 
                 add_replicate(item_source, sample_doc)
 
@@ -644,7 +689,17 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
                     else:
                         raise ValueError("No media id? {}".format(item_source))
                 else:
-                    add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item_source)
+                    # check source first
+                    if source_attr in item_source:
+                        media_source_lookup = jq(".items[] | select(.item_id==\"" + item_source[source_attr][0] + "\")").transform(biofab_doc)
+                        if attributes_attr in media_source_lookup and media_attr in media_source_lookup[attributes_attr]:
+                            if sample_id_attr in media_source_lookup[attributes_attr][media_attr]:
+                                media_id = media_source_lookup[attributes_attr][media_attr][sample_id_attr]
+                                reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query))
+                            else:
+                                raise ValueError("No media id? {}".format(media_source_lookup))
+                    else:
+                        add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item_source)
 
                 if len(reagents) > 0:
                     sample_doc[SampleConstants.CONTENTS] = reagents
@@ -661,7 +716,7 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
 
             measurement_doc[SampleConstants.FILES] = []
 
-            files = jq(".files[] | select(.sources[]? | contains (\"" + missing_part_of + "\"))").transform(biofab_doc, multiple_output=True)
+            files = jq(".files[] | select(.sources[]? == \"" + missing_part_of + "\")").transform(biofab_doc, multiple_output=True)
 
             for file in files:
                 add_measurement_type(file, measurement_doc)
@@ -676,7 +731,9 @@ def convert_biofab(schema_file, input_file, verbose=True, output=True, output_fi
     try:
         validate(output_doc, schema)
         # if verbose:
-        # print(json.dumps(output_doc, indent=4))
+
+        #print(json.dumps(output_doc, indent=4))
+
         if output is True or output_file is not None:
             if output_file is None:
                 path = os.path.join("output/biofab", os.path.basename(input_file))

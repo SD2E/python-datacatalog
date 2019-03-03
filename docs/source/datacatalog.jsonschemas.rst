@@ -57,4 +57,20 @@ datacatalog.jsonschemas.schemas module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.jsonschemas.validate module
+---------------------------------------
+
+.. automodule:: datacatalog.jsonschemas.validate
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.jsonschemas.version module
+--------------------------------------
+
+.. automodule:: datacatalog.jsonschemas.version
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 

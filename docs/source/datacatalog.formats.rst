@@ -15,7 +15,6 @@ Subpackages
     datacatalog.formats.default
     datacatalog.formats.ginkgo
     datacatalog.formats.sample_attributes
-    datacatalog.formats.targetschemas
     datacatalog.formats.transcriptic
 
 Submodules

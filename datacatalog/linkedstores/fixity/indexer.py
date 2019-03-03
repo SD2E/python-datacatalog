@@ -5,6 +5,7 @@ import hashlib
 import xxhash
 import os
 import sys
+from stat import S_ISREG
 from pprint import pprint
 
 from ...filetypes import infer_filetype
@@ -14,7 +15,7 @@ from .schema import FixityDocument, msec_precision
 
 class FixityIndexer(object):
     """Captures fixed details for a given file"""
-    CHECKSUM_BLOCKSIZE = 131072
+    CHECKSUM_BLOCKSIZE = 128000
     """Chunk size for computing checksum"""
     DEFAULT_SIZE = -1
     """Default size in bytes when it cannot be determined"""
@@ -24,7 +25,7 @@ class FixityIndexer(object):
     """Seed for xxHash 64-bit fingerprinting"""
 
     __PARAMS = [('name', 'name', False, None),
-                ('version', 'version', False, 0),
+                ('version', 'version', True, 0),
                 ('type', 'type', True, None),
                 ('created', 'created', True, None),
                 ('modified', 'modified', True, None),
@@ -34,42 +35,56 @@ class FixityIndexer(object):
                 ('level', 'level', False, None),
                 ('uuid', 'uuid', False, None),
                 ('child_of', 'child_of', False, []),
-                ('generated_by', 'generated_by', False, []),
-                ('derived_from', 'derived_from', False, [])]
+                ('generated_by', 'generated_by', False, [])]
 
-    def __init__(self, abs_filename, schema={}, **kwargs):
+    def __init__(self, abs_filename=None, schema={}, cache_stat=True,
+                 block_size=CHECKSUM_BLOCKSIZE, **kwargs):
+        self._cache_stat = cache_stat
+        self._block_size = block_size
         self.name = kwargs.get('name')
-        # set._abspath on filesystem
-        self._abspath = abspath(self.name)
+        # set._abspath on filesystem if not passed in
+        if abs_filename is not None:
+            self._abspath = abs_filename
+        else:
+            self._abspath = abspath(self.name)
+        # We have specific rules about what constitutes an update
         self._updated = False
+        # This holds a cached version of the os.path.stat() tuple, saving
+        # three of the four individual stat() calls for get_created,
+        # get_modified, and get_size, and is_file!
+        if self._cache_stat:
+            setattr(self, '_stat', os.stat(self._abspath))
+            setattr(self, '_is_file', S_ISREG(self._stat.st_mode))
+        else:
+            setattr(self, '_is_file', os.path.isfile(self._abspath))
 
         for key, attr, init, default in self.__PARAMS:
-            value = None
-            if key in kwargs:
-                value = kwargs.get(key, default)
+            value = kwargs.get(key, default)
             setattr(self, attr, value)
 
     def sync(self):
         """Fetch latest values for indexing target"""
         setattr(self, '_updated', False)
-        for key, attr, func, default in self.__PARAMS:
-            if func:
-                addressable_method = getattr(self, 'get_' + attr)
-                old_value = getattr(self, attr, None)
-                try:
-                    new_value = addressable_method(self._abspath)
-                    if new_value != old_value:
-                        setattr(self, '_updated', True)
-                    setattr(self, attr, new_value)
-                    # print('ATTR', key, attr, new_value)
-                except Exception as exc:
-                    pprint(exc)
+        if self._is_file is True:
+            for key, attr, func, default in self.__PARAMS:
+                if func:
+                    addressable_method = getattr(self, 'get_' + attr)
+                    old_value = getattr(self, attr, None)
+                    try:
+                        new_value = addressable_method(self._abspath)
+                        if new_value != old_value:
+                            setattr(self, '_updated', True)
+                        setattr(self, attr, new_value)
+                    except Exception as exc:
+                        pprint(exc)
 
         # Level is based on the managed path not the absolute storage path
         setattr(self, 'level', self.compute_level(self.name))
         # print('sync.attr:value {}:{}'.format(attr, new_value))
         if self._updated is True:
-            setattr(self, 'version', getattr(self, 'version', 0) + 1)
+            vers = self.get_version()
+            vers = vers + 1
+            setattr(self, 'version', vers)
         return self
 
     def to_dict(self):
@@ -84,7 +99,8 @@ class FixityIndexer(object):
         return my_dict
 
     def updated(self):
-        """Helper to manage ``updated`` state"""
+        """Helper to manage ``updated`` state
+        """
         return getattr(self, '_updated', False)
 
     def get_checksum(self, file, algorithm='sha256'):
@@ -100,6 +116,9 @@ class FixityIndexer(object):
         cksum = self.__checksum_sha256(file)
         return cksum
 
+    def get_version(self, file=None):
+        return getattr(self, 'version', 0)
+
     def get_fingerprint(self, file, algorithm='xxh64'):
         """Compute fast fingerprint for indexing target
 
@@ -110,8 +129,19 @@ class FixityIndexer(object):
         Returns:
             str: Hexadecimal checksum for the file
         """
-        cksum = FixityIndexer.checksum_xxhash(file)
+        cksum = self.checksum_xxhash(file)
         return cksum
+
+    def compute_level(self, file):
+        """Returns processing level for a file
+
+        Args:
+            file (str): Absolute path to the file
+
+        Returns:
+            str: One of the known data processing levels
+        """
+        return level_for_filepath(file)
 
     def get_created(self, file):
         """Returns (apparent) file creation time.
@@ -128,41 +158,48 @@ class FixityIndexer(object):
         if getattr(self, 'created') is not None:
             return getattr(self, 'created')
         else:
-            t = os.path.getmtime(file)
+            stat_cache = getattr(self, '_stat', None)
+            if stat_cache is not None:
+                t = stat_cache.st_ctime
+            else:
+                t = os.path.getmtime(file)
             return msec_precision(datetime.datetime.fromtimestamp(t))
 
-    def compute_level(self, file):
-        """Returns processing level for a file
-
-        Args:
-            file (str): Absolute path to the file
-
-        Returns:
-            str: One of the known data processing levels
-        """
-        return level_for_filepath(file)
-
     def get_size(self, file):
-        """Returns size in bytes for files (or DEFAULT_SIZE if unknown)"""
+        """Returns size in bytes for files (or DEFAULT_SIZE if unknown)
+        """
         gs = self.DEFAULT_SIZE
-        if os.path.isfile(file):
+        stat_cache = getattr(self, '_stat', None)
+        if stat_cache is not None:
+            return stat_cache.st_size
+        else:
             gs = os.path.getsize(file)
             if gs is None:
                 raise OSError(
                     'Failed to get size of {}'.format(file))
         return gs
 
-    def get_type(self, file):
-        """Resolves file type for a given file"""
-        return infer_filetype(file).label
-
     def get_modified(self, file):
         """Returns (apparent) file modification time.
 
-        Note that only msec precision is supported, an inherited deficiency
-        from the BSON date specification."""
-        t = os.path.getmtime(file)
-        return msec_precision(datetime.datetime.fromtimestamp(t))
+        Note:
+            Only miilsecond precision is supported as the ultimate target for
+            this value is MongoDB, which only supports milliseconds due to a
+            deficiency in the BSON specification.
+        """
+        if getattr(self, 'created') is not None:
+            return getattr(self, 'created')
+        else:
+            stat_cache = getattr(self, '_stat', None)
+            if stat_cache is not None:
+                t = stat_cache.st_mtime
+            else:
+                t = os.path.getmtime(file)
+            return msec_precision(datetime.datetime.fromtimestamp(t))
+
+    def get_type(self, file):
+        """Resolves file type for a given file"""
+        return infer_filetype(file).label
 
     def __checksum_sha256(self, file):
         """Compute sha256 checksum for a file
@@ -178,14 +215,14 @@ class FixityIndexer(object):
         try:
             hash_sha = hashlib.sha256()
             with open(file, "rb") as f:
-                for chunk in iter(lambda: f.read(self.CHECKSUM_BLOCKSIZE), b""):
+                for chunk in iter(lambda: f.read(self._block_size), b""):
                     hash_sha.update(chunk)
             return hash_sha.hexdigest()
         except Exception as exc:
             raise OSError('Failed to compute sha256 for {}'.format(file), exc)
 
-    @classmethod
-    def checksum_xxhash(cls, file, return_type='int'):
+    # @classmethod
+    def checksum_xxhash(self, file, return_type='int'):
         """Compute xxhash digest for a file
 
         Args:
@@ -201,9 +238,9 @@ class FixityIndexer(object):
         if not os.path.isfile(file):
             return None
         try:
-            hash_xxhash = xxhash.xxh64(seed=cls.XXHASH64_SEED)
+            hash_xxhash = xxhash.xxh64(seed=self.XXHASH64_SEED)
             with open(file, "rb") as f:
-                for chunk in iter(lambda: f.read(cls.CHECKSUM_BLOCKSIZE), b""):
+                for chunk in iter(lambda: f.read(self._block_size), b""):
                     hash_xxhash.update(chunk)
             if return_type == 'int':
                 # Note: xxh64 generates an unsigned 64bit integer, but

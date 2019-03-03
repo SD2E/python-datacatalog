@@ -10,12 +10,15 @@ import inspect
 import json
 import os
 import sys
+import time
 from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
 from ...pathmappings import normalize, abspath, relativize, normpath
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
+from ..basestore import LinkedStore, CatalogUpdateFailure
+from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
+from ..basestore import RateLimiter, RateLimitExceeded
 from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
@@ -23,14 +26,18 @@ from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundE
 # FixityStore is a special case of LinkedStore that creates and manages its
 # own records. This is accomplished declaratively using the ``index()`` method.
 
-class FixityStore(LinkedStore):
+class FixityStore(LinkedStore, RateLimiter):
     """Defines fixed attributes for a managed file"""
 
+    LINK_FIELDS = ['child_of', 'generated_by']
+
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-        super(FixityStore, self).__init__(mongodb, config, session)
+        LinkedStore.__init__(self, mongodb, config, session)
         schema = FixityDocument(**kwargs)
-        super(FixityStore, self).update_attrs(schema)
+        LinkedStore.update_attrs(self, schema)
         self.setup()
+        RateLimiter.__init__(self, **kwargs)
+        # pprint(self.__dict__)
 
     def index(self, filename, **kwargs):
         """Capture or update current properties of a file
@@ -44,25 +51,38 @@ class FixityStore(LinkedStore):
         Returns:
             dict: A LinkedStore document containing fixity details
         """
+        # print('FIXITY.STORE.INDEX ' + filename)
         self.name = normpath(filename)
         self.abs_filename = abspath(self.name)
         fixity_uuid = self.get_typeduuid(self.name)
-        # This is used below to establish that this fixity record is derived
-        # from a specific, known file
+        # Look up the FileStore UUID as it will be used to establish the Fixity
+        # record as its child
         file_uuid = catalog_uuid(self.name, uuid_type='file')
 
         db_record = self.coll.find_one({'uuid': fixity_uuid})
+
         if db_record is None:
-            # FIXME Find how to automate production of this template from schema
+            # TODO - generated_by should default to a global settting
             db_record = {'name': filename,
                          'uuid': fixity_uuid,
                          'version': 0,
-                         'child_of': [],
-                         'generated_by': [],
-                         'derived_from': [file_uuid]}
+                         'child_of': [file_uuid],
+                         'generated_by': kwargs.get('generated_by', [])}
+        else:
+            # This is special case logic. Fixity is a managed record, so it
+            # is not permitted to have arbitrary values for generated_by. We
+            # instead maintain the most recent instance of generated_by
+            try:
+                gen_by = kwargs.get('generated_by', db_record.get('generated_by', []))
+                if isinstance(gen_by, str):
+                    gen_by = [gen_by]
+                db_record['generated_by'] = gen_by
+            except Exception:
+                raise
 
-        indexer = FixityIndexer(
-            self.name, schema=self.schema, **db_record).sync()
+        # Invoke the RateLimiter that we've mixed in via MultipleInheritance
+        self.limit()
+        indexer = FixityIndexer(schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
         # print('FIXITYRECORD')
         # pprint(fixity_record)

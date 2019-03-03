@@ -4,7 +4,6 @@ import sys
 import inspect
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
-from .targetschemas import SamplesJSON
 # from .runner import convert_file
 
 class ConversionError(Exception):
@@ -46,7 +45,7 @@ class Converter(object):
 
         # Default output schema
         if targetschema is None:
-            self.targetschema = SamplesJSON().file
+            self.targetschema = { "$ref" : "https://schema.catalog.sd2e.org/schemas/sample_set.json" }
         else:
             self.targetschema = targetschema
 
@@ -84,7 +83,7 @@ class Converter(object):
         """
         return True
 
-    def validate_input(self, input_fp, permissive=False):
+    def validate_input(self, input_fp, encoding, permissive=False):
         """Validate a generic input file against schemas known to Converter
 
         Parameters:
@@ -100,8 +99,10 @@ class Converter(object):
         Returns:
             boolean: True on success
         """
+        # set encoding
+        self.encoding = encoding
         try:
-            with open(input_fp, 'r') as jsonfile:
+            with open(input_fp, 'r', encoding=encoding) as jsonfile:
                 jsondata = json.load(jsonfile)
         except Exception as exc:
             raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)

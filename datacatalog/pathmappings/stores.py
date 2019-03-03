@@ -15,9 +15,8 @@ STORES = {'data-sd2e-community': {
 def normalize(filepath):
     # Prefixes are terminated with '/' to indicate they are directories. Thus,
     # to avoid double-slashes, all paths should have leading slashes trimmed.
-    if filepath.startswith('/'):
-        filepath = filepath[1:]
-    return filepath
+    fp = re.sub('^(/)+', '', filepath)
+    return fp
 
 def normpath(filepath):
     fp = re.sub('^(/)+', '/', filepath)

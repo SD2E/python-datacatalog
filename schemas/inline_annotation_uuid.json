@@ -1,13 +1,13 @@
 {
-    "$comment": "generated: 2019-02-14 21:24:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e287f6e",
+    "$comment": "generated: 2019-02-20 15:37:04 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@7abcb3d",
     "$id": "https://schema.catalog.sd2e.org/schemas/inline_annotation_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Inline Free-text Annotation UUID UUID5 with DNS namespacing",
+    "description": "Machine-generated Free-text Annotation UUID UUID5 with DNS namespacing",
     "examples": [
         "119acb4d-1f93-553a-9e1c-b7b58125bc89"
     ],
     "pattern": "^(uri:urn:)?119[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-    "title": "Inline Free-text Annotation UUID",
+    "title": "Machine-generated Free-text Annotation UUID",
     "type": "string"
 }

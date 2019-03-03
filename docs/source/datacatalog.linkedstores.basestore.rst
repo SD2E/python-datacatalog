@@ -49,6 +49,14 @@ datacatalog.linkedstores.basestore.heritableschema module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.linkedstores.basestore.ratelimit module
+---------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.ratelimit
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.linkedstores.basestore.schemas module
 -------------------------------------------------
 
