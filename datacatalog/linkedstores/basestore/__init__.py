@@ -9,6 +9,7 @@ from ...tokens import validate_token, get_token
 
 from .agaveclient import *
 from .softdelete import SoftDelete
+from .ratelimit import RateLimiter, RateLimitExceeded
 from .store import *
 from .extensible import ExtensibleAttrDict
 from .heritableschema import DocumentSchema, HeritableDocumentSchema

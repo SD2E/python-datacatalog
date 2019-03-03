@@ -10,12 +10,15 @@ import inspect
 import json
 import os
 import sys
+import time
 from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
 from ...pathmappings import normalize, abspath, relativize, normpath
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection
+from ..basestore import LinkedStore, CatalogUpdateFailure
+from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
+from ..basestore import RateLimiter, RateLimitExceeded
 from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
@@ -23,16 +26,18 @@ from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundE
 # FixityStore is a special case of LinkedStore that creates and manages its
 # own records. This is accomplished declaratively using the ``index()`` method.
 
-class FixityStore(LinkedStore):
+class FixityStore(LinkedStore, RateLimiter):
     """Defines fixed attributes for a managed file"""
 
     LINK_FIELDS = ['child_of', 'generated_by']
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-        super(FixityStore, self).__init__(mongodb, config, session)
+        LinkedStore.__init__(self, mongodb, config, session)
         schema = FixityDocument(**kwargs)
-        super(FixityStore, self).update_attrs(schema)
+        LinkedStore.update_attrs(self, schema)
         self.setup()
+        RateLimiter.__init__(self, **kwargs)
+        # pprint(self.__dict__)
 
     def index(self, filename, **kwargs):
         """Capture or update current properties of a file
@@ -74,7 +79,9 @@ class FixityStore(LinkedStore):
                 db_record['generated_by'] = gen_by
             except Exception:
                 raise
-        # pprint(db_record)
+
+        # Invoke the RateLimiter that we've mixed in via MultipleInheritance
+        self.limit()
         indexer = FixityIndexer(schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
         # print('FIXITYRECORD')

@@ -15,7 +15,7 @@ PARENT = os.path.dirname(HERE)
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data.fixity import files
-from datacatalog.linkedstores.fixity import FixityStore
+from datacatalog.linkedstores.fixity import FixityStore, RateLimitExceeded
 from datacatalog.linkedstores.file import FileStore
 from datacatalog.linkedstores.fixity.indexer import FixityIndexer
 
@@ -160,6 +160,21 @@ def test_fixity_indexer_cache_blocksize(monkeypatch):
             assert pct_delta > 100, 'No more ROI on buffer size beyond {}'.format(buf)
             deltas.append((buf, pct_delta))
         prev_elapse = elapse
+
+def test_fixity_limit_rate_exception(monkeypatch, mongodb_settings):
+    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1, except_on_limit=True)
+    with pytest.raises(RateLimitExceeded):
+        for fname, cksum, tsize, ftype in files.TESTS:
+            resp = fixity_store.index(fname)
+            assert resp['type'] == ftype
+
+def test_fixity_limit_rate_pause(monkeypatch, mongodb_settings):
+    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1, except_on_limit=False)
+    for fname, cksum, tsize, ftype in files.TESTS:
+        resp = fixity_store.index(fname)
+        assert resp['type'] == ftype
 
 @delete
 def test_fixity_delete(mongodb_settings):
