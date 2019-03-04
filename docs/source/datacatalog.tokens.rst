@@ -25,14 +25,6 @@ datacatalog.tokens.classes module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.tokens.config module
---------------------------------
-
-.. automodule:: datacatalog.tokens.config
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.tokens.exceptions module
 ------------------------------------
 
