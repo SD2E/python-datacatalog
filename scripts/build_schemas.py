@@ -102,7 +102,7 @@ def regenerate(filters=None, args=None):
     template = Template(INDEX)
     elements = list()
 
-    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS')):
+    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS', '0')):
         DESTDIR = tempfile.mkdtemp()
     else:
         DESTDIR = os.path.join(PARENT, 'schemas')
