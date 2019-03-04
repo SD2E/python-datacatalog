@@ -3,7 +3,7 @@ import sys
 from attrdict import AttrDict
 from tacconfig import config
 
-ENVIRONMENT = 'localhost'
+ENVIRONMENT = os.environ.get('ENVIRONMENT', 'localhost')
 
 HERE = os.getcwd()
 SELF = __file__

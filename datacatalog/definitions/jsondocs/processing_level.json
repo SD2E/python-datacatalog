@@ -5,7 +5,8 @@
         "1",
         "2",
         "3",
-        "Reference"
+        "Reference",
+        "User"
     ],
     "type": "string"
 }

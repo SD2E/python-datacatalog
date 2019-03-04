@@ -39,8 +39,9 @@ def merge_dicts(dicts):
     return super_dict
 
 def get_tx_data(eid, email, token):
-    print("eid: {} email: {} token: {}".format(eid, email, token))
+    #print("eid: {} email: {} token: {}".format(eid, email, token))
     response = requests.get(TX_API_URL_BASE + eid, headers={'X-User-Email': email, 'X-User-Token': token, 'Accept': 'application/json'})
+    print("TX API Response Code {}".format(response.status_code))
     response_json = json.loads(response.text)
     request_json = json.loads(response_json['data']['attributes']['request'])
     for elem in request_json['raw']['instructions']:
@@ -59,6 +60,7 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
+    sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
     sample_attributes_doc = json.load(open(input_file, encoding=encoding))
 

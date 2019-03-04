@@ -8,6 +8,19 @@ The ``datacatalog`` package is designed to be extended. It is quite tractable
 for contributors not deeply familiar with the codebase or schema to extend
 either.
 
+Dependencies
+------------
+
+There are a few dependencies that can't be resolved via Python package managers:
+    1. Python 3.5+
+    2. Docker CE 17+
+    3. Docker Compose
+    4. GNU Make
+    5. Git
+    6. On MacOS X (available via Homebrew):
+        * libmagic
+        * shared-mime-info
+
 Get the source code
 -------------------
 
@@ -43,7 +56,7 @@ Here is an example of just running the ``jsonschemas`` tests.
 
 The current list of ``pytest`` extended flags is:
 
-- ``--bootstrap`` : run tests that check the developer environment
+- ``--bootstrap`` : run tests that setup and check the developer environment
 - ``--delete`` : enable tests that delete **local** Mongodb records
 - ``--longrun`` : enable tests that might take >500 msec to run
 - ``--networked`` : enable tests that require external network access
@@ -55,9 +68,9 @@ The current list of ``pytest`` extended flags is:
 Test MongoDB instance
 ^^^^^^^^^^^^^^^^^^^^^
 
-A MongoDB 3.6 Docker service is bundled with our tests, and is required to be
-active before most tests can be run. You can stand it up using ``make`` targets
-or via the ``docker-compose.yml`` file found in ``docker/``.
+A MongoDB 4.1.7 Docker service is bundled with our tests, and is required to be
+active for most tests. Stand it up using ``make`` targets or via the included
+``docker-compose.yml`` file.
 
 .. code-block:: console
 
@@ -87,7 +100,7 @@ set one up on your development system. You can check with the following test:
 
     make smoketest-agave
 
-*Here is how to set up a TACC.cloud client*
+Details on how to set up a TACC.cloud client can be found in the `API User Guide <https://sd2e.github.io/api-user-guide/docs/01.install_cli.html>`_.
 
 Local config.yml
 ^^^^^^^^^^^^^^^^
@@ -116,6 +129,19 @@ Check the status of your Google Drive integration with this test:
     make smoketest-google
 
 *Here is how to set an authorized Google Drive service account*
+
+Bootstrapping Local Data
+------------------------
+
+Many of the tests require some pre-loaded data in the local MongoDB. These can
+be loaded using make targets that exercise the bundled management scripts in
+the ``bootstrap`` directory. Once all the developer smoketests are passing:
+
+.. code-block:: console
+
+    make bootstrap-tests
+
+You should be able to run the basic unit tests now with ``make tests``
 
 Documentation
 -------------

@@ -17,6 +17,7 @@ Subpackages
     datacatalog.formats
     datacatalog.identifiers
     datacatalog.jsonschemas
+    datacatalog.linkages
     datacatalog.linkedstores
     datacatalog.managers
     datacatalog.mongo
@@ -97,6 +98,14 @@ datacatalog.utils module
 ------------------------
 
 .. automodule:: datacatalog.utils
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.version module
+--------------------------
+
+.. automodule:: datacatalog.version
     :members:
     :undoc-members:
     :show-inheritance:

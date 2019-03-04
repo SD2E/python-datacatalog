@@ -15,9 +15,10 @@ from ...linkedstores.pipelinejob import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
+from ...identifiers import interestinganimal
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
-from ...identifiers import interestinganimal
+from .indexing import ArchiveIndexRequest, ProductIndexRequest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -65,7 +66,8 @@ class ManagedPipelineJob(JobManager):
         measurement_id (str/list, optional): Identifier(s) for the measurement(s) to which the job is linked
         data (dict, optional): Defines the job's parameterization.
         archive_path (str, optional): Override value for automatically-generated ``archive_path``
-        archive_patterns (list, optional): List of strings in Python regex format used to select contents of ``archive_path`` for association with the job
+        archive_patterns (list, optional): List of ``ArchiveIndexRequest`` objects
+        product_patterns (list, optional): List of ``ProductIndexRequest`` objects
         instanced (bool, optional): Should ``archive_path`` be extended with a randomized session name
         session (str, optional): A short alphanumeric correlation string
         agave (agavepy.agave.Agave, optional): Active TACC.cloud API client. Needed only to resolve references to Agave or Abaco entities.
@@ -91,9 +93,9 @@ class ManagedPipelineJob(JobManager):
         ('data', False, 'data', {}),
         ('level_store', False, 'level_store', 'product'),
         ('archive_path', False, 'archive_path', None),
-        ('archive_patterns', False, 'archive_patterns', []),
-        # ('archive_collection_level', False, '_archive_collection_level', 'experiment'),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
+        ('archive_patterns', False, 'archive_patterns', []),
+        ('product_patterns', False, 'product_patterns', []),
         ('uuid', False, 'uuid', None)]
     """Keyword parameters for job setup"""
 
@@ -257,8 +259,9 @@ class ManagedPipelineJob(JobManager):
         # TODO - I do not like recapitulating the schema here. Solve somehow
         job_document = {'pipeline_uuid': self.pipeline_uuid,
                         'archive_path': self.archive_path,
-                        'archive_patterns': self.archive_patterns,
                         'archive_system': self.archive_system,
+                        'archive_patterns': self.archive_patterns,
+                        'product_patterns': self.product_patterns,
                         'data': self.data,
                         'session': self.session,
                         'agent': self.agent,
@@ -300,7 +303,6 @@ class ManagedPipelineJob(JobManager):
         Returns:
             str: A callback URL
         """
-
         try:
             uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
                 self.api_server, self.config['job_manager_id'],
@@ -309,7 +311,8 @@ class ManagedPipelineJob(JobManager):
             # Sanity check - was a valid URL assembled?
             validators.url(uri)
             return uri
-        except KeyError:
+        except KeyError as kexc:
+            pprint(kexc)
             return None
         except Exception:
             raise

@@ -15,7 +15,7 @@ import transitions
 from datacatalog.identifiers import abaco, interestinganimal, typeduuid
 from .data import pipelinejobs
 
-from datacatalog.managers.pipelinejobs import ManagedPipelineJob
+from datacatalog.managers.pipelinejobs import ManagedPipelineJob, ManagedPipelineJobError
 from datacatalog.managers.pipelinejobs import ManagedPipelineJobInstance
 
 CWD = os.getcwd()
@@ -79,6 +79,37 @@ def client_w_archive_path(mongodb_settings, pipelinejobs_config,
                           agave, pipeline_uuid):
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
+
+@pytest.fixture(scope='session')
+def client_w_sample_archive_path(mongodb_settings, pipelinejobs_config,
+                                 agave, pipeline_uuid, admin_token):
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave, archive_path='/sample/tacc-cloud',
+                             experiment_id='experiment.tacc.10001',
+                             archive_patterns=[{'patterns': ['.json$'], 'level': '2'}],
+                             product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36']}])
+    # try:
+    #     mpj.reset(token=admin_token)
+    # except ManagedPipelineJobError:
+    def initjob():
+        mpj.setup()
+        mpj.run(token=admin_token)
+        mpj.finish(token=admin_token)
+        return mpj
+
+    job = None
+    try:
+        job = initjob()
+    except ManagedPipelineJobError:
+        mpj.reset(token=admin_token, permissive=True)
+        job = initjob()
+
+    # print('MPJ.UUID', job.uuid)
+    return job
+
+@pytest.fixture(scope='session')
+def instance_w_sample_archive_path(client_w_sample_archive_path, mongodb_settings, agave):
+    return ManagedPipelineJobInstance(mongodb_settings, client_w_sample_archive_path.uuid, agave=agave)
 
 def test_pipejob_init_store_list(client_w_param):
     """Smoke test: Can ManagedPipelineJob get through ``init()``
@@ -289,6 +320,7 @@ def test_pipejob_setup_minimal(client_w_param, pipeline_uuid):
     assert client_w_param.archive_path.startswith('/products')
     assert client_w_param.uuid == response_job_uuid
 
+@pytest.mark.skipif(True, reason='We are not currently dynamically populating named event methods in ManagedPipelineJobInstance"')
 def test_pipeinstance_event_init(mongodb_settings, agave):
     """Verify that we can instantiate an instance of job from test_pipejob_setup_minimal()"""
     job_uuid = '107653ca-020f-5f03-9663-41cff415b087'
@@ -368,8 +400,8 @@ def test_pipejob_event_reset_invalid_token(client_w_param_data):
     self_job_uuid = client_w_param_data.uuid
     client_w_param_data.load(self_job_uuid)
     token = 'b2hhb7s470owrvtd'
-    print('TOKEN', token)
-    print('UUID', client_w_param_data.uuid)
+    # print('TOKEN', token)
+    # print('UUID', client_w_param_data.uuid)
     with pytest.raises(Exception):
         resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
         assert resp['state'] == 'CREATED'
@@ -386,8 +418,8 @@ def test_pipejob_event_reset_valid_token(client_w_param_data, admin_token):
         client_w_param_data.archive_path,
         client_w_param_data.archive_system)
     token = admin_token
-    print('TOKEN', token)
-    print('UUID', client_w_param_data.uuid)
+    # print('TOKEN', token)
+    # print('UUID', client_w_param_data.uuid)
     resp = client_w_param_data.reset(data={'this_data': 'is from the "reset" event'}, token=token)
     assert resp['state'] == 'CREATED'
 
@@ -406,7 +438,6 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
         with pytest.raises(Exception):
             client_w_param_data.delete(token=token)
 
-# @longrun
 # def test_pipesinst_index_w_filters(mongodb_settings, agave):
 #     """Indexing with filters returns job.archive_path x filters
 #     """
@@ -419,6 +450,17 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
 #     listed = base.index_archive_path(filters=filters, processing_level=level)
 
 #     assert len(listed) == 1
+
+def test_pipeinst_index_return_list(instance_w_sample_archive_path, admin_token):
+    indexed = instance_w_sample_archive_path.index(token=admin_token)
+    assert len(indexed) > 0
+    for fname in indexed:
+        assert fname.endswith('.json')
+
+def test_pipeinst_index_auto_transition(instance_w_sample_archive_path, admin_token):
+    indexed = instance_w_sample_archive_path.index(token=admin_token, transition=True)
+    assert indexed['state'] == 'FINISHED'
+    assert indexed['last_event'] == 'indexed'
 
 # @longrun
 # def test_pipesinst_index_empty_filters(mongodb_settings, agave):

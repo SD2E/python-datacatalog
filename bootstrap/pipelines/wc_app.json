@@ -1,0 +1,26 @@
+{
+    "name": "Word Count",
+    "description": "Agave pipeline that counts words",
+    "components": [
+        {
+            "id": "word-count-0.1u1",
+            "inputs": {},
+            "parameters": {
+                "CONTAINER_IMAGE": "sd2e/word-count:0.1"
+            }
+        }
+    ],
+    "processing_levels": [
+        "2",
+        "1",
+        "0"
+    ],
+    "accepts": [
+        "PLAIN"
+    ],
+    "produces": [
+        "PLAIN"
+    ],
+    "pipeline_type": "generic-process",
+    "id": "word-count-0.1u1"
+}

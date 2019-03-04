@@ -15,6 +15,15 @@ CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
+@pytest.fixture(scope='session')
+def admin_key():
+    return datacatalog.tokens.admin.get_admin_key()
+
+@pytest.fixture(scope='session')
+def admin_token(admin_key):
+    return datacatalog.tokens.admin.get_admin_token(admin_key)
+
+
 def test_mgr_common_get_stores(mongodb_settings, agave):
     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
     assert list(base.stores.keys()) != list()
@@ -146,3 +155,33 @@ def test_mgr_common_self_from_ids(identifiers, enforce, num, success, mongodb_se
     else:
         with pytest.raises(ValueError):
             resp = base.self_from_ids(identifiers, enforce_type=enforce, permissive=False)
+
+@pytest.mark.parametrize("identifier, uuid_type, success", [
+    ('86753095', None, False),
+    ('sample.tacc.20001', 'sample', True),
+    ('/uploads/tacc/example/123.txt', 'file', True),
+    ('agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa', 'reference', True),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', 'challenge_problem', True),
+    ('https://cnn.com', 'reference', False)])
+def test_mgr_common_uuid_from_identifier(identifier, uuid_type, success, mongodb_settings):
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    if success is True:
+        uid, utype = base.get_uuid_from_identifier(identifier)
+        assert utype == utype
+    else:
+        with pytest.raises(ValueError):
+            base.get_uuid_from_identifier(identifier)
+
+@pytest.mark.parametrize("object_id, subject_id, linkage, success", [
+    ('105723d4-b27e-55af-b053-63f702c4ad32', '10483e8d-6602-532a-8941-176ce20dd05a', 'child_of', True),
+    ('105723d4-b27e-55af-b053-63f702c4ad32', 'measurement.tacc.0xDEADBEF0', 'child_of', True),
+    ('105723d4-b27e-55af-b053-63f702c4ad32', 'https://www.rcsb.org/structure/6N0V', 'derived_from', True)])
+def test_mgr_common_link(object_id, subject_id, linkage, success, mongodb_settings, admin_token):
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    subject_uuid, _ = base.get_uuid_from_identifier(subject_id)
+    if success is True:
+        resp = base.link(object_id, subject_id, linkage, admin_token)
+        assert subject_uuid in resp.get(linkage, [])
+    else:
+        with pytest.raises(ValueError):
+            base.link(object_id, subject_id, linkage, admin_token)

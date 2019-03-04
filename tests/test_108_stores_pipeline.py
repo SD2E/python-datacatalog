@@ -42,7 +42,7 @@ def test_pipe_disk_load_classify_components():
             try:
                 assert kind is not None
             except Exception:
-                print('FAILED TO CLASSIFY COMPONENT')
+                print('Failed To Classify Component')
                 pprint(component)
                 raise
 

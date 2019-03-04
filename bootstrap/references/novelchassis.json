@@ -1,498 +1,500 @@
-[{
-  "description": "Fasta file for the MG1655_WT strain",
-  "name": "MG1655_WT.fa",
-  "reference_id": "MG1655_WT_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.ann",
-  "reference_id": "MG1655_WT_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.amb",
-  "reference_id": "MG1655_WT_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.bwt",
-  "reference_id": "MG1655_WT_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.fai",
-  "reference_id": "MG1655_WT_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.pac",
-  "reference_id": "MG1655_WT_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_WT strain",
-  "name": "MG1655_WT.fa.sa",
-  "reference_id": "MG1655_WT_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_WT strain",
-  "name": "MG1655_WT.dict",
-  "reference_id": "MG1655_WT_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_WT strain",
-  "name": "MG1655_WT.interval_file",
-  "reference_id": "MG1655_WT_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa",
-  "reference_id": "MG1655_NAND_Circuit_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.ann",
-  "reference_id": "MG1655_NAND_Circuit_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.amb",
-  "reference_id": "MG1655_NAND_Circuit_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.bwt",
-  "reference_id": "MG1655_NAND_Circuit_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.fai",
-  "reference_id": "MG1655_NAND_Circuit_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.pac",
-  "reference_id": "MG1655_NAND_Circuit_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.fa.sa",
-  "reference_id": "MG1655_NAND_Circuit_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.dict",
-  "reference_id": "MG1655_NAND_Circuit_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_NAND_Circuit strain",
-  "name": "MG1655_NAND_Circuit.interval_file",
-  "reference_id": "MG1655_NAND_Circuit_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa",
-  "reference_id": "MG1655_IcaR_Gate_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.ann",
-  "reference_id": "MG1655_IcaR_Gate_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.amb",
-  "reference_id": "MG1655_IcaR_Gate_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.bwt",
-  "reference_id": "MG1655_IcaR_Gate_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.fai",
-  "reference_id": "MG1655_IcaR_Gate_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.pac",
-  "reference_id": "MG1655_IcaR_Gate_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.fa.sa",
-  "reference_id": "MG1655_IcaR_Gate_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.dict",
-  "reference_id": "MG1655_IcaR_Gate_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_IcaR_Gate strain",
-  "name": "MG1655_IcaR_Gate.interval_file",
-  "reference_id": "MG1655_IcaR_Gate_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa",
-  "reference_id": "MG1655_pBADmin_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.ann",
-  "reference_id": "MG1655_pBADmin_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.amb",
-  "reference_id": "MG1655_pBADmin_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.bwt",
-  "reference_id": "MG1655_pBADmin_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.fai",
-  "reference_id": "MG1655_pBADmin_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.pac",
-  "reference_id": "MG1655_pBADmin_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.fa.sa",
-  "reference_id": "MG1655_pBADmin_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.dict",
-  "reference_id": "MG1655_pBADmin_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_pBADmin strain",
-  "name": "MG1655_pBADmin.interval_file",
-  "reference_id": "MG1655_pBADmin_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa",
-  "reference_id": "MG1655_PhlF_Gate_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.ann",
-  "reference_id": "MG1655_PhlF_Gate_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.amb",
-  "reference_id": "MG1655_PhlF_Gate_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.bwt",
-  "reference_id": "MG1655_PhlF_Gate_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.fai",
-  "reference_id": "MG1655_PhlF_Gate_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.pac",
-  "reference_id": "MG1655_PhlF_Gate_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.fa.sa",
-  "reference_id": "MG1655_PhlF_Gate_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.dict",
-  "reference_id": "MG1655_PhlF_Gate_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_PhlF_Gate strain",
-  "name": "MG1655_PhlF_Gate.interval_file",
-  "reference_id": "MG1655_PhlF_Gate_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.ann",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.amb",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.bwt",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.fai",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.pac",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.fa.sa",
-  "reference_id": "MG1655_pJS007_LALT__backbone_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.dict",
-  "reference_id": "MG1655_pJS007_LALT__backbone_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_pJS007_LALT__backbone strain",
-  "name": "MG1655_pJS007_LALT__backbone.interval_file",
-  "reference_id": "MG1655_pJS007_LALT__backbone_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.ann",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.amb",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.bwt",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.fai",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.pac",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.sa",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.dict",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_pJS007_LALT__I1__IcaRA strain",
-  "name": "MG1655_pJS007_LALT__I1__IcaRA.interval_file",
-  "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.ann",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.amb",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.bwt",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.fai",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.pac",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.fa.sa",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.dict",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_pJS007_LALT__P3_PhIF strain",
-  "name": "MG1655_pJS007_LALT__P3_PhIF.interval_file",
-  "reference_id": "MG1655_pJS007_LALT__P3_PhIF_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.interval_file"
-},
-{
-  "description": "Fasta file for the MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa",
-  "reference_id": "MG1655_pTACmin_fa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa"
-},
-{
-  "description": "BWA Index (.ann) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.ann",
-  "reference_id": "MG1655_pTACmin_fa_ann-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.ann"
-},
-{
-  "description": "BWA Index (.amb) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.amb",
-  "reference_id": "MG1655_pTACmin_fa_mb-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.amb"
-},
-{
-  "description": "BWA Index (.bwt) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.bwt",
-  "reference_id": "MG1655_pTACmin_fa_bwt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.bwt"
-},
-{
-  "description": "BWA Index (.fai) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.fai",
-  "reference_id": "MG1655_pTACmin_fa_fai-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.fai"
-},
-{
-  "description": "BWA Index (.pac) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.pac",
-  "reference_id": "MG1655_pTACmin_fa_pac-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.pac"
-},
-{
-  "description": "BWA Index (.sa) of reference fasta for MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.fa.sa",
-  "reference_id": "MG1655_pTACmin_fa_sa-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.sa"
-},
-{
-  "description": "GATK dict file for the MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.dict",
-  "reference_id": "MG1655_pTACmin_dict-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.dict"
-},
-{
-  "description": "Picard interval file for the MG1655_pTACmin strain",
-  "name": "MG1655_pTACmin.interval_file",
-  "reference_id": "MG1655_pTACmin_interval_file-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.interval_file"
-},
-{
-  "description": "Picard REF_FLAT file for all novel-chassis strains",
-  "name": "modified.ecoli.MG1655.refFlat.txt",
-  "reference_id": "modified_ecoli_MG1655_refFlat_txt-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/modified.ecoli.MG1655.refFlat.txt"
-},
-{
-  "description": "GFF Reference annotation for all novel-chassis strains",
-  "name": "amin_genes.gff",
-  "reference_id": "amin_genes_gff-0-1-0",
-  "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/amin_genes.gff"
-}]
+[
+  {
+    "description": "Fasta file for the MG1655_WT strain",
+    "name": "MG1655_WT.fa",
+    "reference_id": "MG1655_WT_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.ann",
+    "reference_id": "MG1655_WT_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.amb",
+    "reference_id": "MG1655_WT_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.bwt",
+    "reference_id": "MG1655_WT_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.fai",
+    "reference_id": "MG1655_WT_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.pac",
+    "reference_id": "MG1655_WT_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_WT strain",
+    "name": "MG1655_WT.fa.sa",
+    "reference_id": "MG1655_WT_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_WT strain",
+    "name": "MG1655_WT.dict",
+    "reference_id": "MG1655_WT_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_WT strain",
+    "name": "MG1655_WT.interval_file",
+    "reference_id": "MG1655_WT_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa",
+    "reference_id": "MG1655_NAND_Circuit_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.ann",
+    "reference_id": "MG1655_NAND_Circuit_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.amb",
+    "reference_id": "MG1655_NAND_Circuit_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.bwt",
+    "reference_id": "MG1655_NAND_Circuit_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.fai",
+    "reference_id": "MG1655_NAND_Circuit_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.pac",
+    "reference_id": "MG1655_NAND_Circuit_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.fa.sa",
+    "reference_id": "MG1655_NAND_Circuit_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.dict",
+    "reference_id": "MG1655_NAND_Circuit_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_NAND_Circuit strain",
+    "name": "MG1655_NAND_Circuit.interval_file",
+    "reference_id": "MG1655_NAND_Circuit_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa",
+    "reference_id": "MG1655_IcaR_Gate_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.ann",
+    "reference_id": "MG1655_IcaR_Gate_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.amb",
+    "reference_id": "MG1655_IcaR_Gate_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.bwt",
+    "reference_id": "MG1655_IcaR_Gate_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.fai",
+    "reference_id": "MG1655_IcaR_Gate_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.pac",
+    "reference_id": "MG1655_IcaR_Gate_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.fa.sa",
+    "reference_id": "MG1655_IcaR_Gate_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.dict",
+    "reference_id": "MG1655_IcaR_Gate_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_IcaR_Gate strain",
+    "name": "MG1655_IcaR_Gate.interval_file",
+    "reference_id": "MG1655_IcaR_Gate_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_IcaR_Gate/MG1655_IcaR_Gate.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa",
+    "reference_id": "MG1655_pBADmin_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.ann",
+    "reference_id": "MG1655_pBADmin_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.amb",
+    "reference_id": "MG1655_pBADmin_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.bwt",
+    "reference_id": "MG1655_pBADmin_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.fai",
+    "reference_id": "MG1655_pBADmin_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.pac",
+    "reference_id": "MG1655_pBADmin_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.fa.sa",
+    "reference_id": "MG1655_pBADmin_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.dict",
+    "reference_id": "MG1655_pBADmin_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pBADmin strain",
+    "name": "MG1655_pBADmin.interval_file",
+    "reference_id": "MG1655_pBADmin_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pBADmin/MG1655_pBADmin.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa",
+    "reference_id": "MG1655_PhlF_Gate_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.ann",
+    "reference_id": "MG1655_PhlF_Gate_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.amb",
+    "reference_id": "MG1655_PhlF_Gate_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.bwt",
+    "reference_id": "MG1655_PhlF_Gate_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.fai",
+    "reference_id": "MG1655_PhlF_Gate_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.pac",
+    "reference_id": "MG1655_PhlF_Gate_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.fa.sa",
+    "reference_id": "MG1655_PhlF_Gate_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.dict",
+    "reference_id": "MG1655_PhlF_Gate_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_PhlF_Gate strain",
+    "name": "MG1655_PhlF_Gate.interval_file",
+    "reference_id": "MG1655_PhlF_Gate_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_PhlF_Gate/MG1655_PhlF_Gate.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.ann",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.amb",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.bwt",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.fai",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.pac",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.fa.sa",
+    "reference_id": "MG1655_pJS007_LALT__backbone_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.dict",
+    "reference_id": "MG1655_pJS007_LALT__backbone_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pJS007_LALT__backbone strain",
+    "name": "MG1655_pJS007_LALT__backbone.interval_file",
+    "reference_id": "MG1655_pJS007_LALT__backbone_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__backbone/MG1655_pJS007_LALT__backbone.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.ann",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.amb",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.bwt",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.fai",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.pac",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.fa.sa",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.dict",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pJS007_LALT__I1__IcaRA strain",
+    "name": "MG1655_pJS007_LALT__I1__IcaRA.interval_file",
+    "reference_id": "MG1655_pJS007_LALT__I1__IcaRA_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__I1__IcaRA/MG1655_pJS007_LALT__I1__IcaRA.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.ann",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.amb",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.bwt",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.fai",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.pac",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.fa.sa",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.dict",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pJS007_LALT__P3_PhIF strain",
+    "name": "MG1655_pJS007_LALT__P3_PhIF.interval_file",
+    "reference_id": "MG1655_pJS007_LALT__P3_PhIF_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3_PhIF/MG1655_pJS007_LALT__P3_PhIF.interval_list"
+  },
+  {
+    "description": "Fasta file for the MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa",
+    "reference_id": "MG1655_pTACmin_fa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.ann",
+    "reference_id": "MG1655_pTACmin_fa_ann-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.ann"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.amb",
+    "reference_id": "MG1655_pTACmin_fa_mb-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.amb"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.bwt",
+    "reference_id": "MG1655_pTACmin_fa_bwt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.bwt"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.fai",
+    "reference_id": "MG1655_pTACmin_fa_fai-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.fai"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.pac",
+    "reference_id": "MG1655_pTACmin_fa_pac-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.pac"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.fa.sa",
+    "reference_id": "MG1655_pTACmin_fa_sa-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.fa.sa"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.dict",
+    "reference_id": "MG1655_pTACmin_dict-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.dict"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pTACmin strain",
+    "name": "MG1655_pTACmin.interval_file",
+    "reference_id": "MG1655_pTACmin_interval_file-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.interval_list"
+  },
+  {
+    "description": "Picard REF_FLAT file for all novel-chassis strains",
+    "name": "modified.ecoli.MG1655.refFlat.txt",
+    "reference_id": "modified_ecoli_MG1655_refFlat_txt-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/modified.ecoli.MG1655.refFlat.txt"
+  },
+  {
+    "description": "GFF Reference annotation for all novel-chassis strains",
+    "name": "amin_genes.gff",
+    "reference_id": "amin_genes_gff-0-1-0",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/amin_genes.gff"
+  }
+]
