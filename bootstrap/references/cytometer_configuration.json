@@ -1,0 +1,50 @@
+[
+	{
+		"description": "Cytometer configuration file for Ginkgo SA3800",
+		"name": "SA3800-20180912.json",
+		"reference_id": "SA3800-20180912_json-0-1-0",
+		"uri": "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
+	},
+	{
+		"description": "Cytometer configuration file for Ginkgo ZES",
+		"name": "ZE5-20180912.json",
+		"reference_id": "ZE5-20180912_json-0-1-0",
+		"uri": "agave://data-sd2e-community/ginkgo/instruments/ZE5-20180912.json"
+	},
+	{
+		"description": "Cytometer configuration file for Transcriptic",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
+	},
+	{
+		"description": "Cytometer configuration file for Transcriptic",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/12142017/cytometer_configuration.json"
+	},
+	{
+		"description": "Cytometer configuration file for Transcriptic",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/transcriptic/instruments/accurri/5539/11272017/cytometer_configuration.json"
+	},
+	{
+		"description": "Cytometer configuration file for Biofab",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/biofab/instruments/accuri/5539/10202018/cytometer_configuration.json"
+	},	
+	{
+		"description": "Cytometer configuration file for Biofab",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
+	},		
+	{
+		"description": "Cytometer configuration file for Biofab",
+		"name": "cytometer_configuration.json",
+		"reference_id": "cytometer_configuration_json-0-1-0",
+		"uri": "agave://data-sd2e-community/biofab/instruments/accuri/5539/11272017/cytometer_configuration.json"
+	}
+]
