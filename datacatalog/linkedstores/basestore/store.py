@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-from builtins import object
-
 import os
 import sys
 import inspect
@@ -17,14 +9,13 @@ import base64
 from pprint import pprint
 from slugify import slugify
 from jsondiff import diff
+from datacatalog import settings
 
-from ... import settings
-from ... import config
-from ...constants import CatalogStore
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
 from ...identifiers.typeduuid import catalog_uuid
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
+from ...stores import StorageSystem, ManagedStores, PathMappings
 from ...tokens import generate_salt, get_token, validate_token, validate_admin_token
 from ...utils import time_stamp, current_time, msec_precision
 from ... import tenancy
@@ -98,6 +89,7 @@ class LinkedStore(object):
     """Fields that should never be indexed"""
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
+        self.debug = settings.DEBUG_MODE
         self._tenant = tenancy.current_tenant()
         """TACC.cloud tenant that owns this document.
         """
@@ -107,18 +99,11 @@ class LinkedStore(object):
         self._owner = tenancy.current_username()
         """TACC.cloud username that owns this document
         """
-
         self.session = session
         """Optional correlation string for interlinked events
         """
-
-        self.debug = False
-        if isinstance(config.get('debug', None), bool):
-            setattr(self, 'debug', config.get('debug'))
-
         self._enforce_auth = False
         """Require valid update token to edit document"""
-
         # MongoDB setup
         self._mongodb = mongodb
         """Connection object for MongoDB
@@ -163,9 +148,9 @@ class LinkedStore(object):
         self.update_attrs(schema)
 
         # FIXME Integration with Agave configurations can be improved
-        self.agave_system = CatalogStore.agave_storage_system
-        self.base = CatalogStore.agave_root_dir
-        self.store = CatalogStore.uploads_dir + '/'
+        self.agave_system = settings.STORAGE_SYSTEM
+        self.base = StorageSystem(self.agave_system).root_dir
+        self.store = ManagedStores.prefixes_for_level('0')[0]
         # Initialize
         # self._post_init()
 
@@ -226,8 +211,8 @@ class LinkedStore(object):
                     ALL_INDEXES.append(field)
             # Contains names of all indexed fields - useful for validation
             setattr(self, '_indexes', list(set(ALL_INDEXES)))
-        except Exception as exc:
-            # print('Failed to set or enforce indexes.', exc)
+        except Exception:
+            #  TODO - allow existing index but fail otherwise
             pass
 
     def get_identifiers(self):
@@ -428,7 +413,7 @@ class LinkedStore(object):
         Args:
             record (dict): A LinkedStore document
             updated (bool): Forces timestamp and revision to increment
-            source (str, optional): Source URI for the current update
+            source (str, optional): Source of the current update
 
         Returns:
             dict: Object containing the updated LinkedStore document
@@ -436,7 +421,7 @@ class LinkedStore(object):
         ts = msec_precision(current_time())
 
         if source is None:
-            source = config.Environment.source
+            source = settings.RECORDS_SOURCE
         # Amend record with _properties if needed
         if '_properties' not in record:
             record['_properties'] = {'created_date': ts,

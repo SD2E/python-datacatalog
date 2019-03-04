@@ -7,11 +7,10 @@ from pprint import pprint
 import random
 import string
 import tempfile
+from datacatalog import settings
 
 from ... import identifiers
-from ...constants import Constants
 from ...dicthelpers import data_merge
-from ...pathmappings import normalize, abspath
 from ..basestore import LinkedStore, HeritableDocumentSchema
 from ..basestore import CatalogUpdateFailure
 from ..basestore import SoftDelete, AgaveClient
@@ -119,7 +118,7 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
             db_record['archive_path'],
             recurse=recurse,
             storage_system=db_record.get('archive_system',
-                                         Constants.CATALOG_AGAVE_STORAGE_SYSTEM),
+                                         settings.STORAGE_SYSTEM),
             directories=False)
 
         return dir_listing

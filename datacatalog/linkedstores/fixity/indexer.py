@@ -9,8 +9,8 @@ from stat import S_ISREG
 from pprint import pprint
 
 from ...filetypes import infer_filetype
-from ...pathmappings import level_for_filepath
-from ...pathmappings import normalize, abspath, relativize
+from ...stores import abspath
+from ...utils import normalize, normpath
 from .schema import FixityDocument, msec_precision
 
 class FixityIndexer(object):
@@ -32,7 +32,6 @@ class FixityIndexer(object):
                 ('size', 'size', True, None),
                 ('checksum', 'checksum', True, None),
                 ('fingerprint', 'fingerprint', True, None),
-                ('level', 'level', False, None),
                 ('uuid', 'uuid', False, None),
                 ('child_of', 'child_of', False, []),
                 ('generated_by', 'generated_by', False, [])]
@@ -78,8 +77,6 @@ class FixityIndexer(object):
                     except Exception as exc:
                         pprint(exc)
 
-        # Level is based on the managed path not the absolute storage path
-        setattr(self, 'level', self.compute_level(self.name))
         # print('sync.attr:value {}:{}'.format(attr, new_value))
         if self._updated is True:
             vers = self.get_version()
@@ -131,17 +128,6 @@ class FixityIndexer(object):
         """
         cksum = self.checksum_xxhash(file)
         return cksum
-
-    def compute_level(self, file):
-        """Returns processing level for a file
-
-        Args:
-            file (str): Absolute path to the file
-
-        Returns:
-            str: One of the known data processing levels
-        """
-        return level_for_filepath(file)
 
     def get_created(self, file):
         """Returns (apparent) file creation time.

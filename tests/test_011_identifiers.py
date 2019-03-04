@@ -6,7 +6,7 @@ import json
 import jsonschema
 
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, delete, smoketest
 from .data import identifiers
 import datacatalog
 

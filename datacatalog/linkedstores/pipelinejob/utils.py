@@ -1,11 +1,3 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-
 import arrow
 import json
 import petname
@@ -36,7 +28,7 @@ def get_archive_path(pipeline_uuid, **kwargs):
     """
 
     # FIXME Actually validate against known pipeline UUIDs
-    identifiers.datacatalog_uuid.validate(pipeline_uuid)
+    identifiers.typeduuid.validate(pipeline_uuid)
 
     version = ARCHIVE_PATH_VERSION
     path_els = [ARCHIVE_PATH_PREFIX, version]
@@ -46,7 +38,7 @@ def get_archive_path(pipeline_uuid, **kwargs):
     # Mandatory arguments
     for el in ['lab_name', 'experiment_reference']:
         if kwargs.get(el, None) is not None:
-            path_els.append(identifiers.datacatalog_uuid.generate(
+            path_els.append(identifiers.typeduuid.generate(
                 kwargs.get(el), binary=False))
         else:
             raise KeyError('{} must be specified'.format(el))
@@ -54,7 +46,7 @@ def get_archive_path(pipeline_uuid, **kwargs):
     # Optional arguments
     for el in ['measurement_id']:
         if kwargs.get(el, None) is not None:
-            path_els.append(identifiers.datacatalog_uuid.generate(
+            path_els.append(identifiers.typeduuid.generate(
                 kwargs.get(el), binary=False))
         else:
             pass
@@ -74,4 +66,4 @@ def params_to_document(params):
 
 def params_document_to_uuid(params_document):
     """Generate a UUID5 based on a pipeline components document"""
-    return identifiers.datacatalog_uuid.catalog_uuid(params_document)
+    return identifiers.typeduuid.catalog_uuid(params_document)

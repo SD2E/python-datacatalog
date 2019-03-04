@@ -27,7 +27,7 @@ logger.addHandler(loghandler)
 
 def regenerate(args, update_catalog=False, mongodb=None):
 
-    if datacatalog.config.get_osenv_bool('MAKETESTS'):
+    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS')):
         DESTPATH = os.path.join(tempfile.mkdtemp(), 'challenge_problem_id.json')
     else:
         DESTPATH = os.path.join(os.getcwd(), 'datacatalog', 'definitions', 'jsondocs', 'challenge_problem_id.json')

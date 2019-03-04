@@ -1,0 +1,45 @@
+[
+    {
+        "owner": "sd2eadm",
+        "_links": {
+            "metadata": {
+                "href": "https://api.sd2e.org/meta/v2/data/?q=%7B%22associationIds%22%3A%221677521585103302169-242ac11a-0001-006%22%7D"
+            },
+            "credentials": {
+                "href": "https://api.sd2e.org/systems/v2/data-sd2e-community/credentials"
+            },
+            "roles": {
+                "href": "https://api.sd2e.org/systems/v2/data-sd2e-community/roles"
+            },
+            "self": {
+                "href": "https://api.sd2e.org/systems/v2/data-sd2e-community"
+            }
+        },
+        "available": true,
+        "description": "",
+        "storage": {
+            "proxy": null,
+            "protocol": "SFTP",
+            "mirror": false,
+            "port": 22,
+            "auth": {
+                "type": "SSHKEYS"
+            },
+            "publicAppsDir": null,
+            "host": "data.sd2e.org",
+            "rootDir": "/work/projects/SD2E-Community/prod/data",
+            "homeDir": "/"
+        },
+        "type": "STORAGE",
+        "uuid": "1677521585103302169-242ac11a-0001-006",
+        "revision": 478,
+        "site": "tacc.utexas.edu",
+        "default": false,
+        "public": true,
+        "globalDefault": false,
+        "name": "SD2E Community Data Depot",
+        "id": "data-sd2e-community",
+        "lastModified": "2019-03-04T05:05:53.000-06:00",
+        "status": "UP"
+    }
+]

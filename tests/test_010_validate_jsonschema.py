@@ -4,7 +4,7 @@ import sys
 import yaml
 import json
 from pprint import pprint
-from . import longrun, delete, networked
+from . import longrun, delete, networked, smoketest
 # import datacatalog
 import jsonschema
 from datacatalog.jsonschemas.schema import JSONSchemaBaseObject
@@ -22,8 +22,6 @@ def resolver(base_uri=JSONSchemaBaseObject.BASEREF, schema='sample_set'):
 @networked
 @pytest.mark.parametrize("jsonfile", [('17016_87542.json'), ('20249.json'), ('95463.json'), ('Novelchassis_Nand_gate_controls.json'), ('Novelchassis_Nand_gate_samples.json'), ('r1btfp5k2edgn_r1btpym75nsdh_samples.json'), ('r1bzc55fpurbj.json'), ('samples_nc.json'), ('62215.json'), ('r1bsmgdayg2yq_r1bsu7tb7bsuk_samples.json')])
 def test_validate_sample_set(jsonfile):
-    print('TEST', jsonfile)
-
     class formatChecker(jsonschema.FormatChecker):
         def __init__(self):
             jsonschema.FormatChecker.__init__(self)

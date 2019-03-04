@@ -5,7 +5,6 @@ import copy
 import json
 import jsondiff
 import tempfile
-import argparse
 import logging
 from jinja2 import Template
 from pprint import pprint
@@ -103,7 +102,7 @@ def regenerate(filters=None, args=None):
     template = Template(INDEX)
     elements = list()
 
-    if datacatalog.config.get_osenv_bool('MAKETESTS'):
+    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS')):
         DESTDIR = tempfile.mkdtemp()
     else:
         DESTDIR = os.path.join(PARENT, 'schemas')

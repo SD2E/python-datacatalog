@@ -1,4 +1,3 @@
-from .. import config
 from .. import githelpers
 from ..utils import camel_to_snake
 

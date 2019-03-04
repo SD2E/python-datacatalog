@@ -1,60 +1,27 @@
-# TODO: Load this in from a specific, write-restricted collection in database
-import os
-from .agave import AgaveSystems
+from datacatalog import settings
 
-__all__ = ['STORES', 'level_to_config_attr',
-           'level_to_posix_path', 'store_to_posix_path']
+__all__ = ['STORES']
 
-STORES = {
-    'uploads': {
-        'prefix': 'uploads/',
-        'level': '0',
-        'storage_system': 'data-sd2e-community',
-        'jupyter_dir': '\{User\}/tree/sd2e-community',
-        'database': 'catalog',
-        'fixity_collection': 'datafiles',
-        'metadata_collection': 'files'
-    },
-    'products': {
-        'prefix': 'products/',
-        'level': '1',
-        'storage_system': 'data-sd2e-community',
-        'jupyter_dir': '\{User\}/tree/sd2e-community',
-        'database': 'catalog',
-        'fixity_collection': 'datafiles',
-        'metadata_collection': 'files'
-    },
-    'reference': {
-        'prefix': 'reference/',
-        'level': 'Reference',
-        'storage_system': 'data-sd2e-community',
-        'jupyter_dir': '\{User\}/tree/sd2e-community',
-        'database': 'catalog',
-        'fixity_collection': 'datafiles',
-        'metadata_collection': 'files'
-    }
-}
+STORES = [
+    {'level': '0', 'prefix': '/uploads',
+     'storage_system': settings.STORAGE_SYSTEM,
+     'manager': settings.TACC_MANAGER_ACCOUNT,
+     'database': settings.MONGODB_DATABASE},
+    {'level': '1', 'prefix': '/products',
+     'storage_system': settings.STORAGE_SYSTEM,
+     'manager': settings.TACC_MANAGER_ACCOUNT,
+     'database': settings.MONGODB_DATABASE},
+    {'level': '2', 'prefix': '/products',
+     'storage_system': settings.STORAGE_SYSTEM,
+     'manager': settings.TACC_MANAGER_ACCOUNT,
+     'database': settings.MONGODB_DATABASE},
+    {'level': '3', 'prefix': '/products',
+     'storage_system': settings.STORAGE_SYSTEM,
+     'manager': settings.TACC_MANAGER_ACCOUNT,
+     'database': settings.MONGODB_DATABASE},
+    {'level': 'Reference', 'prefix': '/reference',
+     'storage_system': settings.STORAGE_SYSTEM,
+     'manager': settings.TACC_MANAGER_ACCOUNT,
+     'database': settings.MONGODB_DATABASE}
 
-def level_to_config_attr(level, cattr):
-    try:
-        for store, config in STORES.items():
-            if str(level) == config['level']:
-                return config[cattr]
-    except KeyError:
-        raise KeyError('{} was not recognized as a config attribute'.format(cattr))
-    raise ValueError('{} was not recognized as a level'.format(level))
-
-def level_to_posix_path(level):
-    agave_sys = level_to_config_attr(level, 'storage_system')
-    try:
-        return AgaveSystems.storage.get(agave_sys, {}).get('root_dir', '/tmp')
-    except:
-        raise ValueError('{} did not resolve to a POSIX root directory'.format(level))
-
-def store_to_posix_path(store):
-    agave_sys = STORES[store]['storage_system']
-    try:
-        return AgaveSystems.storage.get(agave_sys, {}).get('root_dir', '/tmp')
-    except:
-        raise ValueError(
-            '{} did not resolve to a POSIX root directory'.format(store))
+]

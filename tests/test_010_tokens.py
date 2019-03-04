@@ -5,7 +5,7 @@ import yaml
 import json
 import time
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, delete, smoketest
 import datacatalog
 
 CWD = os.getcwd()
@@ -40,10 +40,6 @@ def test_validate_token_false(salt):
 def test_validate_token_passthru(salt, admin_key):
     token = datacatalog.tokens.get_admin_token(admin_key)
     assert datacatalog.tokens.validate_token(token, salt) is True
-
-# def test_validate_token_admin_override(salt):
-#     token = datacatalog.tokens.__get_admin_tokens()[0]
-#     assert datacatalog.tokens.validate_token(token, salt, permissive=False) is True
 
 def test_validate_admin_token_valid(salt, admin_key):
     token = datacatalog.tokens.get_admin_token(admin_key)

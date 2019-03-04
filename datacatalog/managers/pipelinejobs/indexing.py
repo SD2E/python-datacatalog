@@ -72,8 +72,8 @@ class ProductIndexRequest(object):
         return me
 
     def to_json(self):
-
         return json.dumps(self.to_dict(), sort_keys=True, separators=(',', ':'))
+
     def __repr__(self):
         return self.__class__.__name__ + ':' + str(self.to_dict())
 

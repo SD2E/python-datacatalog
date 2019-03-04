@@ -12,7 +12,8 @@ from ...dicthelpers import data_merge
 from ..basestore import LinkedStore
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection, formatChecker
 from ..basestore import CatalogUpdateFailure
-from ...pathmappings import normalize, abspath, relativize, normpath
+from ...stores import abspath
+from ...utils import normalize, normpath
 from ...filetypes import infer_filetype
 
 class ProcessUpdateFailure(CatalogUpdateFailure):
