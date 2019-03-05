@@ -238,7 +238,11 @@ def convert_transcriptic(schema_file, encoding, input_file, verbose=True, output
 
         # map control for, type
         if SampleConstants.CONTROL_TYPE in transcriptic_sample:
-            sample_doc[SampleConstants.CONTROL_TYPE] = transcriptic_sample[SampleConstants.CONTROL_TYPE]
+            ct = transcriptic_sample[SampleConstants.CONTROL_TYPE]
+            # not a valid control type
+            # this is parsed by sample id, below
+            if ct != "SYTOX_LIVE_DEAD":
+                sample_doc[SampleConstants.CONTROL_TYPE] = ct
         if SampleConstants.CONTROL_FOR in transcriptic_sample:
             sample_doc[SampleConstants.CONTROL_FOR] = transcriptic_sample[SampleConstants.CONTROL_FOR]
 
