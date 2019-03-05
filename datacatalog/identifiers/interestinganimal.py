@@ -1,21 +1,16 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-
 import arrow
 import petname
 import os
+from datacatalog import settings
 
 __all__ = ["generate", "mock", "validate", "pet_name"]
 
 def generate(timestamp=True):
-    pet = petname.Generate(2, '-', 8)
+    pet = petname.Generate(settings.ADJ_ANIMAL_WORDS,
+                           settings.ADJ_ANIMAL_DELIM,
+                           settings.ADJ_ANIMAL_LENGTH)
     if timestamp is True:
-        pet = pet + arrow.utcnow().format('YYYYMMDDTHHmmss') + 'Z'
+        pet = pet + arrow.utcnow().format(settings.ADJ_ANIMAL_DATE_FORMAT) + 'Z'
     return pet
 
 def mock(timestamp=True):

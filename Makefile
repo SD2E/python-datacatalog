@@ -3,7 +3,7 @@ PYTEST_SRC ?= tests/
 # PYTEST_RUN_OPTS ?= -s -vvv
 PYTEST_MAX_FAIL ?= 100
 PYTEST_FAIL_OPTS ?= --maxfail=$(PYTEST_MAX_FAIL)
-PYTEST_RUN_OPTS ?= -s $(PYTEST_FAIL_OPTS)
+PYTEST_RUN_OPTS ?= --smoketest -s $(PYTEST_FAIL_OPTS)
 EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production

@@ -22,6 +22,7 @@ Subpackages
     datacatalog.managers
     datacatalog.mongo
     datacatalog.pathmappings
+    datacatalog.settings
     datacatalog.stores
     datacatalog.tenancy
     datacatalog.tokens
@@ -34,30 +35,6 @@ datacatalog.agavehelpers module
 -------------------------------
 
 .. automodule:: datacatalog.agavehelpers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.config module
--------------------------
-
-.. automodule:: datacatalog.config
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.constants module
-----------------------------
-
-.. automodule:: datacatalog.constants
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.debug\_mode module
-------------------------------
-
-.. automodule:: datacatalog.debug_mode
     :members:
     :undoc-members:
     :show-inheritance:
@@ -82,14 +59,6 @@ datacatalog.githelpers module
 -----------------------------
 
 .. automodule:: datacatalog.githelpers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-datacatalog.posixhelpers module
--------------------------------
-
-.. automodule:: datacatalog.posixhelpers
     :members:
     :undoc-members:
     :show-inheritance:

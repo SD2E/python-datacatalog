@@ -27,11 +27,11 @@ class MongoViewDocument(DocumentSchema):
         schemaj = dict()
         try:
             module_file = inspect.getfile(self.__class__)
-            schemafile = os.path.join(os.path.dirname(module_file), 'document.json')
+            schemafile = os.path.join(os.path.dirname(module_file), 'schema.json')
             schemaj = json.load(open(schemafile, 'r'))
             if inheritance is True:
                 parent_module_file = inspect.getfile(self.__class__.__bases__[0])
-                parent_schemafile = os.path.join(os.path.dirname(parent_module_file), 'document.json')
+                parent_schemafile = os.path.join(os.path.dirname(parent_module_file), 'schema.json')
                 pschemaj = json.load(open(parent_schemafile, 'r'))
                 schemaj = data_merge(pschemaj, schemaj)
         except Exception:

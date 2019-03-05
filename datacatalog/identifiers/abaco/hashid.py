@@ -1,15 +1,6 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-
 import uuid
 from hashids import Hashids
-
-from .. import constants
+from datacatalog import settings
 from ..schemas import IdentifierSchema, JSONSchemaCollection
 
 PROPERTIES = {'id': 'hashid',
@@ -57,9 +48,9 @@ def mock():
     Returns:
         str: The new Hashid
     """
-    return get_id(salt=constants.Constants.MOCK_IDS_SALT)
+    return get_id(salt=settings.MOCKUUIDS_SALT)
 
-def get_id(salt=constants.Constants.ABACO_HASHIDS_SALT):
+def get_id(salt=settings.ABACO_HASHIDS_SALT):
     """Create a new Hashid
 
     This is useful for testing.
@@ -75,7 +66,7 @@ def get_id(salt=constants.Constants.ABACO_HASHIDS_SALT):
     return hashids.encode(_uuid)
 
 def is_hashid(identifier):
-    hashids = Hashids(salt=constants.Constants.ABACO_HASHIDS_SALT)
+    hashids = Hashids(salt=settings.ABACO_HASHIDS_SALT)
     dec = hashids.decode(identifier)
     if len(dec) > 0:
         return True

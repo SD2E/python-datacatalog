@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-
 import inspect
 import json
 import os
@@ -15,7 +7,8 @@ from pprint import pprint
 
 from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
-from ...pathmappings import normalize, abspath, relativize, normpath
+from ...stores import abspath
+from ...utils import normalize, normpath
 from ..basestore import LinkedStore, CatalogUpdateFailure
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import RateLimiter, RateLimitExceeded
@@ -84,8 +77,6 @@ class FixityStore(LinkedStore, RateLimiter):
         self.limit()
         indexer = FixityIndexer(schema=self.schema, **db_record).sync()
         fixity_record = indexer.to_dict()
-        # print('FIXITYRECORD')
-        # pprint(fixity_record)
 
         # lift over private keys to new document
         for key, value in db_record.items():

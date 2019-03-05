@@ -9,10 +9,18 @@ datacatalog.tenancy package
 Submodules
 ----------
 
-datacatalog.tenancy.config module
----------------------------------
+datacatalog.tenancy.classes module
+----------------------------------
 
-.. automodule:: datacatalog.tenancy.config
+.. automodule:: datacatalog.tenancy.classes
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.tenancy.funcs module
+--------------------------------
+
+.. automodule:: datacatalog.tenancy.funcs
     :members:
     :undoc-members:
     :show-inheritance:

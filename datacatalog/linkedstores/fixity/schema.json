@@ -6,9 +6,6 @@
         "uuid": {
             "$ref": "file_uuid.json"
         },
-        "level": {
-            "$ref": "processing_level.json"
-        },
         "name": {
             "description": "Filename",
             "pattern": ".*\\..*",

@@ -1,13 +1,5 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import bytes
-from builtins import *
-
 from bson.binary import UUID_SUBTYPE, OLD_UUID_SUBTYPE
+from datacatalog import settings
 from pymongo import MongoClient, ReturnDocument, ASCENDING
 from pymongo.errors import DuplicateKeyError, ConnectionFailure
 from .encodeauthn import decode_authn_string
@@ -19,26 +11,22 @@ except ImportError:
     # Python 2.x
     from urllib.parse import quote_plus
 
-def get_mongo_uri(settings):
+def get_mongo_uri(mongodct={}):
     uri = None
-    if 'username' in settings:
-        uri = "mongodb://%s:%s@%s:%s/%s" % (quote_plus(settings['username']),
-                                            quote_plus(settings['password']),
-                                            settings['host'],
-                                            settings['port'],
-                                            settings.get('auth_source', 'admin'))
-    elif 'authn' in settings:
+    if 'username' in mongodct:
+        uri = "mongodb://%s:%s@%s:%s/%s" % (quote_plus(mongodct.get('username', settings.MONGODB_USERNAME)),
+                                            quote_plus(mongodct.get('password', settings.MONGODB_USERNAME)),
+                                            mongodct.get('host', settings.MONGODB_HOST),
+                                            mongodct.get('port', settings.MONGODB_PORT),
+                                            mongodct.get('auth_source', settings.MONGODB_AUTH_DATABASE))
+    elif 'authn' in mongodct:
         # base64 encoded connection string suitable for setting as a container secret
-        uri = decode_authn_string(settings['authn'])
+        uri = decode_authn_string(mongodct.get('authn', settings.MONGODB_AUTHN))
     else:
         raise ValueError('Unable to parse MongoDB connection details')
     return uri
 
-# def db_connection_from_secret(secret):
-#     try:
-#         uri = 'mongodb://catalog:3c2jX*mWMGca%218Y%24V%26H%2B*%25%21C%3FNNp@chombo-staging.sd2e.org:27020/admin?readPreference=primary'
-
-def db_connection(settings):
+def db_connection(mongodct):
     """Get an active MongoDB connection
 
     Supports two formats for dict:settings
@@ -57,9 +45,9 @@ def db_connection(settings):
     database: <database>
     """
     try:
-        uri = get_mongo_uri(settings)
+        uri = get_mongo_uri(mongodct)
         client = MongoClient(uri)
-        db = client[settings['database']]
+        db = client[mongodct.get('database', settings.MONGODB_DATABASE)]
         return db
     except Exception as exc:
         raise ConnectionFailure('Unable to connect to database', exc)

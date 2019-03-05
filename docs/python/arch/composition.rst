@@ -10,7 +10,7 @@ composition.
 Examples
 ^^^^^^^^
 
-.. literalinclude:: ../../../datacatalog/compositions/sample_set/document.json
+.. literalinclude:: ../../../datacatalog/compositions/sample_set/schema.json
    :language: python
    :linenos:
    :caption: sample_set.json

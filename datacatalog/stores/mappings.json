@@ -1,0 +1,8 @@
+{
+    "data-sd2e-community": {
+        "hpc": null,
+        "jupyter": "/home/jupyter/sd2e-community",
+        "jupyterhub": "/user/{User}/tree/sd2e-community",
+        "agave": "/"
+    }
+}

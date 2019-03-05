@@ -16,11 +16,20 @@ import re
 import os
 import unicodedata
 from time import sleep, time
+from datacatalog import settings
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
 
 SCHEMA_FILE = '/schemas/default.jsonschema'
+
+def camel_to_snake(text_string):
+    """Transform a CamelCase string into snake_case
+    """
+    FIRST_CAP_RE = re.compile('(.)([A-Z][a-z]+)')
+    ALL_CAP_RE = re.compile('([a-z0-9])([A-Z])')
+    s1 = FIRST_CAP_RE.sub(r'\1_\2', text_string)
+    return ALL_CAP_RE.sub(r'\1_\2', s1).lower()
 
 def current_time():
     """Current UTC time
@@ -45,7 +54,7 @@ def decode_path(encoded_file_path):
     """
     return unquote(encoded_file_path)
 
-def safen_path(file_path, no_unicode=False, no_spaces=False, url_quote=False):
+def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, url_quote=False):
     """Returns a safened version of a path
 
     Trailing whitespace is removed, Unicode characters (sorry!) are transformed

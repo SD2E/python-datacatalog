@@ -17,14 +17,6 @@ datacatalog.linkedstores.fixity.exceptions module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.linkedstores.fixity.fixity module
----------------------------------------------
-
-.. automodule:: datacatalog.linkedstores.fixity.fixity
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 datacatalog.linkedstores.fixity.indexer module
 ----------------------------------------------
 

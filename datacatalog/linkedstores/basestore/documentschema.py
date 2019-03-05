@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-from builtins import object
-
 import os
 import sys
 import inspect
@@ -14,16 +6,16 @@ import json
 from pprint import pprint
 from slugify import slugify
 
-from ...jsonschemas import JSONSchemaBaseObject, camel_to_snake
+from ...jsonschemas import JSONSchemaBaseObject
 from ...jsonschemas import formatChecker, DateTimeEncoder
 from ...identifiers import typeduuid
-from ...utils import time_stamp, current_time, msec_precision
+from ...utils import camel_to_snake, current_time, msec_precision, time_stamp
 
 class DocumentSchema(JSONSchemaBaseObject):
     """Extends the JSON schema-driven document class with LinkedStore functions
 
     DocumentSchema objects validate against the schema defined in
-    `document.json`, have a defined LinkedStore type and specify fields used to
+    `schema.json`, have a defined LinkedStore type and specify fields used to
     uniquely identify the document. Their `get_schemas` method can to emit both
     document (which contains all administrative fields) and object schema (only
     core data fields).
@@ -36,7 +28,7 @@ class DocumentSchema(JSONSchemaBaseObject):
     """The named type for UUIDs assigned to this class of LinkedStore documents"""
     TYPED_UUID_FIELD = ['id']
     """List of fields used to generate a typed UUID"""
-    DEFAULT_DOCUMENT_NAME = 'document.json'
+    DEFAULT_DOCUMENT_NAME = 'schema.json'
     """Filename of the JSON schema document, relative to __file__."""
     DEFAULT_FILTERS_NAME = 'filters.json'
     """Filename of the JSON schema filters document, relative to __file__."""

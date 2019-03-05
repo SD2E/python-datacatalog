@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-
 import base64
 import inspect
 import json
@@ -15,11 +7,10 @@ from pprint import pprint
 import random
 import string
 import tempfile
+from datacatalog import settings
 
 from ... import identifiers
-from ...constants import Constants
 from ...dicthelpers import data_merge
-from ...pathmappings import normalize, abspath
 from ..basestore import LinkedStore, HeritableDocumentSchema
 from ..basestore import CatalogUpdateFailure
 from ..basestore import SoftDelete, AgaveClient
@@ -96,18 +87,15 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         pass
 
     def validate_pipeline_uuid(self, pipeline_uuid):
-        if self.debug_mode() is True:
-            return True
-        else:
-            try:
-                pipe = self.pipes_coll.find_one({'uuid': pipeline_uuid})
-                if pipe is not None:
-                    return True
-                else:
-                    raise UnknownPipeline(
-                        'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
-            except Exception as exc:
-                raise Exception('Failed to validate pipeline UUID', exc)
+        try:
+            pipe = self.pipes_coll.find_one({'uuid': pipeline_uuid})
+            if pipe is not None:
+                return True
+            else:
+                raise UnknownPipeline(
+                    'No pipeline exists with UUID {}'.format(str(pipeline_uuid)))
+        except Exception as exc:
+            raise Exception('Failed to validate pipeline UUID', exc)
 
     def list_job_archive_path(self, job_uuid, recurse=True, directories=False, **kwargs):
         """Returns contents of a job's archive_path
@@ -130,7 +118,7 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
             db_record['archive_path'],
             recurse=recurse,
             storage_system=db_record.get('archive_system',
-                                         Constants.CATALOG_AGAVE_STORAGE_SYSTEM),
+                                         settings.STORAGE_SYSTEM),
             directories=False)
 
         return dir_listing

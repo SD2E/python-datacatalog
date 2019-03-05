@@ -4,7 +4,7 @@ import sys
 import yaml
 import json
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, delete, smoketest
 import datacatalog
 
 CWD = os.getcwd()
@@ -16,6 +16,7 @@ def test_get_sha1():
     assert isinstance(githash, str)
     assert len(githash) == 40
 
+@smoketest
 def test_get_sha1_short():
     githash = datacatalog.githelpers.get_sha1_short()
     assert isinstance(githash, str)

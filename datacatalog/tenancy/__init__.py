@@ -1,2 +1,2 @@
-__version__ = '0.5.0'
-from .config import *
+__version__ = '0.6.1'
+from .funcs import *

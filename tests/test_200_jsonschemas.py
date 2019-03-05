@@ -36,7 +36,6 @@ def test_get_allschemas():
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
 
-@networked
 def test_validate_allschemas_json():
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)

@@ -1,16 +1,25 @@
 import pytest
 from datacatalog.identifiers import abaco, interestinganimal, typeduuid
 
-
 def pytest_addoption(parser):
-    parser.addoption('--longrun', action='store_true', dest="longrun",
-                     default=False, help="Enable tests that might take a long time")
-    parser.addoption('--networked', action='store_true', dest="networked",
-                     default=False, help="Enable tests that require external network access")
-    parser.addoption('--delete', action='store_true', dest="delete",
-                     default=False, help="Enable tests that delete database entries")
     parser.addoption('--bootstrap', action='store_true', dest="bootstrap",
-                     default=False, help="Run bootstrapping tests for development environment")
+                     default=False, help="Run bootsrapping tasks and tests")
+    parser.addoption('--delete', action='store_true', dest="delete",
+                     default=False, help="Run tests that delete database entries")
+    parser.addoption('--longrun', action='store_true', dest="longrun",
+                     default=False, help="Run tests that might take a long time")
+    parser.addoption('--networked', action='store_true', dest="networked",
+                     default=False, help="Run tests that require external network access")
+    parser.addoption('--smoketest', action='store_true', dest="smoketest",
+                     default=False, help="Run developer smoktests")
+
+@pytest.fixture(scope='function')
+def mocktenant(monkeypatch):
+    monkeypatch.setenv("CATALOG_DNS_DOMAIN", "salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_TENANT", "salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_API_SERVER'", "https://api.salsa.club")
+    monkeypatch.setenv("CATALOG_TACC_MANAGER_ACCOUNT'", "salsita")
+    monkeypatch.setenv("CATALOG_TACC_PROJECT_NAME'", "Salsalogic")
 
 @pytest.fixture(scope='session')
 def nonce():

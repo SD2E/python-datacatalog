@@ -4,7 +4,7 @@ import sys
 import yaml
 import json
 from pprint import pprint
-from . import longrun, delete
+from . import longrun, delete, smoketest, bootstrap
 
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,10 +14,12 @@ from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data import basestore
 
+@bootstrap
 def test_basestore_db(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()
 
+@bootstrap
 def test_basestore_db_list_collection_names(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()

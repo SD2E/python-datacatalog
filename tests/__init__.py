@@ -25,14 +25,22 @@ bootstrap = pytest.mark.skipif(
     not pytest.config.option.bootstrap,
     reason="needs --bootstrap option to run")
 
-longrun = pytest.mark.skipif(
-    not pytest.config.option.longrun,
-    reason="needs --longrun option to run")
-
 delete = pytest.mark.skipif(
     not pytest.config.option.delete,
     reason="needs --delete option to run")
 
+longrun = pytest.mark.skipif(
+    not pytest.config.option.longrun,
+    reason="needs --longrun option to run")
+
 networked = pytest.mark.skipif(
     not pytest.config.option.networked,
     reason="needs --networked option to run")
+
+# schema = pytest.mark.skipif(
+#     not pytest.config.option.schema,
+#     reason="needs --schema option to run")
+
+smoketest = pytest.mark.skipif(
+    not pytest.config.option.smoketest,
+    reason="needs --smoketest option to run")

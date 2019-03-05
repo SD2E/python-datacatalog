@@ -1,11 +1,3 @@
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-
 import collections
 import inspect
 import json
@@ -18,13 +10,13 @@ from pprint import pprint
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
 from ...jsonschemas import validate as jsonschema_validate
-from ...utils import safen_path
+from ...utils import safen_path, normalize, normpath
+from ...stores import abspath
+from ...filetypes import infer_filetype
+from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
 from ..basestore import LinkedStore
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
-from ...pathmappings import normalize, abspath, relativize, normpath
-from ...filetypes import infer_filetype
-from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'derived_using')
 FILE_ID_PREFIX = 'file.tacc.'

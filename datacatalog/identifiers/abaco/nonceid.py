@@ -1,4 +1,4 @@
-from ...tenancy.config import current_tenant
+from ...tenancy import current_tenant
 from .hashid import IdentifierSchema, JSONSchemaCollection
 from .examples import ABACO_NONCE_ID as EXAMPLES
 
