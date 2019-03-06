@@ -18,6 +18,13 @@ from sbol import *
 from .mappings import SampleContentsFilter
 from datacatalog.agavehelpers import AgaveHelper
 
+# flatten hierarchies of irregular lists
+def flatten(element):
+    if isinstance(element, list):
+        return [flatten_sub_element for sub_element in element for flatten_sub_element in flatten(sub_element)]
+    else:
+        return [element]
+
 def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -295,6 +302,7 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                 measurement_doc[SampleConstants.MEASUREMENT_LIBRARY_PREP] = library_prep_dict[measurement_key]
 
             time_prop = "SD2_timepoint"
+            time_val = None
             if time_prop in props:
                 time_val = props[time_prop]
                 if time_val == "pre-pre-induction":
@@ -461,6 +469,17 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
             for key in measurement_props["dataset_files"].keys():
                 if key == "processed":
                     for processed in measurement_props["dataset_files"]["processed"]:
+                        # flatten irregular lists if present
+                        # later traces simplify this format to:
+                        # "raw": [
+                        #   "foo.fcs",
+                        #   "bar.fastq.gz"
+                        # ]
+                        # originally was:
+                        # "raw": [
+                        #   ["12469746-R1.fastq.gz", "12469746-R2.fastq.gz"]
+                        # ],
+                        processed = flatten(processed)
                         for sub_processed in processed:
                             file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
 
@@ -474,6 +493,8 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                             file_counter = file_counter + 1
                 elif key == "raw":
                     for raw in measurement_props["dataset_files"]["raw"]:
+                        # flatten irregular lists if present
+                        raw = flatten(raw)
                         for sub_raw in raw:
                             file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
 
