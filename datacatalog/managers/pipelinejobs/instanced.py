@@ -78,10 +78,19 @@ class ManagedPipelineJobInstance(Manager):
     def index(self, level="1", token=None, transition=False, **kwargs):
         """Index the job outputs
         """
+        PARAMS = [('filters', False, 'filters', None),
+                  ('level', False, 'level', '1')]
         LINKAGES = ['child_of']
         pass_kwargs = dict()
         for link in LINKAGES:
             pass_kwargs[link] = kwargs.get(link, None)
+        # Pass along non-empty kwargs
+        for param, req, attr, default in PARAMS:
+            val = kwargs.get(param, None)
+            if req and val is None:
+                val = default
+            if val is not None:
+                pass_kwargs[attr] = val
         event_doc = {'uuid': self.uuid,
                      'name': 'index',
                      'data': {}}
