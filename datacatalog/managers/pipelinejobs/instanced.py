@@ -87,6 +87,7 @@ class ManagedPipelineJobInstance(Manager):
         # Pass along non-empty kwargs
         for param, req, attr, default in PARAMS:
             val = kwargs.get(param, None)
+            print('{}={}'.format(param, val))
             if req and val is None:
                 val = default
             if val is not None:
