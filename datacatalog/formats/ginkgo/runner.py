@@ -466,51 +466,54 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
             file_counter = 1
-            for key in measurement_props["dataset_files"].keys():
-                if key == "processed":
-                    for processed in measurement_props["dataset_files"]["processed"]:
-                        # flatten irregular lists if present
-                        # later traces simplify this format to:
-                        # "raw": [
-                        #   "foo.fcs",
-                        #   "bar.fastq.gz"
-                        # ]
-                        # originally was:
-                        # "raw": [
-                        #   ["12469746-R1.fastq.gz", "12469746-R2.fastq.gz"]
-                        # ],
-                        processed = flatten(processed)
-                        for sub_processed in processed:
-                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+            if "dataset_files" in measurement_props:
+                for key in measurement_props["dataset_files"].keys():
+                    if key == "processed":
+                        for processed in measurement_props["dataset_files"]["processed"]:
+                            # flatten irregular lists if present
+                            # later traces simplify this format to:
+                            # "raw": [
+                            #   "foo.fcs",
+                            #   "bar.fastq.gz"
+                            # ]
+                            # originally was:
+                            # "raw": [
+                            #   ["12469746-R1.fastq.gz", "12469746-R2.fastq.gz"]
+                            # ],
+                            processed = flatten(processed)
+                            for sub_processed in processed:
+                                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
 
-                            file_type = SampleConstants.infer_file_type(sub_processed)
-                            measurement_doc[SampleConstants.FILES].append(
-                                {SampleConstants.M_NAME: sub_processed,
-                                 SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
-                                 SampleConstants.FILE_ID: file_id,
-                                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
-                            file_counter = file_counter + 1
-                elif key == "raw":
-                    for raw in measurement_props["dataset_files"]["raw"]:
-                        # flatten irregular lists if present
-                        raw = flatten(raw)
-                        for sub_raw in raw:
-                            file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+                                file_type = SampleConstants.infer_file_type(sub_processed)
+                                measurement_doc[SampleConstants.FILES].append(
+                                    {SampleConstants.M_NAME: sub_processed,
+                                     SampleConstants.M_TYPE: file_type,
+                                     SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_PROCESSED],
+                                     SampleConstants.FILE_ID: file_id,
+                                     SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                                file_counter = file_counter + 1
+                    elif key == "raw":
+                        for raw in measurement_props["dataset_files"]["raw"]:
+                            # flatten irregular lists if present
+                            raw = flatten(raw)
+                            for sub_raw in raw:
+                                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
 
-                            file_type = SampleConstants.infer_file_type(sub_raw)
-                            measurement_doc[SampleConstants.FILES].append(
-                                {SampleConstants.M_NAME: sub_raw,
-                                 SampleConstants.M_TYPE: file_type,
-                                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-                                 SampleConstants.FILE_ID: file_id,
-                                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
-                            file_counter = file_counter + 1
-                else:
-                    raise ValueError("Unknown measurement type: {}".format(key))
+                                file_type = SampleConstants.infer_file_type(sub_raw)
+                                measurement_doc[SampleConstants.FILES].append(
+                                    {SampleConstants.M_NAME: sub_raw,
+                                     SampleConstants.M_TYPE: file_type,
+                                     SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                                     SampleConstants.FILE_ID: file_id,
+                                     SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+                                file_counter = file_counter + 1
+                    else:
+                        raise ValueError("Unknown measurement type: {}".format(key))
 
             if SampleConstants.MEASUREMENTS not in sample_doc:
                 sample_doc[SampleConstants.MEASUREMENTS] = []
+            if len(measurement_doc[SampleConstants.FILES]) == 0:
+                print('Warning, sample has measurements with no files: {}'.format(sample_doc[SampleConstants.SAMPLE_ID]))
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
