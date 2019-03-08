@@ -8,12 +8,16 @@ from .indexrequest import ARCHIVE, PRODUCT
 class Indexer(Manager):
 
     def sync_listing(self, force=False):
+        """Updates the job's cache of archive_path contents
+        """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
             setattr(self, '_path_listing', listing)
         return self
 
     def file_or_ref_uuid(self, string_reference):
+        """Resolves a string as a file or reference UUID
+        """
         uuidt = self.get_uuidtype(string_reference)
         if uuidt in ('file', 'reference'):
             return string_reference
@@ -21,6 +25,8 @@ class Indexer(Manager):
             raise ValueError('Not a file or reference UUID')
 
     def file_or_ref_identifier(self, string_reference):
+        """Resolves a string identifier into a files or reference UUID
+        """
         doc = self.get_by_identifier(string_reference, permissive=False)
         uuidt = self.get_uuidtype(doc['uuid'])
         if uuidt in ('file', 'reference'):
@@ -29,6 +35,8 @@ class Indexer(Manager):
             raise ValueError('Not a file or reference identifier')
 
     def file_job_relative_path(self, string_reference, check_exists=True):
+        """Resolves a filename relative to a job's archive path as a file UUID
+        """
         if not string_reference.startswith('./'):
             raise ValueError('Job output-relative filenames must begin with ./')
         abs_filename = os.path.normpath(
@@ -38,10 +46,13 @@ class Indexer(Manager):
             if not self.stores['pipelinejob']._helper.exists(abs_filename, self.archive_system):
                 raise ValueError('Path does not exist: {}'.format(abs_filename))
             # Ensure there's a minimal metadata record for this file entry
-            self.stores['file'].index(abs_filename)
+            # The child_of linkage is _assumed_ to be the currently job
+            self.stores['file'].index(abs_filename, child_of=[self.uuid])
         return fname_uuid
 
     def resolve_derived_references(self, reference_set, permissive=False):
+        """Resolves a list of linkages to UUIDs
+        """
         resolved = list()
         for ref in reference_set:
             # UUID
@@ -76,7 +87,8 @@ class Indexer(Manager):
 
     def single_index_request(self, index_request, token=None,
                              refresh=False, fixity=True):
-        # Index a single IndexRequest
+        """Processes a single indexing request
+        """
         self.sync_listing(refresh)
         idxr = get_index_request(**index_request)
         resp = list()
@@ -97,6 +109,8 @@ class Indexer(Manager):
 
     def _handle_single_product_request(self, request, token=None,
                                        fixity=False, permissive=False):
+        """Private: Services a products indexing request
+        """
         indexed = list()
         try:
             if request.filters != []:
@@ -126,7 +140,7 @@ class Indexer(Manager):
                             file_name, self.uuid))
 
                 if resp is not None:
-                    print('Adding product linkages')
+                    # print('Adding product linkages')
                     # Resolve UUIDs, indentifiers, and finally relative paths
                     # into UUIDs that can be used for linkages
                     derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
@@ -147,6 +161,8 @@ class Indexer(Manager):
 
     def _handle_single_archive_request(self, request, token=None,
                                        fixity=True, permissive=False):
+        """Private: Services an archive path indexing request
+        """
         indexed = list()
         try:
             if request.filters != []:

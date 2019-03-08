@@ -11,7 +11,7 @@ ARCHIVE = 'archive'
 PRODUCT = 'product'
 
 class IndexType(str):
-    """An indexing type"""
+    """An named indexing type"""
     MEMBERS = [ARCHIVE, PRODUCT]
     kind = None
 
@@ -70,6 +70,7 @@ class ProductIndexRequest(IndexRequest):
     PARAMS = [('patterns', True, 'filters', []),
               ('note', False, 'note', None),
               ('fixity', False, 'fixity', False),
+              ('generated_by', False, 'generated_by', []),
               ('derived_from', True, 'derived_from', []),
               ('derived_using', False, 'derived_using', [])]
     kind = PRODUCT
@@ -85,6 +86,8 @@ class InvalidIndexingRequest(ValueError):
     pass
 
 def get_index_request(**kwargs):
+    """Transform an index request dict into a typed IndexRequest object
+    """
     try:
         return ArchiveIndexRequest(**kwargs)
     except InvalidIndexingRequest:

@@ -77,6 +77,8 @@ class ManagedPipelineJobInstance(Indexer):
 
     def index(self, token=None, transition=False, level='1',
               fixity=False, filters=None, **kwargs):
+        """Index the contents of the job's archive path
+        """
         # if filters are passed, parse thru them and assign to either archive
         # or product index queue then dispatch. If not, pull results from
         # <kind>_patterns files and do same.
