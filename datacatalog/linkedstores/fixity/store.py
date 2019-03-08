@@ -85,7 +85,8 @@ class FixityStore(LinkedStore, RateLimiter):
         # Now, update (or init) those same private keys
         fixity_record = self.set_private_keys(fixity_record, indexer.updated())
 
-        resp = self.add_update_document(fixity_record, fixity_uuid, token=None)
+        resp = self.add_update_document(fixity_record, uuid=fixity_uuid,
+                                        token=kwargs.get('token', None))
         return resp
 
     def get_typeduuid(self, payload, binary=False):

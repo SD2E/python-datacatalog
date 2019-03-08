@@ -18,7 +18,7 @@ from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
 from ...identifiers import interestinganimal
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
-from .indexing import ArchiveIndexRequest, ProductIndexRequest
+from .indexrequest import ArchiveIndexRequest, ProductIndexRequest
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)

@@ -4,8 +4,8 @@ import json
 import jsonschema
 import os
 import sys
-import uuid
 from pprint import pprint
+from datacatalog import settings
 
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
@@ -19,7 +19,7 @@ from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 
 DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'derived_using')
-FILE_ID_PREFIX = 'file.tacc.'
+FILE_ID_PREFIX = settings.FILE_ID_PREFIX
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
@@ -93,13 +93,45 @@ class FileStore(LinkedStore):
 
         # Generate file_id from name if not present
         if 'file_id' not in document_dict:
-            document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(catalog_uuid(document_dict['name'], uuid_type='file'))
+            document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(
+                catalog_uuid(document_dict['name'], uuid_type='file'))
         resp = super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
         new_resp = FileRecord(resp)
         new_resp.set_token(resp.get('_update_token', None))
         return new_resp
+
+    def index(self, filename, token=None, **kwargs):
+        """Capture a skeleton metadata entry for a file
+
+        Args:
+            filename (str): Agave-canonical absolute path to the target file
+
+        Returns:
+            dict: A LinkedStore document containing file details
+        """
+        # print('FIXITY.STORE.INDEX ' + filename)
+        self.name = normpath(filename)
+        self.abs_filename = abspath(self.name)
+        file_uuid = self.get_typeduuid(self.name)
+        db_record = self.coll.find_one({'uuid': file_uuid})
+        file_record = None
+        if db_record is None:
+            db_record = {'name': filename,
+                         'uuid': file_uuid,
+                         'type': kwargs.get('type', infer_filetype(
+                             filename, check_exists=False).label),
+                         'child_of': kwargs.get('child_of', []),
+                         'generated_by': kwargs.get('generated_by', [])}
+            resp = self.add_update_document(
+                db_record, uuid=file_uuid, token=token, strategy='merge')
+            file_record = FileRecord(resp)
+            file_record.set_token(resp.get('_update_token', token))
+        else:
+            file_record = FileRecord(db_record)
+            file_record.set_token(token)
+        return file_record
 
     def get_typeduuid(self, payload, binary=False):
         identifier_string = None

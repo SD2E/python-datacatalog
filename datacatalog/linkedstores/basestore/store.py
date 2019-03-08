@@ -555,7 +555,9 @@ class LinkedStore(object):
         # Validate UUID
         if 'uuid' in document_dict and doc_uuid is not None:
             if doc_uuid != document_dict['uuid']:
-                raise CatalogError('document_dict.uuid and uuid parameter cannot be different')
+                raise CatalogError(
+                    'document_dict.uuid ({}) != uuid parameter ({})'.format(
+                        doc_uuid, document_dict['uuid']))
 
         # Assign a Typed_UUID5 if one is not specified
         if 'uuid' not in document_dict:
@@ -912,9 +914,12 @@ class LinkedStore(object):
         Raises:
             CatalogError: Returned if an invalid relation type or unknown UUID is encountered
         """
-        rels = list()
         if isinstance(linked_uuid, str):
             linked_uuid = [linked_uuid]
+        if linked_uuid is None:
+            linked_uuid = list()
+        rels = list()
+        doc = None
         try:
             doc = self.find_one_by_uuid(uuid)
             if doc is not None:
@@ -925,19 +930,22 @@ class LinkedStore(object):
                             if uuid != luuid:
                                 rels.append(luuid)
                     rels = sorted(rels)
+                    doc[relation] = rels
                 # Create relation if allowed by schema
                 elif relation in list(self.document_schema['properties'].keys()):
                     rels = linked_uuid
+                    doc[relation] = rels
                 else:
-                    raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
-
-                # write
-                doc[relation] = rels
-                return self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
+                    raise CatalogError(
+                        'Relationship {} not supported by document {}'.format(
+                            relation, uuid))
+                doc = self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
             else:
                 raise CatalogError('No document found with UUID {}'.format(uuid))
         except Exception as exc:
-            raise
+            print('Failed to add linkage: {}'.str(exc))
+
+        return doc
 
     def remove_link(self, uuid, linked_uuid, relation='child_of', token=None):
         """Unlink one Data Catalog record from another
