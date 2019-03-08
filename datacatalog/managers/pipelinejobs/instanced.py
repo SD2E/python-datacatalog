@@ -88,7 +88,7 @@ class ManagedPipelineJobInstance(Indexer):
             self.sync_listing(force=True)
             event_doc = {'uuid': self.uuid,
                          'name': 'index',
-                         'data': {'filters': filters}}
+                         'data': {'filters': len(filters)}}
             resp = self.handle(event_doc, token=token)
             if resp is None:
                 raise IndexingError('Failed to process event')
@@ -106,7 +106,7 @@ class ManagedPipelineJobInstance(Indexer):
             filter_set.extend(self.product_patterns)
             index_fixity = True
 
-        print('filter_set', filter_set)
+        # print('filter_set', filter_set)
         # Do the metadata indexing
         for index_request_str in filter_set:
             try:
