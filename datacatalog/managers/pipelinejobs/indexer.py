@@ -91,6 +91,7 @@ class Indexer(Manager):
         """
         self.sync_listing(refresh)
         idxr = get_index_request(**index_request)
+        print('idxr', idxr)
         resp = list()
         if idxr.kind is ARCHIVE:
             gen_by = idxr.get('generated_by', [])

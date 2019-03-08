@@ -106,6 +106,7 @@ class ManagedPipelineJobInstance(Indexer):
             filter_set.extend(self.product_patterns)
             index_fixity = True
 
+        print('filter_set', filter_set)
         # Do the metadata indexing
         for index_request_str in filter_set:
             try:
