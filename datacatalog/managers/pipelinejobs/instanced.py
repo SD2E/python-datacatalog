@@ -100,7 +100,7 @@ class ManagedPipelineJobInstance(Indexer):
             self.sync_listing(force=True)
             event_doc = {'uuid': self.uuid,
                          'name': 'index',
-                         'data': {'filters': len(filter_set)}}
+                         'data': {}}
             resp = self.handle(event_doc, token=token)
             if resp is None:
                 raise IndexingError('Failed to process event')

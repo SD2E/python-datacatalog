@@ -29,6 +29,7 @@
     "YeastSTATES-3-Node-Bistable-Circuit",
     "YeastSTATES-Cello-Characterization",
     "request-NC-characterization-in-Biolog-plates",
+    "NovelChassis-Parts-Discovery",
     "YeastStates-TimeSeries-Merged",
     "NovelChassis-HighThroughput-TimeSeries",
     "NovelChassis-TimeSeries-LowThroughput",
@@ -38,7 +39,6 @@
     "NovelChassisYeastStates-TimeSeries",
     "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
     "NovelChassis-NAND-Gate",
-    "NovelChassis-Parts-Discovery",
     "Riboswitches"
   ]
 }
