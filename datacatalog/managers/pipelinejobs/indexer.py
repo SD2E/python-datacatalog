@@ -1,4 +1,5 @@
 import os
+from datacatalog import settings
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...agavehelpers import from_agave_uri, AgaveError
 from ..common import Manager, data_merge
@@ -15,6 +16,22 @@ class Indexer(Manager):
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
             setattr(self, '_path_listing', listing)
         return self
+
+    def index_if_exists(self, abs_filename, storage_system=None):
+        """Index a file if it can be confirmed to exist
+        """
+        if storage_system is None:
+            storage_system is settings.STORAGE_SYSTEM
+        elif storage_system != settings.STORAGE_SYSTEM:
+            raise ValueError(
+                'Only storage system {} is currently supported'.format(
+                    settings.STORAGE_SYSTEM))
+
+        if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
+            raise ValueError('Path does not exist: {}'.format(abs_filename))
+
+        # TODO - Add storage_system=storage_system when FileStore supports it
+        self.stores['file'].index(abs_filename, child_of=[self.uuid])
 
     def file_or_ref_uuid(self, string_reference):
         """Resolves a string as a file or reference UUID
