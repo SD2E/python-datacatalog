@@ -250,9 +250,7 @@ class JobManager(Manager):
                 print('clear_archive_path.mock.delete', ag_path, ag_sys)
                 print('clear_archive_path.mock.mkdir', ag_path, ag_sys)
             else:
-                print('DELETE: ' + ag_path)
                 helper.delete(ag_path, ag_sys)
-                print('MKDIR: ' + ag_path)
                 helper.mkdir(ag_path, ag_sys)
         except Exception as clexc:
             if permissive is False:

@@ -245,7 +245,7 @@ class AgaveHelper(object):
         return sorted(listing)
 
     def delete(self, filePath, systemId):
-        self._client.files.delete(filePath, systemId=systemId)
+        self._client.files.delete(filePath=filePath, systemId=systemId)
 
     def mkdir(self, dirName, systemId,
               basePath='/', sync=False, timeOut=60):
