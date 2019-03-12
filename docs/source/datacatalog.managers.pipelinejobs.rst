@@ -32,10 +32,18 @@ datacatalog.managers.pipelinejobs.exceptions module
     :undoc-members:
     :show-inheritance:
 
-datacatalog.managers.pipelinejobs.indexing module
--------------------------------------------------
+datacatalog.managers.pipelinejobs.indexer module
+------------------------------------------------
 
-.. automodule:: datacatalog.managers.pipelinejobs.indexing
+.. automodule:: datacatalog.managers.pipelinejobs.indexer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.managers.pipelinejobs.indexrequest module
+-----------------------------------------------------
+
+.. automodule:: datacatalog.managers.pipelinejobs.indexrequest
     :members:
     :undoc-members:
     :show-inheritance:

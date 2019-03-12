@@ -37,6 +37,10 @@
             },
             "type": "array"
         },
+        "storage_system": {
+            "description": "A valid Agave storageSystem.id",
+            "type": "string"
+        },
         "_visible": {
             "description": "Whether the file has been marked as unavailable",
             "type": "boolean"

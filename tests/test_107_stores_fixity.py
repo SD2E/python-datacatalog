@@ -31,7 +31,6 @@ def test_fixity_pathmapping(monkeypatch, mongodb_settings, filename, level, ftyp
     monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
     fixity_store = FixityStore(mongodb_settings)
     resp = fixity_store.index(filename)
-    assert resp['level'] == level
     assert resp['type'] == ftype
 
 def test_fixity_filetype(monkeypatch, mongodb_settings):

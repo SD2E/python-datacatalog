@@ -22,5 +22,5 @@ ADMIN_TOKEN_SECRET = os.environ.get(
     'CATALOG_ADMIN_TOKEN_SECRET', 'T}gLWL-*E%<wWfh9JgV4)Rw;s5MwcB2=')
 """Default secret for generating admin tokens"""
 ADMIN_TOKEN_LIFETIME = int(os.environ.get(
-    'CATALOG_ADMIN_TOKEN_LIFETIME', '30'))
+    'CATALOG_ADMIN_TOKEN_LIFETIME', '3600'))
 """Lifetime in seconds for administrative tokens"""

@@ -45,3 +45,6 @@ UNICODE_PATHS = parse_boolean(os.environ.get('CATALOG_UNICODE_PATHS', '0'))
 
 # Contents of record._admin.source
 RECORDS_SOURCE = os.environ.get('CATALOG_RECORDS_SOURCE', 'testing')
+
+# Prefix for minting file.id strings
+FILE_ID_PREFIX = os.environ.get('CATALOG_FILE_ID_PREFIX', 'file.tacc') + '.'

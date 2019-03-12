@@ -66,7 +66,7 @@ class Manager(object):
         typeduuid.validate(uuid)
         return typeduuid.get_uuidtype(uuid)
 
-    def get_by_uuid(self, uuid):
+    def get_by_uuid(self, uuid, permissive=True):
         """Returns a LinkedStore document by UUID
 
         Args:
@@ -76,10 +76,15 @@ class Manager(object):
             dict: The document that was retrieved
         """
         storename = self.get_uuidtype(uuid)
-        return self.sanitize(
-            self.stores[storename].find_one_by_uuid(uuid))
+        resp = self.stores[storename].find_one_by_uuid(uuid)
+        if resp is not None:
+            return self.sanitize(resp)
+        elif permissive:
+            return None
+        else:
+            raise ValueError('That UUID does not appear to exist')
 
-    def get_by_identifier(self, identifier_string):
+    def get_by_identifier(self, identifier_string, permissive=True):
         """Search LinkedStores for a string identifier
 
         Args:
@@ -94,9 +99,12 @@ class Manager(object):
                 resp = store.coll.find_one(query)
                 if resp is not None:
                     return self.sanitize(resp)
-        return None
+        if permissive:
+            return None
+        else:
+            raise ValueError('No such identifier could be found')
 
-    def get_by_uuids(self, uuids):
+    def get_by_uuids(self, uuids, permissive=True):
         """Returns a list of LinkedStore documents by UUID
 
         Args:
@@ -107,7 +115,7 @@ class Manager(object):
         """
         recs = list()
         for uuid in uuids:
-            resp = self.get_by_uuid(uuid)
+            resp = self.get_by_uuid(uuid, permissive=permissive)
             if resp is not None:
                 recs.append(resp)
         sorted_recs = sorted(recs, key=lambda k: k['uuid'])

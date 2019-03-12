@@ -87,7 +87,7 @@ def client_w_sample_archive_path(mongodb_settings, pipelinejobs_config,
                              agave=agave, archive_path='/sample/tacc-cloud',
                              experiment_id='experiment.tacc.10001',
                              archive_patterns=[{'patterns': ['.json$'], 'level': '2'}],
-                             product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36']}])
+                             product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36', './672.png', 'agave://data-sd2e-community/sample/tacc-cloud/dawnofman.jpg']}])
     # try:
     #     mpj.reset(token=admin_token)
     # except ManagedPipelineJobError:
@@ -450,3 +450,22 @@ def test_pipeinst_index_auto_transition(instance_w_sample_archive_path, admin_to
     assert indexed['state'] == 'FINISHED'
     assert indexed['last_event'] == 'indexed'
 
+{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36', './672.png']}
+
+def test_pipeinst_reindex_product(instance_w_sample_archive_path, admin_token):
+    filters = [{'patterns': ['wc-sample.txt$'], 'derived_using': [], 'derived_from': ['./taconaut.txt']}]
+    indexed = instance_w_sample_archive_path.index(token=admin_token, transition=False, filters=filters)
+    indexed_basenames = [os.path.basename(p) for p in indexed]
+    assert 'wc-sample.txt' in indexed_basenames
+
+def test_pipeinst_reindex_archive(instance_w_sample_archive_path, admin_token):
+    filters = [{'patterns': ['wc-sample.txt$'], 'level': '2'}]
+    indexed = instance_w_sample_archive_path.index(token=admin_token, transition=False, filters=filters)
+    indexed_basenames = [os.path.basename(p) for p in indexed]
+    assert 'wc-sample.txt' in indexed_basenames
+
+def test_pipeinst_reindex_archive_gen_by(instance_w_sample_archive_path, admin_token):
+    filters = [{'patterns': ['wc-sample.txt$'], 'level': '2', 'generated_by': ['1179fdd6-71e0-504e-bab1-021ce3a72e35']}]
+    indexed = instance_w_sample_archive_path.index(token=admin_token, transition=False, filters=filters)
+    indexed_basenames = [os.path.basename(p) for p in indexed]
+    assert 'wc-sample.txt' in indexed_basenames
