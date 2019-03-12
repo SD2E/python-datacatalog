@@ -258,8 +258,8 @@ class AgaveHelper(object):
         """
         try:
             self._client.files.manage(systemId=systemId,
-                                     body={'action': 'mkdir', 'path': dirName},
-                                     filePath=basePath)
+                                      body={'action': 'mkdir', 'path': dirName},
+                                      filePath=basePath)
         except HTTPError as h:
             http_err_resp = process_agave_httperror(h)
             raise Exception(http_err_resp)
