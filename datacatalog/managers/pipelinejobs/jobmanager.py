@@ -224,7 +224,7 @@ class JobManager(Manager):
         vals.append('archive_uri: ' + self.archive_uri())
         return '\n'.join(vals)
 
-    def _clear_archive_path(self, mock=True, permissive=True):
+    def _clear_archive_path(self, mock=False, permissive=True):
         """Administratively clears a job's archive path
 
         Path is cleared quickly by deleting the directory then recreating it.
