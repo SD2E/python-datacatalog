@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190304T234239+00:00; source: git@github.com:SD2E/python-datacatalog.git@02bf9e1",
+    "$comment": "generated: 20190312T130550+00:00; source: git@github.com:SD2E/python-datacatalog.git@ffa5835",
     "$id": "https://schema.catalog.sd2e.org/schemas/processing_level.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -10,7 +10,8 @@
         "2",
         "3",
         "Reference",
-        "User"
+        "User",
+        "Unknown"
     ],
     "examples": [
         "0",
@@ -18,7 +19,8 @@
         "2",
         "3",
         "Reference",
-        "User"
+        "User",
+        "Unknown"
     ],
     "title": "Processing Level",
     "type": "string"
