@@ -320,6 +320,10 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
             measurement_props = ginkgo_measurements[measurement_key]
 
+            # Ginkgo uses this for control markings on proteomics
+            if "measurement_type" in measurement_props and measurement_props["measurement_type"] == "proteomics control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
+
             assay_type = measurement_props["assay_type"]
             if assay_type == "NGS (RNA)":
                 measurement_type = SampleConstants.MT_RNA_SEQ
