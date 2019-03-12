@@ -30,7 +30,6 @@ class FixityStore(LinkedStore, RateLimiter):
         LinkedStore.update_attrs(self, schema)
         self.setup()
         RateLimiter.__init__(self, **kwargs)
-        # pprint(self.__dict__)
 
     def index(self, filename, **kwargs):
         """Capture or update current properties of a file
