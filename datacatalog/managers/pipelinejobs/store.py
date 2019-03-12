@@ -278,6 +278,14 @@ class ManagedPipelineJob(JobManager):
         new_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
         if new_job is None:
             new_job = self.stores['pipelinejob'].create(job_document)
+
+        # Make the destination path
+        # This is to support Reactors that don't rely on Agave archiving
+        try:
+            self.stores['pipelinejob']._helper.mkdir(self.archive_path, self.archive_system)
+        except Exception as exc:
+            print('Failed to mkdir {}: {}'.format(self.archive_path, exc))
+
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
 
         setattr(self, 'uuid', new_job['uuid'])
