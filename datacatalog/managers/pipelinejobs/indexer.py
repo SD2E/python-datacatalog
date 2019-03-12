@@ -1,5 +1,6 @@
 import os
 from ...linkedstores.file import FileRecord, infer_filetype
+from ...agavehelpers import from_agave_uri, AgaveError
 from ..common import Manager, data_merge
 from .indexrequest import ArchiveIndexRequest, ProductIndexRequest, get_index_request
 from .indexrequest import IndexingError, IndexType, InvalidIndexingRequest
@@ -33,6 +34,19 @@ class Indexer(Manager):
             return doc['uuid']
         else:
             raise ValueError('Not a file or reference identifier')
+
+    def file_agave_url(self, string_reference, check_exists=True):
+        """Resolves an Agave URL into a file UUID
+        """
+        # Needs to be wrapped in try..except block since from_agave_uri
+        # raises AgaveError or ValueError when it cannot resolve a URI
+        try:
+            system, directory, fname = from_agave_uri(string_reference)
+            abs_filename = os.path.join(directory, fname)
+            # TODO - Implement check_exists and on-demand indexing
+            return self.file_or_ref_identifier(abs_filename)
+        except Exception:
+            raise ValueError('Unable to resolve Agave URI')
 
     def file_job_relative_path(self, string_reference, check_exists=True):
         """Resolves a filename relative to a job's archive path as a file UUID
@@ -70,7 +84,14 @@ class Indexer(Manager):
                 continue
             except ValueError:
                 pass
-                # print('Not an identifier')
+
+            try:
+                refuuid = self.file_agave_url(ref)
+                resolved.append(refuuid)
+                continue
+            except ValueError:
+                pass
+
             # Relative path
             try:
                 refuuid = self.file_job_relative_path(ref, check_exists=True)
@@ -81,7 +102,7 @@ class Indexer(Manager):
                 # print('Not a relative filename')
 
             if not permissive:
-                raise ValueError('Reference {} was not resolved'.format(ref))
+                raise ValueError('String reference {} was not resolved'.format(ref))
         # list of resolved references
         return resolved
 
