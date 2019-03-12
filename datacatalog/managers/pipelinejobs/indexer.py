@@ -17,21 +17,28 @@ class Indexer(Manager):
             setattr(self, '_path_listing', listing)
         return self
 
-    def index_if_exists(self, abs_filename, storage_system=None):
+    def index_if_exists(self, abs_filename, storage_system=None, check_exists=True):
         """Index a file if it can be confirmed to exist
         """
         if storage_system is None:
             storage_system is settings.STORAGE_SYSTEM
         elif storage_system != settings.STORAGE_SYSTEM:
+            # NOTE - This is temporary until comprehensive support for storageSystems is complete
             raise ValueError(
                 'Only storage system {} is currently supported'.format(
                     settings.STORAGE_SYSTEM))
 
-        if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
-            raise ValueError('Path does not exist: {}'.format(abs_filename))
+        if check_exists:
+            if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
+                raise ValueError('Path does not exist: {}'.format(abs_filename))
 
-        # TODO - Add storage_system=storage_system when FileStore supports it
-        self.stores['file'].index(abs_filename, child_of=[self.uuid])
+        # TODO - Add storage_system=storage_system to File/FixityStore.index()
+        resp = self.stores['file'].index(abs_filename, child_of=[self.uuid])
+        try:
+            self.stores['fixity'].index(abs_filename)
+        except Exception:
+            print('Fixity indexing failed for {}'.format(abs_filename))
+        return resp
 
     def file_or_ref_uuid(self, string_reference):
         """Resolves a string as a file or reference UUID
@@ -46,11 +53,17 @@ class Indexer(Manager):
         """Resolves a string identifier into a files or reference UUID
         """
         doc = self.get_by_identifier(string_reference, permissive=False)
-        uuidt = self.get_uuidtype(doc['uuid'])
-        if uuidt in ('file', 'reference'):
-            return doc['uuid']
+        if doc is not None:
+            uuidt = self.get_uuidtype(doc['uuid'])
+            if uuidt in ('file', 'reference'):
+                return doc['uuid']
         else:
-            raise ValueError('Not a file or reference identifier')
+            # Try to index a file path if it wasn't in the database
+            if string_reference.startswith('/'):
+                doc = self.index_if_exists(string_reference)
+                if doc is not None:
+                    return doc['uuid']
+        raise ValueError('Not a valid file or reference identifier {}'.format(string_reference))
 
     def file_agave_url(self, string_reference, check_exists=True):
         """Resolves an Agave URL into a file UUID
@@ -60,7 +73,7 @@ class Indexer(Manager):
         try:
             system, directory, fname = from_agave_uri(string_reference)
             abs_filename = os.path.join(directory, fname)
-            # TODO - Implement check_exists and on-demand indexing
+            self.index_if_exists(abs_filename, system, check_exists=check_exists)
             return self.file_or_ref_identifier(abs_filename)
         except Exception:
             raise ValueError('Unable to resolve Agave URI')
@@ -74,11 +87,7 @@ class Indexer(Manager):
             os.path.join(self.archive_path, string_reference))
         fname_uuid = self.stores['file'].get_typeduuid(abs_filename, binary=False)
         if check_exists:
-            if not self.stores['pipelinejob']._helper.exists(abs_filename, self.archive_system):
-                raise ValueError('Path does not exist: {}'.format(abs_filename))
-            # Ensure there's a minimal metadata record for this file entry
-            # The child_of linkage is _assumed_ to be the currently job
-            self.stores['file'].index(abs_filename, child_of=[self.uuid])
+            self.index_if_exists(abs_filename, self.archive_system)
         return fname_uuid
 
     def resolve_derived_references(self, reference_set, permissive=False):

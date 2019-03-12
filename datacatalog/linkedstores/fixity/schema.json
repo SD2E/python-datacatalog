@@ -45,6 +45,10 @@
             "description": "File size in bytes",
             "$comment": "Computed automatically"
         },
+        "storage_system": {
+            "description": "A valid Agave storageSystem.id",
+            "type": "string"
+        },
         "_visible": {
             "description": "Whether the file is marked as unavailable",
             "type": "boolean",

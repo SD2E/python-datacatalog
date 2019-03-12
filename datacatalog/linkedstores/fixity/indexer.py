@@ -8,6 +8,7 @@ import sys
 from stat import S_ISREG
 from pprint import pprint
 
+from datacatalog import settings
 from ...filetypes import infer_filetype
 from ...stores import abspath
 from ...utils import normalize, normpath
@@ -25,6 +26,8 @@ class FixityIndexer(object):
     """Seed for xxHash 64-bit fingerprinting"""
 
     __PARAMS = [('name', 'name', False, None),
+                ('storage_system', 'storage_system',
+                    False, settings.STORAGE_SYSTEM),
                 ('version', 'version', True, 0),
                 ('type', 'type', True, None),
                 ('created', 'created', True, None),

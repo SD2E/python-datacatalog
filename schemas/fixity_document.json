@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190304T234238+00:00; source: git@github.com:SD2E/python-datacatalog.git@02bf9e1",
+    "$comment": "generated: 20190312T134400+00:00; source: git@github.com:SD2E/python-datacatalog.git@ec41383",
     "$id": "https://schema.catalog.sd2e.org/schemas/fixity_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -118,6 +118,10 @@
             "$comment": "Computed automatically",
             "description": "File size in bytes",
             "type": "integer"
+        },
+        "storage_system": {
+            "description": "A valid Agave storageSystem.id",
+            "type": "string"
         },
         "type": {
             "$comment": "Computed automatically",
