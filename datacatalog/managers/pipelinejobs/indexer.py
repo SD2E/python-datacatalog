@@ -9,12 +9,17 @@ from .indexrequest import ARCHIVE, PRODUCT
 
 class Indexer(Manager):
 
+    _path_listing = list()
+
     def sync_listing(self, force=False):
         """Updates the job's cache of archive_path contents
         """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
-            setattr(self, '_path_listing', listing)
+            if isinstance(listing, list):
+                setattr(self, '_path_listing', listing)
+            else:
+                raise IndexingError('Failed to list archive path')
         return self
 
     def index_if_exists(self, abs_filename, storage_system=None, check_exists=True):
