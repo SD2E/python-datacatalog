@@ -82,18 +82,6 @@ class ManagedPipelineJobInstance(Indexer):
         # if filters are passed, parse thru them and assign to either archive
         # or product index queue then dispatch. If not, pull results from
         # <kind>_patterns files and do same.
-        # Process the event
-        indexed = list()
-        try:
-            self.sync_listing(force=True)
-            event_doc = {'uuid': self.uuid,
-                         'name': 'index',
-                         'data': {'filters': len(filters)}}
-            resp = self.handle(event_doc, token=token)
-            if resp is None:
-                raise IndexingError('Failed to process event')
-        except Exception:
-            raise
 
         # Iterate through filters if provided
         filter_set = list()
@@ -105,6 +93,19 @@ class ManagedPipelineJobInstance(Indexer):
             filter_set.extend(self.archive_patterns)
             filter_set.extend(self.product_patterns)
             index_fixity = True
+
+        # Process the event
+        indexed = list()
+        try:
+            self.sync_listing(force=True)
+            event_doc = {'uuid': self.uuid,
+                         'name': 'index',
+                         'data': {'filters': len(filter_set)}}
+            resp = self.handle(event_doc, token=token)
+            if resp is None:
+                raise IndexingError('Failed to process event')
+        except Exception:
+            raise
 
         # print('filter_set', filter_set)
         # Do the metadata indexing
