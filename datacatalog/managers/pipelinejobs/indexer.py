@@ -34,6 +34,7 @@ class Indexer(Manager):
 
         # TODO - Add storage_system=storage_system to File/FixityStore.index()
         resp = self.stores['file'].index(abs_filename, child_of=[self.uuid])
+        # raise SystemError(resp)
         try:
             self.stores['fixity'].index(abs_filename)
         except Exception:
