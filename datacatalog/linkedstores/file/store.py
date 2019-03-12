@@ -39,7 +39,9 @@ class FileRecord(collections.UserDict):
         ('generated_by', False, 'generated_by', []),
         ('derived_using', False, 'derived_using', []),
         ('derived_from', False, 'derived_from', []),
-        ('notes', False, 'notes', [])]
+        ('notes', False, 'notes', []),
+        ('level', False, 'level', 'Unknown'),
+        ('storage_system', False, 'storage_system', settings.STORAGE_SYSTEM)]
 
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:

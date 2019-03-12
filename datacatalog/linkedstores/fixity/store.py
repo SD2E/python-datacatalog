@@ -4,7 +4,7 @@ import os
 import sys
 import time
 from pprint import pprint
-
+from datacatalog import settings
 from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
 from ...stores import abspath
@@ -60,6 +60,8 @@ class FixityStore(LinkedStore, RateLimiter):
                          'uuid': fixity_uuid,
                          'version': 0,
                          'child_of': [file_uuid],
+                         'storage_system': kwargs.get(
+                             'storage_system', settings.STORAGE_SYSTEM),
                          'generated_by': kwargs.get('generated_by', [])}
         else:
             # This is special case logic. Fixity is a managed record, so it

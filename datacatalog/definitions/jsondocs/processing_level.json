@@ -6,7 +6,8 @@
         "2",
         "3",
         "Reference",
-        "User"
+        "User",
+        "Unknown"
     ],
     "type": "string"
 }
