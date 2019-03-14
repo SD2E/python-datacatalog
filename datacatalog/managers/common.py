@@ -6,7 +6,7 @@ import itertools
 import os
 import sys
 from pprint import pprint
-
+from datacatalog.logger import get_logger
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
 from .. import linkedstores
@@ -18,16 +18,43 @@ from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
 from ..extensible import ExtensibleAttrDict
 
-__all__ = ['Manager', 'ManagerError']
+__all__ = ['ManagerBase', 'Manager', 'ManagerError']
 class ManagerError(linkedstores.basestore.CatalogError):
     """Error has occurred inside a Manager"""
     pass
 
-class Manager(object):
+class ManagerBase(object):
+    """Base class for non database, non Agave functions
+    """
+    def __init__(self, *args, **kwargs):
+        self.logger = get_logger(__name__)
+
+    @classmethod
+    def sanitize(cls, mongo_document):
+        """Strips out non-public fields from a JSON document
+        """
+        a = ExtensibleAttrDict(mongo_document)
+        return a.as_dict(private_prefix='_')
+
+    @classmethod
+    def get_uuidtype(cls, uuid):
+        """Identify the named type for a given UUID
+
+        Args:
+            uuid (str): UUID to classify by type
+
+        Returns:
+            str: Named type of the UUID
+        """
+        typeduuid.validate(uuid)
+        return typeduuid.get_uuidtype(uuid)
+
+class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
+        ManagerBase.__init__(self, *args, **kwargs)
         self.stores = Manager.init_stores(mongodb, agave=agave)
         self.client = agave
         self.api_server = kwargs.get('api_server', current_tenant_uri())
@@ -47,24 +74,6 @@ class Manager(object):
             except ModuleNotFoundError as mexc:
                 print('Module not found: {}'.format(pkg), mexc)
         return stores
-
-    def sanitize(self, mongo_document):
-        """Strips out non-public fields from a JSON document
-        """
-        a = ExtensibleAttrDict(mongo_document)
-        return a.as_dict(private_prefix='_')
-
-    def get_uuidtype(self, uuid):
-        """Identify the named type for a given UUID
-
-        Args:
-            uuid (str): UUID to classify by type
-
-        Returns:
-            str: Named type of the UUID
-        """
-        typeduuid.validate(uuid)
-        return typeduuid.get_uuidtype(uuid)
 
     def get_by_uuid(self, uuid, permissive=True):
         """Returns a LinkedStore document by UUID

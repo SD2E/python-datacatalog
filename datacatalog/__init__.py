@@ -9,6 +9,7 @@ from . import filetypes
 from . import formats
 from . import identifiers
 from . import jsonschemas
+from . import logger
 from . import linkages
 from . import linkedstores
 from . import managers
