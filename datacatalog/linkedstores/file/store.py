@@ -6,6 +6,7 @@ import os
 import sys
 from pprint import pprint
 from datacatalog import settings
+from datacatalog.extensible import ExtensibleAttrDict
 
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
@@ -30,7 +31,7 @@ class FileDocument(HeritableDocumentSchema):
         super(FileDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
-class FileRecord(collections.UserDict):
+class FileRecord(ExtensibleAttrDict):
     """New document for FileStore with schema enforcement"""
 
     PARAMS = [
@@ -50,14 +51,14 @@ class FileRecord(collections.UserDict):
 
         # Validate incoming document
         value = dict(value)
-        self.schema = FileDocument()
-        for k in self.schema.filter_keys():
+        schema = FileDocument()
+        for k in schema.filter_keys():
             try:
                 del value[k]
             except KeyError:
                 pass
         vvalue = json.loads(json.dumps(value, default=DateTimeConverter))
-        jsonschema_validate(vvalue, self.schema.to_dict(),
+        jsonschema_validate(vvalue, schema.to_dict(),
                             format_checker=formatChecker())
 
         # Ensure the minimum set of other fields is populated
@@ -100,6 +101,7 @@ class FileStore(LinkedStore):
         resp = super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
+        self.logger.info('add_update_document: {}'.format(resp))
         new_resp = FileRecord(resp)
         new_resp.set_token(resp.get('_update_token', None))
         return new_resp
@@ -140,11 +142,12 @@ class FileStore(LinkedStore):
         if isinstance(payload, dict):
             if 'name' in payload:
                 payload['name'] = safen_path(payload['name'])
-            identifier_string = self.get_linearized_values(payload)
+            # identifier_string = self.get_linearized_values(payload)
         else:
-            identifier_string = normpath(str(payload))
-        # print('IDENTIFIER.string', identifier_string)
-        return super().get_typeduuid(identifier_string, binary)
+            payload = normpath(str(payload))
+            # identifier_string = normpath(str(payload))
+        self.logger.debug('file.payload: {}'.format(payload))
+        return super().get_typeduuid(payload, binary)
 
 class StoreInterface(FileStore):
     pass

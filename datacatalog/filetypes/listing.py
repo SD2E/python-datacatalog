@@ -26,8 +26,7 @@ def listall(filter_attrname=None):
         elif filter_attrname == 'comment':
             filtered_listing = [FileTypeComment(l.get(filter_attrname)) for l in big_list]
         filtered_listing = [l.get(filter_attrname) for l in big_list]
-        filtered_listing = list(set(filtered_listing))
-        filtered_listing = sorted(filtered_listing)
+        filtered_listing = list(set(filtered_listing)).sort()
         # if filter_attrname == 'label':
         #     filtered_listing.append(FileTypeLabel('*'))
         # if filter_attrname == 'comment':

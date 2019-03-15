@@ -79,7 +79,6 @@ class SerializedPipeline(object):
             if fcomp is not None:
                 comps.append(fcomp)
 
-        # sorted_comps = sorted(comps, key=lambda k: k['id'])
         setattr(self, 'components', comps)
 
     def to_json(self):

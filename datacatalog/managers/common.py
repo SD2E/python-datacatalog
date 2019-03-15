@@ -286,7 +286,8 @@ class Manager(ManagerBase):
         # Set permissive to True to simply filter out values that dont validate
         uuid_links = [l for l in links if typeduuid.validate(
             l, permissive=True) is True]
-        uuid_links = sorted(list(set(uuid_links)))
+        uuid_links = list(set(uuid_links))
+        uuid_links.sort()
         return uuid_links
 
     def lineage_from_uuid(self, query_uuid, target='child_of', permissive=True):
@@ -405,7 +406,8 @@ class Manager(ManagerBase):
             if enforce_type:
                 if len(list(set(self_types))) > 1:
                     raise ValueError('Cannot resolve a list of identifiers with mixed types')
-            selfs = sorted(list(set(selfs)))
+            selfs = list(set(selfs))
+            selfs.sort()
             if len(selfs) > 0:
                 return selfs
             else:
@@ -467,87 +469,101 @@ class Manager(ManagerBase):
             child_ids.append(chrec.get(child_id_field, None))
 
         # Return non-redundant set of child UUIDs
-        child_ids = sorted(list(set(child_ids)))
+        child_ids = list(set(child_ids))
+        child_ids.sort()
         return child_ids
 
     def designs_from_challenges(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='challenge_problem',
             parent_id='id',
             kid='experiment_design',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def experiments_from_designs(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment_design',
             parent_id='experiment_design_id',
             kid='experiment',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def samples_from_experiments(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment',
             parent_id='experiment_id',
             kid='sample',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_measurements(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='measurement',
             parent_id='measurement_id',
             kid='measurement',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def samples_from_samples(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='sample',
             parent_id='sample_id',
             kid='sample',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def experiments_from_experiments(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment',
             parent_id='experiment_id',
             kid='experiment',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_samples(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='sample',
             parent_id='sample_id',
             kid='measurement',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_experiments(self, ids, permissive=True):
         samples = self.samples_from_experiments(
             ids, permissive=permissive)
         measurements = self.measurements_from_samples(
             samples, permissive=permissive)
-        return sorted(measurements)
+        measurements.sort()
+        return measurements
 
     def measurements_from_designs(self, ids, permissive=True):
         experiments = self.experiments_from_designs(
             ids, permissive=permissive)
-        return sorted(
-            self.measurements_from_experiments(experiments, permissive=True))
+        return self.measurements_from_experiments(experiments, permissive=True)
 
     def measurements_from_challenges(self, ids, permissive=True):
         designs = self.designs_from_challenges(
             ids, permissive=permissive)
-        return sorted(
-            self.measurements_from_designs(designs, permissive=True))
+        return self.measurements_from_designs(designs, permissive=True)

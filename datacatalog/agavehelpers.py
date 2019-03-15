@@ -242,7 +242,8 @@ class AgaveHelper(object):
                     if f['format'] == 'folder' and recurse is True:
                         self.listdir_agave_native(
                             f['path'], recurse, storage_system, directories, current_listing=listing)
-        return sorted(listing)
+        listing.sort()
+        return listing
 
     def delete(self, filePath, systemId):
         self._client.files.delete(filePath=filePath, systemId=systemId)
