@@ -29,6 +29,7 @@ from .exceptions import *
 from .diff import get_diff
 from .merge import json_merge
 from .record import Record
+from .linkmanager import LinkageManager
 
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
@@ -41,7 +42,7 @@ DEFAULT_LINK_FIELDS = linkages.DEFAULT_LINKS
 DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_auth')
 """Default set of keys managed by LinkedStore internal logic"""
 
-class LinkedStore(object):
+class LinkedStore(LinkageManager):
     """JSON-schema informed MongoDB document store with diff-based logging
 
     If the class has public attributes, they may be documented here
@@ -784,118 +785,7 @@ class LinkedStore(object):
         except Exception as exc:
             raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)
 
-    def add_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Link a Data Catalog record with one or more Data Catalog records
 
-        Args:
-            uuid (str): UUID of the subject record
-            linked_uuid (str, list): UUID (or list) of the object record(s)
-            relation (str, optional): Name of the relation add
-            token (str): String token authorizing edits to the subject record
-
-        Returns:
-            dict: Contents of the revised Data Catalog record
-
-        Raises:
-            CatalogError: Returned if an invalid relation type or unknown UUID is encountered
-        """
-        if isinstance(linked_uuid, str):
-            linked_uuid = [linked_uuid]
-        if linked_uuid is None:
-            linked_uuid = list()
-        rels = list()
-        doc = None
-        try:
-            doc = self.find_one_by_uuid(uuid)
-            if doc is not None:
-                if relation in list(doc.keys()):
-                    rels = doc.get(relation)
-                    for luuid in linked_uuid:
-                        if luuid not in rels:
-                            if uuid != luuid:
-                                rels.append(luuid)
-                    rels = sorted(rels)
-                    doc[relation] = rels
-                # Create relation if allowed by schema
-                elif relation in list(self.document_schema['properties'].keys()):
-                    rels = linked_uuid
-                    doc[relation] = rels
-                else:
-                    raise CatalogError(
-                        'Relationship {} not supported by document {}'.format(
-                            relation, uuid))
-                doc = self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
-            else:
-                raise CatalogError('No document found with UUID {}'.format(uuid))
-        except Exception as exc:
-            print('Failed to add linkage: {}'.str(exc))
-
-        return doc
-
-    def remove_link(self, uuid, linked_uuid, relation='child_of', token=None):
-        """Unlink one Data Catalog record from another
-
-        Args:
-            uuid (str): UUID of the subject record
-            linked_uuid (str): UUID of the object record
-            relation (str, optional): Name of the relation to remove
-            token (str): String token authorizing edits to the subject record
-
-        Returns:
-            dict: Contents of the revised Data Catalog record
-
-        Raises:
-            CatalogError: Returned if an invalid relation type or unknown UUID is encountered
-        """
-        rels = list()
-        try:
-            doc = self.find_one_by_uuid(uuid)
-            # Create empty relation if supported by schema
-            # pprint(self.document_schema)
-            if doc is not None:
-                if relation in list(doc.keys()):
-                    rels = doc.get(relation)
-                    try:
-                        rels.remove(linked_uuid)
-                    except ValueError:
-                        pass
-                elif relation in list(self.document_schema['properties'].keys()):
-                    rels = list()
-                else:
-                    raise CatalogError('Relationship {} not supported by document {}'.format(relation, uuid))
-
-                # write
-                doc[relation] = rels
-                return self.add_update_document(doc, uuid=uuid, token=token, strategy='replace')
-            else:
-                raise CatalogError('No document found with UUID {}'.format(uuid))
-        except Exception as exc:
-            raise
-
-    def get_links(self, uuid, relation='child_of'):
-        """Return linkages to this LinkedStore
-
-        Return a list of typed UUIDs representing all connections between this
-        LinkedStore and other LinkedStores. This list can be traversed to return
-        a list of all LinkedStore objects using `datacatalog.managers.catalog.get()`
-
-        Args:
-            uuid (str): The UUID of the LinkedStore document to query
-            relation (str, optional): The linkage relationship to return
-        Returns:
-            list: A list of typed UUIDs that establish relationhips to other LinkedStores
-        """
-        doc = self.find_one_by_uuid(uuid)
-        if doc is not None:
-            if relation in list(doc.keys()):
-                return doc.get(relation)
-            if relation in list(self.document_schema['properties'].keys()):
-                # The relationship could exist as per the schema but is not defined
-                return list()
-            else:
-                raise CatalogError(
-                    'Relationship "{}" not available in document {}'.format(
-                        relation, uuid))
 
     def debug_mode(self):
         """Returns True if system is running in debug mode"""

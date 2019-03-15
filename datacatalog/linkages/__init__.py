@@ -60,17 +60,6 @@ class LinkEdges(ExtensibleAttrDict):
             lf_val = Linkage(lf)
             setattr(self, lf_val, doc_dict.get(lf, []))
 
-    # def diff(self, other):
-    #     linked_edges = dict()
-    #     for lf in self.LINK_FIELDS:
-    #         ledff = LinkEdgesDiff()
-    #         links1 = getattr(self, lf, list())
-    #         links2 = getattr(other, lf, list())
-    #         ledff.left_only = list(set(links1) - set(links2))
-    #         ledff.right_only = list(set(links2) - set(links1))
-    #         linked_edges[lf] = ledff
-    #     return linked_edges
-
     def right_merge(self, other):
         links = MergedLinkages()
         for lf in self.LINK_FIELDS:

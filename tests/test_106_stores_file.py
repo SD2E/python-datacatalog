@@ -111,25 +111,42 @@ def test_files_au_update(mongodb_settings):
         assert resp['uuid'] == uuid_val
         assert '_update_token' in resp
 
-def test_files_get_links(mongodb_settings):
+def test_files_links_get_links(mongodb_settings):
     base = FileStore(mongodb_settings)
     for key, doc, uuid_val in file.UPDATES:
         links = base.get_links(uuid_val, 'child_of')
         assert isinstance(links, list)
 
-# def test_files_remove_linkage(mongodb_settings):
-#     base = FileStore(mongodb_settings)
-#     for key, doc, uuid_val in file.UPDATES:
-#         resp = base.remove_link(uuid_val, '1040f664-54a6-0b71-8941-277a05ac6fa7')
-#         assert '1040f664-54a6-0b71-8941-277a05ac6fa7' not in resp.get('child_of', dict)
+def test_files_links_add_link(mongodb_settings):
+    base = FileStore(mongodb_settings)
+    for key, doc, uuid_val in file.UPDATES:
+        resp = base.add_link(uuid_val, '1040f664-a654-0b71-4189-2ac6f77a05a7', 'child_of')
+        assert resp is True
+        links = base.get_links(uuid_val, 'child_of')
+        assert '1040f664-a654-0b71-4189-2ac6f77a05a7' in links
 
-# def test_files_add_linkage(mongodb_settings):
-#     base = FileStore(mongodb_settings)
-#     for key, doc, uuid_val in file.UPDATES:
-#         resp = base.add_link(uuid_val, '1040f664-a654-0b71-4189-2ac6f77a05a7')
-#         assert '1040f664-a654-0b71-4189-2ac6f77a05a7' in resp.get('child_of', dict)
-#         links = base.get_links(uuid_val, 'child_of')
-#         assert '1040f664-a654-0b71-4189-2ac6f77a05a7' in links
+def test_files_links_add_link(mongodb_settings):
+    base = FileStore(mongodb_settings)
+    for key, doc, uuid_val in file.UPDATES:
+        resp = base.add_link(uuid_val, ['1040f664-a654-0b71-4189-2ac6f77a05a7', '104dae4d-a677-5991-ae1c-696d2ee9884e', 
+        '10483e8d-6602-532a-8941-176ce20dd05a'], 'child_of')
+        assert resp is True
+        links = base.get_links(uuid_val, 'child_of')
+        assert '1040f664-a654-0b71-4189-2ac6f77a05a7' in links
+
+def test_files_links_remove_link(mongodb_settings):
+    base = FileStore(mongodb_settings)
+    for key, doc, uuid_val in file.UPDATES:
+        resp = base.remove_link(uuid_val, '104dae4d-a677-5991-ae1c-696d2ee9884e')
+        assert resp is True
+        links = base.get_links(uuid_val, 'child_of')
+        assert '104dae4d-a677-5991-ae1c-696d2ee9884e' not in links
+
+def test_files_links_add_invalid_linkage(mongodb_settings):
+    base = FileStore(mongodb_settings)
+    for key, doc, uuid_val in file.UPDATES:
+        resp = base.add_link(uuid_val, '1040f664-a654-0b71-4189-2ac6f77a05a7', 'acted_on')
+        assert resp is False
 
 
 @pytest.mark.parametrize("filename,fuuid", [
