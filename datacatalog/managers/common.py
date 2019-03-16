@@ -142,6 +142,7 @@ class Manager(ManagerBase):
         """
         uuid = None
         uuid_type = None
+        self.logger.debug('resolving {} into a UUID'.format(identifier))
         try:
             uuid_type = self.get_uuidtype(identifier)
             uuid = identifier
@@ -155,6 +156,8 @@ class Manager(ManagerBase):
         except Exception as exc:
             raise ValueError(
                 'Failed to resolve {} to a UUID: {}'.format(identifier, exc))
+        self.logger.debug(
+            'identifier is a {} with UUID {}'.format(uuid_type, uuid))
         return uuid, uuid_type
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):
@@ -172,6 +175,7 @@ class Manager(ManagerBase):
         Returns:
             dict: The modified record, including its new linkage
         """
+        self.logger.debug('linking {} -[ {} ]-> {}'.format(identifier, linkage_name, linked_identifier))
         uuid, uuid_type = self.get_uuid_from_identifier(identifier)
         linkage_name = Linkage(linkage_name)
         if isinstance(linked_identifier, str):
@@ -180,9 +184,42 @@ class Manager(ManagerBase):
         for lindent in linked_identifier:
             luuid, luuid_type = self.get_uuid_from_identifier(lindent)
             linked_uuid_values.append(luuid)
+        self.logger.debug('writing to the database')
         resp = self.stores[uuid_type].add_link(
             uuid, linked_uuid_values, relation=linkage_name, token=token)
+        if resp:
+            self.logger.debug('write was successful')
         return resp
+
+    def unlink(self, identifier, linked_identifier, linkage_name='child_of', token=None):
+        pass
+
+    def get_links_from_identifier(self, identifier, linkage_name='child_of'):
+        """User-friendly method to get UUIDs linked to an identifier
+
+        Args:
+            identifier (str): Identifier string for record to be modified
+            linkage_name (str): A valid Linkage
+
+        Raises:
+            ValueError: Invalid or unknown identifers are encountered
+            ManagerError: Failed to fetch and return linkages
+
+        Returns:
+            list: A list of TypedUUIDs for the requested linkage
+        """
+        self.logger.debug('getting {} links for {}'.format(linkage_name, identifier))
+        uuid, uuid_type = self.get_uuid_from_identifier(identifier)
+        linkage_name = Linkage(linkage_name)
+        record = self.stores[uuid_type].find_one_by_uuid(uuid)
+        if linkage_name in record:
+            fetched_links = record.get(linkage_name, list())
+            self.logger.debug('found {} links'.format(len(fetched_links)))
+            fetched_links.sort()
+            return fetched_links
+        else:
+            raise ManagerError('record type {} does not support {} linkages'.format(
+                uuid_type, linkage_name))
 
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs

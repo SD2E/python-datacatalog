@@ -63,21 +63,6 @@ def test_mgr_common_get_parents_names(mongodb_settings, agave):
     # Test de-duplication since both inputs have same parent
     assert len(parents) == 1
 
-# def test_mgr_common_get_derivation_names(mongodb_settings, agave):
-#     inputs = ['/uploads/143209-H01.fcs', '/uploads/143209-A07.fcs', 'agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pTACmin/MG1655_pTACmin.interval_file']
-#     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
-#     parents = base.derivation_from_inputs(inputs)
-#     # This tests de-duplication since the two uploads have same parent
-#     # It also tests the parent mapping for the reference case
-#     assert len(parents) == 1
-
-# def test_mgr_common_get_generator_names(mongodb_settings, agave):
-#     inputs = ['/products/v1/41e1dec1-2940-5b04-bd9e-54af78f30774/aaf646a5-7c05-5ab3-a144-5563fca6830d/a4609424-508a-555c-9720-5ee3df44e777/whole-shrew-20181207T220030Z/output/output.csv', '/uploads/143209-A07.fcs', 'agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_NAND_Circuit/MG1655_NAND_Circuit.interval_list']
-#     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
-#     parents = base.generator_from_inputs(inputs)
-#     # Only the long '/products' example should have a generated_by field
-#     assert len(parents) == 1
-
 @pytest.mark.skipif(True, reason='not valid now')
 def test_mgr_common_lineage_file_short_exception(mongodb_settings, agave):
     base = datacatalog.managers.common.Manager(mongodb_settings, agave=agave)
@@ -181,7 +166,17 @@ def test_mgr_common_link(object_id, subject_id, linkage, success, mongodb_settin
     subject_uuid, _ = base.get_uuid_from_identifier(subject_id)
     if success is True:
         resp = base.link(object_id, subject_id, linkage, admin_token)
-        assert subject_uuid in resp.get(linkage, [])
+        assert resp is True
     else:
         with pytest.raises(ValueError):
             base.link(object_id, subject_id, linkage, admin_token)
+
+@pytest.mark.parametrize("object_id, subject_id, linkage, success", [
+    ('105723d4-b27e-55af-b053-63f702c4ad32', '10483e8d-6602-532a-8941-176ce20dd05a', 'child_of', True),
+    ('105723d4-b27e-55af-b053-63f702c4ad32', 'measurement.tacc.0xDEADBEF0', 'child_of', True),
+    ('105723d4-b27e-55af-b053-63f702c4ad32', 'https://www.rcsb.org/structure/6N0V', 'derived_from', True)])
+def test_mgr_common_get_links(object_id, subject_id, linkage, success, mongodb_settings):
+    base = datacatalog.managers.common.Manager(mongodb_settings)
+    subject_uuid, _ = base.get_uuid_from_identifier(subject_id)
+    resp = base.get_links_from_identifier(object_id, linkage)
+    assert subject_uuid in resp
