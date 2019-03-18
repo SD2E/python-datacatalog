@@ -86,12 +86,15 @@ class ManagedPipelineJobInstance(Indexer):
         # Iterate through filters if provided
         filter_set = list()
         if filters is not None and isinstance(filters, list):
+            self.logger.debug('custom index() request')
             filter_set = filters
             index_fixity = fixity
         else:
             # We index the defaults if no filters are provided
-            filter_set.extend(self.archive_patterns)
-            filter_set.extend(self.product_patterns)
+            for patt_key in ('archive_patterns', 'product_patterns'):
+                f = getattr(self, patt_key, list())
+                if isinstance(f, list) and len(f) > 0:
+                    filter_set.extend(f)
             index_fixity = True
 
         # Process the event
@@ -103,24 +106,28 @@ class ManagedPipelineJobInstance(Indexer):
                          'data': {}}
             resp = self.handle(event_doc, token=token)
             if resp is None:
-                raise IndexingError('Failed to process event')
+                raise IndexingError('Empty event response')
         except Exception:
+            self.logger.exception('Failed to process event')
             raise
 
-        # print('filter_set', filter_set)
         # Do the metadata indexing
         for index_request_str in filter_set:
+            self.logger.debug('handling request {}'.format(index_request_str))
             try:
                 just_indexed = self.single_index_request(
                     index_request_str, token=token,
                     refresh=False, fixity=index_fixity)
                 indexed.extend(just_indexed)
             except IndexingError as ierr:
-                print('Indexing attempt failed: {}'.format(index_request_str))
-                print(ierr)
+                self.logger.exception(
+                    'Indexing attempt failed: {}'.format(index_request_str))
                 raise
 
+        self.logger.info('Indexed {} job files'.format(len(indexed)))
+
         if transition is True:
+            self.logger.info("Automatically sending 'indexed' event")
             return self.indexed(token=token)
         else:
             return list(set(indexed))

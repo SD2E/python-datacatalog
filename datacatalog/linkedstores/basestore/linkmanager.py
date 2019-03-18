@@ -33,6 +33,9 @@ class LinkageManager(object):
             # Allows the futile case in case
             linked_uuid = list()
 
+        self.logger.debug("writing linkage '{}' for {}".format(relation, uuid))
+        self.logger.debug("data: '{}'".format(linked_uuid))
+
         # Validate UUIDs and not self
         link_uuid_filt = [u for u in linked_uuid if typeduuid.validate(
             u, permissive=True) and u != uuid]

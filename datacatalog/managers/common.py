@@ -72,7 +72,7 @@ class Manager(ManagerBase):
                 if store_basename != 'basestore':
                     stores[store_basename] = store
             except ModuleNotFoundError as mexc:
-                print('Module not found: {}'.format(pkg), mexc)
+                self.logger.exception('Module not found: {}'.format(pkg))
         return stores
 
     def get_by_uuid(self, uuid, permissive=True):
@@ -290,7 +290,6 @@ class Manager(ManagerBase):
 
         links = list()
         for idstr in inputs:
-            # print('RESOLVING ' + idstr)
             found = False
             for store_name, search_keys, linkage in STORES:
                 # print('STORE ' + store_name)

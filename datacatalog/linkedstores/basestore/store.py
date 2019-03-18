@@ -13,7 +13,7 @@ from datacatalog import linkages
 from datacatalog import logger
 
 from ...dicthelpers import data_merge, flatten_dict, linearize_dict
-from ...identifiers.typeduuid import catalog_uuid, get_uuidtype 
+from ...identifiers.typeduuid import catalog_uuid, get_uuidtype
 from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
 from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, DuplicateKeyError
 from ...stores import StorageSystem, ManagedStores, PathMappings
@@ -36,7 +36,7 @@ __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'CatalogQueryError', 'DuplicateKeyError', 'time_stamp',
            'msec_precision', 'validate_token',
            'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS',
-           'AgaveError', 'AgaveHelperError', 'validate_admin_token']
+           'AgaveError', 'AgaveHelperError', 'validate_admin_token', 'linkages']
 
 DEFAULT_LINK_FIELDS = linkages.DEFAULT_LINKS
 DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_auth')
@@ -362,6 +362,7 @@ class LinkedStore(LinkageManager):
     def get_serialized_document(self, document, **kwargs):
         # Serialize values of specific keys to generate a UUID
         union = {**document, **kwargs}
+        self.logger.debug('serializing {}'.format(union))
         uuid_fields = self.get_uuid_fields()
         serialized = dict()
         for k in union:
@@ -375,7 +376,7 @@ class LinkedStore(LinkageManager):
     def get_linearized_values(self, document, **kwargs):
         # Serialize values of specific keys to generate a UUID
         union = {**document, **kwargs}
-        self.logger.debug('get_linearized_values: {}'.format(union))
+        self.logger.debug('linearizing {}'.format(union))
         uuid_fields = self.get_uuid_fields()
         ary = list()
         for k in union:
@@ -424,6 +425,7 @@ class LinkedStore(LinkageManager):
                                      'revision': 0,
                                      'source': source}
         elif updated is True:
+            self.logger.debug('record is updated: bumping revision and modified_dat')
             record['_properties']['modified_date'] = ts
             record['_properties']['revision'] = record['_properties']['revision'] + 1
         return record
@@ -438,6 +440,8 @@ class LinkedStore(LinkageManager):
         # Stubbed-in support for update token
         if '_salt' not in record or refresh is True:
             record['_salt'] = generate_salt()
+            if refresh:
+                self.logger.debug('refreshing salt value')
         return record
 
     def set_private_keys(self, record, updated=False, source=None):
@@ -447,7 +451,7 @@ class LinkedStore(LinkageManager):
         return record
 
     def add_update_document(self, doc_dict, uuid=None, token=None, strategy=strategies.MERGE):
-        
+
         self.logger.debug('type(doc_dict) is {}'.format(type(doc_dict)))
         self.logger.debug('value for uuid is {}'.format(uuid))
 
@@ -461,14 +465,14 @@ class LinkedStore(LinkageManager):
             if not k in doc_dict:
                 raise KeyError("Document lacks identifier '{}'".format(uuid_key))
 
-        # Compute and inject TypedUUID if needed 
+        # Compute and inject TypedUUID if needed
         if 'uuid' not in doc_dict:
             new_uuid = self.get_typeduuid(doc_dict, False)
             doc_dict['uuid'] = new_uuid
             self.logger.debug(
                 'computed UUID {} for doc_dict'.format(
                     new_uuid))
-        
+
         # Ensure computed and passed uuid do not conflict
         if uuid is not None:
             if uuid != doc_dict['uuid']:
@@ -476,8 +480,9 @@ class LinkedStore(LinkageManager):
                     uuid, doc_dict['uuid']))
 
         # Transform dict into Record, which validates and adds in linkage fields
-        doc_record = Record(doc_dict)
-        self.logger.debug('doc_record: {}'.format(doc_record))
+        # doc_record = Record(doc_dict)
+        doc_record = doc_dict
+        self.logger.debug('doc_record: {}'.format(doc_dict))
         # Fetch record if exists
         self.logger.debug('trying to retrieve existing document')
         db_record = self.coll.find_one({'uuid': doc_dict['uuid']})
@@ -509,6 +514,11 @@ class LinkedStore(LinkageManager):
         # Decorate the document with our _private keys
         self.logger.debug('add a new document')
         db_record = self.set_private_keys(document, updated=False)
+        # populate linkages if not existent
+        for lf in self.LINK_FIELDS:
+            if lf not in db_record:
+                db_record[lf] = list()
+
         try:
             result = self.coll.insert_one(db_record)
             added_doc = self.coll.find_one({'_id': result.inserted_id})
@@ -521,7 +531,7 @@ class LinkedStore(LinkageManager):
                 except Exception:
                     self.logger.exception('failed to log document creation')
             # Issue and return an update token
-            token = get_token(db_record['_salt'], 
+            token = get_token(db_record['_salt'],
                               self.get_token_fields(db_record))
             added_doc['_update_token'] = token
             return added_doc
@@ -557,10 +567,10 @@ class LinkedStore(LinkageManager):
                 validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
-        
-        # Diff 
-        diff_record = get_diff(source=source_document, 
-                               target=target_document, 
+
+        # Diff
+        diff_record = get_diff(source=source_document,
+                               target=target_document,
                                action='replace')
 
         if diff_record.updated:
@@ -574,6 +584,12 @@ class LinkedStore(LinkageManager):
             document = self.__set_properties(target_document, updated=True)
             # Update the salt value, changing the update token
             document = self.__set_salt(document, refresh=True)
+
+            # populate linkages if not existent
+            for lf in self.LINK_FIELDS:
+                if lf not in document:
+                    document[lf] = list()
+
             # # Lift over linkages
             # for key in self.LINK_FIELDS:
             #     if key in source_document and key in target_document:
@@ -582,7 +598,7 @@ class LinkedStore(LinkageManager):
             replaced_doc = self.coll.find_one_and_replace(
                 {'uuid': document['uuid']}, document,
                 return_document=ReturnDocument.AFTER)
-            token = get_token(replaced_doc['_salt'], 
+            token = get_token(replaced_doc['_salt'],
                               self.get_token_fields(replaced_doc))
             replaced_doc['_update_token'] = token
             # self.logcoll.insert_one(diff_record)
@@ -657,7 +673,7 @@ class LinkedStore(LinkageManager):
                 return_document=ReturnDocument.AFTER)
             self.logger.debug('generating access token')
             updated_doc['_update_token'] = get_token(
-                updated_doc['_salt'], 
+                updated_doc['_salt'],
                 self.get_token_fields(updated_doc))
             # Only log if the document changed
             self.logger.debug('logging')
@@ -668,10 +684,10 @@ class LinkedStore(LinkageManager):
                     self.logger.exception('failed to log document update')
             return updated_doc
         else:
-            # No detectable difference, so return original doc, leaving 
+            # No detectable difference, so return original doc, leaving
             # the salt as-is
             source_document['_update_token'] = get_token(
-                source_document['_salt'], 
+                source_document['_salt'],
                 self.get_token_fields(source_document))
             return source_document
 
@@ -698,7 +714,7 @@ class LinkedStore(LinkageManager):
 
         if self._enforce_auth:
             try:
-                validate_token(token, db_record['_salt'], 
+                validate_token(token, db_record['_salt'],
                                self.get_token_fields(db_record))
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
@@ -708,27 +724,27 @@ class LinkedStore(LinkageManager):
 
 
         updated_record = data_merge(db_record, {key: value})
-        diff_record = get_diff(source=db_record, 
-                               target=updated_record, 
+        diff_record = get_diff(source=db_record,
+                               target=updated_record,
                                action='update')
 
         if diff_record.updated:
 
             self.logger.debug('documents were different - proceeding with update()')
             self.logger.debug('diff: {}'.format(diff_record))
-             
-            updated_record = self.__set_properties(updated_record, updated=True)            
+
+            updated_record = self.__set_properties(updated_record, updated=True)
             self.logger.debug('cycling access token salt')
             updated_record = self.__set_salt(updated_record, refresh=True)
 
             self.logger.debug('writing to database')
             writekey_doc = self.coll.find_one_and_replace(
-                {'uuid': updated_record['uuid']}, updated_record, 
+                {'uuid': updated_record['uuid']}, updated_record,
                 return_document=ReturnDocument.AFTER)
 
             self.logger.debug('generating access token')
             writekey_doc['_update_token'] = get_token(
-                writekey_doc['_salt'], 
+                writekey_doc['_salt'],
                 self.get_token_fields(writekey_doc))
 
             self.logger.debug('logging')
@@ -740,7 +756,7 @@ class LinkedStore(LinkageManager):
             return writekey_doc
         else:
             db_record['_update_token'] = get_token(
-                db_record['_salt'], 
+                db_record['_salt'],
                 self.get_token_fields(db_record))
             return db_record
 
@@ -765,7 +781,7 @@ class LinkedStore(LinkageManager):
 
         if self._enforce_auth:
             try:
-                validate_token(token, db_record['_salt'], 
+                validate_token(token, db_record['_salt'],
                                self.get_token_fields(db_record))
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)

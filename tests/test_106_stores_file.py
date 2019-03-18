@@ -46,8 +46,8 @@ def test_files_issue_uuid_string(mongodb_settings):
 def test_files_issue_uuid_dict(mongodb_settings):
     base = FileStore(mongodb_settings)
     filename = 'science-results.xlsx'
-    filedict = {'name': filename, 
-                'file_id': 'file.tacc.wierdscience1985', 
+    filedict = {'name': filename,
+                'file_id': 'file.tacc.wierdscience1985',
                 'not_in_schema': 123}
     identifier_string_uuid = base.get_typeduuid(filedict, binary=False)
     assert identifier_string_uuid == '1059e14b-a341-5804-ac69-5c731f6ecf80'
@@ -56,7 +56,7 @@ def test_files_addfails_invalid_uuid(mongodb_settings):
     base = FileStore(mongodb_settings)
     uuid_val = '9999e14b-a341-5804-ac69-5c731f6ecf80'
     filename = 'science-results.xlsx'
-    filedict = {'name': filename, 
+    filedict = {'name': filename,
                 'file_id': 'file.tacc.wierdscience1985'}
     with pytest.raises(ValueError):
         base.add_update_document(filedict, uuid=uuid_val)
@@ -65,16 +65,16 @@ def test_files_addfails_schema_validation_fails(mongodb_settings):
     base = FileStore(mongodb_settings)
     uuid_val = '9999e14b-a341-5804-ac69-5c731f6ecf80'
     filename = 'science-results.xlsx'
-    filedict = {'name': filename, 
+    filedict = {'name': filename,
                 'file_id': 'tacc.file.wierdscience1985'}
-    with pytest.raises(ValidationError):
+    with pytest.raises(ValueError):
         base.add_update_document(filedict, uuid=uuid_val)
 
 def test_files_addfails_passed_uuid_mismatch_computed(mongodb_settings):
     base = FileStore(mongodb_settings)
     uuid_val = '1059e14b-a341-5804-ac69-5c731f6ecf90'
     filename = 'science-results.xlsx'
-    filedict = {'name': filename, 
+    filedict = {'name': filename,
                 'file_id': 'file.tacc.wierdscience1985'}
     with pytest.raises(ValueError):
         base.add_update_document(filedict, uuid=uuid_val)
@@ -83,7 +83,7 @@ def test_files_addfails_uuids_mismatch(mongodb_settings):
     base = FileStore(mongodb_settings)
     uuid_val = '1059e14b-a341-5804-ac69-5c731f6ecf81'
     filename = 'science-results.xlsx'
-    filedict = {'name': filename, 
+    filedict = {'name': filename,
                 'file_id': 'file.tacc.wierdscience1985',
                 'uuid': '1059e14b-a341-5804-ac69-5c731f6ecf80'}
     with pytest.raises(ValueError):
@@ -128,7 +128,7 @@ def test_files_links_add_link(mongodb_settings):
 def test_files_links_add_link(mongodb_settings):
     base = FileStore(mongodb_settings)
     for key, doc, uuid_val in file.UPDATES:
-        resp = base.add_link(uuid_val, ['1040f664-a654-0b71-4189-2ac6f77a05a7', '104dae4d-a677-5991-ae1c-696d2ee9884e', 
+        resp = base.add_link(uuid_val, ['1040f664-a654-0b71-4189-2ac6f77a05a7', '104dae4d-a677-5991-ae1c-696d2ee9884e',
         '10483e8d-6602-532a-8941-176ce20dd05a'], 'child_of')
         assert resp is True
         links = base.get_links(uuid_val, 'child_of')

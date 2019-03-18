@@ -3,8 +3,8 @@
     "archive_path": "/sample/tacc-cloud/agavehelpers/upload",
     "archive_patterns": [
         {
-            "processing_level": "2",
-            "filters": [
+            "level": "2",
+            "patterns": [
                 "ansible.png"
             ],
             "note": "Defined in archive_patterns"

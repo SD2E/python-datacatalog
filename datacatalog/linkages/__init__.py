@@ -60,16 +60,17 @@ class LinkEdges(ExtensibleAttrDict):
             lf_val = Linkage(lf)
             setattr(self, lf_val, doc_dict.get(lf, []))
 
-    def right_merge(self, other):
+    def right_merge(self, other, extend_only=True):
         links = MergedLinkages()
         for lf in self.LINK_FIELDS:
             links_set1 = set(getattr(self, lf, list()))
             links_set2 = set(getattr(other, lf, list()))
             # Extend
             union = links_set1.union(links_set2)
-            # Remove any that are only on the left
-            left_only_set = links_set1 - links_set2
-            union = union - left_only_set
+            if extend_only is False:
+                # Remove any that are only on the left
+                left_only_set = links_set1 - links_set2
+                union = union - left_only_set
             links['values'][lf] = list(union)
             links['values'][lf].sort()
             if links['values'][lf] != list(links_set1):

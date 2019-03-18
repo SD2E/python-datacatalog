@@ -1,6 +1,5 @@
 git+https://github.com/cwacek/python-jsonschema-objects@e5788a6eadb4bee5a28aadae351f218da0fbb4bf#egg=python-jsonschema-objects
 git+https://github.com/TACC/agavepy.git@0_7_4#egg=agavepy
-git+https://github.com/Julian/jsonschema@v3.0.0a3#egg=jsonschema
 PyMongo==3.7.1
 PyYAML==3.12
 python-slugify>=1.2.5
@@ -21,5 +20,6 @@ xxhash==1.3.0
 tabulate>=0.8.3
 chardet>=3.0.4
 tenacity>=5.0.0
-# jsonschema>=2.6.0
+jsondiff>=1.1.2
+jsonschema>=3.0.1
 # agavepy==0.7.4

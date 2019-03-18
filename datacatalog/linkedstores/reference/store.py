@@ -9,7 +9,7 @@ from pprint import pprint
 from slugify import slugify
 
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore
+from ..basestore import LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection, formatChecker
 from ..basestore import CatalogUpdateFailure
 from ...stores import abspath
@@ -47,6 +47,9 @@ class ReferenceRecord(collections.UserDict):
 
 class ReferenceStore(LinkedStore):
     """Manage storage and retrieval of ReferenceDocument records"""
+
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
+                   linkages.DERIVED_USING, linkages.GENERATED_BY]
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ReferenceStore, self).__init__(mongodb, config, session)

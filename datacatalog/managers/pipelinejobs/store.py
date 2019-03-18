@@ -284,7 +284,7 @@ class ManagedPipelineJob(JobManager):
         try:
             self.stores['pipelinejob']._helper.mkdir(self.archive_path, self.archive_system)
         except Exception as exc:
-            print('Failed to mkdir {}: {}'.format(self.archive_path, exc))
+            self.logger.exception('Failed to mkdir {}'.format(self.archive_path))
 
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
 
@@ -320,7 +320,7 @@ class ManagedPipelineJob(JobManager):
             validators.url(uri)
             return uri
         except KeyError as kexc:
-            pprint(kexc)
+            self.logger.exception('Missing values in build_webhook')
             return None
         except Exception:
             raise
