@@ -2,7 +2,7 @@ import os
 import re
 from pprint import pprint
 
-from .filetype import FileType, FileTypeError, FileTypeLabel, FileTypeComment
+from .filetype import to_file_type, FileTypeError, FileTypeLabel, FileTypeComment
 from . import rules
 from . import mime
 from . import unknown
@@ -22,15 +22,11 @@ def listall(filter_attrname=None):
         return big_list
     else:
         if filter_attrname == 'label':
-            filtered_listing = [FileTypeLabel(l.get(filter_attrname)) for l in big_list]
+            filtered_listing = [FileTypeLabel(l.label) for l in big_list]
         elif filter_attrname == 'comment':
-            filtered_listing = [FileTypeComment(l.get(filter_attrname)) for l in big_list]
-        filtered_listing = [l.get(filter_attrname) for l in big_list]
-        filtered_listing = list(set(filtered_listing)).sort()
-        # if filter_attrname == 'label':
-        #     filtered_listing.append(FileTypeLabel('*'))
-        # if filter_attrname == 'comment':
-        #     filtered_listing.append(FileTypeComment('Any type'))
+            filtered_listing = [FileTypeComment(l.comment) for l in big_list]
+        filtered_listing = list(set(filtered_listing))
+        filtered_listing.sort()
         return filtered_listing
 
 def listall_labels():

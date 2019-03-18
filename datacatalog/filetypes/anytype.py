@@ -1,9 +1,7 @@
-from .filetype import FileType
+from .filetype import to_file_type
 
-class AnyFileType(FileType):
-    def __init__(self):
-        super().__init__(label='*',
-                         comment='Any known type')
+AnyFileType = to_file_type(label='*',
+                           comment='Any known type')
 
 def listall():
     """Get "*" FileType
@@ -12,5 +10,5 @@ def listall():
         list: the "*" FileType, but in a list context
     """
     alltypes = list()
-    alltypes.append(AnyFileType())
+    alltypes.append(AnyFileType)
     return alltypes

@@ -1,6 +1,6 @@
 import stat
 from xdg import Mime
-from .filetype import FileType, FileTypeError
+from .filetype import to_file_type, FileType, FileTypeError
 from .unknown import UnknownFileType
 
 try:
@@ -20,9 +20,9 @@ def infer(filename):
     mime = get_type_optimized(filename)
     # print('MIME', mime)
     if str(mime) == 'application/octet-stream':
-        return UnknownFileType()
+        return UnknownFileType
     else:
-        return FileType(mimetype=mime)
+        return to_file_type(mimetype=mime)
 
 def listall():
     """Get all FileTypes defined by the FreeDesktop MIME database
@@ -32,7 +32,7 @@ def listall():
     """
     alltypes = list()
     for t in Mime.types.items():
-        alltypes.append(FileType(mimetype=t[1]))
+        alltypes.append(to_file_type(mimetype=t[1]))
     return alltypes
 
 def get_type_optimized(path, follow=False):

@@ -33,6 +33,6 @@ def infer_filetype(filename, check_exists=False, permissive=True):
         return mime.infer(filename)
     except Exception as exc:
         if permissive:
-            return UnknownFileType()
+            return UnknownFileType
         else:
             raise FileTypeError('Failed to infer type for {}'.format(filename), exc)
