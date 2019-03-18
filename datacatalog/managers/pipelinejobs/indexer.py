@@ -45,7 +45,8 @@ class Indexer(Manager):
         try:
             self.stores['fixity'].index(abs_filename)
         except Exception:
-            self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))
+            if settings.LOG_FIXITY_ERRORS:
+                self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))
         return resp
 
     def file_or_ref_uuid(self, string_reference):
@@ -216,7 +217,7 @@ class Indexer(Manager):
                     self.stores['file'].add_link(
                         resp['uuid'], derived_from, 'derived_from')
                 indexed.add(file_name)
-            
+
             indexed_list = list(indexed)
             indexed_list.sort()
             self.logger.debug('indexed {} items'.format(len(indexed_list)))
@@ -267,7 +268,7 @@ class Indexer(Manager):
                     self.stores['file'].add_link(
                         resp['uuid'], request.generated_by)
                 indexed.add(file_name)
-            
+
             indexed_list = list(indexed)
             indexed_list.sort()
             self.logger.debug('indexed {} items'.format(len(indexed_list)))

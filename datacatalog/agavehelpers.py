@@ -4,6 +4,10 @@ from requests import HTTPError
 from datacatalog import settings
 from datacatalog.stores import StorageSystem
 from agavepy.agave import Agave, AgaveError
+from tenacity import retry, retry_if_exception_type
+from tenacity import stop_after_delay
+from tenacity import wait_exponential
+
 from .stores import ManagedStores
 from .utils import normalize
 
@@ -13,6 +17,10 @@ from .utils import normalize
 
 class AgaveHelperError(Exception):
     pass
+
+@retry(retry=retry_if_exception_type(AgaveError), reraise=True, stop=stop_after_delay(8), wait=wait_exponential(multiplier=2, max=64))
+def ag_files_list(client, systemId, filePath, limit=50, offset=0):
+    return client.files.list(systemId=systemId, filePath=filePath, limit=limit, offset=offset)
 
 class AgaveHelper(object):
     """Uses an active API client to provide various utility functions
@@ -84,8 +92,9 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = self._client.files.list(
-                        filePath=path, systemId=system, limit=2)[0].get('format', None)
+                    path_format = ag_files_list(self._client, filePath=path,
+                                                systemId=system,
+                                                limit=2)[0].get('format', None)
                     if path_format != 'folder':
                         return True
                     else:
@@ -123,8 +132,9 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = self._client.files.list(
-                        filePath=path, systemId=system, limit=2)[0].get('format', None)
+                    path_format = ag_files_list(self._client, filePath=path,
+                                                systemId=system,
+                                                limit=2)[0].get('format', None)
                     if path_format != 'folder':
                         return True
                     else:
@@ -156,8 +166,9 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = self._client.files.list(
-                        filePath=path, systemId=system, limit=2)[0].get('format', None)
+                    path_format = ag_files_list(self._client, filePath=path,
+                                                systemId=system,
+                                                limit=2)[0].get('format', None)
                     if path_format == 'folder':
                         return True
                     else:
@@ -230,8 +241,10 @@ class AgaveHelper(object):
         skip = 0
 
         while keeplisting:
-            sublist = self._client.files.list(
-                systemId=storage_system, filePath=path, limit=pagesize, offset=skip)
+            sublist = ag_files_list(self._client, systemId=storage_system,
+                                    filePath=path, limit=pagesize, offset=skip)
+            # sublist = self._client.files.list(
+            #     systemId=storage_system, filePath=path, limit=pagesize, offset=skip)
             skip = skip + pagesize
             if len(sublist) < pagesize:
                 keeplisting = False

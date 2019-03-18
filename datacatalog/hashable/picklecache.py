@@ -17,7 +17,7 @@ Serialized = namedtuple('Serialized', 'payload')
 #             return str(o)
 #         return json.JSONEncoder.default(self, o)
 
-def hashable_cache(cache):
+def mcache(cache):
     def hashable_cache_internal(func):
         def deserialize(value):
             if isinstance(value, Serialized):

@@ -1,1 +1,2 @@
-from .pickler import hashable_cache
+from . import jsoncache
+from . import picklecache

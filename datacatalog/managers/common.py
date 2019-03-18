@@ -7,6 +7,8 @@ import os
 import sys
 from pprint import pprint
 from datacatalog.logger import get_logger
+from datacatalog.hashable import picklecache, jsoncache
+from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
 from .. import linkedstores
@@ -130,6 +132,7 @@ class Manager(ManagerBase):
         sorted_recs = sorted(recs, key=lambda k: k['uuid'])
         return sorted_recs
 
+    @picklecache.mcache(lru_cache(maxsize=256))
     def get_uuid_from_identifier(self, identifier):
         """Resolve an identifier into its corresponding UUID
 

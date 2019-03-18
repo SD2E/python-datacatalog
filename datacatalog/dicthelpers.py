@@ -4,6 +4,8 @@ import jsondiff
 from attrdict import AttrDict
 from collections import Mapping, MutableMapping
 from pprint import pprint
+from functools import lru_cache
+from datacatalog.hashable import picklecache, jsoncache
 
 LISTKEYS = ['child_of']
 FILTERKEYS = ('_id', 'uuid', 'properties', 'measurements_ids',
@@ -62,6 +64,7 @@ def data_merge_diff(a, b, filters=FILTERKEYS):
     df = json_diff(a, b, filters=FILTERKEYS)
     return ab, df
 
+@picklecache.mcache(lru_cache(maxsize=128))
 def json_diff(j1, j2, filters=FILTERKEYS):
     j1 = copy.deepcopy(j1)
     j2 = copy.deepcopy(j2)
