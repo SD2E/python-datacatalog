@@ -8,6 +8,8 @@ import sys
 import validators
 import logging
 from pprint import pprint
+from datacatalog import settings
+
 from ... import identifiers
 from .jobmanager import JobManager, data_merge
 from ...tokens import get_token
@@ -126,6 +128,16 @@ class ManagedPipelineJob(JobManager):
 
         # Validate passed token
         setattr(self, '_enforce_auth', True)
+
+        # Check _*patterns against max recommended size and warn if exceeded
+        if len(getattr(self, 'archive_patterns', [])) >= settings.MAX_INDEX_PATTERNS:
+            self.logger.warning(
+                "More than {} 'archive_patterns' is not recommended".format(
+                    settings.MAX_INDEX_PATTERNS))
+        if len(getattr(self, 'product_patterns', [])) >= settings.MAX_INDEX_PATTERNS:
+            self.logger.warning(
+                "More than {} 'product_patterns' is not recommended".format(
+                    settings.MAX_INDEX_PATTERNS))
 
         # agent and task if not provided
         # TODO - lookup should be established in settings module

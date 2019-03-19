@@ -6,6 +6,8 @@ import sys
 import validators
 import logging
 from pprint import pprint
+from datacatalog import settings
+
 from ... import identifiers
 from ...utils import microseconds
 from ..common import Manager, data_merge
@@ -87,6 +89,12 @@ class ManagedPipelineJobInstance(Indexer):
         filter_set = list()
         if filters is not None and isinstance(filters, list):
             self.logger.debug('custom index() request')
+            if len(filters) >= settings.MAX_INDEX_FILTERS:
+                # For now, log a warning but if this becomes a recurring
+                # problem, we will raise an Exception
+                self.logger.warning(
+                    'index() with {} or more filters is not supported'.format(
+                        settings.MAX_INDEX_FILTERS))
             filter_set = filters
             index_fixity = fixity
         else:
@@ -119,7 +127,7 @@ class ManagedPipelineJobInstance(Indexer):
                     index_request_str, token=token,
                     refresh=False, fixity=index_fixity)
                 indexed.extend(just_indexed)
-            except IndexingError as ierr:
+            except IndexingError:
                 self.logger.exception(
                     'Indexing attempt failed: {}'.format(index_request_str))
                 raise
@@ -127,7 +135,7 @@ class ManagedPipelineJobInstance(Indexer):
         self.logger.info('Indexed {} job files'.format(len(indexed)))
 
         if transition is True:
-            self.logger.info("Automatically sending 'indexed' event")
+            self.logger.info("Sending 'indexed' to {}".format(self.uuid))
             return self.indexed(token=token)
         else:
             return list(set(indexed))

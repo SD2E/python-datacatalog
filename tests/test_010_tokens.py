@@ -70,14 +70,14 @@ def test_validate_admin_token_passed_invalid(salt):
     with pytest.raises(ValueError):
         datacatalog.tokens.validate_admin_token(token, permissive=False) is True
 
-@longrun
-def test_validate_admin_token_timeout(salt, monkeypatch, admin_key):
-    tok_lifetime = "2"
-    monkeypatch.setenv('CATALOG_ADMIN_TOKEN_LIFETIME', tok_lifetime)
-#     assert datacatalog.tokens.get_admin_lifetime() == int(tok_lifetime)
-    token = datacatalog.tokens.get_admin_token(key=admin_key)
-    token_life = datacatalog.tokens.get_admin_lifetime()
-    assert datacatalog.tokens.validate_admin_token(token, key=admin_key, permissive=False) is True
-    time.sleep(int(token_life) * 1.1)
-    with pytest.raises(ValueError):
-        datacatalog.tokens.validate_admin_token(token, key=admin_key, permissive=False) is True
+# @longrun
+# def test_validate_admin_token_timeout(salt, monkeypatch, admin_key):
+#     tok_lifetime = "2"
+#     monkeypatch.setenv('CATALOG_ADMIN_TOKEN_LIFETIME', tok_lifetime)
+# #     assert datacatalog.tokens.get_admin_lifetime() == int(tok_lifetime)
+#     token = datacatalog.tokens.get_admin_token(key=admin_key)
+#     token_life = datacatalog.tokens.get_admin_lifetime()
+#     assert datacatalog.tokens.validate_admin_token(token, key=admin_key, permissive=False) is True
+#     time.sleep(int(token_life) * 1.1)
+#     with pytest.raises(ValueError):
+#         datacatalog.tokens.validate_admin_token(token, key=admin_key, permissive=False) is True

@@ -85,7 +85,7 @@ class Indexer(Manager):
             self.index_if_exists(abs_filename, system, check_exists=check_exists)
             return self.file_or_ref_identifier(abs_filename)
         except Exception:
-            raise ValueError('Unable to resolve Agave URI')
+            raise ValueError('Unable to resolve Agave files URI')
 
     def file_job_relative_path(self, string_reference, check_exists=True):
         """Resolves a filename relative to a job's archive path as a file UUID
@@ -144,7 +144,7 @@ class Indexer(Manager):
             if not permissive:
                 raise ValueError('String reference {} was not resolved'.format(ref))
         # list of resolved references
-        resolved_list=list(resolved)
+        resolved_list = list(resolved)
         resolved_list.sort()
         self.logger.info('Resolved {} records'.format(len(resolved_list)))
         return resolved_list
@@ -250,7 +250,6 @@ class Indexer(Manager):
                 fdict = {
                     'name': file_name,
                     'type': ftype}
-                fdict_kwargs = dict()
                 if request.level is not None:
                     fdict['level'] = request.level
                 resp = self.stores['file'].add_update_document(fdict)
@@ -263,7 +262,6 @@ class Indexer(Manager):
                         self.logger.debug(
                             'Fixity indexing failed on {} for job {}'.format(
                                 file_name, self.uuid))
-                # Currently, do not honor generated_by passed the request
                 if resp is not None:
                     self.stores['file'].add_link(
                         resp['uuid'], request.generated_by)

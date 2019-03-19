@@ -15,7 +15,10 @@ from .utils import normalize
 # TODO Implement a more declarative form of support for these commands based on plugins
 # FIXME listdir returns full paths, which is at odds with the POSIX implementation
 
-class AgaveHelperError(Exception):
+class AgaveHelperError(AgaveError):
+    pass
+
+class AgaveHelperException(AgaveHelperError):
     pass
 
 @retry(retry=retry_if_exception_type(AgaveError), reraise=True, stop=stop_after_delay(8), wait=wait_exponential(multiplier=2, max=64))
