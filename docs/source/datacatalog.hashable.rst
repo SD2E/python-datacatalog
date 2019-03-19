@@ -9,18 +9,18 @@ datacatalog.hashable package
 Submodules
 ----------
 
-datacatalog.hashable.json module
---------------------------------
+datacatalog.hashable.jsoncache module
+-------------------------------------
 
-.. automodule:: datacatalog.hashable.json
+.. automodule:: datacatalog.hashable.jsoncache
     :members:
     :undoc-members:
     :show-inheritance:
 
-datacatalog.hashable.pickler module
------------------------------------
+datacatalog.hashable.picklecache module
+---------------------------------------
 
-.. automodule:: datacatalog.hashable.pickler
+.. automodule:: datacatalog.hashable.picklecache
     :members:
     :undoc-members:
     :show-inheritance:
