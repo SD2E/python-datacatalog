@@ -38,12 +38,15 @@ class Indexer(Manager):
                 raise ValueError('Path does not exist: {}'.format(abs_filename))
 
         # TODO - Add storage_system=storage_system to File/FixityStore.index()
+        self.logger.info('Indexing referenced file {}'.format(
+            os.path.basename(abs_filename)))
         resp = self.stores['file'].index(abs_filename, child_of=[self.uuid])
         # raise SystemError(resp)
         try:
             self.stores['fixity'].index(abs_filename)
         except Exception:
-            print('Fixity indexing failed for {}'.format(abs_filename))
+            if settings.LOG_FIXITY_ERRORS:
+                self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))
         return resp
 
     def file_or_ref_uuid(self, string_reference):
@@ -82,7 +85,7 @@ class Indexer(Manager):
             self.index_if_exists(abs_filename, system, check_exists=check_exists)
             return self.file_or_ref_identifier(abs_filename)
         except Exception:
-            raise ValueError('Unable to resolve Agave URI')
+            raise ValueError('Unable to resolve Agave files URI')
 
     def file_job_relative_path(self, string_reference, check_exists=True):
         """Resolves a filename relative to a job's archive path as a file UUID
@@ -99,44 +102,52 @@ class Indexer(Manager):
     def resolve_derived_references(self, reference_set, permissive=False):
         """Resolves a list of linkages to UUIDs
         """
-        resolved = list()
+        resolved = set()
         for ref in reference_set:
+            self.logger.debug('resolving {}'.format(ref))
+
             # UUID
             try:
                 refuuid = self.file_or_ref_uuid(ref)
-                resolved.append(refuuid)
+                resolved.add(refuuid)
+                self.logger.debug('Was a UUID')
                 continue
             except ValueError:
-                pass
-                # print('Not a UUID')
+                self.logger.debug('Not a UUID')
+
             # Identifier
             try:
                 refuuid = self.file_or_ref_identifier(ref)
-                resolved.append(refuuid)
+                resolved.add(refuuid)
+                self.logger.debug('Was a string identifier')
                 continue
             except ValueError:
-                pass
+                self.logger.debug('Not a string identifier')
 
             try:
                 refuuid = self.file_agave_url(ref)
-                resolved.append(refuuid)
+                resolved.add(refuuid)
+                self.logger.debug('Was an Agave files url')
                 continue
             except ValueError:
-                pass
+                self.logger.debug('Not an Agave files url')
 
             # Relative path
             try:
                 refuuid = self.file_job_relative_path(ref, check_exists=True)
-                resolved.append(refuuid)
+                resolved.add(refuuid)
+                self.logger.debug('Was a relative path')
                 continue
             except ValueError:
-                pass
-                # print('Not a relative filename')
+                self.logger.debug('Not a relative path')
 
             if not permissive:
                 raise ValueError('String reference {} was not resolved'.format(ref))
         # list of resolved references
-        return resolved
+        resolved_list = list(resolved)
+        resolved_list.sort()
+        self.logger.info('Resolved {} records'.format(len(resolved_list)))
+        return resolved_list
 
     def single_index_request(self, index_request, token=None,
                              refresh=False, fixity=True):
@@ -144,7 +155,7 @@ class Indexer(Manager):
         """
         self.sync_listing(refresh)
         idxr = get_index_request(**index_request)
-        print('idxr', idxr)
+        self.logger.debug('IndexRequest: {}'.format(idxr))
         resp = list()
         if idxr.kind is ARCHIVE:
             gen_by = idxr.get('generated_by', [])
@@ -165,7 +176,7 @@ class Indexer(Manager):
                                        fixity=False, permissive=False):
         """Private: Services a products indexing request
         """
-        indexed = list()
+        indexed = set()
         try:
             if request.filters != []:
                 patts = request.regex()
@@ -182,19 +193,19 @@ class Indexer(Manager):
                 fdict = {
                     'name': file_name,
                     'type': ftype}
-                frec = FileRecord(fdict)
-                resp = self.stores['file'].add_update_document(frec)
+                resp = self.stores['file'].add_update_document(fdict)
                 # Fixity is cheap - do it unless told not to
                 if fixity:
                     try:
                         resp = self.stores['fixity'].index(file_name)
                     except Exception:
                         # It's not the end of the world if fixity indexing fails
-                        print('Fixity indexing failed on {} for job {}'.format(
-                            file_name, self.uuid))
+                        self.logger.debug(
+                            'Fixity indexing failed on {} for job {}'.format(
+                                file_name, self.uuid))
 
                 if resp is not None:
-                    # print('Adding product linkages')
+                    self.logger.debug('Adding product linkages')
                     # Resolve UUIDs, indentifiers, and finally relative paths
                     # into UUIDs that can be used for linkages
                     derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
@@ -205,8 +216,13 @@ class Indexer(Manager):
                     # print('derived_from', derived_from)
                     self.stores['file'].add_link(
                         resp['uuid'], derived_from, 'derived_from')
-                indexed.append(file_name)
-            return indexed
+                indexed.add(file_name)
+
+            indexed_list = list(indexed)
+            indexed_list.sort()
+            self.logger.debug('indexed {} items'.format(len(indexed_list)))
+            return indexed_list
+
         except Exception as mexc:
             if permissive:
                 return indexed
@@ -217,7 +233,7 @@ class Indexer(Manager):
                                        fixity=True, permissive=False):
         """Private: Services an archive path indexing request
         """
-        indexed = list()
+        indexed = set()
         try:
             if request.filters != []:
                 patts = request.regex()
@@ -236,22 +252,26 @@ class Indexer(Manager):
                     'type': ftype}
                 if request.level is not None:
                     fdict['level'] = request.level
-                frec = FileRecord(fdict)
-                resp = self.stores['file'].add_update_document(frec)
+                resp = self.stores['file'].add_update_document(fdict)
                 # Fixity is cheap - do it unless told not to
                 if fixity:
                     try:
                         resp = self.stores['fixity'].index(file_name)
                     except Exception:
                         # It's not the end of the world if fixity indexing fails
-                        print('Fixity indexing failed on {} for job {}'.format(
-                            file_name, self.uuid))
-                # Currently, do not honor generated_by passed the request
+                        self.logger.debug(
+                            'Fixity indexing failed on {} for job {}'.format(
+                                file_name, self.uuid))
                 if resp is not None:
                     self.stores['file'].add_link(
                         resp['uuid'], request.generated_by)
-                indexed.append(file_name)
-            return indexed
+                indexed.add(file_name)
+
+            indexed_list = list(indexed)
+            indexed_list.sort()
+            self.logger.debug('indexed {} items'.format(len(indexed_list)))
+            return indexed_list
+
         except Exception as mexc:
             if permissive:
                 return indexed

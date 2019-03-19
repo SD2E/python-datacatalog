@@ -80,18 +80,26 @@ def client_w_archive_path(mongodb_settings, pipelinejobs_config,
     return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
 
+@pytest.fixture(scope='session')
+def defined_filters():
+    archive_patterns=[{'patterns': ['.png$'], 'level': 'User'}]
+    product_patterns=[{'patterns': ['ansible.png$'], 'derived_using': [], 'derived_from': ['./biofab/blebob.jpg']}]
+    filters = list()
+    filters.extend(archive_patterns)
+    filters.extend(product_patterns)
+    return filters
+
 @longrun
-def test_pipesinst_index_explicit_filters(mongodb_settings, agave):
+def test_pipesinst_index_explicit_filters(mongodb_settings, agave, defined_filters):
     """Indexing with explicit filters => job.archive_path x specified filters
     """
     # This job is generated in the database by test_109#test_job_create
     # Its archive_patterns = ['ansible.png']
     job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
-    filters = ['hello.txt']
-    level = "1"
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-    listed = base.index_archive_path(filters=filters, processing_level=level)
-    assert len(listed) == 1
+    indexed = base.index(filters=defined_filters, transition=False)
+    # This is a trick. We index 'ansible.png' twice!
+    assert len(indexed) == 1
 
 @longrun
 def test_pipesinst_index_no_filters_w_defaults(mongodb_settings, agave):
@@ -101,21 +109,8 @@ def test_pipesinst_index_no_filters_w_defaults(mongodb_settings, agave):
     # Its archive_patterns = ['ansible.png']
     job_uuid = '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
     base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-    listed = base.index_archive_path()
+    listed = base.index()
     # should only match 'ansible.png'
     assert len(listed) == 1
 
-@longrun
-def test_pipesinst_index_no_filters_no_defaults(mongodb_settings, agave):
-    """Indexing with null filters on a job with empty defaults => job.archive_path
-    """
-    # This job is generated in the database by test_109#test_job_create
-    # This job is identical to 107b93f3-1eae-5e79-8a18-0a480f8aa3a5 but has
-    # no archive_patterns. Thus, all files in archive_path should be picked
-    # up in the indexing
-    job_uuid = '107bb52d-6469-54c3-b977-0c22adcae020'
-    level = "2"
-    base = ManagedPipelineJobInstance(mongodb_settings, job_uuid, agave=agave)
-    listed = base.index_archive_path(processing_level=level)
-    # There are three discoverable files in this archive_path
-    assert len(listed) == 3
+

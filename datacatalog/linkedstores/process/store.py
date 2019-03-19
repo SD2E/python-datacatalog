@@ -9,7 +9,7 @@ from pprint import pprint
 from slugify import slugify
 
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore
+from ..basestore import LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection, formatChecker
 from ..basestore import CatalogUpdateFailure
 from ...stores import abspath
@@ -28,6 +28,7 @@ class ProcessDocument(HeritableDocumentSchema):
 
 class ProcessRecord(collections.UserDict):
     """New document for ProcessStore with schema enforcement"""
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM]
 
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:

@@ -6,6 +6,7 @@ import os
 import sys
 from pprint import pprint
 from datacatalog import settings
+from datacatalog.extensible import ExtensibleAttrDict
 
 from ...dicthelpers import data_merge
 from ...jsonschemas import DateTimeEncoder, formatChecker, DateTimeConverter
@@ -14,7 +15,7 @@ from ...utils import safen_path, normalize, normpath
 from ...stores import abspath
 from ...filetypes import infer_filetype
 from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
-from ..basestore import LinkedStore
+from ..basestore import LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 
@@ -30,16 +31,16 @@ class FileDocument(HeritableDocumentSchema):
         super(FileDocument, self).__init__(inheritance, **kwargs)
         self.update_id()
 
-class FileRecord(collections.UserDict):
+class FileRecord(ExtensibleAttrDict):
     """New document for FileStore with schema enforcement"""
 
     PARAMS = [
-        ('uuid', False, 'uuid', None),
-        ('child_of', False, 'child_of', []),
-        ('generated_by', False, 'generated_by', []),
-        ('derived_using', False, 'derived_using', []),
-        ('derived_from', False, 'derived_from', []),
-        ('notes', False, 'notes', []),
+        # ('uuid', False, 'uuid', None),
+        # ('child_of', False, 'child_of', []),
+        # ('generated_by', False, 'generated_by', []),
+        # ('derived_using', False, 'derived_using', []),
+        # ('derived_from', False, 'derived_from', []),
+        # ('notes', False, 'notes', []),
         ('level', False, 'level', 'Unknown'),
         ('storage_system', False, 'storage_system', settings.STORAGE_SYSTEM)]
 
@@ -49,16 +50,16 @@ class FileRecord(collections.UserDict):
         ovalue = dict(value)
 
         # Validate incoming document
-        value = dict(value)
-        self.schema = FileDocument()
-        for k in self.schema.filter_keys():
-            try:
-                del value[k]
-            except KeyError:
-                pass
-        vvalue = json.loads(json.dumps(value, default=DateTimeConverter))
-        jsonschema_validate(vvalue, self.schema.to_dict(),
-                            format_checker=formatChecker())
+        # value = dict(value)
+        # schema = FileDocument()
+        # for k in schema.filter_keys():
+        #     try:
+        #         del value[k]
+        #     except KeyError:
+        #         pass
+        # vvalue = json.loads(json.dumps(value, default=DateTimeConverter))
+        # jsonschema_validate(vvalue, schema.to_dict(),
+        #                     format_checker=formatChecker())
 
         # Ensure the minimum set of other fields is populated
         #
@@ -67,7 +68,7 @@ class FileRecord(collections.UserDict):
         # materializing a class definition with python_jsonschema_objects
         for param, req, attr, default in self.PARAMS:
             val = kwargs.get(param, ovalue.get(param, default))
-            if val is not None:
+            if req and val is not None:
                 kwargs[param] = val
 
         super().__init__(value, *args, **kwargs)
@@ -81,6 +82,8 @@ class FileRecord(collections.UserDict):
 
 class FileStore(LinkedStore):
     """Manage storage and retrieval of FileDocuments"""
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
+                   linkages.DERIVED_USING, linkages.GENERATED_BY]
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(FileStore, self).__init__(mongodb, config, session)
@@ -90,8 +93,8 @@ class FileStore(LinkedStore):
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
 
-        if not isinstance(document_dict, FileRecord):
-            document_dict = FileRecord(document_dict)
+        # if not isinstance(document_dict, FileRecord):
+        #     document_dict = FileRecord(document_dict)
 
         # Generate file_id from name if not present
         if 'file_id' not in document_dict:
@@ -100,8 +103,8 @@ class FileStore(LinkedStore):
         resp = super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
-        new_resp = FileRecord(resp)
-        new_resp.set_token(resp.get('_update_token', None))
+        self.logger.info('add_update_document: {}'.format(resp))
+        new_resp = resp
         return new_resp
 
     def index(self, filename, token=None, **kwargs):
@@ -128,11 +131,9 @@ class FileStore(LinkedStore):
                          'generated_by': kwargs.get('generated_by', [])}
             resp = self.add_update_document(
                 db_record, uuid=file_uuid, token=token, strategy='merge')
-            file_record = FileRecord(resp)
-            file_record.set_token(resp.get('_update_token', token))
+            file_record = resp
         else:
-            file_record = FileRecord(db_record)
-            file_record.set_token(token)
+            file_record = db_record
         return file_record
 
     def get_typeduuid(self, payload, binary=False):
@@ -140,11 +141,12 @@ class FileStore(LinkedStore):
         if isinstance(payload, dict):
             if 'name' in payload:
                 payload['name'] = safen_path(payload['name'])
-            identifier_string = self.get_linearized_values(payload)
+            # identifier_string = self.get_linearized_values(payload)
         else:
-            identifier_string = normpath(str(payload))
-        # print('IDENTIFIER.string', identifier_string)
-        return super().get_typeduuid(identifier_string, binary)
+            payload = normpath(str(payload))
+            # identifier_string = normpath(str(payload))
+        self.logger.debug('file.payload: {}'.format(payload))
+        return super().get_typeduuid(payload, binary)
 
 class StoreInterface(FileStore):
     pass

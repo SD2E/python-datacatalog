@@ -6,7 +6,9 @@ import itertools
 import os
 import sys
 from pprint import pprint
-
+from datacatalog.logger import get_logger
+from datacatalog.hashable import picklecache, jsoncache
+from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
 from .. import linkedstores
@@ -18,16 +20,43 @@ from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
 from ..extensible import ExtensibleAttrDict
 
-__all__ = ['Manager', 'ManagerError']
+__all__ = ['ManagerBase', 'Manager', 'ManagerError']
 class ManagerError(linkedstores.basestore.CatalogError):
     """Error has occurred inside a Manager"""
     pass
 
-class Manager(object):
+class ManagerBase(object):
+    """Base class for non database, non Agave functions
+    """
+    def __init__(self, *args, **kwargs):
+        self.logger = get_logger(__name__)
+
+    @classmethod
+    def sanitize(cls, mongo_document):
+        """Strips out non-public fields from a JSON document
+        """
+        a = ExtensibleAttrDict(mongo_document)
+        return a.as_dict(private_prefix='_')
+
+    @classmethod
+    def get_uuidtype(cls, uuid):
+        """Identify the named type for a given UUID
+
+        Args:
+            uuid (str): UUID to classify by type
+
+        Returns:
+            str: Named type of the UUID
+        """
+        typeduuid.validate(uuid)
+        return typeduuid.get_uuidtype(uuid)
+
+class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
+        ManagerBase.__init__(self, *args, **kwargs)
         self.stores = Manager.init_stores(mongodb, agave=agave)
         self.client = agave
         self.api_server = kwargs.get('api_server', current_tenant_uri())
@@ -45,26 +74,8 @@ class Manager(object):
                 if store_basename != 'basestore':
                     stores[store_basename] = store
             except ModuleNotFoundError as mexc:
-                print('Module not found: {}'.format(pkg), mexc)
+                self.logger.exception('Module not found: {}'.format(pkg))
         return stores
-
-    def sanitize(self, mongo_document):
-        """Strips out non-public fields from a JSON document
-        """
-        a = ExtensibleAttrDict(mongo_document)
-        return a.as_dict(private_prefix='_')
-
-    def get_uuidtype(self, uuid):
-        """Identify the named type for a given UUID
-
-        Args:
-            uuid (str): UUID to classify by type
-
-        Returns:
-            str: Named type of the UUID
-        """
-        typeduuid.validate(uuid)
-        return typeduuid.get_uuidtype(uuid)
 
     def get_by_uuid(self, uuid, permissive=True):
         """Returns a LinkedStore document by UUID
@@ -121,6 +132,7 @@ class Manager(object):
         sorted_recs = sorted(recs, key=lambda k: k['uuid'])
         return sorted_recs
 
+    @picklecache.mcache(lru_cache(maxsize=256))
     def get_uuid_from_identifier(self, identifier):
         """Resolve an identifier into its corresponding UUID
 
@@ -133,6 +145,7 @@ class Manager(object):
         """
         uuid = None
         uuid_type = None
+        self.logger.debug('resolving {} into a UUID'.format(identifier))
         try:
             uuid_type = self.get_uuidtype(identifier)
             uuid = identifier
@@ -146,6 +159,8 @@ class Manager(object):
         except Exception as exc:
             raise ValueError(
                 'Failed to resolve {} to a UUID: {}'.format(identifier, exc))
+        self.logger.debug(
+            'identifier is a {} with UUID {}'.format(uuid_type, uuid))
         return uuid, uuid_type
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):
@@ -163,6 +178,7 @@ class Manager(object):
         Returns:
             dict: The modified record, including its new linkage
         """
+        self.logger.debug('linking {} -[ {} ]-> {}'.format(identifier, linkage_name, linked_identifier))
         uuid, uuid_type = self.get_uuid_from_identifier(identifier)
         linkage_name = Linkage(linkage_name)
         if isinstance(linked_identifier, str):
@@ -171,9 +187,42 @@ class Manager(object):
         for lindent in linked_identifier:
             luuid, luuid_type = self.get_uuid_from_identifier(lindent)
             linked_uuid_values.append(luuid)
+        self.logger.debug('writing to the database')
         resp = self.stores[uuid_type].add_link(
             uuid, linked_uuid_values, relation=linkage_name, token=token)
+        if resp:
+            self.logger.debug('write was successful')
         return resp
+
+    def unlink(self, identifier, linked_identifier, linkage_name='child_of', token=None):
+        pass
+
+    def get_links_from_identifier(self, identifier, linkage_name='child_of'):
+        """User-friendly method to get UUIDs linked to an identifier
+
+        Args:
+            identifier (str): Identifier string for record to be modified
+            linkage_name (str): A valid Linkage
+
+        Raises:
+            ValueError: Invalid or unknown identifers are encountered
+            ManagerError: Failed to fetch and return linkages
+
+        Returns:
+            list: A list of TypedUUIDs for the requested linkage
+        """
+        self.logger.debug('getting {} links for {}'.format(linkage_name, identifier))
+        uuid, uuid_type = self.get_uuid_from_identifier(identifier)
+        linkage_name = Linkage(linkage_name)
+        record = self.stores[uuid_type].find_one_by_uuid(uuid)
+        if linkage_name in record:
+            fetched_links = record.get(linkage_name, list())
+            self.logger.debug('found {} links'.format(len(fetched_links)))
+            fetched_links.sort()
+            return fetched_links
+        else:
+            raise ManagerError('record type {} does not support {} linkages'.format(
+                uuid_type, linkage_name))
 
     def derivation_from_inputs(self, inputs=[]):
         """Retrieve derived_from linkages for a set of inputs
@@ -244,7 +293,6 @@ class Manager(object):
 
         links = list()
         for idstr in inputs:
-            # print('RESOLVING ' + idstr)
             found = False
             for store_name, search_keys, linkage in STORES:
                 # print('STORE ' + store_name)
@@ -277,7 +325,8 @@ class Manager(object):
         # Set permissive to True to simply filter out values that dont validate
         uuid_links = [l for l in links if typeduuid.validate(
             l, permissive=True) is True]
-        uuid_links = sorted(list(set(uuid_links)))
+        uuid_links = list(set(uuid_links))
+        uuid_links.sort()
         return uuid_links
 
     def lineage_from_uuid(self, query_uuid, target='child_of', permissive=True):
@@ -396,7 +445,8 @@ class Manager(object):
             if enforce_type:
                 if len(list(set(self_types))) > 1:
                     raise ValueError('Cannot resolve a list of identifiers with mixed types')
-            selfs = sorted(list(set(selfs)))
+            selfs = list(set(selfs))
+            selfs.sort()
             if len(selfs) > 0:
                 return selfs
             else:
@@ -458,87 +508,101 @@ class Manager(object):
             child_ids.append(chrec.get(child_id_field, None))
 
         # Return non-redundant set of child UUIDs
-        child_ids = sorted(list(set(child_ids)))
+        child_ids = list(set(child_ids))
+        child_ids.sort()
         return child_ids
 
     def designs_from_challenges(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='challenge_problem',
             parent_id='id',
             kid='experiment_design',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def experiments_from_designs(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment_design',
             parent_id='experiment_design_id',
             kid='experiment',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def samples_from_experiments(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment',
             parent_id='experiment_id',
             kid='sample',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_measurements(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='measurement',
             parent_id='measurement_id',
             kid='measurement',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def samples_from_samples(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='sample',
             parent_id='sample_id',
             kid='sample',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def experiments_from_experiments(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='experiment',
             parent_id='experiment_id',
             kid='experiment',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_samples(self, ids, permissive=True):
-        return self.kids_from_parents(
+        response = self.kids_from_parents(
             ids,
             parent='sample',
             parent_id='sample_id',
             kid='measurement',
             kid_id='uuid',
             permissive=permissive)
+        response.sort()
+        return response
 
     def measurements_from_experiments(self, ids, permissive=True):
         samples = self.samples_from_experiments(
             ids, permissive=permissive)
         measurements = self.measurements_from_samples(
             samples, permissive=permissive)
-        return sorted(measurements)
+        measurements.sort()
+        return measurements
 
     def measurements_from_designs(self, ids, permissive=True):
         experiments = self.experiments_from_designs(
             ids, permissive=permissive)
-        return sorted(
-            self.measurements_from_experiments(experiments, permissive=True))
+        return self.measurements_from_experiments(experiments, permissive=True)
 
     def measurements_from_challenges(self, ids, permissive=True):
         designs = self.designs_from_challenges(
             ids, permissive=permissive)
-        return sorted(
-            self.measurements_from_designs(designs, permissive=True))
+        return self.measurements_from_designs(designs, permissive=True)

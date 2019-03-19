@@ -48,6 +48,15 @@ def test_basestore_add(mongodb_settings):
     for key, doc, uuid_val in basestore.CREATES:
         resp = base.add_update_document(doc)
         assert resp['uuid'] == uuid_val
+        break
+
+def test_basestore_replace(mongodb_settings):
+    base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
+    base.setup()
+    for key, doc, uuid_val in basestore.REPLACES:
+        resp = base.add_update_document(doc, strategy='replace')
+        assert resp['replacement_works'] is True
+        break
 
 def test_basestore_update(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
@@ -55,8 +64,9 @@ def test_basestore_update(mongodb_settings):
     for key, doc, uuid_val in basestore.UPDATES:
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
+        break
 
-def test_basestore_write_key(mongodb_settings):
+def basestore_write_key(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()
     for key, doc, uuid_val in basestore.UPDATES:
@@ -65,7 +75,7 @@ def test_basestore_write_key(mongodb_settings):
         resp = base.write_key(uuid_val, key, val)
         assert resp[key] == val
 
-def test_basestore_delete(mongodb_settings):
+def basestore_delete(mongodb_settings):
     base = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
     base.setup()
     for key, doc, uuid_val in basestore.DELETES:

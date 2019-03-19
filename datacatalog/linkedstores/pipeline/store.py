@@ -5,7 +5,7 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete
+from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, SoftDelete, linkages
 
 from .schema import PipelineDocument
 from .serializer import SerializedPipeline
@@ -13,6 +13,7 @@ from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicateP
 
 class PipelineStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of PipelineDocuments"""
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM]
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineStore, self).__init__(mongodb, config, session)

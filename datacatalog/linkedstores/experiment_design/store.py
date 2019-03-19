@@ -5,7 +5,7 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import CatalogUpdateFailure, HeritableDocumentSchema, LinkedStore, JSONSchemaCollection
+from ..basestore import CatalogUpdateFailure, HeritableDocumentSchema, LinkedStore, JSONSchemaCollection, linkages
 
 class ExperimentDesignUpdateFailure(CatalogUpdateFailure):
     pass
@@ -19,6 +19,7 @@ class ExperimentDesignDocument(HeritableDocumentSchema):
 
 class ExperimentDesignStore(LinkedStore):
     """Manage storage and retrieval of ExperimentDesignDocuments"""
+    LINK_FIELDS = [linkages.CHILD_OF]
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ExperimentDesignStore, self).__init__(mongodb, config, session)

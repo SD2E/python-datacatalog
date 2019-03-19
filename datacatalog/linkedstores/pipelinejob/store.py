@@ -11,7 +11,7 @@ from datacatalog import settings
 
 from ... import identifiers
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore, HeritableDocumentSchema
+from ..basestore import LinkedStore, HeritableDocumentSchema, linkages
 from ..basestore import CatalogUpdateFailure
 from ..basestore import SoftDelete, AgaveClient
 from ..basestore import get_token, validate_token, validate_admin_token
@@ -26,6 +26,8 @@ DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acted_on', '
 
 class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     NEVER_INDEX_FIELDS = ('data')
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.ACTED_ON,
+                   linkages.ACTED_USING, linkages.GENERATED_BY]
     """Fields that should never be indexed"""
 
     def __init__(self, mongodb, config={}, session=None, agave=None, **kwargs):

@@ -1,6 +1,6 @@
 import re
 import os
-from .filetype import FileType, FileTypeError
+from .filetype import to_file_type, FileTypeError
 from .ruleset import FILETYPES
 
 def listall():
@@ -11,7 +11,7 @@ def listall():
     """
     alltypes = list()
     for rule in FILETYPES:
-        alltypes.append(FileType(label=rule[0], comment=rule[1]))
+        alltypes.append(to_file_type(label=rule[0], comment=rule[1]))
     return alltypes
 
 def infer(filename):
@@ -30,5 +30,5 @@ def infer(filename):
     for label, comment, globs in FILETYPES:
         for g in globs:
             if re.compile(g, re.IGNORECASE).search(fname):
-                return FileType(label=label, comment=comment)
+                return to_file_type(label=label, comment=comment)
     raise FileTypeError('File matched no type classifcation rules')

@@ -17,6 +17,14 @@ datacatalog.linkedstores.basestore.agaveclient module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.linkedstores.basestore.diff module
+----------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.diff
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.linkedstores.basestore.documentschema module
 --------------------------------------------------------
 
@@ -49,10 +57,34 @@ datacatalog.linkedstores.basestore.heritableschema module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.linkedstores.basestore.linkmanager module
+-----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.linkmanager
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.merge module
+-----------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.merge
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.linkedstores.basestore.ratelimit module
 ---------------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.basestore.ratelimit
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.record module
+------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.record
     :members:
     :undoc-members:
     :show-inheritance:
@@ -77,6 +109,14 @@ datacatalog.linkedstores.basestore.store module
 -----------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.basestore.store
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.strategies module
+----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.strategies
     :members:
     :undoc-members:
     :show-inheritance:

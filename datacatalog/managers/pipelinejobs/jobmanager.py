@@ -224,7 +224,7 @@ class JobManager(Manager):
         vals.append('archive_uri: ' + self.archive_uri())
         return '\n'.join(vals)
 
-    def _clear_archive_path(self, mock=True, permissive=True):
+    def _clear_archive_path(self, mock=False, permissive=True):
         """Administratively clears a job's archive path
 
         Path is cleared quickly by deleting the directory then recreating it.
@@ -244,8 +244,8 @@ class JobManager(Manager):
             helper = self.stores['pipelinejob']._helper
             if not helper.isdir(ag_path, storage_system=ag_sys):
                 raise ValueError('Path does not appear to exist')
-            if not ag_path.startswith('/products'):
-                raise ValueError('Only paths in /products may be cleared')
+            if not ag_path.startswith('/products/v2'):
+                raise ValueError('Only paths under /products/v2 may be cleared')
             if mock:
                 print('clear_archive_path.mock.delete', ag_path, ag_sys)
                 print('clear_archive_path.mock.mkdir', ag_path, ag_sys)
