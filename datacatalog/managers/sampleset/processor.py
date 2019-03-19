@@ -6,54 +6,61 @@ import os
 import sys
 from pprint import pprint
 
-from ... import linkedstores
-from ... import jsonschemas
 from ...identifiers.typeduuid import get_uuidtype
-# from ... import linkedstores
+from ...utils import dynamic_import
+from ..common import Manager
+from ...linkedstores.basestore.exceptions import CatalogError
+from ... import jsonschemas
 
-def dynamic_import(module, package='datacatalog'):
-    return importlib.import_module(module, package=package)
-
-class UnknownReference(linkedstores.basestore.CatalogError):
+class UnknownReference(CatalogError):
     pass
 
-class SampleSetProcessorError(linkedstores.basestore.CatalogError):
+class SampleSetProcessorError(CatalogError):
     pass
 
-class SampleSetProcessor(object):
+class SampleSetProcessor(Manager):
     """Manager class to process and load sample set JSON documents"""
 
-    def __init__(self, mongodb_settings, samples_file=None, path_prefix='/uploads'):
-        # Assemble dict of stores keyed by classname
-        self.stores = SampleSetProcessor.init_stores(mongodb_settings)
-        self.document = dict()
+    def __init__(self, mongodb, agave=None, samples_file=None, path_prefix='/uploads', *args, **kwargs):
+        Manager.__init__(self, mongodb, agave=agave, *args, **kwargs)
         self.prefix = path_prefix
-        if samples_file is not None:
-            setattr(self, 'document', self.load_file(samples_file))
-            setattr(self, 'challenge_problem', self.load_challenge_problem())
-            setattr(self, 'experiment_id', self.load_experiment_id())
-            setattr(self, 'experiment_design', self.load_experiment_design())
-            setattr(self, '_samples', self.load_samples())
+        self.stats = {'samples': {'count': 0, 'elapsed': 0.0},
+                      'measurements': {'count': 0, 'elapsed': 0.0},
+                      'files': {'count': 0, 'elapsed': 0.0}}
+        self.setup(samples_file)
 
-    @classmethod
-    def init_stores(cls, mongodb_settings):
-        # Assemble dict of stores keyed):
-        stores = dict()
-        for pkg in tuple(jsonschemas.schemas.STORE_SCHEMAS):
-            try:
-                m = dynamic_import('.' + pkg, package='datacatalog')
-                store = m.StoreInterface(mongodb_settings)
-                store_name = getattr(store, 'schema_name')
-                store_basename = store_name.split('.')[-1]
-                stores[store_basename] = store
-            except ModuleNotFoundError as mexc:
-                print('Module not found: {}'.format(pkg), mexc)
-        return stores
+    def setup(self, samples_file):
+        if samples_file is None:
+            return self
 
-    def load_file(self, sampleset_file):
-        jsonfile = open(sampleset_file, 'r')
-        jsondoc = json.load(jsonfile)
-        return jsondoc
+        self.logger.debug('initializing ({})'.format(samples_file))
+
+        document =  json.load(open(samples_file, 'r'))
+        self.logger.debug('document.size: {} bytes'.format(sys.getsizeof(document)))
+
+        # Challenge Problem
+        doc_cp = document.get('challenge_problem', 'UNKNOWN')
+        cp = self.get('challenge_problem', 'id', doc_cp)
+        setattr(self, 'challenge_problem', cp)
+        self.logger.debug('challenge_problem: {}'.format(cp))
+
+        # Experiment ID
+        doc_exp = document.get('experiment_id', 'UNKNOWN')
+        setattr(self, 'experiment_id', doc_exp)
+        self.logger.debug('experiment_id: {}'.format(doc_exp))
+
+        # Experiment Design
+        doc_exd = document.get('experiment_reference', 'UNKNOWN')
+        exd = self.get('experiment_design', 'experiment_design_id', doc_exd)
+        setattr(self, 'experiment_design', exd)
+        self.logger.debug('experiment_design: {}'.format(exd))
+
+        # Samples
+        setattr(self, '_samples', document.get('samples', []))
+        self.logger.debug('count.samples: {}'.format(len(self._samples)))
+
+        self.logger.debug('ready ({})'.format(samples_file))
+        return self
 
     def get(self, doctype, identifier, identifier_value):
         query = {identifier: identifier_value}
@@ -62,25 +69,6 @@ class SampleSetProcessor(object):
             raise UnknownReference('Unable to get {}.{}={}'.format(doctype, identifier, identifier_value))
         else:
             return resp
-
-    def load_challenge_problem(self):
-        doc_value = self.document.get('challenge_problem', 'UNKNOWN')
-        challenge_problem = self.get('challenge_problem', 'id', doc_value)
-        return challenge_problem
-
-    def load_experiment_id(self):
-        doc_value = self.document.get('experiment_id', 'UNKNOWN')
-        # experiment_id = self.get('experiment', 'experiment_id', doc_value)
-        return doc_value
-
-    def load_experiment_design(self):
-        doc_value = self.document.get('experiment_reference', 'UNKNOWN')
-        experiment_design = self.get('experiment_design', 'experiment_design_id', doc_value)
-        return experiment_design
-
-    def load_samples(self):
-        samples_list = self.document.get('samples', [])
-        return samples_list
 
     def _update_param(self, strategy):
         """Shim in case we need to validate or add new strategy to LinkedStore"""
@@ -104,7 +92,6 @@ class SampleSetProcessor(object):
             assert get_uuidtype(new_parent_uuid) == 'experiment', '{} is mistyped'.format(new_parent_uuid)
             self.process_samples(parent_uuid=new_parent_uuid,
                                  strategy=self._update_param(strategy))
-            return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process experiment', exc)
 
@@ -114,6 +101,7 @@ class SampleSetProcessor(object):
             if not isinstance(self._samples, list):
                 raise TypeError('"samples" must be a list')
             for sample in self._samples:
+                self.logger.debug('processing.sample: {}'.format(sample['sample_id']))
                 if 'child_of' in sample:
                     sample['child_of'].append(parent_uuid)
                 else:
@@ -122,51 +110,54 @@ class SampleSetProcessor(object):
                 # That's what the linkages are for!
                 if 'measurements' in sample:
                     measurements = sample.pop('measurements')
+                    self.logger.debug('count.measurements: {}'.format(len(measurements)))
                 else:
                     measurements = None
+                setattr(self, '_measurements', measurements)
                 resp = self.stores['sample'].add_update_document(sample, strategy=self._update_param(strategy))
                 new_parent_uuid = resp['uuid']
                 assert get_uuidtype(new_parent_uuid) == 'sample', '{} is mistyped'.format(new_parent_uuid)
-                if 'measurements' is not None:
-                    self.process_measurements(measurements, new_parent_uuid, strategy=self._update_param(strategy))
-            return True
+                if self._measurements is not None:
+                    self.process_measurements(new_parent_uuid, strategy=self._update_param(strategy))
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process sample(s)', exc)
 
-    def process_measurements(self, measurements, parent_uuid=None, strategy='merge'):
+    def process_measurements(self, parent_uuid=None, strategy='merge'):
         try:
-            if not isinstance(measurements, list):
+            if not isinstance(self._measurements, list):
                 raise TypeError('"measurements" must be a list')
-            for meas in measurements:
+            for meas in self._measurements:
+                self.logger.debug('processing.measurement: {}'.format(meas['measurement_id']))
                 if 'child_of' in meas:
                     meas['child_of'].append(parent_uuid)
                 else:
                     meas['child_of'] = [parent_uuid]
                 if 'files' in meas:
                     files = meas.pop('files')
+                    self.logger.debug('count.files: {}'.format(len(files)))
                 else:
                     files = None
+                setattr(self, '_files', files)
                 resp = self.stores['measurement'].add_update_document(meas, strategy=self._update_param(strategy))
                 new_parent_uuid = resp['uuid']
                 assert get_uuidtype(new_parent_uuid) == 'measurement', '{} is mistyped'.format(new_parent_uuid)
-                if 'files' is not None:
-                    self.process_files(files, new_parent_uuid, strategy=self._update_param(strategy))
-            return True
+                if self._files is not None:
+                    self.process_files(new_parent_uuid, strategy=self._update_param(strategy))
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process measurement(s)', exc)
 
-    def process_files(self, files, parent_uuid=None, strategy='merge'):
+    def process_files(self, parent_uuid=None, strategy='merge'):
         try:
-            if not isinstance(files, list):
+            if not isinstance(self._files, list):
                 raise TypeError('"files" must be a list')
-            for file in files:
-                file['name'] = self.contextualize(file['name'])
-                if 'child_of' in file:
-                    file['child_of'].append(parent_uuid)
+            for ffile in self._files:
+                self.logger.debug('processing.file: {}'.format(ffile['file_id']))
+                ffile['name'] = self.contextualize(ffile['name'])
+                if 'child_of' in ffile:
+                    ffile['child_of'].append(parent_uuid)
                 else:
-                    file['child_of'] = [parent_uuid]
-                self.stores['file'].add_update_document(file, strategy=self._update_param(strategy))
-            return True
+                    ffile['child_of'] = [parent_uuid]
+                self.stores['file'].add_update_document(ffile, strategy=self._update_param(strategy))
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process file(s)', exc)
 
@@ -185,9 +176,10 @@ class SampleSetProcessor(object):
             bool: Returns `True` on success
         """
         # HACK Avoid RecursionError('maximum recursion depth exceeded in comparison',)
-        sys.setrecursionlimit(100000)
+        # sys.setrecursionlimit(100000)
         try:
             expt_design_uuid = getattr(self, 'experiment_design').get('uuid')
-            return self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
+            self.process_experiment(parent_uuid=expt_design_uuid, strategy=strategy)
+            return True
         except Exception as exc:
             raise SampleSetProcessorError('Failed to process file', exc)

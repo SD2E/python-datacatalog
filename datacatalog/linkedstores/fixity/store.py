@@ -9,7 +9,7 @@ from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
 from ...stores import abspath
 from ...utils import normalize, normpath
-from ..basestore import LinkedStore, CatalogUpdateFailure
+from ..basestore import LinkedStore, CatalogUpdateFailure, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import RateLimiter, RateLimitExceeded
 from .schema import FixityDocument
@@ -22,7 +22,7 @@ from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundE
 class FixityStore(LinkedStore, RateLimiter):
     """Defines fixed attributes for a managed file"""
 
-    LINK_FIELDS = ['child_of', 'generated_by']
+    LINK_FIELDS = [linkages.CHILD_OF, linkages.GENERATED_BY]
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         LinkedStore.__init__(self, mongodb, config, session)

@@ -48,3 +48,10 @@ RECORDS_SOURCE = os.environ.get('CATALOG_RECORDS_SOURCE', 'testing')
 
 # Prefix for minting file.id strings
 FILE_ID_PREFIX = os.environ.get('CATALOG_FILE_ID_PREFIX', 'file.tacc') + '.'
+
+LOG_LEVEL = os.environ.get('CATALOG_LOG_LEVEL', 'NOTSET')
+LOG_FIXITY_ERRORS = parse_boolean(os.environ.get('CATALOG_LOG_FIXITY_ERRORS', '0'))
+
+# Maximum number of
+MAX_INDEX_FILTERS = int(os.environ.get('CATALOG_MAX_INDEX_FILTERS', '100'))
+MAX_INDEX_PATTERNS = int(os.environ.get('CATALOG_MAX_INDEX_PATTERNS', '512'))

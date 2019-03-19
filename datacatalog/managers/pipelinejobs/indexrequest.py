@@ -30,6 +30,9 @@ class IndexRequest(ExtensibleAttrDict):
     kind = None
 
     def __init__(self, **kwargs):
+        if kwargs.get('patterns', None) is None:
+            if kwargs.get('filters', None) is not None:
+                kwargs['patterns'] = kwargs.get('filters', [])
         for param, mandatory, attr, default in self.PARAMS:
             try:
                 value = kwargs[param] if mandatory else kwargs.get(param, default)

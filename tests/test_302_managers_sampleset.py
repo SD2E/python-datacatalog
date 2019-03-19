@@ -42,11 +42,18 @@ def test_ex_get(samplesetprocessor):
         assert resp['experiment_id'] == doc['experiment_id']
 
 @longrun
-# @pytest.mark.parametrize("filename", ['samples-biofab.json', 'samples-transcriptic.json', 'samples-ginkgo.json'])
 @pytest.mark.parametrize("filename", ['samples-biofab-022019.json', 'samples-transcriptic-022019.json'])
 def test_iter_process_merge(mongodb_settings, filename):
     jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
+    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
+    dbp = db.process(strategy='merge')
+    assert dbp is True
+
+@longrun
+@pytest.mark.parametrize("filename", ['ginko-titration-recursion-depth.json'])
+def test_iter_less_recursion(mongodb_settings, filename):
+    jsonpath = os.path.join(DATA_DIR, filename)
+    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
     dbp = db.process(strategy='merge')
     assert dbp is True
 

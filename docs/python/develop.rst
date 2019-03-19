@@ -33,6 +33,19 @@ Obtain the source code and checkout the ``develop`` branch.
     git checkout develop
     git pull origin develop
 
+Logging
+-------
+
+Extensive debug logging is available, though it is turned off by default. It
+is controlled by the ``datacatalog.settings`` module.
+
+Enable interactive session logging with ``export CATALOG_LOG_LEVEL=DEBUG``. In
+a container or application you are building with ``python-datacatalog``, set an
+environment variable in the Dockerfile: ``ENV CATALOG_LOG_LEVEL=DEBUG```. All
+log levels are available, and exceptions are logged even if swallowed
+internally by the module's internal logic. Disable logging either with level
+``NOTSET`` or via ``unset CATALOG_LOG_LEVEL``.
+
 Unit testing
 ------------
 

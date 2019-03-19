@@ -4,7 +4,8 @@ import uuid
 from pprint import pprint
 from hashids import Hashids
 from datacatalog import settings
-
+from functools import lru_cache
+from datacatalog.hashable import picklecache, jsoncache
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
 from ..identifier import random_string, Identifier
@@ -25,11 +26,13 @@ class TypedCatalogUUID(CatalogUUID):
             'Why did it have to be snakes?', uuid_type=kwargs.get('kind', 'generic'), binary=False)])
         super(TypedCatalogUUID, self).update_id()
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def uuid_to_hashid(uuid_string, salt=settings.TYPEDUUID_HASHIDS_SALT):
     """Convert a UUID to a HashId to save space. Good for file path building."""
     hashids = Hashids(salt=salt)
     return hashids.encode(uuid.UUID(uuid_string).int)
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def validate_type(type_string, permissive=False):
     """Ensure a provided type string is valid
 
@@ -89,6 +92,7 @@ def mock(text_value=None, uuid_type=None, binary=True):
     return catalog_uuid(text_value, uuid_type, binary,
                         namespace=settings.UUID_MOCK_NAMESPACE)
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def validate(uuid_string, permissive=False):
     """Validate whether a string is a TypedUUID
 
@@ -112,6 +116,7 @@ def validate(uuid_string, permissive=False):
             else:
                 raise ValueError('Not a valid TypedUUID')
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def get_uuidtype(query_uuid):
     """Determine the class for a UUID
 
@@ -132,6 +137,7 @@ def get_uuidtype(query_uuid):
             return t
     raise ValueError('{} is not a known class of TypedUUID'.format(query_uuid))
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def catalog_uuid(text_value, uuid_type='generic',
                  namespace=settings.UUID_NAMESPACE,
                  binary=False):
@@ -181,6 +187,7 @@ def binary_uuid_to_text(binary_uuid):
     except Exception as exc:
         raise ValueError('Failed to convert binary UUID to string', exc)
 
+@picklecache.mcache(lru_cache(maxsize=256))
 def validate_uuid5(uuid_string, permissive=False):
     """Test whether a UUID string is a valid uuid.uuid5"""
     try:

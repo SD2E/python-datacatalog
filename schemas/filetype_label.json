@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190312T194628+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@689345e",
+    "$comment": "generated: 20190318T172020+00:00; source: git@github.com:SD2E/python-datacatalog.git@de81391",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -218,10 +218,8 @@
         "GOOGLE-EARTH.KMZ",
         "GOOGLE-VIDEO-POINTER",
         "GPX+XML",
-        "GRADLE",
         "GRAPHITE",
         "GRAPHVIZ",
-        "GROOVY",
         "GSM",
         "GTK-BUILDER",
         "GTKTALOG",
@@ -340,7 +338,6 @@
         "MATLAB",
         "MATROSKA",
         "MATROSKA-3D",
-        "MAVEN+XML",
         "MBOX",
         "MD5",
         "MESON",
@@ -564,7 +561,6 @@
         "RPM",
         "RPM-SPEC",
         "RSS+XML",
-        "RST",
         "RTF",
         "RUBY",
         "RUST",
@@ -585,7 +581,6 @@
         "SECRETS",
         "SEGA-CD-ROM",
         "SEGA-PICO-ROM",
-        "SENX.WARPSCRIPT",
         "SETEXT",
         "SG1000-ROM",
         "SGI",
@@ -758,9 +753,7 @@
         "ZIP",
         "ZIP-COMPRESSED-FB2",
         "ZLIB",
-        "ZOO",
-        "ZSTD",
-        "ZSTD-COMPRESSED-TAR"
+        "ZOO"
     ],
     "title": "File Type Label",
     "type": "string"

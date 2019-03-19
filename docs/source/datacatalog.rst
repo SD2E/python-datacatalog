@@ -15,10 +15,12 @@ Subpackages
     datacatalog.definitions
     datacatalog.filetypes
     datacatalog.formats
+    datacatalog.hashable
     datacatalog.identifiers
     datacatalog.jsonschemas
     datacatalog.linkages
     datacatalog.linkedstores
+    datacatalog.logger
     datacatalog.managers
     datacatalog.mongo
     datacatalog.pathmappings
