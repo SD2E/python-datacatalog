@@ -22,4 +22,4 @@ chardet>=3.0.4
 tenacity>=5.0.0
 jsondiff>=1.1.2
 jsonschema>=3.0.1
-# agavepy==0.7.4
+jsonmerge>=1.6.0
