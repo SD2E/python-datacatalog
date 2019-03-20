@@ -224,6 +224,17 @@ class JobManager(Manager):
         vals.append('archive_uri: ' + self.archive_uri())
         return '\n'.join(vals)
 
+    def _validate_clearable_archive_path(self, path, permissive=True):
+        PREFIXES = ('/products/v2', '/sample/tacc-cloud')
+        for p in PREFIXES:
+            if path.startswith(p):
+                return True
+        if permissive:
+            return False
+        else:
+            raise ValueError(
+                'Only specific paths may be cleared: {}'.format(PREFIXES))
+
     def _clear_archive_path(self, mock=False, permissive=True):
         """Administratively clears a job's archive path
 
@@ -242,10 +253,10 @@ class JobManager(Manager):
             ag_sys = getattr(self, 'archive_system', None)
             ag_path = getattr(self, 'archive_path', None)
             helper = self.stores['pipelinejob']._helper
+            self._validate_clearable_archive_path(ag_path)
             if not helper.isdir(ag_path, storage_system=ag_sys):
                 raise ValueError('Path does not appear to exist')
-            if not ag_path.startswith('/products/v2'):
-                raise ValueError('Only paths under /products/v2 may be cleared')
+
             if mock:
                 print('clear_archive_path.mock.delete', ag_path, ag_sys)
                 print('clear_archive_path.mock.mkdir', ag_path, ag_sys)

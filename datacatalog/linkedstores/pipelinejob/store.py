@@ -60,6 +60,8 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     def handle(self, event_document, token=None, data=None, **kwargs):
         # This is a special method that takes event documents
         # and modifies the job state/history
+        self.logger.info("handling event '{}'".format(
+            event_document.get('name', None)))
         job_uuid = None
         try:
             job_uuid = event_document.get('uuid')
