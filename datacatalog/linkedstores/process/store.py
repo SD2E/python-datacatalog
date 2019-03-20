@@ -4,7 +4,6 @@ import json
 import jsonschema
 import os
 import sys
-import uuid
 from pprint import pprint
 from slugify import slugify
 
@@ -15,6 +14,8 @@ from ..basestore import CatalogUpdateFailure
 from ...stores import abspath
 from ...utils import normalize, normpath
 from ...filetypes import infer_filetype
+
+DEFAULT_LINK_FIELDS = list()
 
 class ProcessUpdateFailure(CatalogUpdateFailure):
     pass
@@ -28,7 +29,6 @@ class ProcessDocument(HeritableDocumentSchema):
 
 class ProcessRecord(collections.UserDict):
     """New document for ProcessStore with schema enforcement"""
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM]
 
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:
@@ -48,6 +48,8 @@ class ProcessRecord(collections.UserDict):
 
 class ProcessStore(LinkedStore):
     """Manage storage and retrieval of ProcessDocument records"""
+
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ProcessStore, self).__init__(mongodb, config, session)

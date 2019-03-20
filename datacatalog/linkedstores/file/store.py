@@ -19,8 +19,9 @@ from ..basestore import LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 
-DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'derived_using')
 FILE_ID_PREFIX = settings.FILE_ID_PREFIX
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
+                       linkages.DERIVED_USING, linkages.GENERATED_BY]
 class FileUpdateFailure(CatalogUpdateFailure):
     pass
 
@@ -82,8 +83,7 @@ class FileRecord(ExtensibleAttrDict):
 
 class FileStore(LinkedStore):
     """Manage storage and retrieval of FileDocuments"""
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
-                   linkages.DERIVED_USING, linkages.GENERATED_BY]
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(FileStore, self).__init__(mongodb, config, session)

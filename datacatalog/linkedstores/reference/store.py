@@ -16,6 +16,8 @@ from ...stores import abspath
 from ...utils import normalize, normpath
 from ...filetypes import infer_filetype
 
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
+                       linkages.DERIVED_USING, linkages.GENERATED_BY]
 class ReferenceUpdateFailure(CatalogUpdateFailure):
     pass
 
@@ -48,8 +50,7 @@ class ReferenceRecord(collections.UserDict):
 class ReferenceStore(LinkedStore):
     """Manage storage and retrieval of ReferenceDocument records"""
 
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
-                   linkages.DERIVED_USING, linkages.GENERATED_BY]
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(ReferenceStore, self).__init__(mongodb, config, session)
