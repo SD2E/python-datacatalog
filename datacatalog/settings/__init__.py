@@ -51,6 +51,7 @@ FILE_ID_PREFIX = os.environ.get('CATALOG_FILE_ID_PREFIX', 'file.tacc') + '.'
 
 LOG_LEVEL = os.environ.get('CATALOG_LOG_LEVEL', 'NOTSET')
 LOG_FIXITY_ERRORS = parse_boolean(os.environ.get('CATALOG_LOG_FIXITY_ERRORS', '0'))
+LOG_UPDATES = parse_boolean(os.environ.get('CATALOG_LOG_UPDATES', '1'))
 
 # Maximum number of
 MAX_INDEX_FILTERS = int(os.environ.get('CATALOG_MAX_INDEX_FILTERS', '100'))

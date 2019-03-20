@@ -16,13 +16,15 @@ from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
 
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.GENERATED_BY]
 # FixityStore is a special case of LinkedStore that creates and manages its
 # own records. This is accomplished declaratively using the ``index()`` method.
 
 class FixityStore(LinkedStore, RateLimiter):
     """Defines fixed attributes for a managed file"""
 
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.GENERATED_BY]
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
+    LOG_JSONDIFF_UPDATES = False
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         LinkedStore.__init__(self, mongodb, config, session)

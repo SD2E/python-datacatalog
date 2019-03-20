@@ -1,6 +1,6 @@
 from datacatalog.extensible import ExtensibleAttrDict
 
-__all__ = ['CHILD_OF', 'GENERATED_BY', 'DERIVED_FROM', 'DERIVED_USING', 
+__all__ = ['CHILD_OF', 'GENERATED_BY', 'DERIVED_FROM', 'DERIVED_USING',
            'ACTED_ON', 'ACTED_USING', 'DEFAULT_LINKS', 'ALL', 'Linkage',
            'LinkageError', 'LinkEdges', 'LinkEdgesDiff']
 
@@ -9,7 +9,7 @@ GENERATED_BY = 'generated_by'
 DERIVED_FROM = 'derived_from'
 DERIVED_USING = 'derived_using'
 ACTED_ON = 'acted_on'
-ACTED_USING = 'acted_on'
+ACTED_USING = 'acted_using'
 
 DEFAULT_LINKS = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY)
 ALL = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY, ACTED_ON, ACTED_USING)
@@ -53,7 +53,7 @@ class LinkEdges(ExtensibleAttrDict):
 
     def __init__(self, doc_dict, link_fields=None):
         self._updated = False
-        if link_fields is None:
+        if link_fields is None or not isinstance(link_fields, (list, tuple)):
             link_fields = DEFAULT_LINKS
         setattr(self, 'LINK_FIELDS', link_fields)
         for lf in link_fields:
@@ -62,7 +62,8 @@ class LinkEdges(ExtensibleAttrDict):
 
     def right_merge(self, other, extend_only=True):
         links = MergedLinkages()
-        for lf in self.LINK_FIELDS:
+        for lfv in self.LINK_FIELDS:
+            lf = Linkage(lfv)
             links_set1 = set(getattr(self, lf, list()))
             links_set2 = set(getattr(other, lf, list()))
             # Extend
@@ -78,7 +79,7 @@ class LinkEdges(ExtensibleAttrDict):
         return links
 
 
-def merge_linkages(document_a, document_b):
-    le1 = LinkEdges(document_a)
-    le2 = LinkEdges(document_b)
+def merge_linkages(document_a, document_b, link_fields=None):
+    le1 = LinkEdges(document_a, link_fields=link_fields)
+    le2 = LinkEdges(document_b, link_fields=link_fields)
     return le1.right_merge(le2)

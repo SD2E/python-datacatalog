@@ -20,27 +20,31 @@ from ...stores import StorageSystem, ManagedStores, PathMappings
 from ...tokens import generate_salt, get_token, validate_token, validate_admin_token
 from ...utils import time_stamp, current_time, msec_precision
 from ... import tenancy
-from . import strategies
 
+from .diff import get_diff
+from .exceptions import (CatalogError, CatalogQueryError,
+                         CatalogUpdateFailure, CatalogDataError,
+                         CatalogDatabaseError)
 from .heritableschema import DocumentSchema, HeritableDocumentSchema
 from .heritableschema import formatChecker, DateTimeEncoder
-from .extensible import ExtensibleAttrDict
-from .exceptions import *
-from .diff import get_diff
+from .linkmanager import LinkageManager
 from .merge import json_merge
 from .record import Record
-from .linkmanager import LinkageManager
+from .extensible import ExtensibleAttrDict
+from .mongomerge import pre_merge_filter
+
+from . import strategies
+from . import managedfields
 
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
            'CatalogQueryError', 'DuplicateKeyError', 'time_stamp',
            'msec_precision', 'validate_token',
            'DEFAULT_LINK_FIELDS', 'DEFAULT_MANAGED_FIELDS',
-           'AgaveError', 'AgaveHelperError', 'validate_admin_token', 'linkages']
+           'validate_admin_token', 'linkages']
 
 DEFAULT_LINK_FIELDS = linkages.DEFAULT_LINKS
-DEFAULT_MANAGED_FIELDS = ('uuid', '_admin', '_properties', '_salt', '_enforce_auth')
-"""Default set of keys managed by LinkedStore internal logic"""
+DEFAULT_MANAGED_FIELDS = managedfields.ALL
 
 class LinkedStore(LinkageManager):
     """JSON-schema informed MongoDB document store with diff-based logging
@@ -54,9 +58,6 @@ class LinkedStore(LinkageManager):
     in the property's getter method.
 
     Attributes:
-        _tenant (str): Description of `attr1`.
-        _project (str): Description of `attr1`.
-        _owner (str): Description of `attr1`.
         _mongodb (dict): MongoDB connection details
         coll (str): MongoDB collection for documents
         db (:obj:`dict`): Active MongoDB connection
@@ -90,19 +91,11 @@ class LinkedStore(LinkageManager):
     """Set of valid strategies for updating document linkages"""
     NEVER_INDEX_FIELDS = ('data')
     """Fields that should never be indexed"""
+    LOG_JSONDIFF_UPDATES = settings.LOG_UPDATES
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         self.logger = logger.get_logger(__name__)
         self.debug = settings.DEBUG_MODE
-        self._tenant = tenancy.current_tenant()
-        """TACC.cloud tenant that owns this document.
-        """
-        self._project = tenancy.current_project()
-        """TACC.cloud project that owns this document
-        """
-        self._owner = tenancy.current_username()
-        """TACC.cloud username that owns this document
-        """
         self.session = session
         """Optional correlation string for interlinked events
         """
@@ -121,7 +114,6 @@ class LinkedStore(LinkageManager):
         self.logcoll = None
         """Name of MongoDB collection housing the general update log
         """
-
         # setup based on schema extended properties
         self.schema_name = None
         """Canonical filename for the document's JSON schema
@@ -398,9 +390,9 @@ class LinkedStore(LinkageManager):
         return linearized
 
     def admin_template(self):
-        template = {'owner': self._owner,
-                    'project': self._project,
-                    'tenant': self._tenant}
+        template = {'owner': tenancy.current_tenant(),
+                    'project': tenancy.current_project(),
+                    'tenant': tenancy.current_username()}
         return template
 
     def __set_properties(self, record, updated=False, source=None):
@@ -414,8 +406,8 @@ class LinkedStore(LinkageManager):
         Returns:
             dict: Object containing the updated LinkedStore document
         """
+        self.logger.debug('updating record properties')
         ts = msec_precision(current_time())
-
         if source is None:
             source = settings.RECORDS_SOURCE
         # Amend record with _properties if needed
@@ -432,16 +424,17 @@ class LinkedStore(LinkageManager):
 
     def __set_admin(self, record):
         # Stubbed-in support for multitenancy, projects, and ownership
+        self.logger.debug('updating record admin fields')
         if '_admin' not in record:
             record['_admin'] = self.admin_template()
         return record
 
     def __set_salt(self, record, refresh=False):
-        # Stubbed-in support for update token
+        self.logger.debug('setting record token salt')
         if '_salt' not in record or refresh is True:
             record['_salt'] = generate_salt()
             if refresh:
-                self.logger.debug('refreshing salt value')
+                self.logger.debug('refreshing record token salt')
         return record
 
     def set_private_keys(self, record, updated=False, source=None):
@@ -452,6 +445,7 @@ class LinkedStore(LinkageManager):
 
     def add_update_document(self, doc_dict, uuid=None, token=None, strategy=strategies.MERGE):
 
+        self.logger.info('add_update_document()')
         self.logger.debug('type(doc_dict) is {}'.format(type(doc_dict)))
         self.logger.debug('value for uuid is {}'.format(uuid))
 
@@ -462,8 +456,9 @@ class LinkedStore(LinkageManager):
 
         # Validate that all identifiers are present
         for k in self.get_uuid_fields():
-            if not k in doc_dict:
-                raise KeyError("Document lacks identifier '{}'".format(uuid_key))
+            if k not in doc_dict:
+                raise KeyError(
+                    "Document lacks identifier '{}'".format(k))
 
         # Compute and inject TypedUUID if needed
         if 'uuid' not in doc_dict:
@@ -512,7 +507,7 @@ class LinkedStore(LinkageManager):
 
         """
         # Decorate the document with our _private keys
-        self.logger.debug('add a new document')
+        self.logger.info('add_document()')
         db_record = self.set_private_keys(document, updated=False)
         # populate linkages if not existent
         for lf in self.LINK_FIELDS:
@@ -523,23 +518,30 @@ class LinkedStore(LinkageManager):
             result = self.coll.insert_one(db_record)
             added_doc = self.coll.find_one({'_id': result.inserted_id})
             if added_doc is not None:
-                diff_record = get_diff(
-                    source=dict(), target=db_record, action='create')
-                self.logger.debug('diff: {}'.format(diff_record))
-                try:
-                    self.logcoll.insert_one(diff_record.document())
-                except Exception:
-                    self.logger.exception('failed to log document creation')
+                if self.LOG_JSONDIFF_UPDATES:
+                    diff_record = get_diff(
+                        source=dict(), target=db_record, action='create')
+                    self.logger.debug('diff: {}'.format(diff_record))
+                    try:
+                        self.logcoll.insert_one(diff_record.document())
+                    except Exception:
+                        self.logger.exception('failed to log document creation')
+            else:
+                raise CatalogError('response for mongo.insert_one() was None')
             # Issue and return an update token
             token = get_token(db_record['_salt'],
                               self.get_token_fields(db_record))
             added_doc['_update_token'] = token
+
+            self.logger.info('add_document() complete')
             return added_doc
+
         except DuplicateKeyError:
             # This is only possible if add_document is called directly
-            self.logger.warning('add_document() called on an existing document - redirecting to update_document()')
+            self.logger.warning('add_document() references an existing document: redirecting to update_document()')
             return self.update_document(
                 {'uuid': document['uuid']}, document, token=token)
+
         except Exception as exc:
             raise CatalogError('Failed to create document', exc)
 
@@ -561,6 +563,8 @@ class LinkedStore(LinkageManager):
 
         """
 
+        self.logger.info('replace_document()')
+
         # Validate record x token
         if self._enforce_auth:
             try:
@@ -568,14 +572,22 @@ class LinkedStore(LinkageManager):
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
 
-        # Diff
-        diff_record = get_diff(source=source_document,
-                               target=target_document,
-                               action='replace')
+        replaced_doc = source_document
+        diff_record = None
+        was_updated = True
 
-        if diff_record.updated:
-            self.logger.debug('documents were different - proceeding with replace()')
-            self.logger.debug('diff: {}'.format(diff_record))
+        if self.LOG_JSONDIFF_UPDATES:
+            self.logger.debug('calculating diff for replace')
+            diff_record = get_diff(source=source_document,
+                                   target=target_document,
+                                   action='replace')
+            was_updated = diff_record.updated
+        else:
+            self.logger.debug('skip calculating diff for replace')
+
+        if was_updated:
+            self.logger.debug('proceeding with replace()')
+            # self.logger.debug('diff: {}'.format(diff_record))
             # Transfer _private and identifier fields to document
             for key in list(source_document.keys()):
                 if key.startswith('_') or key in ('uuid', '_id'):
@@ -584,86 +596,98 @@ class LinkedStore(LinkageManager):
             document = self.__set_properties(target_document, updated=True)
             # Update the salt value, changing the update token
             document = self.__set_salt(document, refresh=True)
-
             # populate linkages if not existent
             for lf in self.LINK_FIELDS:
                 if lf not in document:
                     document[lf] = list()
-
-            # # Lift over linkages
-            # for key in self.LINK_FIELDS:
-            #     if key in source_document and key in target_document:
-            #         document[key] = target_document.get(key, list())
             # Update the record
             replaced_doc = self.coll.find_one_and_replace(
                 {'uuid': document['uuid']}, document,
                 return_document=ReturnDocument.AFTER)
-            token = get_token(replaced_doc['_salt'],
-                              self.get_token_fields(replaced_doc))
-            replaced_doc['_update_token'] = token
-            # self.logcoll.insert_one(diff_record)
-            try:
-                self.logcoll.insert_one(diff_record.document())
-            except Exception:
-                self.logger.exception('failed to log document replacement')
-            return replaced_doc
-        else:
-            # There was no detectable difference, so return original doc
-            token = get_token(source_document['_salt'], self.get_token_fields(source_document))
-            source_document['_update_token'] = token
-            return source_document
 
-    def update_document(self, source_document, target_document, token=None, merge_dicts='right', merge_lists='append', linkage_policy='extend'):
+            # self.logcoll.insert_one(diff_record)
+            if self.LOG_JSONDIFF_UPDATES:
+                self.logger.debug('logging replace()')
+                try:
+                    self.logcoll.insert_one(diff_record.document())
+                except Exception:
+                    self.logger.exception('failed to log document replace()')
+            else:
+                self.logger.debug('skip logging replace()')
+        else:
+            self.logger.debug('skipping replace()')
+
+        token = get_token(replaced_doc['_salt'],
+                          self.get_token_fields(replaced_doc))
+        replaced_doc['_update_token'] = token
+
+        self.logger.info('replace_document() complete')
+        return replaced_doc
+
+    def update_document(self, source_document, target_document, token=None,
+                        merge_dicts='right', merge_lists='append',
+                        linkage_policy='extend'):
+
+        self.logger.info('update_document()')
 
         # Validate record x token
         if self._enforce_auth:
             try:
-                validate_token(token, source_document['_salt'], self.get_token_fields(source_document))
+                validate_token(token, source_document['_salt'],
+                               self.get_token_fields(source_document))
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
 
-        diff_linkages = linkages.merge_linkages(source_document, target_document)
-        merge_source = copy.deepcopy(source_document)
+        updated_doc = source_document
+        diff_record = None
+        was_updated = False
+
+        self.logger.debug('comparing linkages fields')
+        diff_linkages = linkages.merge_linkages(source_document,
+                                                target_document,
+                                                link_fields=self.LINK_FIELDS)
+        merge_source = copy.copy(source_document)
         # Strip managed document keys
-        for k in list(merge_source.keys()):
-            if k.startswith('_'):
-                try:
-                    del merge_source[k]
-                except Exception:
-                    pass
-                try:
-                    del target_document[k]
-                except Exception:
-                    pass
-        # Strip linkages
-        for l in linkages.ALL:
-            if l in merge_source:
-                del merge_source[l]
-            if l in target_document:
-                del target_document[l]
-
+        self.logger.debug('merging source and target documents')
+        merge_source, source_managed_fields = pre_merge_filter(merge_source)
+        target_document, target_managed_fields = pre_merge_filter(target_document)
         merged_dest = json_merge(merge_source, target_document)
-        diff_record = get_diff(source=merge_source, target=merged_dest, action='update')
+        was_updated = True
 
-        if diff_record.updated or diff_linkages.updated:
+        if self.LOG_JSONDIFF_UPDATES:
+            self.logger.debug('calculating diff for update')
+            try:
+                diff_record = get_diff(source=merge_source,
+                                       target=merged_dest,
+                                       action='update')
+                was_updated = diff_record.updated
+            except RuntimeError:
+                diff_record = None
+                was_updated = True
+        else:
+            self.logger.debug('skip calculating diff for update')
 
-            self.logger.debug('documents or linkages were different - proceeding with update()')
-            self.logger.debug('diff: {}'.format(diff_record))
+        if was_updated or diff_linkages.updated:
+
+            self.logger.debug('proceeding with update()')
 
             # Graft on contents of diff_linkages
             for link_field, link_value in diff_linkages['values'].items():
                 merged_dest[link_field] = link_value
 
             # Lift over private keys
-            for key in list(source_document.keys()):
-                if key.startswith('_') or key in ('uuid', '_id'):
-                    merged_dest[key] = source_document[key]
+            for key in managedfields.ALL:
+                if key in source_managed_fields:
+                    merged_dest[key] = source_managed_fields[key]
+            # Get original _id field
+            try:
+                merged_dest['_id'] = source_document['_id']
+            except KeyError:
+                pass
 
             # Update _properties for merged_document
-            self.logger.debug('updating private properties')
             merged_dest = self.__set_properties(merged_dest, updated=True)
             # Cycle the record's _salt to change the token
-            self.logger.debug('cycling access token salt')
             merged_dest = self.__set_salt(merged_dest, refresh=True)
 
             # Update the record
@@ -671,25 +695,27 @@ class LinkedStore(LinkageManager):
             updated_doc = self.coll.find_one_and_replace(
                 {'uuid': merged_dest['uuid']}, merged_dest,
                 return_document=ReturnDocument.AFTER)
-            self.logger.debug('generating access token')
-            updated_doc['_update_token'] = get_token(
-                updated_doc['_salt'],
-                self.get_token_fields(updated_doc))
+
             # Only log if the document changed
-            self.logger.debug('logging')
-            if diff_record.updated:
+            if self.LOG_JSONDIFF_UPDATES and was_updated:
+                self.logger.debug('logging update()')
                 try:
                     self.logcoll.insert_one(diff_record.document())
                 except Exception:
-                    self.logger.exception('failed to log document update')
-            return updated_doc
+                    self.logger.exception('failed to log update{}')
+            else:
+                self.logger.debug('skip logging update()')
+
         else:
-            # No detectable difference, so return original doc, leaving
-            # the salt as-is
-            source_document['_update_token'] = get_token(
-                source_document['_salt'],
-                self.get_token_fields(source_document))
-            return source_document
+            self.logger.debug('no update required')
+
+        self.logger.debug('generating access token')
+        updated_doc['_update_token'] = get_token(updated_doc['_salt'],
+                                                 self.get_token_fields(
+                                                     updated_doc))
+
+        self.logger.info('update_document() complete')
+        return updated_doc
 
     def write_key(self, uuid, key, value, token=None):
         """Write a value to a top-level key in a document
@@ -776,6 +802,8 @@ class LinkedStore(LinkageManager):
         Returns:
             dict: MongoDB deletion response
         """
+
+        self.logger.info('delete_document()')
         # Raises if non-existent
         db_record = self.coll.find_one({'uuid': uuid})
 
@@ -786,22 +814,33 @@ class LinkedStore(LinkageManager):
             except ValueError as verr:
                 raise CatalogError('Invalid token', verr)
 
+        diff_record = None
+        deletion_resp = None
+
+        if self.LOG_JSONDIFF_UPDATES:
+            self.logger.debug('calculating diff for delete')
+            diff_record = get_diff(source=db_record, target=dict(), action='delete')
+        else:
+            self.logger.debug('skip calculating diff for delete')
+
         # Create log entry
-        diff_record = get_diff(source=db_record, target=dict(), action='delete')
         try:
-            self.logger.debug('deleting document')
+            self.logger.debug('proceeding with delete()')
             deletion_resp = self.coll.delete_one({'uuid': uuid})
             self.logger.debug('response: {}'.format(deletion_resp))
-            self.logger.debug('logging')
-            try:
-                self.logcoll.insert_one(diff_record)
-            except Exception:
-                self.logger.exception('failed to log document delete')
-            return deletion_resp
+            if self.LOG_JSONDIFF_UPDATES:
+                self.logger.debug('logging delete()')
+                try:
+                    self.logcoll.insert_one(diff_record)
+                except Exception:
+                    self.logger.exception('failed to log document delete')
+            else:
+                self.logger.debug('skip logging delete()')
         except Exception as exc:
             raise CatalogError('Failed to delete document with uuid {}'.format(uuid), exc)
 
-
+        self.logger.info('delete_document() complete')
+        return deletion_resp
 
     def debug_mode(self):
         """Returns True if system is running in debug mode"""

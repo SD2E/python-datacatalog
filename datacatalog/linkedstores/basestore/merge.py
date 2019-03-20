@@ -1,7 +1,7 @@
-from datacatalog import linkages 
+from datacatalog import linkages
 from jsonmerge import merge, Merger
 
-__all__ = ['APPEND', 'MERGE', 'OVERWRITE', 'DISCARD', 'ALL', 
+__all__ = ['APPEND', 'MERGE', 'OVERWRITE', 'DISCARD', 'ALL',
            'DEFAULT_JSONMERGE_STRATEGY', 'json_merge']
 
 APPEND = 'append'
@@ -34,3 +34,4 @@ def json_merge(a, b, merge_strategy=DEFAULT_JSONMERGE_STRATEGY):
     merger = get_merger(merge_strategy)
     result = merger.merge(a, b)
     return result
+

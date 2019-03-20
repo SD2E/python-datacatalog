@@ -12,7 +12,6 @@ from ... import identifiers
 from ...utils import microseconds
 from ..common import Manager, data_merge
 from ...tokens import get_token
-from ...linkedstores.basestore import DEFAULT_LINK_FIELDS as LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.annotation import InlineAnnotationDocument
 from ...linkedstores.file import FileRecord, infer_filetype
