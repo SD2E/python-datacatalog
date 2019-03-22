@@ -462,7 +462,8 @@
                         "AB1",
                         "BAI",
                         "BAM",
-                        "JPG"
+                        "JPG",
+                        "VCF"
                     ]
                 },
                 "lab_label": {
@@ -515,6 +516,7 @@
             "description": "experiment reference enumeration",
             "type": "string",
             "enum": [
+                "NovelChassis-NAND2-0-Parts-Verification",
                 "NovelChassis-NAND-Ecoli-Titration",
                 "Exp-NC-NAND-Gate-Iteration",
                 "NovelChassis-NAND-Gate",
