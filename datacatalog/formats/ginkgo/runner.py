@@ -338,6 +338,8 @@ def convert_ginkgo(schema_file, encoding, input_file, verbose=True, output=True,
                 measurement_type = SampleConstants.MT_PROTEOMICS
             elif assay_type == "NGS (Genome)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
+            elif assay_type == "NGS (Cellfie)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
 
