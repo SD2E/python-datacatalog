@@ -36,6 +36,8 @@ class SampleConstants():
             return SampleConstants.F_TYPE_BAM
         elif file_name.endswith("jpg"):
             return SampleConstants.F_TYPE_JPG
+        elif file_name.endswith("vcf"):
+            return SampleConstants.F_TYPE_VCF
         else:
             raise ValueError("Could not parse FT: {}".format(file_name))
 
@@ -154,6 +156,7 @@ class SampleConstants():
     F_TYPE_BAI = "BAI"
     F_TYPE_BAM = "BAM"
     F_TYPE_JPG = "JPG"
+    F_TYPE_VCF = "VCF"
 
 design_table = None
 challenge_table = None
