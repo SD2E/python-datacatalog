@@ -311,24 +311,23 @@ class ManagedPipelineJob(JobManager):
         """Establish the web service callbacks for the job
         """
         setattr(self, 'callback', self.build_webhook())
-        setattr(self, 'indexer_callback', self.build_indexer_webhook())
         return self
 
     def build_webhook(self):
         """Return a webhook to update this job via web callback
 
         Sending **event** messages over HTTP POST to this webhook will result
-        in the ``pipelinejobs-manager`` Reactor making managed updates to this
+        in the ``jobs-manager`` Reactor making managed updates to this
         job's state.
 
         Returns:
             str: A callback URL
         """
         try:
-            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
+            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}&session={}'.format(
                 self.api_server, self.config['job_manager_id'],
                 self.config['job_manager_nonce'],
-                self.token, self.uuid)
+                self.token, self.uuid, self.session)
             # Sanity check - was a valid URL assembled?
             validators.url(uri)
             return uri
@@ -338,27 +337,28 @@ class ManagedPipelineJob(JobManager):
         except Exception:
             raise
 
-    def build_indexer_webhook(self):
-        """Return a webhook to index job outputs via web callback
-
-        Sending a *index* message to this webhook will index the job output
-
-        Returns:
-            str: A callback URL
+    def agave_notifications(self):
+        """Returns a minimal set of Agave job notifications
         """
-
-        try:
-            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
-                self.api_server, self.config['job_indexer_id'],
-                self.config['job_indexer_nonce'],
-                self.token, self.uuid)
-            # Sanity check - was a valid URL assembled?
-            validators.url(uri)
-            return uri
-        except KeyError:
-            return None
-        except Exception:
-            raise
+        hook = self.build_webhook()
+        notifications = [
+            {
+                "event": "RUNNING",
+                "persistent": True,
+                "url": hook + "&status=${JOB_STATUS}",
+            },
+            {
+                "event": "ARCHIVING_FINISHED",
+                "persistent": False,
+                "url": hook + "&status=FINISHED",
+            },
+            {
+                "event": "FAILED",
+                "persistent": False,
+                "url": hook + "&status=${JOB_STATUS}",
+            }
+        ]
+        return notifications
 
     def __repr__(self):
         reprvals = list()
