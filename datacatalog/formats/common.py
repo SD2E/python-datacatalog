@@ -1,6 +1,7 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
+from ..filetypes import infer_filetype
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -10,34 +11,8 @@ class SampleConstants():
     """Obvious issues with this, welcome something more robust.
     """
     def infer_file_type(file_name):
-        # FIXME: Use datacatalog.filetypes.infer_filetype(fname)
         file_name = file_name.lower()
-        if file_name.endswith("fastq.gz"):
-            return SampleConstants.F_TYPE_FASTQ
-        elif file_name.endswith("zip"):
-            return SampleConstants.F_TYPE_ZIP
-        elif file_name.endswith("fcs"):
-            return SampleConstants.F_TYPE_FCS
-        elif file_name.endswith("sraw"):
-            return SampleConstants.F_TYPE_SRAW
-        elif file_name.endswith("txt"):
-            return SampleConstants.F_TYPE_PLAIN
-        elif file_name.endswith("csv"):
-            return SampleConstants.F_TYPE_CSV
-        elif file_name.endswith("mzml"):
-            return SampleConstants.F_TYPE_MZML
-        elif file_name.endswith("msf"):
-            return SampleConstants.F_TYPE_MSF
-        elif file_name.endswith("ab1"):
-            return SampleConstants.F_TYPE_ABI
-        elif file_name.endswith("bai"):
-            return SampleConstants.F_TYPE_BAI
-        elif file_name.endswith("bam"):
-            return SampleConstants.F_TYPE_BAM
-        elif file_name.endswith("jpg"):
-            return SampleConstants.F_TYPE_JPG
-        else:
-            raise ValueError("Could not parse FT: {}".format(file_name))
+        return infer_filetype(file_name, check_exists=False, permissive=True).label
 
     # For circuits
     LOGIC_PREFIX = "http://www.openmath.org/cd/logic1#"
