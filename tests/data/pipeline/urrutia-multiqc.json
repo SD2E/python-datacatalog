@@ -1,5 +1,5 @@
 {
-    "name": "Novel Chassis RNAseq Aggregation",
+    "name": "Novel Chassis RNAseq Log Aggregation",
     "id": "urrutia-app_multiqc-0.1.0",
     "description": "Aggregates logs from novel_chassis pipeline and generates a multiQC report",
     "components": [
