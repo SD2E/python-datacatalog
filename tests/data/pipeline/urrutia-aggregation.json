@@ -1,5 +1,5 @@
 {
-    "name": "Novel Chassis RNAseq Aggregation",
+    "name": "Novel Chassis RNAseq Alignment Aggregation",
     "id": "urrutia-rnaseqpostprocess-0.1.2",
     "description": "Aggregates novel_chassis alignments into a dataframe of counts",
     "components": [
