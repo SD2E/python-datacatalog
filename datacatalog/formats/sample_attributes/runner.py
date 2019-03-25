@@ -159,20 +159,19 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                 elif (file.endswith("csv")):
                     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_PLATE_READER
                     
-                sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(sample_attributes_sample["sample"]), lab)
+                sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(sample_attributes_sample["sample"]), lab, output_doc)
                 #print("sample_id: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
                 # generate a measurement id unique to this sample
-                measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB])
+                measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_counter), output_doc[SampleConstants.LAB], sample_doc, output_doc)
                 # record a measurement grouping id to find other linked samples and files
                 group_id = measurement_group_ids[measurement_doc[SampleConstants.MEASUREMENT_TYPE]]
                 if group_id == None:
                     group_id = ".".join([str(eid), measurement_doc[SampleConstants.MEASUREMENT_TYPE].lower()])
                 else:
                     group_id = ".".join([str(eid), str(group_id)])
-                measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(group_id, output_doc[SampleConstants.LAB])
+                measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(group_id, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
-                measurement_counter = measurement_counter + 1
                 file_name = file
                 file_type = SampleConstants.infer_file_type(file_name)
                 file_name_final = relative_file_path
@@ -180,7 +179,7 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                     {SampleConstants.M_NAME: file_name_final,
                      SampleConstants.M_TYPE: file_type,
                      SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-                     SampleConstants.FILE_ID: namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB]),
+                     SampleConstants.FILE_ID: namespace_file_id("1", output_doc[SampleConstants.LAB], measurement_doc, output_doc),
                      SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
                 # apply defaults, if nothing mapped
@@ -191,6 +190,8 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                         measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION                
 
                 sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+                measurement_counter = measurement_counter + 1
 
         if lab is None:
             raise ValueError("Could not parse lab from sample {}".format(sample_attributes_sample))

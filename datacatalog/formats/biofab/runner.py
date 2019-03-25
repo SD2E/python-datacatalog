@@ -77,7 +77,7 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
         raise ValueError("Could not parse file id")
 
     sample_doc = {}
-    sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab)
+    sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab, output_doc)
 
     measurement_doc = {}
     measurement_doc[SampleConstants.FILES] = []
@@ -86,9 +86,9 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
 
     add_measurement_id(measurement_doc, sample_doc, output_doc)
 
-    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab)
+    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(operation_id, lab, sample_doc, output_doc)
 
-    add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+    add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab, output_doc)
     add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
 def add_experimental_design(biofab_sample, output_doc, config, lab, original_experiment_id):
@@ -103,7 +103,7 @@ def add_experimental_design(biofab_sample, output_doc, config, lab, original_exp
             file_id = biofab_sample["file_id"]
 
             sample_doc = {}
-            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_gen + "_" + file_id, lab)
+            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_gen + "_" + file_id, lab, output_doc)
 
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
@@ -111,8 +111,8 @@ def add_experimental_design(biofab_sample, output_doc, config, lab, original_exp
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_EXPERIMENTAL_DESIGN
 
             add_measurement_id(measurement_doc, sample_doc, output_doc)
-            add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
-            add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+            add_measurement_group_id(measurement_doc, biofab_sample, sample_doc, output_doc)
+            add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab, output_doc)
             add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
 def add_timepoint(time_val, measurement_doc, input_item_id, biofab_doc):
@@ -212,10 +212,9 @@ def read_bead_fluorescence_from_item(item, sample_doc):
 def add_measurement_id(measurement_doc, sample_doc, output_doc):
 
     # namespace with experiment id, as sometimes the sample is shared (e.g. bead samples)
-    measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(
-        ".".join([output_doc[SampleConstants.EXPERIMENT_ID], sample_doc[SampleConstants.SAMPLE_ID], "1"]), output_doc[SampleConstants.LAB])
+    measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id("1", output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
-def add_measurement_group_id(measurement_doc, file, output_doc):
+def add_measurement_group_id(measurement_doc, file, sample_doc, output_doc):
     # record a measurement grouping id to find other linked samples and files
     if "generated_by" not in file:
         print("Warning, cannot find generated_by, skipping file: {}".format(file))
@@ -230,7 +229,7 @@ def add_measurement_group_id(measurement_doc, file, output_doc):
         else:
             raise ValueError("Cannot find measurement group id: {}".format(file))
 
-    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(mg_val, output_doc[SampleConstants.LAB])
+    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(mg_val, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
 def add_measurement_type(file, measurement_doc):
 
@@ -309,7 +308,7 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
 
     output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
-def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
+def add_file_name(config, file, measurement_doc, original_experiment_id, lab, output_doc):
     if config.get('extend', False):
         file_name = extend_biofab_filename(
             file['filename'], original_experiment_id, file['generated_by'])
@@ -326,7 +325,7 @@ def add_file_name(config, file, measurement_doc, original_experiment_id, lab):
     if file_id is None:
         raise ValueError("Could not parse file id? {}".format(file_id))
     elif file_id is not None:
-        file_id = namespace_file_id(file_id, lab)
+        file_id = namespace_file_id(file_id, lab, measurement_doc, output_doc)
 
     file_type = SampleConstants.infer_file_type(file_name)
     measurement_doc[SampleConstants.FILES].append(
@@ -476,7 +475,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
             continue
         file_source = biofab_sample[source_attr][0]
         # sample_doc[SampleConstants.SAMPLE_ID] = file_source
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_source, lab)
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_source, lab, output_doc)
 
         item = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
 
@@ -609,9 +608,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
         add_measurement_id(measurement_doc, sample_doc, output_doc)
 
-        add_measurement_group_id(measurement_doc, biofab_sample, output_doc)
+        add_measurement_group_id(measurement_doc, biofab_sample, sample_doc, output_doc)
 
-        add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab)
+        add_file_name(config, biofab_sample, measurement_doc, original_experiment_id, lab, output_doc)
 
         add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
@@ -652,7 +651,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 reagents = []
 
-                sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(item_source[item_id_attr], lab)
+                sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(item_source[item_id_attr], lab, output_doc)
 
                 if attributes_attr in item_source and (concentration_attr in item_source[attributes_attr] or volume_attr in item_source[attributes_attr]):
                     # reagent
@@ -723,9 +722,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 add_measurement_id(measurement_doc, sample_doc, output_doc)
 
-                add_measurement_group_id(measurement_doc, file, output_doc)
+                add_measurement_group_id(measurement_doc, file, sample_doc, output_doc)
 
-                add_file_name(config, file, measurement_doc, original_experiment_id, lab)
+                add_file_name(config, file, measurement_doc, original_experiment_id, lab, output_doc)
 
             add_measurement_doc(measurement_doc, sample_doc, output_doc)
     try:
