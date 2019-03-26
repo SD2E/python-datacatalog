@@ -150,7 +150,7 @@ class LinkedStore(LinkageManager):
         # Initialize
         # self._post_init()
 
-    def setup(self):
+    def setup(self, update_indexes=False):
         """Set up the MongoDB collection that houses data for the LinkedStore"""
         setattr(self, 'db', db_connection(self._mongodb))
         setattr(self, 'coll', self.db[self.name])
@@ -161,28 +161,34 @@ class LinkedStore(LinkageManager):
         LINKAGE_INDEXES = self.LINK_FIELDS
         OTHER_INDEXES = getattr(self, 'otherindexes')
         ALL_INDEXES = list()
+        # Optionally, update index definitions.
         try:
             # Build indexes for the identifiers, where uniqueness is enforced
             for field in UNIQUE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
                     ALL_INDEXES.append(field)
             # Create array indexes for linkage fields
             for field in LINKAGE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)])
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)])
                     ALL_INDEXES.append(field)
             # Create simple indexes on the non-redundant list of fields from
             # schema.__indexes and schema.required, excluding fields
             # marked as identifiers or uuid-contributing fields
             for field in OTHER_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)])
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)])
                     ALL_INDEXES.append(field)
-            # Contains names of all indexed fields - useful for validation
+
             setattr(self, '_indexes', list(set(ALL_INDEXES)))
+
+        # Contains names of all indexed fields - useful for validation
         except Exception:
-            #  TODO - allow existing index but fail otherwise
+            self.logger.warn('Unable to reconfigure indexes')
             pass
 
     def update_attrs(self, schema):
