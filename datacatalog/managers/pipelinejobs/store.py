@@ -9,11 +9,11 @@ import validators
 import logging
 from pprint import pprint
 from datacatalog import settings
+from datacatalog import linkages
 
 from ... import identifiers
-from .jobmanager import JobManager, data_merge
 from ...tokens import get_token
-from ...linkedstores.pipelinejob import DEFAULT_LINK_FIELDS as LINK_FIELDS
+from ...linkedstores.pipelinejob import DEFAULT_LINK_FIELDS
 from ...linkedstores.basestore import formatChecker
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...identifiers.typeduuid import catalog_uuid, uuid_to_hashid
@@ -21,6 +21,7 @@ from ...identifiers import interestinganimal
 from .config import PipelineJobsConfig, DEFAULT_ARCHIVE_SYSTEM
 from .exceptions import ManagedPipelineJobError
 from .indexrequest import ArchiveIndexRequest, ProductIndexRequest
+from .jobmanager import JobManager, data_merge
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -29,6 +30,9 @@ logger.setLevel(logging.INFO)
 DEFAULT_PROCESS_ID = '1176bd3e-8666-547b-bc36-25a3b62fc271'
 # measurement.tacc.0x00000000
 DEFAULT_MEASUREMENT_ID = '10452d7e-7f0a-59df-a1a3-c5bb44e07f2f'
+
+DEFAULT_METADATA_ARG_NAMES = ('experiment_design_id', 'experiment_id',
+                              'sample_id', 'measurement_id')
 
 class ManagedPipelineJob(JobManager):
     """Specialized PipelineJob that supports archiving to defined stores and deferred updates
@@ -99,10 +103,10 @@ class ManagedPipelineJob(JobManager):
         ('archive_patterns', False, 'archive_patterns', []),
         ('product_patterns', False, 'product_patterns', []),
         ('uuid', False, 'uuid', None)]
-    """Keyword parameters for job setup"""
 
-    INIT_LINK_PARAMS = [('pipeline_uuid', True, 'uuid', None, 'pipeline', 'child_of')]
-    """Keyword parameters for metadata linkage."""
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
+    METADATA_ARG_NAMES = DEFAULT_METADATA_ARG_NAMES
+    INIT_LINK_PARAMS = [('pipeline_uuid', True, 'uuid', None, 'pipeline', linkages.CHILD_OF)]
 
     COLL_PARAMS = [('measurement_id', 'measurement'),
                    ('sample_id', 'sample'),
@@ -156,13 +160,13 @@ class ManagedPipelineJob(JobManager):
 
         # Create a session name if not provided
         if self.session is None:
-            setattr(self, 'session', interestinganimal.generate(
-                timestamp=False))
+            setattr(self, 'session',
+                    interestinganimal.generate(timestamp=False))
 
         # Build archive_path and linkages from job parameterization
         archive_path_els = list()
         relations = dict()
-        for lf in LINK_FIELDS:
+        for lf in self.LINK_FIELDS:
             relations[lf] = list()
 
         # Establish **generated_by** linkage
@@ -170,7 +174,7 @@ class ManagedPipelineJob(JobManager):
         # Here, we look first to pipeline_uuid parameter, then to contents
         # of pipeline configuration passed in to init()
         GEN_BY_CFG = [(
-            'pipeline_uuid', True, 'uuid', None, 'pipeline', 'generated_by')]
+            'pipeline_uuid', True, 'uuid', None, 'pipeline', linkages.GENERATED_BY)]
         for param, req, key, default, store, link in GEN_BY_CFG:
                 kval = kwargs.get(param, self.config.get(param, None))
                 if kval is None and req is True:
@@ -195,8 +199,7 @@ class ManagedPipelineJob(JobManager):
         # Experiment metadata association
         child_of_list = list()
         archive_path_metadata_els = list()
-        for param in ('experiment_design_id',
-                      'experiment_id', 'sample_id', 'measurement_id'):
+        for param in self.METADATA_ARG_NAMES:
             query_ids = kwargs.get(param, None)
             if query_ids is not None:
                 child_of_list = self.self_from_ids(query_ids,
@@ -204,7 +207,7 @@ class ManagedPipelineJob(JobManager):
                                                    permissive=False)
                 archive_path_metadata_els = copy.copy(child_of_list)
                 break
-        relations['child_of'] = child_of_list
+        relations[linkages.CHILD_OF] = child_of_list
 
         # Serialize and hash measurement(s), then add to path elements list
         archive_path_els.append(
@@ -241,8 +244,8 @@ class ManagedPipelineJob(JobManager):
                                     self).self_from_inputs(reference_uris)
 
         # Store values in appropriate slot in "relations"
-        relations['acted_on'].extend(acted_on_uuids)
-        relations['acted_using'].extend(reference_uri_uuids)
+        relations[linkages.ACTED_ON].extend(acted_on_uuids)
+        relations[linkages.ACTED_USING].extend(reference_uri_uuids)
 
         # Finally, set this document's linkage attributes
         for rel, val in relations.items():
@@ -278,12 +281,10 @@ class ManagedPipelineJob(JobManager):
                         'session': self.session,
                         'agent': self.agent,
                         'task': self.task,
-                        'generated_by': self.generated_by,
-                        'child_of': self.child_of,
-#                        'derived_from': self.derived_from,
-                        'acted_on': self.acted_on,
-                        'acted_using': self.acted_using
-                        }
+                        linkages.GENERATED_BY: self.generated_by,
+                        linkages.CHILD_OF: self.child_of,
+                        linkages.ACTED_ON: self.acted_on,
+                        linkages.ACTED_USING: self.acted_using}
 
         # Retrieves reference to existing job if exists
         job_uuid = self.stores['pipelinejob'].uuid_from_properties(job_document)
@@ -295,7 +296,7 @@ class ManagedPipelineJob(JobManager):
         # This is to support Reactors that don't rely on Agave archiving
         try:
             self.stores['pipelinejob']._helper.mkdir(self.archive_path, self.archive_system)
-        except Exception as exc:
+        except Exception:
             self.logger.exception('Failed to mkdir {}'.format(self.archive_path))
 
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
@@ -310,58 +311,58 @@ class ManagedPipelineJob(JobManager):
         """Establish the web service callbacks for the job
         """
         setattr(self, 'callback', self.build_webhook())
-        setattr(self, 'indexer_callback', self.build_indexer_webhook())
         return self
 
     def build_webhook(self):
         """Return a webhook to update this job via web callback
 
         Sending **event** messages over HTTP POST to this webhook will result
-        in the ``pipelinejobs-manager`` Reactor making managed updates to this
+        in the ``jobs-manager`` Reactor making managed updates to this
         job's state.
 
         Returns:
             str: A callback URL
         """
         try:
-            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
+            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}&session={}'.format(
                 self.api_server, self.config['job_manager_id'],
                 self.config['job_manager_nonce'],
-                self.token, self.uuid)
+                self.token, self.uuid, self.session)
             # Sanity check - was a valid URL assembled?
             validators.url(uri)
             return uri
-        except KeyError as kexc:
+        except KeyError:
             self.logger.exception('Missing values in build_webhook')
             return None
         except Exception:
             raise
 
-    def build_indexer_webhook(self):
-        """Return a webhook to index job outputs via web callback
-
-        Sending a *index* message to this webhook will index the job output
-
-        Returns:
-            str: A callback URL
+    def agave_notifications(self):
+        """Returns a minimal set of Agave job notifications
         """
-
-        try:
-            uri = '{}/actors/v2/{}/messages?x-nonce={}&token={}&uuid={}'.format(
-                self.api_server, self.config['job_indexer_id'],
-                self.config['job_indexer_nonce'],
-                self.token, self.uuid)
-            # Sanity check - was a valid URL assembled?
-            validators.url(uri)
-            return uri
-        except KeyError:
-            return None
-        except Exception:
-            raise
+        hook = self.build_webhook()
+        notifications = [
+            {
+                "event": "RUNNING",
+                "persistent": True,
+                "url": hook + "&status=${JOB_STATUS}",
+            },
+            {
+                "event": "ARCHIVING_FINISHED",
+                "persistent": False,
+                "url": hook + "&status=FINISHED",
+            },
+            {
+                "event": "FAILED",
+                "persistent": False,
+                "url": hook + "&status=${JOB_STATUS}",
+            }
+        ]
+        return notifications
 
     def __repr__(self):
         reprvals = list()
-        for param in ['uuid', 'pipeline_uuid', 'data', 'child_of', 'generated_by', 'acted_on', 'acted_using']:
+        for param in ['uuid', 'pipeline_uuid', 'data', linkages.CHILD_OF, linkages.GENERATED_BY, linkages.ACTED_ON, linkages.ACTED_USING]:
             val = getattr(self, param, None)
             if isinstance(val, list):
                 val = str(val)

@@ -22,12 +22,12 @@ from .schema import JobDocument, HistoryEventDocument
 from .job import PipelineJob, PipelineJobError
 from .graphfsm import render_graph, build_graph
 
-DEFAULT_LINK_FIELDS = ('child_of', 'derived_from', 'generated_by', 'acted_on', 'acted_using')
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.ACTED_ON,
+                       linkages.ACTED_USING, linkages.GENERATED_BY]
 
 class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     NEVER_INDEX_FIELDS = ('data')
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.ACTED_ON,
-                   linkages.ACTED_USING, linkages.GENERATED_BY]
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
     """Fields that should never be indexed"""
 
     def __init__(self, mongodb, config={}, session=None, agave=None, **kwargs):
@@ -60,6 +60,8 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
     def handle(self, event_document, token=None, data=None, **kwargs):
         # This is a special method that takes event documents
         # and modifies the job state/history
+        self.logger.info("handling event '{}'".format(
+            event_document.get('name', None)))
         job_uuid = None
         try:
             job_uuid = event_document.get('uuid')

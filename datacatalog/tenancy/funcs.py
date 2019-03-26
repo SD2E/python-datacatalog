@@ -1,6 +1,6 @@
 from os import environ
 from datacatalog import settings
-from .classes import *
+from .classes import TenantURL, TenantName, ProjectName, Username
 
 __all__ = ['current_username', 'current_tenant',
            'current_tenant_uri', 'current_project',

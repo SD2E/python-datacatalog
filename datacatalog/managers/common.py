@@ -556,6 +556,17 @@ class Manager(ManagerBase):
         response.sort()
         return response
 
+    def files_from_measurements(self, ids, permissive=True):
+        response = self.kids_from_parents(
+            ids,
+            parent='measurement',
+            parent_id='measurement_id',
+            kid='file',
+            kid_id='uuid',
+            permissive=permissive)
+        response.sort()
+        return response
+
     def samples_from_samples(self, ids, permissive=True):
         response = self.kids_from_parents(
             ids,

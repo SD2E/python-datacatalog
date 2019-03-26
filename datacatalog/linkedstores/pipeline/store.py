@@ -11,9 +11,12 @@ from .schema import PipelineDocument
 from .serializer import SerializedPipeline
 from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
 
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
+                       linkages.ACTED_ON, linkages.ACTED_USING]
+
 class PipelineStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of PipelineDocuments"""
-    LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM]
+    LINK_FIELDS = DEFAULT_LINK_FIELDS
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         super(PipelineStore, self).__init__(mongodb, config, session)

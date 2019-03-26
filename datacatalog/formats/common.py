@@ -1,6 +1,7 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
+from ..filetypes import infer_filetype
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -10,34 +11,8 @@ class SampleConstants():
     """Obvious issues with this, welcome something more robust.
     """
     def infer_file_type(file_name):
-        # FIXME: Use datacatalog.filetypes.infer_filetype(fname)
         file_name = file_name.lower()
-        if file_name.endswith("fastq.gz"):
-            return SampleConstants.F_TYPE_FASTQ
-        elif file_name.endswith("zip"):
-            return SampleConstants.F_TYPE_ZIP
-        elif file_name.endswith("fcs"):
-            return SampleConstants.F_TYPE_FCS
-        elif file_name.endswith("sraw"):
-            return SampleConstants.F_TYPE_SRAW
-        elif file_name.endswith("txt"):
-            return SampleConstants.F_TYPE_PLAIN
-        elif file_name.endswith("csv"):
-            return SampleConstants.F_TYPE_CSV
-        elif file_name.endswith("mzml"):
-            return SampleConstants.F_TYPE_MZML
-        elif file_name.endswith("msf"):
-            return SampleConstants.F_TYPE_MSF
-        elif file_name.endswith("ab1"):
-            return SampleConstants.F_TYPE_ABI
-        elif file_name.endswith("bai"):
-            return SampleConstants.F_TYPE_BAI
-        elif file_name.endswith("bam"):
-            return SampleConstants.F_TYPE_BAM
-        elif file_name.endswith("jpg"):
-            return SampleConstants.F_TYPE_JPG
-        else:
-            raise ValueError("Could not parse FT: {}".format(file_name))
+        return infer_filetype(file_name, check_exists=False, permissive=True).label
 
     # For circuits
     LOGIC_PREFIX = "http://www.openmath.org/cd/logic1#"
@@ -62,6 +37,7 @@ class SampleConstants():
     # samples
     SAMPLES = "samples"
     SAMPLE_ID = "sample_id"
+    LAB_SAMPLE_ID = "lab_sample_id"
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
     GENETIC_CONSTRUCT = "genetic_construct"
@@ -372,17 +348,46 @@ def query_input_state_from_strain(strain, sbh_query):
 
     return strain_input_state
 
-def namespace_sample_id(sample_id, lab):
+# These experiments are already in the V2 database, and pre-date the namespacing change documented in
+# https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
+# We need to skip that namespacing change for only these experiments, as changing their id structure
+# will break the linkages between the jobs/file that have currently been executed and stored
+# "Exp. Request - NC NAND Gate Iteration"
+# "Exp. Request - NC NAND Gate Iteration"
+# "CP Experimental Request - NovelChassis_NAND_Gate"
+GINKGO_RNA_SEQ_EXPERIMENT_IDS = ["experiment.ginkgo.18256.18257", "experiment.ginkgo.18536.18537", "experiment.ginkgo.19283"]
+
+def is_ginkgo_experiment_id(experiment_doc):
+    return experiment_doc[SampleConstants.EXPERIMENT_ID] in GINKGO_RNA_SEQ_EXPERIMENT_IDS
+
+# namespace against experiment id
+def namespace_sample_id(sample_id, lab, experiment_doc):
     '''Prevents collisions amongst lab-specified sample_id'''
-    return '.'.join(['sample', lab.lower(), str(sample_id)])
+    # e.g. Ginkgo->TX sample lookups
+    # Ginkgo specific skips (RNA_Seq)
+    if experiment_doc is None or SampleConstants.EXPERIMENT_ID not in experiment_doc or \
+        is_ginkgo_experiment_id(experiment_doc):
+        return '.'.join(['sample', lab.lower(), str(sample_id)])
+    else:
+        return '.'.join(['sample', lab.lower(), str(sample_id), experiment_doc[SampleConstants.EXPERIMENT_ID]])
 
-def namespace_measurement_id(measurement_id, lab):
+# namespace against sample id
+def namespace_measurement_id(measurement_id, lab, sample_doc, experiment_doc):
     '''Prevents collisions amongst lab-specified measurement_id'''
-    return '.'.join(['measurement', lab.lower(), str(measurement_id)])
+    if experiment_doc is None or SampleConstants.EXPERIMENT_ID not in experiment_doc or \
+        is_ginkgo_experiment_id(experiment_doc):
+        return '.'.join(['measurement', lab.lower(), str(measurement_id)])
+    else:
+        return '.'.join(['measurement', lab.lower(), str(measurement_id), sample_doc[SampleConstants.SAMPLE_ID]])
 
-def namespace_file_id(file_id, lab):
+# namespace against measurement id
+def namespace_file_id(file_id, lab, measurement_doc, experiment_doc):
     '''Prevents collisions amongst lab-specified file_id'''
-    return '.'.join(['file', lab.lower(), str(file_id)])
+    if experiment_doc is None or SampleConstants.EXPERIMENT_ID not in experiment_doc or \
+        is_ginkgo_experiment_id(experiment_doc):
+        return '.'.join(['file', lab.lower(), str(file_id)])
+    else:
+        return '.'.join(['file', lab.lower(), str(file_id), measurement_doc[SampleConstants.MEASUREMENT_ID]])
 
 def namespace_lab_id(lab_id, lab):
     '''Prevents collisions amongst lab-specified lab_id'''

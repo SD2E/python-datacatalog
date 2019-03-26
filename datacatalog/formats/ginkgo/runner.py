@@ -99,8 +99,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab)
-
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, None)
         contents = []
         for reagent in ginkgo_sample["content"]["reagent"]:
 
@@ -205,7 +205,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         parent_id_prop = "parent_id"
         if parent_id_prop in ginkgo_sample:
             parent_id = ginkgo_sample[parent_id_prop]
-            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab)
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab, output_doc)
 
         tx_sample_prop = "SD2_TX_sample_id"
 
@@ -214,21 +214,25 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             # pull out the aliquot id and namespace it for TX
             # e.g. ct1c9q78m7wt8y/aq1c9sy3e2242e
             # Plate then Sample
+            # Experiment namespacing is not accurate for these samples, as we don't know the TX experiment
+            # when applying the new namespacing id scheme
+            # We can regex match just the TX sample, which will be enough for these older experiments to match
+            tx_output_doc = None
             tx_sample_id = props[tx_sample_prop].split("/")[1]
-            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX, tx_output_doc)
 
             # Bring over sample metadata from TX sample
             query = {}
-            query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+            query["sample_id"] = { "$regex": "^" + sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] }
 
             s_matches = list(samples_table.find(query).limit(1))
             if len(s_matches) == 0:
                 # try alternative parsing - aliquot first
                 tx_sample_id = props[tx_sample_prop].split("/")[0]
-                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX)
+                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(tx_sample_id, SampleConstants.LAB_TX, tx_output_doc)
 
                 query = {}
-                query["sample_id"] = sample_doc[SampleConstants.REFERENCE_SAMPLE_ID]
+                query["sample_id"] = { "$regex": "^" + sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] }
                 s_matches = list(samples_table.find(query).limit(1))
                 if len(s_matches) == 0:
                     raise ValueError("Error: Could not find referenced sample: {}".format(query["sample_id"]))
@@ -335,6 +339,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 measurement_type = SampleConstants.MT_PROTEOMICS
             elif assay_type == "NGS (Genome)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
+            elif assay_type == "NGS (Cellfie)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
 
@@ -373,12 +379,10 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     raise ValueError("Cannot identify challenge problem: {}".format(ginkgo_sample))
 
             # generate a measurement id unique to this sample
-            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB])
+            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_counter), output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
             # record a measurement grouping id to find other linked samples and files
-            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key, output_doc[SampleConstants.LAB])
-
-            measurement_counter = measurement_counter + 1
+            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
             tmt_prop = "TMT_channel"
             if tmt_prop in measurement_props:
@@ -485,7 +489,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # ],
                             processed = flatten(processed)
                             for sub_processed in processed:
-                                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+                                file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
 
                                 file_type = SampleConstants.infer_file_type(sub_processed)
                                 measurement_doc[SampleConstants.FILES].append(
@@ -500,7 +504,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # flatten irregular lists if present
                             raw = flatten(raw)
                             for sub_raw in raw:
-                                file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB])
+                                file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
 
                                 file_type = SampleConstants.infer_file_type(sub_raw)
                                 measurement_doc[SampleConstants.FILES].append(
@@ -519,6 +523,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 print('Warning, sample has measurements with no files: {}'.format(sample_doc[SampleConstants.SAMPLE_ID]))
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
+
+            measurement_counter = measurement_counter + 1
 
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
 
