@@ -28,7 +28,7 @@ class ChallengeStore(LinkedStore):
         # setup based on schema extended properties
         schema = ChallengeDocument(**kwargs)
         super(ChallengeStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
         # sys.exit(0)
 
 class StoreInterface(ChallengeStore):

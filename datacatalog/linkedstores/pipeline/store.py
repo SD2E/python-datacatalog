@@ -23,7 +23,7 @@ class PipelineStore(SoftDelete, LinkedStore):
         schema = PipelineDocument(**kwargs)
         super(PipelineStore, self).update_attrs(schema)
         self._enforce_auth = False
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
     # TODO: Figure out how to patch in Pipeline.id
     def get_typeduuid(self, payload, binary=False):

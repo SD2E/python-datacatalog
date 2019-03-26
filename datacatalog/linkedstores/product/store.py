@@ -26,7 +26,7 @@ class ProductStore(FileStore):
         super(FileStore, self).__init__(mongodb, config, session)
         schema = ProductDocument(**kwargs)
         super(ProductStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
 class StoreInterface(ProductStore):
     pass

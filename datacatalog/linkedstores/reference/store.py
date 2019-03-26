@@ -56,7 +56,7 @@ class ReferenceStore(LinkedStore):
         super(ReferenceStore, self).__init__(mongodb, config, session)
         schema = ReferenceDocument(**kwargs)
         super(ReferenceStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         if 'reference_id' not in document_dict:
