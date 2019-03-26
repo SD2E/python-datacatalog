@@ -8,6 +8,7 @@ import base64
 
 from pprint import pprint
 from slugify import slugify
+from pymongo.database import Database
 from datacatalog import settings
 from datacatalog import linkages
 from datacatalog import logger
@@ -152,7 +153,10 @@ class LinkedStore(LinkageManager):
 
     def setup(self, update_indexes=False):
         """Set up the MongoDB collection that houses data for the LinkedStore"""
-        setattr(self, 'db', db_connection(self._mongodb))
+        if isinstance(self._mongodb, Database):
+            setattr(self, 'db', self._mongodb)
+        else:
+            setattr(self, 'db', db_connection(self._mongodb))
         setattr(self, 'coll', self.db[self.name])
         setattr(self, 'logcoll', self.db['updates'])
 
