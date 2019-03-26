@@ -46,7 +46,7 @@ def db_connection(mongodct):
     """
     try:
         uri = get_mongo_uri(mongodct)
-        client = MongoClient(uri)
+        client = MongoClient(uri, appname='datacatalog', connect=False)
         db = client[mongodct.get('database', settings.MONGODB_DATABASE)]
         return db
     except Exception as exc:
