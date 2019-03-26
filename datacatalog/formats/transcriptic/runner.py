@@ -82,7 +82,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         sample_id = tx_sample_measure_id[0]
         measurement_id = tx_sample_measure_id[1]
 
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab)
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(sample_id, lab, None)
 
         # parse inducer, strain, and replicate from parents, if available
         if "parents" in transcriptic_sample:
@@ -96,7 +97,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 parent_sample_id_split = parent.split("/")
                 parent_sample_id = parent_sample_id_split[0]
                 query = {}
-                query["sample_id"] = namespace_sample_id(parent_sample_id, lab)
+                query["sample_id"] = namespace_sample_id(parent_sample_id, lab, output_doc)
 
                 matches = list(samples_table.find(query).limit(1))
                 if len(matches) == 0:
@@ -257,7 +258,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
         # we also need to indicate the control channels the fluorescence controls
         # this is not known by the lab typically, has to be provided externally
-        original_sample_id = tx_sample_measure_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
+        original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
         if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
             if original_sample_id == "wt-control-1":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
@@ -340,12 +341,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             typed_measurement_id = '.'.join([measurement_id, measurement_type])
 
             # generate a measurement id unique to this sample
-            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB])
+            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_counter), output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
             # record a measurement grouping id to find other linked samples and files
-            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(typed_measurement_id, output_doc[SampleConstants.LAB])
-
-            measurement_counter = measurement_counter + 1
+            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(typed_measurement_id, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
             file_name = file[SampleConstants.M_NAME]
 
@@ -366,7 +365,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 {SampleConstants.M_NAME: file_name_final,
                  SampleConstants.M_TYPE: file_type,
                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-                 SampleConstants.FILE_ID: namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB]),
+                 # measurements and files here are 1:1
+                 SampleConstants.FILE_ID: namespace_file_id("1", output_doc[SampleConstants.LAB], measurement_doc, output_doc),
                  SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
             if SampleConstants.MEASUREMENTS not in sample_doc:
@@ -374,6 +374,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
+
+            measurement_counter = measurement_counter + 1
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []

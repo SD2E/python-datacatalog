@@ -74,7 +74,8 @@
     ],
     "__collection": "measurements",
     "__indexes": [
-        "measurement_type"
+        "measurement_type",
+        "timepoint"
     ],
     "__identifiers": [
         "uuid",

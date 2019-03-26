@@ -65,10 +65,26 @@ datacatalog.linkedstores.basestore.linkmanager module
     :undoc-members:
     :show-inheritance:
 
+datacatalog.linkedstores.basestore.managedfields module
+-------------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.managedfields
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 datacatalog.linkedstores.basestore.merge module
 -----------------------------------------------
 
 .. automodule:: datacatalog.linkedstores.basestore.merge
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+datacatalog.linkedstores.basestore.mongomerge module
+----------------------------------------------------
+
+.. automodule:: datacatalog.linkedstores.basestore.mongomerge
     :members:
     :undoc-members:
     :show-inheritance:
