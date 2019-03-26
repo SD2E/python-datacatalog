@@ -100,7 +100,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, output_doc)
-
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, None)
         contents = []
         for reagent in ginkgo_sample["content"]["reagent"]:
 

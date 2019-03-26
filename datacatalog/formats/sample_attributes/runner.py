@@ -160,6 +160,8 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_PLATE_READER
                     
                 sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(sample_attributes_sample["sample"]), lab, output_doc)
+                sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(sample_attributes_sample["sample"]), lab, None)
+
                 #print("sample_id: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
                 # generate a measurement id unique to this sample

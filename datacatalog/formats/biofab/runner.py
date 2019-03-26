@@ -78,6 +78,7 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
 
     sample_doc = {}
     sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab, output_doc)
+    sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(operation_id + "_" + file_id, lab, None)
 
     measurement_doc = {}
     measurement_doc[SampleConstants.FILES] = []
@@ -104,6 +105,7 @@ def add_experimental_design(biofab_sample, output_doc, config, lab, original_exp
 
             sample_doc = {}
             sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_gen + "_" + file_id, lab, output_doc)
+            sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(file_gen + "_" + file_id, lab, None)
 
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
@@ -476,6 +478,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         file_source = biofab_sample[source_attr][0]
         # sample_doc[SampleConstants.SAMPLE_ID] = file_source
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(file_source, lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(file_source, lab, None)
 
         item = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
 
@@ -652,6 +655,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 reagents = []
 
                 sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(item_source[item_id_attr], lab, output_doc)
+                sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(item_source[item_id_attr], lab, None)
 
                 if attributes_attr in item_source and (concentration_attr in item_source[attributes_attr] or volume_attr in item_source[attributes_attr]):
                     # reagent

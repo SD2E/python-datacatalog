@@ -37,6 +37,7 @@ class SampleConstants():
     # samples
     SAMPLES = "samples"
     SAMPLE_ID = "sample_id"
+    LAB_SAMPLE_ID = "lab_sample_id"
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
     GENETIC_CONSTRUCT = "genetic_construct"

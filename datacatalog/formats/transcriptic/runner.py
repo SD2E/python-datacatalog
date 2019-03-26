@@ -83,6 +83,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         measurement_id = tx_sample_measure_id[1]
 
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(sample_id, lab, None)
 
         # parse inducer, strain, and replicate from parents, if available
         if "parents" in transcriptic_sample:
@@ -257,7 +258,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
         # we also need to indicate the control channels the fluorescence controls
         # this is not known by the lab typically, has to be provided externally
-        original_sample_id = tx_sample_measure_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
+        original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
         if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
             if original_sample_id == "wt-control-1":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
