@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-20 16:39:08 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@dc98e36",
+    "$comment": "generated: 20190326T155610+00:00; source: git@github.com:SD2E/python-datacatalog.git@e79eeb7",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -45,6 +45,10 @@
             "$ref": "optical_density.json",
             "description": "Target inoculation density"
         },
+        "lab_sample_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "Lab recorded sample id, can be shared among calibrated or re-used samples. Do not use as a primary key!"
+        },
         "measurements": {
             "description": "Measurements for a sample",
             "items": {
@@ -64,7 +68,7 @@
         },
         "sample_id": {
             "$ref": "namespaced_identifier.json",
-            "description": "Unique sample id (internal to the lab facility or data provider)"
+            "description": "Unique sample id"
         },
         "standard_attributes": {
             "additionalProperties": false,

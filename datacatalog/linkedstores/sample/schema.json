@@ -47,7 +47,11 @@
             "type": "integer"
         },
         "sample_id": {
-            "description": "Unique sample id (internal to the lab facility or data provider)",
+            "description": "Unique sample id",
+            "$ref": "namespaced_identifier.json"
+        },
+        "lab_sample_id": {
+            "description": "Lab recorded sample id, can be shared among calibrated or re-used samples. Do not use as a primary key!",
             "$ref": "namespaced_identifier.json"
         },
         "standard_attributes": {
@@ -121,7 +125,10 @@
         "sample_id"
     ],
     "__indexes": [
-        "contents"
+        "contents",
+        "lab_sample_id",
+        "strain",
+        "temperature"
     ],
     "__identifiers": [
         "uuid",
