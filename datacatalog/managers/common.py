@@ -8,6 +8,7 @@ import sys
 from pprint import pprint
 from datacatalog.logger import get_logger
 from datacatalog.hashable import picklecache, jsoncache
+from datacatalog.mongo import db_connection
 from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
@@ -56,8 +57,9 @@ class Manager(ManagerBase):
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
+        mongo_client = db_connection(mongodb)
         ManagerBase.__init__(self, *args, **kwargs)
-        self.stores = Manager.init_stores(mongodb, agave=agave)
+        self.stores = Manager.init_stores(mongo_client, agave=agave)
         self.client = agave
         self.api_server = kwargs.get('api_server', current_tenant_uri())
 

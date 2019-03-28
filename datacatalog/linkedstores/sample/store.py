@@ -28,7 +28,7 @@ class SampleStore(LinkedStore):
         super(SampleStore, self).__init__(mongodb, config, session)
         schema = SampleDocument(**kwargs)
         super(SampleStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
 class StoreInterface(SampleStore):
     pass
