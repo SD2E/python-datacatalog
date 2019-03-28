@@ -126,7 +126,7 @@ class JobManager(Manager):
                                      permissive=False)
             # HRM
             if getattr(self, 'uuid', None) is None:
-                self.setup()
+                self.setup(update_indexes=kwargs.get('update_indexes', False))
 
             self.job = self.stores['pipelinejob'].handle({
                 'name': event_name.lower(),

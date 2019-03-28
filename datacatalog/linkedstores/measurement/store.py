@@ -28,7 +28,7 @@ class MeasurementStore(LinkedStore):
         super(MeasurementStore, self).__init__(mongodb, config, session)
         schema = MeasurementDocument(**kwargs)
         super(MeasurementStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
 class StoreInterface(MeasurementStore):
     """Generic interface to MeasurementStore"""

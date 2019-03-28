@@ -89,7 +89,7 @@ class FileStore(LinkedStore):
         super(FileStore, self).__init__(mongodb, config, session)
         schema = FileDocument(**kwargs)
         super(FileStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
 
