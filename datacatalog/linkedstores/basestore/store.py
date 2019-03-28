@@ -95,7 +95,7 @@ class LinkedStore(LinkageManager):
     LOG_JSONDIFF_UPDATES = settings.LOG_UPDATES
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-        self.logger = logger.get_logger(__name__)
+        self.logger = logger.get_logger(__name__, verbose=settings.LOG_VERBOSE)
         self.debug = settings.DEBUG_MODE
         self.session = session
         """Optional correlation string for interlinked events
