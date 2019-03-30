@@ -36,18 +36,8 @@
                 "$comment": "Computed automatically"
             }
         },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
-        },
         "uuid": {
             "$ref": "generic_uuid.json"
-        },
-        "child_of": {
-            "type": "array",
-            "items": {
-                "type": "string"
-            }
         },
         "_properties": {
             "type": "object",
@@ -71,17 +61,11 @@
             "value": true
         }
     },
-    "required": [
-        "id"
-    ],
+    "required": [],
     "_filename": "basestore",
     "__uuid_type": "generic",
-    "__uuid_fields": [
-        "id"
-    ],
+    "__uuid_fields": [],
     "__collection": "basestores",
     "__indexes": [],
-    "__identifiers": [
-        "id"
-    ]
+    "__identifiers": []
 }

@@ -241,6 +241,17 @@ class LinkedStore(LinkageManager):
         """Returns keys used by this LinkedStore to issue a typed UUID"""
         return getattr(self, 'uuid_fields')
 
+    def get_fields(self):
+        """Returns non-private keys implemented by this LinkedStore"""
+        ids = self.get_identifiers()
+        idss = set(ids)
+        lf = set(self.LINK_FIELDS)
+        af = set(['_admin', '_properties', '_salt', '_visible'])
+        f = set(list(getattr(self, 'schema', {}).get('properties').keys()))
+        fields = sorted(list(f - idss - lf - af))
+        ids.extend(fields)
+        return ids
+
     def get_token_fields(self, record_dict):
         """Get values for issuing a document's update token
 
