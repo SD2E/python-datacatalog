@@ -8,7 +8,9 @@ import base64
 
 from pprint import pprint
 from slugify import slugify
+import pymongo
 from pymongo.database import Database
+
 from datacatalog import settings
 from datacatalog import linkages
 from datacatalog import logger
@@ -223,7 +225,8 @@ class LinkedStore(LinkageManager):
 
     def get_identifiers(self):
         """Returns names of keys whose values will be distinct"""
-        return getattr(self, 'identifiers')
+        fields = getattr(self, 'identifiers')
+        return fields
 
     def get_indexes(self):
         """Returns names of all fields indexed in this store"""
@@ -271,8 +274,10 @@ class LinkedStore(LinkageManager):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def query(self, query={}, projection=None,
-              attr_dict=False, attr_filters={'private_prefix': '_', 'filters': []}):
+    def query(self, query={},
+              projection=None,
+              attr_dict=False,
+              attr_filters={'private_prefix': '_', 'filters': []}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
         Args:
@@ -298,7 +303,8 @@ class LinkedStore(LinkageManager):
             query_kwargs['projection'] = proj
 
         try:
-            result = self.coll.find(query, **query_kwargs)
+            result = self.coll.find(query, **query_kwargs).sort(
+                '_properties.created_date', pymongo.ASCENDING)
             if attr_dict is False:
                 return result
             else:
