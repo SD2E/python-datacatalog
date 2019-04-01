@@ -8,7 +8,7 @@ def get_version():
     """
     returns version.
     """
-    return '0.2.0'
+    return '0.2.1'
 
 def get_requirements(remove_links=True):
     """
