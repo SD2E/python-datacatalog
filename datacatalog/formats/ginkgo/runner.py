@@ -402,6 +402,15 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
                         raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
+            control_tag_prop = "control_tag"
+            if control_tag_prop in measurement_props:
+                control_tag_val = measurement_props[control_tag_prop]
+                if control_tag_val == "proteomics control":
+                    if SampleConstants.CONTROL_TYPE not in sample_doc:
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
+                else:
+                    raise ValueError("Unknown control tag {}".format(control_tag_val))
+
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
