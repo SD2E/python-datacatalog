@@ -229,8 +229,14 @@ class LinkedStore(LinkageManager):
         return fields
 
     def get_indexes(self):
-        """Returns names of all fields indexed in this store"""
-        return getattr(self, '_indexes')
+        """Returns names of fields indexed by this store"""
+        ids = self.get_identifiers()
+        idss = set(ids)
+        lf = set(self.LINK_FIELDS)
+        f = set(getattr(self, '_indexes'))
+        fields = sorted(list(f - idss - lf))
+        ids.extend(fields)
+        return ids
 
     def get_required(self):
         """Returns names of keys required by this document class"""
@@ -277,6 +283,8 @@ class LinkedStore(LinkageManager):
     def query(self, query={},
               projection=None,
               attr_dict=False,
+              limit=None,
+              skip=None,
               attr_filters={'private_prefix': '_', 'filters': []}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
@@ -285,7 +293,7 @@ class LinkedStore(LinkageManager):
             projection (dict): An object describing a MongoDB projection
             filters (dict): {private_prefix': '_', filters: []}
         """
-        query_kwargs = dict()
+        extra_args = dict()
         try:
             if not isinstance(query, dict):
                 query = json.loads(query)
@@ -298,12 +306,16 @@ class LinkedStore(LinkageManager):
             elif isinstance(projection, str):
                 proj = json.loads(projection)
             else:
-                raise CatalogError('Projection was passed but not resolvable into a dictionary')
+                raise CatalogError('Projection not resolvable as a dict')
             # All went well - add a projection keyword argument
-            query_kwargs['projection'] = proj
+            extra_args['projection'] = proj
+        if limit is not None:
+            extra_args['limit'] = limit
+        if skip is not None:
+            extra_args['skip'] = skip
 
         try:
-            result = self.coll.find(query, **query_kwargs).sort(
+            result = self.coll.find(query, **extra_args).sort(
                 '_properties.created_date', pymongo.ASCENDING)
             if attr_dict is False:
                 return result
@@ -334,6 +346,14 @@ class LinkedStore(LinkageManager):
             return self.coll.find_one(query)
         except Exception as exc:
             raise CatalogError('Query failed for uuid'.format(uuid), exc)
+
+    def find_one_by_identifier(self, identifier):
+        for i in self.get_identifiers():
+            query = {i: identifier}
+            resp = self.coll.find_one(query)
+            if resp is not None:
+                return resp
+        raise CatalogError('No such identifier: {}'.format(identifier))
 
     def find_one_by_id(self, **kwargs):
         """Find and return a LinkedStore document by any of its identifiers
