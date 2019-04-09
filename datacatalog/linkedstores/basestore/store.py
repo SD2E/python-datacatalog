@@ -738,7 +738,8 @@ class LinkedStore(LinkageManager):
             merged_dest = self.__set_salt(merged_dest, refresh=True)
 
             # Update the record
-            self.logger.debug('writing to database')
+            # raise SystemError(
+            #     'writing to database: {}'.format(merged_dest['uuid']))
             updated_doc = self.coll.find_one_and_replace(
                 {'uuid': merged_dest['uuid']}, merged_dest,
                 return_document=ReturnDocument.AFTER)
