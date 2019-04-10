@@ -1,4 +1,5 @@
 py-spy
+flake8
 pydot==1.4.1
 pyflakes==2.1.1
 Pygments==2.2.0
