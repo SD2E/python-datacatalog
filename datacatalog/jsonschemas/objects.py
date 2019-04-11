@@ -1,4 +1,9 @@
-import python_jsonschema_objects as pjs
+try:
+    import python_jsonschema_objects as pjs
+    CAN_INSTANTIATE_CLASSES = True
+except ModuleNotFoundError:
+    CAN_INSTANTIATE_CLASSES = False
+
 
 def get_class_object(schema, classname=None):
     """Instantiate and return a Python class from a JSON schema
@@ -10,6 +15,10 @@ def get_class_object(schema, classname=None):
     Returns:
         class: A Python class corresponding to the schema
     """
+
+    if not CAN_INSTANTIATE_CLASSES:
+        raise NotImplementedError('Module "python-jsonschema-objects" is not available')
+
     builder = pjs.ObjectBuilder(schema)
     ns = builder.build_classes(named_only=True)
     if classname is None:
