@@ -192,13 +192,17 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
-            # new TX Live/Dead controls
-            elif strain == "WT-Dead-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
-            elif strain == "WT-Live-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
             else:
+                # new TX Live/Dead controls
+                if strain == "WT-Dead-Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
+                elif strain == "WT-Live-Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+                elif strain == "NOR 00 Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
+                # ensure strain gets mapped alongside controls
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
@@ -265,7 +269,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # we also need to indicate the control channels the fluorescence controls
         # this is not known by the lab typically, has to be provided externally
         original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
-        if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
+        if SampleConstants.CONTROL_TYPE not in sample_doc:
             if original_sample_id == "wt-control-1":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif original_sample_id == "NOR 00 Control":
