@@ -12,7 +12,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 """
 Schema closely aligns with V1 target schema
@@ -323,6 +323,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             measurement_type = file[SampleConstants.M_TYPE]
 
             file_name = file[SampleConstants.M_NAME]
+            # same logic as uploads manager
+            file_name = safen_filename(file_name)
 
             # infer for r1brvabq9fjgd_r1bry2xb8scz4_seq_samples
             if measurement_type == "UNKNOWN" and file_name.endswith(".fastq.gz"):
