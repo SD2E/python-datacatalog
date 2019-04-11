@@ -159,10 +159,12 @@ def add_control(item, sample_doc, output_doc):
             # Biofab does not provide control information for earlier YG plans;
             # Need to drive this from strains (WT and NOR_00)
             if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("22544", output_doc[SampleConstants.LAB]):
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                if SampleConstants.CONTROL_TYPE not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("6390", output_doc[SampleConstants.LAB]):
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+                if SampleConstants.CONTROL_TYPE not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
 def add_replicate(item, sample_doc):
     if attributes_attr in item and replicate_attr in item[attributes_attr]:
