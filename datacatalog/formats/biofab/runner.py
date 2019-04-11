@@ -10,7 +10,7 @@ from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 # common across methods
 attributes_attr = "attributes"
@@ -318,6 +318,9 @@ def add_file_name(config, file, measurement_doc, original_experiment_id, lab, ou
             file['filename'], original_experiment_id, file['generated_by'])
     else:
         file_name = file["filename"]
+
+    # same logic as uploads manager
+    file_name = safen_filename(file_name)
 
     file_id = file.get('file_id', None)
     # biofab stores this in multiple ways

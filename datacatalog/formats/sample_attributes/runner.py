@@ -12,7 +12,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 from jq import jq
 import requests
 
@@ -175,6 +175,9 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                 measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(group_id, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
                 file_name = file
+                # same logic as uploads manager
+                file_name = safen_filename(file_name)
+
                 file_type = SampleConstants.infer_file_type(file_name)
                 file_name_final = relative_file_path
                 measurement_doc[SampleConstants.FILES].append(
