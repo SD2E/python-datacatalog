@@ -35,7 +35,7 @@ def get_converter(json_filepath, options={}, expect=None):
         converters = [globals()[expect](options)]
 
     encoding = detect_encoding(json_filepath)
-    if encoding not in ('ascii', 'utf-8'):
+    if encoding not in ('ascii', 'utf-8', 'ISO-8859-1'):
         raise ValueError("Unknown encoding: {}".format(encoding))
 
     # print("Detected encoding {}".format(encoding))
