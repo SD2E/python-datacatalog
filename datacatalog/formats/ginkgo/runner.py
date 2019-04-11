@@ -13,7 +13,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import is_ginkgo_experiment_id, namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import is_ginkgo_experiment_id, namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 from .mappings import SampleContentsFilter
 
 # flatten hierarchies of irregular lists
@@ -507,6 +507,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # ],
                             processed = flatten(processed)
                             for sub_processed in processed:
+                                # same logic as uploads manager
+                                sub_processed = safen_filename(sub_processed)
                                 # need to account -precisely- for the previous ID construction for a subset of Ginkgo experiments
                                 # see https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
                                 if is_ginkgo_experiment_id(output_doc):
@@ -527,6 +529,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # flatten irregular lists if present
                             raw = flatten(raw)
                             for sub_raw in raw:
+                                # same logic as uploads manager
+                                sub_raw = safen_filename(sub_raw)
                                 # need to account -precisely- for the previous ID construction for a subset of Ginkgo experiments
                                 # see https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
                                 if is_ginkgo_experiment_id(output_doc):
