@@ -322,6 +322,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             measurement_type = file[SampleConstants.M_TYPE]
 
+            file_name = file[SampleConstants.M_NAME]
+
+            # infer for r1brvabq9fjgd_r1bry2xb8scz4_seq_samples
+            if measurement_type == "UNKNOWN" and file_name.endswith(".fastq.gz"):
+                measurement_type = SampleConstants.MT_RNA_SEQ
+
             # enum fix
             if measurement_type == "RNASeq":
                 measurement_type = SampleConstants.MT_RNA_SEQ
@@ -351,8 +357,6 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             # record a measurement grouping id to find other linked samples and files
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(typed_measurement_id, output_doc[SampleConstants.LAB], sample_doc, output_doc)
-
-            file_name = file[SampleConstants.M_NAME]
 
             if file_name in seen_files_per_sample:
                 print("Warning, duplicate filename, skipping, {}".format(file_name))
