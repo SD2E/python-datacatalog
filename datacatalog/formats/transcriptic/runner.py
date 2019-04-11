@@ -192,6 +192,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+            # new TX Live/Dead controls
+            elif strain == "WT-Dead-Control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
+            elif strain == "WT-Live-Control":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
             else:
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
