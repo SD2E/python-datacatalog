@@ -83,6 +83,10 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
     measurement_doc = {}
     measurement_doc[SampleConstants.FILES] = []
 
+    # ensure channels, etc. get added
+    add_measurement_type(biofab_sample, measurement_doc)
+
+    # follow override from passed in arguments
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
     add_measurement_id(measurement_doc, sample_doc, output_doc)
