@@ -8,6 +8,9 @@ import base64
 
 from pprint import pprint
 from slugify import slugify
+import pymongo
+from pymongo.database import Database
+
 from datacatalog import settings
 from datacatalog import linkages
 from datacatalog import logger
@@ -94,7 +97,7 @@ class LinkedStore(LinkageManager):
     LOG_JSONDIFF_UPDATES = settings.LOG_UPDATES
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
-        self.logger = logger.get_logger(__name__)
+        self.logger = logger.get_logger(__name__, verbose=settings.LOG_VERBOSE)
         self.debug = settings.DEBUG_MODE
         self.session = session
         """Optional correlation string for interlinked events
@@ -150,9 +153,12 @@ class LinkedStore(LinkageManager):
         # Initialize
         # self._post_init()
 
-    def setup(self):
+    def setup(self, update_indexes=False):
         """Set up the MongoDB collection that houses data for the LinkedStore"""
-        setattr(self, 'db', db_connection(self._mongodb))
+        if isinstance(self._mongodb, Database):
+            setattr(self, 'db', self._mongodb)
+        else:
+            setattr(self, 'db', db_connection(self._mongodb))
         setattr(self, 'coll', self.db[self.name])
         setattr(self, 'logcoll', self.db['updates'])
 
@@ -161,28 +167,34 @@ class LinkedStore(LinkageManager):
         LINKAGE_INDEXES = self.LINK_FIELDS
         OTHER_INDEXES = getattr(self, 'otherindexes')
         ALL_INDEXES = list()
+        # Optionally, update index definitions.
         try:
             # Build indexes for the identifiers, where uniqueness is enforced
             for field in UNIQUE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)], unique=True, sparse=True)
                     ALL_INDEXES.append(field)
             # Create array indexes for linkage fields
             for field in LINKAGE_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)])
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)])
                     ALL_INDEXES.append(field)
             # Create simple indexes on the non-redundant list of fields from
             # schema.__indexes and schema.required, excluding fields
             # marked as identifiers or uuid-contributing fields
             for field in OTHER_INDEXES:
                 if field not in self.NEVER_INDEX_FIELDS:
-                    self.coll.create_index([(field, ASCENDING)])
+                    if update_indexes:
+                        self.coll.create_index([(field, ASCENDING)])
                     ALL_INDEXES.append(field)
-            # Contains names of all indexed fields - useful for validation
+
             setattr(self, '_indexes', list(set(ALL_INDEXES)))
+
+        # Contains names of all indexed fields - useful for validation
         except Exception:
-            #  TODO - allow existing index but fail otherwise
+            self.logger.warn('Unable to reconfigure indexes')
             pass
 
     def update_attrs(self, schema):
@@ -213,11 +225,18 @@ class LinkedStore(LinkageManager):
 
     def get_identifiers(self):
         """Returns names of keys whose values will be distinct"""
-        return getattr(self, 'identifiers')
+        fields = getattr(self, 'identifiers')
+        return fields
 
     def get_indexes(self):
-        """Returns names of all fields indexed in this store"""
-        return getattr(self, '_indexes')
+        """Returns names of fields indexed by this store"""
+        ids = self.get_identifiers()
+        idss = set(ids)
+        lf = set(self.LINK_FIELDS)
+        f = set(getattr(self, '_indexes'))
+        fields = sorted(list(f - idss - lf))
+        ids.extend(fields)
+        return ids
 
     def get_required(self):
         """Returns names of keys required by this document class"""
@@ -230,6 +249,17 @@ class LinkedStore(LinkageManager):
     def get_uuid_fields(self):
         """Returns keys used by this LinkedStore to issue a typed UUID"""
         return getattr(self, 'uuid_fields')
+
+    def get_fields(self):
+        """Returns non-private keys implemented by this LinkedStore"""
+        ids = self.get_identifiers()
+        idss = set(ids)
+        lf = set(self.LINK_FIELDS)
+        af = set(['_admin', '_properties', '_salt', '_visible'])
+        f = set(list(getattr(self, 'schema', {}).get('properties').keys()))
+        fields = sorted(list(f - idss - lf - af))
+        ids.extend(fields)
+        return ids
 
     def get_token_fields(self, record_dict):
         """Get values for issuing a document's update token
@@ -250,8 +280,12 @@ class LinkedStore(LinkageManager):
                 token_fields.append(record_dict.get(key))
         return token_fields
 
-    def query(self, query={}, projection=None,
-              attr_dict=False, attr_filters={'private_prefix': '_', 'filters': []}):
+    def query(self, query={},
+              projection=None,
+              attr_dict=False,
+              limit=None,
+              skip=None,
+              attr_filters={'private_prefix': '_', 'filters': []}):
         """Query the LinkedStore MongoDB collection and return a Cursor
 
         Args:
@@ -259,7 +293,7 @@ class LinkedStore(LinkageManager):
             projection (dict): An object describing a MongoDB projection
             filters (dict): {private_prefix': '_', filters: []}
         """
-        query_kwargs = dict()
+        extra_args = dict()
         try:
             if not isinstance(query, dict):
                 query = json.loads(query)
@@ -272,12 +306,17 @@ class LinkedStore(LinkageManager):
             elif isinstance(projection, str):
                 proj = json.loads(projection)
             else:
-                raise CatalogError('Projection was passed but not resolvable into a dictionary')
+                raise CatalogError('Projection not resolvable as a dict')
             # All went well - add a projection keyword argument
-            query_kwargs['projection'] = proj
+            extra_args['projection'] = proj
+        if limit is not None:
+            extra_args['limit'] = limit
+        if skip is not None:
+            extra_args['skip'] = skip
 
         try:
-            result = self.coll.find(query, **query_kwargs)
+            result = self.coll.find(query, **extra_args).sort(
+                '_properties.created_date', pymongo.ASCENDING)
             if attr_dict is False:
                 return result
             else:
@@ -307,6 +346,14 @@ class LinkedStore(LinkageManager):
             return self.coll.find_one(query)
         except Exception as exc:
             raise CatalogError('Query failed for uuid'.format(uuid), exc)
+
+    def find_one_by_identifier(self, identifier):
+        for i in self.get_identifiers():
+            query = {i: identifier}
+            resp = self.coll.find_one(query)
+            if resp is not None:
+                return resp
+        raise CatalogError('No such identifier: {}'.format(identifier))
 
     def find_one_by_id(self, **kwargs):
         """Find and return a LinkedStore document by any of its identifiers
@@ -691,7 +738,8 @@ class LinkedStore(LinkageManager):
             merged_dest = self.__set_salt(merged_dest, refresh=True)
 
             # Update the record
-            self.logger.debug('writing to database')
+            # raise SystemError(
+            #     'writing to database: {}'.format(merged_dest['uuid']))
             updated_doc = self.coll.find_one_and_replace(
                 {'uuid': merged_dest['uuid']}, merged_dest,
                 return_document=ReturnDocument.AFTER)

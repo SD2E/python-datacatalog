@@ -2,6 +2,7 @@
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
 from ..filetypes import infer_filetype
+from datacatalog.utils import safen_path
 
 """Some constants to populate samples-schema.json
    compliant outputs
@@ -347,6 +348,11 @@ def query_input_state_from_strain(strain, sbh_query):
         sbh_cache[_id] = strain_input_state
 
     return strain_input_state
+
+# apply same logic as uploads manager to remove unicode and spaces
+# all of the formatters currently route through here
+def safen_filename(filename, no_unicode=True, no_spaces=True):
+    return safen_path(filename, no_unicode=no_unicode, no_spaces=no_spaces)
 
 # These experiments are already in the V2 database, and pre-date the namespacing change documented in
 # https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12

@@ -26,7 +26,7 @@ class ExperimentDesignStore(LinkedStore):
         super(ExperimentDesignStore, self).__init__(mongodb, config, session)
         schema = ExperimentDesignDocument(**kwargs)
         super(ExperimentDesignStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
 class StoreInterface(ExperimentDesignStore):
     pass

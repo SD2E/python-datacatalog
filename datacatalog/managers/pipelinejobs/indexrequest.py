@@ -30,6 +30,11 @@ class IndexRequest(ExtensibleAttrDict):
     kind = None
 
     def __init__(self, **kwargs):
+        # Transform processing_level to level
+        if kwargs.get('level', None) is None:
+            if kwargs.get('processing_level', None) is not None:
+                kwargs['level'] = kwargs.get('processing_level', '1')
+        # Transform filters to patterns
         if kwargs.get('patterns', None) is None:
             if kwargs.get('filters', None) is not None:
                 kwargs['patterns'] = kwargs.get('filters', [])
@@ -38,7 +43,8 @@ class IndexRequest(ExtensibleAttrDict):
                 value = kwargs[param] if mandatory else kwargs.get(param, default)
                 setattr(self, attr, value)
             except KeyError:
-                raise InvalidIndexingRequest('Missing required key {}'.format(param))
+                raise InvalidIndexingRequest('{} missing required key {}'.format(
+                    self.__class__.__name__, param))
 
     def to_dict(self):
         me = dict()

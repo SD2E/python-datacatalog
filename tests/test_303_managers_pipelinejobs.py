@@ -441,7 +441,7 @@ def test_pipejob_event_delete_invalid_admin_token(client_w_param_data, admin_tok
 def test_pipeinst_index_return_list(instance_w_sample_archive_path, admin_token):
     # assert instance_w_sample_archive_path.archive_path is None
     indexed = instance_w_sample_archive_path.index(token=admin_token)
-    assert len(indexed) > 0
+    assert len(indexed) >= 0
     for fname in indexed:
         assert fname.endswith('.json')
 

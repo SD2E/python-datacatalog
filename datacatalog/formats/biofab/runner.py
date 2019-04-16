@@ -10,7 +10,7 @@ from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 # common across methods
 attributes_attr = "attributes"
@@ -83,6 +83,10 @@ def add_file_no_source(biofab_sample, output_doc, config, lab, original_experime
     measurement_doc = {}
     measurement_doc[SampleConstants.FILES] = []
 
+    # ensure channels, etc. get added
+    add_measurement_type(biofab_sample, measurement_doc)
+
+    # follow override from passed in arguments
     measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
     add_measurement_id(measurement_doc, sample_doc, output_doc)
@@ -159,10 +163,12 @@ def add_control(item, sample_doc, output_doc):
             # Biofab does not provide control information for earlier YG plans;
             # Need to drive this from strains (WT and NOR_00)
             if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("22544", output_doc[SampleConstants.LAB]):
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                if SampleConstants.CONTROL_TYPE not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("6390", output_doc[SampleConstants.LAB]):
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+                if SampleConstants.CONTROL_TYPE not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
 def add_replicate(item, sample_doc):
     if attributes_attr in item and replicate_attr in item[attributes_attr]:
@@ -316,6 +322,9 @@ def add_file_name(config, file, measurement_doc, original_experiment_id, lab, ou
             file['filename'], original_experiment_id, file['generated_by'])
     else:
         file_name = file["filename"]
+
+    # same logic as uploads manager
+    file_name = safen_filename(file_name)
 
     file_id = file.get('file_id', None)
     # biofab stores this in multiple ways

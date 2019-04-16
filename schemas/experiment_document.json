@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-18 13:22:19 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3f46eee",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -67,8 +67,7 @@
         },
         "child_of": {
             "items": {
-                "$ref": "experiment_design_uuid.json",
-                "type": "string"
+                "$ref": "experiment_design_uuid.json"
             },
             "maxItems": 1,
             "minItems": 1,
@@ -81,10 +80,6 @@
         "experiment_reference": {
             "$ref": "experiment_reference.json",
             "description": "Canonical string identifier for the experimental reference"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
         },
         "title": {
             "description": "Human-readable title for the experiment",

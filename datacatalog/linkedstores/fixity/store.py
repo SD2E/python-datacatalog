@@ -30,7 +30,7 @@ class FixityStore(LinkedStore, RateLimiter):
         LinkedStore.__init__(self, mongodb, config, session)
         schema = FixityDocument(**kwargs)
         LinkedStore.update_attrs(self, schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
         RateLimiter.__init__(self, **kwargs)
 
     def index(self, filename, **kwargs):

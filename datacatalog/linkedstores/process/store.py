@@ -55,7 +55,7 @@ class ProcessStore(LinkedStore):
         super(ProcessStore, self).__init__(mongodb, config, session)
         schema = ProcessDocument(**kwargs)
         super(ProcessStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
     def add_update_document(self, document_dict, uuid=None, token=None, strategy='merge'):
         if 'process_id' not in document_dict:

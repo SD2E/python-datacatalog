@@ -18,7 +18,7 @@ class AnnotationStore(LinkedStore):
         super(AnnotationStore, self).__init__(mongodb, config, session)
         schema = AnnotationSchema(**kwargs)
         super(AnnotationStore, self).update_attrs(schema)
-        self.setup()
+        self.setup(update_indexes=kwargs.get('update_indexes', False))
 
 class StoreInterface(AnnotationStore):
     pass

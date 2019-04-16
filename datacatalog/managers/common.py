@@ -8,6 +8,7 @@ import sys
 from pprint import pprint
 from datacatalog.logger import get_logger
 from datacatalog.hashable import picklecache, jsoncache
+from datacatalog.mongo import db_connection
 from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
@@ -56,8 +57,9 @@ class Manager(ManagerBase):
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
+        mongo_client = db_connection(mongodb)
         ManagerBase.__init__(self, *args, **kwargs)
-        self.stores = Manager.init_stores(mongodb, agave=agave)
+        self.stores = Manager.init_stores(mongo_client, agave=agave)
         self.client = agave
         self.api_server = kwargs.get('api_server', current_tenant_uri())
 
@@ -617,3 +619,40 @@ class Manager(ManagerBase):
         designs = self.designs_from_challenges(
             ids, permissive=permissive)
         return self.measurements_from_designs(designs, permissive=True)
+
+    def files_from_samples(self, ids, permissive=True):
+        measurements = self.measurements_from_samples(ids, permissive=True)
+        response = self.kids_from_parents(
+            measurements,
+            parent='measurement',
+            parent_id='measurement_id',
+            kid='file',
+            kid_id='uuid',
+            permissive=permissive)
+        response.sort()
+        return response
+
+    def files_from_experiments(self, ids, permissive=True):
+        samples = self.samples_from_experiments(ids, permissive=True)
+        response = self.files_from_samples(samples, permissive=True)
+        response.sort()
+        return response
+
+    def files_from_designs(self, ids, permissive=True):
+        experiments = self.experiments_from_designs(ids, permissive=True)
+        response = self.files_from_experiments(experiments, permissive=True)
+        response.sort()
+        return response
+
+    def jobs_from_any(self, ids, permissive=True):
+        job_list = list()
+        for coll in ('experiment', 'sample', 'measurement'):
+            temp_list = self.kids_from_parents(ids, parent=coll,
+                                               parent_id=coll + '_id',
+                                               kid='pipelinejob',
+                                               kid_id='uuid',
+                                               permissive=True)
+            job_list.extend(temp_list)
+        job_list = list(set(job_list))
+        job_list.sort()
+        return job_list

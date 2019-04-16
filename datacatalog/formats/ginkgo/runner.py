@@ -13,7 +13,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import is_ginkgo_experiment_id, namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 from .mappings import SampleContentsFilter
 
 # flatten hierarchies of irregular lists
@@ -379,10 +379,19 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     raise ValueError("Cannot identify challenge problem: {}".format(ginkgo_sample))
 
             # generate a measurement id unique to this sample
-            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_counter), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+            # need to account -precisely- for the previous ID construction for a subset of Ginkgo experiments
+            # see https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
+            if is_ginkgo_experiment_id(output_doc):
+                measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter)]), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+            else:
+                measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_counter), output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
             # record a measurement grouping id to find other linked samples and files
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+
+            # this was previously (incorrectly) incremented here for the ginkgo experiments
+            if is_ginkgo_experiment_id(output_doc):
+                measurement_counter = measurement_counter + 1
 
             tmt_prop = "TMT_channel"
             if tmt_prop in measurement_props:
@@ -392,6 +401,15 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 else:
                     if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
                         raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+
+            control_tag_prop = "control_tag"
+            if control_tag_prop in measurement_props:
+                control_tag_val = measurement_props[control_tag_prop]
+                if control_tag_val == "proteomics control":
+                    if SampleConstants.CONTROL_TYPE not in sample_doc:
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
+                else:
+                    raise ValueError("Unknown control tag {}".format(control_tag_val))
 
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
@@ -489,7 +507,14 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # ],
                             processed = flatten(processed)
                             for sub_processed in processed:
-                                file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+                                # same logic as uploads manager
+                                sub_processed = safen_filename(sub_processed)
+                                # need to account -precisely- for the previous ID construction for a subset of Ginkgo experiments
+                                # see https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
+                                if is_ginkgo_experiment_id(output_doc):
+                                    file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+                                else:
+                                    file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
 
                                 file_type = SampleConstants.infer_file_type(sub_processed)
                                 measurement_doc[SampleConstants.FILES].append(
@@ -504,7 +529,14 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                             # flatten irregular lists if present
                             raw = flatten(raw)
                             for sub_raw in raw:
-                                file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+                                # same logic as uploads manager
+                                sub_raw = safen_filename(sub_raw)
+                                # need to account -precisely- for the previous ID construction for a subset of Ginkgo experiments
+                                # see https://gitlab.sd2e.org/sd2program/etl-pipeline-support/issues/12
+                                if is_ginkgo_experiment_id(output_doc):
+                                    file_id = namespace_file_id(".".join([sample_doc[SampleConstants.SAMPLE_ID], str(measurement_counter), str(file_counter)]), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+                                else:
+                                    file_id = namespace_file_id(str(file_counter), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
 
                                 file_type = SampleConstants.infer_file_type(sub_raw)
                                 measurement_doc[SampleConstants.FILES].append(
@@ -524,7 +556,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
             samples_w_data = samples_w_data + 1
 
-            measurement_counter = measurement_counter + 1
+            # do not use corrected increment for the ginkgo experiments
+            if not is_ginkgo_experiment_id(output_doc):
+                measurement_counter = measurement_counter + 1
 
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], measurement_key, len(measurement_doc[SampleConstants.FILES])))
 

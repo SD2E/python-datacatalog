@@ -12,7 +12,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id
+from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 """
 Schema closely aligns with V1 target schema
@@ -193,6 +193,16 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
             else:
+                # new TX Live/Dead controls
+                if strain == "WT-Dead-Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
+                elif strain == "WT-Live-Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+                elif strain == "NOR 00 Control":
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
+                # ensure strain gets mapped alongside controls
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
@@ -259,7 +269,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # we also need to indicate the control channels the fluorescence controls
         # this is not known by the lab typically, has to be provided externally
         original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
-        if SampleConstants.CONTROL_TYPE not in transcriptic_sample:
+        if SampleConstants.CONTROL_TYPE not in sample_doc:
             if original_sample_id == "wt-control-1":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             elif original_sample_id == "NOR 00 Control":
@@ -316,6 +326,14 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             measurement_type = file[SampleConstants.M_TYPE]
 
+            file_name = file[SampleConstants.M_NAME]
+            # same logic as uploads manager
+            file_name = safen_filename(file_name)
+
+            # infer for r1brvabq9fjgd_r1bry2xb8scz4_seq_samples
+            if measurement_type == "UNKNOWN" and file_name.endswith(".fastq.gz"):
+                measurement_type = SampleConstants.MT_RNA_SEQ
+
             # enum fix
             if measurement_type == "RNASeq":
                 measurement_type = SampleConstants.MT_RNA_SEQ
@@ -345,8 +363,6 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             # record a measurement grouping id to find other linked samples and files
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(typed_measurement_id, output_doc[SampleConstants.LAB], sample_doc, output_doc)
-
-            file_name = file[SampleConstants.M_NAME]
 
             if file_name in seen_files_per_sample:
                 print("Warning, duplicate filename, skipping, {}".format(file_name))
