@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190312T134400+00:00; source: git@github.com:SD2E/python-datacatalog.git@ec41383",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/fixity.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -19,10 +19,6 @@
             "$comment": "Computed automatically",
             "description": "xxHash64 fingerprint of the file",
             "type": "integer"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
         },
         "modified": {
             "$comment": "Computed automatically",

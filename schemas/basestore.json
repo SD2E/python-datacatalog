@@ -1,21 +1,15 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/basestore.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
     "description": "Base MongoDB-backed Store",
     "properties": {
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
-        },
         "uuid": {
             "$ref": "generic_uuid.json"
         }
     },
-    "required": [
-        "id"
-    ],
+    "required": [],
     "title": "Base Store",
     "type": "object"
 }

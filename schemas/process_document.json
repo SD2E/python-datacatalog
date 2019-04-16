@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-20 15:41:49 +00:00; source: git@github.com:SD2E/python-datacatalog.git@c7b1da3",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/process_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -85,9 +85,6 @@
             "type": "object"
         },
         "child_of": {
-            "items": {
-                "type": "string"
-            },
             "maxItems": 0,
             "type": "array"
         },
@@ -102,10 +99,6 @@
         "generated_by": {
             "maxItems": 0,
             "type": "array"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
         },
         "name": {
             "description": "Human-readable name for the process",
