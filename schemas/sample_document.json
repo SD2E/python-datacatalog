@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190326T155610+00:00; source: git@github.com:SD2E/python-datacatalog.git@e79eeb7",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -71,8 +71,7 @@
                     {
                         "$ref": "experiment_uuid.json"
                     }
-                ],
-                "type": "string"
+                ]
             },
             "type": "array"
         },
@@ -103,10 +102,6 @@
         "genetic_construct": {
             "$ref": "mapped_name.json",
             "description": "genetic construct reference (mapped by SBH Librarian)"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
         },
         "inoculation_density": {
             "$ref": "optical_density.json",

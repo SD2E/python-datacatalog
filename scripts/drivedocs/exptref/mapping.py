@@ -168,4 +168,5 @@ class ExperimentReferenceMapping(object):
         raise ValueError('Not a supported mapping')
 
 def google_time_to_datetime(timestring):
-    return datetime.datetime.utcfromtimestamp(arrow.get(timestring).timestamp)
+    return arrow.get(timestring).datetime
+#    return datetime.datetime.utcfromtimestamp(arrow.get(timestring).timestamp)

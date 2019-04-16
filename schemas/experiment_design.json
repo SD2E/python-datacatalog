@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-01-17 23:26:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@f7703d6",
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_design.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -28,10 +28,6 @@
             },
             "minItems": 1,
             "type": "array"
-        },
-        "id": {
-            "$ref": "identifier.json",
-            "description": "Distinguishing identifier for the specified document"
         },
         "status": {
             "enum": [
