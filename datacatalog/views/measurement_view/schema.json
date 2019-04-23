@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Sample View",
+    "title": "SampleView",
+    "type": "object",
+    "properties": {
+        "id": {
+            "description": "Sample ID",
+            "$ref": "sample.json#sample_id"
+        },
+        "lab_sample_id": {
+            "description": "Lab Sample ID",
+            "$ref": "sample.jsonn#lab_sample_id"
+        }
+    },
+    "required": [
+        "id",
+        "lab_sample_id"
+    ],
+    "_filename": "sample_view",
+    "__uuid_type": "generic",
+    "__uuid_field": null,
+    "__uuid_fields": [],
+    "__collection": "sample_view",
+    "__indexes": [],
+    "__identifiers": [],
+    "additionalProperties": true
+}

@@ -1,0 +1,29 @@
+{
+    "view_on": "pipelinejob_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "file_view",
+                "localField": "job.uuid",
+                "foreignField": "generated_by",
+                "as": "file"
+            }
+        },
+        {
+            "$project": {
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "file._admin": 0.0,
+                "file._properties": 0.0,
+                "file._salt": 0.0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$file",
+                "preserveNullAndEmptyArrays": true
+            }
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "view_on": "sample_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "measurements",
+                "localField": "sample.uuid",
+                "foreignField": "child_of",
+                "as": "measurement"
+            }
+        },
+        {
+            "$project": {
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "measurement_admin": 0,
+                "measurement._properties": 0,
+                "measurement._salt": 0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$measurement",
+                "preserveNullAndEmptyArrays": true
+            }
+        }
+    ]
+}

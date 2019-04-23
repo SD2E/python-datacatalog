@@ -1,0 +1,37 @@
+{
+    "view_on": "pipelines",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "jobs",
+                "localField": "uuid",
+                "foreignField": "generated_by",
+                "as": "job"
+            }
+        },
+        {
+            "$project": {
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "processing_levels": 0,
+                "acted_on": 0,
+                "acted_using": 0,
+                "derived_from": 0,
+                "child_of": 0,
+                "job._admin": 0,
+                "job._properties": 0,
+                "job._salt": 0,
+                "job.child_of": 0,
+                "job.derived_from": 0,
+                "job.derived_using": 0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$job",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}

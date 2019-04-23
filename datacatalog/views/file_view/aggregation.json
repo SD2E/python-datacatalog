@@ -1,0 +1,28 @@
+{
+    "view_on": "files",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "fixities",
+                "localField": "uuid",
+                "foreignField": "derived_from",
+                "as": "fixity"
+            }
+        },
+        {
+            "$project": {
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "derived_from": 0.0,
+                "derived_using": 0.0,
+                "generated_by": 0.0,
+                "fixity._admin": 0.0,
+                "fixity._properties": 0.0,
+                "fixity._salt": 0.0,
+                "fixity.child_of": 0.0,
+                "fixity.derived_using": 0.0
+            }
+        }
+    ]
+}
