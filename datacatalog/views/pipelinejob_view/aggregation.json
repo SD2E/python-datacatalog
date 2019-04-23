@@ -24,7 +24,10 @@
                 "job._salt": 0,
                 "job.child_of": 0,
                 "job.derived_from": 0,
-                "job.derived_using": 0
+                "job.derived_using": 0,
+                "job.history": 0,
+                "job.product_patterns": 0,
+                "job.archive_patterns": 0
             }
         },
         {
