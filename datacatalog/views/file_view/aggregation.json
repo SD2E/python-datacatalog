@@ -4,9 +4,15 @@
         {
             "$lookup": {
                 "from": "fixities",
-                "localField": "uuid",
-                "foreignField": "derived_from",
+                "localField": "name",
+                "foreignField": "name",
                 "as": "fixity"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$fixity",
+                "preserveNullAndEmptyArrays": true
             }
         },
         {
@@ -14,14 +20,29 @@
                 "_admin": 0.0,
                 "_properties": 0.0,
                 "_salt": 0.0,
-                "derived_from": 0.0,
-                "derived_using": 0.0,
-                "generated_by": 0.0,
+                "fixity._admin": 0.0,
+                "fixity._properties": 0.0,
+                "fixity._salt": 0.0
+            }
+        },
+        {
+            "$project": {
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "_id": 0.0,
                 "fixity._admin": 0.0,
                 "fixity._properties": 0.0,
                 "fixity._salt": 0.0,
+                "fixity.name": 0.0,
+                "fixity._id": 0.0,
+                "fixity.uuid": 0.0,
                 "fixity.child_of": 0.0,
-                "fixity.derived_using": 0.0
+                "fixity.derived_from": 0.0,
+                "fixity.derived_using": 0.0,
+                "fixity.generated_by": 0.0,
+                "fixity.acted_on": 0.0,
+                "fixity.acted_using": 0.0
             }
         }
     ]

@@ -10,19 +10,44 @@
             }
         },
         {
+            "$match": {
+                "file.level": {
+                    "$in": [
+                        "1",
+                        "2"
+                    ]
+                }
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$file",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "files_view",
+                "localField": "file.derived_from",
+                "foreignField": "uuid",
+                "as": "source"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$source",
+                "preserveNullAndEmptyArrays": true
+            }
+        },
+        {
             "$project": {
                 "_admin": 0.0,
                 "_properties": 0.0,
                 "_salt": 0.0,
                 "file._admin": 0.0,
                 "file._properties": 0.0,
-                "file._salt": 0.0
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$file",
-                "preserveNullAndEmptyArrays": true
+                "file._salt": 0.0,
+                "file.child_of": 0.0
             }
         }
     ]

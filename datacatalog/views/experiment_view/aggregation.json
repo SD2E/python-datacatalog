@@ -10,6 +10,12 @@
             }
         },
         {
+            "$unwind": {
+                "path": "$experiment",
+                "preserveNullAndEmptyArrays": true
+            }
+        },
+        {
             "$project": {
                 "_admin": 0.0,
                 "_properties": 0.0,
@@ -17,12 +23,6 @@
                 "experiment._admin": 0,
                 "experiment._properties": 0,
                 "experiment._salt": 0
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$experiment",
-                "preserveNullAndEmptyArrays": true
             }
         }
     ]

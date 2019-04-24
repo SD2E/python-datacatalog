@@ -10,6 +10,12 @@
             }
         },
         {
+            "$unwind": {
+                "path": "$file",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
             "$project": {
                 "_admin": 0.0,
                 "_properties": 0.0,
@@ -17,12 +23,6 @@
                 "file._admin": 0.0,
                 "file._properties": 0.0,
                 "file._salt": 0.0
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$file",
-                "preserveNullAndEmptyArrays": true
             }
         }
     ]

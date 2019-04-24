@@ -10,30 +10,36 @@
             }
         },
         {
+            "$unwind": {
+                "path": "$job",
+                "preserveNullAndEmptyArrays": true
+            }
+        },
+        {
             "$project": {
+                "_id": 0.0,
                 "_admin": 0.0,
                 "_properties": 0.0,
                 "_salt": 0.0,
+                "_visible": 0,
                 "processing_levels": 0,
+                "collections_levels": 0,
                 "acted_on": 0,
                 "acted_using": 0,
                 "derived_from": 0,
                 "child_of": 0,
+                "job._visible": 0,
+                "job._id": 0,
                 "job._admin": 0,
                 "job._properties": 0,
                 "job._salt": 0,
+                "job.pipeline_uuid": 0,
                 "job.child_of": 0,
                 "job.derived_from": 0,
                 "job.derived_using": 0,
-                "job.history": 0,
+                "job.history.data": 0,
                 "job.product_patterns": 0,
                 "job.archive_patterns": 0
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$job",
-                "preserveNullAndEmptyArrays": false
             }
         }
     ]
