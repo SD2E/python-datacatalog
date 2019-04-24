@@ -263,7 +263,7 @@ class Indexer(Manager):
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('archive_request_target: {}'.format(resp))
                 # if resp is not None:
-                self.logger.debug('generated_by: {}'.request.generated_by)
+                self.logger.debug('generated_by: {}'.format(request.generated_by))
                 self.logger.debug('writing generated_by')
                 self.stores['file'].add_link(
                     resp['uuid'], request.generated_by)
