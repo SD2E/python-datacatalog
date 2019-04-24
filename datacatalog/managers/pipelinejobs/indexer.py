@@ -194,9 +194,27 @@ class Indexer(Manager):
                     'name': file_name,
                     'type': ftype}
                 resp = self.stores['file'].add_update_document(fdict)
+                self.logger.debug('product_request_target: {}'.format(resp))
+
+                # if resp is not None:
+                self.logger.debug('Adding product linkages')
+                # Resolve UUIDs, indentifiers, and finally relative paths
+                # into UUIDs that can be used for linkages
+                derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
+                derived_from = self.resolve_derived_references(request.derived_from, permissive=True)
+                self.logger.debug('derived_from: {}'.format(derived_from))
+                self.logger.debug('derived_using: {}'.format(derived_using))
+                self.logger.debug('add_link.derived_using')
+                self.stores['file'].add_link(
+                    resp['uuid'], derived_using, 'derived_using')
+                self.logger.debug('add_link.derived_from')
+                self.stores['file'].add_link(
+                    resp['uuid'], derived_from, 'derived_from')
+
                 # Fixity is cheap - do it unless told not to
                 if fixity:
                     try:
+                        self.logger.debug('Storing fixity')
                         resp = self.stores['fixity'].index(file_name)
                     except Exception:
                         # It's not the end of the world if fixity indexing fails
@@ -204,18 +222,8 @@ class Indexer(Manager):
                             'Fixity indexing failed on {} for job {}'.format(
                                 file_name, self.uuid))
 
-                if resp is not None:
-                    self.logger.debug('Adding product linkages')
-                    # Resolve UUIDs, indentifiers, and finally relative paths
-                    # into UUIDs that can be used for linkages
-                    derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
-                    # print('derived_using', derived_using)
-                    self.stores['file'].add_link(
-                        resp['uuid'], derived_using, 'derived_using')
-                    derived_from = self.resolve_derived_references(request.derived_from, permissive=True)
-                    # print('derived_from', derived_from)
-                    self.stores['file'].add_link(
-                        resp['uuid'], derived_from, 'derived_from')
+                self.logger.info('Adding {} to list of indexed files'.format(
+                    file_name))
                 indexed.add(file_name)
 
             indexed_list = list(indexed)
@@ -253,18 +261,25 @@ class Indexer(Manager):
                 if request.level is not None:
                     fdict['level'] = request.level
                 resp = self.stores['file'].add_update_document(fdict)
+                self.logger.debug('archive_request_target: {}'.format(resp))
+                # if resp is not None:
+                self.logger.debug('generated_by: {}'.request.generated_by)
+                self.logger.debug('writing generated_by')
+                self.stores['file'].add_link(
+                    resp['uuid'], request.generated_by)
+
                 # Fixity is cheap - do it unless told not to
                 if fixity:
                     try:
+                        self.logger.debug('Storing fixity')
                         resp = self.stores['fixity'].index(file_name)
                     except Exception:
                         # It's not the end of the world if fixity indexing fails
                         self.logger.debug(
                             'Fixity indexing failed on {} for job {}'.format(
                                 file_name, self.uuid))
-                if resp is not None:
-                    self.stores['file'].add_link(
-                        resp['uuid'], request.generated_by)
+                self.logger.debug('Adding {} to list of indexed files'.format(
+                    file_name))
                 indexed.add(file_name)
 
             indexed_list = list(indexed)
