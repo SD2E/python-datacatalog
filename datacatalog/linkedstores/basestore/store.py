@@ -393,6 +393,7 @@ class LinkedStore(LinkageManager):
         else:
             self.logger.debug('get_typeduuid received {}'.format(type(payload)))
             identifier_string = str(payload)
+        self.logger.debug('get_typeduuid.uuid_type "{}"'.format(self.uuid_type))
         new_uuid = catalog_uuid(identifier_string, uuid_type=self.uuid_type, binary=binary)
         self.logger.debug('identifier_string: {}'.format(identifier_string))
         self.logger.debug('get_typeduuid => {}'.format(new_uuid))
@@ -693,12 +694,14 @@ class LinkedStore(LinkageManager):
         diff_linkages = linkages.merge_linkages(source_document,
                                                 target_document,
                                                 link_fields=self.LINK_FIELDS)
+        self.logger.debug('diff_linkages: {}'.format(diff_linkages))
         merge_source = copy.copy(source_document)
         # Strip managed document keys
         self.logger.debug('merging source and target documents')
         merge_source, source_managed_fields = pre_merge_filter(merge_source)
         target_document, target_managed_fields = pre_merge_filter(target_document)
         merged_dest = json_merge(merge_source, target_document)
+        self.logger.debug('merged_dest: {}'.format(merged_dest))
         was_updated = True
 
         if self.LOG_JSONDIFF_UPDATES:
