@@ -495,12 +495,12 @@ class LinkedStore(LinkageManager):
 
         self.logger.info('add_update_document()')
         self.logger.debug('type(doc_dict) is {}'.format(type(doc_dict)))
-        self.logger.debug('value for uuid is {}'.format(uuid))
+        self.logger.debug('suppliedmvalue for uuid is {}'.format(uuid))
 
         # Validate value and appropriateness of uuid if passed
         if uuid is not None:
             # Validate that the UUID resolves to a known type
-            self.get_uuid_type() == get_uuidtype(uuid)
+            assert self.get_uuid_type() == get_uuidtype(uuid)
 
         # Validate that all identifiers are present
         for k in self.get_uuid_fields():
