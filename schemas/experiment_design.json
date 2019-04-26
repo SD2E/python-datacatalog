@@ -1,0 +1,63 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/experiment_design.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "description": "Experiment design",
+    "properties": {
+        "aliases": {
+            "description": "Alias identifiers for the experimental design",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "When the reference document was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "experiment_design_id": {
+            "$ref": "experiment_reference.json",
+            "description": "Canonical string identifier for the experimental reference"
+        },
+        "experiments": {
+            "items": {
+                "$ref": "experiment.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "status": {
+            "enum": [
+                "PROPOSED",
+                "DRAFT",
+                "ACTIVE",
+                "COMPLETED",
+                "DEPRECATED",
+                "RETIRED"
+            ],
+            "type": "string"
+        },
+        "title": {
+            "description": "Human-readable title for the experimental design",
+            "type": "string"
+        },
+        "updated": {
+            "$comment": "Computed automatically",
+            "description": "When the reference document was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "url": {
+            "$ref": "experiment_url.json",
+            "description": "URI containing complete text of experimental reference"
+        }
+    },
+    "required": [
+        "experiment_design_id"
+    ],
+    "title": "ExperimentDesign",
+    "type": "object"
+}

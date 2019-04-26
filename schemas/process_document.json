@@ -1,0 +1,127 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/process_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A specifically named process, but which is not modeled as a pipeline with associated jobs. This is ideal for one-off scripts, manual processes, and the like.",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "description": "Whether the process has been marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "attributes": {
+            "additionalProperties": false,
+            "patternProperties": {
+                "^.*$": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "child_of": {
+            "maxItems": 0,
+            "type": "array"
+        },
+        "derived_from": {
+            "maxItems": 0,
+            "type": "array"
+        },
+        "description": {
+            "description": "Human-readable description of the process. Do not embed structured information here, but rather as key:value entries in 'attributes'.",
+            "type": "string"
+        },
+        "generated_by": {
+            "maxItems": 0,
+            "type": "array"
+        },
+        "name": {
+            "description": "Human-readable name for the process",
+            "type": "string"
+        },
+        "process_id": {
+            "description": "Short, unique alphanumeric identifier. Ideally, this will have a recognizable link to the 'name' key.",
+            "pattern": "^[a-zA-Z0-9_-]*$",
+            "type": "string"
+        },
+        "uri": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "uuid": {
+            "$ref": "process_uuid.json"
+        }
+    },
+    "required": [
+        "name",
+        "process_id"
+    ],
+    "title": "Process",
+    "type": "object"
+}

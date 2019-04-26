@@ -1,0 +1,12 @@
+{
+    "$comment": "generated: 2019-01-29 12:01:34 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b80ca20",
+    "$id": "https://schema.catalog.sd2e.org/schemas/abaco_actorid.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Identifer for an Abaco actor",
+    "examples": [
+        "e5QKEW8L0BeZ4",
+        "6rgbzrjRKoBDk"
+    ],
+    "type": "string"
+}

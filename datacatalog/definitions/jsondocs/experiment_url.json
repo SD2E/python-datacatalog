@@ -1,0 +1,6 @@
+{
+    "description": "An experiment reference url, e.g. Google Drive link",
+    "type": "string",
+    "format": "uri",
+    "pattern": "^https://docs.google.com/document"
+}

@@ -1,0 +1,23 @@
+{
+    "additionalProperties": false,
+    "description": "Point in a time series",
+    "properties": {
+        "name": {
+            "description": "Name or identifier for a particular time series",
+            "type": "string"
+        },
+        "unit": {
+            "$ref": "time_unit.json",
+            "description": "Unit of temporal measure"
+        },
+        "value": {
+            "description": "Numeric value",
+            "type": "number"
+        }
+    },
+    "required": [
+        "unit",
+        "value"
+    ],
+    "type": "object"
+}

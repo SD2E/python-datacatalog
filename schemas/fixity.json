@@ -1,0 +1,57 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/fixity.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Fixity record for a file",
+    "properties": {
+        "checksum": {
+            "$comment": "Computed automatically",
+            "description": "sha-256 checksum of the file",
+            "type": "string"
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "fingerprint": {
+            "$comment": "Computed automatically",
+            "description": "xxHash64 fingerprint of the file",
+            "type": "integer"
+        },
+        "modified": {
+            "$comment": "Computed automatically",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "size": {
+            "$comment": "Computed automatically",
+            "description": "File size in bytes",
+            "type": "integer"
+        },
+        "storage_system": {
+            "description": "A valid Agave storageSystem.id",
+            "type": "string"
+        },
+        "type": {
+            "$comment": "Computed automatically",
+            "$ref": "filetype_label.json",
+            "description": "Detected file type"
+        },
+        "version": {
+            "$comment": "Computed automatically",
+            "type": "integer"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "title": "FileFixity",
+    "type": "object"
+}

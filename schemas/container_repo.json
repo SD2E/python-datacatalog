@@ -1,0 +1,17 @@
+{
+    "$comment": "generated: 2019-01-29 01:15:35 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
+    "$id": "https://schema.catalog.sd2e.org/schemas/container_repo.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A Linux container image repository and tag",
+    "examples": [
+        "tacc/tacbobot",
+        "tacobot",
+        "tacobot:latest",
+        "tacobot:600a1af",
+        "tacc/tacobot:600a1af",
+        "index.docker.io/tacc/tacobot:600a1af"
+    ],
+    "title": "Container Repo",
+    "type": "string"
+}

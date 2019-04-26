@@ -1,0 +1,84 @@
+{
+    "additionalProperties": false,
+    "title": "Measurement",
+    "description": "A measurement for a sample, including links to its output file(s)",
+    "properties": {
+        "channel": {
+            "description": "For flow cytometry, the name of the channel used by this measurement",
+            "type": "string"
+        },
+        "files": {
+            "description": "File relative path and descriptive metadata",
+            "items": {
+                "$ref": "file.json"
+            },
+            "minItems": 0,
+            "type": "array"
+        },
+        "library_prep": {
+            "description": "RNA_SEQ library preparation method",
+            "$ref": "library_prep.json"
+        },
+        "measurement_group_id": {
+            "description": "Measurement group id, represents a single logical measurement from a lab that aggregates multiple related samples and files",
+            "type": "string"
+        },
+        "measurement_id": {
+            "description": "A localized, unique measurement id relating a given sample to one or more files",
+            "$ref": "namespaced_identifier.json"
+        },
+        "measurement_name": {
+            "description": "Challenge problem- or topic-specific name suggested by the labs and TA1 performers",
+            "type": "string"
+        },
+        "measurement_type": {
+            "$ref": "measurement_type.json"
+        },
+        "reference_sequence": {
+            "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff",
+            "$ref": "agave_files_uri.json"
+        },
+        "instrument_configuration": {
+            "description": "e.g. Cytometer configuration",
+            "$ref": "agave_files_uri.json"
+        },
+        "timepoint": {
+            "$ref": "time_point.json"
+        },
+        "channels": {
+            "description": "For FLOW, a list of name(s) of the channels this measurement used",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "child_of": {
+            "items": {
+                "$ref": "sample_uuid.json"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "files",
+        "measurement_id",
+        "measurement_type",
+        "child_of"
+    ],
+    "type": "object",
+    "_filename": "measurement",
+    "__uuid_type": "measurement",
+    "__uuid_fields": [
+        "measurement_id"
+    ],
+    "__collection": "measurements",
+    "__indexes": [
+        "measurement_type",
+        "timepoint"
+    ],
+    "__identifiers": [
+        "uuid",
+        "measurement_id"
+    ]
+}

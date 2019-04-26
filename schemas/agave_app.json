@@ -1,0 +1,34 @@
+{
+    "$comment": "generated: 2019-02-04 18:51:21 +00:00; source: git@github.com:SD2E/python-datacatalog.git@0d7f50e",
+    "$id": "https://schema.catalog.sd2e.org/schemas/agave_app.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Agave application",
+    "properties": {
+        "id": {
+            "$ref": "agave_appid.json",
+            "type": "string"
+        },
+        "inputs": {
+            "description": "Predefined inputs for jobs spawned by the app",
+            "type": "object"
+        },
+        "parameters": {
+            "description": "Predefined parameters for the jobs spawned by the app",
+            "properties": {
+                "CONTAINER_IMAGE": {
+                    "$ref": "container_repo.json",
+                    "description": "Container image repository for the deployed app"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "required": [
+        "id",
+        "inputs",
+        "parameters"
+    ],
+    "title": "Agave App",
+    "type": "object"
+}

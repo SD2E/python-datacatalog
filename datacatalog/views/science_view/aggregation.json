@@ -1,0 +1,89 @@
+{
+    "view_on": "challenges",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "experiment_designs",
+                "localField": "uuid",
+                "foreignField": "child_of",
+                "as": "experiment_design"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment_design",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "experiments",
+                "localField": "experiment_design.uuid",
+                "foreignField": "child_of",
+                "as": "experiment"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "samples",
+                "localField": "experiment.uuid",
+                "foreignField": "child_of",
+                "as": "sample"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$sample",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "measurements",
+                "localField": "sample.uuid",
+                "foreignField": "child_of",
+                "as": "measurement"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$measurement",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "files",
+                "localField": "measurement.uuid",
+                "foreignField": "child_of",
+                "as": "file"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$file",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$lookup": {
+                "from": "agave_path",
+                "localField": "file.level",
+                "foreignField": "level",
+                "as": "agave_path"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$agave_path",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}

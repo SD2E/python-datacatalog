@@ -1,0 +1,23 @@
+{
+    "$comment": "generated: 2018-12-14 21:03:37 +00:00; source: git@github.com:SD2E/python-datacatalog.git@b942dda",
+    "$id": "https://schema.catalog.sd2e.org/schemas/jobs_view.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": true,
+    "description": "PipelineJobs View",
+    "properties": {
+        "description": {
+            "$ref": "pipelines.json#description",
+            "description": "Description"
+        },
+        "name": {
+            "$ref": "pipelines.json#name",
+            "description": "Pipeline"
+        }
+    },
+    "required": [
+        "name",
+        "description"
+    ],
+    "title": "PipelineJobView",
+    "type": "object"
+}

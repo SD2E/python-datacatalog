@@ -1,0 +1,27 @@
+version: "3.2"
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:4.1.7'
+    expose:
+      - "27017"
+    ports:
+      - "27017:27017"
+    volumes:
+      - type: volume
+        source:  python_datacatalog
+        target: /bitnami
+    environment:
+      - MONGODB_ROOT_PASSWORD=DNCQJGu4ZrUhMabybnG6Mx5YrGhE2EPf
+      - MONGODB_USERNAME=catalog
+      - MONGODB_PASSWORD=catalog
+      - MONGODB_DATABASE=admin
+    networks:
+      mongotest:
+        aliases:
+          - catalog
+
+volumes:
+  python_datacatalog:
+networks:
+  mongotest:

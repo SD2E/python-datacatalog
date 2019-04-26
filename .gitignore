@@ -5,3 +5,12 @@ secrets.json
 dist/
 *egg-info/
 build/
+env/
+# settings.py
+.pytest_cache/
+config.yml
+service_account.json
+.vscode/
+docs/_build/
+staging/
+.env

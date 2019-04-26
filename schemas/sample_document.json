@@ -1,0 +1,171 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/sample_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A lab sample and its metadata",
+    "properties": {
+        "TMT_channel": {
+            "description": "TMT tag/channel for proteomics",
+            "type": "string"
+        },
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "contents": {
+            "description": "List of media/component references (mapped by SBH Librarian)",
+            "items": {
+                "$ref": "media_component.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "control_channel": {
+            "description": "If this is a FCS control, which FCS channel it is controlling for",
+            "type": "string"
+        },
+        "control_for": {
+            "description": "List of samples this sample controls for",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "control_type": {
+            "$ref": "control_type.json",
+            "description": "Enumerated control type"
+        },
+        "genetic_construct": {
+            "$ref": "mapped_name.json",
+            "description": "genetic construct reference (mapped by SBH Librarian)"
+        },
+        "inoculation_density": {
+            "$ref": "optical_density.json",
+            "description": "Target inoculation density"
+        },
+        "lab_sample_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "Lab recorded sample id, can be shared among calibrated or re-used samples. Do not use as a primary key!"
+        },
+        "reference_sample_id": {
+            "description": "A reference sample id, internal to the lab, when referring to samples from another lab, e.g. Ginkgo processing samples from Transcriptic",
+            "pattern": "^sample\\.(uw_biofab|ginkgo|transcriptic)",
+            "type": "string"
+        },
+        "replicate": {
+            "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
+            "type": "integer"
+        },
+        "sample_id": {
+            "$ref": "namespaced_identifier.json",
+            "description": "Unique sample id"
+        },
+        "standard_attributes": {
+            "additionalProperties": false,
+            "description": "Additional attributes used by standard enumerations",
+            "properties": {
+                "bead_batch": {
+                    "description": "For the BEAD_FLUORESCENCE standard, the bead batch used",
+                    "type": "string"
+                },
+                "bead_model": {
+                    "description": "For the BEAD_FLUORESCENCE standard, the bead model used",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "standard_for": {
+            "description": "List of samples this sample is a standard for",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "standard_type": {
+            "$ref": "standard_type.json",
+            "description": "enumerated standard type"
+        },
+        "strain": {
+            "$ref": "mapped_name.json",
+            "description": "Strain reference (mapped by SBH Librarian)"
+        },
+        "temperature": {
+            "$ref": "temperature.json"
+        },
+        "uuid": {
+            "$ref": "generic_uuid.json"
+        }
+    },
+    "required": [
+        "sample_id",
+        "child_of"
+    ],
+    "title": "Sample",
+    "type": "object"
+}

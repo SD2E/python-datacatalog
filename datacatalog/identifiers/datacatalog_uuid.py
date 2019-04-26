@@ -1,20 +1,11 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import *
-
 import base64
 import bson
 import uuid
-
 from bson.codec_options import CodecOptions
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE, STANDARD
+from datacatalog import settings
 
-from ..constants import Constants
+from .. import constants
 
 __all__ = ["generate", "mock", "validate", "catalog_uuid", "text_uuid_to_binary"]
 
@@ -25,17 +16,17 @@ def generate(text_value=None, binary=True):
 
 def random_uuid5(binary=True):
     text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_NAMESPACE)
+    return catalog_uuid(text_value, binary, namespace=settings.UUID_NAMESPACE)
 
 def mock(text_value=None, binary=True):
     if text_value is None:
         text_value = str(uuid.uuid1().int >> 64) + str(uuid.uuid1().int >> 64)
-    return catalog_uuid(text_value, binary, namespace=Constants.UUID_MOCK_NAMESPACE)
+    return catalog_uuid(text_value, binary, namespace=settings.UUID_MOCK_NAMESPACE)
 
 def validate(uuid_string, permissive=False):
     return validate_uuid5(uuid_string, permissive=permissive)
 
-def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
+def catalog_uuid(text_value, binary=True, namespace=settings.UUID_NAMESPACE):
     """Returns a UUID5 in the prescribed namespace
     This function will either a text UUID or a BSON-encoded binary UUID,
     depending on the optional value ``binary``.
@@ -45,13 +36,6 @@ def catalog_uuid(text_value, binary=True, namespace=Constants.UUID_NAMESPACE):
     Returns:
         new_uuid: The hash UUID in string or binary-encoded form
     """
-    if text_value.startswith('/'):
-        text_value = text_value[1:]
-    if text_value.startswith(Constants.UPLOADS_ROOT):
-        text_value = text_value[len(Constants.UPLOADS_ROOT):]
-    if text_value.startswith('/'):
-        text_value = text_value[1:]
-
     new_uuid = uuid.uuid5(namespace, text_value)
     if binary is False:
         return str(new_uuid)
@@ -66,7 +50,7 @@ def text_uuid_to_binary(text_uuid):
 
 def binary_uuid_to_text(binary_uuid):
     try:
-        print(type(binary_uuid))
+        # print(type(binary_uuid))
         return str(uuid.UUID(bytes=binary_uuid))
     except Exception as exc:
         raise ValueError('Failed to convert binary UUID to string', exc)

@@ -1,0 +1,79 @@
+{
+    "$comment": "generated: 2019-02-07 19:15:36 +00:00; source: git@github.com:SD2E/python-datacatalog.git@3468b3f",
+    "$id": "https://schema.catalog.sd2e.org/schemas/annotation.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Free-text annotation",
+    "properties": {
+        "annotates": {
+            "items": {
+                "oneOf": [
+                    {
+                        "$ref": "challenge_problem_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    },
+                    {
+                        "$ref": "pipelinejob_uuid.json"
+                    },
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ],
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "data": {
+            "description": "Payload portion of the annotation",
+            "oneOf": [
+                {
+                    "maxLength": 512,
+                    "type": "string"
+                },
+                {
+                    "type": "object"
+                }
+            ]
+        },
+        "date": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) when the annotation was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "enum": [
+                "annotation"
+            ],
+            "type": "string"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "annotation_uuid.json",
+            "description": "UUID for this specific annotation"
+        }
+    },
+    "required": [
+        "name",
+        "data"
+    ],
+    "title": "Annotation",
+    "type": "object"
+}

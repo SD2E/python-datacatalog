@@ -1,0 +1,15 @@
+{
+    "object": {
+        "properties": [
+            "_admin",
+            "_history",
+            "_properties",
+            "_visible",
+            "generated_by",
+            "updated"
+        ]
+    },
+    "document": {
+        "properties": []
+    }
+}

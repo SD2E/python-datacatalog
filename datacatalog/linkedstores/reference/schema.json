@@ -1,0 +1,122 @@
+{
+    "additionalProperties": false,
+    "title": "ReferenceEntity",
+    "description": "A reference entity such as genome sequence file, gene list, instrument configuration, or the like.",
+    "properties": {
+        "uuid": {
+            "$ref": "reference_uuid.json"
+        },
+        "reference_id": {
+            "description": "Short, unique alphanumeric identifier. Ideally, this will have a recognizable link to the 'name' key.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]*$"
+        },
+        "name": {
+            "description": "Human-readable name for the reference",
+            "type": "string"
+        },
+        "description": {
+            "description": "Human-readable description of the reference. Please do not embed structured information here, but rather as key:value entries in 'attributes'.",
+            "type": "string"
+        },
+        "uri": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "attributes": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "_visible": {
+            "description": "Whether the reference has been marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "type": "array"
+        },
+        "derived_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    },
+                    {
+                        "$ref": "process_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "uri",
+        "name",
+        "reference_id"
+    ],
+    "type": "object",
+    "_filename": "reference",
+    "__uuid_type": "reference",
+    "__uuid_fields": [
+        "reference_id"
+    ],
+    "__collection": "references",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "reference_id",
+        "uri"
+    ]
+}

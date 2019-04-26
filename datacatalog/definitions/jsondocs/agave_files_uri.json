@@ -1,0 +1,5 @@
+{
+    "description": "Agave API files reference",
+    "pattern": "^agave://",
+    "type": "string"
+}

@@ -1,0 +1,52 @@
+{
+    "additionalProperties": false,
+    "description": "Inline annotation in a document",
+    "properties": {
+        "data": {
+            "description": "Payload portion of the annotation",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                {
+                    "type": "object"
+                }
+            ]
+        },
+        "date": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) when the annotation was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "name": {
+            "type": "string",
+            "enum": [
+                "annotation"
+            ]
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "inline_annotation_uuid.json",
+            "description": "UUID for this specific annotation"
+        }
+    },
+    "required": [
+        "name",
+        "data"
+    ],
+    "title": "InlineAnnotation",
+    "type": "object",
+    "_filename": "inline_annotation",
+    "__uuid_type": "inline_annotation",
+    "__uuid_fields": [
+        "date",
+        "data"
+    ],
+    "__collection": "inline_annotations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}

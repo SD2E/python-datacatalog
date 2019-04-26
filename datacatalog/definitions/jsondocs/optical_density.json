@@ -1,0 +1,18 @@
+{
+    "additionalProperties": false,
+    "description": "An optical density specification or measurement",
+    "properties": {
+        "unit": {
+            "$ref": "od_unit.json"
+        },
+        "value": {
+            "description": "Numeric value",
+            "type": "number"
+        }
+    },
+    "required": [
+        "unit",
+        "value"
+    ],
+    "type": "object"
+}

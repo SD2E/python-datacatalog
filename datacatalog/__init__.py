@@ -1,15 +1,21 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import *
-
 name = "datacatalog"
+from .version import __version__, __schema_version__, __schema_major_version__, __jsonschema_version__
+from . import settings
 
-from .constants import *
-from .main import *
-from .posixhelpers import *
-from .agavehelpers import from_agave_uri, AgaveError
+from . import agavehelpers
+from . import extensible
+from . import definitions
+from . import filetypes
+from . import formats
 from . import identifiers
+from . import jsonschemas
+from . import logger
+from . import linkages
+from . import linkedstores
+from . import managers
+from . import mongo
+from . import stores
+from . import tenancy
+from . import tokens
+from . import utils
+from . import views

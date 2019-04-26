@@ -1,0 +1,57 @@
+{
+    "view_on": "science_view",
+    "pipeline": [
+        {
+            "$project": {
+                "agave_path": {
+                    "$concat": [
+                        "$agave_path.path_prefix",
+                        "/",
+                        "$file.filename"
+                    ]
+                },
+                "agave_system": "$agave_path.agave_system",
+                "aligner": "$file.attributes.aligner",
+                "challenge_problem": "$id",
+                "experiment_id": "$experiment.experiment_id",
+                "experiment_reference": "$experiment_design.experiment_design_id",
+                "experiment_reference_url": "$experiment_design.uri",
+                "file_type": "$file.attributes.file_type",
+                "filename": "$file.filename",
+                "hpc_path": {
+                    "$concat": [
+                        "/work/projects/SD2E-Community/prod/data",
+                        "$agave_path.path_prefix",
+                        "/",
+                        "$file.filename"
+                    ]
+                },
+                "inoculation_density": "$sample.inoculation_density",
+                "jupyter_path": {
+                    "$concat": [
+                        "/home/jupyter/sd2e-community",
+                        "$agave_path.path_prefix",
+                        "/",
+                        "$file.filename"
+                    ]
+                },
+                "lab": "$sample.attributes.lab",
+                "level": "$file.level",
+                "library_prep": "$file.attributes.library_prep",
+                "measurement_type": "$measurement.measurement_type",
+                "normalization": "$file.attributes.normalization",
+                "reference_sample_id": "$sample.reference_sample_id",
+                "replicate": "$sample.replicate",
+                "sample_contents": "$sample.contents",
+                "sample_id": "$sample.sample_id",
+                "strain": "$sample.strain.label",
+                "strain_circuit": "$sample.strain.circuit",
+                "strain_input_state": "$sample.strain.input_state",
+                "strain_lab_id": "$sample.strain.lab_id",
+                "strain_sbh_uri": "$sample.strain.sbh_uri",
+                "temperature": "$sample.temperature",
+                "timepoint": "$measurement.timepoint"
+            }
+        }
+    ]
+}

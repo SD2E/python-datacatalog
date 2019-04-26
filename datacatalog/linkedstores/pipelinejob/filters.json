@@ -1,0 +1,21 @@
+{
+    "object": {
+        "properties": [
+            "uuid",
+            "_admin",
+            "_history",
+            "_properties",
+            "_visible",
+            "generated_by",
+            "acted_on",
+            "acted_using",
+            "updated",
+            "id"
+        ]
+    },
+    "document": {
+        "properties": [
+            "id"
+        ]
+    }
+}

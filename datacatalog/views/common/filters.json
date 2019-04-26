@@ -1,0 +1,14 @@
+{
+    "object": {
+        "properties": [
+            "_admin",
+            "_properties"
+        ]
+    },
+    "document": {
+        "properties": [
+            "_admin",
+            "_properties"
+        ]
+    }
+}

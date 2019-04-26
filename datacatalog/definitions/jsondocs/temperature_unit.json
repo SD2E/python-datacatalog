@@ -1,0 +1,8 @@
+{
+    "description": "unit of measurement for temperature",
+    "enum": [
+        "celsius",
+        "fahrenheit"
+    ],
+    "type": "string"
+}

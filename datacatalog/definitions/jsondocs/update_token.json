@@ -1,0 +1,6 @@
+{
+    "description": "Alphanumeric authorization token issued and validated by datacatalog",
+    "type": "string",
+    "minLength": 16,
+    "maxLength": 17
+}

@@ -1,0 +1,59 @@
+{
+    "title": "Experiment",
+    "type": "object",
+    "description": "Experiment",
+    "additionalProperties": true,
+    "properties": {
+        "aliases": {
+            "description": "Alias identifiers for the experimental reference",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "title": {
+            "type": "string",
+            "description": "Human-readable title for the experiment"
+        },
+        "experiment_id": {
+            "description": "String identifier, namespaced performer, for the experiment",
+            "$ref": "namespaced_identifier.json"
+        },
+        "experiment_reference": {
+            "description": "Canonical string identifier for the experimental reference",
+            "$ref": "experiment_reference.json"
+        },
+        "uuid": {
+            "$ref": "experiment_uuid.json"
+        },
+        "samples": {
+            "type": "array",
+            "items": {
+                "$ref": "sample.json"
+            },
+            "minItems": 1
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "$ref": "experiment_design_uuid.json"
+            },
+            "minItems": 1,
+            "maxItems": 1
+        }
+    },
+    "required": [
+        "experiment_id"
+    ],
+    "_filename": "experiment",
+    "__uuid_type": "experiment",
+    "__uuid_fields": [
+        "experiment_id"
+    ],
+    "__collection": "experiments",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "experiment_id"
+    ]
+}

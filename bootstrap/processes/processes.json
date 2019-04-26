@@ -1,0 +1,42 @@
+[
+    {
+        "name": "Manual upload",
+        "process_id": "manual-upload",
+        "description": "Human-directed upload via SFTP, TACC.cloud API, Portal, Jupyter, or S3 mechanism"
+    },
+    {
+        "name": "Manual retrigger",
+        "process_id": "manual-retrigger",
+        "description": "Human-directed invocation of processes that are normally automated"
+    },
+    {
+        "name": "Automated process",
+        "process_id": "automated-process",
+        "description": "A process that runs automatically and without human intervention"
+    },
+    {
+        "name": "Jupyter Notebook",
+        "process_id": "jupyter-notebook",
+        "description": "Human-directed process run from within a Jupyter Notebooks environment"
+    },
+    {
+        "name": "Uploads Indexer",
+        "process_id": "uploads-indexer",
+        "description": "A Reactor that indexes the managed uploads directory"
+    },
+    {
+        "name": "Jobs Indexer",
+        "process_id": "jobs-indexer",
+        "description": "A Reactor that indexes compute job output directories"
+    },
+    {
+        "name": "Products Indexer",
+        "process_id": "products-indexer",
+        "description": "A Reactor that indexes compute job output files to their sources"
+    },
+    {
+        "name": "Basemount Reactor",
+        "process_id": "basemount-reactor",
+        "description": "Automated process that transfers files from Basespace to managed storage"
+    }
+]

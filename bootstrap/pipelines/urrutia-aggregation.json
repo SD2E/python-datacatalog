@@ -1,0 +1,33 @@
+{
+    "name": "Novel Chassis RNAseq Alignment Aggregation",
+    "id": "urrutia-rnaseqpostprocess-0.1.2",
+    "description": "Aggregates novel_chassis alignments into a dataframe of counts",
+    "components": [
+        {
+            "id": "urrutia-rnaseqpostprocess-0.1.2",
+            "inputs": {},
+            "parameters": {
+                "path_bam_dir": "/products/*",
+                "path_gff": "/reference/novel_chassis/uma_refs/amin_genes.gff"
+            }
+        },
+        {
+            "id": "urrutia-app_multiqc-0.1.0",
+            "inputs": {},
+            "parameters": {
+                "input_dir1": "/products/*"
+            }
+        }
+    ],
+    "pipeline_type": "primary-etl",
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "BAM"
+    ],
+    "produces": [
+        "TSV",
+        "PLAIN"
+    ]
+}

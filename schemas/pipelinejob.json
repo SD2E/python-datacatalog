@@ -1,0 +1,91 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {},
+    "description": "Description and history of a computing job",
+    "properties": {
+        "agent": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_actorid.json"
+                },
+                {
+                    "$ref": "agave_appid.json"
+                }
+            ]
+        },
+        "archive_path": {
+            "description": "Absolute path to the job products",
+            "type": "string"
+        },
+        "archive_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "items": {
+                "$ref": "archive_patterns.json"
+            },
+            "type": "array"
+        },
+        "archive_system": {
+            "description": "Agave storage resource housing the job products",
+            "type": "string"
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "data": {
+            "description": "Run-time parameterization of the job",
+            "type": "object"
+        },
+        "history": {
+            "description": "Annotated history of job events",
+            "items": {
+                "$ref": "pipelinejob_event.json"
+            },
+            "type": "array"
+        },
+        "pipeline_uuid": {
+            "$ref": "pipeline_uuid.json",
+            "description": "UUID of the pipeline that created this job"
+        },
+        "product_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "items": {
+                "$ref": "product_patterns.json"
+            },
+            "type": "array"
+        },
+        "session": {
+            "description": "Short alphanumeric correlation string (optional)",
+            "type": "string"
+        },
+        "state": {
+            "$ref": "pipelinejob_statename.json"
+        },
+        "task": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_execid.json"
+                },
+                {
+                    "$ref": "agave_job_uuid.json"
+                }
+            ]
+        }
+    },
+    "required": [
+        "pipeline_uuid",
+        "archive_path",
+        "data"
+    ],
+    "title": "PipelineJob",
+    "type": "object"
+}

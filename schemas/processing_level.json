@@ -1,0 +1,27 @@
+{
+    "$comment": "generated: 20190312T133416+00:00; source: git@github.com:SD2E/python-datacatalog.git@ec41383",
+    "$id": "https://schema.catalog.sd2e.org/schemas/processing_level.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A data processing level",
+    "enum": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "Reference",
+        "User",
+        "Unknown"
+    ],
+    "examples": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "Reference",
+        "User",
+        "Unknown"
+    ],
+    "title": "Processing Level",
+    "type": "string"
+}

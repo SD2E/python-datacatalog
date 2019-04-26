@@ -1,0 +1,64 @@
+[
+  {
+    "id": "YEAST_GATES",
+    "title": "Yeast Gates",
+    "uuid": "10116a04-35ed-5ba1-ae07-da45c0ca9e6f",
+    "status": "RETIRED"
+  },
+  {
+    "created": "2018-11-27T18:16:30",
+    "id": "NOVEL_CHASSIS",
+    "status": "ACTIVE",
+    "title": "Novel Chassis",
+    "updated": "2018-11-27T19:33:34",
+    "uri": "https://docs.google.com/document/d/17Uy48TwzRdC1H1MLpxlfOmnQNOvk4S5Q",
+    "uuid": "101ba626-e1c4-5beb-bf39-2ed91338379a"
+  },
+  {
+    "created": "2018-11-27T17:17:50",
+    "id": "PROTEIN_DESIGN",
+    "status": "ACTIVE",
+    "title": "Protein Design",
+    "updated": "2018-11-27T19:33:50",
+    "uri": "https://docs.google.com/document/d/1RtVyDC9ZBmZ1Gmd-Uv2Bg-7wM7CH4IIC",
+    "uuid": "101516ac-9549-5ca1-bc94-6fe0b80094b6"
+  },
+  {
+    "created": "2018-11-27T17:18:02",
+    "id": "YEAST_STATES",
+    "status": "ACTIVE",
+    "title": "Yeast States",
+    "updated": "2018-11-27T19:33:42",
+    "uri": "https://docs.google.com/document/d/1tvT29Y20-iXO20TCiCO_61TTv3NAkld9",
+    "uuid": "1010f74e-cd69-51de-b5a1-1570c88c01f1"
+  },
+  {
+    "created": "2018-11-27T18:16:42",
+    "id": "RIBOSWITCHES",
+    "status": "ACTIVE",
+    "title": "Riboswitches",
+    "updated": "2018-11-27T19:22:33",
+    "uri": "https://docs.google.com/document/d/1XbIyKm5RzL5R4uIvWzduk6h5-NqVutGK",
+    "uuid": "1012f4db-c979-57fd-a406-ee66625c8932"
+  },
+  {
+    "child_of": [],
+    "created": "2019-02-11T19:29:03.354000",
+    "id": "UNDEFINED",
+    "status": "ACTIVE",
+    "title": "Undefined Challenge Problem",
+    "type": "challenge_problem",
+    "updated": "2019-02-11T19:29:03.354000",
+    "uri": null,
+    "uuid": "101ada00-0107-5f88-80d5-ea16eab97de5"
+  },
+  {
+    "created": "2018-11-27T20:46:45",
+    "id": "CELL_GROWTH",
+    "status": "ACTIVE",
+    "title": "Cell Growth",
+    "updated": "2018-11-27T20:46:45",
+    "uri": "https://docs.google.com/document/d/1ecHHURZDhgLbd2CIFhr1mlkVQgdKPwlY",
+    "uuid": "1019c6c4-d3bd-5c5f-9cb0-09da8093aa1a"
+  }
+]

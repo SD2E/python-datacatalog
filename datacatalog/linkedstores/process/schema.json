@@ -1,0 +1,86 @@
+{
+    "additionalProperties": false,
+    "title": "Process",
+    "description": "A specifically named process, but which is not modeled as a pipeline with associated jobs. This is ideal for one-off scripts, manual processes, and the like.",
+    "properties": {
+        "uuid": {
+            "$ref": "process_uuid.json"
+        },
+        "process_id": {
+            "description": "Short, unique alphanumeric identifier. Ideally, this will have a recognizable link to the 'name' key.",
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]*$"
+        },
+        "name": {
+            "description": "Human-readable name for the process",
+            "type": "string"
+        },
+        "description": {
+            "description": "Human-readable description of the process. Do not embed structured information here, but rather as key:value entries in 'attributes'.",
+            "type": "string"
+        },
+        "uri": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "attributes": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "anyOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "boolean"
+                        },
+                        {
+                            "type": "array"
+                        },
+                        {
+                            "type": "object"
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "_visible": {
+            "description": "Whether the process has been marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "child_of": {
+            "maxItems": 0,
+            "type": "array"
+        },
+        "derived_from": {
+            "maxItems": 0,
+            "type": "array"
+        },
+        "generated_by": {
+            "maxItems": 0,
+            "type": "array"
+        }
+    },
+    "required": [
+        "name",
+        "process_id"
+    ],
+    "type": "object",
+    "_filename": "process",
+    "__uuid_type": "process",
+    "__uuid_fields": [
+        "process_id"
+    ],
+    "__collection": "processes",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid",
+        "process_id"
+    ]
+}

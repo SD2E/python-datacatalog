@@ -1,0 +1,101 @@
+{
+    "additionalProperties": false,
+    "title": "FileFixity",
+    "description": "Fixity record for a file",
+    "properties": {
+        "uuid": {
+            "$ref": "file_uuid.json"
+        },
+        "name": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        },
+        "type": {
+            "description": "Detected file type",
+            "$ref": "filetype_label.json",
+            "$comment": "Computed automatically"
+        },
+        "created": {
+            "format": "date-time",
+            "type": "string",
+            "$comment": "Computed automatically"
+        },
+        "modified": {
+            "format": "date-time",
+            "type": "string",
+            "$comment": "Computed automatically"
+        },
+        "version": {
+            "type": "integer",
+            "$comment": "Computed automatically"
+        },
+        "checksum": {
+            "type": "string",
+            "description": "sha-256 checksum of the file",
+            "$comment": "Computed automatically"
+        },
+        "fingerprint": {
+            "type": "integer",
+            "description": "xxHash64 fingerprint of the file",
+            "$comment": "Computed automatically"
+        },
+        "size": {
+            "type": "integer",
+            "description": "File size in bytes",
+            "$comment": "Computed automatically"
+        },
+        "storage_system": {
+            "description": "A valid Agave storageSystem.id",
+            "type": "string"
+        },
+        "_visible": {
+            "description": "Whether the file is marked as unavailable",
+            "type": "boolean",
+            "value": true
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "type": "array"
+        },
+        "generated_by": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "job_uuid.json"
+                    },
+                    {
+                        "$ref": "process_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "type": "array"
+        }
+    },
+    "required": [
+        "name"
+    ],
+    "type": "object",
+    "_filename": "fixity",
+    "__collection": "fixities",
+    "__uuid_type": "fixity",
+    "__uuid_fields": [
+        "name"
+    ],
+    "__indexes": [
+        "fingerprint",
+        "checksum"
+    ],
+    "__identifiers": [
+        "uuid",
+        "name"
+    ]
+}

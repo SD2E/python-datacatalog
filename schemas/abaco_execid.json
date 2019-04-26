@@ -1,0 +1,8 @@
+{
+    "$comment": "generated: 2018-12-20 00:03:28 +00:00; source: git@github.com:SD2E/python-datacatalog.git@d6a38aa",
+    "$id": "https://schema.catalog.sd2e.org/schemas/abaco_execid.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Identifier for a specific Abaco execution",
+    "type": "string"
+}

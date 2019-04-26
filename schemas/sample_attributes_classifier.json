@@ -1,0 +1,113 @@
+{
+    "$comment": "generated: 2019-02-21 20:35:14 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fcc606a",
+    "$id": "https://schema.catalog.sd2e.org/schemas/sample_attributes_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "items": {
+        "oneOf": [
+            {
+                "required": [
+                    "attributes",
+                    "sample"
+                ]
+            },
+            {
+                "required": [
+                    "sample_attributes",
+                    "design_attributes",
+                    "sample"
+                ]
+            }
+        ],
+        "properties": {
+            "attributes": {
+                "properties": {
+                    "bead_colony": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "media": {
+                        "type": "string"
+                    },
+                    "od": {
+                        "type": "number"
+                    },
+                    "replicate": {
+                        "type": "integer"
+                    },
+                    "strain": {
+                        "type": "string"
+                    },
+                    "timepoints": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "files"
+                ],
+                "type": "object"
+            },
+            "design_attributes": {
+                "properties": {
+                    "media": {
+                        "type": "string"
+                    },
+                    "strain": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "sample": {
+                "type": "string"
+            },
+            "sample_attributes": {
+                "properties": {
+                    "bead_colony": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "oneOf": [
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "media": {
+                        "type": "string"
+                    },
+                    "od": {
+                        "type": "number"
+                    },
+                    "parent": {
+                        "type": "string"
+                    },
+                    "replicate": {
+                        "type": "integer"
+                    },
+                    "timepoints": {
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "files"
+                ],
+                "type": "object"
+            }
+        },
+        "type": "object"
+    },
+    "title": "Sample Attributes Format Classification Schema",
+    "type": "array"
+}

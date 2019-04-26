@@ -1,0 +1,13 @@
+{
+    "object": {
+        "properties": [
+            "_admin",
+            "_properties",
+            "child_of",
+            "_visible"
+        ]
+    },
+    "document": {
+        "properties": []
+    }
+}

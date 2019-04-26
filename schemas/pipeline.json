@@ -1,0 +1,98 @@
+{
+    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$id": "https://schema.catalog.sd2e.org/schemas/pipeline.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "pipeline_type": {
+            "default": "primary-etl",
+            "description": "Enumerated class of action performed by the pipeline",
+            "enum": [
+                "generic-process",
+                "data-transfer",
+                "metadata-management",
+                "primary-etl",
+                "secondary-etl"
+            ],
+            "type": "string"
+        }
+    },
+    "description": "A computation or processing Pipeline definition",
+    "properties": {
+        "accepts": {
+            "default": [
+                "*"
+            ],
+            "description": "File types accepted by the pipeline",
+            "items": {
+                "$ref": "filetype_label.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "components": {
+            "description": "Unordered array of pipeline components (required)",
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "agave_app.json"
+                    },
+                    {
+                        "$ref": "abaco_actor.json"
+                    },
+                    {
+                        "$ref": "web_service.json"
+                    },
+                    {
+                        "$ref": "deployed_container.json"
+                    }
+                ]
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "description": {
+            "type": "string"
+        },
+        "id": {
+            "description": "Unique string identifier for the pipeline.",
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "processing_levels": {
+            "default": [],
+            "description": "Level(s) of data product produced by the pipeline",
+            "items": {
+                "$ref": "processing_level.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "produces": {
+            "default": [
+                "*"
+            ],
+            "description": "File types produced by the pipeline",
+            "items": {
+                "$ref": "filetype_label.json"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "type": {
+            "items": {
+                "$ref": "#/definitions/pipeline_type"
+            }
+        }
+    },
+    "required": [
+        "name",
+        "components",
+        "id",
+        "processing_levels"
+    ],
+    "title": "Pipeline",
+    "type": "object"
+}

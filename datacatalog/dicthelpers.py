@@ -1,19 +1,11 @@
-
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import zip
-from builtins import str
-from builtins import map
-from builtins import *
-
 import copy
 import datetime
 import jsondiff
 from attrdict import AttrDict
 from collections import Mapping, MutableMapping
+from pprint import pprint
+from functools import lru_cache
+from datacatalog.hashable import picklecache, jsoncache
 
 LISTKEYS = ['child_of']
 FILTERKEYS = ('_id', 'uuid', 'properties', 'measurements_ids',
@@ -72,6 +64,7 @@ def data_merge_diff(a, b, filters=FILTERKEYS):
     df = json_diff(a, b, filters=FILTERKEYS)
     return ab, df
 
+@picklecache.mcache(lru_cache(maxsize=128))
 def json_diff(j1, j2, filters=FILTERKEYS):
     j1 = copy.deepcopy(j1)
     j2 = copy.deepcopy(j2)
@@ -227,3 +220,19 @@ def _dictcompare(a, b, section=None):
     # This was not working for the comparisons I needed to make but am keeping
     # it around for reference
     return [(c, d, g, section) if all(not isinstance(i, dict) for i in [d, g]) and d != g else None if all(not isinstance(i, dict) for i in [d, g]) and d == g else _dictcompare(d, g, c) for [c, d], [h, g] in zip(list(a.items()), list(b.items()))]
+
+def flatten_dict(dd, separator='_', prefix=''):
+    return {prefix + separator + k if prefix else k: v
+            for kk, vv in dd.items()
+            for k, v in flatten_dict(vv, separator, kk).items()
+            } if isinstance(dd, dict) else {prefix: dd}
+
+def linearize_dict(dd, separator='|'):
+    ary = list()
+    ddd = flatten_dict(dd)
+    for k, v in sorted(ddd.items()):
+        ary.append(k + '=' + str(v))
+    # ary = sorted(ary)
+    resp = separator.join(ary).replace(' ', '')
+    # resp = resp.replace(' ', '')
+    return resp

@@ -1,0 +1,4051 @@
+{
+    "challenge_problem": "YG",
+    "experiment_id": "exp_id",
+    "experiment_reference": "https://docs.google.com/document/d/14wB9eJL3p3oDBkPR6Tzowh_YGyGJ0XAL2vw5-zNwuw0/edit?usp=sharing",
+    "lab": "TX",
+    "samples": [
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sb9pv/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sb9px/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sccsw/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sdfvx/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "5",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sdfvz/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sfp3z/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sfp43/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sgs72/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8shva3/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8ruyef/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s3jzn/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "5",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s93gv/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8rw3hh/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s4p4p/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "6",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sa6ku/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8rx6mj/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "5",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s4p4r/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8ry9qj/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "6",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s5s7q/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "5",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8ry9qm/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s6var/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "6",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8rzctm/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s6vat/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s2fwm/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s7yds/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s2fwp/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8s93gt/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "6",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sejyy/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "6",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8sjyd4/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "5",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhh8shva5/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "LB Agar - 3",
+            "strain": "LB Agar - 3",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhhbjw4ck/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/MediaControl3__3.fcs",
+                    "sha256": "f1a3976b3406cd566eaf8ffc587621dd03c79992da56d3f66dcbf06e1c4a5dae",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "MediaControl3",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7cdeye/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/MediaControl2__2.fcs",
+                    "sha256": "ac062d4c228634a94349b3c4a77e14ea2c9e0b17c8392e97c847aae8e0d92d67",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "MediaControl2",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bpezs/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/MediaControl1__1.fcs",
+                    "sha256": "71cd43ff45eaba29b2baea1365d7b7a247ac8e138d977fa0954f493e78d850eb",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "MediaControl1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7b4uf9/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_1.fcs",
+                    "sha256": "2cce94d5c7330e58ebf1d4daed9d411ecaa90c323e657f79e64e739760f376bd",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "1",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z77vrjb/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_3.fcs",
+                    "sha256": "a6cfba3780fcbb74cfebf1cca15ae18c22245e36904d19d02a10a5e777632313",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "3",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z77xxrd/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_5.fcs",
+                    "sha256": "f34eb74d62a45ba81a4090d58fb846681a276ec963158783904f7daac82282d4",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "5",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z77z2ue/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_1.fcs",
+                    "sha256": "a1ed0d12bbfd863a0a2554e16d65a6154e00bea16126182c7e61a697aa803eee",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "1",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7825xf/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_3.fcs",
+                    "sha256": "c02dc6cf0a970dd77d47620f9aade4c124739e91d65b6588f98e73451d977a86",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "3",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78392g/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_5.fcs",
+                    "sha256": "a52d2bd32e249133e8a568ca6edf8836c7fe1ebc526d6aeba2fd4c209c1da705",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "5",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z784c5j/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_1.fcs",
+                    "sha256": "d7c7785e70b63ea83544df3ec393ef9df03f27d14361508dd3c4cea6c555624b",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "1",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z786jbk/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_3.fcs",
+                    "sha256": "8d633ab7549f5494960bfc1eedeeb22c4ff08354bf12910456d9f2efce2467f1",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "3",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z787nem/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_5.fcs",
+                    "sha256": "79b98d3cd7c2020a0f915f4708cb4920af62b5a23371e3a503c70b7682c27e44",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "5",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z788rhp/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_1.fcs",
+                    "sha256": "5d40173ee2c7b2b85e7334f951dcb437b58006dd56d600584d942fd97f727ea2",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "1",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z789umq/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_3.fcs",
+                    "sha256": "1f48529bec98912199a94c08d5e0913d93b2928358c749998c811586a44aba74",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "3",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78c2tr/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_5.fcs",
+                    "sha256": "678b6dc0707d771aa2cf5e7dfd5b30df82cee58686cd5941689c15acfa0f6cf0",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "5",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78d5ws/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_2.fcs",
+                    "sha256": "f74d4e425f0c1ec738fd9fbabfcedb143b720395b6bd045ef57767b1c43add34",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "2",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78e8zt/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_4.fcs",
+                    "sha256": "23e53dd1baf6b296f33672cc56daf799075a35fb0147cabcd8f1325836f1e05d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "4",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78fc4v/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_6.fcs",
+                    "sha256": "2f658ac53a77ea15783942cde194baa99528a13f271e2ccfed6be1e7f44af6b2",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "6",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78gf7w/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_2.fcs",
+                    "sha256": "a0887492aa78219c9a86a88288f1773d96741bc4a8dee0adcd30792bc67c018d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "2",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78jndy/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_4.fcs",
+                    "sha256": "1ece260bb111b2dfd2b2794d75170e6597dec8f160e1d205f7418857d406e8d5",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "4",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78mukz/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_6.fcs",
+                    "sha256": "f25df2e6b694e0577b9fd0d9473da1cb6206e2a701f219bbe58256d5238221b3",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "6",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78nxq2/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_2.fcs",
+                    "sha256": "253a4f6caf6f86770528e0b40fbcdd3158aa95bfd99f9c531f84285e15d04968",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "2",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78q2t3/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_4.fcs",
+                    "sha256": "24f3c89ff993a419afb09befb4b5571060583e43955d267824b02dc34bc6e228",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "4",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78r5w4/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_6.fcs",
+                    "sha256": "899cdb0528f9f331f2a6e6f6c4b251bc87d48d143f5bd64ac9d6e93ab4b59be9",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "6",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78s8z5/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_2.fcs",
+                    "sha256": "acd1eb4a9bd5ca71da69f5f9e392325fdfaabfb548a899aaac4f003f5acef0b0",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "2",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78uf77/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_4.fcs",
+                    "sha256": "611621c4908994925eee18317a14f38915a44a0b7dd62db941078a4ce2de07a6",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "4",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78vja8/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_6.fcs",
+                    "sha256": "117c31fc30974ba9cd488b1ad0df61b24270bcb9f0da0baca646d044e1782cb8",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "6",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78wnd9/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_3.fcs",
+                    "sha256": "07c54a28de8d4d847d00ca267af8ec99e79861197dc4305146bedc11193edf13",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "3",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78xrga/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_5.fcs",
+                    "sha256": "10e9e900c1f90add9e286f52244c73a9a87f5bc7f268c886e9db57e885962116",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "5",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78yukc/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_1.fcs",
+                    "sha256": "372b3d43ab2202cc4e50be99c54cda8175c66e6464437f85e3c6cc17b2ac1c20",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "1",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z78zxpd/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_3.fcs",
+                    "sha256": "fd760574371663e931dcf5038d71a4cea3748f6cf81fc5f25e35a5bfc8404b8c",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "3",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7945ve/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_5.fcs",
+                    "sha256": "4478382164489e268625abd302e8742704324ae8229530f0a4c3114ce1567123",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "5",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7958yf/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_1.fcs",
+                    "sha256": "cbbedc29edee1b86850185c9570d659e61a347e6ef12c3aea09a68be3e9f6c40",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "1",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z796c3g/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_3.fcs",
+                    "sha256": "48a3fc428dcb840b418dd31bde6e93dd4c383dbd907adf0df84a95fed92305ca",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "3",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z797f6h/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_5.fcs",
+                    "sha256": "08c5f5fb8217b1a96745096d8c464fc8ec4511fd332563893102ea53618469be",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "5",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z798j9k/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_1.fcs",
+                    "sha256": "bdb710d39a3458b6351d91a14dc14702552765adbb8afea75d5722bd2def1b88",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "1",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z799ncm/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_3.fcs",
+                    "sha256": "0b26469882e2d63cf2b02aa1f21f1e9705051710d90147c807c8e2b929215a8f",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "3",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79bujn/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_5.fcs",
+                    "sha256": "7a01614921928f7e470e69bc6bb0f9dae51b0816fb4118cdb1403e34ce37e017",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "5",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79cxnp/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_4.fcs",
+                    "sha256": "81d455f9e9a66188e5b07b3c804615b48e84c700b1b822fa1932b008fae0b446",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "4",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79f5us/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_6.fcs",
+                    "sha256": "52b1e4e476da967966a66cf584e97f789b250567e41bcc51193a45c7194a4d45",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "6",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79hc2t/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_2.fcs",
+                    "sha256": "b2d8fa750d4d4d5819327e49320ae93399af7269607beb73625fb851bd11cbdb",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "2",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79jf5u/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_4.fcs",
+                    "sha256": "fde788643442333267fbc239f55af6c2efc51fa815c0e8043694029299d561ea",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "4",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79kj8v/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_6.fcs",
+                    "sha256": "f024b90e01937678d277e991ee17656c0630dded4fc30be4bd9a03d7fef49413",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "6",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79nrex/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_2.fcs",
+                    "sha256": "803a37d294c2cfe77e4f4b8dcbcf1696447574a71928bac4b20fb0e4cf202000",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "2",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79puhy/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_4.fcs",
+                    "sha256": "508b89edec66559d03384d230cbae67b53e5748bf85fcf91c9018952f2bfcca5",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "4",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79qxn2/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_6.fcs",
+                    "sha256": "eec82590faa223c8412839ba0c859ea57c1d31d7cd2ba0be7504957928e60c75",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "6",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79t5u3/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_2.fcs",
+                    "sha256": "44df0da58ea49ef99176cd252d879aa0a0a9ab8f8c024ec068b8e242ad72eb9f",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "2",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79u8x4/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_4.fcs",
+                    "sha256": "90b5b274c6c90734753b84625d1b15ef6d207dd65c0d4b93293630f5f9898a0d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "4",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79vc25/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_6.fcs",
+                    "sha256": "136375f657979e889c7fa828a527f8affd797b4315f58491a4b9c85d902a599b",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "6",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79xj87/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_5.fcs",
+                    "sha256": "400e6d75cd9fb44002fad6a96c88369d145cecc6c6cbc1834444f7456e1650ab",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "5",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79zre9/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_1.fcs",
+                    "sha256": "85a8255e6d14d9ca23497f52600d5b2bc724f0f8e2fc6cc97ec99b8c1f1e2889",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "1",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7a3xmb/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_3.fcs",
+                    "sha256": "f6245f749ffbca68e1d23c18efdef9971c00ecde9cf3974bf69e5ce5214fdcc6",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "3",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7a52qc/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_5.fcs",
+                    "sha256": "36a45c54507c59320f5aa11f4193af8b6908664669d4d6c30a73ccd54fb5995d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "5",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7a65td/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_1.fcs",
+                    "sha256": "d3fb70519f7f4df4f6276a939a87adf0ebe6a2019ec8767d0613534a17ae71ec",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "1",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7a8bzf/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_3.fcs",
+                    "sha256": "18e2b0fd12748290873ba6ef13395837d46d80cf6feb224b3e2a68b44b20eda1",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "3",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7a9f4g/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_5.fcs",
+                    "sha256": "c667c3c4e1336e494add9997371172f9f3924c855a444217a0954aaea9aa700d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "5",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7aaj7j/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_1.fcs",
+                    "sha256": "e94b2c8e11f0d4b5f95106e40edefdbbd094c2bac6412a5806d38e15ec7668da",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "1",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7acrdk/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_3.fcs",
+                    "sha256": "f8833c4dba6c3bc0fa8cba729aeef81a7e46034a2bef750648beb8937c391014",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "3",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7adugm/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_5.fcs",
+                    "sha256": "8ad7a7ef2a001c14be4f810065089c1deb8734c44872b415e90e7ef60cd60a6f",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "5",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7aexkn/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_1.fcs",
+                    "sha256": "0dc4ede01cb0d78971c678194acf92887c887f763dfce60b0761d3df6215f614",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "1",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7ah5sq/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.0003_6.fcs",
+                    "sha256": "2897a9304da44682aaf66372ad8061aa76f437f4af016bdd0cc551098c2dc646",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "6",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7amf3t/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_2.fcs",
+                    "sha256": "bf124c310d70e2e6ab017b8c4f14d7b70b7e7de51867de399b7308a1e11181de",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "2",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7anj6u/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_4.fcs",
+                    "sha256": "3176e4ffdd89f681d42e5b8b0a63ba7fcd5463c09d4531c461d4813b6df99908",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "4",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7apn9v/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.0003_6.fcs",
+                    "sha256": "b8d0577777abdc77daa3a2133a900c7032ca6bcba2e039298ffc6c93d813039b",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "6",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7aqrcx/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_2.fcs",
+                    "sha256": "65fcb8728a7ac760bdfee9cb8d05d373c73ef184436be4e7ea7f5d3f5ae6449a",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "2",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7asxjy/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_4.fcs",
+                    "sha256": "736ce3556a900abba0f723bb0e0830bf83187f3a4ee6eed899726c46f9d98c11",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "4",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7au2nz/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.00015_6.fcs",
+                    "sha256": "5c6ea589eb3d9e0555db3c34751eb4de91c1e072a5f46077894dbf9ecd2482ed",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "6",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7av5s3/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_2.fcs",
+                    "sha256": "5c2798782705d884f83169820fb27817781e0eff465a40c914670d0c1af8836f",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "2",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7axby4/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_4.fcs",
+                    "sha256": "68a1911b21d2118446b465419eb36f6715637dc36083be5a63f7a41452addeb9",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "4",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7ayf35/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_2.fcs",
+                    "sha256": "ede0bceeb8b3eb6769b26e9cbd11a9fabbb8944fa1cf9a05ecc0050de585f990",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "2",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7b3rc8/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_1.fcs",
+                    "sha256": "76db3b884b43fa8a39e660dcb5a6c4329668d7b8911a3319c3b49936e8c3a178",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "1",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7b5xja/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_3.fcs",
+                    "sha256": "67b6c83acfe3f400747b245b19a070ea96b49190b15ce6416c8d4039c3363b4d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "3",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7b85rc/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_5.fcs",
+                    "sha256": "fe207a8062a3cd91f0d82f52cf344c07473dfaa5a055ca412aecad953d920665",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "5",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7b98ud/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_1.fcs",
+                    "sha256": "861ebf3ee59873a2ea168635cdabfb283fa74d7a2f65edd1c35557e45ae9653e",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "1",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7babxe/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_3.fcs",
+                    "sha256": "e2a572c9ba4ba9dc1a40fc0591ffb04a1cd3ce7510b2c6972e8958b2381efd06",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "3",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bcj5g/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_4.fcs",
+                    "sha256": "ca5e19496d76d1c770a092b72734c0921e7cb72033a9f783f6033fbfb33c10d3",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "4",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7ccbvd/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_2.fcs",
+                    "sha256": "6fc09f5f732e94fb14461875d21363af8a1d651a695dee8ed1b7590cbcdff0f3",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "2",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7c5ra8/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_6.fcs",
+                    "sha256": "b34870223b45b3fa02d33d81aa9a4090bfa5aea1b0e7539544a9f5d0c205cbed",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "6",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7c4n77/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_4.fcs",
+                    "sha256": "ffe24cb00b16cce31dcb028c610665cc6b735354bc45e408a4b385d23e2c698b",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "4",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7c3j46/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_2.fcs",
+                    "sha256": "03f4c68bcb5a1adeee696d47f268c1ba4b0e9ff63ed4d5d6bb7a6999d867a5a8",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "2",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7c2ez4/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_6.fcs",
+                    "sha256": "64e90b56ca212494b8eb1bae2b38a5cfaf86b51e3b90b35dfec637a32da57c1d",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "6",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bzbw3/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.00015_4.fcs",
+                    "sha256": "47d65e162935fe58999cf14c19a7fda6b4aa779d991b88896cb7c8de48efd314",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "4",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bx5q2/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs",
+                    "sha256": "2c94baa258e851834c1c4e67d18c7761b531b3f67d1419f4ed673e07e494f4e6",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "2",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bw2ky/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_0.0003_6.fcs",
+                    "sha256": "818698cc3d356cae81f05890f2d90a74a79ed168dede32db3196681d519315da",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "6",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7buxgx/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.0003_4.fcs",
+                    "sha256": "514e263ab27c7873b135ee5726b9e35293e435742c97fcecddfa73e6dceab3e9",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "4",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bsrav/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_0.0003_2.fcs",
+                    "sha256": "973f9a6132186481f93ee7f0313a1fc9f24dc294e1b12664b62008c5ee389411",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.0003:od600",
+            "replicate": "2",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7brn7u/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_7.5e-05_3.fcs",
+                    "sha256": "c91082c77cc68a4a3ecdbee43c0425fb0598ebf16d4586622e15a5bf799dd8f3",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "3",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bnbwr/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7373_7.5e-05_1.fcs",
+                    "sha256": "fd4f2e85bd5a5dfa8ec4adcad586d084710f6c17f65577dd02e570234fe95c33",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "1",
+            "sample_id": "7373",
+            "strain": "7373",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bm8tq/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7376_7.5e-05_5.fcs",
+                    "sha256": "e14da48e160bbbcebb56ff021fda307616b1689e191eeb19b221f31dc9c29723",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "5",
+            "sample_id": "7376",
+            "strain": "7376",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bj2mp/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_7.5e-05_3.fcs",
+                    "sha256": "71b93ceb257fdc734c190b58a7088a00b14ce4deafbc06b419ab0e866caeef64",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "3",
+            "sample_id": "wt-control-1",
+            "strain": "W303dip1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bgxhm/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7374_0.00015_1.fcs",
+                    "sha256": "2af22a416b643a81fe002a63810972ac0e666dd5f6cf2c94cc17097c760d3f8e",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "1",
+            "sample_id": "7374",
+            "strain": "7374",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bfuek/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_0.00015_5.fcs",
+                    "sha256": "3ecb9b9440c04a64bdee6ee14538fb0448514cee9204f900575aa405ff4bc299",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "0.00015:od600",
+            "replicate": "5",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7bdn8h/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/7375_7.5e-05_6.fcs",
+                    "sha256": "dfbdcd97daece52355928c2ed45746eb5d19c49eba3d98229f13db95ccb07ecd",
+                    "type": "FLOW"
+                }
+            ],
+            "inoculation_density": "7.5e-05:od600",
+            "replicate": "6",
+            "sample_id": "7375",
+            "strain": "7375",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7azj66/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                ""
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/aq1bsx3z7aj8vr__.fcs",
+                    "sha256": "ef9292fc1922502d99392e58e5e628c1d20be9c116a71a7516bf0a21695c70bd",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": null,
+            "sample_id": "aq1bsx3z7aj8vr",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z7aj8vr/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                ""
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/aq1bsx3z79ynb8__.fcs",
+                    "sha256": "8a3537084ce042afb079c5b4b9391dd3388e11e3399eb7e650b0599d92887047",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": null,
+            "sample_id": "aq1bsx3z79ynb8",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79ynb8/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                ""
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od2.csv",
+                    "sha256": "86e4168ca26643e4680f0d0d91ecf60f1e6fcad6be5e7163447a27094c41c784",
+                    "type": "PLATE_READER"
+                },
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/aq1bsx3z79e2rq__.fcs",
+                    "sha256": "290025e125eb87809526311c85eccfce82249ae92ad874230a9cc3edf5542d46",
+                    "type": "FLOW"
+                }
+            ],
+            "replicate": null,
+            "sample_id": "aq1bsx3z79e2rq",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsx3z79e2rq/ct1bsun4yv3v3k"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "MediaControl1",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhhhjutzn/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "MediaControl2",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhhhjvx4q/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/od1.csv",
+                    "sha256": "a0b7d4c4f5f60c498545bbcb08edcfcf4510aa6b324c1d28431742713d68ecbb",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "MediaControl3",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsuhhhjx27q/ct1bsmggegqg89"
+        },
+        {
+            "contents": [
+                "rs1b6z2vgatkq7"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "ludox_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm9p9bkrt/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b6z2vgatkq7"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "ludox_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm9p9cpuu/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b6z2vgatkq7"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "ludox_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm9p9qpu6/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b6z2vgatkq7"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "ludox_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm9p9rsx7/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "water_cal",
+            "strain": "water_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmb4f2z9u/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "water_cal",
+            "strain": "water_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmb4f44cv/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "water_cal",
+            "strain": "water_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmb4f44cx/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1b4uj7zbdy6m"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "water_cal",
+            "strain": "water_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmb4f57fx/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmgwfwjzf/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tnw98/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tpzca/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tr4fb/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ts7jb/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ts7jd/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ttanc/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tudrd/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tudrf/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tvgue/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tvgug/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "1",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72twkxg/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmgwrcee7/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72txq2g/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72txq2j/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tyt5j/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tzw8j/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72tzw8m/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u2zbm/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u44em/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u44ep/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u57hn/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u57hq/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "2",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u6amq/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmgwuwx6w/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u7dqq/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u7dqs/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u8gts/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u9kws/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72u9kwu/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72uapzu/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ubt4u/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ubt4w/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ucw7w/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72udzaw/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "3",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72udzay/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxmgwyhumx/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72uf4dx/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ug7gy/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ug7h2/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72uhakz/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72uham3/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ujdq3/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ukgt3/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72ukgt5/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72umkw5/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72unpz5/ct1bswp795q33w"
+        },
+        {
+            "contents": [
+                "rs1bcj2388xppe"
+            ],
+            "experimental_media": "rs1b4uj7zbdy6m",
+            "files": [
+                {
+                    "name": "s3://sd2e-community/uploads/transcriptic/201808/yeast-gates/r1bsmggea748b_r1bsun4yb67e7/calibration_od.csv",
+                    "sha256": "65a0145a1457a836b478e9e53ab2a847c2df4dade731bc189fde6ed4ef0a4e96",
+                    "type": "PLATE_READER"
+                }
+            ],
+            "replicate": "4",
+            "sample_id": "fluorescein_cal",
+            "temperature": "30:celsius",
+            "timepoint": "16:hour",
+            "tx_sample_id": "aq1bsxm72unpz7/ct1bswp795q33w"
+        }
+    ]
+}

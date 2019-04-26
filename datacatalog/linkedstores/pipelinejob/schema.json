@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Description and history of a computing job",
+    "title": "PipelineJob",
+    "type": "object",
+    "definitions": {},
+    "properties": {
+        "pipeline_uuid": {
+            "description": "UUID of the pipeline that created this job",
+            "$ref": "pipeline_uuid.json"
+        },
+        "archive_path": {
+            "description": "Absolute path to the job products",
+            "type": "string"
+        },
+        "archive_system": {
+            "description": "Agave storage resource housing the job products",
+            "type": "string"
+        },
+        "archive_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "type": "array",
+            "items": {
+                "$ref": "archive_patterns.json"
+            }
+        },
+        "product_patterns": {
+            "description": "Optional list of regular expressions defining specific outputs in archive_path",
+            "type": "array",
+            "items": {
+                "$ref": "product_patterns.json"
+            }
+        },
+        "data": {
+            "description": "Run-time parameterization of the job",
+            "type": "object"
+        },
+        "agent": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_actorid.json"
+                },
+                {
+                    "$ref": "agave_appid.json"
+                }
+            ]
+        },
+        "task": {
+            "oneOf": [
+                {
+                    "$ref": "abaco_execid.json"
+                },
+                {
+                    "$ref": "agave_job_uuid.json"
+                }
+            ]
+        },
+        "session": {
+            "description": "Short alphanumeric correlation string (optional)",
+            "type": "string"
+        },
+        "updated": {
+            "format": "date-time",
+            "type": "string",
+            "description": "When the job record was last updated"
+        },
+        "_visible": {
+            "type": "boolean",
+            "default": true
+        },
+        "history": {
+            "description": "Annotated history of job events",
+            "type": "array",
+            "items": {
+                "$ref": "pipelinejob_event.json"
+            }
+        },
+        "state": {
+            "$ref": "pipelinejob_statename.json"
+        },
+        "generated_by": {
+            "items": {
+                "$ref": "pipeline_uuid.json"
+            },
+            "type": "array",
+            "maxItems": 1,
+            "minItems": 1
+        },
+        "child_of": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "measurement_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acted_on": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "file_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        },
+        "acted_using": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "pipeline_uuid",
+        "archive_path",
+        "data"
+    ],
+    "_filename": "pipelinejob",
+    "__uuid_type": "pipelinejob",
+    "__uuid_field": null,
+    "__uuid_fields": [
+        "pipeline_uuid",
+        "child_of",
+        "data"
+    ],
+    "__collection": "jobs",
+    "__pipeline_collection": "pipelines",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ],
+    "additionalProperties": false
+}
