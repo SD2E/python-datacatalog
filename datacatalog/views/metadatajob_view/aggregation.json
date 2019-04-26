@@ -1,0 +1,34 @@
+{
+    "view_on": "measurement_view",
+    "allowDiskUse": true,
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "jobs",
+                "localField": "experiment.uuid",
+                "foreignField": "child_of",
+                "as": "job_of_experiment"
+            }
+        },
+        {
+            "$lookup": {
+                "from": "jobs",
+                "localField": "sample.uuid",
+                "foreignField": "child_of",
+                "as": "job_of_sample"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$job_of_experiment",
+                "preserveNullAndEmptyArrays": true
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$job_of_sample",
+                "preserveNullAndEmptyArrays": true
+            }
+        }
+    ]
+}

@@ -12,7 +12,7 @@
         {
             "$unwind": {
                 "path": "$measurement",
-                "preserveNullAndEmptyArrays": true
+                "preserveNullAndEmptyArrays": false
             }
         },
         {

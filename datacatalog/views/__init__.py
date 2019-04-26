@@ -19,3 +19,4 @@ from . import upload_view
 from . import pipelinejob_view
 from . import product_view
 
+from . import metadatajob_view

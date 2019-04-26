@@ -5,7 +5,7 @@
             "$lookup": {
                 "from": "file_view",
                 "localField": "job.uuid",
-                "foreignField": "generated_by",
+                "foreignField": "child_of",
                 "as": "file"
             }
         },
@@ -22,7 +22,7 @@
         {
             "$unwind": {
                 "path": "$file",
-                "preserveNullAndEmptyArrays": false
+                "preserveNullAndEmptyArrays": true
             }
         },
         {

@@ -12,7 +12,7 @@
         {
             "$unwind": {
                 "path": "$job",
-                "preserveNullAndEmptyArrays": true
+                "preserveNullAndEmptyArrays": false
             }
         },
         {
@@ -24,6 +24,9 @@
                 "_visible": 0,
                 "processing_levels": 0,
                 "collections_levels": 0,
+                "components": 0,
+                "accepts": 0,
+                "produces": 0,
                 "acted_on": 0,
                 "acted_using": 0,
                 "derived_from": 0,
@@ -34,12 +37,14 @@
                 "job._properties": 0,
                 "job._salt": 0,
                 "job.pipeline_uuid": 0,
-                "job.child_of": 0,
                 "job.derived_from": 0,
                 "job.derived_using": 0,
                 "job.history.data": 0,
+                "job.history.uuid": 0,
                 "job.product_patterns": 0,
-                "job.archive_patterns": 0
+                "job.archive_patterns": 0,
+                "job.agent": 0,
+                "job.task": 0
             }
         }
     ]
