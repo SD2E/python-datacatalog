@@ -3,6 +3,7 @@ import json
 import importlib
 import inspect
 import itertools
+import re
 import os
 import sys
 from pprint import pprint
@@ -22,6 +23,7 @@ from ..identifiers import typeduuid
 from ..extensible import ExtensibleAttrDict
 
 __all__ = ['ManagerBase', 'Manager', 'ManagerError']
+
 class ManagerError(linkedstores.basestore.CatalogError):
     """Error has occurred inside a Manager"""
     pass
@@ -54,6 +56,11 @@ class ManagerBase(object):
 
 class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
+    RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
+                     'sample', 'measurement', 'experiment',
+                     'experiment_design', 'challenge_problem', 'process',
+                     'annotation', 'fixity')
+    RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
@@ -105,8 +112,25 @@ class Manager(ManagerBase):
         Returns:
             dict: The document that was retrieved
         """
-        # TODO - use any namespacing in identifier_string to select intitial store to query
-        for sname, store in self.stores.items():
+
+        # Is the identifer a typed UUID - no need to resolve if so
+        if typeduuid.validate(identifier_string, permissive=True):
+            return self.get_by_uuid(identifier_string, permissive=permissive)
+
+        # Is the identifier a namespaced identifier (sample.tacc.xyz123)
+        # If so, trust the namespace since the worst possible outcome is
+        # just an empty response
+        searches = self.RESOLVE_ORDER
+        namespaced = self.RESOLVE_RE.search(identifier_string)
+        if namespaced:
+            sname = namespaced.group().replace('.', '')
+            searches = [sname]
+
+        # Finally, in order of probability (established by RESOLVE_ORDER)
+        # iteratively look up identifier in each store until the string is
+        # resolved or the query fails
+        for sname in searches:
+            store = self.stores[sname]
             for i in store.get_identifiers():
                 query = {i: identifier_string}
                 resp = store.coll.find_one(query)

@@ -156,30 +156,55 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         if SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
             #"Arabinose+IPTG"
+
+            if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
+                arab_concentration = "25:mM"
+                iptg_concentration = "0.25:mM"
+            else:
+                raise ValueError("Inducers without concentration values. TX must provide. Abort!")
+
             if inducer != "None":
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
                     if inducer_split[0] not in seen_contents:
                         seen_contents.add(inducer_split[0])
-                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
+                        if inducer_split[0] == "Arabinose":
+                            concentration = arab_concentration
+                        elif inducer_split[0] == "IPTG":
+                            concentration = iptg_concentration
+                        else:
+                            raise ValueError("Unknown inducer")
+                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, concentration))
                     if inducer_split[1] not in seen_contents:
                         seen_contents.add(inducer_split[1])
-                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query))
+                        if inducer_split[1] == "Arabinose":
+                            concentration = arab_concentration
+                        elif inducer_split[1] == "IPTG":
+                            concentration = iptg_concentration
+                        else:
+                            raise ValueError("Unknown inducer")
+                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query, concentration))
                 else:
                     # Special case for YS. Both means Arabinose and IPTG
                     if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
                         inducer = "Arabinose"
                         if inducer not in seen_contents:
                             seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, arab_concentration))
 
                         inducer = "IPTG"
                         if inducer not in seen_contents:
                             seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, iptg_concentration))
                     elif inducer not in seen_contents:
                         seen_contents.add(inducer)
-                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query))
+                        if inducer == "Arabinose":
+                            concentration = arab_concentration
+                        elif inducer == "IPTG":
+                            concentration = iptg_concentration
+                        else:
+                            raise ValueError("Unknown inducer")
+                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents

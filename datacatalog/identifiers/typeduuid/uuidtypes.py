@@ -17,8 +17,8 @@ UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('upload', '111', 'Uploaded File'),
              ('annotation', '118', 'User-contributed Free-text Annotation'),
              ('inline_annotation', '119', 'Machine-generated Free-text Annotation'),
-             ('dashboard', '113', 'Redash Dashboard'),
-             ('query', '116', 'Redash Query'),
+             ('dashboard', '121', 'Redash Dashboard'),
+             ('query', '120', 'Redash Query'),
              ('input_classifier', '115', 'Input File Classifier')
              ]
 
