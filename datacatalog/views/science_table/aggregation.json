@@ -3,41 +3,31 @@
     "pipeline": [
         {
             "$project": {
-                "agave_path": {
-                    "$concat": [
-                        "$agave_path.path_prefix",
-                        "/",
-                        "$file.filename"
-                    ]
-                },
+                "agave_path": "$file.name",
                 "agave_system": "$agave_path.agave_system",
                 "aligner": "$file.attributes.aligner",
                 "challenge_problem": "$id",
                 "experiment_id": "$experiment.experiment_id",
                 "experiment_reference": "$experiment_design.experiment_design_id",
                 "experiment_reference_url": "$experiment_design.uri",
-                "file_type": "$file.attributes.file_type",
-                "filename": "$file.filename",
+                "file_type": "$file.type",
+                "filename": "$file.name",
                 "hpc_path": {
                     "$concat": [
                         "/work/projects/SD2E-Community/prod/data",
-                        "$agave_path.path_prefix",
-                        "/",
-                        "$file.filename"
+                        "$file.name"
                     ]
                 },
                 "inoculation_density": "$sample.inoculation_density",
                 "jupyter_path": {
                     "$concat": [
                         "/home/jupyter/sd2e-community",
-                        "$agave_path.path_prefix",
-                        "/",
-                        "$file.filename"
+                        "$file.name"
                     ]
                 },
-                "lab": "$sample.attributes.lab",
+                "lab": {"$arrayElemAt" : [ { "$split" : [ "$experiment.experiment_id", "." ] }, 1 ] },
                 "level": "$file.level",
-                "library_prep": "$file.attributes.library_prep",
+                "library_prep": "$measurement.library_prep",
                 "measurement_type": "$measurement.measurement_type",
                 "normalization": "$file.attributes.normalization",
                 "reference_sample_id": "$sample.reference_sample_id",
