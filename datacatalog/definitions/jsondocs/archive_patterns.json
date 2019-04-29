@@ -2,7 +2,7 @@
     "description": "Indexing requests for connecting products with the job that generated them",
     "type": "object",
     "properties": {
-        "processing_level": {
+        "level": {
             "$ref": "processing_level.json"
         },
         "patterns": {
@@ -27,7 +27,7 @@
         }
     },
     "required": [
-        "processing_level",
+        "level",
         "patterns"
     ],
     "additionalProperties": false

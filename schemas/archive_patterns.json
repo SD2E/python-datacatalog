@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-03-01 19:23:29 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e10419b",
+    "$comment": "generated: 20190429T151631+00:00; source: git@github.com:SD2E/python-datacatalog.git@f3fdede",
     "$id": "https://schema.catalog.sd2e.org/schemas/archive_patterns.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -18,19 +18,19 @@
             },
             "type": "array"
         },
+        "level": {
+            "$ref": "processing_level.json"
+        },
         "patterns": {
             "description": "Regular expression filters for filenames",
             "items": {
                 "type": "string"
             },
             "type": "array"
-        },
-        "processing_level": {
-            "$ref": "processing_level.json"
         }
     },
     "required": [
-        "processing_level",
+        "level",
         "patterns"
     ],
     "title": "Archive Patterns",

@@ -90,6 +90,15 @@
             "items": {
                 "anyOf": [
                     {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
                         "$ref": "measurement_uuid.json"
                     }
                 ]
