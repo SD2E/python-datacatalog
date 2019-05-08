@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190426T182106+00:00; source: git@github.com:SD2E/python-datacatalog.git@70a6de5",
+    "$comment": "generated: 20190508T142621+00:00; source: git@github.com:SD2E/python-datacatalog.git@8fef33b",
     "$id": "https://schema.catalog.sd2e.org/schemas/dashboard_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

@@ -1,0 +1,28 @@
+{
+    "view_on": "experiment_design_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "experiments",
+                "localField": "experiment_design.uuid",
+                "foreignField": "child_of",
+                "as": "experiment"
+            }
+        },
+        {
+            "$project": {
+                "experiment._id": 0,
+                "experiment._admin": 0,
+                "experiment._properties": 0,
+                "experiment._salt": 0,
+                "experiment.child_of": 0.0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}

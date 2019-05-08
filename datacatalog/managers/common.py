@@ -64,10 +64,10 @@ class Manager(ManagerBase):
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         # Assemble dict of stores keyed by classname
-        mongo_client = db_connection(mongodb)
-        ManagerBase.__init__(self, *args, **kwargs)
-        self.stores = Manager.init_stores(mongo_client, agave=agave)
+        self.mongo_client = db_connection(mongodb)
         self.client = agave
+        ManagerBase.__init__(self, *args, **kwargs)
+        self.stores = Manager.init_stores(self.mongo_client, agave=agave)
         self.api_server = kwargs.get('api_server', current_tenant_uri())
 
     @classmethod
@@ -82,8 +82,8 @@ class Manager(ManagerBase):
                 store_basename = store_name.split('.')[-1]
                 if store_basename != 'basestore':
                     stores[store_basename] = store
-            except ModuleNotFoundError as mexc:
-                self.logger.exception('Module not found: {}'.format(pkg))
+            except ModuleNotFoundError:
+                cls.logger.exception('Module not found: {}'.format(pkg))
         return stores
 
     def get_by_uuid(self, uuid, permissive=True):

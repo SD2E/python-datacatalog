@@ -1,0 +1,51 @@
+{
+    "view_on": "files",
+    "pipeline": [
+        {
+            "$match": {
+                "level": {
+                    "$in": [
+                        "1",
+                        "2"
+                    ]
+                }
+            }
+        },
+        {
+            "$lookup": {
+                "from": "fixities",
+                "localField": "uuid",
+                "foreignField": "child_of",
+                "as": "attr"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$attr",
+                "preserveNullAndEmptyArrays": true
+            }
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "notes": 0,
+                "attr._id": 0,
+                "attr._admin": 0.0,
+                "attr._properties": 0.0,
+                "attr._salt": 0.0,
+                "attr.child_of": 0.0,
+                "attr.derived_from": 0.0,
+                "attr.derived_using": 0.0,
+                "attr.generated_by": 0.0,
+                "attr.name": 0,
+                "attr.storage_system": 0,
+                "attr.acted_on": 0,
+                "attr.acted_using": 0,
+                "attr.uuid": 0
+            }
+        }
+    ]
+}

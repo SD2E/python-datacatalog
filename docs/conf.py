@@ -24,6 +24,8 @@ from datacatalog.jsonschemas.schema import JSONSchemaBaseObject
 from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
 from datacatalog.identifiers import typeduuid
 from datacatalog.tokens import get_admin_lifetime
+from datacatalog.views.aggregations import get_aggregations
+
 from datacatalog import __version__ as code_version
 from datacatalog import __schema_version__ as schema_version_tuple
 from datacatalog import __schema_major_version__ as schema_major_version
@@ -63,12 +65,22 @@ def text_schema_version():
 def text_jsonschema_version():
     return urllib.parse.quote(jsonschema_version)
 
+def table_views():
+    view_rows = list()
+    for k, v in get_aggregations().items():
+        row = [k, v.description, v.view_on, v.author]
+        view_rows.append(row)
+    return tabulate(view_rows, ['Name', 'Description', 'Source', 'Author'], tablefmt='rst')
+
+
 html_context = {
+    'css_files': ['_static/theme_overrides.css'],
     'project_schema_base_url': JSONSchemaBaseObject.BASEREF,
     'project_schema_browser_url': 'https://browser.catalog.sd2e.org',
     'pipelinejob_states': table_pipelinejob_states(),
     'pipelinejob_events': table_pipelinejob_events(),
     'typeduuid_types': table_typeduuid_types(),
+    'current_views': table_views(),
     'schema_version': text_schema_version(),
     'jsonschema_version': text_jsonschema_version()
 }
