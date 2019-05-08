@@ -1,0 +1,38 @@
+{
+    "view_on": "sample_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "measurements",
+                "localField": "sample.uuid",
+                "foreignField": "child_of",
+                "as": "measurement"
+            }
+        },
+        {
+            "$project": {
+                "measurement._id": 0,
+                "measurement._admin": 0,
+                "measurement._properties": 0,
+                "measurement._salt": 0,
+                "measurement.child_of": 0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$measurement",
+                "preserveNullAndEmptyArrays": false
+            }
+        },
+        {
+            "$addFields": {
+                "lineage": [
+                    "$measurement.uuid",
+                    "$sample.uuid",
+                    "$experiment.uuid",
+                    "$experiment_design.uuid"
+                ]
+            }
+        }
+    ]
+}

@@ -25,7 +25,17 @@
                         "$file.name"
                     ]
                 },
-                "lab": {"$arrayElemAt" : [ { "$split" : [ "$experiment.experiment_id", "." ] }, 1 ] },
+                "lab": {
+                    "$arrayElemAt": [
+                        {
+                            "$split": [
+                                "$experiment.experiment_id",
+                                "."
+                            ]
+                        },
+                        1
+                    ]
+                },
                 "level": "$file.level",
                 "library_prep": "$measurement.library_prep",
                 "measurement_type": "$measurement.measurement_type",

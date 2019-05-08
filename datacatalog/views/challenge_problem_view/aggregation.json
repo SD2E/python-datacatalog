@@ -1,0 +1,19 @@
+{
+    "view_on": "challenges",
+    "pipeline": [
+        {
+            "$match": {}
+        },
+        {
+            "$project": {
+                "_id": 0,
+                "_admin": 0.0,
+                "_properties": 0.0,
+                "_salt": 0.0,
+                "status": 0.0,
+                "created": 0.0,
+                "updated": 0.0
+            }
+        }
+    ]
+}

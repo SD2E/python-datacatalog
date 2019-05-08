@@ -1,0 +1,30 @@
+{
+    "view_on": "challenge_problem_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "experiment_designs",
+                "localField": "uuid",
+                "foreignField": "child_of",
+                "as": "experiment_design"
+            }
+        },
+        {
+            "$project": {
+                "experiment_design._id": 0,
+                "experiment_design._admin": 0,
+                "experiment_design._properties": 0,
+                "experiment_design._salt": 0,
+                "experiment_design.created": 0,
+                "experiment_design.updated": 0,
+                "experiment_design.child_of": 0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$experiment_design",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}
