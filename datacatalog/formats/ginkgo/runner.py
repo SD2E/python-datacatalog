@@ -201,6 +201,18 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 replicate_val = int(replicate_val_f)
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
+        # PhiX for SmallRNASeq
+        # "properties": {
+        #   "Library_prep_kit": "NextFlex_kit",
+        #    "PhiX": "10_percent"
+        # }
+        phix_prop = "PhiX"
+        if phix_prop in props:
+            phix_val = props[phix_prop]
+            if phix_val.endswith("_percent"):
+                phix_val = phix_val.replace("_percent", ":%")
+            contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), phix_prop, phix_prop, lab, sbh_query, phix_val))
+
         # record parent reference, if it exists
         parent_id_prop = "parent_id"
         if parent_id_prop in ginkgo_sample:
@@ -433,10 +445,12 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
                 # MG1655_WT or MG1655_empty_landing_pads
                 if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]) or \
-                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("346047", output_doc[SampleConstants.LAB]):
+                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("346047", output_doc[SampleConstants.LAB]) or \
+                    sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_WT":
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
                 # MG1655_pJS007_LALT__I1__IcaRA
-                elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]):
+                elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]) or \
+                    sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_pJS007_LALT__I1__IcaRA":
                     # ON without IPTG, OFF with IPTG, plasmid (high level)
                     # we also need to indicate the control channels for the fluorescence control
                     # this is not known by the lab typically, has to be provided externally
