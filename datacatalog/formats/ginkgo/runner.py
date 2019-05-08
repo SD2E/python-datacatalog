@@ -441,6 +441,11 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     else:
                         measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
+            # Ginkgo-specific RNASeq metadata
+            rnaseq_meta_prop = "rnaseq_metadata"
+            if rnaseq_meta_prop in measurement_props:
+                measurement_doc["ginkgo_rnaseq_metadata"] = measurement_props[rnaseq_meta_prop]
+
             # Use default NC negative strain, if CP matches
             # Match on lab ID for now, as this is unambiguous given dictionary name changes
             # do the same thing for positive control
