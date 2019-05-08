@@ -1,5 +1,3 @@
-mongodb_view_name = 'experiment_design_view'
-"""MongoDB view name"""
-
-from .classes import *
-from .schemas import *
+AUTHOR = 'vaughn@tacc.utexas.edu'
+DESCRIPTION = 'Experiment design and parent Challenge Problem'
+# MONGODB_VIEW_NAME = 'experiment_design_view'

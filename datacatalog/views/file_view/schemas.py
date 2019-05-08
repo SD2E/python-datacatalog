@@ -2,9 +2,9 @@
 # aggregation auto-discovery to work
 from .classes import FixtyFileViewDocument as Doc
 from ...jsonschemas.schemas import JSONSchemaCollection
-from . import mongodb_view_name
+from . import MONGODB_VIEW_NAME
 
-__all__ = ['get_schemas', 'get_aggregation', 'mongodb_view_name']
+__all__ = ['get_schemas', 'get_aggregation', 'MONGODB_VIEW_NAME']
 
 def get_schemas():
     """Get schema(s) for ScienceView

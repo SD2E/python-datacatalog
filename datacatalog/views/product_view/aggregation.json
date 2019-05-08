@@ -1,17 +1,9 @@
 {
-    "view_on": "pipelinejob_view",
+    "view_on": "files",
     "pipeline": [
         {
-            "$lookup": {
-                "from": "file_view",
-                "localField": "job.uuid",
-                "foreignField": "child_of",
-                "as": "file"
-            }
-        },
-        {
             "$match": {
-                "file.level": {
+                "level": {
                     "$in": [
                         "1",
                         "2"
@@ -20,34 +12,39 @@
             }
         },
         {
-            "$unwind": {
-                "path": "$file",
-                "preserveNullAndEmptyArrays": true
-            }
-        },
-        {
             "$lookup": {
-                "from": "files_view",
-                "localField": "file.derived_from",
-                "foreignField": "uuid",
-                "as": "source"
+                "from": "fixities",
+                "localField": "uuid",
+                "foreignField": "child_of",
+                "as": "attr"
             }
         },
         {
             "$unwind": {
-                "path": "$source",
+                "path": "$attr",
                 "preserveNullAndEmptyArrays": true
             }
         },
         {
             "$project": {
+                "_id": 0,
                 "_admin": 0.0,
                 "_properties": 0.0,
                 "_salt": 0.0,
-                "file._admin": 0.0,
-                "file._properties": 0.0,
-                "file._salt": 0.0,
-                "file.child_of": 0.0
+                "notes": 0,
+                "attr._id": 0,
+                "attr._admin": 0.0,
+                "attr._properties": 0.0,
+                "attr._salt": 0.0,
+                "attr.child_of": 0.0,
+                "attr.derived_from": 0.0,
+                "attr.derived_using": 0.0,
+                "attr.generated_by": 0.0,
+                "attr.name": 0,
+                "attr.storage_system": 0,
+                "attr.acted_on": 0,
+                "attr.acted_using": 0,
+                "attr.uuid": 0
             }
         }
     ]

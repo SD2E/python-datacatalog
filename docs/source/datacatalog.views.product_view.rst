@@ -1,7 +1,7 @@
-datacatalog.views.science\_view package
+datacatalog.views.product\_view package
 =======================================
 
-.. automodule:: datacatalog.views.science_view
+.. automodule:: datacatalog.views.product_view
     :members:
     :undoc-members:
     :show-inheritance:

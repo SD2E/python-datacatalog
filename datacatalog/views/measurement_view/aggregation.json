@@ -10,19 +10,28 @@
             }
         },
         {
+            "$project": {
+                "measurement._id": 0,
+                "measurement._admin": 0,
+                "measurement._properties": 0,
+                "measurement._salt": 0,
+                "measurement.child_of": 0
+            }
+        },
+        {
             "$unwind": {
                 "path": "$measurement",
                 "preserveNullAndEmptyArrays": false
             }
         },
         {
-            "$project": {
-                "_admin": 0.0,
-                "_properties": 0.0,
-                "_salt": 0.0,
-                "measurement_admin": 0,
-                "measurement._properties": 0,
-                "measurement._salt": 0
+            "$addFields": {
+                "lineage": [
+                    "$measurement.uuid",
+                    "$sample.uuid",
+                    "$experiment.uuid",
+                    "$experiment_design.uuid"
+                ]
             }
         }
     ]

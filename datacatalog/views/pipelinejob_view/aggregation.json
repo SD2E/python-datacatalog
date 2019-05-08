@@ -1,50 +1,71 @@
 {
-    "view_on": "pipelines",
+    "view_on": "jobs",
     "pipeline": [
         {
-            "$lookup": {
-                "from": "jobs",
-                "localField": "uuid",
-                "foreignField": "generated_by",
-                "as": "job"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$job",
-                "preserveNullAndEmptyArrays": false
+            "$match": {
+                "child_of.0": {
+                    "$exists": true
+                },
+                "state": "FINISHED"
             }
         },
         {
             "$project": {
-                "_id": 0.0,
-                "_admin": 0.0,
-                "_properties": 0.0,
-                "_salt": 0.0,
                 "_visible": 0,
-                "processing_levels": 0,
-                "collections_levels": 0,
-                "components": 0,
-                "accepts": 0,
-                "produces": 0,
+                "_id": 0,
+                "_admin": 0,
+                "_properties": 0,
+                "_salt": 0,
+                "history": 0,
+                "agent": 0,
+                "task": 0,
+                "session": 0,
+                "archive_patterns": 0,
+                "product_patterns": 0,
+                "data": 0,
                 "acted_on": 0,
                 "acted_using": 0,
                 "derived_from": 0,
+                "derived_using": 0
+            }
+        },
+        {
+            "$lookup": {
+                "from": "pipelines",
+                "localField": "pipeline_uuid",
+                "foreignField": "uuid",
+                "as": "pipeline"
+            }
+        },
+        {
+            "$project": {
+                "pipeline._id": 0,
+                "pipeline._admin": 0,
+                "pipeline._properties": 0,
+                "pipeline._salt": 0,
+                "pipeline._visible": 0,
+                "pipeline.accepts": 0,
+                "pipeline.produces": 0,
+                "pipeline.components": 0,
+                "pipeline.collections_levels": 0,
+                "pipeline.processing_levels": 0
+            }
+        },
+        {
+            "$lookup": {
+                "from": "measurement_agg",
+                "localField": "child_of",
+                "foreignField": "lineage",
+                "as": "meta"
+            }
+        },
+        {
+            "$project": {
+                "meta._id": 0,
+                "meta.lineage": 0,
                 "child_of": 0,
-                "job._visible": 0,
-                "job._id": 0,
-                "job._admin": 0,
-                "job._properties": 0,
-                "job._salt": 0,
-                "job.pipeline_uuid": 0,
-                "job.derived_from": 0,
-                "job.derived_using": 0,
-                "job.history.data": 0,
-                "job.history.uuid": 0,
-                "job.product_patterns": 0,
-                "job.archive_patterns": 0,
-                "job.agent": 0,
-                "job.task": 0
+                "generated_by": 0,
+                "pipeline_uuid": 0
             }
         }
     ]

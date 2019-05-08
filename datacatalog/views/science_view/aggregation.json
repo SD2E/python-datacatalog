@@ -70,6 +70,20 @@
                 "path": "$file",
                 "preserveNullAndEmptyArrays": false
             }
+        },
+        {
+            "$lookup": {
+                "from": "agave_path",
+                "localField": "file.level",
+                "foreignField": "level",
+                "as": "agave_path"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$agave_path",
+                "preserveNullAndEmptyArrays": false
+            }
         }
     ]
 }

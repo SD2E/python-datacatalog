@@ -10,19 +10,18 @@
             }
         },
         {
-            "$unwind": {
-                "path": "$sample",
-                "preserveNullAndEmptyArrays": true
+            "$project": {
+                "sample._id": 0,
+                "sample._admin": 0,
+                "sample._properties": 0,
+                "sample._salt": 0,
+                "sample.child_of": 0
             }
         },
         {
-            "$project": {
-                "_admin": 0.0,
-                "_properties": 0.0,
-                "_salt": 0.0,
-                "sample._admin": 0,
-                "sample._properties": 0,
-                "sample._salt": 0
+            "$unwind": {
+                "path": "$sample",
+                "preserveNullAndEmptyArrays": false
             }
         }
     ]
