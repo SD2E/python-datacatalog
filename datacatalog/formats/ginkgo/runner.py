@@ -207,8 +207,12 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         #    "PhiX": "10_percent"
         # }
         phix_prop = "PhiX"
+        phix_val = None
         if phix_prop in props:
             phix_val = props[phix_prop]
+        elif phix_prop in ginkgo_sample:
+            phix_val = ginkgo_sample[phix_prop]
+        if phix_val is not None:
             if phix_val.endswith("_percent"):
                 phix_val = phix_val.replace("_percent", ":%")
             contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), phix_prop, phix_prop, lab, sbh_query, phix_val))
