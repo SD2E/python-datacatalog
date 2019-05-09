@@ -15,7 +15,7 @@ hashids>=1.2.0
 Jinja2>=2.7.3
 jq>=0.1.6
 jsondiff>=1.1.2
-jsonmerge>=1.6.0
+git+https://github.com/SD2E/jsonmerge.git@master
 petname>=2.2
 pymongo>=3.7.1
 python-magic==0.4.15
