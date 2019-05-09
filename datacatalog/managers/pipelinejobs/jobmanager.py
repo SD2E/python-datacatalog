@@ -43,14 +43,17 @@ class JobManager(Manager):
     def setup(self, *args, **kwargs):
         return self
 
-    def load(self, job_uuid, token=None):
-        """Load up a JobManager instance from the databaase
+    def attach(self, token=None):
+        return self.load(job_uuid=self.uuid, token=token)
+
+    def load(self, job_uuid=None, token=None):
+        """Load up an JobManager instance for the given UUID
 
         This fuction is the opposite of ``setup()``. It populates a minimum
         attribute set from the current contents of a job.
 
         Args:
-            job_uuid (string): An extant job UUID5
+            job_uuid (string): A known job TypedUUID
             token (string, optional): Update token for the job
 
         Raises:
@@ -59,6 +62,10 @@ class JobManager(Manager):
         Returns:
             object: ``self``
         """
+        if job_uuid is None:
+            job_uuid = getattr(self, 'uuid', None)
+        if job_uuid is None:
+            raise ManagedPipelineJobError('Unable to load job contents')
         loaded_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
         if loaded_job is None:
             raise ManagedPipelineJobError('No job {} was found'.format(job_uuid))
@@ -106,11 +113,13 @@ class JobManager(Manager):
             else:
                 self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
                 self.job = None
-                return self.job
+                for param, required, key, default in self.PARAMS:
+                    setattr(self, param, None)
+                return self
         except Exception as cexc:
             raise ManagedPipelineJobError(cexc)
 
-    def handle(self, event_name, data={}, token=None):
+    def handle(self, event_name, data={}, token=None, **kwargs):
         """Handle a named event
         """
         # Passed token >> current token to permit
@@ -219,9 +228,9 @@ class JobManager(Manager):
 
     def __repr__(self):
         vals = list()
-        vals.append('uuid: ' + getattr(self, 'uuid', 'NA'))
-        vals.append('pipeline: ' + getattr(self, 'pipeline_uuid', 'NA'))
-        vals.append('archive_uri: ' + self.archive_uri())
+        vals.append('uuid: {}'.format(getattr(self, 'uuid')))
+        vals.append('pipeline: {}'.format(getattr(self, 'pipeline_uuid')))
+        vals.append('archive_uri: {}'.format(self.archive_uri()))
         return '\n'.join(vals)
 
     def _validate_clearable_archive_path(self, path, permissive=True):

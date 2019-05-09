@@ -3,7 +3,7 @@ import sys
 from attrdict import AttrDict
 from tacconfig import config
 
-ENVIRONMENT = os.environ.get('ENVIRONMENT', 'localhost')
+ENVIRONMENT = os.environ.get('DB_ENV', 'localhost')
 
 HERE = os.getcwd()
 SELF = __file__
