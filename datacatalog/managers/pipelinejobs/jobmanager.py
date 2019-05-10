@@ -44,6 +44,10 @@ class JobManager(Manager):
         return self
 
     def attach(self, token=None):
+        """Simplified proxy for load
+
+        Materializes just enough of the job to interact with it
+        """
         return self.load(job_uuid=self.uuid, token=token)
 
     def load(self, job_uuid=None, token=None):
