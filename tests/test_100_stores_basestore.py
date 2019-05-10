@@ -82,23 +82,3 @@ def basestore_delete(mongodb_settings):
         resp = base.delete_document(uuid_val)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}
 
-def test_basestore_get_linkages(mongodb_settings):
-    """LinkedStore implements child_of but not acted_on
-    """
-    b = datacatalog.linkedstores.basestore.LinkedStore(mongodb_settings)
-    links = b.get_linkages()
-    assert len(list(links.keys())) > 0, 'Empty get_linkages()'
-    assert 'child_of' in links.keys(), 'Store must allow child_of linkage'
-    assert 'acted_on' not in links.keys(), 'Store does not allow that linkage'
-
-def test_basestore_get_linkages_override(mongodb_settings):
-    """PipelineJobStore includes an 'acted_on' linkage
-    """
-    b = datacatalog.linkedstores.pipelinejob.PipelineJobStore(mongodb_settings)
-    links = b.get_linkages()
-    assert len(list(links.keys())) > 0, 'Empty get_linkages()'
-    assert 'child_of' in links.keys(), 'Store must allow child_of linkage'
-    assert 'acted_on' in links.keys(), 'Store must allow acted_on linkage'
-    assert 'acted_using' in links.keys(), 'Store must allow acted_on linkage'
-    assert 'derived_from' not in links.keys(), 'Store does not allow that linkage'
-    assert 'derived_using' not in links.keys(), 'Store does not allow that linkage'

@@ -284,7 +284,7 @@ class LinkedStore(LinkageManager):
         return token_fields
 
     def get_linkages(self):
-        """Returns filtered set of allowed linkages and size restrictions
+        """Returns filtered dict of allowed linkage names and size limits
         """
         return {lf: self.LINK_RESTRICTIONS[lf] for lf in self.LINK_FIELDS}
 
