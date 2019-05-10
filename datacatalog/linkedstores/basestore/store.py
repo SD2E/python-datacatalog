@@ -47,6 +47,7 @@ __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'validate_admin_token', 'linkages']
 
 DEFAULT_LINK_FIELDS = linkages.DEFAULT_LINKS
+LINK_RESTRICTIONS = linkages.LINK_RESTRICTIONS
 DEFAULT_MANAGED_FIELDS = managedfields.ALL
 
 class LinkedStore(LinkageManager):
@@ -78,6 +79,8 @@ class LinkedStore(LinkageManager):
     """
     LINK_FIELDS = DEFAULT_LINK_FIELDS
     """Allowed linkage types for this LinkedStore"""
+    LINK_RESTRICTIONS = LINK_RESTRICTIONS
+    """Restrictions on number of allowable links"""
     MANAGED_FIELDS = DEFAULT_MANAGED_FIELDS
     """Fields in this LinkedStore that are managed solely by the framework"""
     READONLY_FIELDS = LINK_FIELDS + MANAGED_FIELDS
@@ -279,6 +282,11 @@ class LinkedStore(LinkageManager):
             if key in record_dict:
                 token_fields.append(record_dict.get(key))
         return token_fields
+
+    def get_linkages(self):
+        """Returns filtered set of allowed linkages and size restrictions
+        """
+        return {lf: self.LINK_RESTRICTIONS[lf] for lf in self.LINK_FIELDS}
 
     def query(self, query={},
               projection=None,

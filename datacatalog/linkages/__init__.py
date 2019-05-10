@@ -11,7 +11,13 @@ DERIVED_USING = 'derived_using'
 ACTED_ON = 'acted_on'
 ACTED_USING = 'acted_using'
 
+# Default set of links allowed for a collection
 DEFAULT_LINKS = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY)
+# Default linksg that allow only a single member
+LINK_RESTRICTIONS = {CHILD_OF: 1, GENERATED_BY: 1,
+                     DERIVED_FROM: -1, DERIVED_USING: -1,
+                     ACTED_ON: -1, ACTED_USING: -1}
+
 ALL = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY, ACTED_ON, ACTED_USING)
 
 DEFINITIONS = {CHILD_OF: 'B is immutably connected to A',
