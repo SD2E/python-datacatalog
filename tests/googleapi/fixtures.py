@@ -40,5 +40,5 @@ def google_sheets_dir(google_sheets_dir=None):
     return google_sheets_dir
 
 @pytest.fixture(scope='session')
-def google_drive(svcfile=google_service_account_file(), scopes=SCOPES):
-    return GoogleDriveHelper(svcfile, scopes)
+def google_drive(google_service_account_file, scopes=SCOPES):
+    return GoogleDriveHelper(google_service_account_file, scopes)
