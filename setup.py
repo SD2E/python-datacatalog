@@ -32,6 +32,9 @@ def get_requirements(remove_links=True):
             # mercurial repository url.
             if requirement.startswith("hg+"):
                 new_requirements.remove(requirement)
+            # editable URL
+            if requirement.startswith("-e "):
+                new_requirements.remove(requirement)
     return new_requirements
 
 def get_links():
@@ -83,6 +86,7 @@ setup(
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",

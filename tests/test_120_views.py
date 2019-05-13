@@ -14,6 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/views')
 
+@pytest.mark.skip(reason="Schema support in views was retired")
 def test_views_get_schemas():
     schemas = datacatalog.views.schemas.get_schemas()
     assert isinstance(schemas, dict)
