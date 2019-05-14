@@ -1,5 +1,3 @@
-mongodb_view_name = 'pipelinejobs_table'
-"""MongoDB view name"""
-
-from .classes import *
-from .schemas import *
+AUTHOR = 'vaughn@tacc.utexas.edu'
+# DESCRIPTION = ''
+# MONGODB_VIEW_NAME = 'pipelinejobs_table'

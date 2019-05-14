@@ -57,6 +57,14 @@ def test_iter_less_recursion(mongodb_settings, filename):
     dbp = db.process(strategy='merge')
     assert dbp is True
 
+@longrun
+@pytest.mark.parametrize("filename", ['samples-titration.json'])
+def test_titration_nan_merge(mongodb_settings, filename):
+    jsonpath = os.path.join(DATA_DIR, filename)
+    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
+    dbp = db.process(strategy='merge')
+    assert dbp is True
+
 # def test_iter_process_replace(mongodb_settings):
 #     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
 #     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)

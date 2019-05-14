@@ -105,7 +105,11 @@ class ExperimentReferenceMapping(object):
                           'created': google_time_to_datetime(file['createdTime']),
                           'updated': google_time_to_datetime(file['modifiedTime']),
                           'child_of': []}
-                records.append(record)
+                if record not in records:
+                    records.append(record)
+                else:
+                    raise ValueError(
+                        'Duplicate record detected: {}'.format(record))
 
         unknown_rec = {'title': 'Undefined Experiment Design',
                        'status': 'DRAFT',

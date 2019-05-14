@@ -16,10 +16,6 @@ collections linked by UUID and linkage fields. Classes in these modules inherit
 schema and database logic from ``basestore`` classes
 """
 
-VIEW_SCHEMAS = ['views']
-"""Modules that define and represent read-only collections based on aggregations
-using the datacatalog data model"""
-
 COMPOSED_SCHEMAS = ['compositions.sample_set']
 """Modules that represent compositions or translations of existing datacatalog
 schemas. These are useful for backwards or sideways compatibility."""
@@ -32,7 +28,7 @@ UNMANAGED_SCHEMAS = ['formats']
 """Modules that define schemas imported from outside the core datacatalog data
 model into the shared datacatalog schema namespace"""
 
-SCHEMAS = [STORE_SCHEMAS, VIEW_SCHEMAS, COMPOSED_SCHEMAS,
+SCHEMAS = [STORE_SCHEMAS, COMPOSED_SCHEMAS,
            PRIMITIVE_SCHEMAS, UNMANAGED_SCHEMAS]
 """The union set of all schemas. This list is traversed when building the set
 of all project schemas."""

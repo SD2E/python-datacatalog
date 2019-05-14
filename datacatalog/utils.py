@@ -22,6 +22,7 @@ from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
 
 SCHEMA_FILE = '/schemas/default.jsonschema'
+EXCLUDED_SUBMODULE_NAMES = ('__pycache__')
 
 def camel_to_snake(text_string):
     """Transform a CamelCase string into snake_case
@@ -167,3 +168,19 @@ def dynamic_import(module, package=None):
         object: The imported module
     """
     return importlib.import_module(module, package=package)
+
+def import_submodules(module, package=None):
+    """Dynamically discover and import submodules at runtime
+    """
+    m = dynamic_import(module, package)
+    paths = m.__path__
+    real_path = [pt for pt in paths][0]
+    submodules = list()
+    for c in os.listdir(real_path):
+        try:
+            if c not in EXCLUDED_SUBMODULE_NAMES:
+                sm = dynamic_import(module + '.' + os.path.basename(c))
+                submodules.append(sm)
+        except ModuleNotFoundError:
+            pass
+    return submodules

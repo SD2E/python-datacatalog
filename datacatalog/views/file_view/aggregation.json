@@ -1,0 +1,19 @@
+{
+    "view_on": "files",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "measurement_view",
+                "localField": "child_of",
+                "foreignField": "measurement.uuid",
+                "as": "measurement"
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$measurement",
+                "preserveNullAndEmptyArrays": true
+            }
+        }
+    ]
+}

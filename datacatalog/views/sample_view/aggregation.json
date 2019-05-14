@@ -1,0 +1,28 @@
+{
+    "view_on": "experiment_view",
+    "pipeline": [
+        {
+            "$lookup": {
+                "from": "samples",
+                "localField": "experiment.uuid",
+                "foreignField": "child_of",
+                "as": "sample"
+            }
+        },
+        {
+            "$project": {
+                "sample._id": 0,
+                "sample._admin": 0,
+                "sample._properties": 0,
+                "sample._salt": 0,
+                "sample.child_of": 0
+            }
+        },
+        {
+            "$unwind": {
+                "path": "$sample",
+                "preserveNullAndEmptyArrays": false
+            }
+        }
+    ]
+}

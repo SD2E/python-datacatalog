@@ -103,7 +103,12 @@ class ChallengeMapping(object):
                           'id': key.upper(),
                           'created': google_time_to_datetime(file['createdTime']),
                           'updated': google_time_to_datetime(file['modifiedTime'])}
-                records.append(record)
+                if record not in records:
+                    records.append(record)
+                else:
+                    raise ValueError(
+                        'Duplicate record detected: {}'.format(record))
+
         # Placeholder for Unknown mapping
         unknown_rec = {'title': 'Undefined Challenge Problem',
                        'status': 'DRAFT',

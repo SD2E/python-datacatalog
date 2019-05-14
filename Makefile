@@ -7,7 +7,7 @@ PYTEST_RUN_OPTS ?= --smoketest -s $(PYTEST_FAIL_OPTS)
 EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production
-DB_ENV ?= -localhost
+DB_ENV ?= localhost
 
 all: build
 
@@ -87,10 +87,10 @@ smoketest-dockerhub:
 
 # Update actual database
 challenge_problems:
-	python -m scripts.build_challenge_problems $(DB_ENV)
+	python -m scripts.build_challenge_problems -$(DB_ENV)
 
 experiment_designs:
-	python -m scripts.build_experiment_designs $(DB_ENV)
+	python -m scripts.build_experiment_designs -$(DB_ENV)
 
 # Regenerates the schema tree, including a sync w Google
 .PHONY: schemas
@@ -157,51 +157,51 @@ bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
 bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views
 
 bootstrap-database:
-	python -m bootstrap.create_database $(DB_ENV)
+	python -m bootstrap.create_database -$(DB_ENV)
 
 bootstrap-challenge-problems: challenge_problems
 bootstrap-challenge-problems-extra:
-	python -m bootstrap.manage_challenges auto $(DB_ENV)
+	python -m bootstrap.manage_challenges auto -$(DB_ENV)
 
 bootstrap-experiment-designs: experiment_designs
 bootstrap-experiment-designs-extra:
-	python -m bootstrap.manage_experiment_designs auto $(DB_ENV)
+	python -m bootstrap.manage_experiment_designs auto -$(DB_ENV)
 
 bootstrap-experiments:
-	python -m bootstrap.manage_experiments auto $(DB_ENV)
+	python -m bootstrap.manage_experiments auto -$(DB_ENV)
 
 bootstrap-experiments-extra: bootstrap-experiments
 
 bootstrap-samples:
-	python -m bootstrap.manage_samples auto $(DB_ENV)
+	python -m bootstrap.manage_samples auto -$(DB_ENV)
 
 bootstrap-samples-extra: bootstrap-samples
 
 bootstrap-measurements:
-	python -m bootstrap.manage_measurements auto $(DB_ENV)
+	python -m bootstrap.manage_measurements auto -$(DB_ENV)
 
 bootstrap-measurements-extra: bootstrap-measurements
 
 bootstrap-references:
-	python -m bootstrap.manage_references auto $(DB_ENV)
+	python -m bootstrap.manage_references auto -$(DB_ENV)
 
 bootstrap-references-extra: bootstrap-references
 
 bootstrap-files:
-	python -m bootstrap.manage_files auto $(DB_ENV)
+	python -m bootstrap.manage_files auto -$(DB_ENV)
 
 bootstrap-files-extra: bootstrap-files
 
 bootstrap-pipelines:
-	python -m bootstrap.manage_pipelines auto $(DB_ENV)
+	python -m bootstrap.manage_pipelines auto -$(DB_ENV)
 bootstrap-pipelines-extra: bootstrap-pipelines
 
 bootstrap-processes:
-	python -m bootstrap.manage_processes auto $(DB_ENV)
+	python -m bootstrap.manage_processes auto -$(DB_ENV)
 bootstrap-processes-extra: bootstrap-processes
 
 bootstrap-views:
-	python -m bootstrap.manage_views auto $(DB_ENV)
+	python -m bootstrap.manage_views auto -$(DB_ENV)
 bootstrap-views-extra: bootstrap-views
 
 bootstrap-schemas: schemas-build
