@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190513T133338+00:00; source: git@github.com:SD2E/python-datacatalog.git@ed86c0c",
+    "$comment": "generated: 20190514T192536+00:00; source: git@github.com:SD2E/python-datacatalog.git@c93fbf4",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -32,6 +32,7 @@
         "Yeast-Gates",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Cello-Characterization",
+        "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-NAND2-0-Titration",
         "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-Bacillus-WT",
@@ -45,7 +46,6 @@
         "NovelChassis-Parts-Discovery",
         "YeastStates-TimeSeries-Merged",
         "YeastStates-TimeSeries-LowThroughput",
-        "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-NAND-Gate",
         "Riboswitches"
     ],
@@ -77,6 +77,7 @@
         "Yeast-Gates",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Cello-Characterization",
+        "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-NAND2-0-Titration",
         "Exp-NC-NAND-Gate-Iteration",
         "NovelChassis-Bacillus-WT",
@@ -90,7 +91,6 @@
         "NovelChassis-Parts-Discovery",
         "YeastStates-TimeSeries-Merged",
         "YeastStates-TimeSeries-LowThroughput",
-        "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-NAND-Gate",
         "Riboswitches"
     ],
