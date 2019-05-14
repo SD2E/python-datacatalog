@@ -10,15 +10,10 @@ build:
   image: latest
 
 python:
-  version: 3.6
   install:
     - requirements: requirements-rtfd.txt
     - requirements: requirements-dev.txt
-    - method: pip
-      path: .
-  system_packages: true
 
-    # Build documentation in the docs/ directory with Sphinx
 sphinx:
   builder: html
   configuration: docs/conf.py
