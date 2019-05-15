@@ -32,5 +32,5 @@ validators
 xxhash
 bacanora@git+https://github.com/SD2E/bacanora.git@master
 python_jsonschema_objects@git+https://github.com/cwacek/python-jsonschema-objects.git@master
-jsonmerge@git+https://github.com/SD2E/jsonmerge.git@master
+jsonmerge>=1.6.1
 jsonschema>=3.0.1
