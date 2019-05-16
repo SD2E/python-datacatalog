@@ -1,6 +1,7 @@
 
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
+import datacatalog
 from ..filetypes import infer_filetype
 from datacatalog.utils import safen_path
 
@@ -142,9 +143,7 @@ def map_experiment_reference(config, output_doc):
     global challenge_table
 
     if design_table is None:
-        db_uri = config['cp_db_uri']
-        client = pymongo.MongoClient(db_uri)
-        db = client[config['cp_db']]
+        db = datacatalog.mongo.db_connection(config['mongodb'])
         design_table = db.experiment_designs
         challenge_table = db.challenges
 

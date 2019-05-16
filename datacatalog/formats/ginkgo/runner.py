@@ -5,6 +5,7 @@ import os
 import six
 import collections
 import pymongo
+import datacatalog
 
 from jsonschema import validate, ValidationError
 from sbol import *
@@ -63,9 +64,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
 
-    db_uri = config['cp_db_uri']
-    client = pymongo.MongoClient(db_uri)
-    db = client[config['samples_db']]
+    db = datacatalog.mongo.db_connection(config['mongodb'])
     samples_table = db.samples
     measurements_table = db.measurements
 

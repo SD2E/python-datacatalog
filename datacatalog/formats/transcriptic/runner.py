@@ -4,6 +4,7 @@ import sys
 import os
 import six
 import pymongo
+import datacatalog
 
 from jsonschema import validate, ValidationError
 from sbol import *
@@ -61,9 +62,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     map_experiment_reference(config, output_doc)
 
-    db_uri = config['cp_db_uri']
-    client = pymongo.MongoClient(db_uri)
-    db = client[config['samples_db']]
+    db = datacatalog.mongo.db_connection(config['mongodb'])
     samples_table = db.samples
 
 
