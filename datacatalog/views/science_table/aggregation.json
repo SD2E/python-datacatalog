@@ -12,6 +12,7 @@
                 "experiment_reference_url": "$experiment_design.uri",
                 "file_type": "$file.type",
                 "filename": "$file.name",
+                "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
                 "hpc_path": {
                     "$concat": [
                         "/work/projects/SD2E-Community/prod/data",
