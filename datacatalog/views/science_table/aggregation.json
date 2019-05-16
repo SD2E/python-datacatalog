@@ -4,7 +4,7 @@
         {
             "$project": {
                 "agave_path": "$file.name",
-                "agave_system": "$agave_path.agave_system",
+                "agave_system": "data-sd2e-community",
                 "aligner": "$file.attributes.aligner",
                 "challenge_problem": "$id",
                 "experiment_id": "$experiment.experiment_id",
