@@ -58,6 +58,30 @@ class DocumentDiff(ExtensibleAttrDict):
         """
         return json.loads(self.delta) != dict()
 
+def diff_list(list1, list2):
+    list1_set = set()
+    list2_set = set()
+    list_diff = []
+    # O(3N) time
+    # index list 2
+    for index, element in enumerate(list2):
+      list2_set.add(str(index) + str(element))
+
+    # check list1 against list2, index list1
+    for index, element in enumerate(list1):
+      list1_set.add(str(index) + str(element))
+      check = str(index) + str(element)
+      if check not in list2_set:
+        list_diff.append(str(element))
+
+    # check list 2 against list1
+    for index, element in enumerate(list2):
+      check = str(index) + str(element)
+      if check not in list1_set:
+        list_diff.append(str(element))
+
+    return list_diff
+
 def get_diff(source={}, target={}, action=DEFAULT_ACTION):
     """Determine the differences between two documents
 
@@ -107,7 +131,41 @@ def get_diff(source={}, target={}, action=DEFAULT_ACTION):
                 del doc[key]
         safe_docs.append(json.loads(json.dumps(doc, cls=DateTimeEncoder)))
 
+    # https://github.com/xlwings/jsondiff/issues/18
+    # Lists are evaluated recursively and lead to maximum recursion depth exceeded in comparison
+    # A potential work-around: scan top level keys that are lists, diff them,
+    # remove from the JSON document, and merge the diffs back into the original comparison
+    # This won't work for embedded lists
+
+    CANDIDATE_LIST_LENGTH = 100
+    candidate_list_keys = set()
+    candidate_list_key_values = {}
+    for key in safe_docs[0]:
+        if isinstance(safe_docs[0][key], list) and len(safe_docs[0][key]) > CANDIDATE_LIST_LENGTH:
+            candidate_list_keys.add(key)
+    for key in safe_docs[1]:
+        if isinstance(safe_docs[1][key], list) and len(safe_docs[1][key]) > CANDIDATE_LIST_LENGTH:
+            candidate_list_keys.add(key)
+    for candidate_list_key in candidate_list_keys:
+        if candidate_list_key in safe_docs[0] and candidate_list_key in safe_docs[1]:
+            list1 = safe_docs[0][candidate_list_key]
+            list2 = safe_docs[1][candidate_list_key]
+            list_diff = diff_list(list1, list2)
+            del safe_docs[0][candidate_list_key]
+            del safe_docs[1][candidate_list_key]
+            candidate_list_key_values[candidate_list_key] = list_diff
+
     delta = diff(safe_docs[0], safe_docs[1], syntax='explicit', dump=True)
+
+    # delta is a string - inline the list diffs if they exist
+    if len(candidate_list_keys) > 0:
+        delta_json = json.loads(delta)
+        for candidate_list_key in candidate_list_keys:
+            if candidate_list_key in candidate_list_key_values:
+                list_diff = candidate_list_key_values[candidate_list_key]
+                if len(list_diff) > 0:
+                    delta_json[candidate_list_key] = list_diff
+        delta = json.dumps(delta_json)
 
     doc_diff_obj = DocumentDiff(delta, doc_uuid, doc_admin, action)
     return doc_diff_obj
