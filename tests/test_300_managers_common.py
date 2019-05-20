@@ -182,9 +182,15 @@ def test_mgr_common_get_links(object_id, subject_id, linkage, success, mongodb_s
     assert subject_uuid in resp
 
 @pytest.mark.parametrize("object_id, success", [
-    ('CELL_GROWTH', True), ('CELL GROWTH', False), ('1019c6c4-d3bd-5c5f-9cb0-09da8093aa1a', True),
-    ('CellGrowth-RNAseqMethodsDevelopment', True), ('CP Experimental Request CellGrowth_RNAseqMethodsDevelopment', False), ('114d6d85-6dab-54af-8fee-5d7871df2a55', True),
-    ('/uploads/attachments/biotek_multi_csv/e10244/c224255.txt', True), ('c224255.txt', False)])
+    ('CELL_GROWTH', True),
+    ('CELL GROWTH', False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', True),
+    ('PIPELINE_AUTOMATION', True),
+    ('Pipeline Automation Challenge', False),
+    ('1144f727-8827-5126-8e03-f35e8cb6f070', True),
+    ('/uploads/attachments/biotek_multi_csv/e10244/c224255.txt', False),
+    ('c224255.txt', False),
+    ('/sample/tacc-cloud/dawnofman.jpg', True)])
 def test_mgr_common_get_by_identifier(object_id, success, mongodb_settings):
     base = datacatalog.managers.common.Manager(mongodb_settings)
     if success:

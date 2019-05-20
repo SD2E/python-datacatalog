@@ -134,6 +134,7 @@ class Indexer(Manager):
 
             # Relative path
             try:
+                # A relative pathname must ALWAYS exist to be resolved
                 refuuid = self.file_job_relative_path(ref, check_exists=True)
                 resolved.add(refuuid)
                 self.logger.debug('Was a relative path')
@@ -150,7 +151,8 @@ class Indexer(Manager):
         return resolved_list
 
     def single_index_request(self, index_request, token=None,
-                             refresh=False, fixity=True):
+                             refresh=False, fixity=True,
+                             permissive=False):
         """Processes a single indexing request
         """
         self.sync_listing(refresh)
@@ -165,15 +167,18 @@ class Indexer(Manager):
                 idxr['generated_by'] = gen_by
             resp = self._handle_single_archive_request(idxr,
                                                        token=token,
-                                                       fixity=fixity)
+                                                       fixity=fixity,
+                                                       permissive=permissive)
         elif idxr.kind is PRODUCT:
             resp = self._handle_single_product_request(idxr,
                                                        token=token,
-                                                       fixity=fixity)
+                                                       fixity=fixity,
+                                                       permissive=permissive)
         return resp
 
     def _handle_single_product_request(self, request, token=None,
-                                       fixity=False, permissive=False):
+                                       fixity=False,
+                                       permissive=False):
         """Private: Services a products indexing request
         """
         indexed = set()
@@ -200,8 +205,8 @@ class Indexer(Manager):
                 self.logger.debug('Adding product linkages')
                 # Resolve UUIDs, indentifiers, and finally relative paths
                 # into UUIDs that can be used for linkages
-                derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
-                derived_from = self.resolve_derived_references(request.derived_from, permissive=True)
+                derived_using = self.resolve_derived_references(request.derived_using, permissive=permissive)
+                derived_from = self.resolve_derived_references(request.derived_from, permissive=permissive)
                 self.logger.debug('derived_from: {}'.format(derived_from))
                 self.logger.debug('derived_using: {}'.format(derived_using))
                 self.logger.debug('add_link.derived_using')
@@ -251,7 +256,8 @@ class Indexer(Manager):
                 if patts is not None:
                     if not patts.search(os.path.basename(file_name)):
                         continue
-                # Create a files record
+                # Create a files record. We use permissive=True here to save
+                # the exists lookup in favor of just using the filename
                 ftype = infer_filetype(file_name,
                                        check_exists=False,
                                        permissive=True).label

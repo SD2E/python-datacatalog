@@ -77,7 +77,7 @@ class ManagedPipelineJobInstance(Indexer):
         return self.stores['pipelinejob'].handle(event_doc, token)
 
     def index(self, token=None, transition=False, level='1',
-              fixity=False, filters=None, **kwargs):
+              fixity=False, filters=None, permissive=False, **kwargs):
         """Index the contents of the job's archive path
         """
         # if filters are passed, parse thru them and assign to either archive
@@ -124,7 +124,8 @@ class ManagedPipelineJobInstance(Indexer):
             try:
                 just_indexed = self.single_index_request(
                     index_request_str, token=token,
-                    refresh=False, fixity=index_fixity)
+                    refresh=False, fixity=index_fixity,
+                    permissive=permissive)
                 indexed.extend(just_indexed)
             except IndexingError:
                 self.logger.exception(
@@ -143,5 +144,9 @@ class ManagedPipelineJobInstance(Indexer):
         """Mark job outputs indexing as completed
         """
         event_doc = {'uuid': self.uuid, 'name': 'indexed'}
-        resp = self.handle(event_doc, token=token)
-        return resp
+        try:
+            resp = self.handle(event_doc, token=token)
+            return resp
+        except Exception:
+            raise IndexingError('Transition to INDEXED failed  for {}'.format(
+                self.uuid))
