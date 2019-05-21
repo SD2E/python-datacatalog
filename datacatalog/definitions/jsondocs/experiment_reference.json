@@ -2,10 +2,11 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
+    "Unknown",
     "CellGrowth-RNAseqMethodsDevelopment",
     "Overview-Immortality",
     "PubDataAnal-Immortality",
-    "Unknown",
     "190214-High-Throughput",
     "181015-Stephanie-Berger",
     "181127-High-Throughput",

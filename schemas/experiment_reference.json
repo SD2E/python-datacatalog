@@ -1,14 +1,15 @@
 {
-    "$comment": "generated: 20190514T192536+00:00; source: git@github.com:SD2E/python-datacatalog.git@c93fbf4",
+    "$comment": "generated: 20190521T201817+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@9cc9417",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
+        "Unknown",
         "CellGrowth-RNAseqMethodsDevelopment",
         "Overview-Immortality",
         "PubDataAnal-Immortality",
-        "Unknown",
         "190214-High-Throughput",
         "181015-Stephanie-Berger",
         "181127-High-Throughput",
@@ -50,10 +51,11 @@
         "Riboswitches"
     ],
     "examples": [
+        "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
+        "Unknown",
         "CellGrowth-RNAseqMethodsDevelopment",
         "Overview-Immortality",
         "PubDataAnal-Immortality",
-        "Unknown",
         "190214-High-Throughput",
         "181015-Stephanie-Berger",
         "181127-High-Throughput",
