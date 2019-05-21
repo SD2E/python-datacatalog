@@ -1,6 +1,7 @@
 {
     "description": "Identifying key for a specific experimental facilty",
     "enum": [
+        "Caltech",
         "Ginkgo",
         "Transcriptic",
         "UW_BIOFAB"
