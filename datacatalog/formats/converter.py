@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import inspect
+import pandas
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
 # from .runner import convert_file
@@ -101,36 +102,78 @@ class Converter(object):
         """
         # set encoding
         self.encoding = encoding
-        try:
-            with open(input_fp, 'r', encoding=encoding) as jsonfile:
-                jsondata = json.load(jsonfile)
-        except Exception as exc:
-            raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
 
-        # Iterate thhrough our schemas
-        validation_errors = []
-        for schema_path in self.schemas:
+        # JSON Path
+        if input_fp.endswith(".json"):
             try:
-                with open(schema_path) as schema:
-                    schema_json = json.loads(schema.read())
-            except Exception as e:
-                raise ConversionError(
-                    'Failed to load schema for validation', e)
+                with open(input_fp, 'r', encoding=encoding) as jsonfile:
+                    jsondata = json.load(jsonfile)
+            except Exception as exc:
+                raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
 
+            # Iterate through our schemas
+            validation_errors = []
+            for schema_path in self.schemas:
+                try:
+                    with open(schema_path) as schema:
+                        schema_json = json.loads(schema.read())
+                except Exception as e:
+                    raise ConversionError(
+                        'Failed to load schema for validation', e)
+
+                try:
+                    validate(jsondata, schema_json, format_checker=formatChecker())
+                    return True
+                except ValidationError as v:
+                    validation_errors.append(v)
+                    pass
+                except Exception as e:
+                    raise ConversionError(e)
+
+            # If we have not returned True, all schemas failed
+            if permissive:
+                return False
+            else:
+                raise ValidationError(validation_errors)
+
+        #XLSX PATH
+        elif input_fp.endswith(".xlsx"):
             try:
-                validate(jsondata, schema_json, format_checker=formatChecker())
-                return True
-            except ValidationError as v:
-                validation_errors.append(v)
-                pass
-            except Exception as e:
-                raise ConversionError(e)
+                # load all sheets
+                exceldata = pandas.read_excel(input_fp, None)
+            except Exception as exc:
+                raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
 
-        # If we have not returned True, all schemas failed
-        if permissive:
-            return False
-        else:
-            raise ValidationError(validation_errors)
+            # Iterate through our schemas
+            validation_errors = []
+            for schema_path in self.schemas:
+                try:
+                    with open(schema_path) as schema:
+                        schema_json = json.loads(schema.read())
+                except Exception as e:
+                    raise ConversionError(
+                        'Failed to load schema for validation', e)
+
+                try:
+                    # pull headers from schema and check
+                    schema_properties = schema_json["properties"]
+                    if "xlsx" in schema_properties and schema_properties["xlsx"] and "headers" in schema_properties:
+                        header_values = schema_properties["headers"]
+
+                        for sheet_name in exceldata.keys():
+                            sheet_df = exceldata[sheet_name]
+                            df_headers = list(sheet_df.columns.values)
+                            valid = all([header in df_headers for header in header_values])
+                            if valid:
+                                return valid
+                except Exception as e:
+                    raise ConversionError(e)
+
+            # If we have not returned True, all schemas failed
+            if permissive:
+                return False
+            else:
+                raise ValidationError(validation_errors)
 
     def validate(self, output_fp, permissive=False):
         """Validate a file against schemas known to Converter
