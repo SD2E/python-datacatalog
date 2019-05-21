@@ -55,11 +55,11 @@ def decode_path(encoded_file_path):
     """
     return unquote(encoded_file_path)
 
-def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, url_quote=False):
+def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, url_quote=False, no_equals=False):
     """Returns a safened version of a path
 
     Trailing whitespace is removed, Unicode characters (sorry!) are transformed
-    to ASCII equivalents, and whitespaces are replaced with a dash character.
+    to ASCII equivalents, equals are replaced with a dash, and whitespaces are replaced with a dash character.
     """
     safe_file_path = file_path.strip()
     # Resolve dot-dot and other navigations into a canonical path
@@ -72,6 +72,9 @@ def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, ur
     # Bad spaces. Bad!
     if no_spaces:
         safe_file_path = re.sub(r'\s+', '-', safe_file_path)
+    # 'nix filesystems do not like
+    if no_equals:
+        safe_file_path = re.sub(r'=+', '-', safe_file_path)
     # Pick up any lingering URL-unsafe characters
     if url_quote:
         safe_file_path = encode_path(decode_path(safe_file_path))
