@@ -2,6 +2,7 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
+    "BIOCON",
     "CELL_GROWTH",
     "PROTEIN_DESIGN",
     "YEAST_STATES",
