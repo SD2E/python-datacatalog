@@ -15,8 +15,7 @@
         },
         "lab_id": {
             "description": "The original value specified by the provider",
-            "pattern": "^name\\.(uw_biofab|ginkgo|transcriptic)",
-            "type": "string"
+            "$ref": "namespaced_identifier.json"
         },
         "label": {
             "description": "Unique, human-readable string",
