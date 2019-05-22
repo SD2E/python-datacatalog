@@ -8,7 +8,7 @@ from . import *
 from .converter import Converter, ConversionError
 from ..utils import dynamic_import, detect_encoding
 
-FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes']
+FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes', 'Caltech']
 """Class names for document types that can be converted to Data Catalog records"""
 
 class NoClassifierError(ConversionError):
@@ -35,7 +35,10 @@ def get_converter(json_filepath, options={}, expect=None):
         converters = [globals()[expect](options)]
 
     encoding = detect_encoding(json_filepath)
-    if encoding not in ('ascii', 'utf-8', 'ISO-8859-1'):
+    if encoding is None:
+        # use a sane default
+        encoding = 'utf-8'
+    elif encoding not in ('ascii', 'utf-8', 'ISO-8859-1'):
         raise ValueError("Unknown encoding: {}".format(encoding))
 
     # print("Detected encoding {}".format(encoding))
