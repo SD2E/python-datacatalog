@@ -1,10 +1,11 @@
 {
-    "$comment": "generated: 2019-01-29 01:26:18 +00:00; source: git@github.com:SD2E/python-datacatalog.git@45c7e91",
+    "$comment": "generated: 20190521T201817+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@9cc9417",
     "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Challenge problem enumeration",
     "enum": [
+        "BIOCON",
         "CELL_GROWTH",
         "PROTEIN_DESIGN",
         "YEAST_STATES",
@@ -13,6 +14,7 @@
         "UNDEFINED"
     ],
     "examples": [
+        "BIOCON",
         "CELL_GROWTH",
         "PROTEIN_DESIGN",
         "YEAST_STATES",

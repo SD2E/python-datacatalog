@@ -15,6 +15,7 @@ import datacatalog
 from .data import file
 from datacatalog.linkedstores.file import FileStore, FileRecord
 from datacatalog.jsonschemas import ValidationError
+from datacatalog.utils import safen_path
 
 def test_files_db_init(mongodb_settings):
     base = FileStore(mongodb_settings)
@@ -188,3 +189,13 @@ def test_files_safen_path(mongodb_settings, filename, fuuid):
     doc = FileRecord({'name': filename})
     resp = base.add_update_document(doc)
     assert resp['uuid'] == fuuid
+
+def test_safen_path():
+    """A safen path special case with equals
+    """
+    unsafe = "variants-forA=B-samp=ling"
+    still_unsafe = safen_path(unsafe, no_unicode=True, no_spaces=True)
+    assert still_unsafe == "variants-forA=B-samp=ling"
+
+    now_safe = safen_path(unsafe, no_unicode=True, no_spaces=True, no_equals=True)
+    assert now_safe == "variants-forA-B-samp-ling"

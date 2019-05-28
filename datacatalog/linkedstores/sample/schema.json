@@ -94,8 +94,7 @@
         },
         "reference_sample_id": {
             "description": "A reference sample id, internal to the lab, when referring to samples from another lab, e.g. Ginkgo processing samples from Transcriptic",
-            "type": "string",
-            "pattern": "^sample\\.(uw_biofab|ginkgo|transcriptic)"
+            "$ref": "namespaced_identifier.json"
         },
         "child_of": {
             "items": {

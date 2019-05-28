@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Caltech XLSX Headers Schema",
+    "$comment": "",
+    "type": "object",
+    "properties": {
+        "xlsx": true,
+        "headers": ["well", "a", "b", "ba ratio", "atc", "iptg"]
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "additionalProperties": false
+}
