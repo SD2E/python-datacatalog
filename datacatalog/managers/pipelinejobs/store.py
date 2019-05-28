@@ -72,6 +72,7 @@ class ManagedPipelineJob(JobManager):
         measurement_id (str/list, optional): Identifier(s) for the measurement(s) to which the job is linked
         data (dict, optional): Defines the job's parameterization.
         archive_path (str, optional): Override value for automatically-generated ``archive_path``
+        archive_system (str, optional): Override default Agave ``archive_system``
         archive_patterns (list, optional): List of ``ArchiveIndexRequest`` objects
         product_patterns (list, optional): List of ``ProductIndexRequest`` objects
         instanced (bool, optional): Should ``archive_path`` be extended with a randomized session name
@@ -81,7 +82,6 @@ class ManagedPipelineJob(JobManager):
     Other Parameters:
         agent (str, optional): Abaco actorId or Agave appId managing the pipeline
         archive_collection_level (str, optional): Overrides default of ``measurement`` for aggregating outputs
-        archive_system (str, optional): Overrides default ``archive_system``
         inputs (list, optional): Data files and references being computed upon. This supplements values of ``inputs`` discovered in ``data``
         generated_by: (str, optional): String UUID5 of a named process
         pipeline_uuid (str, optional): Overrides value of ``pipelines.pipeline_uuid``
