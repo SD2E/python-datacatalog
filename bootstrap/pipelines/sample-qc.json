@@ -1,0 +1,22 @@
+{
+    "name": "Sample Quality Check",
+    "description": "Sample quality check using pysd2cat",
+    "components": [
+        {
+            "id": "PoMWrQ4Vr7PJq",
+            "image": "index.docker.io/sd2e/sample_quality_check:latest",
+            "options": {}
+        }
+    ],
+    "processing_levels": [
+        "1"
+    ],
+    "accepts": [
+        "FCS"
+    ],
+    "produces": [
+        "CSV"
+    ],
+    "pipeline_type": "primary-etl",
+    "id": "sd2e-sample-qc"
+}
