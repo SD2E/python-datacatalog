@@ -2,6 +2,8 @@ import inspect
 import json
 import os
 import re
+from functools import lru_cache
+from datacatalog.hashable import picklecache, jsoncache
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog import settings
 
@@ -37,23 +39,7 @@ class StorageSystem(str):
         self.set_type_and_name(permissive=False)
         setattr(self, '_cache', None)
         setattr(self, '_agave', agave)
-        if local:
-            modfile = inspect.getfile(self.__class__)
-            storefile = os.path.join(os.path.dirname(modfile), 'systems.json')
-            # load in mappings.json
-            # array of system defs, mirroring response from agave.systems.list()
-            contents = json.load(open(storefile, 'r'))
-            for system in contents:
-                # SHOULD THIS BE system.get('id') == name
-                if system.get('id') == self:
-                    setattr(self, '_cache', ExtensibleAttrDict(system))
-                    break
-        if self._cache is None:
-            try:
-                sys = self._agave.systems.get(systemId=self)
-                setattr(self, '_cache', ExtensibleAttrDict(sys))
-            except Exception:
-                raise ManagedStoreError('Failed to initialize StorageSystem cache')
+        setattr(self, '_cache', self.get_system_record(permissive=False))
 
     def set_type_and_name(self, permissive=False):
         """Uses regular expressions to find type and short name for system
@@ -66,6 +52,23 @@ class StorageSystem(str):
                 return True
         if permissive is False:
             raise ManagedStoreError('Unable to determine type or short name')
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def get_system_record(self, permissive=False):
+        modfile = inspect.getfile(self.__class__)
+        storefile = os.path.join(os.path.dirname(modfile), 'systems.json')
+        # load in mappings.json
+        # array of system defs, mirroring response from agave.systems.list()
+        contents = json.load(open(storefile, 'r'))
+        for system in contents:
+            # SHOULD THIS BE system.get('id') == name
+            if system.get('id') == self:
+                return ExtensibleAttrDict(system)
+        try:
+            sys = self._agave.systems.get(systemId=self)
+            return ExtensibleAttrDict(sys)
+        except Exception:
+            raise ManagedStoreError('Failed to fetch StorageSystem record')
 
     @property
     def system_id(self):
