@@ -79,7 +79,7 @@ class FileRecord(ExtensibleAttrDict):
                                   no_spaces=True,
                                   url_quote=False,
                                   no_equals=True)
-        if self['storage_system'] is None:
+        if self.get('storage_system', None) is None:
             self['storage_system'] = settings.STORAGE_SYSTEM
 
     def set_token(self, value):
