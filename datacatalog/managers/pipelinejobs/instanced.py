@@ -52,8 +52,11 @@ class ManagedPipelineJobInstance(Indexer):
         super(ManagedPipelineJobInstance, self).__init__(mongodb, agave)
         self.uuid = uuid
         db_rec = self.stores['pipelinejob'].find_one_by_uuid(uuid)
-        for param, req, attr, default in self.PARAMS:
-            setattr(self, attr, db_rec.get(param))
+        if db_rec is None:
+            raise ValueError('Failed to instantiate instance of job {}'.format(uuid))
+        else:
+            for param, req, attr, default in self.PARAMS:
+                setattr(self, attr, db_rec.get(param))
         # Dynamically add run, fail, etc methods
         # self._add_event_functions()
 
