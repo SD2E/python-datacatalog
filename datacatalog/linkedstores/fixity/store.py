@@ -33,19 +33,22 @@ class FixityStore(LinkedStore, RateLimiter):
         self.setup(update_indexes=kwargs.get('update_indexes', False))
         RateLimiter.__init__(self, **kwargs)
 
-    def index(self, filename, **kwargs):
+    def index(self, filename, storage_system=None, **kwargs):
         """Capture or update current properties of a file
 
         Fixity includes creation and modification date (rounded to msec), sha256
         checksum, size in bytes, and inferred file type.
 
         Args:
-            filename (str): Agave-canonical absolute path to the target file
+            filename (str): Agave-canonical absolute path to the target
+            storage_system (str, optional): Agave storage system for the target
 
         Returns:
             dict: A LinkedStore document containing fixity details
         """
         # print('FIXITY.STORE.INDEX ' + filename)
+        if storage_system is None:
+            storage_system = settings.STORAGE_SYSTEM
         self.name = normpath(filename)
         self.abs_filename = abspath(self.name)
         fixity_uuid = self.get_typeduuid(self.name)
@@ -58,11 +61,10 @@ class FixityStore(LinkedStore, RateLimiter):
         if db_record is None:
             # TODO - generated_by should default to a global settting
             db_record = {'name': filename,
+                         'storage_system': storage_system,
                          'uuid': fixity_uuid,
                          'version': 0,
                          'child_of': [file_uuid],
-                         'storage_system': kwargs.get(
-                             'storage_system', settings.STORAGE_SYSTEM),
                          'generated_by': kwargs.get('generated_by', [])}
         else:
             # This is special case logic. Fixity is a managed record, so it

@@ -43,7 +43,8 @@ class FileRecord(ExtensibleAttrDict):
         # ('derived_from', False, 'derived_from', []),
         # ('notes', False, 'notes', []),
         ('level', False, 'level', 'Unknown'),
-        ('storage_system', False, 'storage_system', settings.STORAGE_SYSTEM)]
+        ('storage_system', False,
+            'storage_system', settings.STORAGE_SYSTEM)]
 
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:
@@ -76,7 +77,8 @@ class FileRecord(ExtensibleAttrDict):
         self['name'] = safen_path(self['name'],
                                   no_unicode=False,
                                   no_spaces=True,
-                                  url_quote=False)
+                                  url_quote=False,
+                                  no_equals=True)
 
     def set_token(self, value):
         self['_update_token'] = str(value)
@@ -97,6 +99,7 @@ class FileStore(LinkedStore):
         #     document_dict = FileRecord(document_dict)
 
         # Generate file_id from name if not present
+        # TODO: file_id must include storage_system
         if 'file_id' not in document_dict:
             document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(
                 catalog_uuid(document_dict['name'], uuid_type='file'))
@@ -107,16 +110,19 @@ class FileStore(LinkedStore):
         new_resp = resp
         return new_resp
 
-    def index(self, filename, token=None, **kwargs):
+    def index(self, filename, storage_system=None, token=None, **kwargs):
         """Capture a skeleton metadata entry for a file
 
         Args:
-            filename (str): Agave-canonical absolute path to the target file
+            filename (str): Agave-canonical absolute path to the target
+            storage_system (str, optional): Agave storage system for the target
 
         Returns:
             dict: A LinkedStore document containing file details
         """
         # print('FIXITY.STORE.INDEX ' + filename)
+        if storage_system is None:
+            storage_system = settings.STORAGE_SYSTEM
         self.name = normpath(filename)
         self.abs_filename = abspath(self.name)
         file_uuid = self.get_typeduuid(self.name)
@@ -124,6 +130,7 @@ class FileStore(LinkedStore):
         file_record = None
         if db_record is None:
             db_record = {'name': filename,
+                         'storage_system': storage_system,
                          'uuid': file_uuid,
                          'type': kwargs.get('type', infer_filetype(
                              filename, check_exists=False).label),
