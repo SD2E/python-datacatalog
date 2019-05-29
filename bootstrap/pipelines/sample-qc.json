@@ -3,7 +3,7 @@
     "description": "Sample quality check using pysd2cat",
     "components": [
         {
-            "id": "PoMWrQ4Vr7PJq",
+            "id": "0YMojaMP3JAbX",
             "image": "index.docker.io/sd2e/sample_quality_check:latest",
             "options": {}
         }
