@@ -17,6 +17,7 @@ class ManagedStore(ExtensibleAttrDict):
                  prefix=None,
                  level='User',
                  storage_system=settings.STORAGE_SYSTEM,
+                 agave=None,
                  **kwargs):
         super().__init__()
         for b in self.BLACKLIST:
@@ -24,7 +25,8 @@ class ManagedStore(ExtensibleAttrDict):
                 raise ValueError('Prefix not allowed')
         setattr(self, 'prefix', prefix)
         setattr(self, 'level', Level(level))
-        setattr(self, 'storage_system', StorageSystem(storage_system))
+        setattr(self, 'storage_system', StorageSystem(
+            storage_system, agave=agave))
 
 class ManagedStores(object):
     """Representation of all Data Catalog managed stores

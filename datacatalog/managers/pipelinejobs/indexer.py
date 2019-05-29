@@ -27,11 +27,11 @@ class Indexer(Manager):
         """
         if storage_system is None:
             storage_system is settings.STORAGE_SYSTEM
-        elif storage_system != settings.STORAGE_SYSTEM:
-            # NOTE - This is temporary until comprehensive support for storageSystems is complete
-            raise ValueError(
-                'Only storage system {} is currently supported'.format(
-                    settings.STORAGE_SYSTEM))
+        # elif storage_system != settings.STORAGE_SYSTEM:
+        #     # NOTE - This is temporary until comprehensive support for storageSystems is complete
+        #     raise ValueError(
+        #         'Only storage system {} is currently supported'.format(
+        #             settings.STORAGE_SYSTEM))
 
         if check_exists:
             if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
@@ -40,10 +40,13 @@ class Indexer(Manager):
         # TODO - Add storage_system=storage_system to File/FixityStore.index()
         self.logger.info('Indexing referenced file {}'.format(
             os.path.basename(abs_filename)))
-        resp = self.stores['file'].index(abs_filename, child_of=[self.uuid])
+        resp = self.stores['file'].index(abs_filename,
+                                         storage_system=storage_system,
+                                         child_of=[self.uuid])
         # raise SystemError(resp)
         try:
-            self.stores['fixity'].index(abs_filename)
+            self.stores['fixity'].index(abs_filename,
+                                        storage_system=storage_system)
         except Exception:
             if settings.LOG_FIXITY_ERRORS:
                 self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))

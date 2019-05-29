@@ -196,7 +196,7 @@ class JobManager(Manager):
         """
         return self.handle('indexed', data, token=token)
 
-    def reset(self, data={}, token=None, permissive=False):
+    def reset(self, data={}, no_clear_path=False, token=None, permissive=False):
         """Wrapper for **reset**
 
         Note: This event encapsulates both the 'reset' and subsequent 'ready'
@@ -205,7 +205,8 @@ class JobManager(Manager):
 
         validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
         resp = self.handle('reset', data, token=token)
-        self._clear_archive_path(permissive=permissive)
+        if not no_clear_path:
+            self._clear_archive_path(permissive=permissive)
         # print('Sending READY')
         resp = self.handle('ready', data, token=token)
         return resp
