@@ -207,3 +207,20 @@ def test_uses_storage_system(mongodb_settings, filename, storage_system, resolve
     doc = FileRecord({'name': filename, 'storage_system': storage_system})
     resp = base.add_update_document(doc)
     assert resp['storage_system'] == resolved_storage_system
+
+@pytest.mark.parametrize("filename,sys_id_1,sys_id_2,diff", [('/uploads/science-results.xlsx', 'data-sd2e-community', 'data-tacc-work-sd2eadm', True)])
+def test_file_id_incorps_system_id(filename, sys_id_1, sys_id_2, diff):
+    doc1 = FileRecord({'name': filename, 'storage_system': sys_id_1})
+    doc2 = FileRecord({'name': filename, 'storage_system': sys_id_2})
+
+    fid1_v20 = FileStore.generate_string_id_v2_0(doc1)
+    fid2_v20 = FileStore.generate_string_id_v2_0(doc2)
+    assert fid1_v20 == fid2_v20
+
+    fid1_v21 = FileStore.generate_string_id(doc1)
+    fid2_v21 = FileStore.generate_string_id(doc2)
+
+    if diff:
+        assert fid1_v21 != fid2_v21
+    else:
+        assert fid1_v21 == fid2_v21

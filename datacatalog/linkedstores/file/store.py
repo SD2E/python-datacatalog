@@ -101,16 +101,33 @@ class FileStore(AgaveClient, LinkedStore):
         #     document_dict = FileRecord(document_dict)
 
         # Generate file_id from name if not present
-        # TODO: file_id must include storage_system
         if 'file_id' not in document_dict:
-            document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(
-                catalog_uuid(document_dict['name'], uuid_type='file'))
+            document_dict['file_id'] = self.generate_string_id(document_dict)
         resp = super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
         self.logger.info('add_update_document: {}'.format(resp))
         new_resp = resp
         return new_resp
+
+    @classmethod
+    def generate_string_id(cls, document_dict):
+        if 'file_id' not in document_dict:
+            filepath = normpath('/' + document_dict['name'])
+            agave_uri = 'agave://' + \
+                document_dict.get('storage_system', settings.STORAGE_SYSTEM) + filepath
+            file_id = FILE_ID_PREFIX + uuid_to_hashid(
+                catalog_uuid(agave_uri, uuid_type='file'))
+            return file_id
+        else:
+            raise KeyError('Unable to find field "name" in document dict')
+
+    @classmethod
+    def generate_string_id_v2_0(cls, document_dict):
+        if 'file_id' not in document_dict:
+            file_id = FILE_ID_PREFIX + uuid_to_hashid(
+                catalog_uuid(document_dict['name'], uuid_type='file'))
+        return file_id
 
     def index(self, filename, storage_system=None, token=None, **kwargs):
         """Capture a skeleton metadata entry for a file
