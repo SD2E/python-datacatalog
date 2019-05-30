@@ -7,7 +7,7 @@ from datacatalog.hashable import picklecache, jsoncache
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog import settings
 
-from ..utils import normalize
+from ..utils import normalize, normpath
 from .exceptions import ManagedStoreError
 
 COMMUNITY_TYPE = 'community'
@@ -159,3 +159,12 @@ class StorageSystem(str):
     @classmethod
     def jupyter_path_uri(self, path):
         return settings.TACC_JUPYTER_SERVER + path
+
+def abspath(self, filepath, storage_system=None, agave=None, validate=False):
+    """Resolve absolute path on host filesystem for an Agave path"""
+    normalized_path = normalize(filepath)
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None) is not None:
+        root_dir = os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE')
+    else:
+        root_dir = StorageSystem(storage_system, agave=agave).root_dir
+    return os.path.join(root_dir, normalized_path)

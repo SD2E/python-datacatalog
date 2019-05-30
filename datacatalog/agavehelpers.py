@@ -50,7 +50,10 @@ class AgaveHelper(object):
             str: The path as a string
         """
         system = self.get_storage_system(storage_system)
-        root_dir = system.root_dir
+        if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None) is not None:
+            root_dir = os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE')
+        else:
+            root_dir = system.root_dir
         normalized_path = normalize(path)
         return os.path.join(root_dir, normalized_path)
 
@@ -289,11 +292,11 @@ def from_agave_uri(uri=None, validate=False):
         raise AgaveError("URI cannot be empty")
     resourcepath = proto.search(uri)
     if resourcepath is None:
-        raise AgaveError("Unable resolve URI")
+        raise AgaveError("Unable identify protocol: {}".format(uri))
     resourcepath = resourcepath.group(1)
     firstSlash = resourcepath.find('/')
     if firstSlash is -1:
-        raise AgaveError("Unable to resolve systemId")
+        raise AgaveError("Unable to resolve systemId: {}".format(uri))
     try:
         systemId = resourcepath[0:firstSlash]
         origDirPath = resourcepath[firstSlash + 1:]

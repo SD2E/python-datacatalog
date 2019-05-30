@@ -9,6 +9,7 @@ from stat import S_ISREG
 from pprint import pprint
 
 from datacatalog import settings
+from datacatalog.agavehelpers import AgaveHelper
 from ...filetypes import infer_filetype
 from ...stores import abspath
 from ...utils import normalize, normpath
@@ -26,8 +27,6 @@ class FixityIndexer(object):
     """Seed for xxHash 64-bit fingerprinting"""
 
     __PARAMS = [('name', 'name', False, None),
-                ('storage_system', 'storage_system',
-                    False, settings.STORAGE_SYSTEM),
                 ('version', 'version', True, 0),
                 ('type', 'type', True, None),
                 ('created', 'created', True, None),
@@ -39,18 +38,37 @@ class FixityIndexer(object):
                 ('child_of', 'child_of', False, []),
                 ('generated_by', 'generated_by', False, [])]
 
-    def __init__(self, abs_filename=None, schema={}, cache_stat=True,
-                 block_size=CHECKSUM_BLOCKSIZE, **kwargs):
+    def __init__(self, abs_filename=None, storage_system=None,
+                 cache_stat=True,
+                 block_size=CHECKSUM_BLOCKSIZE,
+                 schema={},
+                 agave=None,
+                 **kwargs):
+
         self._cache_stat = cache_stat
         self._block_size = block_size
         self.name = kwargs.get('name')
-        # set._abspath on filesystem if not passed in
+        # We have specific rules about what constitutes an update
+        self._updated = False
+
+        if storage_system is None:
+            storage_system = kwargs.get('storage_system',
+                                        settings.STORAGE_SYSTEM)
+        self.storage_system = storage_system
+        # Init our AgaveHelper
+        if agave is not None:
+            setattr(self, '_helper', AgaveHelper(agave,
+                    storage_system=storage_system))
+        else:
+            raise SystemExit()
+
+        # Resolve root-absolute path on managed Agave system
         if abs_filename is not None:
             self._abspath = abs_filename
         else:
-            self._abspath = abspath(self.name)
-        # We have specific rules about what constitutes an update
-        self._updated = False
+            self._abspath = self._helper.mapped_posix_path(
+                self.name, storage_system=storage_system)
+
         # This holds a cached version of the os.path.stat() tuple, saving
         # three of the four individual stat() calls for get_created,
         # get_modified, and get_size, and is_file!

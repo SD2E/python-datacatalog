@@ -123,8 +123,8 @@ def abspath(filepath, validate=False):
     """Absolute path on host filesystem"""
     normalized_path = normalize(filepath)
     normed_path = normpath(filepath)
-    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX', None):
-        root_dir = os.environ.get('DEBUG_STORES_NATIVE_PREFIX', None)
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None):
+        root_dir = os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None)
     else:
         root_dir = ManagedStores.stores_for_filepath(normed_path)[0].root_dir
     return os.path.join(root_dir, normalized_path)

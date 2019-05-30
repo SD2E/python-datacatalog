@@ -15,7 +15,7 @@ from ...utils import safen_path, normalize, normpath
 from ...stores import abspath
 from ...filetypes import infer_filetype
 from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
-from ..basestore import LinkedStore, linkages
+from ..basestore import AgaveClient, LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 
@@ -85,12 +85,12 @@ class FileRecord(ExtensibleAttrDict):
     def set_token(self, value):
         self['_update_token'] = str(value)
 
-class FileStore(LinkedStore):
+class FileStore(AgaveClient, LinkedStore):
     """Manage storage and retrieval of FileDocuments"""
     LINK_FIELDS = DEFAULT_LINK_FIELDS
 
-    def __init__(self, mongodb, config={}, session=None, **kwargs):
-        super(FileStore, self).__init__(mongodb, config, session)
+    def __init__(self, mongodb, agave=None, config={}, session=None, **kwargs):
+        super(FileStore, self).__init__(mongodb, config, session, agave=agave)
         schema = FileDocument(**kwargs)
         super(FileStore, self).update_attrs(schema)
         self.setup(update_indexes=kwargs.get('update_indexes', False))
@@ -126,7 +126,9 @@ class FileStore(LinkedStore):
         if storage_system is None:
             storage_system = settings.STORAGE_SYSTEM
         self.name = normpath(filename)
-        self.abs_filename = abspath(self.name)
+        self.abs_filename = self._helper.mapped_posix_path(
+            self.name, storage_system=storage_system)
+        # self.abs_filename = abspath(self.name, storage_system=storage_system, agave=self._helper)
         file_uuid = self.get_typeduuid(self.name)
         db_record = self.coll.find_one({'uuid': file_uuid})
         file_record = None
@@ -146,7 +148,6 @@ class FileStore(LinkedStore):
         return file_record
 
     def get_typeduuid(self, payload, binary=False):
-        identifier_string = None
         if isinstance(payload, dict):
             if 'name' in payload:
                 payload['name'] = safen_path(payload['name'])
