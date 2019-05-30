@@ -15,79 +15,6 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/sampleset')
 
-@pytest.fixture(scope='session')
-def samplesetprocessor(mongodb_settings):
-    return datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings)
-
-def test_inspect_discover_stores(mongodb_settings):
-    base = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings)
-
-    # stores is a dict of store objected indexed by name
-    assert isinstance(base.stores, dict)
-    assert len(list(base.stores.keys())) > 0
-
-    # check that they all have schemas
-    for k, v in base.stores.items():
-        assert isinstance(v.schema, dict)
-
-def test_cp_get(samplesetprocessor):
-    ssp = samplesetprocessor
-    for key, doc, uuid_val in challenge_problem.CREATES:
-        ssp.stores['challenge_problem'].add_update_document(doc)
-        resp = ssp.get('challenge_problem', 'id', doc['id'])
-        assert resp['id'] == doc['id']
-
-def test_ex_get(samplesetprocessor):
-    for key, doc, uuid_val in experiment.CREATES:
-        samplesetprocessor.stores['experiment'].add_update_document(doc)
-        resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
-        assert resp['experiment_id'] == doc['experiment_id']
-
-@longrun
-@pytest.mark.parametrize("filename", ['samples-biofab-022019.json', 'samples-transcriptic-022019.json'])
-def test_iter_process_merge(mongodb_settings, filename):
-    jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath).setup()
-    dbp = db.process(strategy='merge')
-    assert dbp is True
-
-
-@longrun
-@pytest.mark.parametrize("samples_uri", ['agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
-def test_process_from_uri_only(mongodb_settings, agave, samples_uri):
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings,
-                                                           agave=agave,
-                                                           samples_uri=samples_uri).setup()
-    dbp = db.process(strategy='replace')
-    assert dbp is True
-
-@longrun
-@pytest.mark.parametrize("filename, samples_uri", [('samples_nc.json',
-                                                   'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json')])
-def test_process_from_file_w_uri(mongodb_settings, agave, filename, samples_uri):
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings,
-                                                           agave=agave,
-                                                           samples_file=filename,
-                                                           samples_uri=samples_uri).setup()
-    dbp = db.process(strategy='replace')
-    assert dbp is True
-
-@longrun
-@pytest.mark.parametrize("filename", ['ginko-titration-recursion-depth.json'])
-def test_iter_less_recursion(mongodb_settings, filename):
-    jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
-    dbp = db.process(strategy='merge')
-    assert dbp is True
-
-@longrun
-@pytest.mark.parametrize("filename", ['samples-titration.json'])
-def test_titration_nan_merge(mongodb_settings, filename):
-    jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
-    dbp = db.process(strategy='merge')
-    assert dbp is True
-
 @longrun
 def test_titration_science_view_table_read(mongodb_settings):
     #  needs to run after test_titration_nan_merge above so data is available!
@@ -329,14 +256,3 @@ def test_titration_science_view_table_read(mongodb_settings):
 
     assert science_view_result == science_view_expected
 
-# def test_iter_process_replace(mongodb_settings):
-#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-#     dbp = db.process(strategy='replace')
-#     assert dbp is True
-
-# def test_iter_process_drop(mongodb_settings):
-#     jsonpath = os.path.join(DATA_DIR, 'samples-biofab.json')
-#     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, jsonpath)
-#     dbp = db.process(strategy='drop')
-#     assert dbp is True
