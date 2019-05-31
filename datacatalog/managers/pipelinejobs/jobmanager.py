@@ -186,12 +186,12 @@ class JobManager(Manager):
         """
         return self.handle('finish', data, token=token)
 
-    def index(self, data={}, token=None):
+    def index(self, data={}, token=None, **kwargs):
         """Wrapper for **index**
         """
         return self.handle('index', data, token=token)
 
-    def indexed(self, data={}, token=None):
+    def indexed(self, data={}, token=None, **kwargs):
         """Wrapper for **indexed**
         """
         return self.handle('indexed', data, token=token)
