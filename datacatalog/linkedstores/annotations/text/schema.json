@@ -7,7 +7,8 @@
             "oneOf": [
                 {
                     "type": "string",
-                    "maxLength": 128
+                    "maxLength": 128,
+                    "value": ""
                 }
             ]
         },
@@ -20,31 +21,47 @@
                 }
             ]
         },
-        "creator": {},
-        "created": {
-            "$comment": "Computed automatically",
-            "description": "Time (UTC) the annotation was created",
-            "format": "date-time",
-            "type": "string"
-        },
         "uuid": {
             "$comment": "Computed automatically",
             "$ref": "text_annotation_uuid.json",
             "description": "UUID for the specific text annotation"
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "$ref": "text_problem_uuid.json"
+            },
+            "minItems": 0,
+            "maxItems": 1
+        },
+        "owner": {
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                },
+                {
+                    "type": "string",
+                    "format": "email"
+                }
+            ]
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
         }
     },
     "required": [
-        "value"
+        "body"
     ],
     "title": "TextAnnotation",
     "type": "object",
     "_filename": "text_annotation",
     "__uuid_type": "text_annotation",
     "__uuid_fields": [
-        "subject",
         "body",
-        "created",
-        "creator"
+        "owner",
+        "subject"
     ],
     "__collection": "text_annotations",
     "__indexes": [],

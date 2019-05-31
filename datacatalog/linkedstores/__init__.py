@@ -16,3 +16,4 @@ from . import product
 from . import reference
 
 from . import annotations
+from . import association

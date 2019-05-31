@@ -8,7 +8,7 @@ def get_schemas():
     schemas = dict()
     for key, uuidt in uuidtypes.items():
         setup_args = {'_filename': key.title(),
-                      'title': uuidt.title + ' UUID',
+                      'title': uuidt.title,
                       'prefix': uuidt.prefix,
                       'kind': key}
         schemas[key + '_uuid'] = TypedCatalogUUID(**setup_args).to_jsonschema()

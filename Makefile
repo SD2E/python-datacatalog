@@ -150,7 +150,7 @@ tests-formats-classify:
 
 bootstrap-tests: bootstrap bootstrap-extras
 
-bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas
+bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas bootstrap-annotations
 bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra bootstrap-processes-extra bootstrap-references-extra bootstrap-pipelines-extra bootstrap-views-extra
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
@@ -205,6 +205,17 @@ bootstrap-views:
 bootstrap-views-extra: bootstrap-views
 
 bootstrap-schemas: schemas-build
+
+bootstrap-tags:
+	python -m bootstrap.manage_tag_annotations auto -$(DB_ENV)
+
+bootstrap-texts:
+	python -m bootstrap.manage_text_annotations auto -$(DB_ENV)
+
+bootstrap-associations:
+	python -m bootstrap.manage_associations auto -$(DB_ENV)
+
+bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
 
 # Currently, export values from production to enviromnent to bootstrap directories
 exports:

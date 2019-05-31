@@ -26,20 +26,20 @@ class TextAnnotationSchema(HeritableDocumentSchema):
 class TextAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Tag Annotation"""
 
-    PARAMS = [('value', False, 'value', None),
-              ('description', False, 'description', None),
-              ('created', False, 'created', None)]
+    PARAMS = [('body', False, 'body', ''),
+              ('subject', False, 'subject', ''),
+              ('owner', False, 'owner', None)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:
             schema = TextAnnotationSchema()
         for attr, req, param, default in self.PARAMS:
             setattr(self, attr, kwargs.get(param, default))
-        if self.created is None:
-            ts = msec_precision(time_stamp())
-            setattr(self, 'created', ts)
-            setattr(self, 'updated', ts)
-        self.uuid = catalog_uuid(
-            str(self.value) + self.created.isoformat(),
-            schema.get_uuid_type())
+        child_of = kwargs.get('child_of', list())
+        if not isinstance(child_of, list):
+            child_of = [child_of]
+        self.child_of = child_of
+        # self.uuid = catalog_uuid(
+        #     str(self.value) + self.created.isoformat(),
+        #     schema.get_uuid_type())
 

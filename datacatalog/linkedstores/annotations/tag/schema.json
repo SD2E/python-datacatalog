@@ -2,50 +2,63 @@
     "additionalProperties": false,
     "description": "A tag annotation",
     "properties": {
-        "value": {
-            "description": "The tag's value",
+        "name": {
+            "description": "Tag name, comprised of DNS-safe alphanumeric characters)",
             "oneOf": [
                 {
                     "type": "string",
-                    "maxLength": 128
+                    "maxLength": 96,
+                    "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{4,126}[0-9a-zA-Z]"
                 }
             ]
         },
         "description": {
-            "description": "Short plaintext description of the tag",
+            "description": "Plaintext description of the tag. Only provides context, never critical information.",
             "oneOf": [
                 {
                     "type": "string",
-                    "maxLength": 512
+                    "maxLength": 255,
+                    "value": ""
                 }
             ]
         },
-        "created": {
-            "$comment": "Computed automatically",
-            "description": "Time (UTC) the document was created",
-            "format": "date-time",
-            "type": "string"
+        "owner": {
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                },
+                {
+                    "type": "string",
+                    "format": "email"
+                }
+            ]
         },
         "uuid": {
             "$comment": "Computed automatically",
             "$ref": "tag_annotation_uuid.json",
             "description": "UUID for the specific tag"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
         }
     },
     "required": [
-        "value"
+        "name",
+        "owner"
     ],
     "title": "TagAnnotation",
     "type": "object",
     "_filename": "tag_annotation",
     "__uuid_type": "tag_annotation",
     "__uuid_fields": [
-        "value"
+        "name",
+        "owner"
     ],
     "__collection": "tag_annotations",
     "__indexes": [],
     "__identifiers": [
-        "uuid",
-        "value"
+        "uuid"
     ]
 }
