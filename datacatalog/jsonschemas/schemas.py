@@ -10,7 +10,15 @@ from ..utils import dynamic_import
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment_design', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob', 'linkedstores.product', 'linkedstores.reference', 'linkedstores.process', 'linkedstores.annotation']
+STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem',
+                 'linkedstores.experiment_design', 'linkedstores.experiment',
+                 'linkedstores.sample', 'linkedstores.measurement',
+                 'linkedstores.file', 'linkedstores.fixity',
+                 'linkedstores.pipeline', 'linkedstores.pipelinejob',
+                 'linkedstores.product', 'linkedstores.reference',
+                 'linkedstores.process']
+TAG_STORE_SCHEMAS = ['linkedstores.annotations.tag',
+                    'linkedstores.annotations.text']
 """Modules that define object and document schemas for managed document
 collections linked by UUID and linkage fields. Classes in these modules inherit
 schema and database logic from ``basestore`` classes
@@ -28,7 +36,7 @@ UNMANAGED_SCHEMAS = ['formats']
 """Modules that define schemas imported from outside the core datacatalog data
 model into the shared datacatalog schema namespace"""
 
-SCHEMAS = [STORE_SCHEMAS, COMPOSED_SCHEMAS,
+SCHEMAS = [STORE_SCHEMAS, TAG_STORE_SCHEMAS, COMPOSED_SCHEMAS,
            PRIMITIVE_SCHEMAS, UNMANAGED_SCHEMAS]
 """The union set of all schemas. This list is traversed when building the set
 of all project schemas."""

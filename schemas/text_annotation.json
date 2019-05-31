@@ -1,0 +1,39 @@
+{
+    "$comment": "generated: 20190531T115128+00:00; source: git@github.com:SD2E/python-datacatalog.git@728727b",
+    "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A tag annotation",
+    "properties": {
+        "body": {
+            "description": "Text of the annotation",
+            "oneOf": [
+                {
+                    "maxLength": 1024,
+                    "type": "string"
+                }
+            ]
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) the annotation was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "creator": {},
+        "subject": {
+            "description": "Optional annotation subject",
+            "oneOf": [
+                {
+                    "maxLength": 128,
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "required": [
+        "value"
+    ],
+    "title": "TextAnnotation",
+    "type": "object"
+}

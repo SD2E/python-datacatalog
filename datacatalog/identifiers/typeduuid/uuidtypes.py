@@ -19,7 +19,9 @@ UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('inline_annotation', '119', 'Machine-generated Free-text Annotation'),
              ('dashboard', '121', 'Redash Dashboard'),
              ('query', '120', 'Redash Query'),
-             ('input_classifier', '115', 'Input File Classifier')
+             ('input_classifier', '115', 'Input File Classifier'),
+             ('tag_annotation', '122', 'Tag Annotation'),
+             ('text_annotation', '123', 'Text Annotation')
              ]
 
 class TypedUUID(object):

@@ -1,0 +1,96 @@
+{
+    "$comment": "generated: 20190531T115128+00:00; source: git@github.com:SD2E/python-datacatalog.git@728727b",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A tag annotation",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) the document was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "description": {
+            "description": "Short plaintext description of the tag",
+            "oneOf": [
+                {
+                    "maxLength": 512,
+                    "type": "string"
+                }
+            ]
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "tag_annotation_uuid.json",
+            "description": "UUID for the specific tag"
+        },
+        "value": {
+            "description": "The tag's value",
+            "oneOf": [
+                {
+                    "maxLength": 128,
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "required": [
+        "value"
+    ],
+    "title": "TagAnnotation",
+    "type": "object"
+}

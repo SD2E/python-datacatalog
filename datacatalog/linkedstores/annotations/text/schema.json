@@ -1,0 +1,54 @@
+{
+    "additionalProperties": false,
+    "description": "A tag annotation",
+    "properties": {
+        "subject": {
+            "description": "Optional annotation subject",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 128
+                }
+            ]
+        },
+        "body": {
+            "description": "Text of the annotation",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 1024
+                }
+            ]
+        },
+        "creator": {},
+        "created": {
+            "$comment": "Computed automatically",
+            "description": "Time (UTC) the annotation was created",
+            "format": "date-time",
+            "type": "string"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "text_annotation_uuid.json",
+            "description": "UUID for the specific text annotation"
+        }
+    },
+    "required": [
+        "value"
+    ],
+    "title": "TextAnnotation",
+    "type": "object",
+    "_filename": "text_annotation",
+    "__uuid_type": "text_annotation",
+    "__uuid_fields": [
+        "subject",
+        "body",
+        "created",
+        "creator"
+    ],
+    "__collection": "text_annotations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}
