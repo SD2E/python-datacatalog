@@ -2,15 +2,14 @@ import inspect
 import json
 import os
 import sys
-from pprint import pprint
-
-from datacatalog.dicthelpers import data_merge
-from datacatalog.identifiers.typeduuid import catalog_uuid
+1
 from datacatalog.extensible import ExtensibleAttrDict
-from datacatalog.utils import time_stamp, msec_precision
+from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
 
 TYPE_SIGNATURE = ('text_annotation', '123', 'Text Annotation')
+TEXT_SUBJECT_MAX_LENGTH = 256
+TEXT_BODY_MAX_LENGTH = 2048
 
 class TextAnnotationSchema(HeritableDocumentSchema):
     """Defines the Tag Annotation schema"""
@@ -26,20 +25,37 @@ class TextAnnotationSchema(HeritableDocumentSchema):
 class TextAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Tag Annotation"""
 
-    PARAMS = [('body', False, 'body', ''),
+    PARAMS = [('body', True, 'body', None),
               ('subject', False, 'subject', ''),
-              ('owner', False, 'owner', None)]
+              ('owner', True, 'owner', None),
+              ('_visible', False, '_visible', True)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:
             schema = TextAnnotationSchema()
         for attr, req, param, default in self.PARAMS:
+            if req is True:
+                if attr not in kwargs:
+                    raise KeyError('{} is a mandatory field'.format(attr))
             setattr(self, attr, kwargs.get(param, default))
-        child_of = kwargs.get('child_of', list())
-        if not isinstance(child_of, list):
-            child_of = [child_of]
-        self.child_of = child_of
-        # self.uuid = catalog_uuid(
-        #     str(self.value) + self.created.isoformat(),
-        #     schema.get_uuid_type())
+        # Validate body and subject length
+        if len(self.body) > TEXT_BODY_MAX_LENGTH:
+            raise ValueError(
+                'Body cannot be more than {} characters'.format(
+                    TEXT_BODY_MAX_LENGTH))
+        if len(self.subject) > TEXT_SUBJECT_MAX_LENGTH:
+            raise ValueError(
+                'Subject cannot be more than {} characters'.format(
+                    TEXT_SUBJECT_MAX_LENGTH))
 
+        # Create a child_of linkage. We do this rather than use an Association
+        # because its logically more simple for end users to query and
+        # because MOST of the datacatalog schema works this way
+        child_of = kwargs.get('child_of', list())
+        if isinstance(child_of, str):
+            child_of = [child_of]
+        for co in child_of:
+            if get_uuidtype(co) != TYPE_SIGNATURE[0]:
+                raise ValueError(
+                    'Can only be a child_of {}'.format(TYPE_SIGNATURE[2]))
+        self.child_of = child_of

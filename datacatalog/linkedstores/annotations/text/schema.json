@@ -7,7 +7,7 @@
             "oneOf": [
                 {
                     "type": "string",
-                    "maxLength": 128,
+                    "maxLength": 256,
                     "value": ""
                 }
             ]
@@ -17,7 +17,7 @@
             "oneOf": [
                 {
                     "type": "string",
-                    "maxLength": 1024
+                    "maxLength": 2048
                 }
             ]
         },

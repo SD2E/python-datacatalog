@@ -28,8 +28,8 @@ class AssociationStore(SoftDelete, LinkedStore):
             str: UUID5 of the resulting association
 
         Raises:
-            ValueError: Either the annotation or record UUID was the wrong type
             AssociationError: A failure prevented the association from being created
+            ValueError: Either the annotation or record UUID was the wrong type
         """
         if typeduuid.get_uuidtype(annotation_uuid) not in (
                 'tag_annotation', 'text_annotation'):
@@ -38,7 +38,6 @@ class AssociationStore(SoftDelete, LinkedStore):
             raise ValueError('Target UUID not an allowed type')
         # Validate username by format. Save formal validation for a manager
         # class where we can reasonbly expect an active Agave or TAS client
-        tacc.username.validate(owner, permissive=False)
         doc = AssociationDocument(owner=owner,
                                   connects_to=record_uuid,
                                   connects_from=annotation_uuid)

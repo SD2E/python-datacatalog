@@ -1,16 +1,18 @@
 import inspect
 import json
 import os
+import re
 import sys
-from pprint import pprint
+import validators
 
-from datacatalog.dicthelpers import data_merge
-from datacatalog.identifiers.typeduuid import catalog_uuid
 from datacatalog.extensible import ExtensibleAttrDict
-from datacatalog.utils import time_stamp, msec_precision
+from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
+from datacatalog.identifiers import tacc
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
 
 TYPE_SIGNATURE = ('tag_annotation', '122', 'Tag Annotation')
+TAG_NAME_REGEX = re.compile('^[a-zA-Z0-9][a-zA-Z0-9-.]{3,126}[a-zA-Z0-9]$')
+TAG_DESC_MAX_LEN = 256
 
 class TagAnnotationSchema(HeritableDocumentSchema):
     """Defines the Tag Annotation schema"""
@@ -26,15 +28,28 @@ class TagAnnotationSchema(HeritableDocumentSchema):
 class TagAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Tag Annotation"""
 
-    PARAMS = [('name', False, 'value', None),
-              ('description', False, 'description', None)]
+    PARAMS = [('name', True, 'name', None),
+              ('description', False, 'description', ''),
+              ('owner', True, 'owner', None),
+              ('_visible', False, '_visible', True)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:
             schema = TagAnnotationSchema()
         for attr, req, param, default in self.PARAMS:
+            if req is True:
+                if attr not in kwargs:
+                    raise KeyError('{} is a mandatory field'.format(attr))
             setattr(self, attr, kwargs.get(param, default))
-        # self.uuid = catalog_uuid(
-        #     str(self.value) + self.created.isoformat(),
-        #     schema.get_uuid_type())
-
+        # TACC username or email (lexical check)
+        if not tacc.username.validate(self.owner, permissive=True):
+            if not validators.email(self.owner):
+                raise ValueError('Owner must be a TACC username or valid email')
+        # Validate value for name
+        if not TAG_NAME_REGEX.search(self.name):
+            raise ValueError('{} is not a valid tag name'.format(self.name))
+        # Enforce max description length
+        if len(self.description) > 255:
+            raise ValueError(
+                'Tag description can have a max of {} characters'.format(
+                    TAG_DESC_MAX_LEN))

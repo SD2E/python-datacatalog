@@ -21,6 +21,7 @@ from ..dicthelpers import data_merge
 from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
 from ..extensible import ExtensibleAttrDict
+from agavepy.agave import AgaveError
 
 __all__ = ['ManagerBase', 'Manager', 'ManagerError']
 
@@ -59,7 +60,8 @@ class Manager(ManagerBase):
     RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
                      'sample', 'measurement', 'experiment',
                      'experiment_design', 'challenge_problem', 'process',
-                     'annotation', 'fixity')
+                     'annotation', 'fixity',
+                     'association', 'tag_annotation', 'text_annotation')
     RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
@@ -188,6 +190,24 @@ class Manager(ManagerBase):
         self.logger.debug(
             'identifier is a {} with UUID {}'.format(uuid_type, uuid))
         return uuid, uuid_type
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def get_tapis_user(self, username, permissive=False):
+        try:
+            if self.client is None:
+                raise AgaveError('TACC API client not initialized before use')
+            else:
+                return self.client.profiles.listByUsername(username=username)
+        except Exception:
+            if permissive:
+                return None
+            else:
+                raise
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def validate_tapis_username(self, username, permissive=False):
+        self.get_tapis_user(username, permissive=permissive)
+        return True
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):
         """User-friendly method to link two Data Catalog documents
