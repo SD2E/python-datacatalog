@@ -50,27 +50,31 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
 
     # We don't navtively know which experiment contains which columns - they can all be different
     # One idea: build up a map that relates column names to mapping functions
-    flow_1 = "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1"
     
     # columns for exp
     exp_columns = {}
-    exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
-
     # column functions
     exp_column_functions = {}
-    exp_column_functions[flow_1] = [SampleConstants.SAMPLE_ID, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, None, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION]
-
     # exp measurement type
     exp_mt = {}
-    exp_mt[flow_1] = SampleConstants.MT_FLOW
-
     # exp measurement key
     exp_mk = {}
-    exp_mk[flow_1] = "flow 1"
-
     # exp relative path to files
     exp_rel_path = {}
-    exp_rel_path[flow_1] = "0"
+
+    flow_1 = "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1"
+    exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
+    exp_column_functions[flow_1] = [SampleConstants.SAMPLE_ID, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, None, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION]
+    exp_mt[flow_1] = [SampleConstants.MT_FLOW]
+    exp_mk[flow_1] = ["flow 1"]
+    exp_rel_path[flow_1] = ["0"]
+
+    flow_2 = "20190214-A-B-mar-1"
+    exp_columns[flow_2] = ["well", "iptg", "sal", "a", "b"]
+    exp_column_functions[flow_2] = [SampleConstants.SAMPLE_ID, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION]
+    exp_mt[flow_2] = [SampleConstants.MT_FLOW, SampleConstants.MT_FLOW]
+    exp_mk[flow_2] = ["0_flow", "18_flow"]
+    exp_rel_path[flow_2] = ["0_flow", "18_flow"]
 
     matched_exp_key = None
     matched_exp_cols = None
@@ -93,8 +97,6 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
 
     # use matching exp key, e.g. 20181009-top-4-A-B-cell-variants-A--B-sampling-exp-1
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(matched_exp_key, lab)
-
-    measurement_key = exp_mk[matched_exp_key]
 
     replicate_count = {}
 
@@ -146,37 +148,36 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
         # TODO: temperature
         # TODO: timepoint   
 
-        measurement_doc = {}
-        measurement_doc[SampleConstants.FILES] = []
-        measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key]
-        measurement_doc[SampleConstants.MEASUREMENT_NAME] = matched_exp_key + " flow cytometry"
+        measurement_key  = exp_mk[matched_exp_key]
 
-        # generate a measurement id unique to this sample
-        measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(1), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+        for measurement_key_index, measurement_key_value in enumerate(measurement_key):
+            measurement_doc = {}
+            measurement_doc[SampleConstants.FILES] = []
+            measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key][measurement_key_index]
+            measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_key_value
 
-        # record a measurement grouping id to find other linked samples and files
-        measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+            # generate a measurement id unique to this sample
+            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_key_index + 1), output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
-        relative_path = ""
-        if matched_exp_key in exp_rel_path:
-            relative_path = exp_rel_path[matched_exp_key]
+            # record a measurement grouping id to find other linked samples and files
+            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key_value, output_doc[SampleConstants.LAB], sample_doc, output_doc)
 
-        # sample id -> well name -> filename.csv?
-        # TODO this may not hold
-        filename = os.path.join(relative_path, well_id + ".csv")
-        file_id = namespace_file_id(str(1), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
-        file_type = SampleConstants.infer_file_type(filename)
-        measurement_doc[SampleConstants.FILES].append(
-            {SampleConstants.M_NAME: filename,
-             SampleConstants.M_TYPE: file_type,
-             SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-             SampleConstants.FILE_ID: file_id,
-             SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
-      
+            # sample id -> well name -> filename.csv?
+            # TODO this may not hold
+            filename = os.path.join(exp_rel_path[matched_exp_key][measurement_key_index], well_id + ".csv")
+            file_id = namespace_file_id(str(1), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+            file_type = SampleConstants.infer_file_type(filename)
+            measurement_doc[SampleConstants.FILES].append(
+                {SampleConstants.M_NAME: filename,
+                 SampleConstants.M_TYPE: file_type,
+                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                 SampleConstants.FILE_ID: file_id,
+                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
-        if SampleConstants.MEASUREMENTS not in sample_doc:
-            sample_doc[SampleConstants.MEASUREMENTS] = []
-        sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+            if SampleConstants.MEASUREMENTS not in sample_doc:
+                sample_doc[SampleConstants.MEASUREMENTS] = []
+            sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
     try:

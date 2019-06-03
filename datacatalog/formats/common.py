@@ -211,6 +211,8 @@ def convert_value_unit(value_unit):
         value_unit_split[0] = int(value)
     elif type(value) == float:
         value_unit_split[0] = float(value)
+    elif type(value) == str:
+        value_unit_split[0] = str(value)
     else:
         value_unit_split[0] = float(value)
     return value_unit_split

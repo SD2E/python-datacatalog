@@ -158,14 +158,15 @@ class Converter(object):
                     # pull headers from schema and check
                     schema_properties = schema_json["properties"]
                     if "xlsx" in schema_properties and schema_properties["xlsx"] and "headers" in schema_properties:
-                        header_values = schema_properties["headers"]
+                        header_values_list = schema_properties["headers"]
 
-                        for sheet_name in exceldata.keys():
-                            sheet_df = exceldata[sheet_name]
-                            df_headers = list(sheet_df.columns.values)
-                            valid = all([header in df_headers for header in header_values])
-                            if valid:
-                                return valid
+                        for header_values in header_values_list:
+                            for sheet_name in exceldata.keys():
+                                sheet_df = exceldata[sheet_name]
+                                df_headers = list(sheet_df.columns.values)
+                                valid = all([header in df_headers for header in header_values])
+                                if valid:
+                                    return valid
                 except Exception as e:
                     raise ConversionError(e)
 

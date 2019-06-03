@@ -1,0 +1,32 @@
+{
+    "$comment": "generated: 20190603T151854+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@bc2acfb",
+    "$id": "https://schema.catalog.sd2e.org/schemas/caltech_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "headers": [
+            [
+                "well",
+                "a",
+                "b",
+                "ba ratio",
+                "atc",
+                "iptg"
+            ],
+            [
+                "well",
+                "iptg",
+                "sal",
+                "a",
+                "b"
+            ]
+        ],
+        "xlsx": true
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "title": "Caltech XLSX Headers Schema",
+    "type": "object"
+}
