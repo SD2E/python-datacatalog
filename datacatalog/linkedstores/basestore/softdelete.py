@@ -21,12 +21,25 @@ class SoftDelete(LinkedStore):
 
     def delete_document(self, uuid, token=None, soft=True):
         if soft is True:
-            return self.write_key(uuid, '_visible', False, token)
+            try:
+                resp = self.coll.update({'uuid': uuid},
+                                        {'$set': {'_visible': False}})
+                if resp is not None:
+                    return self.find_one_by_uuid(uuid)
+            except Exception:
+                raise
+            #return self.write_key(uuid, '_visible', False, token)
         else:
             return super(SoftDelete, self).delete_document(uuid, token)
 
-    def undelete(self, uuid, token=None):
-        return self.write_key(uuid, '_visible', True, token)
+    def undelete(self, uuid, token=None, soft=True):
+        if soft is True:
+            resp = self.coll.update({'uuid': uuid},
+                                    {'$set': {'_visible': True}})
+            if resp is not None:
+                return self.find_one_by_uuid(uuid)
+        else:
+            raise NotImplementedError('SoftDelete is not available')
 
     # TODO - Implement filters on _visible for update_delete and write_key
     # TODO - Figure out what to do in the case of the replace strategy
