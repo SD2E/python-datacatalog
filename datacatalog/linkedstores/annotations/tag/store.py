@@ -20,6 +20,7 @@ class TagAnnotationStore(SoftDelete, LinkedStore):
         schema = TagAnnotationSchema(**kwargs)
         super(TagAnnotationStore, self).update_attrs(schema)
         self.setup(update_indexes=kwargs.get('update_indexes', False))
+        self._enforce_auth = True
         setattr(self, 'validate_owner', kwargs.get('validate_owner', False))
 
     def add_update_document(self, document_dict,

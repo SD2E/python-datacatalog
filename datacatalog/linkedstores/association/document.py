@@ -27,8 +27,8 @@ class AssociationDocument(ExtensibleAttrDict):
     """Instantiates an Annotation Association"""
 
     PARAMS = [('owner', True, 'owner', None),
-              ('connected_to', True, 'connected_to', []),
-              ('connected_from', True, 'connected_from', []),
+              ('connects_to', True, 'connects_to', []),
+              ('connects_from', True, 'connects_from', []),
               ('_visible', False, '_visible', True)]
 
     def __init__(self, schema=None, **kwargs):
@@ -36,4 +36,8 @@ class AssociationDocument(ExtensibleAttrDict):
             schema = AssociationSchema()
         for attr, req, param, default in self.PARAMS:
             setattr(self, attr, kwargs.get(param, default))
+        for attr in ['connects_to', 'connects_from']:
+            a = getattr(self, attr)
+            if not isinstance(a, list):
+                setattr(self, attr, [a])
 
