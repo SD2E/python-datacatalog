@@ -5,7 +5,10 @@
     "type": "object",
     "properties": {
         "xlsx": true,
-        "headers": ["well", "a", "b", "ba ratio", "atc", "iptg"]
+        "headers": [
+            ["well", "a", "b", "ba ratio", "atc", "iptg"],
+            ["well", "iptg", "sal", "a", "b"]
+        ]
     },
     "required": [
         "xlsx",
