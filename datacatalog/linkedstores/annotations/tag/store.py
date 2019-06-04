@@ -25,7 +25,7 @@ class TagAnnotationStore(SoftDelete, LinkedStore):
     def new_tag(self, name, description=None, owner=None, token=None, **kwargs):
         doc = TagAnnotationDocument(name=name,
                                     description=description,
-                                    owner=None,
+                                    owner=owner,
                                     **kwargs)
         return self.add_update_document(doc, token=token)
 

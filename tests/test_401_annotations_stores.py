@@ -73,3 +73,35 @@ def test_new_reply(mongodb_settings, text_subject, text_body,
         with pytest.raises(Exception):
             doc = store.new_reply(*args, **opts)
             assert isinstance(doc, dict)
+
+@pytest.mark.parametrize('tag_name,tag_desc,tag_owner,tag_valid', [
+    ('mi', 'Too short', 'public', False),
+    ('doe', 'Minimum length', 'public', True),
+    ('peep123', 'Valid tag', 'public', True),
+    ('123peep', 'Can start with number', 'public', True),
+    ('.123peep', 'Cannot start with delim', 'public', False),
+    ('peep peep', 'Space disallowed', 'public', False),
+    ('meep_meep', 'Underscore disallowed', 'public', False),
+    ('meepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeepmeep', 'Tag too long', 'public', False),
+    ('do-re-mi', 'Doe, a deer, a female deer; (Re!) ray, a drop of golden sun; (Mi!) me, a name I call myself; (Fa!) far, a long, long way to run; (So!) sew, a needle pulling thread; (La!) la, a note to follow so; (Ti!) tea, a drink with jam and bread; That will bring us back to do oh oh oh.', 'public', False),
+    ('do-re-mi', 'Doe, a deer, a female deer; (Re!) ray, a drop of golden sun; (Mi!) me, a name I call myself; (Fa!) far, a long, long way to run; (So!) sew, a needle pulling thread; (La!) la, a note to follow so; (Ti!) tea, a drink with jam and bread', 'public', True)
+])
+def test_new_tag(mongodb_settings, tag_name, tag_desc, tag_owner, tag_valid):
+    """Checks iterations of TagAnnotation name, description, owner
+    """
+    store = annotations.tag.TagAnnotationStore(mongodb_settings)
+    opts = dict()
+    if tag_name is not None:
+        opts['name'] = tag_name
+    if tag_desc is not None:
+        opts['description'] = tag_desc
+    if tag_owner is not None:
+        opts['owner'] = tag_owner
+
+    if tag_valid is True:
+        doc = store.new_tag(**opts)
+        assert isinstance(doc, dict)
+    else:
+        with pytest.raises(Exception):
+            doc = store.new_tag(**opts)
+            assert isinstance(doc, dict)
