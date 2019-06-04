@@ -41,6 +41,10 @@ class TextAnnotationDocument(ExtensibleAttrDict):
                     raise KeyError('{} is a mandatory field'.format(attr))
             setattr(self, attr, kwargs.get(param, default))
 
+        # Explicitly disallow null values for subject
+        if self.subject is None:
+            self.subject = ''
+
         # TACC username or email (lexical check)
         if not tacc.username.validate(self.owner, permissive=True):
             if not validators.email(self.owner):
