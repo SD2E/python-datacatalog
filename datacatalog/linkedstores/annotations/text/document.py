@@ -46,11 +46,11 @@ class TextAnnotationDocument(ExtensibleAttrDict):
             if not validators.email(self.owner):
                 raise ValueError('Owner must be a TACC username or valid email')
         # Validate body and subject length
-        if len(self.body) > TEXT_BODY_MAX_LENGTH:
+        if len(str(self.body)) > TEXT_BODY_MAX_LENGTH:
             raise ValueError(
                 'Body cannot be more than {} characters'.format(
                     TEXT_BODY_MAX_LENGTH))
-        if len(self.subject) > TEXT_SUBJECT_MAX_LENGTH:
+        if len(str(self.subject)) > TEXT_SUBJECT_MAX_LENGTH:
             raise ValueError(
                 'Subject cannot be more than {} characters'.format(
                     TEXT_SUBJECT_MAX_LENGTH))

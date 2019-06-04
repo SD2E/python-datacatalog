@@ -26,7 +26,7 @@ class TextAnnotationStore(SoftDelete, LinkedStore):
         self._enforce_auth = True
         self.setup(update_indexes=kwargs.get('update_indexes', False))
 
-    def new_text(self, subject, body=None, owner=None, token=None):
+    def new_text(self, body, subject=None, owner=None, token=None):
         """Create a new TextAnnotation record
         """
         doc_dict = TextAnnotationDocument(subject=subject,
@@ -34,13 +34,11 @@ class TextAnnotationStore(SoftDelete, LinkedStore):
                                           owner=owner)
         return self.add_update_document(doc_dict)
 
-    def new_reply(self, parent_text_uuid, subject,
-                  body=None, owner=None, token=None):
+    def new_reply(self, parent_text_uuid, body, subject=None,
+                  owner=None, token=None):
         """Automatically create and link a TextAnnotation to its parent
         """
 
-        if get_uuidtype(parent_text_uuid) != TYPE_SIGNATURE[0]:
-            raise AnnotationError('UUID was the wrong type for new_reply()')
         if self.find_one_by_uuid(parent_text_uuid) is None:
             raise AnnotationError('Parent TextAnnotation does not exist')
 
@@ -48,7 +46,7 @@ class TextAnnotationStore(SoftDelete, LinkedStore):
                                           body=body,
                                           owner=owner)
         doc_dict[linkages.CHILD_OF] = [parent_text_uuid]
-        return self.add_document(doc_dict, token=token)
+        return self.add_update_document(doc_dict, token=token)
 
 
 class StoreInterface(TextAnnotationStore):

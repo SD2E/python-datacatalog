@@ -60,6 +60,8 @@ def validate(text_string, permissive=False):
             return False
 
 def is_username(textString, useApi=False, agaveClient=None):
+    if not isinstance(textString, str):
+        return False
     if len(textString) > UNAME_LENGTHS[1]:
         return False
     if len(textString) < UNAME_LENGTHS[0]:
