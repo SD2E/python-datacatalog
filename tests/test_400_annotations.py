@@ -66,3 +66,32 @@ def test_text_annotation_doc(text_subject, text_body, text_owner, text_child_of,
         with pytest.raises(Exception):
             doc = annotations.text.TextAnnotationDocument(**opts)
             assert isinstance(doc, dict)
+
+@pytest.mark.parametrize('assoc_connects_to,assoc_connects_from,assoc_owner,assoc_valid', [
+    (None, None, None, False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', None, 'public', False),
+    (None, '1221cef4-fab1-538c-837e-7c118c131003', 'public', False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', None, False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'public', True),
+    ('1221cef4-fab1-538c-837e-7c118c131003', '1012da8b-663a-591f-a13d-cdf5277656a0', 'public', False),
+    (['1012da8b-663a-591f-a13d-cdf5277656a0'], ['1221cef4-fab1-538c-837e-7c118c131003'], 'public', True),
+    (['1012da8b-663a-591f-a13d-cdf5277656a0', '1012da8b-663a-591f-a13d-cdf5277656a0'], ['1221cef4-fab1-538c-837e-7c118c131003', '1221cef4-fab1-538c-837e-7c118c131003'], 'public', False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'Bevo@sportsball.utexas.edu', False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'Bevo Longhorn', False)
+])
+def test_association_doc(assoc_connects_to, assoc_connects_from,
+                         assoc_owner, assoc_valid):
+    opts = dict()
+    if assoc_connects_to is not None:
+        opts['connects_to'] = assoc_connects_to
+    if assoc_connects_from is not None:
+        opts['connects_from'] = assoc_connects_from
+    if assoc_owner is not None:
+        opts['owner'] = assoc_owner
+    if assoc_valid is True:
+        doc = association.AssociationDocument(**opts)
+        assert isinstance(doc, dict)
+    else:
+        with pytest.raises(Exception):
+            doc = association.AssociationDocument(**opts)
+            assert isinstance(doc, dict)

@@ -31,13 +31,6 @@ class AssociationStore(SoftDelete, LinkedStore):
             AssociationError: A failure prevented the association from being created
             ValueError: Either the annotation or record UUID was the wrong type
         """
-        if typeduuid.get_uuidtype(annotation_uuid) not in (
-                'tag_annotation', 'text_annotation'):
-            raise ValueError('Source must be an annotation UUID')
-        if typeduuid.get_uuidtype(record_uuid) not in annotations.TARGET_TYPES:
-            raise ValueError('Target UUID not an allowed type')
-        # Validate username by format. Save formal validation for a manager
-        # class where we can reasonbly expect an active Agave or TAS client
         doc = AssociationDocument(owner=owner,
                                   connects_to=record_uuid,
                                   connects_from=annotation_uuid)

@@ -29,6 +29,16 @@ class AssociationDocument(ExtensibleAttrDict):
               ('connects_from', True, 'connects_from', []),
               ('_visible', False, '_visible', True)]
 
+    CONNECTS_TO_UUIDTYPES = (
+        'challenge_problem', 'experiment_design',
+        'experiment', 'sample', 'measurement', 'file',
+        'reference', 'process',
+        'pipeline', 'pipelinejob')
+    CONNECTS_TO_MAX_LENGTH = 1
+
+    CONNECTS_FROM_UUIDTYPES = ('tag_annotation', 'text_annotation')
+    CONNECTS_FROM_MAX_LENGTH = 1
+
     def __init__(self, schema=None, **kwargs):
         if schema is None:
             schema = AssociationSchema()
@@ -37,10 +47,34 @@ class AssociationDocument(ExtensibleAttrDict):
                 if attr not in kwargs:
                     raise KeyError('{} is a mandatory field'.format(attr))
             setattr(self, attr, kwargs.get(param, default))
-        # TODO - Enforce types for at least connects_from. Code for this is up in AssociationStore
-        for attr in ['connects_to', 'connects_from']:
-            a = getattr(self, attr)
-            if not isinstance(a, list):
-                setattr(self, attr, [a])
+
         # Lexically check username
         tacc.username.validate(self.owner, permissive=False)
+
+        # Cast to list context for forward compatibility with multiple values
+        for attr in ['connects_to', 'connects_from']:
+            val = getattr(self, attr)
+            if not isinstance(val, list):
+                val = [val]
+            setattr(self, attr, val)
+
+        # Check length of connects_* lists
+        if len(getattr(self, 'connects_to')) > self.CONNECTS_TO_MAX_LENGTH:
+            raise ValueError(\
+                'connects_to may hold {} value(s)'.format(
+                    self.CONNECTS_TO_MAX_LENGTH))
+        if len(getattr(self, 'connects_from')) > self.CONNECTS_FROM_MAX_LENGTH:
+            raise ValueError(
+                'connects_from may hold {} value(s)'.format(
+                    self.CONNECTS_FROM_MAX_LENGTH))
+
+        # Validate onnects_from contains refs to AnnotationDoc type
+        for u in getattr(self, 'connects_from'):
+            if get_uuidtype(u) not in self.CONNECTS_FROM_UUIDTYPES:
+                raise ValueError(
+                    'typeduuid {} is invalid for connects_from'.format(u))
+        # Validate onnects_to contains refs to any allowed type
+        for u in getattr(self, 'connects_to'):
+            if get_uuidtype(u) not in self.CONNECTS_TO_UUIDTYPES:
+                raise ValueError(
+                    'typeduuid {} is invalid for connects_to'.format(u))
