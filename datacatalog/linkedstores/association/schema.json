@@ -65,7 +65,7 @@
     },
     "required": [
         "connects_from",
-        "connects_from",
+        "connects_to",
         "owner"
     ],
     "title": "Association",
@@ -74,7 +74,7 @@
     "__uuid_type": "association",
     "__uuid_fields": [
         "connects_from",
-        "connects_from",
+        "connects_to",
         "owner"
     ],
     "__collection": "associations",
