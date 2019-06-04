@@ -2,8 +2,10 @@ import inspect
 import json
 import os
 import sys
-1
+import validators
+
 from datacatalog.extensible import ExtensibleAttrDict
+from datacatalog.identifiers import tacc
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
 
@@ -38,6 +40,11 @@ class TextAnnotationDocument(ExtensibleAttrDict):
                 if attr not in kwargs:
                     raise KeyError('{} is a mandatory field'.format(attr))
             setattr(self, attr, kwargs.get(param, default))
+
+        # TACC username or email (lexical check)
+        if not tacc.username.validate(self.owner, permissive=True):
+            if not validators.email(self.owner):
+                raise ValueError('Owner must be a TACC username or valid email')
         # Validate body and subject length
         if len(self.body) > TEXT_BODY_MAX_LENGTH:
             raise ValueError(

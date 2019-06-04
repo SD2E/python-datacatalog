@@ -11,7 +11,7 @@ from datacatalog.identifiers import tacc
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
 
 TYPE_SIGNATURE = ('tag_annotation', '122', 'Tag Annotation')
-TAG_NAME_REGEX = re.compile('^[a-zA-Z0-9][a-zA-Z0-9-.]{3,126}[a-zA-Z0-9]$')
+TAG_NAME_REGEX = re.compile('^[a-zA-Z0-9][a-zA-Z0-9-.]{1,62}[a-zA-Z0-9]$')
 TAG_DESC_MAX_LEN = 256
 
 class TagAnnotationSchema(HeritableDocumentSchema):
@@ -28,9 +28,9 @@ class TagAnnotationSchema(HeritableDocumentSchema):
 class TagAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Tag Annotation"""
 
-    PARAMS = [('name', True, 'name', None),
+    PARAMS = [('name', True, 'name', 'generic.tag'),
               ('description', False, 'description', ''),
-              ('owner', True, 'owner', None),
+              ('owner', True, 'owner', 'public'),
               ('_visible', False, '_visible', True)]
 
     def __init__(self, schema=None, **kwargs):
