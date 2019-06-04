@@ -70,3 +70,37 @@ def test_reply_text_anno(mongodb_settings, agave, target_uuid,
         with pytest.raises(Exception):
             doc = mgr.reply_text_annotation(*args, **opts)
             assert isinstance(doc, annotations.AnnotationResponse)
+
+
+@pytest.mark.parametrize('target_uuid,tag_name,tag_desc,tag_owner,assoc_owner,tag_valid', [
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', 'much.challenge-problem', None, 'world', 'vaughn', True),
+    ('1144f727-8827-5126-8e03-f35e8cb6f070', 'so.experimental-design', None, 'world', 'jfonner', True),
+    ('102e95e6-67a8-5a06-9484-3131c6907890', 'experiment.wow', None, 'world', 'maytal', True),
+    ('102e95e6-67a8-5a06-9484-3131c6907890', 'experiment_underscore.wow', None, 'world', 'maytal', False)
+])
+def test_new_tag_anno(mongodb_settings, agave, target_uuid, tag_name,
+                      tag_desc, tag_owner, assoc_owner, tag_valid):
+    """Checks iterations of TagAnnotation name and description
+    """
+    mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
+    opts = dict()
+    args = list()
+
+    if target_uuid is not None:
+        args.append(target_uuid)
+    if tag_name is not None:
+        opts['name'] = tag_name
+    if tag_desc is not None:
+        opts['description'] = tag_desc
+    if tag_owner is not None:
+        opts['tag_owner'] = tag_owner
+    if assoc_owner is not None:
+        opts['owner'] = assoc_owner
+
+    if tag_valid is True:
+        doc = mgr.new_tag_annotation(*args, **opts)
+        assert isinstance(doc, annotations.AnnotationResponse)
+    else:
+        with pytest.raises(Exception):
+            doc = mgr.new_tag_annotation(*args, **opts)
+            assert isinstance(doc, dict)

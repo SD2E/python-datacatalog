@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190531T202217+00:00; source: git@github.com:SD2E/python-datacatalog.git@a3281ca",
+    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
     "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -62,7 +62,7 @@
             "description": "Text of the annotation",
             "oneOf": [
                 {
-                    "maxLength": 1024,
+                    "maxLength": 2048,
                     "type": "string"
                 }
             ]
@@ -91,7 +91,7 @@
             "description": "Optional annotation subject",
             "oneOf": [
                 {
-                    "maxLength": 128,
+                    "maxLength": 256,
                     "type": "string",
                     "value": ""
                 }
@@ -104,7 +104,8 @@
         }
     },
     "required": [
-        "body"
+        "body",
+        "owner"
     ],
     "title": "TextAnnotation",
     "type": "object"

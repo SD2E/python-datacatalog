@@ -58,7 +58,9 @@ class AnnotationManager(Manager):
         # Need to think about how to handle this since it may involve recursion
         pass
 
-    def new_tag_annotation(self, record_uuid, name, owner,
+    def new_tag_annotation(self, record_uuid,
+                           name=None,
+                           owner=None,
                            description='',
                            tag_owner=None,
                            token=None, **kwargs):

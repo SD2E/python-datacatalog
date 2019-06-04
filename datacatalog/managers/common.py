@@ -61,8 +61,8 @@ class Manager(ManagerBase):
     RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
                      'sample', 'measurement', 'experiment',
                      'experiment_design', 'challenge_problem', 'process',
-                     'annotation', 'fixity',
-                     'association', 'tag_annotation', 'text_annotation')
+                     'fixity', 'association',
+                     'tag_annotation', 'text_annotation')
     RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
