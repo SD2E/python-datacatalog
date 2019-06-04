@@ -13,6 +13,7 @@ Subpackages
 
     datacatalog.identifiers.abaco
     datacatalog.identifiers.agave
+    datacatalog.identifiers.tacc
     datacatalog.identifiers.tests
     datacatalog.identifiers.typeduuid
 
