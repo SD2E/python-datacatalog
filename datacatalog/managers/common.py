@@ -194,6 +194,8 @@ class Manager(ManagerBase):
 
     @picklecache.mcache(lru_cache(maxsize=256))
     def get_tapis_user(self, username, permissive=False):
+        """Retrieve a username record from the Tapis profile service
+        """
         # Agave/APIM specialty accounts
         if username in tacc.username.ROLE_USERNAMES:
             return {'first_name': None, 'last_name': None, 'full_name': None,
@@ -201,7 +203,6 @@ class Manager(ManagerBase):
                     'nonce': None, 'status': None,
                     'create_time': '20140515180317Z', 'uid': None,
                     'username': username}
-
         try:
             if self.client is None:
                 raise AgaveError('TACC API client not initialized before use')
@@ -215,11 +216,15 @@ class Manager(ManagerBase):
 
     @picklecache.mcache(lru_cache(maxsize=256))
     def validate_tapis_username(self, username, permissive=False):
+        """Verify the provided username against the Tapis profile service
+        """
         self.get_tapis_user(username, permissive=permissive)
         return True
 
     @picklecache.mcache(lru_cache(maxsize=256))
     def validate_uuid(self, uuid, permissive=False):
+        """Verify that a UUID5 exists in the system by retrieving it
+        """
         self.get_by_uuid(uuid, permissive=permissive)
         return True
 

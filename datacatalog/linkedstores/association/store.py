@@ -19,7 +19,7 @@ class AssociationStore(SoftDelete, LinkedStore):
     def associate(self, annotation_uuid, record_uuid, owner=None, token=None):
         """Create an association between an annotation and a metadata record
 
-        Arguments:
+        Args:
             annotation_uuid (str): UUID5 for the annotation (connects_from)
             record_uuid (str): UUID5 for a metadata record (connects_to)
             owner (str, optional): TACC.cloud username owning the association
@@ -39,8 +39,22 @@ class AssociationStore(SoftDelete, LinkedStore):
         return self.undelete(resp.get('uuid'), token=token)
 
     def dissociate(self, annotation_uuid, record_uuid, owner=None, token=None):
-        # Soft Delete
-        # Find distinct document from the two UUIDs then soft-delete it
+        """Remove an association between an annotation and a metadata record
+
+        This uses a soft-delete function, which simply toggles a visibility key
+
+        Args:
+            annotation_uuid (str): UUID5 for the annotation (connects_from)
+            record_uuid (str): UUID5 for a metadata record (connects_to)
+            owner (str): TACC.cloud username owning the association
+
+        Returns:
+            str: UUID5 of the resulting association
+
+        Raises:
+            AssociationError: A failure prevented the association from being created
+            ValueError: Either the annotation or record UUID was the wrong type
+        """
         query = {'connects_from': annotation_uuid,
                  'connects_to': record_uuid,
                  'owner': owner}

@@ -28,6 +28,14 @@ class TextAnnotationStore(SoftDelete, LinkedStore):
 
     def new_text(self, body, subject=None, owner=None, token=None):
         """Create a new TextAnnotation record
+
+        Args:
+            body (str): The body of the message
+            owner (str): TACC.cloud username or valid email owner
+            subject (str, optional): Optional subject for the message
+
+        Returns:
+            dict: Representation of the newly-created text annotation
         """
         doc_dict = TextAnnotationDocument(subject=subject,
                                           body=body,
@@ -36,7 +44,16 @@ class TextAnnotationStore(SoftDelete, LinkedStore):
 
     def new_reply(self, parent_text_uuid, body, subject=None,
                   owner=None, token=None):
-        """Automatically create and link a TextAnnotation to its parent
+        """Creates a new TextAnnotation record linked to its parent via child_of
+
+        Args:
+            parent_text_uuid (str): UUID5 of an existing Text Annotation
+            body (str): The body of the message
+            owner (str): TACC.cloud username or valid email owner
+            subject (str, optional): Optional subject for the message
+
+        Returns:
+            dict: Representation of the newly-created reply
         """
 
         if self.find_one_by_uuid(parent_text_uuid) is None:

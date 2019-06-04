@@ -1,5 +1,7 @@
 import collections
 from ..common import Manager
+from datacatalog.linkedstores.association import AssociationError
+from datacatalog.linkedstores.annotations import AnnotationError
 
 AnnotationResponse = collections.namedtuple(
     'AnnotationResponse', 'record_uuid annotation_uuid association_uuid')
@@ -10,6 +12,21 @@ class AnnotationManager(Manager):
 
     def new_text_annotation(self, record_uuid, body=None, owner=None,
                             subject=None, token=None, **kwargs):
+        """Creates a new Text Annotation annotating a specific record
+
+        Args:
+            record_uuid (str): UUID5 of record to be annotated
+            body (str): Body of the annotation message (2 kb)
+            owner (str): TACC.cloud username or email owner for the message
+            subject (str, optional): Subject of the annotation message
+
+        Returns:
+            AnnotationResponse: A named tuple containing relevant UUIDs
+
+        Raises:
+            AnnotationError: Error prevented creation of the Text Annotation
+            AssociationError: Error occurred creating the final linkage
+        """
         self.validate_tapis_username(owner)
         self.validate_uuid(record_uuid)
         assoc_uuid = None
@@ -21,7 +38,8 @@ class AnnotationManager(Manager):
                 anno_uuid, record_uuid, owner=owner)
             assoc_uuid = assoc.get('uuid', None)
         else:
-            raise Exception('Failed to associate record and annotation')
+            raise AssociationError(
+                'Failed to associate record and annotation')
 
         a = AnnotationResponse(annotation_uuid=anno_uuid,
                                association_uuid=assoc_uuid,
@@ -30,6 +48,21 @@ class AnnotationManager(Manager):
 
     def reply_text_annotation(self, text_anno_uuid, body=None, owner=None,
                               subject=None, token=None, **kwargs):
+        """Creates a new Text Annotation that replies to another one
+
+        Args:
+            text_anno_uuid (str): UUID5 for the text record being responded to
+            body (str): Body of the annotation message (2 kb)
+            owner (str): TACC.cloud username or email owner for the message
+            subject (str, optional): Subject of the annotation message
+
+        Returns:
+            AnnotationResponse: A named tuple containing relevant UUIDs
+
+        Raises:
+            AnnotationError: Error prevented creation of the Text Annotation
+            AssociationError: Error occurred creating the association
+        """
         self.validate_tapis_username(owner)
         text_anno_rec = self.get_by_uuid(text_anno_uuid, permissive=False)
         # Thread the subject line, just like email 💌
@@ -64,6 +97,22 @@ class AnnotationManager(Manager):
                            description='',
                            tag_owner=None,
                            token=None, **kwargs):
+        """Creates a new Tag Annotation annotating a specific record
+
+        Args:
+            record_uuid (str): UUID5 of record to be annotated
+            name (str): Name of the tag
+            description (str, optional): Plaintext description of the tag
+            owner (str): TACC.cloud username owning the tag and association
+            tag_owner (str, optional): TACC.cloud username owning the tag (if different)
+
+        Returns:
+            AnnotationResponse: A named tuple containing relevant UUIDs
+
+        Raises:
+            AnnotationError: Error prevented creation of the Tag Annotation
+            AssociationError: Error occurred creating the association
+        """
 
         self.validate_tapis_username(owner)
         if tag_owner is not None:
