@@ -10,6 +10,7 @@ from pprint import pprint
 from datacatalog.logger import get_logger
 from datacatalog.hashable import picklecache, jsoncache
 from datacatalog.mongo import db_connection
+from datacatalog.identifiers import tacc
 from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
@@ -193,6 +194,14 @@ class Manager(ManagerBase):
 
     @picklecache.mcache(lru_cache(maxsize=256))
     def get_tapis_user(self, username, permissive=False):
+        # Agave/APIM specialty accounts
+        if username in tacc.username.ROLE_USERNAMES:
+            return {'first_name': None, 'last_name': None, 'full_name': None,
+                    'email': None, 'phone': None, 'mobile_phone': None,
+                    'nonce': None, 'status': None,
+                    'create_time': '20140515180317Z', 'uid': None,
+                    'username': username}
+
         try:
             if self.client is None:
                 raise AgaveError('TACC API client not initialized before use')
@@ -207,6 +216,11 @@ class Manager(ManagerBase):
     @picklecache.mcache(lru_cache(maxsize=256))
     def validate_tapis_username(self, username, permissive=False):
         self.get_tapis_user(username, permissive=permissive)
+        return True
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def validate_uuid(self, uuid, permissive=False):
+        self.get_by_uuid(uuid, permissive=permissive)
         return True
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):

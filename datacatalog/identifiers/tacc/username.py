@@ -1,6 +1,7 @@
 import re
 from ..schemas import IdentifierSchema, JSONSchemaCollection
 
+ROLE_USERNAMES = ('public', 'world')
 EXAMPLES = ['taco', 'bb789', 'pwc5ycsd']
 PROPERTIES = {'id': 'tacc_username',
               'title': 'TACC.cloud username',
