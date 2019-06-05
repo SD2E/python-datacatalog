@@ -21,7 +21,9 @@ class Converter(object):
     """Base class implementing a document converter"""
     VERSION = '0.0.0'
     FILENAME = 'baseclass'
-
+    # Implementing subclasses should override
+    PROJECT = 'sd2e-community'
+    TENANT = 'sd2e'
     def __init__(self, schemas=[], targetschema=None, options={}, reactor=None):
 
         # Discover the default input schema
@@ -56,6 +58,8 @@ class Converter(object):
         # Schema metadata
         setattr(self, 'filename', self.FILENAME)
         setattr(self, 'version', self.VERSION)
+        setattr(self, 'project', self.PROJECT)
+        setattr(self, 'tenant', self.TENANT)
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         """Convert between formats
