@@ -104,3 +104,30 @@ def test_new_tag_anno(mongodb_settings, agave, target_uuid, tag_name,
         with pytest.raises(Exception):
             doc = mgr.new_tag_annotation(*args, **opts)
             assert isinstance(doc, dict)
+
+@pytest.mark.parametrize('target_uuid,tag_valid', [
+    ('1221cef4-fab1-538c-837e-7c118c131003', True)
+])
+def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
+    mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
+    if tag_valid is True:
+        doc = mgr.publish_tag_annotation(target_uuid)
+        assert doc['owner'] == annotations.AnnotationManager.PUBLIC_USER
+    else:
+        with pytest.raises(Exception):
+            doc = mgr.publish_tag_annotation(target_uuid)
+            assert doc['owner'] == annotations.AnnotationManager.PUBLIC_USER
+
+
+@pytest.mark.parametrize('target_uuid,tag_valid', [
+    ('122596c0-5254-5514-9a11-deb4f373e90f', True)
+])
+def test_unpublish_tag(mongodb_settings, agave, target_uuid, tag_valid):
+    mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
+    if tag_valid is True:
+        doc = mgr.unpublish_tag_annotation(target_uuid)
+        assert doc['_visible'] is False
+    else:
+        with pytest.raises(Exception):
+            doc = mgr.unpublish_tag_annotation(target_uuid)
+            assert doc['_visible'] is False

@@ -1,12 +1,19 @@
 import collections
 from ..common import Manager
+from copy import deepcopy
 from datacatalog.linkedstores.association import AssociationError
 from datacatalog.linkedstores.annotations import AnnotationError
+from datacatalog.linkedstores.annotations.tag import TagAnnotationDocument
+
+from datacatalog import settings
 
 AnnotationResponse = collections.namedtuple(
     'AnnotationResponse', 'record_uuid annotation_uuid association_uuid')
 
 class AnnotationManager(Manager):
+
+    PUBLIC_USER = settings.TAPIS_ANY_AUTHENTICATED_USERNAME
+
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         Manager.__init__(self, mongodb, agave=agave, *args, **kwargs)
 
@@ -135,6 +142,53 @@ class AnnotationManager(Manager):
                                association_uuid=assoc_uuid,
                                record_uuid=record_uuid)
         return a
+
+    def publish_tag_annotation(self, tag_uuid,
+                               remove_original=False, token=None):
+        """Copy a tag into the public namespace
+
+        Args:
+            tag_uuid (str): UUID5 of the tag to publish
+
+        Returns:
+            dict: Representation of the newly public tag
+        """
+        anno = self.stores['tag_annotation'].find_one_by_uuid(tag_uuid)
+        if anno is None:
+            raise ValueError(
+                'Tag with UUID {} does not exist'.format(tag_uuid))
+        if anno.get('owner', None) == self.PUBLIC_USER:
+            return anno
+
+        new_anno = TagAnnotationDocument(
+            name=anno['name'],
+            description=anno['description'],
+            owner=self.PUBLIC_USER)
+
+        resp = self.stores['tag_annotation'].add_update_document(
+            new_anno, token=None)
+        return self.stores['tag_annotation'].undelete(
+            resp['uuid'], token=token)
+
+    def unpublish_tag_annotation(self, tag_uuid, token=None):
+        """Remove a tag from the public namespace
+
+        Args:
+            tag_uuid (str): UUID5 of the tag to publish
+
+        Returns:
+            dict: Representation of the unpublished tag
+        """
+        anno = self.stores['tag_annotation'].find_one_by_uuid(tag_uuid)
+        if anno is None:
+            raise ValueError(
+                'Tag with UUID {} does not exist'.format(tag_uuid))
+        if anno.get('owner', None) != self.PUBLIC_USER:
+            raise ValueError('Only public tags can be unpublished')
+
+        resp = self.stores['tag_annotation'].delete_document(
+            tag_uuid, token=None)
+        return resp
 
     def prune_tag_annotations(self, record_uuid, token=None, **kwargs):
         pass
