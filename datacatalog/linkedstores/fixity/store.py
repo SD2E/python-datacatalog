@@ -9,7 +9,7 @@ from ...dicthelpers import data_merge
 from ...identifiers.typeduuid import catalog_uuid
 from ...stores import abspath
 from ...utils import normalize, normpath
-from ..basestore import LinkedStore, CatalogUpdateFailure, linkages
+from ..basestore import AgaveClient, LinkedStore, CatalogUpdateFailure, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import RateLimiter, RateLimitExceeded
 from .schema import FixityDocument
@@ -20,34 +20,40 @@ DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.GENERATED_BY]
 # FixityStore is a special case of LinkedStore that creates and manages its
 # own records. This is accomplished declaratively using the ``index()`` method.
 
-class FixityStore(LinkedStore, RateLimiter):
+class FixityStore(AgaveClient, LinkedStore, RateLimiter):
     """Defines fixed attributes for a managed file"""
 
     LINK_FIELDS = DEFAULT_LINK_FIELDS
     LOG_JSONDIFF_UPDATES = False
 
-    def __init__(self, mongodb, config={}, session=None, **kwargs):
-        LinkedStore.__init__(self, mongodb, config, session)
+    def __init__(self, mongodb, agave=None, config={}, session=None, **kwargs):
+        super(FixityStore, self).__init__(mongodb, config, session, agave=agave)
+        # LinkedStore.__init__(self, mongodb, config, session, agave=agave)
         schema = FixityDocument(**kwargs)
-        LinkedStore.update_attrs(self, schema)
+        super(FixityStore, self).update_attrs(schema)
+        # LinkedStore.update_attrs(self, schema)
         self.setup(update_indexes=kwargs.get('update_indexes', False))
         RateLimiter.__init__(self, **kwargs)
 
-    def index(self, filename, **kwargs):
+    def index(self, filename, storage_system=None, **kwargs):
         """Capture or update current properties of a file
 
         Fixity includes creation and modification date (rounded to msec), sha256
         checksum, size in bytes, and inferred file type.
 
         Args:
-            filename (str): Agave-canonical absolute path to the target file
+            filename (str): Agave-canonical absolute path to the target
+            storage_system (str, optional): Agave storage system for the target
 
         Returns:
             dict: A LinkedStore document containing fixity details
         """
         # print('FIXITY.STORE.INDEX ' + filename)
+        if storage_system is None:
+            storage_system = settings.STORAGE_SYSTEM
         self.name = normpath(filename)
-        self.abs_filename = abspath(self.name)
+        self.abs_filename = self._helper.mapped_posix_path(
+            self.name, storage_system=storage_system)
         fixity_uuid = self.get_typeduuid(self.name)
         # Look up the FileStore UUID as it will be used to establish the Fixity
         # record as its child
@@ -58,11 +64,10 @@ class FixityStore(LinkedStore, RateLimiter):
         if db_record is None:
             # TODO - generated_by should default to a global settting
             db_record = {'name': filename,
+                         'storage_system': storage_system,
                          'uuid': fixity_uuid,
                          'version': 0,
                          'child_of': [file_uuid],
-                         'storage_system': kwargs.get(
-                             'storage_system', settings.STORAGE_SYSTEM),
                          'generated_by': kwargs.get('generated_by', [])}
         else:
             # This is special case logic. Fixity is a managed record, so it
@@ -78,7 +83,9 @@ class FixityStore(LinkedStore, RateLimiter):
 
         # Invoke the RateLimiter that we've mixed in via MultipleInheritance
         self.limit()
-        indexer = FixityIndexer(schema=self.schema, **db_record).sync()
+        indexer = FixityIndexer(schema=self.schema,
+                                agave=self._helper._client,
+                                **db_record).sync()
         fixity_record = indexer.to_dict()
 
         # lift over private keys to new document

@@ -55,7 +55,8 @@ def autobuild(idb, settings):
                 ftype = datacatalog.filetypes.infer_filetype(ag_file,
                                                              check_exists=False,
                                                              permissive=True)
-                fdoc = {'name': fname, 'type': ftype.label, 'level': 'Reference'}
+                fdoc = {'name': fname, 'storage_system': ag_sys,
+                        'type': ftype.label, 'level': 'Reference'}
                 resp = file_store.add_update_document(fdoc, strategy='merge')
                 build_log.write('{}\t{}\t{}\t{}\n'.format(
                     'file', resp['name'], resp['uuid'], resp['_update_token']))

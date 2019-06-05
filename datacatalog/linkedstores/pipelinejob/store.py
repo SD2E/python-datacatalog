@@ -101,11 +101,14 @@ class PipelineJobStore(AgaveClient, SoftDelete, LinkedStore):
         except Exception as exc:
             raise Exception('Failed to validate pipeline UUID', exc)
 
-    def list_job_archive_path(self, job_uuid, recurse=True, directories=False, **kwargs):
-        """Returns contents of a job's archive_path
+    def list_job_archive_path(self, job_uuid, recurse=True,
+                              directories=False, **kwargs):
+        """Returns contents of a job's archive_path on the job's archive_system
 
         Args:
             job_uuid (str): UUID of the job
+            recurse (bool, optional): List recursively
+            directories (bool, optional): Include directories in response
 
         Notes:
             PipelineJobStore must be initialized with a valid Agave API client

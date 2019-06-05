@@ -15,7 +15,7 @@ from ...utils import safen_path, normalize, normpath
 from ...stores import abspath
 from ...filetypes import infer_filetype
 from ...identifiers.typeduuid import uuid_to_hashid, catalog_uuid
-from ..basestore import LinkedStore, linkages
+from ..basestore import AgaveClient, LinkedStore, linkages
 from ..basestore import HeritableDocumentSchema, JSONSchemaCollection
 from ..basestore import CatalogUpdateFailure
 
@@ -43,7 +43,8 @@ class FileRecord(ExtensibleAttrDict):
         # ('derived_from', False, 'derived_from', []),
         # ('notes', False, 'notes', []),
         ('level', False, 'level', 'Unknown'),
-        ('storage_system', False, 'storage_system', settings.STORAGE_SYSTEM)]
+        ('storage_system', False,
+            'storage_system', settings.STORAGE_SYSTEM)]
 
     def __init__(self, value, *args, **kwargs):
         # if 'file_id' not in value:
@@ -76,17 +77,20 @@ class FileRecord(ExtensibleAttrDict):
         self['name'] = safen_path(self['name'],
                                   no_unicode=False,
                                   no_spaces=True,
-                                  url_quote=False)
+                                  url_quote=False,
+                                  no_equals=True)
+        if self.get('storage_system', None) is None:
+            self['storage_system'] = settings.STORAGE_SYSTEM
 
     def set_token(self, value):
         self['_update_token'] = str(value)
 
-class FileStore(LinkedStore):
+class FileStore(AgaveClient, LinkedStore):
     """Manage storage and retrieval of FileDocuments"""
     LINK_FIELDS = DEFAULT_LINK_FIELDS
 
-    def __init__(self, mongodb, config={}, session=None, **kwargs):
-        super(FileStore, self).__init__(mongodb, config, session)
+    def __init__(self, mongodb, agave=None, config={}, session=None, **kwargs):
+        super(FileStore, self).__init__(mongodb, config, session, agave=agave)
         schema = FileDocument(**kwargs)
         super(FileStore, self).update_attrs(schema)
         self.setup(update_indexes=kwargs.get('update_indexes', False))
@@ -98,8 +102,7 @@ class FileStore(LinkedStore):
 
         # Generate file_id from name if not present
         if 'file_id' not in document_dict:
-            document_dict['file_id'] = FILE_ID_PREFIX + uuid_to_hashid(
-                catalog_uuid(document_dict['name'], uuid_type='file'))
+            document_dict['file_id'] = self.generate_string_id(document_dict)
         resp = super().add_update_document(document_dict,
                                            uuid=uuid, token=token,
                                            strategy=strategy)
@@ -107,23 +110,48 @@ class FileStore(LinkedStore):
         new_resp = resp
         return new_resp
 
-    def index(self, filename, token=None, **kwargs):
+    @classmethod
+    def generate_string_id(cls, document_dict):
+        if 'file_id' not in document_dict:
+            filepath = normpath('/' + document_dict['name'])
+            agave_uri = 'agave://' + \
+                document_dict.get('storage_system', settings.STORAGE_SYSTEM) + filepath
+            file_id = FILE_ID_PREFIX + uuid_to_hashid(
+                catalog_uuid(agave_uri, uuid_type='file'))
+            return file_id
+        else:
+            raise KeyError('Unable to find field "name" in document dict')
+
+    @classmethod
+    def generate_string_id_v2_0(cls, document_dict):
+        if 'file_id' not in document_dict:
+            file_id = FILE_ID_PREFIX + uuid_to_hashid(
+                catalog_uuid(document_dict['name'], uuid_type='file'))
+        return file_id
+
+    def index(self, filename, storage_system=None, token=None, **kwargs):
         """Capture a skeleton metadata entry for a file
 
         Args:
-            filename (str): Agave-canonical absolute path to the target file
+            filename (str): Agave-canonical absolute path to the target
+            storage_system (str, optional): Agave storage system for the target
 
         Returns:
             dict: A LinkedStore document containing file details
         """
         # print('FIXITY.STORE.INDEX ' + filename)
+        if storage_system is None:
+            storage_system = settings.STORAGE_SYSTEM
         self.name = normpath(filename)
-        self.abs_filename = abspath(self.name)
+        self.abs_filename = self._helper.mapped_posix_path(
+            self.name, storage_system=storage_system)
+        # self.abs_filename = abspath(self.name, storage_system=storage_system, agave=self._helper)
         file_uuid = self.get_typeduuid(self.name)
         db_record = self.coll.find_one({'uuid': file_uuid})
         file_record = None
         if db_record is None:
             db_record = {'name': filename,
+                         'storage_system': storage_system,
                          'uuid': file_uuid,
                          'type': kwargs.get('type', infer_filetype(
                              filename, check_exists=False).label),
@@ -137,7 +165,6 @@ class FileStore(LinkedStore):
         return file_record
 
     def get_typeduuid(self, payload, binary=False):
-        identifier_string = None
         if isinstance(payload, dict):
             if 'name' in payload:
                 payload['name'] = safen_path(payload['name'])

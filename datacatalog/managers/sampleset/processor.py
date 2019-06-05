@@ -1,3 +1,4 @@
+import bacanora
 import json
 import importlib
 import inspect
@@ -5,6 +6,8 @@ import itertools
 import os
 import sys
 from pprint import pprint
+
+from datacatalog.agavehelpers import from_agave_uri
 
 from ...identifiers.typeduuid import get_uuidtype
 from ...utils import dynamic_import
@@ -21,33 +24,61 @@ class SampleSetProcessorError(CatalogError):
 class SampleSetProcessor(Manager):
     """Manager class to process and load sample set JSON documents"""
 
-    def __init__(self, mongodb, agave=None, samples_file=None, path_prefix='/uploads', *args, **kwargs):
+    def __init__(self,
+                 mongodb,
+                 agave=None,
+                 samples_file=None,
+                 samples_uri=None,
+                 path_prefix='/uploads', *args, **kwargs):
         Manager.__init__(self, mongodb, agave=agave, *args, **kwargs)
         self.prefix = path_prefix
         self.stats = {'samples': {'count': 0, 'elapsed': 0.0},
                       'measurements': {'count': 0, 'elapsed': 0.0},
                       'files': {'count': 0, 'elapsed': 0.0}}
-        self.setup(samples_file)
+        self.samples_file = samples_file
+        self.samples_uri = samples_uri
+        # self.setup(samples_file, samples_uri)
 
-    def setup(self, samples_file):
+    def setup(self, samples_file=None, samples_uri=None):
+
+        self.logger.debug('Initializing SampleSetProcessor')
+
+        samples_file = getattr(self, 'samples_file', samples_file)
+        samples_uri = getattr(self, 'samples_uri', samples_uri)
+
+        # Index the URIand get its UUID
+        abs_file_path = None
+        file_name = None
+        samples_file_uuid = None
+        system_id = None
+
+        if samples_uri is not None:
+            system_id, file_path, file_name = from_agave_uri(samples_uri)
+            abs_file_path = os.path.join(file_path, file_name)
+            resp = self.stores['file'].index(abs_file_path,
+                                             storage_system=system_id)
+            samples_file_uuid = resp.get('uuid', None)
+        # No samples file was provided, which means we need to download URI
         if samples_file is None:
-            return self
+            bacanora.download(self.client, abs_file_path,
+                              system_id=system_id)
+            samples_file = file_name
+        setattr(self, 'samples_file_uuid', samples_file_uuid)
 
-        self.logger.debug('initializing ({})'.format(samples_file))
-
-        document =  json.load(open(samples_file, 'r'))
-        self.logger.debug('document.size: {} bytes'.format(sys.getsizeof(document)))
+        # We can now safely Assume the file is accessible for loading
+        document = json.load(open(samples_file, 'r'))
+        self.logger.debug('Document.size: {} bytes'.format(sys.getsizeof(document)))
 
         # Challenge Problem
         doc_cp = document.get('challenge_problem', 'UNKNOWN')
         cp = self.get('challenge_problem', 'id', doc_cp)
         setattr(self, 'challenge_problem', cp)
-        self.logger.debug('challenge_problem: {}'.format(cp))
+        self.logger.debug('Challenge_problem: {}'.format(cp))
 
         # Experiment ID
         doc_exp = document.get('experiment_id', 'UNKNOWN')
         setattr(self, 'experiment_id', doc_exp)
-        self.logger.debug('experiment_id: {}'.format(doc_exp))
+        self.logger.debug('Experiment_id: {}'.format(doc_exp))
 
         # Experiment Design
         doc_exd = document.get('experiment_reference', 'UNKNOWN')
@@ -81,6 +112,8 @@ class SampleSetProcessor(Manager):
                 'experiment_id': self.experiment_id,
                 'child_of': [parent_uuid]
             }
+            if getattr(self, 'samples_file_uuid', None) is not None:
+                expt_doc['derived_from'] = [getattr(self, 'samples_file_uuid')]
             # if 'child_of' in expt_doc:
             #     expt_doc['child_of'].append(parent_uuid)
             # else:
@@ -102,6 +135,8 @@ class SampleSetProcessor(Manager):
                 raise TypeError('"samples" must be a list')
             for sample in self._samples:
                 self.logger.debug('processing.sample: {}'.format(sample['sample_id']))
+                if getattr(self, 'samples_file_uuid', None) is not None:
+                    sample['derived_from'] = [getattr(self, 'samples_file_uuid')]
                 if 'child_of' in sample:
                     sample['child_of'].append(parent_uuid)
                 else:
@@ -128,6 +163,8 @@ class SampleSetProcessor(Manager):
                 raise TypeError('"measurements" must be a list')
             for meas in self._measurements:
                 self.logger.debug('processing.measurement: {}'.format(meas['measurement_id']))
+                if getattr(self, 'samples_file_uuid', None) is not None:
+                    meas['derived_from'] = [getattr(self, 'samples_file_uuid')]
                 if 'child_of' in meas:
                     meas['child_of'].append(parent_uuid)
                 else:
@@ -152,6 +189,8 @@ class SampleSetProcessor(Manager):
                 raise TypeError('"files" must be a list')
             for ffile in self._files:
                 self.logger.debug('processing.file: {}'.format(ffile['file_id']))
+                if getattr(self, 'samples_file_uuid', None) is not None:
+                    ffile['derived_from'] = [getattr(self, 'samples_file_uuid')]
                 ffile['name'] = self.contextualize(ffile['name'])
                 if 'child_of' in ffile:
                     ffile['child_of'].append(parent_uuid)

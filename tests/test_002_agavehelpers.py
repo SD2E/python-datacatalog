@@ -24,6 +24,21 @@ def test_mapped_posix_path(agave, filename, system):
     pp = h.mapped_posix_path(filename, storage_system=system)
     assert pp == target
 
+@pytest.mark.parametrize("filename, system, mapped_path",
+                         [('/sample/tacc-cloud/123.txt',
+                           'data-sd2e-community',
+                           '/work/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'),
+                          ('/taconaut.txt',
+                           'data-tacc-work-sd2eadm',
+                           '/work/05201/sd2eadm/taconaut.txt'),
+                          ('rabbit-9.jpg',
+                           'data-sd2e-projects.sd2e-project-10',
+                           '/work/projects/SD2E-Community/prod/projects/sd2e-project-10/rabbit-9.jpg')])
+def test_mapping_other_systems(agave, filename, system, mapped_path):
+    h = datacatalog.agavehelpers.AgaveHelper(agave)
+    pp = h.mapped_posix_path(filename, storage_system=system)
+    assert pp == mapped_path
+
 @longrun
 def test_listdir_posix(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
