@@ -17,6 +17,7 @@ import sys
 import string
 import urllib.parse
 from tabulate import tabulate
+
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
 
