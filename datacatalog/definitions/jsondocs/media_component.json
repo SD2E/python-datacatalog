@@ -11,8 +11,8 @@
             "description": "Unit of fluid measure"
         },
         "value": {
-            "description": "Numeric amount or fraction",
-            "type": "number"
+            "description": "Label or numeric amount/fraction",
+            "type": ["number", "string"]
         },
         "volume": {
             "description": "Volume reference for media",

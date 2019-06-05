@@ -2,7 +2,7 @@ import json
 import os
 import sys
 import inspect
-import pandas
+from openpyxl import load_workbook
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
 # from .runner import convert_file
@@ -140,7 +140,7 @@ class Converter(object):
         elif input_fp.endswith(".xlsx"):
             try:
                 # load all sheets
-                exceldata = pandas.read_excel(input_fp, None)
+                wb = load_workbook(input_fp, read_only=True)
             except Exception as exc:
                 raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
 
@@ -151,6 +151,7 @@ class Converter(object):
                     with open(schema_path) as schema:
                         schema_json = json.loads(schema.read())
                 except Exception as e:
+                    wb.close()
                     raise ConversionError(
                         'Failed to load schema for validation', e)
 
@@ -158,16 +159,23 @@ class Converter(object):
                     # pull headers from schema and check
                     schema_properties = schema_json["properties"]
                     if "xlsx" in schema_properties and schema_properties["xlsx"] and "headers" in schema_properties:
-                        header_values = schema_properties["headers"]
 
-                        for sheet_name in exceldata.keys():
-                            sheet_df = exceldata[sheet_name]
-                            df_headers = list(sheet_df.columns.values)
-                            valid = all([header in df_headers for header in header_values])
-                            if valid:
-                                return valid
+                        header_values_list = schema_properties["headers"]
+
+                        for header_values in header_values_list:
+                            for sheetname in wb.sheetnames:
+                                ws = wb[sheetname]
+                                rows = ws.iter_rows(min_row=1, max_row=1)
+                                first_row = next(rows)
+                                excel_headers = [c.value for c in first_row]
+                                valid = all([header in excel_headers for header in header_values])
+                                if valid:
+                                    return valid
                 except Exception as e:
+                    wb.close()
                     raise ConversionError(e)
+
+            wb.close()
 
             # If we have not returned True, all schemas failed
             if permissive:

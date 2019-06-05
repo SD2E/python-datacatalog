@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 20190603T155256+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@b85371a",
     "$id": "https://schema.catalog.sd2e.org/schemas/media_component.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -14,8 +14,11 @@
             "description": "Unit of fluid measure"
         },
         "value": {
-            "description": "Numeric amount or fraction",
-            "type": "number"
+            "description": "Label or numeric amount/fraction",
+            "type": [
+                "number",
+                "string"
+            ]
         },
         "volume": {
             "$ref": "volume.json",

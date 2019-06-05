@@ -4,7 +4,7 @@ from ..converter import Converter, ConversionError, ValidationError
 class Caltech(Converter):
     """Convert Caltech run.xlsx to sample-set schema"""
     VERSION = '0.0.1'
-    FILENAME = '20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1.xlsx'
+    FILENAME = 'caltech_samples'
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         """Do the conversion by running a method in runner.py"""

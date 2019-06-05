@@ -212,7 +212,10 @@ def convert_value_unit(value_unit):
     elif type(value) == float:
         value_unit_split[0] = float(value)
     else:
-        value_unit_split[0] = float(value)
+        try:
+            value_unit_split[0] = float(value)
+        except Exception:
+            value_unit_split[0] = str(value)
     return value_unit_split
 
 def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None):
