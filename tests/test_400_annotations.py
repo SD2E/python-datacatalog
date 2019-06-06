@@ -68,15 +68,23 @@ def test_text_annotation_doc(text_subject, text_body, text_owner, text_child_of,
             assert isinstance(doc, dict)
 
 @pytest.mark.parametrize('assoc_connects_to,assoc_connects_from,assoc_owner,assoc_valid', [
+    # No annotation
     (None, None, None, False),
     ('1012da8b-663a-591f-a13d-cdf5277656a0', None, 'public', False),
-    (None, '1221cef4-fab1-538c-837e-7c118c131003', 'public', False),
+    # No target
+    (None, '122a13eb-85c3-556a-b9d6-2c49ce31f792', 'public', False),
+    # Tag does not exist
     ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', None, False),
-    ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'public', True),
-    ('1221cef4-fab1-538c-837e-7c118c131003', '1012da8b-663a-591f-a13d-cdf5277656a0', 'public', False),
-    (['1012da8b-663a-591f-a13d-cdf5277656a0'], ['1221cef4-fab1-538c-837e-7c118c131003'], 'public', True),
-    (['1012da8b-663a-591f-a13d-cdf5277656a0', '1012da8b-663a-591f-a13d-cdf5277656a0'], ['1221cef4-fab1-538c-837e-7c118c131003', '1221cef4-fab1-538c-837e-7c118c131003'], 'public', False),
+    ('1012da8b-663a-591f-a13d-cdf5277656a0', '122fb545-d49a-503d-8b0f-0051410eddf2', 'public', True),
+    # Wrong direction
+    ('122fb545-d49a-503d-8b0f-0051410eddf2', '1012da8b-663a-591f-a13d-cdf5277656a0', 'public', False),
+    (['1012da8b-663a-591f-a13d-cdf5277656a0'], ['122fb545-d49a-503d-8b0f-0051410eddf2'], 'public', True),
+    # Multi-member arrays not allowed
+    (['1012da8b-663a-591f-a13d-cdf5277656a0', '1012da8b-663a-591f-a13d-cdf5277656a0'],
+     ['122fb545-d49a-503d-8b0f-0051410eddf2', '122a13eb-85c3-556a-b9d6-2c49ce31f792'], 'public', False),
+    # Email not allowed as owner of a assoc
     ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'Bevo@sportsball.utexas.edu', False),
+    # Human-like name not allowed as owner of an assoc
     ('1012da8b-663a-591f-a13d-cdf5277656a0', '1221cef4-fab1-538c-837e-7c118c131003', 'Bevo Longhorn', False)
 ])
 def test_association_doc(assoc_connects_to, assoc_connects_from,

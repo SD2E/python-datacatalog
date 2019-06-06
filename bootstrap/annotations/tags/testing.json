@@ -1,16 +1,16 @@
 [
     {
-        "name": "chocolate",
+        "name": "test.chocolate",
         "owner": "sd2eadm",
         "description": ""
     },
     {
-        "name": "rocky-road",
+        "name": "test.rocky-road",
         "owner": "sd2etest",
         "description": ""
     },
     {
-        "name": "vanilla.123",
+        "name": "test.vanilla.123",
         "owner": "sd2etest",
         "description": ""
     }

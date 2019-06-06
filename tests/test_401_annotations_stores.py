@@ -48,7 +48,7 @@ def test_new_text(mongodb_settings, text_subject, text_body,
     (None, 'Cannot reply to Association', 'public', '124579ee-9daa-5643-9e71-7801cf481438', False),
     (None, 'Cannot reply to Tag Annotation', 'public', '1221cef4-fab1-538c-837e-7c118c131003', False),
     (None, 'Can reply to Text Annotation', 'public', '123a664f-5f11-5c42-a2b4-de37ea04756a', True),
-    (None, 'Can reply to a reply', 'public', '123cbdd2-7f77-59bf-8433-0e13b5794654', True),
+    (None, 'Can reply to a reply', 'public', '1233b4cd-23cc-5db1-9041-b4405479eb99', True),
     (None, 'Cannot reply to non-existent Text Anno', 'public', '123db150-cb9f-5201-9dc5-3de4f7437d58', False)
 ])
 def test_new_reply(mongodb_settings, text_subject, text_body,

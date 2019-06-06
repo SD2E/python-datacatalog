@@ -16,6 +16,7 @@ from datacatalog.managers import annotations
 
 @pytest.mark.parametrize('target_uuid,text_body,text_subject,text_owner,text_valid', [
     ('1012da8b-663a-591f-a13d-cdf5277656a0', 'This is very challenging!', 'My opinion on Pipeline Automation', 'public', True),
+    # CP does not exist
     ('101f3911-c654-5087-8fcd-bc338cec6496', 'This cannot be very challenging', 'I agree', 'public', False)
 ])
 def test_new_text_anno(mongodb_settings, agave, target_uuid,
@@ -106,7 +107,7 @@ def test_new_tag_anno(mongodb_settings, agave, target_uuid, tag_name,
             assert isinstance(doc, dict)
 
 @pytest.mark.parametrize('target_uuid,tag_valid', [
-    ('1221cef4-fab1-538c-837e-7c118c131003', True)
+    ('12236906-bfee-56cd-bbc2-616f9a32cd43', True)
 ])
 def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
     mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
@@ -120,7 +121,7 @@ def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
 
 
 @pytest.mark.parametrize('target_uuid,tag_valid', [
-    ('122596c0-5254-5514-9a11-deb4f373e90f', True)
+    ('12234e7a-68ec-5547-b111-f29e18a75aa2', True)
 ])
 def test_unpublish_tag(mongodb_settings, agave, target_uuid, tag_valid):
     mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
