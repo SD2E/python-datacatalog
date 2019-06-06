@@ -328,9 +328,13 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     print("Warning: time val is not discrete, replacing fixed value!".format(time_val))
                     time_val = "0:hour"
 
-                # more cleanup
-                if time_val.endswith("hours"):
-                    time_val = time_val.replace("hours", "hour")
+                # sometimes we get integers and floats instead of autoprotocol strings
+                if type(time_val) == float or type(time_val) == int:
+                    time_val = str(time_val) + ":hour"
+                elif type(time_val) == str:
+                    # more cleanup
+                    if time_val.endswith("hours"):
+                        time_val = time_val.replace("hours", "hour")
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
             elif reference_time_point != None:
                 measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
