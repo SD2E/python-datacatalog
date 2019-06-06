@@ -1,6 +1,7 @@
 import collections
 from ..common import Manager
 from copy import deepcopy
+from datacatalog.identifiers import typeduuid
 from datacatalog.linkedstores.association import AssociationError
 from datacatalog.linkedstores.annotations import AnnotationError
 from datacatalog.linkedstores.annotations.tag import TagAnnotationDocument
@@ -125,9 +126,42 @@ class AnnotationManager(Manager):
                                                      **kwargs)
         return anno
 
+    def new_tag_association(self, record_uuid, tag_uuid,
+                            owner=None,
+                            token=None, **kwargs):
+        """Associates a Tag with another metadata record
+        """
+        if typeduuid.get_uuidtype(tag_uuid) != 'tag_annotation':
+            raise ValueError('Function only accepts tag UUIDs')
+        return self._new_annotation_association(
+            record_uuid, tag_uuid,
+            owner=owner, token=token, **kwargs)
+
+    def new_text_association(self, record_uuid, text_uuid,
+                             owner=None,
+                             token=None, **kwargs):
+        """Associates a Text Annotation with another metadata record
+        """
+        if typeduuid.get_uuidtype(text_uuid) != 'text_annotation':
+            raise ValueError('Function only accepts tag UUIDs')
+        return self._new_annotation_association(
+            record_uuid, text_uuid,
+            owner=owner, token=token, **kwargs)
+
+    def _new_annotation_association(self, record_uuid, anno_uuid,
+                                    owner=None, token=None, **kwargs):
+        self.validate_tapis_username(owner)
+        assoc = self.stores['association'].associate(
+            anno_uuid, record_uuid, owner=owner)
+        assoc_uuid = assoc.get('uuid', None)
+        a = AnnotationResponse(annotation_uuid=anno_uuid,
+                               association_uuid=assoc_uuid,
+                               record_uuid=record_uuid)
+        return a
+
     def tags_list(self, limit=None, skip=None,
                   public=False, visible=True):
-        """Retrieve the known list of tags
+        """Retrieve the known list of Tags
 
         Args:
             limit (int, optional): Maximum number of records to return
@@ -155,7 +189,7 @@ class AnnotationManager(Manager):
                            description='',
                            tag_owner=None,
                            token=None, **kwargs):
-        """Creates a new Tag Annotation annotating a specific record
+        """Creates a new Tag and uses it to annotate a specific record
 
         Args:
             record_uuid (str): UUID5 of record to be annotated
@@ -196,7 +230,7 @@ class AnnotationManager(Manager):
 
     def publish_tag(self, tag_uuid,
                     remove_original=False, token=None):
-        """Copy a tag into the public namespace
+        """Copy a Tag into the public namespace
 
         Args:
             tag_uuid (str): UUID5 of the tag to publish
@@ -222,7 +256,7 @@ class AnnotationManager(Manager):
             resp['uuid'], token=token)
 
     def unpublish_tag(self, tag_uuid, token=None):
-        """Remove a tag from the public namespace
+        """Remove a Tag from the public namespace
 
         Args:
             tag_uuid (str): UUID5 of the tag to publish

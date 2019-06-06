@@ -17,7 +17,7 @@ from ..linkages import Linkage
 from .. import linkedstores
 from .. import jsonschemas
 from ..utils import dynamic_import
-from ..tenancy import current_tenant_uri
+from ..tenancy import current_tenant_uri, current_username
 from ..dicthelpers import data_merge
 from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
@@ -192,10 +192,30 @@ class Manager(ManagerBase):
             'identifier is a {} with UUID {}'.format(uuid_type, uuid))
         return uuid, uuid_type
 
+    def current_tapis_user(self, permissive=False):
+        """Learns the current TACC username
+        """
+        user = None
+        try:
+            user = self.client.token.username
+        except AttributeError:
+            user = current_username()
+        except Exception:
+            raise
+        finally:
+            return user
+
     @picklecache.mcache(lru_cache(maxsize=256))
-    def get_tapis_user(self, username, permissive=False):
+    def get_tapis_user(self, username=None, permissive=False):
         """Retrieve a username record from the Tapis profile service
         """
+
+        if username is None:
+            try:
+                uname = self.current_tapis_user()
+                return uname
+            except Exception:
+                raise ValueError('Username must be resolvable from environment or provided')
         # Agave/APIM specialty accounts
         if username in tacc.username.ROLE_USERNAMES:
             return {'first_name': None, 'last_name': None, 'full_name': None,
@@ -215,7 +235,7 @@ class Manager(ManagerBase):
                 raise
 
     @picklecache.mcache(lru_cache(maxsize=256))
-    def validate_tapis_username(self, username, permissive=False):
+    def validate_tapis_username(self, username=None, permissive=False):
         """Verify the provided username against the Tapis profile service
         """
         self.get_tapis_user(username, permissive=permissive)
