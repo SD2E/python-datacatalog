@@ -1,5 +1,6 @@
 {
     "name": "/products/v1/41e1dec1-2940-5b04-bd9e-54af78f30774/aaf646a5-7c05-5ab3-a144-5563fca6830d/a4609424-508a-555c-9720-5ee3df44e777/whole-shrew-20181207T220030Z/output/output.csv",
+    "storage_system": "data-sd2e-community",
     "type": "CSV",
     "level": "Reference",
     "file_id": "file.tacc.65536",

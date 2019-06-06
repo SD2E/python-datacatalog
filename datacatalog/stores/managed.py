@@ -17,6 +17,7 @@ class ManagedStore(ExtensibleAttrDict):
                  prefix=None,
                  level='User',
                  storage_system=settings.STORAGE_SYSTEM,
+                 agave=None,
                  **kwargs):
         super().__init__()
         for b in self.BLACKLIST:
@@ -24,7 +25,8 @@ class ManagedStore(ExtensibleAttrDict):
                 raise ValueError('Prefix not allowed')
         setattr(self, 'prefix', prefix)
         setattr(self, 'level', Level(level))
-        setattr(self, 'storage_system', StorageSystem(storage_system))
+        setattr(self, 'storage_system', StorageSystem(
+            storage_system, agave=agave))
 
 class ManagedStores(object):
     """Representation of all Data Catalog managed stores
@@ -121,8 +123,8 @@ def abspath(filepath, validate=False):
     """Absolute path on host filesystem"""
     normalized_path = normalize(filepath)
     normed_path = normpath(filepath)
-    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX', None):
-        root_dir = os.environ.get('DEBUG_STORES_NATIVE_PREFIX', None)
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None):
+        root_dir = os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE', None)
     else:
         root_dir = ManagedStores.stores_for_filepath(normed_path)[0].root_dir
     return os.path.join(root_dir, normalized_path)

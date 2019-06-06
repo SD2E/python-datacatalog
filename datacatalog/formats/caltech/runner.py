@@ -61,6 +61,12 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     exp_mk = {}
     # exp relative path to files
     exp_rel_path = {}
+    # exp column units
+    exp_column_units = {}
+    # time
+    exp_time = {}
+    # temp
+    exp_temp = {}
 
     flow_1 = "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1"
     exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
@@ -75,6 +81,9 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     exp_mt[flow_2] = [SampleConstants.MT_FLOW, SampleConstants.MT_FLOW]
     exp_mk[flow_2] = ["0_flow", "18_flow"]
     exp_rel_path[flow_2] = ["0_flow", "18_flow"]
+    exp_column_units[flow_2] = [None, "micromole", "micromole", None, None]
+    exp_time[flow_2] = ["0:hour", "18:hour"]
+    exp_temp[flow_2] = ["37:celsius"]
 
     matched_exp_key = None
     matched_exp_cols = None
@@ -117,13 +126,21 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
                 well_id = value
             elif function == SampleConstants.STRAIN_CONCENTRATION:
                 # add as reagent with concentration value
-                # TODO: concentration units?
+                # 'x' = not present/0
+                if value == 'x':
+                    value = 0
+
                 contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
                 # build up a string of values that define this sample
                 value_string = value_string + str(value)
             elif function == SampleConstants.REAGENT_CONCENTRATION:
-                # TODO: concentration units?
-                contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+                if matched_exp_key in exp_column_units:
+                    unit = exp_column_units[matched_exp_key][index]
+                    value_unit = str(value) + ":" + str(unit)
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value_unit))
+                else:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+
                 value_string = value_string + str(value)
             elif function == None:
                 # skip
@@ -145,9 +162,6 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
-        # TODO: temperature
-        # TODO: timepoint   
-
         measurement_key  = exp_mk[matched_exp_key]
 
         for measurement_key_index, measurement_key_value in enumerate(measurement_key):
@@ -155,6 +169,15 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
             measurement_doc[SampleConstants.FILES] = []
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key][measurement_key_index]
             measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_key_value
+
+            if matched_exp_key in exp_time:
+                time = exp_time[matched_exp_key][measurement_key_index]
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time)
+
+            if SampleConstants.TEMPERATURE not in sample_doc:
+                if matched_exp_key in exp_temp:
+                    temp = exp_temp[matched_exp_key][measurement_key_index]
+                    sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temp)
 
             # generate a measurement id unique to this sample
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_key_index + 1), output_doc[SampleConstants.LAB], sample_doc, output_doc)

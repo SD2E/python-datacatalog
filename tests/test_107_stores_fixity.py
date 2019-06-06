@@ -12,6 +12,7 @@ CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
+from .fixtures.agave import agave, credentials
 from .fixtures.mongodb import mongodb_settings, mongodb_authn
 import datacatalog
 from .data.fixity import files
@@ -27,29 +28,29 @@ DATA_DIR = os.path.join(PARENT, 'tests/data/fixity/files')
                          [('/uploads/biofab/201811/23801/provenance_dump.json', '0', 'BPROV'),
                           ('/products/sequence.fastq', '1', 'FASTQ')
                           ])
-def test_fixity_pathmapping(monkeypatch, mongodb_settings, filename, level, ftype):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_pathmapping(monkeypatch, mongodb_settings, agave, filename, level, ftype):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     resp = fixity_store.index(filename)
     assert resp['type'] == ftype
 
-def test_fixity_filetype(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_filetype(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['type'] == ftype
 
-def test_fixity_size(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_size(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['size'] == tsize
 
-def test_fixity_checksum(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_checksum(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['checksum'] == cksum
@@ -57,9 +58,9 @@ def test_fixity_checksum(monkeypatch, mongodb_settings):
 @pytest.mark.parametrize("generator_uuid", [
     ('1176bd3e-8666-547b-bc36-25a3b62fc271'),
     ('1179fdd6-71e0-504e-bab1-021ce3a72e35')])
-def test_fixity_generated_by(monkeypatch, mongodb_settings, generator_uuid):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_generated_by(monkeypatch, mongodb_settings, agave, generator_uuid):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     for fname, cksum, tsize, ftype in files.TESTS:
         # 1179fdd6-71e0-504e-bab1-021ce3a72e35 is tests-pytest
         resp = fixity_store.index(fname, generated_by=generator_uuid)
@@ -67,9 +68,9 @@ def test_fixity_generated_by(monkeypatch, mongodb_settings, generator_uuid):
         resp = fixity_store.index(fname, generated_by=[generator_uuid])
         assert generator_uuid in resp['generated_by']
 
-def test_fixity_no_overrde_child_of(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings)
+def test_fixity_no_overrde_child_of(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, agave=agave)
     file_store = FileStore(mongodb_settings)
     for fname, cksum, tsize, ftype in files.TESTS:
         file_uuid = file_store.get_typeduuid(fname, binary=False)
@@ -80,8 +81,8 @@ def test_fixity_no_overrde_child_of(monkeypatch, mongodb_settings):
 @pytest.mark.parametrize("filename,fuuid", [
     ('/uploads/science-results.xlsx', '1166d16b-4c87-5ead-a25a-60ae90b527fb'),
     ('/uploads//science-results.xlsx', '1166d16b-4c87-5ead-a25a-60ae90b527fb')])
-def test_fixity_normpath(mongodb_settings, filename, fuuid):
-    base = FixityStore(mongodb_settings)
+def test_fixity_normpath(mongodb_settings, filename, fuuid, agave):
+    base = FixityStore(mongodb_settings, agave=agave)
     identifier_string_uuid = base.get_typeduuid(filename, binary=False)
     assert identifier_string_uuid == fuuid
 
@@ -89,7 +90,7 @@ def test_fixity_normpath(mongodb_settings, filename, fuuid):
 def test_fixity_indexer_cache(monkeypatch):
     """Confirms that caching os.stats() makes FixityIndexer faster
     """
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
     # Run with cache ON
     elapsed = list()
     for use_cache in [False, True]:
@@ -160,17 +161,19 @@ def test_fixity_indexer_cache_blocksize(monkeypatch):
             deltas.append((buf, pct_delta))
         prev_elapse = elapse
 
-def test_fixity_limit_rate_exception(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1, except_on_limit=True)
+def test_fixity_limit_rate_exception(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1,
+                               except_on_limit=True, agave=agave)
     with pytest.raises(RateLimitExceeded):
         for fname, cksum, tsize, ftype in files.TESTS:
             resp = fixity_store.index(fname)
             assert resp['type'] == ftype
 
-def test_fixity_limit_rate_pause(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('DEBUG_STORES_NATIVE_PREFIX', DATA_DIR)
-    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1, except_on_limit=False)
+def test_fixity_limit_rate_pause(monkeypatch, mongodb_settings, agave):
+    monkeypatch.setenv('STORAGE_SYSTEM_PREFIX_OVERRIDE', DATA_DIR)
+    fixity_store = FixityStore(mongodb_settings, batch_size=5, batch_window=1,
+                               except_on_limit=False, agave=agave)
     for fname, cksum, tsize, ftype in files.TESTS:
         resp = fixity_store.index(fname)
         assert resp['type'] == ftype

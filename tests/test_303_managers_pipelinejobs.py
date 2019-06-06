@@ -100,7 +100,7 @@ def client_w_sample_archive_path_missed_ref(mongodb_settings, pipelinejobs_confi
                              archive_patterns=[{'patterns': ['.json$'], 'level': '2'}],
                              product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36', './672.png', 'agave://data-sd2e-community/sample/tacc-cloud/dawnofman.jpg']}])
     # try:
-    #     mpj.reset(token=admin_token)
+    #     mpj.reset(token=admin_token, no_clear_path=True)
     # except ManagedPipelineJobError:
     def initjob():
         mpj.setup()
@@ -112,7 +112,7 @@ def client_w_sample_archive_path_missed_ref(mongodb_settings, pipelinejobs_confi
     try:
         job = initjob()
     except ManagedPipelineJobError:
-        mpj.reset(token=admin_token, permissive=True)
+        mpj.reset(token=admin_token, no_clear_path=True, permissive=True)
         job = initjob()
 
     # print('MPJ.UUID', job.uuid)
