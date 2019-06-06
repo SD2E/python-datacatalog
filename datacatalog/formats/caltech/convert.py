@@ -5,6 +5,8 @@ class Caltech(Converter):
     """Convert Caltech run.xlsx to sample-set schema"""
     VERSION = '0.0.1'
     FILENAME = 'caltech_samples'
+    PROJECT = 'data-sd2e-projects.sd2e-project-21'
+    TENANT = "sd2e"
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         """Do the conversion by running a method in runner.py"""
