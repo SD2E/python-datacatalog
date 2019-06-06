@@ -43,7 +43,7 @@
                           "type": "string"
                         }
                       },
-                      "required": ["concentration", "id", "name"]
+                      "required": ["id", "name"]
                     }
                   },
                   "strain": {
