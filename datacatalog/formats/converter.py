@@ -160,15 +160,16 @@ class Converter(object):
                     schema_properties = schema_json["properties"]
                     if "xlsx" in schema_properties and schema_properties["xlsx"] and "headers" in schema_properties:
 
-                        header_values_list = schema_properties["headers"]
+                        header_values_list = schema_properties["headers"]["oneOf"]
 
                         for header_values in header_values_list:
+                            enum_values = [enum_item["enum"][0] for enum_item in header_values["items"]]
                             for sheetname in wb.sheetnames:
                                 ws = wb[sheetname]
                                 rows = ws.iter_rows(min_row=1, max_row=1)
                                 first_row = next(rows)
                                 excel_headers = [c.value for c in first_row]
-                                valid = all([header in excel_headers for header in header_values])
+                                valid = all([header in excel_headers for header in enum_values])
                                 if valid:
                                     return valid
                 except Exception as e:
