@@ -20,7 +20,7 @@ COMPOSED_SCHEMAS = ['compositions.sample_set']
 """Modules that represent compositions or translations of existing datacatalog
 schemas. These are useful for backwards or sideways compatibility."""
 
-PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
+PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers', 'tenancy']
 """Modules that define simple patterns, enumerators, or static foreign entities
 """
 
