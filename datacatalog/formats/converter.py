@@ -22,7 +22,7 @@ class Converter(object):
     VERSION = '0.0.0'
     FILENAME = 'baseclass'
     # Implementing subclasses should override
-    PROJECT = 'sd2e-community'
+    PROJECT = 'SD2E-Community'
     TENANT = 'sd2e'
     def __init__(self, schemas=[], targetschema=None, options={}, reactor=None):
 
