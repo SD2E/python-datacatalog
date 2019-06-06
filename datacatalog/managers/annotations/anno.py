@@ -98,6 +98,57 @@ class AnnotationManager(Manager):
         # Need to think about how to handle this since it may involve recursion
         pass
 
+    def new_tag(self,
+                name=None,
+                owner=None,
+                description='',
+                token=None, **kwargs):
+        """Creates a new Tag
+
+        Args:
+            name (str): Name of the tag
+            description (str, optional): Plaintext description of the tag
+            owner (str): TACC.cloud username owning the tag
+
+        Returns:
+            dict: Representation of the tag
+
+        Raises:
+            AnnotationError: Unable to create the tag
+        """
+
+        self.validate_tapis_username(owner)
+        anno = self.stores['tag_annotation'].new_tag(name=name,
+                                                     description=description,
+                                                     owner=owner,
+                                                     token=token,
+                                                     **kwargs)
+        return anno
+
+    def tags_list(self, limit=None, skip=None,
+                  public=False, visible=True):
+        """Retrieve the known list of tags
+
+        Args:
+            limit (int, optional): Maximum number of records to return
+            skip (int, optional): Skip this many matching records
+            public (bool, optional): Return only publis tags
+            visible (bool, optional): Return only tags that are not soft-deleted
+
+        Returns:
+            list: List of dict objects representing each tag
+        """
+        tags_all = list()
+        query = dict()
+        if visible:
+            query['_visible'] = True
+        if public is True:
+            query['owner'] = self.PUBLIC_USER
+        for t in self.stores['tag_annotation'].query(
+                query, attr_dict=True, projection=None, limit=limit, skip=skip):
+            tags_all.append(t)
+        return tags_all
+
     def new_tag_annotation(self, record_uuid,
                            name=None,
                            owner=None,
@@ -143,8 +194,8 @@ class AnnotationManager(Manager):
                                record_uuid=record_uuid)
         return a
 
-    def publish_tag_annotation(self, tag_uuid,
-                               remove_original=False, token=None):
+    def publish_tag(self, tag_uuid,
+                    remove_original=False, token=None):
         """Copy a tag into the public namespace
 
         Args:
@@ -170,7 +221,7 @@ class AnnotationManager(Manager):
         return self.stores['tag_annotation'].undelete(
             resp['uuid'], token=token)
 
-    def unpublish_tag_annotation(self, tag_uuid, token=None):
+    def unpublish_tag(self, tag_uuid, token=None):
         """Remove a tag from the public namespace
 
         Args:
