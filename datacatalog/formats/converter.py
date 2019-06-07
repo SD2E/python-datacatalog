@@ -5,6 +5,7 @@ import inspect
 from openpyxl import load_workbook
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
+from ..tenancy import Projects
 # from .runner import convert_file
 
 class ConversionError(Exception):
@@ -22,8 +23,9 @@ class Converter(object):
     VERSION = '0.0.0'
     FILENAME = 'baseclass'
     # Implementing subclasses should override
-    PROJECT = 'SD2E-Community'
-    TENANT = 'sd2e'
+    projects = Projects.sync()
+    PROJECT = projects.SD2.tacc_name
+    TENANT = projects.SD2.tenant
     def __init__(self, schemas=[], targetschema=None, options={}, reactor=None):
 
         # Discover the default input schema

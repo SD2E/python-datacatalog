@@ -1,12 +1,14 @@
 import sys
 from ..converter import Converter, ConversionError, ValidationError
+from ...tenancy import Projects
 
 class Caltech(Converter):
     """Convert Caltech run.xlsx to sample-set schema"""
     VERSION = '0.0.1'
     FILENAME = 'caltech_samples'
-    PROJECT = 'DARPA-BIOCON'
-    TENANT = "sd2e"
+    projects = Projects.sync()
+    PROJECT = projects.BIOCON.tacc_name
+    TENANT = projects.BIOCON.tenant
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         """Do the conversion by running a method in runner.py"""
