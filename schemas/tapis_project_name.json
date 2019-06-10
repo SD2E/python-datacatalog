@@ -1,0 +1,17 @@
+{
+    "$comment": "generated: 20190606T160510+00:00; source: git@github.com:SD2E/python-datacatalog.git@f733bcc",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tapis_project_name.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "enum": [
+        "DARPA-BIOCON",
+        "DARPA-MKIT",
+        "DARPA-SB4D",
+        "DARPA-SNCS",
+        "DARPA-Safe-Genes",
+        "DARPA-TERRA",
+        "SD2E-Community"
+    ],
+    "title": "Tapis Project Name",
+    "type": "string"
+}

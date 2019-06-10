@@ -1,0 +1,58 @@
+[
+    {
+        "SD2": {
+            "tacc_name": "SD2E-Community",
+            "default_storage_system": "data-sd2e-community",
+            "managed_uploads_path": "/uploads",
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "SafeGenes": {
+            "tacc_name": "DARPA-Safe-Genes",
+            "default_storage_system": "data-projects-safe",
+            "managed_uploads_path": "/uploads",
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "SB4D": {
+            "tacc_name": "DARPA-SB4D",
+            "default_storage_system": "data-projects-sb4d",
+            "managed_uploads_path": null,
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "BioCon": {
+            "tacc_name": "DARPA-BIOCON",
+            "default_storage_system": "data-sd2e-projects.sd2e-project-21",
+            "managed_uploads_path": null,
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "MakeIt": {
+            "tacc_name": "DARPA-MKIT",
+            "default_storage_system": "data-sd2e-projects.sd2e-project-23",
+            "managed_uploads_path": null,
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "TERRA": {
+            "tacc_name": "DARPA-TERRA",
+            "default_storage_system": "data-sd2e-projects.sd2e-project-22",
+            "managed_uploads_path": null,
+            "tenant": "sd2e"
+        }
+    },
+    {
+        "NESD": {
+            "tacc_name": "DARPA-SNCS",
+            "default_storage_system": "data-sd2e-projects.sd2e-project-19",
+            "managed_uploads_path": null,
+            "tenant": "sd2e"
+        }
+    }
+]

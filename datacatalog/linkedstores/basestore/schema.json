@@ -7,27 +7,10 @@
         "_admin": {
             "type": "object",
             "tenant": {
-                "description": "TACC.cloud tenant",
-                "type": "string",
-                "value": "sd2e",
-                "enum": [
-                    "3dem",
-                    "designsafe",
-                    "iplantc.org",
-                    "irec",
-                    "portals",
-                    "vdjserver.org",
-                    "sd2e",
-                    "sgci",
-                    "tacc.prod"
-                ],
-                "readOnly": true
+                "$ref": "tapis_tenant_id.json"
             },
             "project": {
-                "description": "Project within specified TACC.cloud tenant",
-                "type": "string",
-                "value": "SD2",
-                "readOnly": true
+                "$ref": "tapis_project_name.json"
             },
             "owner": {
                 "type": "string",
