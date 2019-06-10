@@ -150,7 +150,7 @@ tests-formats-classify:
 
 bootstrap-tests: bootstrap bootstrap-extras
 
-bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas bootstrap-annotations
+bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas bootstrap-sample-tacc-cloud bootstrap-annotations
 bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra bootstrap-processes-extra bootstrap-references-extra bootstrap-pipelines-extra bootstrap-views-extra
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
@@ -216,6 +216,9 @@ bootstrap-associations:
 	python -m bootstrap.manage_associations auto -$(DB_ENV)
 
 bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
+
+bootstrap-sample-tacc-cloud:
+	files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
 
 # Currently, export values from production to enviromnent to bootstrap directories
 exports:

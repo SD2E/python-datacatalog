@@ -45,6 +45,6 @@ def test_pr80_sample_id_refactor_load_sampleset(mongodb_settings, filename):
     DATA_DIR = os.path.join(HERE, 'data/sampleset')
     jsonpath = os.path.join(DATA_DIR, filename)
     db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings,
-                                                           samples_file=jsonpath)
+                                                           samples_file=jsonpath).setup()
     dbp = db.process(strategy='merge')
     assert dbp is True

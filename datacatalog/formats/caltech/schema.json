@@ -5,7 +5,64 @@
     "type": "object",
     "properties": {
         "xlsx": true,
-        "headers": ["well", "a", "b", "ba ratio", "atc", "iptg"]
+        "headers": {
+            "oneOf": [{
+                    "type": "array",
+                    "items": [{
+                            "type": "string",
+                            "enum": ["well"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["a"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["b"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["ba ratio"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["atc"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["iptg"]
+                        }
+                    ],
+                    "additionalItems": false
+                },
+                {
+                    "type": "array",
+                    "items": [{
+                            "type": "string",
+                            "enum": ["well"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["iptg"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["sal"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["a"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["b"]
+                        }
+                    ],
+                    "additionalItems": false
+                }
+            ]
+        }
+
     },
     "required": [
         "xlsx",

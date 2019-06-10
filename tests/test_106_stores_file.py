@@ -90,7 +90,6 @@ def test_files_addfails_uuids_mismatch(mongodb_settings):
     with pytest.raises(ValueError):
         base.add_update_document(filedict, uuid=uuid_val)
 
-
 def test_files_au_add(mongodb_settings):
     base = FileStore(mongodb_settings)
     for key, doc, uuid_val in file.CREATES:
@@ -149,7 +148,6 @@ def test_files_links_add_invalid_linkage(mongodb_settings):
         resp = base.add_link(uuid_val, '1040f664-a654-0b71-4189-2ac6f77a05a7', 'acted_on')
         assert resp is False
 
-
 @pytest.mark.parametrize("filename,fuuid", [
     ('/uploads/science-results.xlsx', '1056d16b-4c87-5ead-a25a-60ae90b527fb'),
     ('/uploads//science-results.xlsx', '1056d16b-4c87-5ead-a25a-60ae90b527fb')])
@@ -199,3 +197,30 @@ def test_safen_path():
 
     now_safe = safen_path(unsafe, no_unicode=True, no_spaces=True, no_equals=True)
     assert now_safe == "variants-forA-B-samp-ling"
+
+@pytest.mark.parametrize("filename,storage_system,resolved_storage_system", [
+    ('/uploads/science results1.xlsx', 'data-sd2e-community', 'data-sd2e-community'),
+    ('/uploads/science results2.xlsx', None, 'data-sd2e-community'),
+    ('/sd2eadm/config.yml', 'data-sd2e-projects-users', 'data-sd2e-projects-users')])
+def test_uses_storage_system(mongodb_settings, filename, storage_system, resolved_storage_system):
+    base = FileStore(mongodb_settings)
+    doc = FileRecord({'name': filename, 'storage_system': storage_system})
+    resp = base.add_update_document(doc)
+    assert resp['storage_system'] == resolved_storage_system
+
+@pytest.mark.parametrize("filename,sys_id_1,sys_id_2,diff", [('/uploads/science-results.xlsx', 'data-sd2e-community', 'data-tacc-work-sd2eadm', True)])
+def test_file_id_incorps_system_id(filename, sys_id_1, sys_id_2, diff):
+    doc1 = FileRecord({'name': filename, 'storage_system': sys_id_1})
+    doc2 = FileRecord({'name': filename, 'storage_system': sys_id_2})
+
+    fid1_v20 = FileStore.generate_string_id_v2_0(doc1)
+    fid2_v20 = FileStore.generate_string_id_v2_0(doc2)
+    assert fid1_v20 == fid2_v20
+
+    fid1_v21 = FileStore.generate_string_id(doc1)
+    fid2_v21 = FileStore.generate_string_id(doc2)
+
+    if diff:
+        assert fid1_v21 != fid2_v21
+    else:
+        assert fid1_v21 == fid2_v21

@@ -9,7 +9,7 @@ def prefix_for_level(level):
     try:
         return LEVELS.get(str(level)).get('prefix')
     except KeyError:
-        if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
+        if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE') is not None:
             return '0'
         else:
             raise KeyError('Processing level {} is not known'.format(level))
@@ -24,7 +24,7 @@ def level_for_prefix(prefix):
     for lev, props in LEVELS.items():
         if prefix == props['prefix']:
             return lev
-    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE') is not None:
         return '0'
     else:
         raise KeyError('Prefix {} does not map to a processing level'.format(prefix))
@@ -35,7 +35,7 @@ def level_for_filepath(filepath):
     for lev, props in LEVELS.items():
         if filepath.startswith(props['prefix']):
             return lev
-    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE') is not None:
         return '0'
     else:
         return 'User'

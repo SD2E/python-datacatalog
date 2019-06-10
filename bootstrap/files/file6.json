@@ -1,5 +1,6 @@
 {
     "name": "/uploads/tacc/example/123.txt",
+    "storage_system": "data-sd2e-community",
     "type": "PLAIN",
     "level": "0",
     "file_id": "file.tacc.90001",
