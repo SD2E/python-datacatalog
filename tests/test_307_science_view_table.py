@@ -138,6 +138,10 @@ def test_titration_science_view_table_read(mongodb_settings):
         del science_view_result[val]["_properties"]
         del science_view_result[val]["uuid"]
         del science_view_result[val]["_salt"]
+        if "acted_on" in science_view_result[val]:
+            del science_view_result[val]["acted_on"]
+        if "acted_using" in science_view_result[val]:
+            del science_view_result[val]["acted_using"]
 
     science_view_expected = {
         "id" : "NOVEL_CHASSIS",
