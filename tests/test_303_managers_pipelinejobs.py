@@ -15,6 +15,7 @@ import transitions
 from datacatalog.identifiers import abaco, interestinganimal, typeduuid
 from .data import pipelinejobs
 
+from datacatalog.identifiers import random_string, typeduuid
 from datacatalog.managers.pipelinejobs import ManagedPipelineJob, ManagedPipelineJobError
 from datacatalog.managers.pipelinejobs import ManagedPipelineJobInstance
 from datacatalog.managers.pipelinejobs.indexrequest import IndexingError
@@ -22,6 +23,10 @@ from datacatalog.managers.pipelinejobs.indexrequest import IndexingError
 CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
+
+@pytest.fixture(scope='session')
+def random_dir_name():
+    return random_string(32)
 
 @pytest.fixture(scope='session')
 def admin_key():
@@ -496,3 +501,106 @@ def test_pipeinst_reindex_archive_gen_by(instance_w_sample_archive_path, admin_t
     indexed_basenames = [os.path.basename(p) for p in indexed]
     assert 'wc-sample.txt' in indexed_basenames
 
+
+def test_no_archive_and_product_patterns(mongodb_settings,
+                                         agave,
+                                         pipelinejobs_config,
+                                         pipeline_uuid,
+                                         random_dir_name,
+                                         admin_token):
+    """Confirm that archive_patterns and product_patterns can be entirely un-
+    specified without failure
+    """
+    archive_path = '/sample/tacc-cloud/' + random_dir_name
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave,
+                             archive_path=archive_path,
+                             experiment_id='experiment.tacc.10001').setup()
+    mpj.cancel(token=admin_token)
+
+def test_empty_archive_and_product_patterns(mongodb_settings,
+                                         agave,
+                                         pipelinejobs_config,
+                                         pipeline_uuid,
+                                         random_dir_name,
+                                         admin_token):
+    """Confirm that archive_patterns and product_patterns can be empty lists
+    without causing failure
+    """
+    archive_path = '/sample/tacc-cloud/' + random_string(32)
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave,
+                             archive_path=archive_path,
+                             experiment_id='experiment.tacc.10001',
+                             product_patterns=[],
+                             archive_patterns=[]).setup()
+    mpj.cancel(token=admin_token)
+
+def test_none_archive_patterns(mongodb_settings,
+                               agave,
+                               pipelinejobs_config,
+                               pipeline_uuid,
+                               random_dir_name,
+                               admin_token):
+    """Confirm that archive_patterns can be set to None without failure
+    """
+    archive_path = '/sample/tacc-cloud/' + random_string(32)
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave,
+                             archive_path=archive_path,
+                             experiment_id='experiment.tacc.10001',
+                             product_patterns=[],
+                             archive_patterns=None).setup()
+    mpj.cancel(token=admin_token)
+
+def test_none_product_patterns(mongodb_settings,
+                               agave,
+                               pipelinejobs_config,
+                               pipeline_uuid,
+                               random_dir_name,
+                               admin_token):
+    """Confirm that product_patterns can be set to None without failure
+    """
+    archive_path = '/sample/tacc-cloud/' + random_string(32)
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave,
+                             archive_path=archive_path,
+                             experiment_id='experiment.tacc.10001',
+                             product_patterns=None,
+                             archive_patterns=[]).setup()
+    mpj.cancel(token=admin_token)
+
+def test_invalid_metadata_child_of(mongodb_settings,
+                                   agave,
+                                   pipelinejobs_config,
+                                   pipeline_uuid,
+                                   random_dir_name,
+                                   admin_token):
+    """Confirm that passing an unknown identifier not in the database will
+    cause ManagedPipelineJob initialization to raise an Exception
+    """
+    archive_path = '/sample/tacc-cloud/' + random_string(32)
+    with pytest.raises(ValueError):
+        mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                                 agave=agave,
+                                 archive_path=archive_path,
+                                 experiment_id='ThisCanNeverEverEverWork',
+                                 product_patterns=[],
+                                 archive_patterns=[]).setup()
+
+def test_uuid_bypass_invalid_metadata(mongodb_settings,
+                                      agave,
+                                      pipelinejobs_config,
+                                      pipeline_uuid,
+                                      random_dir_name,
+                                      admin_token):
+    """Confirm that passing a UUID directly to ManagedPipelineJob metadata
+    binding stage bypasses identifier resolution"""
+    archive_path = '/sample/tacc-cloud/' + random_string(32)
+    ident = typeduuid.catalog_uuid('ThisCanNeverEverEverWork', 'experiment')
+    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
+                             agave=agave,
+                             archive_path=archive_path,
+                             experiment_id=ident,
+                             product_patterns=[],
+                             archive_patterns=[]).setup()
