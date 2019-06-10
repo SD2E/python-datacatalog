@@ -86,6 +86,7 @@ def test_fixity_normpath(mongodb_settings, filename, fuuid, agave):
     identifier_string_uuid = base.get_typeduuid(filename, binary=False)
     assert identifier_string_uuid == fuuid
 
+@pytest.mark.skipif(True, reason='Use of local filesystem is disabled"')
 @longrun
 def test_fixity_indexer_cache(monkeypatch):
     """Confirms that caching os.stats() makes FixityIndexer faster
@@ -125,6 +126,7 @@ def test_fixity_indexer_cache_no_buffering(monkeypatch):
         elapsed.append(time.time() - start_time)
     assert elapsed[0] > elapsed[1], 'Avoiding stat() had no apparent effect'
 
+@pytest.mark.skipif(True, reason='Optimal block size has been established')
 @longrun
 def test_fixity_indexer_cache_blocksize(monkeypatch):
     """This profiles the impact of block size on fixity operations
@@ -134,10 +136,10 @@ def test_fixity_indexer_cache_blocksize(monkeypatch):
     """
     TMPDIR = tempfile.mkdtemp()
     FILE_SIZE = 32000000
-    REPS = 5
+    REPS = 3
     BLOCK_SIZES = [8000, 16000, 32000, 64000, 128000, 256000, 512000]
     elapsed = list()
-    for rep in REPS:
+    for rep in range(1, REPS):
         rep_elapsed = list()
         for block_size in BLOCK_SIZES:
             start_time = time.time()
