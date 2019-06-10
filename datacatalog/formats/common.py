@@ -36,6 +36,7 @@ class SampleConstants():
     LAB_TX = "Transcriptic"
     LAB_UWBF = "UW_BIOFAB"
     LAB_CALTECH = "Caltech"
+    LAB_MARSHALL = "Marshall"
 
     # samples
     SAMPLES = "samples"
@@ -256,6 +257,9 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
     elif lab == SampleConstants.LAB_CALTECH:
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "CalTech"
+    elif lab == SampleConstants.LAB_MARSHALL:
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "Marshall"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
