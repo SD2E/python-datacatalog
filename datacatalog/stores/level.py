@@ -1,3 +1,4 @@
+from datacatalog import settings
 
 class Level(str):
     """Representation of a data processing level"""
@@ -7,6 +8,7 @@ class Level(str):
                ('3', 'Level 3 data'),
                ('Reference', 'Reference data'),
                ('User', 'Managed user data')]
+    STORAGE_SYSTEM = settings.STORAGE_SYSTEM
 
     def __new__(cls, value):
         value = str(value).title()

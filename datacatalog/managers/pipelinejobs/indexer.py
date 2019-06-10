@@ -1,4 +1,5 @@
 import os
+import sys
 from datacatalog import settings
 from ...linkedstores.file import FileRecord, infer_filetype
 from ...agavehelpers import from_agave_uri, AgaveError
@@ -15,6 +16,7 @@ class Indexer(Manager):
         """Updates the job's cache of archive_path contents
         """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
+            # TODO storageSystem?
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
             if isinstance(listing, list):
                 setattr(self, '_path_listing', listing)
@@ -22,16 +24,18 @@ class Indexer(Manager):
                 raise IndexingError('Failed to list archive path')
         return self
 
-    def index_if_exists(self, abs_filename, storage_system=None, check_exists=True):
+    def index_if_exists(self, abs_filename,
+                        storage_system=None,
+                        check_exists=True):
         """Index a file if it can be confirmed to exist
         """
         if storage_system is None:
             storage_system is settings.STORAGE_SYSTEM
-        elif storage_system != settings.STORAGE_SYSTEM:
-            # NOTE - This is temporary until comprehensive support for storageSystems is complete
-            raise ValueError(
-                'Only storage system {} is currently supported'.format(
-                    settings.STORAGE_SYSTEM))
+        # elif storage_system != settings.STORAGE_SYSTEM:
+        #     # NOTE - This is temporary until comprehensive support for storageSystems is complete
+        #     raise ValueError(
+        #         'Only storage system {} is currently supported'.format(
+        #             settings.STORAGE_SYSTEM))
 
         if check_exists:
             if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
@@ -40,10 +44,16 @@ class Indexer(Manager):
         # TODO - Add storage_system=storage_system to File/FixityStore.index()
         self.logger.info('Indexing referenced file {}'.format(
             os.path.basename(abs_filename)))
-        resp = self.stores['file'].index(abs_filename, child_of=[self.uuid])
+        opt_args = dict()
+        if getattr(self, 'uuid', None) is not None:
+            opt_args['child_of'] = [self.uuid]
+        resp = self.stores['file'].index(abs_filename,
+                                         storage_system=storage_system,
+                                         **opt_args)
         # raise SystemError(resp)
         try:
-            self.stores['fixity'].index(abs_filename)
+            self.stores['fixity'].index(abs_filename,
+                                        storage_system=storage_system)
         except Exception:
             if settings.LOG_FIXITY_ERRORS:
                 self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))
@@ -82,10 +92,10 @@ class Indexer(Manager):
         try:
             system, directory, fname = from_agave_uri(string_reference)
             abs_filename = os.path.join(directory, fname)
-            self.index_if_exists(abs_filename, system, check_exists=check_exists)
+            resp = self.index_if_exists(abs_filename, system, check_exists=check_exists)
             return self.file_or_ref_identifier(abs_filename)
         except Exception:
-            raise ValueError('Unable to resolve Agave files URI')
+            raise ValueError('Unable to resolve or index Agave files URI')
 
     def file_job_relative_path(self, string_reference, check_exists=True):
         """Resolves a filename relative to a job's archive path as a file UUID
@@ -103,6 +113,8 @@ class Indexer(Manager):
         """Resolves a list of linkages to UUIDs
         """
         resolved = set()
+        if not isinstance(reference_set, (list, tuple)):
+            reference_set = [reference_set]
         for ref in reference_set:
             self.logger.debug('resolving {}'.format(ref))
 
@@ -130,10 +142,11 @@ class Indexer(Manager):
                 self.logger.debug('Was an Agave files url')
                 continue
             except ValueError:
-                self.logger.debug('Not an Agave files url')
+                self.logger.debug('Not a valid Agave files url')
 
             # Relative path
             try:
+                # A relative pathname must ALWAYS exist to be resolved
                 refuuid = self.file_job_relative_path(ref, check_exists=True)
                 resolved.add(refuuid)
                 self.logger.debug('Was a relative path')
@@ -150,7 +163,8 @@ class Indexer(Manager):
         return resolved_list
 
     def single_index_request(self, index_request, token=None,
-                             refresh=False, fixity=True):
+                             refresh=False, fixity=True,
+                             permissive=False):
         """Processes a single indexing request
         """
         self.sync_listing(refresh)
@@ -165,15 +179,18 @@ class Indexer(Manager):
                 idxr['generated_by'] = gen_by
             resp = self._handle_single_archive_request(idxr,
                                                        token=token,
-                                                       fixity=fixity)
+                                                       fixity=fixity,
+                                                       permissive=permissive)
         elif idxr.kind is PRODUCT:
             resp = self._handle_single_product_request(idxr,
                                                        token=token,
-                                                       fixity=fixity)
+                                                       fixity=fixity,
+                                                       permissive=permissive)
         return resp
 
     def _handle_single_product_request(self, request, token=None,
-                                       fixity=False, permissive=False):
+                                       fixity=False,
+                                       permissive=False):
         """Private: Services a products indexing request
         """
         indexed = set()
@@ -200,8 +217,8 @@ class Indexer(Manager):
                 self.logger.debug('Adding product linkages')
                 # Resolve UUIDs, indentifiers, and finally relative paths
                 # into UUIDs that can be used for linkages
-                derived_using = self.resolve_derived_references(request.derived_using, permissive=True)
-                derived_from = self.resolve_derived_references(request.derived_from, permissive=True)
+                derived_using = self.resolve_derived_references(request.derived_using, permissive=permissive)
+                derived_from = self.resolve_derived_references(request.derived_from, permissive=permissive)
                 self.logger.debug('derived_from: {}'.format(derived_from))
                 self.logger.debug('derived_using: {}'.format(derived_using))
                 self.logger.debug('add_link.derived_using')
@@ -251,7 +268,8 @@ class Indexer(Manager):
                 if patts is not None:
                     if not patts.search(os.path.basename(file_name)):
                         continue
-                # Create a files record
+                # Create a files record. We use permissive=True here to save
+                # the exists lookup in favor of just using the filename
                 ftype = infer_filetype(file_name,
                                        check_exists=False,
                                        permissive=True).label

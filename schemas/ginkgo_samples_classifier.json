@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 2019-02-21 21:02:33 +00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fcc606a",
+    "$comment": "generated: 20190606T165130+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@154852b",
     "$id": "https://schema.catalog.sd2e.org/schemas/ginkgo_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -44,7 +44,6 @@
                                                 }
                                             },
                                             "required": [
-                                                "concentration",
                                                 "id",
                                                 "name"
                                             ],

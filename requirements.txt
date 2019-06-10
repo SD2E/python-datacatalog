@@ -14,6 +14,7 @@ google-auth-httplib2>=0.0.3
 hashids
 jq
 jsondiff
+openpyxl
 petname
 pymongo
 python-magic

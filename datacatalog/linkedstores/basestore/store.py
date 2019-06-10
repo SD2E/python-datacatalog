@@ -711,9 +711,8 @@ class LinkedStore(LinkageManager):
                                        target=merged_dest,
                                        action='update')
                 was_updated = diff_record.updated
-            except RuntimeError:
-                diff_record = None
-                was_updated = True
+            except RuntimeError as re:
+                raise CatalogError('failed to diff update', re)
         else:
             self.logger.debug('skip calculating diff for update')
 

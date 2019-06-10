@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190429T151631+00:00; source: git@github.com:SD2E/python-datacatalog.git@f3fdede",
+    "$comment": "generated: 20190606T160951+00:00; source: git@github.com:SD2E/python-datacatalog.git@f733bcc",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipelinejob_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -14,27 +14,10 @@
                 "value": "admin"
             },
             "project": {
-                "description": "Project within specified TACC.cloud tenant",
-                "readOnly": true,
-                "type": "string",
-                "value": "SD2"
+                "$ref": "tapis_project_name.json"
             },
             "tenant": {
-                "description": "TACC.cloud tenant",
-                "enum": [
-                    "3dem",
-                    "designsafe",
-                    "iplantc.org",
-                    "irec",
-                    "portals",
-                    "vdjserver.org",
-                    "sd2e",
-                    "sgci",
-                    "tacc.prod"
-                ],
-                "readOnly": true,
-                "type": "string",
-                "value": "sd2e"
+                "$ref": "tapis_tenant_id.json"
             },
             "type": "object"
         },

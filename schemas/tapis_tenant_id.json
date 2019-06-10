@@ -1,0 +1,22 @@
+{
+    "$comment": "generated: 20190606T160510+00:00; source: git@github.com:SD2E/python-datacatalog.git@f733bcc",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tapis_tenant_id.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "enum": [
+        "3dem",
+        "agave.prod",
+        "araport.org",
+        "bridge",
+        "designsafe",
+        "iplantc.org",
+        "irec",
+        "portals",
+        "sd2e",
+        "sgci",
+        "tacc.prod",
+        "vdjserver.org"
+    ],
+    "title": "Tapis Tenant Identifier",
+    "type": "string"
+}

@@ -1,5 +1,6 @@
 {
     "name": "/sample/tacc-cloud/dawnofman.jpg",
+    "storage_system": "data-sd2e-community",
     "type": "JPEG",
     "file_id": "file.tacc.02001",
     "child_of": [

@@ -2,6 +2,7 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "20190214-A-B-mar-1",
     "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
     "Unknown",
     "CellGrowth-RNAseqMethodsDevelopment",

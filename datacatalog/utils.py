@@ -20,6 +20,7 @@ from datacatalog import settings
 
 from bson.binary import Binary, UUID_SUBTYPE, OLD_UUID_SUBTYPE
 from jsonschema import validate, RefResolver
+from openpyxl import load_workbook
 
 SCHEMA_FILE = '/schemas/default.jsonschema'
 EXCLUDED_SUBMODULE_NAMES = ('__pycache__')
@@ -42,8 +43,15 @@ def current_time():
 def detect_encoding(file_path):
     """Uses chardet to detect encoding of a file
     """
-    return chardet.detect(
-        open(file_path, 'rb').read())['encoding']
+    if file_path.endswith('xlsx'):
+        # chardet struggles here and ultimately returns None
+        wb = load_workbook(file_path, read_only=True)
+        encoding = wb.encoding
+        wb.close()
+        return encoding
+    else:
+        return chardet.detect(
+            open(file_path, 'rb').read())['encoding']
 
 def encode_path(file_path):
     """Returns a URL-encoded version of a path

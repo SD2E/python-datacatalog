@@ -17,6 +17,42 @@ from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
+# create a named flow control sample (positive or negative)
+def create_flow_control_sample(filename, measurement_name, channels, cytometer_configuration, output_doc, negative_control, positive_control, positive_control_channel):
+    sample_doc = {}
+    sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id("sample_" + filename, output_doc[SampleConstants.LAB], output_doc)
+    sample_doc[SampleConstants.REPLICATE] = 0
+
+    if negative_control:
+        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+    elif positive_control:
+        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+        sample_doc[SampleConstants.CONTROL_CHANNEL] = positive_control_channel
+
+    measurement_doc = {}
+    measurement_doc[SampleConstants.FILES] = []
+    measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+    measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_name
+    measurement_doc[SampleConstants.M_CHANNELS] = channels
+    measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = cytometer_configuration
+    measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(1), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+    measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_name, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+
+    file_id = namespace_file_id(str(1), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+    file_type = SampleConstants.infer_file_type(filename)
+    measurement_doc[SampleConstants.FILES].append(
+        {SampleConstants.M_NAME: filename,
+         SampleConstants.M_TYPE: file_type,
+         SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+         SampleConstants.FILE_ID: file_id,
+         SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+
+
+    sample_doc[SampleConstants.MEASUREMENTS] = []
+    sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+    output_doc[SampleConstants.SAMPLES].append(sample_doc)
+
 def convert_caltech(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -50,27 +86,52 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
 
     # We don't navtively know which experiment contains which columns - they can all be different
     # One idea: build up a map that relates column names to mapping functions
-    flow_1 = "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1"
     
     # columns for exp
     exp_columns = {}
-    exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
-
     # column functions
     exp_column_functions = {}
-    exp_column_functions[flow_1] = [SampleConstants.SAMPLE_ID, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, None, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION]
-
     # exp measurement type
     exp_mt = {}
-    exp_mt[flow_1] = SampleConstants.MT_FLOW
-
     # exp measurement key
     exp_mk = {}
-    exp_mk[flow_1] = "flow 1"
-
     # exp relative path to files
     exp_rel_path = {}
-    exp_rel_path[flow_1] = "0"
+    # exp column units
+    exp_column_units = {}
+    # time
+    exp_time = {}
+    # temp
+    exp_temp = {}
+    # flow cytometer channels, configuration and controls
+    exp_cytometer_channels = {}
+    exp_cytometer_configuration = {}
+    exp_negative_controls = {}
+    exp_positive_controls = {}
+
+    flow_1 = "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1"
+    exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
+    exp_column_functions[flow_1] = [SampleConstants.SAMPLE_ID, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, None, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION]
+    exp_mt[flow_1] = [SampleConstants.MT_FLOW]
+    exp_mk[flow_1] = ["flow 1"]
+    exp_rel_path[flow_1] = ["0"]
+
+    flow_2 = "20190214-A-B-mar-1"
+    exp_columns[flow_2] = ["well", "iptg", "sal", "a", "b"]
+    exp_column_functions[flow_2] = [SampleConstants.SAMPLE_ID, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION]
+    exp_mt[flow_2] = [SampleConstants.MT_FLOW, SampleConstants.MT_FLOW]
+    exp_mk[flow_2] = ["0_flow", "18_flow"]
+    exp_rel_path[flow_2] = ["0_flow", "18_flow"]
+    exp_column_units[flow_2] = [None, "micromole", "micromole", None, None]
+    exp_time[flow_2] = ["0:hour", "18:hour"]
+    exp_temp[flow_2] = ["37:celsius"]
+
+    exp_cytometer_channels[flow_2] = ["FSC-A", "SSC-A", "CFP/VioBlue-A", "GFP/FITC-A"]
+    exp_cytometer_configuration[flow_2] = "agave://data-sd2e-projects.sd2e-project-21/ReedM/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1-cc.json"
+    exp_negative_controls[flow_2] = ["0_flow/blank-RDM2019-02-14.0001.fcs"]
+    exp_positive_controls[flow_2] = {}
+    exp_positive_controls[flow_2]["CFP/VioBlue-A"] = ["0_flow/A5.csv"]
+    exp_positive_controls[flow_2]["GFP/FITC-A"] = ["0_flow/yfp-RDM2019-02-14.0002.fcs"]
 
     matched_exp_key = None
     matched_exp_cols = None
@@ -94,8 +155,6 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     # use matching exp key, e.g. 20181009-top-4-A-B-cell-variants-A--B-sampling-exp-1
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(matched_exp_key, lab)
 
-    measurement_key = exp_mk[matched_exp_key]
-
     replicate_count = {}
 
     for caltech_index, caltech_sample in caltech_df.iterrows():
@@ -115,13 +174,21 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
                 well_id = value
             elif function == SampleConstants.STRAIN_CONCENTRATION:
                 # add as reagent with concentration value
-                # TODO: concentration units?
+                # 'x' = not present/0
+                if value == 'x':
+                    value = 0
+
                 contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
                 # build up a string of values that define this sample
                 value_string = value_string + str(value)
             elif function == SampleConstants.REAGENT_CONCENTRATION:
-                # TODO: concentration units?
-                contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+                if matched_exp_key in exp_column_units:
+                    unit = exp_column_units[matched_exp_key][index]
+                    value_unit = str(value) + ":" + str(unit)
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value_unit))
+                else:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+
                 value_string = value_string + str(value)
             elif function == None:
                 # skip
@@ -143,41 +210,88 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
-        # TODO: temperature
-        # TODO: timepoint   
+        measurement_key  = exp_mk[matched_exp_key]
 
-        measurement_doc = {}
-        measurement_doc[SampleConstants.FILES] = []
-        measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key]
-        measurement_doc[SampleConstants.MEASUREMENT_NAME] = matched_exp_key + " flow cytometry"
+        # skip if this is a control
+        skip = False
 
-        # generate a measurement id unique to this sample
-        measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(1), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+        for measurement_key_index, measurement_key_value in enumerate(measurement_key):
+            measurement_doc = {}
+            measurement_doc[SampleConstants.FILES] = []
+            measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key][measurement_key_index]
+            measurement_doc[SampleConstants.MEASUREMENT_NAME] = measurement_key_value
 
-        # record a measurement grouping id to find other linked samples and files
-        measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+            # Fill in Flow information, if known
+            if measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
+                if matched_exp_key in exp_cytometer_channels:
+                    measurement_doc[SampleConstants.M_CHANNELS] = exp_cytometer_channels[matched_exp_key]
+                if matched_exp_key in exp_cytometer_configuration:
+                    measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = exp_cytometer_configuration[matched_exp_key]
 
-        relative_path = ""
-        if matched_exp_key in exp_rel_path:
-            relative_path = exp_rel_path[matched_exp_key]
+            if matched_exp_key in exp_time:
+                time = exp_time[matched_exp_key][measurement_key_index]
+                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time)
 
-        # sample id -> well name -> filename.csv?
-        # TODO this may not hold
-        filename = os.path.join(relative_path, well_id + ".csv")
-        file_id = namespace_file_id(str(1), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
-        file_type = SampleConstants.infer_file_type(filename)
-        measurement_doc[SampleConstants.FILES].append(
-            {SampleConstants.M_NAME: filename,
-             SampleConstants.M_TYPE: file_type,
-             SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-             SampleConstants.FILE_ID: file_id,
-             SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
-      
+            if SampleConstants.TEMPERATURE not in sample_doc:
+                if matched_exp_key in exp_temp:
+                    temp = exp_temp[matched_exp_key][measurement_key_index]
+                    sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temp)
 
-        if SampleConstants.MEASUREMENTS not in sample_doc:
-            sample_doc[SampleConstants.MEASUREMENTS] = []
-        sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+            # generate a measurement id unique to this sample
+            measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(str(measurement_key_index + 1), output_doc[SampleConstants.LAB], sample_doc, output_doc)
+
+            # record a measurement grouping id to find other linked samples and files
+            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_key_value, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+
+            # sample id -> well name -> filename.csv?
+            # TODO this may not hold
+            fn_well = well_id + ".csv"
+
+            if matched_exp_key in exp_negative_controls:
+                for negative_control in exp_negative_controls[matched_exp_key]:
+                    if negative_control.endswith(fn_well):
+                        skip = True
+
+            if matched_exp_key in exp_positive_controls:
+                for positive_control_channel in exp_positive_controls[matched_exp_key]:
+                    for positive_control in exp_positive_controls[matched_exp_key][positive_control_channel]:
+                        if positive_control.endswith(fn_well):
+                            skip = True
+            if skip:
+                continue
+
+            filename = os.path.join(exp_rel_path[matched_exp_key][measurement_key_index], fn_well)
+            file_id = namespace_file_id(str(1), output_doc[SampleConstants.LAB], measurement_doc, output_doc)
+            file_type = SampleConstants.infer_file_type(filename)
+            measurement_doc[SampleConstants.FILES].append(
+                {SampleConstants.M_NAME: filename,
+                 SampleConstants.M_TYPE: file_type,
+                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                 SampleConstants.FILE_ID: file_id,
+                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+
+            if SampleConstants.MEASUREMENTS not in sample_doc:
+                sample_doc[SampleConstants.MEASUREMENTS] = []
+            sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
+
+        if skip:
+            continue
+
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
+
+    # Add flow controls, if known
+    if matched_exp_key in exp_negative_controls:
+        for negative_control in exp_negative_controls[matched_exp_key]:
+            create_flow_control_sample(negative_control, "negative flow control", \
+                exp_cytometer_channels[matched_exp_key], exp_cytometer_configuration[matched_exp_key], output_doc, \
+                    True, False, None)
+
+    if matched_exp_key in exp_positive_controls:
+        for positive_control_channel in exp_positive_controls[matched_exp_key]:
+            for positive_control in exp_positive_controls[matched_exp_key][positive_control_channel]:
+                create_flow_control_sample(positive_control, "positive flow control", \
+                    exp_cytometer_channels[matched_exp_key], exp_cytometer_configuration[matched_exp_key], output_doc, \
+                        False, True, positive_control_channel)
 
     try:
         validate(output_doc, schema)
