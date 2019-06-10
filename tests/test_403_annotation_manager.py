@@ -112,11 +112,11 @@ def test_new_tag_anno(mongodb_settings, agave, target_uuid, tag_name,
 def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
     mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
     if tag_valid is True:
-        doc = mgr.publish_tag_annotation(target_uuid)
+        doc = mgr.publish_tag(target_uuid)
         assert doc['owner'] == annotations.AnnotationManager.PUBLIC_USER
     else:
         with pytest.raises(Exception):
-            doc = mgr.publish_tag_annotation(target_uuid)
+            doc = mgr.publish_tag(target_uuid)
             assert doc['owner'] == annotations.AnnotationManager.PUBLIC_USER
 
 
@@ -126,9 +126,9 @@ def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
 def test_unpublish_tag(mongodb_settings, agave, target_uuid, tag_valid):
     mgr = annotations.AnnotationManager(mongodb_settings, agave=agave)
     if tag_valid is True:
-        doc = mgr.unpublish_tag_annotation(target_uuid)
+        doc = mgr.unpublish_tag(target_uuid)
         assert doc['_visible'] is False
     else:
         with pytest.raises(Exception):
-            doc = mgr.unpublish_tag_annotation(target_uuid)
+            doc = mgr.unpublish_tag(target_uuid)
             assert doc['_visible'] is False
