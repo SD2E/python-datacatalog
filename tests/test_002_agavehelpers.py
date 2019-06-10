@@ -39,6 +39,7 @@ def test_mapping_other_systems(agave, filename, system, mapped_path):
     pp = h.mapped_posix_path(filename, storage_system=system)
     assert pp == mapped_path
 
+@pytest.mark.skipif(True, reason='Use of virtual_filesystem disabled"')
 @longrun
 def test_listdir_posix(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
@@ -52,9 +53,12 @@ def test_listdir_posix(monkeypatch, agave):
 def test_listdir_agave(monkeypatch, agave):
     h = datacatalog.agavehelpers.AgaveHelper(agave)
     listing = h.listdir_agave_native(
-        '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
-    assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
+        '/sample/tacc-cloud/agavehelpers/upload',
+        storage_system='data-sd2e-community',
+        recurse=True, directories=True)
+    assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in listing
 
+@pytest.mark.skipif(True, reason='Use of virtual_filesystem disabled"')
 @longrun
 def test_listdir(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')
@@ -64,8 +68,9 @@ def test_listdir(monkeypatch, agave):
     h = datacatalog.agavehelpers.AgaveHelper(agave)
     listing = h.listdir(
         '/sample/tacc-cloud/agavehelpers/upload', recurse=True, directories=True)
-    assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' in listing
+    assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in listing
 
+@pytest.mark.skipif(True, reason='Use of virtual_filesystem disabled"')
 @longrun
 def test_listdir_only_files(monkeypatch, agave):
     monkeypatch.setenv('CATALOG_STORAGE_SYSTEM', 'virtual_filesystem')

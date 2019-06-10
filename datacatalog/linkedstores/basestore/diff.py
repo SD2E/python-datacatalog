@@ -82,6 +82,100 @@ def diff_list(list1, list2):
 
     return list_diff
 
+# https://github.com/xlwings/jsondiff/issues/18
+# Lists are evaluated recursively and lead to maximum recursion depth exceeded in comparisons
+# A potential work-around: scan through the two documents, diffing "long" lists as we go,
+# remove them from the JSON document, perform the regular jsondiff comparison,
+# and merge the diffs back into the result
+# "long" lists here are lists with over 100 elements
+def diff_remove_long_lists(doc1, doc2):
+    CANDIDATE_LIST_LENGTH = 100
+
+    # return results here
+    diff_dict = {}
+
+    # long lists we will check
+    candidate_long_list_keys = set()
+
+    # track lists of objects and dictionaries as separate candidates; recurse
+    candidate_dict_keys = set()
+    candidate_list_keys = set()
+
+    for candidate_key in doc1:
+        candidate = doc1[candidate_key]
+        if isinstance(candidate, list):
+            if len(candidate) > CANDIDATE_LIST_LENGTH:
+                candidate_long_list_keys.add(candidate_key)
+            else:
+                candidate_list_keys.add(candidate_key)
+        elif isinstance(candidate, dict):
+            candidate_dict_keys.add(candidate_key)
+    for candidate_key in doc2:
+        candidate = doc2[candidate_key]
+        if isinstance(candidate, list):
+            if len(candidate) > CANDIDATE_LIST_LENGTH:
+                candidate_long_list_keys.add(candidate_key)
+            else:
+                candidate_list_keys.add(candidate_key)
+        elif isinstance(candidate, dict):
+            candidate_dict_keys.add(candidate_key)
+
+    # diff the long list
+    for candidate_long_list_key in candidate_long_list_keys:
+        if candidate_long_list_key in doc1 and candidate_long_list_key in doc2:
+            list1 = doc1[candidate_long_list_key]
+            list2 = doc2[candidate_long_list_key]
+            list_diff = diff_list(list1, list2)
+            del doc1[candidate_long_list_key]
+            del doc2[candidate_long_list_key]
+            if len(list_diff) > 0:
+                diff_dict[candidate_long_list_key] = list_diff
+
+    # recurse on child dictionary keys
+    for candidate_dict_key in candidate_dict_keys:
+        if candidate_dict_key in doc1 and candidate_dict_key in doc2:
+            child1 = doc1[candidate_dict_key]
+            child2 = doc2[candidate_dict_key]
+
+            (child1, child2, child_diff_dict) = diff_remove_long_lists(child1, child2)
+
+            # update children in case they are modified
+            doc1[candidate_dict_key] = child1
+            doc2[candidate_dict_key] = child2
+
+            # merge into parent result
+            if len(child_diff_dict) > 0:
+                diff_dict[candidate_dict_key] = child_diff_dict
+
+    # recurse on child list keys
+    for candidate_list_key in candidate_list_keys:
+        if candidate_list_key in doc1 and candidate_list_key in doc2:
+            child1_array = doc1[candidate_list_key]
+            child2_array = doc2[candidate_list_key]
+
+            for index, child1 in enumerate(child1_array):
+                if index < len(child2_array):
+                    child2 = child2_array[index]
+                    # are these objects? primitives would be caught above
+                    if type(child1) == dict and type(child2) == dict:
+                        (child1, child2, child_diff_dict) = diff_remove_long_lists(child1, child2)
+
+                        # update list children in case they are modified
+                        child1_array[index] = child1
+                        child2_array[index] = child2
+
+                        # merge parent result
+                        # track using an index key
+                        if len(child_diff_dict) > 0:
+                            diff_dict[candidate_list_key + "_" + str(index)] = child_diff_dict
+
+            # update child lists in case they are modified
+            doc1[candidate_list_key] = child1_array
+            doc2[candidate_list_key] = child2_array
+
+    return (doc1, doc2, diff_dict)
+
+
 def get_diff(source={}, target={}, action=DEFAULT_ACTION):
     """Determine the differences between two documents
 
@@ -131,40 +225,15 @@ def get_diff(source={}, target={}, action=DEFAULT_ACTION):
                 del doc[key]
         safe_docs.append(json.loads(json.dumps(doc, cls=DateTimeEncoder)))
 
-    # https://github.com/xlwings/jsondiff/issues/18
-    # Lists are evaluated recursively and lead to maximum recursion depth exceeded in comparison
-    # A potential work-around: scan top level keys that are lists, diff them,
-    # remove from the JSON document, and merge the diffs back into the original comparison
-    # This won't work for embedded lists
+    # doc1 and doc2 have have their long lists removed, diffs are in diff_dict
+    (doc1, doc2, diff_dict) = diff_remove_long_lists(safe_docs[0], safe_docs[1])
 
-    CANDIDATE_LIST_LENGTH = 100
-    candidate_list_keys = set()
-    candidate_list_key_values = {}
-    for key in safe_docs[0]:
-        if isinstance(safe_docs[0][key], list) and len(safe_docs[0][key]) > CANDIDATE_LIST_LENGTH:
-            candidate_list_keys.add(key)
-    for key in safe_docs[1]:
-        if isinstance(safe_docs[1][key], list) and len(safe_docs[1][key]) > CANDIDATE_LIST_LENGTH:
-            candidate_list_keys.add(key)
-    for candidate_list_key in candidate_list_keys:
-        if candidate_list_key in safe_docs[0] and candidate_list_key in safe_docs[1]:
-            list1 = safe_docs[0][candidate_list_key]
-            list2 = safe_docs[1][candidate_list_key]
-            list_diff = diff_list(list1, list2)
-            del safe_docs[0][candidate_list_key]
-            del safe_docs[1][candidate_list_key]
-            candidate_list_key_values[candidate_list_key] = list_diff
+    delta = diff(doc1, doc2, syntax='explicit', dump=True)
 
-    delta = diff(safe_docs[0], safe_docs[1], syntax='explicit', dump=True)
-
-    # delta is a string - inline the list diffs if they exist
-    if len(candidate_list_keys) > 0:
+    # delta is a string - inline any long list diffs if they exist
+    if len(diff_dict) > 0:
         delta_json = json.loads(delta)
-        for candidate_list_key in candidate_list_keys:
-            if candidate_list_key in candidate_list_key_values:
-                list_diff = candidate_list_key_values[candidate_list_key]
-                if len(list_diff) > 0:
-                    delta_json[candidate_list_key] = list_diff
+        delta_json.update(diff_dict)
         delta = json.dumps(delta_json)
 
     doc_diff_obj = DocumentDiff(delta, doc_uuid, doc_admin, action)

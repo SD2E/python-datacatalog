@@ -5,6 +5,7 @@ import hashlib
 import xxhash
 import os
 import sys
+import warnings
 from stat import S_ISREG
 from pprint import pprint
 
@@ -60,7 +61,7 @@ class FixityIndexer(object):
             setattr(self, '_helper', AgaveHelper(agave,
                     storage_system=storage_system))
         else:
-            raise SystemExit()
+            warnings.warn('No Agave client was passed at initialization')
 
         # Resolve root-absolute path on managed Agave system
         if abs_filename is not None:

@@ -87,3 +87,93 @@ def test_json_diff_recursion():
 
     assert json.loads(diff_record.delta) == {"standard_for": ["12757492"]}
     assert s_updated == True
+
+    # additional use cases testing recursive cases for dictionaries and lists
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : ["v4"] } }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : ["v4"] } }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == dict()
+    assert s_updated == False
+
+    # nested list
+    large_list1 = []
+    for i in range(1, 1000):
+        large_list1.append(i)
+    large_list2 = large_list1.copy()
+    large_list2.append(1001)
+
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : large_list1 } }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : large_list2 } }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2': {'k4': ['1001']}}
+    assert s_updated == True
+
+    #flip
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : large_list2 } }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : large_list1 } }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2': {'k4': ['1001']}}
+    assert s_updated == True
+
+    # nested list of objects
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : [ { "k3" : "v3" }, { "k4" : large_list2 } ] }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : [ { "k3" : "v3",}, { "k4" : large_list1 } ] }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2_1': {'k4': ['1001']}}
+    assert s_updated == True
+
+    # flip
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : [ { "k3" : "v3" }, { "k4" : large_list1 } ] }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : [ { "k3" : "v3",}, { "k4" : large_list2 } ] }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2_1': {'k4': ['1001']}}
+    assert s_updated == True
+
+    # deep nest
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : { "k5" : "v5", "k6" : large_list1 } } }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : { "k5" : "v5", "k6" : large_list2 } } }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2': {'k4': {'k6': ['1001']}}}
+    assert s_updated == True
+
+    # flip
+    merge_source = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : { "k5" : "v5", "k6" : large_list2 } } }
+    merge_dest   = { 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f', "k1" : "v1", "k2" : { "k3" : "v3", "k4" : { "k5" : "v5", "k6" : large_list1 } } }
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+
+    assert json.loads(diff_record.delta) == {'k2': {'k4': {'k6': ['1001']}}}
+    assert s_updated == True
