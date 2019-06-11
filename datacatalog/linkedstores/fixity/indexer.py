@@ -36,10 +36,13 @@ class FixityIndexer(object):
                 ('checksum', 'checksum', True, None),
                 ('fingerprint', 'fingerprint', True, None),
                 ('uuid', 'uuid', False, None),
+                ('storage_system', 'storage_system', False, None),
                 ('child_of', 'child_of', False, []),
                 ('generated_by', 'generated_by', False, [])]
 
-    def __init__(self, abs_filename=None, storage_system=None,
+    def __init__(self,
+                 abs_filename=None,
+                 storage_system=None,
                  cache_stat=True,
                  block_size=CHECKSUM_BLOCKSIZE,
                  schema={},
