@@ -22,22 +22,22 @@ from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, Dup
 from ...stores import StorageSystem, ManagedStores, PathMappings
 from ...tokens import generate_salt, get_token, validate_token, validate_admin_token
 from ...utils import time_stamp, current_time, msec_precision
-from ... import tenancy
 
+from .admin import admin_template
 from .diff import get_diff
 from .exceptions import (CatalogError, CatalogQueryError,
                          CatalogUpdateFailure, CatalogDataError,
                          CatalogDatabaseError)
+from .extensible import ExtensibleAttrDict
 from .heritableschema import DocumentSchema, HeritableDocumentSchema
 from .heritableschema import formatChecker, DateTimeEncoder
 from .linkmanager import LinkageManager
 from .merge import json_merge
-from .record import Record
-from .extensible import ExtensibleAttrDict
 from .mongomerge import pre_merge_filter
+from .record import Record
 
-from . import strategies
 from . import managedfields
+from . import strategies
 
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
@@ -437,12 +437,6 @@ class LinkedStore(LinkageManager):
         self.logger.debug('get_linearized_values: {}'.format(linearized))
         return linearized
 
-    def admin_template(self):
-        template = {'owner': tenancy.current_tenant(),
-                    'project': tenancy.current_project(),
-                    'tenant': tenancy.current_username()}
-        return template
-
     def __set_properties(self, record, updated=False, source=None):
         """Update the timestamp and revision count for a document
 
@@ -474,7 +468,7 @@ class LinkedStore(LinkageManager):
         # Stubbed-in support for multitenancy, projects, and ownership
         self.logger.debug('updating record admin fields')
         if '_admin' not in record:
-            record['_admin'] = self.admin_template()
+            record['_admin'] = admin_template()
         return record
 
     def __set_salt(self, record, refresh=False):
