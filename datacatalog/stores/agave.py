@@ -51,7 +51,8 @@ class StorageSystem(str):
                 setattr(self, '_short_name', rs.group(1))
                 return True
         if permissive is False:
-            raise ManagedStoreError('Unable to determine type or short name')
+            raise ManagedStoreError(
+                'Unable to determine type/short name for {}'.format(self))
 
     @picklecache.mcache(lru_cache(maxsize=256))
     def get_system_record(self, permissive=False):
@@ -68,7 +69,8 @@ class StorageSystem(str):
             sys = self._agave.systems.get(systemId=self)
             return ExtensibleAttrDict(sys)
         except Exception:
-            raise ManagedStoreError('Failed to fetch StorageSystem record')
+            raise ManagedStoreError(
+                'Unable to fetch StorageSystem {}'.format(self))
 
     @property
     def system_id(self):
@@ -94,7 +96,8 @@ class StorageSystem(str):
         if self._cache.storage['protocol'] == 'SFTP':
             return self._cache.storage['host'] + ':' + str(self._cache.storage['port'])
         else:
-            raise ManagedStoreError('{} is not an SSH-based, POSIX system'.format(self.name))
+            raise ManagedStoreError(
+                '{} is not an SSH-based POSIX system'.format(self.name))
 
 
     @property
@@ -147,7 +150,7 @@ class StorageSystem(str):
         elif self.type == PUBLIC_TYPE:
             # We do not allow any exposure of the Agave public system assets
             # via Jupyter, esp. because we use it to store application assets
-            raise ManagedStoreError('{} is not exposed via Jupyter'.format(
+            raise ManagedStoreError('{} is not available via Jupyter'.format(
                 self.system_id))
         else:
             raise ManagedStoreError('Failed to resolve Jupyter path')
