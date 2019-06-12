@@ -64,20 +64,6 @@
             },
             "maxItems": 1,
             "type": "array"
-        },
-        "generated_by": {
-            "items": {
-                "anyOf": [
-                    {
-                        "$ref": "job_uuid.json"
-                    },
-                    {
-                        "$ref": "process_uuid.json"
-                    }
-                ]
-            },
-            "maxItems": 1,
-            "type": "array"
         }
     },
     "required": [

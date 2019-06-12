@@ -37,8 +37,7 @@ class FixityIndexer(object):
                 ('fingerprint', 'fingerprint', True, None),
                 ('uuid', 'uuid', False, None),
                 ('storage_system', 'storage_system', False, None),
-                ('child_of', 'child_of', False, []),
-                ('generated_by', 'generated_by', False, [])]
+                ('child_of', 'child_of', False, [])]
 
     def __init__(self,
                  abs_filename=None,
