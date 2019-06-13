@@ -37,8 +37,8 @@ class StorageSystem(str):
     def __init__(self, name, local=True, agave=None):
         super().__init__()
         self.set_type_and_name(permissive=False)
-        setattr(self, '_cache', None)
-        setattr(self, '_agave', agave)
+        assert agave is not None, 'StorageSystem requires a valid API client'
+        setattr(self, 'client', agave)
         setattr(self, '_cache', self.get_system_record(permissive=False))
 
     def set_type_and_name(self, permissive=False):
@@ -66,7 +66,7 @@ class StorageSystem(str):
             if system.get('id') == self:
                 return ExtensibleAttrDict(system)
         try:
-            sys = self._agave.systems.get(systemId=self)
+            sys = self.client.systems.get(systemId=self)
             return ExtensibleAttrDict(sys)
         except Exception as exc:
             raise ManagedStoreError(

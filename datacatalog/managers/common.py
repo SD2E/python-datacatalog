@@ -63,12 +63,13 @@ class Manager(ManagerBase):
     RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
+        ManagerBase.__init__(self, *args, **kwargs)
         # Assemble dict of stores keyed by classname
+        self.api_server = kwargs.get('api_server', current_tenant_uri())
         self.mongo_client = db_connection(mongodb)
         self.client = agave
-        ManagerBase.__init__(self, *args, **kwargs)
+        # assert agave is not None, 'Manager requires a valid API client'
         self.stores = Manager.init_stores(self.mongo_client, agave=agave)
-        self.api_server = kwargs.get('api_server', current_tenant_uri())
 
     @classmethod
     def init_stores(cls, mongodb, agave=None):

@@ -148,7 +148,7 @@ class LinkedStore(LinkageManager):
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = settings.STORAGE_SYSTEM
-        self.base = StorageSystem(self.agave_system).root_dir
+        # self.base = StorageSystem(self.agave_system).root_dir
         self.store = ManagedStores.prefixes_for_level('0')[0]
         # Initialize
         # self._post_init()

@@ -30,14 +30,18 @@ class AgaveHelper(object):
 
     def __init__(self, client, storage_system=settings.STORAGE_SYSTEM):
 
-        self._system = StorageSystem(storage_system, agave=client)
-        self._client = client
+        assert client is not None, 'AgaveHelper requires a valid API client'
+        self.client = client
+
+        self.system = StorageSystem(
+            storage_system,
+            agave=client)
 
     def get_storage_system(self, storage_system):
         if storage_system is not None:
-            system = StorageSystem(storage_system, agave=self._client)
+            system = StorageSystem(storage_system, agave=self.client)
         else:
-            system = self._system
+            system = self.system
         return system
 
     def mapped_posix_path(self, path, storage_system=None):
@@ -95,7 +99,7 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = ag_files_list(self._client, filePath=path,
+                    path_format = ag_files_list(self.client, filePath=path,
                                                 systemId=system,
                                                 limit=2)[0].get('format', None)
                     if path_format != 'folder':
@@ -132,7 +136,7 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = ag_files_list(self._client, filePath=path,
+                    path_format = ag_files_list(self.client, filePath=path,
                                                 systemId=system,
                                                 limit=2)[0].get('format', None)
                     if path_format != 'folder':
@@ -163,7 +167,7 @@ class AgaveHelper(object):
                 return True
             else:
                 try:
-                    path_format = ag_files_list(self._client, filePath=path,
+                    path_format = ag_files_list(self.client, filePath=path,
                                                 systemId=system,
                                                 limit=2)[0].get('format', None)
                     if path_format == 'folder':
@@ -229,9 +233,9 @@ class AgaveHelper(object):
         skip = 0
 
         while keeplisting:
-            sublist = ag_files_list(self._client, systemId=storage_system,
+            sublist = ag_files_list(self.client, systemId=storage_system,
                                     filePath=path, limit=pagesize, offset=skip)
-            # sublist = self._client.files.list(
+            # sublist = self.client.files.list(
             #     systemId=storage_system, filePath=path, limit=pagesize, offset=skip)
             skip = skip + pagesize
             if len(sublist) < pagesize:
@@ -247,7 +251,7 @@ class AgaveHelper(object):
         return listing
 
     def delete(self, filePath, systemId):
-        self._client.files.delete(filePath=filePath, systemId=systemId)
+        self.client.files.delete(filePath=filePath, systemId=systemId)
 
     def mkdir(self, dirName, systemId,
               basePath='/', sync=False, timeOut=60):
@@ -259,7 +263,7 @@ class AgaveHelper(object):
         nothing if all directories are already in place.
         """
         try:
-            self._client.files.manage(systemId=systemId,
+            self.client.files.manage(systemId=systemId,
                                       body={'action': 'mkdir', 'path': dirName},
                                       filePath=basePath)
         except HTTPError as h:

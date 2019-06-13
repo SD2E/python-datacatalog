@@ -45,6 +45,16 @@ def test_ex_get(samplesetprocessor):
 
 @pytest.mark.parametrize("samples_uri", [
     'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
+def test_init_setup_no_agave(mongodb_settings, samples_uri):
+    with pytest.raises(Exception):
+        db = datacatalog.managers.sampleset.SampleSetProcessor(
+            mongodb_settings,
+            agave=None,
+            samples_uri=samples_uri).setup()
+        assert db is not None
+
+@pytest.mark.parametrize("samples_uri", [
+    'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
 def test_init_setup(mongodb_settings, agave, samples_uri):
     db = datacatalog.managers.sampleset.SampleSetProcessor(
         mongodb_settings,
