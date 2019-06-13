@@ -68,9 +68,10 @@ class StorageSystem(str):
         try:
             sys = self._agave.systems.get(systemId=self)
             return ExtensibleAttrDict(sys)
-        except Exception:
+        except Exception as exc:
             raise ManagedStoreError(
-                'Unable to fetch StorageSystem {}'.format(self))
+                'Unable to fetch StorageSystem {} [{}]'.format(
+                    self, str(exc)))
 
     @property
     def system_id(self):

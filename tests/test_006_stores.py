@@ -27,7 +27,10 @@ PARENT = os.path.dirname(HERE)
             '/user/{User}/tree/sd2e-partners/biocon'),
     ('data-sd2e-projects.sd2e-project-10',
         '/work/projects/SD2E-Community/prod/projects/sd2e-project-10',
-            '/user/{User}/tree/sd2e-projects/sd2e-project-10')])
+            '/user/{User}/tree/sd2e-projects/sd2e-project-10'),
+    ('data-sd2e-projects.sd2e-project-21',
+        '/work/projects/SD2E-Community/prod/projects/sd2e-project-21',
+            '/user/{User}/tree/sd2e-projects/sd2e-project-21')])
 def test_storage_system_base_dirs(agave, system_id, abaco_dir, jupyter_dir):
     """General test for system mappings"""
     store = StorageSystem(system_id, agave=agave)
