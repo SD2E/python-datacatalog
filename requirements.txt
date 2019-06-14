@@ -14,6 +14,7 @@ google-auth-httplib2>=0.0.3
 hashids
 jq
 jsondiff
+openpyxl
 petname
 pymongo
 python-magic
@@ -34,3 +35,5 @@ bacanora@git+https://github.com/SD2E/bacanora.git@master
 python_jsonschema_objects@git+https://github.com/cwacek/python-jsonschema-objects.git@master
 jsonmerge>=1.6.1
 jsonschema>=3.0.1
+pandas
+xlrd

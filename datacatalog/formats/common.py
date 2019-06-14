@@ -35,6 +35,7 @@ class SampleConstants():
     LAB_GINKGO = "Ginkgo"
     LAB_TX = "Transcriptic"
     LAB_UWBF = "UW_BIOFAB"
+    LAB_CALTECH = "Caltech"
 
     # samples
     SAMPLES = "samples"
@@ -42,6 +43,8 @@ class SampleConstants():
     LAB_SAMPLE_ID = "lab_sample_id"
     REFERENCE_SAMPLE_ID = "reference_sample_id"
     STRAIN = "strain"
+    STRAIN_CONCENTRATION = "strain_concentration"
+    REAGENT_CONCENTRATION = "reagent_concentration"
     GENETIC_CONSTRUCT = "genetic_construct"
     CONTENTS = "contents"
     INDUCER = "inducer"
@@ -208,16 +211,24 @@ def convert_value_unit(value_unit):
         value_unit_split[0] = int(value)
     elif type(value) == float:
         value_unit_split[0] = float(value)
+    elif type(value) == str:
+        value_unit_split[0] = str(value)
     else:
-        value_unit_split[0] = float(value)
+        try:
+            value_unit_split[0] = float(value)
+        except Exception:
+            value_unit_split[0] = str(value)
     return value_unit_split
 
 def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None):
     m_c_object = {}
 
     m_c_object[SampleConstants.NAME] = create_mapped_name(experiment_id, media_name, media_id, lab, sbh_query)
-    if value_unit:
-        value_unit_split = convert_value_unit(value_unit)
+    if value_unit is not None:
+        if type(value_unit) is int:
+            value_unit_split = [value_unit]
+        else:
+            value_unit_split = convert_value_unit(value_unit)
         m_c_object[SampleConstants.VALUE] = value_unit_split[0]
         if len(value_unit_split) == 1:
             # no unit provided
@@ -244,6 +255,9 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
         sbh_lab = SD2Constants.TRANSCRIPTIC
     elif lab == SampleConstants.LAB_UWBF:
         sbh_lab = SD2Constants.BIOFAB
+    elif lab == SampleConstants.LAB_CALTECH:
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "CalTech"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 

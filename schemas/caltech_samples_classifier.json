@@ -1,0 +1,97 @@
+{
+    "$comment": "generated: 20190605T205653+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@f06ba2b",
+    "$id": "https://schema.catalog.sd2e.org/schemas/caltech_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "headers": {
+            "oneOf": [
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "well"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "a"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "b"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "ba ratio"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "atc"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "iptg"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                },
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "well"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "iptg"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "sal"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "a"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "b"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ]
+        },
+        "xlsx": true
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "title": "Caltech XLSX Headers Schema",
+    "type": "object"
+}

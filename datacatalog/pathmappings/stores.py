@@ -25,8 +25,8 @@ def normpath(filepath):
 def abspath(filepath, validate=False):
     # Resolve the native POSIX path for a given managed file path
     normalized_filepath = normalize(filepath)
-    if os.environ.get('DEBUG_STORES_NATIVE_PREFIX') is not None:
-        store_pfx = os.environ.get('DEBUG_STORES_NATIVE_PREFIX')
+    if os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE') is not None:
+        store_pfx = os.environ.get('STORAGE_SYSTEM_PREFIX_OVERRIDE')
     else:
         store_pfx = root_prefix(filepath, path_type='native')
     absolute_path = os.path.join(store_pfx, normalized_filepath)

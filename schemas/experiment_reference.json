@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "$comment": "generated: 20190614T113501+00:00; source: git@github.com:SD2E/python-datacatalog.git@382a776",
+=======
+    "$comment": "generated: 20190603T153547+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@bc2acfb",
+>>>>>>> d121d9812be5f6ef067b1f8f0378a0f29e4533ae
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

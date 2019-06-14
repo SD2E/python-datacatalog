@@ -31,6 +31,8 @@ class IndexRequest(ExtensibleAttrDict):
 
     def __init__(self, **kwargs):
         # Transform processing_level to level
+        if kwargs.get('processing_level', None) is not None:
+            kwargs['level'] = kwargs.get('processing_level', '1')
         if kwargs.get('level', None) is None:
             if kwargs.get('processing_level', None) is not None:
                 kwargs['level'] = kwargs.get('processing_level', '1')
@@ -38,6 +40,7 @@ class IndexRequest(ExtensibleAttrDict):
         if kwargs.get('patterns', None) is None:
             if kwargs.get('filters', None) is not None:
                 kwargs['patterns'] = kwargs.get('filters', [])
+
         for param, mandatory, attr, default in self.PARAMS:
             try:
                 value = kwargs[param] if mandatory else kwargs.get(param, default)
