@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190318T172020+00:00; source: git@github.com:SD2E/python-datacatalog.git@de81391",
+    "$comment": "generated: 20190614T202621+00:00; source: git@github.com:SD2E/python-datacatalog.git@1555ca2",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -54,6 +54,7 @@
         "BASIC",
         "BCF",
         "BCPIO",
+        "BEDGRAPH",
         "BIBTEX",
         "BITTORRENT",
         "BLENDER",

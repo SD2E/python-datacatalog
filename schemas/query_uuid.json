@@ -1,13 +1,13 @@
 {
-    "$comment": "generated: 20190508T142621+00:00; source: git@github.com:SD2E/python-datacatalog.git@8fef33b",
+    "$comment": "generated: 20190614T202621+00:00; source: git@github.com:SD2E/python-datacatalog.git@1555ca2",
     "$id": "https://schema.catalog.sd2e.org/schemas/query_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Redash Query UUID UUID5 with DNS namespacing",
+    "description": "Redash Query UUID5 with DNS namespacing",
     "examples": [
         "120acb4d-1f93-553a-9e1c-b7b58125bc89"
     ],
     "pattern": "^(uri:urn:)?120[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-    "title": "Redash Query UUID",
+    "title": "Redash Query",
     "type": "string"
 }
