@@ -1,6 +1,6 @@
 {
     "additionalProperties": false,
-    "description": "A tag annotation",
+    "description": "A text annotation or reply",
     "properties": {
         "subject": {
             "description": "Optional annotation subject",

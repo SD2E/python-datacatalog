@@ -14,7 +14,7 @@ TEXT_SUBJECT_MAX_LENGTH = 256
 TEXT_BODY_MAX_LENGTH = 2048
 
 class TextAnnotationSchema(HeritableDocumentSchema):
-    """Defines the Tag Annotation schema"""
+    """Defines the Text Annotation schema"""
 
     def __init__(self, inheritance=True, **kwargs):
         super(TextAnnotationSchema, self).__init__(
@@ -25,7 +25,7 @@ class TextAnnotationSchema(HeritableDocumentSchema):
         self.update_id()
 
 class TextAnnotationDocument(ExtensibleAttrDict):
-    """Instantiates an instance of Tag Annotation"""
+    """Instantiates an instance of Text Annotation"""
 
     PARAMS = [('body', True, 'body', None),
               ('subject', False, 'subject', ''),
