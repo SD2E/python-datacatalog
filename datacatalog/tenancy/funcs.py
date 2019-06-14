@@ -47,7 +47,7 @@ def current_username():
         if environ.get(uname, None) is not None:
             username = environ.get(uname)
             return Username(username)
-    raise ValueError('No TACC.cloud username could be found in the current environment')
+    raise ValueError('No TACC.cloud username could be found in the environment')
 
 
 def current_admin_username():

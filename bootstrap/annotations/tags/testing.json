@@ -1,0 +1,17 @@
+[
+    {
+        "name": "test.chocolate",
+        "owner": "sd2eadm",
+        "description": ""
+    },
+    {
+        "name": "test.rocky-road",
+        "owner": "sd2etest",
+        "description": ""
+    },
+    {
+        "name": "test.vanilla.123",
+        "owner": "sd2etest",
+        "description": ""
+    }
+]

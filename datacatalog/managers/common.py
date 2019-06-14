@@ -10,17 +10,19 @@ from pprint import pprint
 from datacatalog.logger import get_logger
 from datacatalog.hashable import picklecache, jsoncache
 from datacatalog.mongo import db_connection
+from datacatalog.identifiers import tacc
 from functools import lru_cache
 from ..linkedstores import DEFAULT_LINK_FIELDS
 from ..linkages import Linkage
 from .. import linkedstores
 from .. import jsonschemas
 from ..utils import dynamic_import
-from ..tenancy import current_tenant_uri
+from ..tenancy import current_tenant_uri, current_username
 from ..dicthelpers import data_merge
 from ..agavehelpers import from_agave_uri
 from ..identifiers import typeduuid
 from ..extensible import ExtensibleAttrDict
+from agavepy.agave import AgaveError
 
 __all__ = ['ManagerBase', 'Manager', 'ManagerError']
 
@@ -59,7 +61,8 @@ class Manager(ManagerBase):
     RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
                      'sample', 'measurement', 'experiment',
                      'experiment_design', 'challenge_problem', 'process',
-                     'annotation', 'fixity')
+                     'fixity', 'association',
+                     'tag_annotation', 'text_annotation')
     RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
@@ -189,6 +192,62 @@ class Manager(ManagerBase):
         self.logger.debug(
             'identifier is a {} with UUID {}'.format(uuid_type, uuid))
         return uuid, uuid_type
+
+    def current_tapis_user(self, permissive=False):
+        """Learns the current TACC username
+        """
+        user = None
+        try:
+            user = self.client.token.username
+        except AttributeError:
+            user = current_username()
+        except Exception:
+            raise
+        finally:
+            return user
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def get_tapis_user(self, username=None, permissive=False):
+        """Retrieve a username record from the Tapis profile service
+        """
+
+        if username is None:
+            try:
+                uname = self.current_tapis_user()
+                return uname
+            except Exception:
+                raise ValueError('Username must be resolvable from environment or provided')
+        # Agave/APIM specialty accounts
+        if username in tacc.username.ROLE_USERNAMES:
+            return {'first_name': None, 'last_name': None, 'full_name': None,
+                    'email': None, 'phone': None, 'mobile_phone': None,
+                    'nonce': None, 'status': None,
+                    'create_time': '20140515180317Z', 'uid': None,
+                    'username': username}
+        try:
+            if self.client is None:
+                raise AgaveError('TACC API client not initialized before use')
+            else:
+                return self.client.profiles.listByUsername(username=username)
+        except Exception:
+            if permissive:
+                return None
+            else:
+                raise
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def validate_tapis_username(self, username=None, permissive=False):
+        """Verify the provided username against the Tapis profile service
+        """
+        self.get_tapis_user(username, permissive=permissive)
+        return True
+
+    @picklecache.mcache(lru_cache(maxsize=256))
+    def validate_uuid(self, uuid, permissive=False):
+        """Verify that a UUID5 exists in the system by retrieving it
+        """
+        self.get_by_uuid(uuid, permissive=permissive)
+        return True
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):
         """User-friendly method to link two Data Catalog documents

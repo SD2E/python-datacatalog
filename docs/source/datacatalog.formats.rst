@@ -12,6 +12,7 @@ Subpackages
 .. toctree::
 
     datacatalog.formats.biofab
+    datacatalog.formats.caltech
     datacatalog.formats.default
     datacatalog.formats.ginkgo
     datacatalog.formats.sample_attributes

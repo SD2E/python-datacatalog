@@ -1,0 +1,67 @@
+{
+    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$id": "https://schema.catalog.sd2e.org/schemas/association.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Association between an annotation and a document",
+    "properties": {
+        "connects_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "tag_annotation_uuid.json"
+                    },
+                    {
+                        "$ref": "text_annotation_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "connects_to": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "challenge_problem_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    },
+                    {
+                        "$ref": "pipelinejob_uuid.json"
+                    },
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        }
+    },
+    "required": [
+        "connects_from",
+        "connects_to",
+        "owner"
+    ],
+    "title": "Association",
+    "type": "object"
+}

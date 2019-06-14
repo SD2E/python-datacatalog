@@ -1,0 +1,20 @@
+[
+    {
+        "connects_from": [
+            "12236906-bfee-56cd-bbc2-616f9a32cd43"
+        ],
+        "connects_to": [
+            "1012da8b-663a-591f-a13d-cdf5277656a0"
+        ],
+        "owner": "sd2eadm"
+    },
+    {
+        "connects_from": [
+            "1239ec03-b362-5ab5-a71b-8e8bf51f7fc6"
+        ],
+        "connects_to": [
+            "1012da8b-663a-591f-a13d-cdf5277656a0"
+        ],
+        "owner": "sd2eadm"
+    }
+]

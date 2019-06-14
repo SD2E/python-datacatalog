@@ -500,7 +500,7 @@ class LinkedStore(LinkageManager):
         for k in self.get_uuid_fields():
             if k not in doc_dict:
                 raise KeyError(
-                    "Document lacks identifier '{}'".format(k))
+                    "Document lacks identifying field '{}'".format(k))
 
         # Compute and inject TypedUUID if needed
         if 'uuid' not in doc_dict:

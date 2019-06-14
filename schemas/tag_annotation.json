@@ -1,0 +1,47 @@
+{
+    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A tag annotation",
+    "properties": {
+        "description": {
+            "description": "Plaintext description of the tag. Only provides context, never critical information.",
+            "oneOf": [
+                {
+                    "maxLength": 256,
+                    "type": "string",
+                    "value": ""
+                }
+            ]
+        },
+        "name": {
+            "description": "Tag name, comprised of DNS-safe alphanumeric characters)",
+            "oneOf": [
+                {
+                    "maxLength": 64,
+                    "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]",
+                    "type": "string"
+                }
+            ]
+        },
+        "owner": {
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                },
+                {
+                    "format": "email",
+                    "type": "string"
+                }
+            ]
+        }
+    },
+    "required": [
+        "name",
+        "owner"
+    ],
+    "title": "TagAnnotation",
+    "type": "object"
+}

@@ -1,0 +1,20 @@
+[
+    {
+        "subject": "Test: This is a note",
+        "body": "It contains some plain text",
+        "owner": "sd2eadm"
+    },
+    {
+        "subject": "Test: This is a response to a note",
+        "body": "it contains text as well but is also set as a child of the first note",
+        "owner": "vaughn",
+        "child_of": [
+            "1239ec03-b362-5ab5-a71b-8e8bf51f7fc6"
+        ]
+    },
+    {
+        "subject": "",
+        "body": "Test: This is a note without a subject",
+        "owner": "vaughn"
+    }
+]

@@ -1,0 +1,15 @@
+{
+    "$comment": "generated: 20190531T182735+00:00; source: git@github.com:SD2E/python-datacatalog.git@a3281ca",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tacc_username.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "TACC.cloud username",
+    "examples": [
+        "vaughn",
+        "tg840555",
+        "sd2etest1"
+    ],
+    "pattern": "^[a-z][0-9a-z]{2,7}",
+    "title": "Tacc Username",
+    "type": "string"
+}
