@@ -22,22 +22,22 @@ from ...mongo import db_connection, ReturnDocument, UUID_SUBTYPE, ASCENDING, Dup
 from ...stores import StorageSystem, ManagedStores, PathMappings
 from ...tokens import generate_salt, get_token, validate_token, validate_admin_token
 from ...utils import time_stamp, current_time, msec_precision
-from ... import tenancy
 
+from .admin import admin_template
 from .diff import get_diff
 from .exceptions import (CatalogError, CatalogQueryError,
                          CatalogUpdateFailure, CatalogDataError,
                          CatalogDatabaseError)
+from .extensible import ExtensibleAttrDict
 from .heritableschema import DocumentSchema, HeritableDocumentSchema
 from .heritableschema import formatChecker, DateTimeEncoder
 from .linkmanager import LinkageManager
 from .merge import json_merge
-from .record import Record
-from .extensible import ExtensibleAttrDict
 from .mongomerge import pre_merge_filter
+from .record import Record
 
-from . import strategies
 from . import managedfields
+from . import strategies
 
 __all__ = ['LinkedStore', 'StoreInterface', 'DocumentSchema',
            'HeritableDocumentSchema', 'CatalogError', 'CatalogUpdateFailure',
@@ -148,7 +148,7 @@ class LinkedStore(LinkageManager):
 
         # FIXME Integration with Agave configurations can be improved
         self.agave_system = settings.STORAGE_SYSTEM
-        self.base = StorageSystem(self.agave_system).root_dir
+        # self.base = StorageSystem(self.agave_system).root_dir
         self.store = ManagedStores.prefixes_for_level('0')[0]
         # Initialize
         # self._post_init()
@@ -437,12 +437,6 @@ class LinkedStore(LinkageManager):
         self.logger.debug('get_linearized_values: {}'.format(linearized))
         return linearized
 
-    def admin_template(self):
-        template = {'owner': tenancy.current_tenant(),
-                    'project': tenancy.current_project(),
-                    'tenant': tenancy.current_username()}
-        return template
-
     def __set_properties(self, record, updated=False, source=None):
         """Update the timestamp and revision count for a document
 
@@ -474,7 +468,7 @@ class LinkedStore(LinkageManager):
         # Stubbed-in support for multitenancy, projects, and ownership
         self.logger.debug('updating record admin fields')
         if '_admin' not in record:
-            record['_admin'] = self.admin_template()
+            record['_admin'] = admin_template()
         return record
 
     def __set_salt(self, record, refresh=False):
@@ -506,7 +500,7 @@ class LinkedStore(LinkageManager):
         for k in self.get_uuid_fields():
             if k not in doc_dict:
                 raise KeyError(
-                    "Document lacks identifier '{}'".format(k))
+                    "Document lacks identifying field '{}'".format(k))
 
         # Compute and inject TypedUUID if needed
         if 'uuid' not in doc_dict:
@@ -711,9 +705,8 @@ class LinkedStore(LinkageManager):
                                        target=merged_dest,
                                        action='update')
                 was_updated = diff_record.updated
-            except RuntimeError:
-                diff_record = None
-                was_updated = True
+            except RuntimeError as re:
+                raise CatalogError('failed to diff update', re)
         else:
             self.logger.debug('skip calculating diff for update')
 

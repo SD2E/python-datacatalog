@@ -2,7 +2,6 @@ datacatalog.linkages package
 ============================
 
 .. automodule:: datacatalog.linkages
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   :members:
+   :undoc-members:
+   :show-inheritance:

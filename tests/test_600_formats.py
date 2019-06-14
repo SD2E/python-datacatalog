@@ -18,11 +18,13 @@ def test_formats_independent_imports():
     from datacatalog.formats import classify
     return True
 
-@pytest.mark.parametrize("filename,classname", formats.files.CLASSIFY)
-def test_formats_classify(filename, classname):
+@pytest.mark.parametrize("filename,classname,tenant,project", formats.files.CLASSIFY)
+def test_formats_classify(filename, classname, tenant, project):
     from datacatalog.formats import classify
     con = classify.get_converter(os.path.join(DATA_DIR, filename), expect=classname)
     assert con.name == classname
+    assert con.tenant == tenant
+    assert con.project == project
 
 def test_formats_converters_have_schema_data():
     from datacatalog.formats import classify

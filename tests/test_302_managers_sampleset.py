@@ -43,6 +43,45 @@ def test_ex_get(samplesetprocessor):
         resp = samplesetprocessor.get('experiment', 'experiment_id', doc['experiment_id'])
         assert resp['experiment_id'] == doc['experiment_id']
 
+@pytest.mark.parametrize("samples_uri", [
+    'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
+def test_init_setup_no_agave(mongodb_settings, samples_uri):
+    with pytest.raises(Exception):
+        db = datacatalog.managers.sampleset.SampleSetProcessor(
+            mongodb_settings,
+            agave=None,
+            samples_uri=samples_uri).setup()
+        assert db is not None
+
+@pytest.mark.parametrize("samples_uri", [
+    'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
+def test_init_setup(mongodb_settings, agave, samples_uri):
+    db = datacatalog.managers.sampleset.SampleSetProcessor(
+        mongodb_settings,
+        agave=agave,
+        samples_uri=samples_uri).setup()
+    assert db is not None
+
+@pytest.mark.parametrize("samples_uri", [
+    'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
+def test_init_setup_prefix(mongodb_settings, agave, samples_uri):
+    ag_sys, ag_path, ag_file = datacatalog.agavehelpers.from_agave_uri(samples_uri)
+    db = datacatalog.managers.sampleset.SampleSetProcessor(
+        mongodb_settings,
+        agave=agave,
+        samples_uri=samples_uri,
+        path_prefix=ag_path).setup()
+    assert db is not None
+
+# @pytest.mark.parametrize("samples_uri", [
+#     'agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1.json', 'agave://data-sd2e-community/sample/tacc-cloud/sampleset/samples_nc.json'])
+# def test_init_setup_named_download(mongodb_settings, agave, samples_uri):
+#     db = datacatalog.managers.sampleset.SampleSetProcessor(
+#         mongodb_settings,
+#         agave=agave,
+#         samples_uri=samples_uri).setup()
+#     assert db is not None
+
 @longrun
 @pytest.mark.parametrize("filename", ['samples-biofab-022019.json', 'samples-transcriptic-022019.json'])
 def test_iter_process_merge(mongodb_settings, filename):
@@ -73,18 +112,10 @@ def test_process_from_file_w_uri(mongodb_settings, agave, filename, samples_uri)
     assert dbp is True
 
 @longrun
-@pytest.mark.parametrize("filename", ['ginko-titration-recursion-depth.json'])
-def test_iter_less_recursion(mongodb_settings, filename):
-    jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
-    dbp = db.process(strategy='merge')
-    assert dbp is True
-
-@longrun
 @pytest.mark.parametrize("filename", ['samples-titration.json'])
 def test_titration_nan_merge(mongodb_settings, filename):
     jsonpath = os.path.join(DATA_DIR, filename)
-    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath)
+    db = datacatalog.managers.sampleset.SampleSetProcessor(mongodb_settings, samples_file=jsonpath).setup()
     dbp = db.process(strategy='merge')
     assert dbp is True
 
@@ -183,7 +214,7 @@ def test_titration_science_view_table_read(mongodb_settings):
         "strain_lab_id" : "name.ginkgo.346047",
         "strain_sbh_uri" : "https://hub.sd2e.org/user/sd2e/design/MG1655_empty_landing_pads/1",
         "temperature" : {
-            "value" : 37,
+            "value" : 37.0,
             "unit" : "celsius"
         },
         "timepoint" : {
@@ -211,6 +242,10 @@ def test_titration_science_view_table_read(mongodb_settings):
         del science_view_result[val]["_properties"]
         del science_view_result[val]["uuid"]
         del science_view_result[val]["_salt"]
+        if "acted_on" in science_view_result[val]:
+            del science_view_result[val]["acted_on"]
+        if "acted_using" in science_view_result[val]:
+            del science_view_result[val]["acted_using"]
 
     science_view_expected = {
         "id" : "NOVEL_CHASSIS",
@@ -296,12 +331,15 @@ def test_titration_science_view_table_read(mongodb_settings):
                 "lab_id" : "name.ginkgo.346047"
             },
             "temperature" : {
-                "value" : 37,
+                "value" : 37.0,
                 "unit" : "celsius"
             },
             "replicate" : 4,
             "reference_sample_id" : "sample.ginkgo.12726577.experiment.ginkgo.19606.19637.19708.19709",
-            "control_type" : "EMPTY_VECTOR"
+            "control_type" : "EMPTY_VECTOR",
+            "derived_from" : [ ],
+            "derived_using" : [ ],
+            "generated_by" : [ ]
         },
         "measurement" : {
             "timepoint" : {

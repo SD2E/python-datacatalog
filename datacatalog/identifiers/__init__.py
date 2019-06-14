@@ -3,6 +3,7 @@ from .schemas import get_schemas
 from .. import jsonschemas
 from . import abaco
 from . import agave
+from . import tacc
 from . import typeduuid
 from . import interestinganimal
 

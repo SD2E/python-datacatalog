@@ -5,6 +5,12 @@ class LinkageManagerError(Exception):
     pass
 
 class LinkageManager(object):
+
+    def get_valid_link_types(self):
+        """Helper method to learn the valid linkages for a LinkedStore
+        """
+        return self.LINK_FIELDS
+
     def add_link(self, uuid, linked_uuid, relation=linkages.CHILD_OF, token=None):
         """Link a Data Catalog record with one or more records by UUID
 
@@ -39,8 +45,8 @@ class LinkageManager(object):
         # Validate UUIDs and not self
         link_uuid_filt = [u for u in linked_uuid if typeduuid.validate(
             u, permissive=True) and u != uuid]
-        
-        resp = self.coll.update_one({'uuid': uuid}, 
+
+        resp = self.coll.update_one({'uuid': uuid},
                                     {'$addToSet': {relation: {'$each': link_uuid_filt}}})
         if resp.acknowledged:
             return True
@@ -82,11 +88,11 @@ class LinkageManager(object):
         result = False
         for link_id in link_uuid_filt:
             self.logger.debug('removing {} from {}.{}'.format(link_id, uuid, relation))
-            resp = self.coll.update_one({'uuid': uuid}, 
+            resp = self.coll.update_one({'uuid': uuid},
                                         {'$pull': {relation: link_id}})
             self.logger.debug('response: {}'.format(resp.modified_count))
             result = result or resp.acknowledged
-  
+
         if result:
             return True
         else:

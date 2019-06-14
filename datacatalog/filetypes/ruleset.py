@@ -1,8 +1,9 @@
 # TODO: Protein Mass Spec bestiary https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3518119/
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 FILETYPES = [
+    ('BEDGRAPH', 'UCSC Genome Browser bedGraph format', ['.bedgraph$']),
     ('ABI', 'ABI Sequencer Chromatogram file', ['.ab1$', '.abi$', '.ab$', '.ab!$']),
     ('SCF', 'Standard Chromatogram Format file', ['.scf$']),
     ('LOG', 'Log file', ['.err$', '.out$', '.log$']),

@@ -110,7 +110,7 @@ def test_titration_science_view_table_read(mongodb_settings):
         "strain_lab_id" : "name.ginkgo.346047",
         "strain_sbh_uri" : "https://hub.sd2e.org/user/sd2e/design/MG1655_empty_landing_pads/1",
         "temperature" : {
-            "value" : 37,
+            "value" : 37.0,
             "unit" : "celsius"
         },
         "timepoint" : {
@@ -138,6 +138,10 @@ def test_titration_science_view_table_read(mongodb_settings):
         del science_view_result[val]["_properties"]
         del science_view_result[val]["uuid"]
         del science_view_result[val]["_salt"]
+        if "acted_on" in science_view_result[val]:
+            del science_view_result[val]["acted_on"]
+        if "acted_using" in science_view_result[val]:
+            del science_view_result[val]["acted_using"]
 
     science_view_expected = {
         "id" : "NOVEL_CHASSIS",
@@ -223,12 +227,15 @@ def test_titration_science_view_table_read(mongodb_settings):
                 "lab_id" : "name.ginkgo.346047"
             },
             "temperature" : {
-                "value" : 37,
+                "value" : 37.0,
                 "unit" : "celsius"
             },
             "replicate" : 4,
             "reference_sample_id" : "sample.ginkgo.12726577.experiment.ginkgo.19606.19637.19708.19709",
-            "control_type" : "EMPTY_VECTOR"
+            "control_type" : "EMPTY_VECTOR",
+            "derived_from" : [ ],
+            "derived_using" : [ ],
+            "generated_by" : [ ]
         },
         "measurement" : {
             "timepoint" : {

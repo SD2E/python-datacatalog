@@ -19,7 +19,10 @@ UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('inline_annotation', '119', 'Machine-generated Free-text Annotation'),
              ('dashboard', '121', 'Redash Dashboard'),
              ('query', '120', 'Redash Query'),
-             ('input_classifier', '115', 'Input File Classifier')
+             ('input_classifier', '115', 'Input File Classifier'),
+             ('tag_annotation', '122', 'Tag Annotation'),
+             ('text_annotation', '123', 'Text Annotation'),
+             ('association', '124', 'Annotation Association')
              ]
 
 class TypedUUID(object):
@@ -36,7 +39,7 @@ class TypedUUID(object):
 class CatalogUUID(JSONSchemaBaseObject):
     def __init__(self, **kwargs):
         super(CatalogUUID, self).__init__(**kwargs)
-        self.title = 'Catalog UUID'
+        self.title = 'Catalog'
         self.description = 'UUID5 with DNS namespacing'
         self.pattern = '^(uri:urn:)?[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
         self._filename = 'CatalogUUID'

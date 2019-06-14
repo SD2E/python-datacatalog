@@ -188,7 +188,7 @@ def test_mgr_common_get_links(object_id, subject_id, linkage, success, mongodb_s
     ('CP Experimental Request CellGrowth_RNAseqMethodsDevelopment', False),
     ('114d6d85-6dab-54af-8fee-5d7871df2a55', True),
     ('/sample/tacc-cloud/dawnofman.jpg', True),
-    ('/uploads/attachments/biotek_multi_csv/e10244/c224255.txt', False),
+    ('/uploads/attachments/biotek_multi_csv/e10244/c224255.txt', True),
     ('c224255.txt', False)])
 def test_mgr_common_get_by_identifier(object_id, success, mongodb_settings):
     base = datacatalog.managers.common.Manager(mongodb_settings)
@@ -199,11 +199,17 @@ def test_mgr_common_get_by_identifier(object_id, success, mongodb_settings):
             base.get_by_identifier(object_id, permissive=False)
 
 
-@pytest.mark.parametrize("object_id, success", [
-    ('/sample/tacc-cloud/dawnofdog.jpg', True),
-    ('/uploads/attachments/biotek_multi_csv/e10244/c224255.txt', False),
+@pytest.mark.parametrize("object_id, exists", [
+    ('CellGrowth-RNAseqMethodsDevelopment', True),
+    ('CELL GROWTH', False),
+    ('/sample/tacc-cloud/dawnofdog.jpg', False),
     ('c224255.txt', False)])
-def test_mgr_common_get_by_identifier_permissive(object_id, success, mongodb_settings):
+def test_mgr_common_get_by_identifier_permissive(object_id, exists, mongodb_settings):
+    """Test that the permissive setting returns None
+    """
     base = datacatalog.managers.common.Manager(mongodb_settings)
-    with pytest.raises(ValueError):
-        base.get_by_identifier(object_id, permissive=False)
+    resp = base.get_by_identifier(object_id, permissive=True)
+    if exists:
+        assert resp is not None
+    else:
+        assert resp is None

@@ -10,7 +10,17 @@ from ..utils import dynamic_import
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem', 'linkedstores.experiment_design', 'linkedstores.experiment', 'linkedstores.sample', 'linkedstores.measurement', 'linkedstores.file', 'linkedstores.fixity', 'linkedstores.pipeline', 'linkedstores.pipelinejob', 'linkedstores.product', 'linkedstores.reference', 'linkedstores.process', 'linkedstores.annotation']
+STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem',
+                 'linkedstores.experiment_design', 'linkedstores.experiment',
+                 'linkedstores.sample', 'linkedstores.measurement',
+                 'linkedstores.file', 'linkedstores.fixity',
+                 'linkedstores.pipeline', 'linkedstores.pipelinejob',
+                 'linkedstores.product', 'linkedstores.reference',
+                 'linkedstores.process',
+                 'linkedstores.association',
+                 'linkedstores.annotations.tag',
+                 'linkedstores.annotations.text']
+
 """Modules that define object and document schemas for managed document
 collections linked by UUID and linkage fields. Classes in these modules inherit
 schema and database logic from ``basestore`` classes
@@ -20,7 +30,7 @@ COMPOSED_SCHEMAS = ['compositions.sample_set']
 """Modules that represent compositions or translations of existing datacatalog
 schemas. These are useful for backwards or sideways compatibility."""
 
-PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers']
+PRIMITIVE_SCHEMAS = ['definitions', 'filetypes', 'identifiers', 'tenancy']
 """Modules that define simple patterns, enumerators, or static foreign entities
 """
 

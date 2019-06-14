@@ -5,6 +5,7 @@ import hashlib
 import xxhash
 import os
 import sys
+import warnings
 from stat import S_ISREG
 from pprint import pprint
 
@@ -35,10 +36,12 @@ class FixityIndexer(object):
                 ('checksum', 'checksum', True, None),
                 ('fingerprint', 'fingerprint', True, None),
                 ('uuid', 'uuid', False, None),
-                ('child_of', 'child_of', False, []),
-                ('generated_by', 'generated_by', False, [])]
+                ('storage_system', 'storage_system', False, None),
+                ('child_of', 'child_of', False, [])]
 
-    def __init__(self, abs_filename=None, storage_system=None,
+    def __init__(self,
+                 abs_filename=None,
+                 storage_system=settings.STORAGE_SYSTEM,
                  cache_stat=True,
                  block_size=CHECKSUM_BLOCKSIZE,
                  schema={},
@@ -50,17 +53,13 @@ class FixityIndexer(object):
         self.name = kwargs.get('name')
         # We have specific rules about what constitutes an update
         self._updated = False
-
-        if storage_system is None:
-            storage_system = kwargs.get('storage_system',
-                                        settings.STORAGE_SYSTEM)
         self.storage_system = storage_system
         # Init our AgaveHelper
         if agave is not None:
             setattr(self, '_helper', AgaveHelper(agave,
                     storage_system=storage_system))
         else:
-            raise SystemExit()
+            warnings.warn('No Agave client was passed at initialization')
 
         # Resolve root-absolute path on managed Agave system
         if abs_filename is not None:
@@ -79,14 +78,17 @@ class FixityIndexer(object):
             setattr(self, '_is_file', os.path.isfile(self._abspath))
 
         for key, attr, init, default in self.__PARAMS:
-            value = kwargs.get(key, default)
-            setattr(self, attr, value)
+            # Populate atttributes w defaults if they have not already been
+            if getattr(self, key, None) is None:
+                value = kwargs.get(key, default)
+                setattr(self, attr, value)
 
     def sync(self):
         """Fetch latest values for indexing target"""
         setattr(self, '_updated', False)
         if self._is_file is True:
             for key, attr, func, default in self.__PARAMS:
+                # Refresh attributes that are implemented as callables
                 if func:
                     addressable_method = getattr(self, 'get_' + attr)
                     old_value = getattr(self, attr, None)

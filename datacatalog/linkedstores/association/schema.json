@@ -1,0 +1,85 @@
+{
+    "additionalProperties": false,
+    "description": "Association between an annotation and a document",
+    "properties": {
+        "connects_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "tag_annotation_uuid.json"
+                    },
+                    {
+                        "$ref": "text_annotation_uuid.json"
+                    }
+                ]
+            },
+            "minItems": 1,
+            "maxItems": 1,
+            "type": "array"
+        },
+        "connects_to": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "challenge_problem_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    },
+                    {
+                        "$ref": "pipelinejob_uuid.json"
+                    },
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "minItems": 1,
+            "maxItems": 1,
+            "type": "array"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "association_uuid.json",
+            "description": "UUID for the specific association"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        }
+    },
+    "required": [
+        "connects_from",
+        "connects_to",
+        "owner"
+    ],
+    "title": "Association",
+    "type": "object",
+    "_filename": "association",
+    "__uuid_type": "association",
+    "__uuid_fields": [
+        "connects_from",
+        "connects_to",
+        "owner"
+    ],
+    "__collection": "associations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}

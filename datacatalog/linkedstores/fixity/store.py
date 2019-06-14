@@ -16,7 +16,7 @@ from .schema import FixityDocument
 from .indexer import FixityIndexer
 from .exceptions import FixtyUpdateFailure, FixityDuplicateError, FixtyNotFoundError
 
-DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.GENERATED_BY]
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF]
 # FixityStore is a special case of LinkedStore that creates and manages its
 # own records. This is accomplished declaratively using the ``index()`` method.
 
@@ -62,24 +62,11 @@ class FixityStore(AgaveClient, LinkedStore, RateLimiter):
         db_record = self.coll.find_one({'uuid': fixity_uuid})
 
         if db_record is None:
-            # TODO - generated_by should default to a global settting
             db_record = {'name': filename,
                          'storage_system': storage_system,
                          'uuid': fixity_uuid,
                          'version': 0,
-                         'child_of': [file_uuid],
-                         'generated_by': kwargs.get('generated_by', [])}
-        else:
-            # This is special case logic. Fixity is a managed record, so it
-            # is not permitted to have arbitrary values for generated_by. We
-            # instead maintain the most recent instance of generated_by
-            try:
-                gen_by = kwargs.get('generated_by', db_record.get('generated_by', []))
-                if isinstance(gen_by, str):
-                    gen_by = [gen_by]
-                db_record['generated_by'] = gen_by
-            except Exception:
-                raise
+                         'child_of': [file_uuid]}
 
         # Invoke the RateLimiter that we've mixed in via MultipleInheritance
         self.limit()

@@ -1,7 +1,8 @@
 from datacatalog.extensible import ExtensibleAttrDict
 
 __all__ = ['CHILD_OF', 'GENERATED_BY', 'DERIVED_FROM', 'DERIVED_USING',
-           'ACTED_ON', 'ACTED_USING', 'DEFAULT_LINKS', 'ALL', 'Linkage',
+           'ACTED_ON', 'ACTED_USING', 'CONNECTED_BY', 'CONNECTED_TO',
+           'DEFAULT_LINKS', 'ALL', 'Linkage',
            'LinkageError', 'LinkEdges', 'LinkEdgesDiff']
 
 CHILD_OF = 'child_of'
@@ -10,16 +11,21 @@ DERIVED_FROM = 'derived_from'
 DERIVED_USING = 'derived_using'
 ACTED_ON = 'acted_on'
 ACTED_USING = 'acted_using'
+CONNECTS_FROM = 'connects_from'
+CONNECTS_TO = 'connects_to'
 
 DEFAULT_LINKS = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY)
-ALL = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY, ACTED_ON, ACTED_USING)
+ALL = (CHILD_OF, DERIVED_FROM, DERIVED_USING, GENERATED_BY,
+       ACTED_ON, ACTED_USING, CONNECTS_TO, CONNECTS_FROM)
 
 DEFINITIONS = {CHILD_OF: 'B is immutably connected to A',
                GENERATED_BY: 'B was created by process or behavior of A',
                DERIVED_FROM: 'A was an input in creating B and B materially contains contents of A',
                DERIVED_USING: 'A was needed to create B but B does not contain contents of A',
                ACTED_ON: 'B acted on A',
-               ACTED_USING: 'B acted using A'}
+               ACTED_USING: 'B acted using A',
+               CONNECTS_FROM: 'Association C connects A to B',
+               CONNECTS_TO: 'Association C connects B to A'}
 
 class LinkageError(ValueError):
     pass
