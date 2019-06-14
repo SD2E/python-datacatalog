@@ -57,11 +57,11 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known entities')
-    store = datacatalog.linkedstores.experiment.ExperimentStore(idb)
-    for pipe in store.query({}):
-        logger.info('EXP: id={} name="{}" uuid={} updated={}'.format(
-            pipe['experiment_id'], pipe['title'], pipe['uuid'],
-            pipe['_properties']['modified_date']))
+    store = datacatalog.linkedstores.annotations.tag.TagAnnotationStore(idb)
+    for rec in store.query({}):
+        logger.info('TAG: name="{}" uuid={} updated={}'.format(
+            rec['name'], rec['uuid'],
+            rec['_properties']['modified_date']))
 
 def main(args):
 

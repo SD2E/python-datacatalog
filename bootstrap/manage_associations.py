@@ -57,11 +57,11 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known entities')
-    store = datacatalog.linkedstores.experiment.ExperimentStore(idb)
-    for pipe in store.query({}):
-        logger.info('EXP: id={} name="{}" uuid={} updated={}'.format(
-            pipe['experiment_id'], pipe['title'], pipe['uuid'],
-            pipe['_properties']['modified_date']))
+    store = datacatalog.linkedstores.association.AssociationStore(idb)
+    for rec in store.query({}):
+        logger.info('ASSOC: uuid={} from={} to={} updated={}'.format(
+            rec['uuid'], rec['connects_from'][0], rec['connects_to'][0],
+            rec['_properties']['modified_date']))
 
 def main(args):
 
