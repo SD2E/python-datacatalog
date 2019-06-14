@@ -1,0 +1,112 @@
+{
+    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A tag annotation",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "body": {
+            "description": "Text of the annotation",
+            "oneOf": [
+                {
+                    "maxLength": 2048,
+                    "type": "string"
+                }
+            ]
+        },
+        "child_of": {
+            "items": {
+                "$ref": "text_problem_uuid.json"
+            },
+            "maxItems": 1,
+            "minItems": 0,
+            "type": "array"
+        },
+        "owner": {
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                },
+                {
+                    "format": "email",
+                    "type": "string"
+                }
+            ]
+        },
+        "subject": {
+            "description": "Optional annotation subject",
+            "oneOf": [
+                {
+                    "maxLength": 256,
+                    "type": "string",
+                    "value": ""
+                }
+            ]
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "text_annotation_uuid.json",
+            "description": "UUID for the specific text annotation"
+        }
+    },
+    "required": [
+        "body",
+        "owner"
+    ],
+    "title": "TextAnnotation",
+    "type": "object"
+}

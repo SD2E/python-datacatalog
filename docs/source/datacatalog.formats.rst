@@ -11,12 +11,21 @@ Subpackages
 
 .. toctree::
 
+<<<<<<< HEAD
    datacatalog.formats.biofab
    datacatalog.formats.caltech
    datacatalog.formats.default
    datacatalog.formats.ginkgo
    datacatalog.formats.sample_attributes
    datacatalog.formats.transcriptic
+=======
+    datacatalog.formats.biofab
+    datacatalog.formats.caltech
+    datacatalog.formats.default
+    datacatalog.formats.ginkgo
+    datacatalog.formats.sample_attributes
+    datacatalog.formats.transcriptic
+>>>>>>> f4c3c953faf3493f3fb1eea956fcc950caa33f7a
 
 Submodules
 ----------

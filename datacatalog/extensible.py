@@ -18,7 +18,7 @@ class ExtensibleAttrDict(dict):
         else:
             raise AttributeError("No such attribute: " + name)
 
-    def as_dict(self, filters=[], private_prefix=None):
+    def as_dict(self, filters=[], private_prefix='__'):
         d = dict(self)
         # Filter privates
         if private_prefix is not None:

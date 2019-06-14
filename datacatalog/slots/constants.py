@@ -1,0 +1,6 @@
+__all__ = ['HASHID_SALT', 'PREFIX', 'TTL']
+
+HASHID_SALT = 'GRh2K7YCfgYYLz5cV5SMDK38ewnwSCGq'
+LOG_LEVEL = 0
+PREFIX = 'slot'
+TTL = 86400

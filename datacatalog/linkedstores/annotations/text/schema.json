@@ -1,0 +1,72 @@
+{
+    "additionalProperties": false,
+    "description": "A text annotation or reply",
+    "properties": {
+        "subject": {
+            "description": "Optional annotation subject",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 256,
+                    "value": ""
+                }
+            ]
+        },
+        "body": {
+            "description": "Text of the annotation",
+            "oneOf": [
+                {
+                    "type": "string",
+                    "maxLength": 2048
+                }
+            ]
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "text_annotation_uuid.json",
+            "description": "UUID for the specific text annotation"
+        },
+        "child_of": {
+            "type": "array",
+            "items": {
+                "$ref": "text_problem_uuid.json"
+            },
+            "minItems": 0,
+            "maxItems": 1
+        },
+        "owner": {
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                },
+                {
+                    "type": "string",
+                    "format": "email"
+                }
+            ]
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        }
+    },
+    "required": [
+        "body",
+        "owner"
+    ],
+    "title": "TextAnnotation",
+    "type": "object",
+    "_filename": "text_annotation",
+    "__uuid_type": "text_annotation",
+    "__uuid_fields": [
+        "body",
+        "owner",
+        "subject"
+    ],
+    "__collection": "text_annotations",
+    "__indexes": [],
+    "__identifiers": [
+        "uuid"
+    ]
+}

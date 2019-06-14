@@ -1,11 +1,10 @@
-========================
-Using Custom Annotations
-========================
+====================
+User-Led Annotations
+====================
 
 .. toctree::
     :maxdepth: 1
 
-    find
-    create
-    query
-    publish
+    overview
+    tags
+    texts

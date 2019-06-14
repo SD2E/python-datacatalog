@@ -1,0 +1,11 @@
+{
+    "description": "TACC.cloud username",
+    "type": "string",
+    "pattern": "^[a-z][0-9a-z]{2,7}",
+    "value": "public",
+    "examples": [
+        "vaughn",
+        "tg840555",
+        "sd2etest1"
+    ]
+}

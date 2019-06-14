@@ -11,10 +11,18 @@ Subpackages
 
 .. toctree::
 
+<<<<<<< HEAD
    datacatalog.identifiers.abaco
    datacatalog.identifiers.agave
    datacatalog.identifiers.tests
    datacatalog.identifiers.typeduuid
+=======
+    datacatalog.identifiers.abaco
+    datacatalog.identifiers.agave
+    datacatalog.identifiers.tacc
+    datacatalog.identifiers.tests
+    datacatalog.identifiers.typeduuid
+>>>>>>> f4c3c953faf3493f3fb1eea956fcc950caa33f7a
 
 Submodules
 ----------

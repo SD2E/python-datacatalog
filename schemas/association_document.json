@@ -1,0 +1,125 @@
+{
+    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$id": "https://schema.catalog.sd2e.org/schemas/association_document.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Association between an annotation and a document",
+    "properties": {
+        "_admin": {
+            "owner": {
+                "$comment": "Computed automatically",
+                "description": "TACC.cloud username that created or manages the record",
+                "type": "string",
+                "value": "admin"
+            },
+            "project": {
+                "description": "Project within specified TACC.cloud tenant",
+                "readOnly": true,
+                "type": "string",
+                "value": "SD2"
+            },
+            "tenant": {
+                "description": "TACC.cloud tenant",
+                "enum": [
+                    "3dem",
+                    "designsafe",
+                    "iplantc.org",
+                    "irec",
+                    "portals",
+                    "vdjserver.org",
+                    "sd2e",
+                    "sgci",
+                    "tacc.prod"
+                ],
+                "readOnly": true,
+                "type": "string",
+                "value": "sd2e"
+            },
+            "type": "object"
+        },
+        "_properties": {
+            "created_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "modified_date": {
+                "$comment": "Computed automatically",
+                "format": "date-time",
+                "type": "string"
+            },
+            "revision": {
+                "$comment": "Computed automatically",
+                "type": "number"
+            },
+            "type": "object"
+        },
+        "_visible": {
+            "type": "boolean",
+            "value": true
+        },
+        "connects_from": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "tag_annotation_uuid.json"
+                    },
+                    {
+                        "$ref": "text_annotation_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "connects_to": {
+            "items": {
+                "anyOf": [
+                    {
+                        "$ref": "challenge_problem_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_design_uuid.json"
+                    },
+                    {
+                        "$ref": "experiment_uuid.json"
+                    },
+                    {
+                        "$ref": "sample_uuid.json"
+                    },
+                    {
+                        "$ref": "measurement_uuid.json"
+                    },
+                    {
+                        "$ref": "file_uuid.json"
+                    },
+                    {
+                        "$ref": "pipeline_uuid.json"
+                    },
+                    {
+                        "$ref": "pipelinejob_uuid.json"
+                    },
+                    {
+                        "$ref": "reference_uuid.json"
+                    }
+                ]
+            },
+            "maxItems": 1,
+            "minItems": 1,
+            "type": "array"
+        },
+        "uuid": {
+            "$comment": "Computed automatically",
+            "$ref": "association_uuid.json",
+            "description": "UUID for the specific association"
+        }
+    },
+    "required": [
+        "connects_from",
+        "connects_to",
+        "owner"
+    ],
+    "title": "Association",
+    "type": "object"
+}
