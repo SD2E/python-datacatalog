@@ -62,7 +62,7 @@ class Projects(object):
     def validate_project_id(self, project_id, permissive=True):
         """Validate the supplied string against known project identifiers
         """
-        if project_id in self.project_ids():
+        if project_id in self.project_names():
             return True
         else:
             if permissive is True:
