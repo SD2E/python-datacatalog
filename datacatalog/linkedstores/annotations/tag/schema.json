@@ -3,7 +3,8 @@
     "description": "A tag annotation",
     "properties": {
         "name": {
-            "description": "Tag name, comprised of DNS-safe alphanumeric characters)",
+            "description": "An alphanumeric tag",
+            "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
             "oneOf": [
                 {
                     "type": "string",
@@ -13,7 +14,8 @@
             ]
         },
         "description": {
-            "description": "Plaintext description of the tag. Only provides context, never critical information.",
+            "description": "Text description of the tag",
+            "$comment": "The description should only hold clarifying or contextualizing information about the tag",
             "oneOf": [
                 {
                     "type": "string",
@@ -23,14 +25,12 @@
             ]
         },
         "owner": {
+            "description": "Account who creates or manages a tag",
+            "$comment": "Must be a valid TACC.cloud username",
             "oneOf": [
                 {
                     "$ref": "tacc_username.json",
                     "description": "Account that manages this tag"
-                },
-                {
-                    "type": "string",
-                    "format": "email"
                 }
             ]
         },
