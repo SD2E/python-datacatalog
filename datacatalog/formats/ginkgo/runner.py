@@ -222,6 +222,17 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             parent_id = ginkgo_sample[parent_id_prop]
             sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab, output_doc)
 
+        reference_prop = "SD2_reference"
+
+        if reference_prop in props:
+            # NC NAND Iterate proteomics control baseline
+            reference_val = props[reference_prop]
+            if reference_val == "proteomics":
+                if SampleConstants.CONTROL_TYPE not in sample_doc:
+                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
+            else:
+                raise ValueError("Unknown reference value: {}".format(reference_val))
+
         tx_sample_prop = "SD2_TX_sample_id"
 
         reference_time_point = None
