@@ -119,7 +119,7 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
                 contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
             elif function == SAFEGENES_FIELD:
                 field_name = namespace_field_id(column_name, SAFEGENES_PREFIX)
-                #sample_doc[field_name] = value
+                sample_doc[field_name] = value
             elif function == None:
                 # skip
                 continue
