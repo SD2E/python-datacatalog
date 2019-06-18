@@ -47,9 +47,9 @@
         }
     },
     "required": [
-        "processing_level",
         "derived_from",
-        "derived_using"
+        "derived_using",
+        "patterns"
     ],
     "additionalProperties": false
 }
