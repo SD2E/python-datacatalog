@@ -381,6 +381,10 @@ GINKGO_RNA_SEQ_EXPERIMENT_IDS = ["experiment.ginkgo.18256.18257", "experiment.gi
 def is_ginkgo_experiment_id(experiment_doc):
     return experiment_doc[SampleConstants.EXPERIMENT_ID] in GINKGO_RNA_SEQ_EXPERIMENT_IDS
 
+# namespace a field against a project identifier, e.g. safegenes. biocon.
+def namespace_field_id(field_id, project_identifier):
+    return '.'.join([field, project_identifier])
+
 # namespace against experiment id
 def namespace_sample_id(sample_id, lab, experiment_doc):
     '''Prevents collisions amongst lab-specified sample_id'''

@@ -2,7 +2,7 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
-    "SAFEGENES",
+    "MOSQUITO_RELATEDNESS_INFERENCE",
     "BIOCON",
     "CELL_GROWTH",
     "PROTEIN_DESIGN",

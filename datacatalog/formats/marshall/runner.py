@@ -15,7 +15,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
-from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
+from ..common import namespace_field_id, namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 def convert_marshall(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -58,9 +58,12 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
                                "geographic_origin", "NGS_protocol", "Sequencing Platform", \
                                "Sequencing chemistry", "file_type", "file_name_r1", "file_name_r2"]
 
+    SAFEGENES_PREFIX = "safegenes"
+    SAFEGENES_FIELD = "SAFEGENES_FIELD"
+
     # TODO map other metadata
-    exp_column_functions[sg_rna_seq] = [SampleConstants.SAMPLE_ID, None, None, None, None, SampleConstants.STRAIN, \
-                                        None, None, None, None, None, None, None]
+    exp_column_functions[sg_rna_seq] = [SampleConstants.SAMPLE_ID, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SampleConstants.STRAIN, \
+                                        SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, None, None, None]
     exp_mt[sg_rna_seq] = [SampleConstants.MT_RNA_SEQ]
     exp_mk[sg_rna_seq] = ["TACC-genomics-metadata RNASeq"]
     exp_r1_r2[sg_rna_seq] = ["file_name_r1", "file_name_r2"]
@@ -114,6 +117,9 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
                  sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID), value, value, lab, sbh_query, strain=True)
             elif function == SampleConstants.REAGENT_CONCENTRATION:
                 contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+            elif function == SAFEGENES_FIELD:
+                field_name = namespace_field_id(column_name, SAFEGENES_PREFIX)
+                #sample_doc[field_name] = value
             elif function == None:
                 # skip
                 continue
