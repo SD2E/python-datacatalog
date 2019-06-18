@@ -53,7 +53,7 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     #exp file_columns
     exp_r1_r2 = {}
 
-    sg_rna_seq = "SG_TACC_genomics_metadata"
+    sg_rna_seq = "TACC-genomics-metadata"
     exp_columns[sg_rna_seq] = ["sample ID", "pedigree_ID", "generation", "stage", "sex", "species", \
                                "geographic_origin", "NGS_protocol", "Sequencing Platform", \
                                "Sequencing chemistry", "file_type", "file_name_r1", "file_name_r2"]
@@ -62,7 +62,7 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     exp_column_functions[sg_rna_seq] = [SampleConstants.SAMPLE_ID, None, None, None, None, SampleConstants.STRAIN, \
                                         None, None, None, None, None, None, None]
     exp_mt[sg_rna_seq] = [SampleConstants.MT_RNA_SEQ]
-    exp_mk[sg_rna_seq] = ["SG_TACC_genomics_metadata RNASeq"]
+    exp_mk[sg_rna_seq] = ["TACC-genomics-metadata RNASeq"]
     exp_r1_r2[sg_rna_seq] = ["file_name_r1", "file_name_r2"]
 
     matched_exp_key = None
@@ -83,10 +83,11 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     # use the matched_exp_key as the reference
     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = matched_exp_key
 
-    # TODO: Add reference to Google drive
-    #map_experiment_reference(config, output_doc)
+    # TODO: Update reference to Google drive
+    # Currently using SafeGenes/TACC-genomics-metadata stub
+    map_experiment_reference(config, output_doc)
 
-    # use matching exp key, e.g. SG_TACC_genomics_metadata
+    # use matching exp key, e.g. TACC-genomics-metadata
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(matched_exp_key, lab)
 
     replicate_count = {}
@@ -165,8 +166,7 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
     try:
-        # TODO: Update schema to include Marshall lab, etc.
-        #validate(output_doc, schema)
+        validate(output_doc, schema)
 
         if output is True or output_file is not None:
             if output_file is None:

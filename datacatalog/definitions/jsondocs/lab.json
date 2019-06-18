@@ -4,7 +4,8 @@
         "Caltech",
         "Ginkgo",
         "Transcriptic",
-        "UW_BIOFAB"
+        "UW_BIOFAB",
+        "Marshall"
     ],
     "type": "string"
 }
