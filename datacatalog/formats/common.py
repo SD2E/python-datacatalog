@@ -383,7 +383,7 @@ def is_ginkgo_experiment_id(experiment_doc):
 
 # namespace a field against a project identifier, e.g. safegenes. biocon.
 def namespace_field_id(field_id, project_identifier):
-    return '.'.join([field_id, project_identifier])
+    return '.'.join([project_identifier, field_id])
 
 # namespace against experiment id
 def namespace_sample_id(sample_id, lab, experiment_doc):
