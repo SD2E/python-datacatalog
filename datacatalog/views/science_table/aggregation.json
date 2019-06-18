@@ -52,7 +52,8 @@
                 "strain_lab_id": "$sample.strain.lab_id",
                 "strain_sbh_uri": "$sample.strain.sbh_uri",
                 "temperature": "$sample.temperature",
-                "timepoint": "$measurement.timepoint"
+                "timepoint": "$measurement.timepoint",
+                "TMT_channel": "$sample.TMT_channel"
             }
         }
     ]
