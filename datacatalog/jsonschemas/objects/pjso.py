@@ -136,7 +136,7 @@ def get_class_object_from_dict(schema, classname=None,
             pass
 
     builder = pjs.ObjectBuilder(schema)
-    ns = builder.build_classes(named_only=True)
+    ns = builder.build_classes(named_only=True, strict=True)
     try:
         clsobj = getattr(ns, actual_classname)
         try:
