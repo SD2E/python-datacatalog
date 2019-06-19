@@ -55,9 +55,7 @@
             "default": []
         },
         "type": {
-            "items": {
-                "$ref": "#/definitions/pipeline_type"
-            }
+            "$ref": "#/definitions/pipeline_type"
         },
         "accepts": {
             "type": "array",
