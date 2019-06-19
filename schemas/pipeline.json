@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190416T201859+00:00; source: git@github.com:SD2E/python-datacatalog.git@fc0afae",
+    "$comment": "generated: 20190619T120459+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
     "$id": "https://schema.catalog.sd2e.org/schemas/pipeline.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -82,9 +82,7 @@
             "type": "array"
         },
         "type": {
-            "items": {
-                "$ref": "#/definitions/pipeline_type"
-            }
+            "$ref": "#/definitions/pipeline_type"
         }
     },
     "required": [

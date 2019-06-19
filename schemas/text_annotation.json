@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$comment": "generated: 20190619T120459+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
     "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "A tag annotation",
+    "description": "A text annotation or reply",
     "properties": {
         "body": {
             "description": "Text of the annotation",
