@@ -1,13 +1,13 @@
 {
-    "$comment": "generated: 2019-02-14 21:24:56 +00:00; source: git@github.com:SD2E/python-datacatalog.git@e287f6e",
+    "$comment": "generated: 20190619T120500+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
     "$id": "https://schema.catalog.sd2e.org/schemas/generic_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "Generic Data Catalog Record UUID UUID5 with DNS namespacing",
+    "description": "Generic Data Catalog Record UUID5 with DNS namespacing",
     "examples": [
         "100acb4d-1f93-553a-9e1c-b7b58125bc89"
     ],
     "pattern": "^(uri:urn:)?100[0-9a-f]{5}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
-    "title": "Generic Data Catalog Record UUID",
+    "title": "Generic Data Catalog Record",
     "type": "string"
 }
