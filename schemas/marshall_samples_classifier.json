@@ -1,0 +1,103 @@
+{
+    "$comment": "generated: 20190619T121206+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@2879e5f",
+    "$id": "https://schema.catalog.sd2e.org/schemas/marshall_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "headers": {
+            "oneOf": [
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "sample ID"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "pedigree_ID"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "generation"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "stage"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "sex"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "species"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "geographic_origin"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "NGS_protocol"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Sequencing Platform"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Sequencing chemistry"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "file_type"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "file_name_r1"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "file_name_r2"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ]
+        },
+        "xlsx": true
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "title": "Marshall XLSX Headers Schema",
+    "type": "object"
+}
