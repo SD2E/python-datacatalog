@@ -1,10 +1,11 @@
 {
-    "$comment": "generated: 20190521T201817+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@9cc9417",
+    "$comment": "generated: 20190618T192020+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@f40efc3",
     "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Challenge problem enumeration",
     "enum": [
+        "MOSQUITO_RELATEDNESS_INFERENCE",
         "BIOCON",
         "CELL_GROWTH",
         "PROTEIN_DESIGN",
@@ -14,6 +15,7 @@
         "UNDEFINED"
     ],
     "examples": [
+        "MOSQUITO_RELATEDNESS_INFERENCE",
         "BIOCON",
         "CELL_GROWTH",
         "PROTEIN_DESIGN",

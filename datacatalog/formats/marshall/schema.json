@@ -1,0 +1,75 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Marshall XLSX Headers Schema",
+    "$comment": "",
+    "type": "object",
+    "properties": {
+        "xlsx": true,
+        "headers": {
+            "oneOf": [{
+                    "type": "array",
+                    "items": [{
+                            "type": "string",
+                            "enum": ["sample ID"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["pedigree_ID"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["generation"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["stage"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["sex"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["species"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["geographic_origin"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["NGS_protocol"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["Sequencing Platform"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["Sequencing chemistry"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["file_type"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["file_name_r1"]
+                        },
+                        {
+                            "type": "string",
+                            "enum": ["file_name_r2"]
+                        }
+                    ],
+                    "additionalItems": false
+                }
+            ]
+        }
+
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "additionalProperties": false
+}
