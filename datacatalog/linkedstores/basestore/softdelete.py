@@ -14,16 +14,18 @@ from .store import LinkedStore
 class SoftDelete(LinkedStore):
     """Adds field-based soft delete to a LinkedStore"""
 
+    DELETE_FIELD = '_visible'
+
     def add_document(self, document, token=None, soft=True):
         if soft is True:
-            document['_visible'] = True
+            document[self.DELETE_FIELD] = True
         return super(SoftDelete, self).add_document(document, token=token)
 
     def delete_document(self, uuid, token=None, soft=True):
         if soft is True:
             try:
                 resp = self.coll.update({'uuid': uuid},
-                                        {'$set': {'_visible': False}})
+                                        {'$set': {self.DELETE_FIELD: False}})
                 if resp is not None:
                     return self.find_one_by_uuid(uuid)
             except Exception:
@@ -35,7 +37,7 @@ class SoftDelete(LinkedStore):
     def undelete(self, uuid, token=None, soft=True):
         if soft is True:
             resp = self.coll.update({'uuid': uuid},
-                                    {'$set': {'_visible': True}})
+                                    {'$set': {self.DELETE_FIELD: True}})
             if resp is not None:
                 return self.find_one_by_uuid(uuid)
         else:
