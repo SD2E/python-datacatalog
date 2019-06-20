@@ -30,7 +30,6 @@ class SoftDelete(LinkedStore):
                     return self.find_one_by_uuid(uuid)
             except Exception:
                 raise
-            #return self.write_key(uuid, '_visible', False, token)
         else:
             return super(SoftDelete, self).delete_document(uuid, token)
 
