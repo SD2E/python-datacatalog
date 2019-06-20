@@ -3,6 +3,7 @@ import json
 import os
 import sys
 
+from attrdict import AttrDict
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.identifiers import tacc
@@ -78,3 +79,6 @@ class AssociationDocument(ExtensibleAttrDict):
             if get_uuidtype(u) not in self.CONNECTS_TO_UUIDTYPES:
                 raise ValueError(
                     'typeduuid {} is invalid for connects_to'.format(u))
+
+class Association(AttrDict):
+    pass

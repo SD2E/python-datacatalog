@@ -4,6 +4,7 @@ import os
 import sys
 import validators
 
+from attrdict import AttrDict
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers import tacc
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
@@ -70,3 +71,6 @@ class TextAnnotationDocument(ExtensibleAttrDict):
                 raise ValueError(
                     'Can only be a child_of {}'.format(TYPE_SIGNATURE[2]))
         self.child_of = child_of
+
+class TextAnnotation(AttrDict):
+    pass

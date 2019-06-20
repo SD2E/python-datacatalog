@@ -1,10 +1,13 @@
 import collections
 from ..common import Manager
 from copy import deepcopy
+from pymongo.cursor import Cursor
 from datacatalog.identifiers import typeduuid
-from datacatalog.linkedstores.association import AssociationError
+from datacatalog.linkedstores.association import Association, AssociationError
 from datacatalog.linkedstores.annotations import AnnotationError
-from datacatalog.linkedstores.annotations.tag import TagAnnotationDocument
+from datacatalog.linkedstores.annotations.tag import (
+    TagAnnotation, TagAnnotationDocument)
+from datacatalog.linkedstores.annotations.text import TextAnnotation
 
 from datacatalog import settings
 
@@ -37,22 +40,16 @@ class AnnotationManager(Manager):
         """
         self.validate_tapis_username(owner)
         self.validate_uuid(record_uuid)
-        assoc_uuid = None
         anno = self.stores['text_annotation'].new_text(
             body=body, subject=subject, owner=owner, token=token)
         anno_uuid = anno.get('uuid', None)
         if anno_uuid is not None:
-            assoc = self.stores['association'].associate(
+            self.stores['association'].associate(
                 anno_uuid, record_uuid, owner=owner)
-            assoc_uuid = assoc.get('uuid', None)
         else:
             raise AssociationError(
                 'Failed to associate record and annotation')
-
-        a = AnnotationResponse(annotation_uuid=anno_uuid,
-                               association_uuid=assoc_uuid,
-                               record_uuid=record_uuid)
-        return a
+        return TextAnnotation(self.sanitize(anno))
 
     def reply_text_annotation(self, text_anno_uuid, body=None, owner=None,
                               subject=None, token=None, **kwargs):
@@ -83,13 +80,7 @@ class AnnotationManager(Manager):
         anno = self.stores['text_annotation'].new_reply(
             text_anno_uuid, subject=subject, body=body,
             owner=owner, token=token)
-        anno_uuid = anno.get('uuid', None)
-        # If we ever decide to create an association even for threaded
-        # text annotation docs, we would do it here
-        a = AnnotationResponse(annotation_uuid=anno_uuid,
-                               association_uuid=None,
-                               record_uuid=text_anno_uuid)
-        return a
+        return TextAnnotation(self.sanitize(anno))
 
     def delete_text_annotation(self, text_anno_uuid, token=None, **kwargs):
         # Need to think about how to handle this since it may involve recursion
@@ -124,40 +115,54 @@ class AnnotationManager(Manager):
                                                      owner=owner,
                                                      token=token,
                                                      **kwargs)
-        return anno
+        return TagAnnotation(self.sanitize(anno))
 
-    def new_tag_association(self, record_uuid, tag_uuid,
+    def new_tag_association(self, uuid, record_uuid,
                             owner=None,
                             token=None, **kwargs):
-        """Associates a Tag with another metadata record
+        """Associates a Tag with 1+ other metadata records
         """
-        if typeduuid.get_uuidtype(tag_uuid) != 'tag_annotation':
+        if typeduuid.get_uuidtype(uuid) != 'tag_annotation':
             raise ValueError('Function only accepts tag UUIDs')
         return self._new_annotation_association(
-            record_uuid, tag_uuid,
+            uuid, record_uuid,
             owner=owner, token=token, **kwargs)
 
-    def new_text_association(self, record_uuid, text_uuid,
+    def new_text_association(self, uuid, record_uuid,
                              owner=None,
                              token=None, **kwargs):
-        """Associates a Text Annotation with another metadata record
+        """Associates a Text Annotation with 1+ other metadata records
         """
-        if typeduuid.get_uuidtype(text_uuid) != 'text_annotation':
+        if typeduuid.get_uuidtype(uuid) != 'text_annotation':
             raise ValueError('Function only accepts tag UUIDs')
         return self._new_annotation_association(
-            record_uuid, text_uuid,
+            uuid, record_uuid,
             owner=owner, token=token, **kwargs)
 
-    def _new_annotation_association(self, record_uuid, anno_uuid,
+    def _new_annotation_association(self, uuid, record_uuid,
                                     owner=None, token=None, **kwargs):
         self.validate_tapis_username(owner)
-        assoc = self.stores['association'].associate(
-            anno_uuid, record_uuid, owner=owner)
-        assoc_uuid = assoc.get('uuid', None)
-        a = AnnotationResponse(annotation_uuid=anno_uuid,
-                               association_uuid=assoc_uuid,
-                               record_uuid=record_uuid)
-        return a
+        associations = list()
+
+        # Either a single or list of target UUIDs is allowed. A list of
+        # ssociations is returned in either case. This allows batch association
+        # of a tag to multiple UUIDs
+        if isinstance(record_uuid, str):
+            record_uuids = [record_uuid]
+        elif isinstance(record_uuid, list):
+            record_uuids = record_uuid
+        else:
+            raise ValueError('"record_uuid" must be a single or list of UUIDs')
+
+        # TODO - Consider parallelizing this
+        for ruuid in record_uuids:
+            try:
+                assoc = self.stores['association'].associate(
+                    uuid, ruuid, owner=owner)
+                associations.append(Association(self.sanitize(assoc)))
+            except Exception as exc:
+                self.logger.error('Association not created: {}'.format(exc))
+        return associations
 
     def tags_list(self, limit=None, skip=None,
                   public=False, visible=True):
@@ -175,7 +180,7 @@ class AnnotationManager(Manager):
         tags_all = list()
         query = dict()
         if visible:
-            query['_visible'] = True
+            query[self.DELETE_FIELD] = True
         if public is True:
             query['owner'] = self.PUBLIC_USER
         for t in self.stores['tag_annotation'].query(
@@ -189,7 +194,8 @@ class AnnotationManager(Manager):
                            description='',
                            tag_owner=None,
                            token=None, **kwargs):
-        """Creates a new Tag and uses it to annotate a specific record
+        """Creates a new Tag in user namespace and associates it with a
+           specified metadata record.
 
         Args:
             record_uuid (str): UUID5 of record to be annotated
@@ -228,8 +234,10 @@ class AnnotationManager(Manager):
                                record_uuid=record_uuid)
         return a
 
-    def publish_tag(self, tag_uuid,
-                    remove_original=False, token=None):
+    def publish_tag(self, uuid,
+                    clone_associations=True,
+                    remove_original=False,
+                    token=None):
         """Copy a Tag into the public namespace
 
         Args:
@@ -238,22 +246,49 @@ class AnnotationManager(Manager):
         Returns:
             dict: Representation of the newly public tag
         """
-        anno = self.stores['tag_annotation'].find_one_by_uuid(tag_uuid)
+        anno = self.stores['tag_annotation'].find_one_by_uuid(uuid)
         if anno is None:
             raise ValueError(
-                'Tag with UUID {} does not exist'.format(tag_uuid))
+                'Tag with UUID {} does not exist'.format(uuid))
         if anno.get('owner', None) == self.PUBLIC_USER:
             return anno
 
+        self.logger.info('Cloning tag {}'.format(uuid))
         new_anno = TagAnnotationDocument(
             name=anno['name'],
             description=anno['description'],
             owner=self.PUBLIC_USER)
-
+        # Impdepotent clone
         resp = self.stores['tag_annotation'].add_update_document(
             new_anno, token=None)
-        return self.stores['tag_annotation'].undelete(
+        resp_2 = self.stores['tag_annotation'].undelete(
             resp['uuid'], token=token)
+        cloned_uuid = resp_2.get('uuid')
+
+        if clone_associations:
+            # Clone associations (filtering by visible)
+            self.logger.info('Finding associations for tag {}'.format(uuid))
+            query = {'connects_from': uuid, self.DELETE_FIELD: True}
+            proj = {'connects_to': 1}
+            orig_assoc = self.stores['association'].query(
+                query=query, projection=proj)
+            cloned_assoc_uuids = list()
+            if isinstance(orig_assoc, Cursor):
+                for a in orig_assoc:
+                    cloned_assoc_uuids.extend(a.get('connects_to', []))
+
+            cloned_assoc_uuids = list(set(cloned_assoc_uuids))
+            cloned_assoc_uuids.sort()
+
+            self.logger.info(
+                'Cloning {} associations for tag {}'.format(
+                    len(cloned_assoc_uuids), uuid))
+            self.new_tag_association(
+                cloned_uuid, cloned_assoc_uuids, owner=self.PUBLIC_USER)
+
+        # We do not return any details on the associations,
+        # only the cloned tag
+        return TagAnnotation(self.sanitize(resp_2))
 
     def unpublish_tag(self, tag_uuid, token=None):
         """Remove a Tag from the public namespace
@@ -273,7 +308,9 @@ class AnnotationManager(Manager):
 
         resp = self.stores['tag_annotation'].delete_document(
             tag_uuid, token=None)
-        return resp
+
+        # TODO - Delete associations referring to cloned tag
+        return TagAnnotation(self.sanitize(resp))
 
     def prune_tag_annotations(self, record_uuid, token=None, **kwargs):
         pass
