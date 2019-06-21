@@ -1,4 +1,4 @@
-"""Exposes AnnotationManager via a message-handling interface
+"""Exposes Tag-related AnnotationManager functions via a messaging interface
 """
 from datacatalog.slots import Slot, SlotNotReady
 from .anno import AnnotationManager
@@ -55,16 +55,16 @@ class TagAnnotationManager(AnnotationManager):
     def create(self, body, token=None):
         # TODO - Allow create-and-link by passing 1+ record UUID?
         self.logger.debug('event.create: {}'.format(body))
-        return self.new_tag(**body)
+        return self.new_tag(token=token, **body)
 
     def delete(self, body, token=None):
         self.logger.debug('event.delete')
         validate_admin_token(token, permissive=False)
-        raise NotImplementedError()
+        return self.delete_tag(token=token, **body)
 
     def link(self, body, token=None):
         self.logger.debug('event.link')
-        return self.new_tag_association(**body)
+        return self.new_tag_association(token=token, **body)
 
     def unlink(self, body, token=None):
         self.logger.debug('event.unlink')
@@ -73,9 +73,9 @@ class TagAnnotationManager(AnnotationManager):
     def publish(self, body, token=None):
         self.logger.debug('event.publish')
         validate_admin_token(token, permissive=False)
-        return self.publish_tag(**body)
+        return self.publish_tag(token=token, **body)
 
     def unpublish(self, body, token=None):
         self.logger.debug('event.unpublish')
         validate_admin_token(token, permissive=False)
-        raise NotImplementedError()
+        return self.unpublish_tag(token=token, **body)
