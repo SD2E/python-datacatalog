@@ -56,6 +56,18 @@ class ManagerBase(object):
         typeduuid.validate(uuid)
         return typeduuid.get_uuidtype(uuid)
 
+    @classmethod
+    def listify_uuid(cls, uuid):
+        """Cast a string UUID into a list of UUIDs
+        """
+        uuids = None
+        if isinstance(uuid, str):
+            uuids = [uuid]
+        elif isinstance(uuid, list):
+            uuids = uuid
+        # TODO - Enforce all are catalog UUIDs
+        return uuids
+
 class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
     RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
