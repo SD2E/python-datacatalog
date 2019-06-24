@@ -104,8 +104,17 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     exp_columns[flow_1] = ["well", "a", "b", "ba ratio", "atc", "iptg"]
     exp_column_functions[flow_1] = [SampleConstants.SAMPLE_ID, SampleConstants.STRAIN_CONCENTRATION, SampleConstants.STRAIN_CONCENTRATION, None, SampleConstants.REAGENT_CONCENTRATION, SampleConstants.REAGENT_CONCENTRATION]
     exp_mt[flow_1] = [SampleConstants.MT_FLOW]
-    exp_mk[flow_1] = ["flow 1"]
+    exp_mk[flow_1] = ["0_flow"]
     exp_rel_path[flow_1] = ["0"]
+    exp_time[flow_1] = ["0:hour"]
+    exp_temp[flow_1] = ["37:celsius"]
+
+    exp_cytometer_channels[flow_1] = ["FSC-A", "SSC-A", "CFP/VioBlue-A", "GFP/FITC-A"]
+    exp_cytometer_configuration[flow_1] = "agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1-cc.json"
+    exp_negative_controls[flow_1] = ["0/blank-RDM2019-02-14.0001.fcs"]
+    exp_positive_controls[flow_1] = {}
+    exp_positive_controls[flow_1]["CFP/VioBlue-A"] = ["0/bfp-RDM2019-02-14.0001.fcs"]
+    exp_positive_controls[flow_1]["GFP/FITC-A"] = ["0/yfp-RDM2019-02-14.0002.fcs"]
 
     flow_2 = "20190214-A-B-mar-1"
     exp_columns[flow_2] = ["well", "iptg", "sal", "a", "b"]
