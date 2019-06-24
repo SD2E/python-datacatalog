@@ -7,6 +7,7 @@ import collections
 import pymongo
 import datacatalog
 import pandas
+import xlrd
 
 from jsonschema import validate, ValidationError
 from sbol import *
@@ -30,7 +31,11 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
 
     # TODO sheet name may change?
-    marshall_df = pandas.read_excel(input_file, sheet_name='TACC_genomics_metadata')
+    try:
+        marshall_df = pandas.read_excel(input_file, sheet_name='TACC_genomics_metadata')
+    except xlrd.biffh.XLRDError:
+        read_first = pandas.read_excel(input_file)
+        marshall_df = read_first
 
     output_doc = {}
 
