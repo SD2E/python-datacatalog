@@ -21,8 +21,11 @@ class AnnotationManager(Manager):
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         Manager.__init__(self, mongodb, agave=agave, *args, **kwargs)
 
-    def _new_annotation_association(self, uuid, record_uuid,
-                                    owner=None, token=None, **kwargs):
+    def _new_annotation_association(self, uuid,
+                                    record_uuid,
+                                    owner=None,
+                                    token=None,
+                                    **kwargs):
         """Private method to create a generic association record
         """
         self.validate_tapis_username(owner)
@@ -107,7 +110,10 @@ class AnnotationManager(Manager):
                                                      **kwargs)
         return TagAnnotation(self.sanitize(anno))
 
-    def delete_tag(self, uuid, keep_associations=False, token=None, **kwargs):
+    def delete_tag(self, uuid,
+                   keep_associations=False,
+                   token=None,
+                   **kwargs):
         """Delete a Tag (and related Associations)
 
         Args:
@@ -142,7 +148,9 @@ class AnnotationManager(Manager):
 
         return (count_deleted_tag_uuids, count_deleted_assoc_uuids)
 
-    def delete_association(self, uuid, token=None, **kwargs):
+    def delete_association(self, uuid,
+                           token=None,
+                           **kwargs):
         """Delete an Association
 
         Args:
@@ -171,7 +179,15 @@ class AnnotationManager(Manager):
                             record_uuid,
                             owner=None,
                             token=None, **kwargs):
-        """Associates a Tag with 1+ other metadata records
+        """Associate a Tag with one or more Data Catalog records
+
+        Args:
+            uuid (str): UIUD for the Tag
+            record_uuid (str, list): UUID (or list) for taget Data Catalog record(s)
+            owner (str, optional): TACC.cloud username owning the association
+
+        Returns:
+            list: List of one or more created Associations
         """
         if typeduuid.get_uuidtype(uuid) != 'tag_annotation':
             raise ValueError('Function only accepts tag UUIDs')
@@ -229,7 +245,7 @@ class AnnotationManager(Manager):
 
         Raises:
             AnnotationError: Error prevented creation of the Tag Annotation
-            AssociationError: Error occurred creating the association
+            AssociationError: Error occurred creating the Association
         """
 
         self.validate_tapis_username(owner)
@@ -257,7 +273,8 @@ class AnnotationManager(Manager):
     def publish_tag(self, uuid,
                     associations=True,
                     remove_original=False,
-                    token=None):
+                    token=None,
+                    **kwargs):
         """Copy a Tag into the public namespace
 
         Args:
@@ -301,7 +318,9 @@ class AnnotationManager(Manager):
         # only the cloned tag
         return TagAnnotation(self.sanitize(resp_2))
 
-    def unpublish_tag(self, uuid, associations=True, token=None):
+    def unpublish_tag(self, uuid,
+                      associations=True,
+                      token=None, **kwargs):
         """Remove a Tag from the public namespace
 
         Args:
@@ -328,18 +347,23 @@ class AnnotationManager(Manager):
 
         return (uuid, False)
 
-    def new_text_annotation(self, record_uuid, body=None, owner=None,
-                            subject=None, token=None, **kwargs):
-        """Creates a new Text Annotation annotating a specific record
+    def new_text_annotation(self,
+                            record_uuid,
+                            body,
+                            owner=None,
+                            subject=None,
+                            token=None,
+                            **kwargs):
+        """Create a Text Annotation linked to a Data Catalog record
 
         Args:
-            record_uuid (str): UUID5 of record to be annotated
-            body (str): Body of the annotation message (2 kb)
-            owner (str): TACC.cloud username or email owner for the message
-            subject (str, optional): Subject of the annotation message
+            record_uuid (str): UUID of the target Data Catalog record
+            body (str): Body of the Text Annotation (Max size: 2 kb)
+            owner (str, optional): TACC.cloud username or email owner for the Text Annotation
+            subject (str, optional): Subject of the Text Annotation
 
         Returns:
-            AnnotationResponse: A named tuple containing relevant UUIDs
+            dict: Representation of the new Text Annotation
 
         Raises:
             AnnotationError: Error prevented creation of the Text Annotation
@@ -358,25 +382,29 @@ class AnnotationManager(Manager):
                 'Failed to associate record and annotation')
         return TextAnnotation(self.sanitize(anno))
 
-    def reply_text_annotation(self, text_anno_uuid, body=None, owner=None,
-                              subject=None, token=None, **kwargs):
-        """Creates a new Text Annotation that replies to another one
+    def reply_text_annotation(self,
+                              uuid,
+                              body,
+                              owner=None,
+                              subject=None,
+                              token=None,
+                              **kwargs):
+        """Reply to a Text Annotation
 
         Args:
-            text_anno_uuid (str): UUID5 for the text record being responded to
-            body (str): Body of the annotation message (2 kb)
-            owner (str): TACC.cloud username or email owner for the message
-            subject (str, optional): Subject of the annotation message
+            uuid (str): UUID for the Text Annotation being responded to
+            body (str): Body of the Reply (Max size: 2 kb)
+            owner (str, optional): TACC.cloud username or email owner for the Reply
+            subject (str, optional): Subject for the Reply (Default: Re: Parent subject)
 
         Returns:
-            AnnotationResponse: A named tuple containing relevant UUIDs
+            dict: Representation of the Reply
 
         Raises:
-            AnnotationError: Error prevented creation of the Text Annotation
-            AssociationError: Error occurred creating the association
+            AnnotationError: Error prevented creation of the Reply
         """
         self.validate_tapis_username(owner)
-        text_anno_rec = self.get_by_uuid(text_anno_uuid, permissive=False)
+        text_anno_rec = self.get_by_uuid(uuid, permissive=False)
         # Thread the subject line, just like email 💌
         if subject is None:
             orig_subject = text_anno_rec.get('subject', '')
@@ -385,13 +413,15 @@ class AnnotationManager(Manager):
 
         # assoc_uuid = None
         anno = self.stores['text_annotation'].new_reply(
-            text_anno_uuid, subject=subject, body=body,
+            uuid, subject=subject, body=body,
             owner=owner, token=token)
         return TextAnnotation(self.sanitize(anno))
 
-    def new_text_association(self, uuid, record_uuid,
+    def new_text_association(self, uuid,
+                             record_uuid,
                              owner=None,
-                             token=None, **kwargs):
+                             token=None,
+                             **kwargs):
         """Associates a Text Annotation with 1+ other metadata records
         """
         if typeduuid.get_uuidtype(uuid) != 'text_annotation':
