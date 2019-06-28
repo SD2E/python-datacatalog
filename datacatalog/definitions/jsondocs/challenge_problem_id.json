@@ -2,6 +2,7 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
+    "MOSQUITO_RELATEDNESS_INFERENCE",
     "BIOCON",
     "CELL_GROWTH",
     "PROTEIN_DESIGN",
