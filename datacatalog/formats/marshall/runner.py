@@ -8,6 +8,7 @@ import pymongo
 import datacatalog
 import pandas
 import xlrd
+import inflection
 
 from jsonschema import validate, ValidationError
 from sbol import *
@@ -123,7 +124,8 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
             elif function == SampleConstants.REAGENT_CONCENTRATION:
                 contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
             elif function == SAFEGENES_FIELD:
-                field_name = namespace_field_id(column_name, SAFEGENES_PREFIX)
+                #safegenes.field id -> safegenes-field-id
+                field_name = inflection.parameterize(namespace_field_id(column_name, SAFEGENES_PREFIX))
                 sample_doc[field_name] = value
             elif function == None:
                 # skip
