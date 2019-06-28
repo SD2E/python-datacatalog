@@ -54,35 +54,35 @@
             "description": "Lab recorded sample id, can be shared among calibrated or re-used samples. Do not use as a primary key!",
             "$ref": "namespaced_identifier.json"
         },
-        "safegenes.pedigree_ID": {
+        "safegenes-pedigree_id": {
             "type": "string",
             "enum": ["pedigree_1", "pedigree_2", "pedigree_3", "pedigree_4", "colony"]
         },
-        "safegenes.generation": {
+        "safegenes-generation": {
             "type": "string",
             "enum": ["F0", "F1", "F2"]
         },
-        "safegenes.stage": {
+        "safegenes-stage": {
             "type": "string",
             "enum": ["adult", "larva"]
         },
-        "safegenes.sex": {
+        "safegenes-sex": {
             "type": "string",
             "enum": ["male", "female", "unknown"]
         },
-        "safegenes.geographic_origin": {
+        "safegenes-geographic_origin": {
             "type": "string",
             "enum": ["Cairns_AUS"]
         },
-        "safegenes.NGS_protocol": {
+        "safegenes-ngs_protocol": {
             "type": "string",
             "enum": ["ddRADseq", "WGS"]
         },
-        "safegenes.Sequencing Platform": {
+        "safegenes-sequencing-platform": {
             "type": "string",
             "enum": ["Illumina", "BGIseq"]
         },
-        "safegenes.Sequencing chemistry": {
+        "safegenes-sequencing-chemistry": {
             "type": "string",
             "enum": ["100bp PE"]
         },

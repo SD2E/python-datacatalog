@@ -348,7 +348,7 @@ class ManagedPipelineJob(JobManager):
                 "url": hook + "&status=${JOB_STATUS}",
             },
             {
-                "event": "ARCHIVING_FINISHED",
+                "event": "FINISHED",
                 "persistent": False,
                 "url": hook + "&status=FINISHED",
             },
