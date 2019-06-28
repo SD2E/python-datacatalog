@@ -1,0 +1,162 @@
+{
+    "view_on": "measurements",
+    "pipeline": [
+	    {
+	        "$match": {
+	        	"measurement_type": "FLOW",
+	            "child_of": { "$size" : 1 }
+	        }
+	    },
+	    {
+	        "$lookup": {
+	            "from": "samples",
+	            "localField": "child_of",
+	            "foreignField": "uuid",
+	            "as": "flow_samples"
+	        }
+	    },
+	    { 
+	    	"$unwind": "$flow_samples"
+	    }, 
+	    {
+	        "$lookup": {
+	            "from": "experiments",
+	            "localField": "flow_samples.child_of",
+	            "foreignField": "uuid",
+	            "as": "experiments_with_flow_sample"
+	        }
+	    },
+	    {
+	        "$match": {
+	            "flow_samples.child_of": { "$size" : 1 },
+	            "$or": [
+	                { "flow_samples.standard_type": {"$in": ["BEAD_FLUORESCENCE", "BEAD_SIZE"]} },
+	                { "flow_samples.control_type": {"$in": ["HIGH_FITC", "EMPTY_VECTOR", "CELL_DEATH_POS_CONTROL", "CELL_DEATH_NEG_CONTROL"]} },
+	                { "channels" : { "$exists": true } },
+	                { "instrument_configuration":  { "$exists": true } }
+	            ]
+	        }
+	    },
+	    {
+	        "$unwind": "$experiments_with_flow_sample"
+	    },
+	    {
+	        "$lookup": {
+	            "from": "experiment_designs",
+	            "localField": "experiments_with_flow_sample.child_of",
+	            "foreignField": "uuid",
+	            "as": "experiment_design_with_flow_sample"
+	        }
+	    },
+	    {
+	        "$unwind": "$experiment_design_with_flow_sample"
+	    },    
+	    { 
+	        "$addFields": { 
+	            "derived_from": { 
+	                "$ifNull": [ "$experiments_with_flow_sample.derived_from", ["unspecified"] ] 
+	            }
+	        }
+	    },    
+	    { 
+	        "$lookup": {
+	            "from": "files",
+	            "localField": "derived_from",
+	            "foreignField": "uuid",
+	            "as": "experiments_files_with_flow_sample"
+	        }
+	    },    
+	    { 
+	    	"$project": { 
+	            "_id":false,
+	            "experiment_id": "$experiments_with_flow_sample.experiment_id", 
+	            "experiment_design_id": "$experiment_design_with_flow_sample.experiment_design_id",
+			    "storage_system": {
+			        "$cond": { 
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
+			            "then": "unspecified", 
+			            "else": { "$arrayElemAt": ["$experiments_files_with_flow_sample.storage_system", 0] }
+			        }
+			    },
+			    "samples_json": {
+			        "$cond": { 
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
+			            "then": "unspecified", 
+			            "else": { "$arrayElemAt": ["$experiments_files_with_flow_sample.name", 0] }
+			        }
+			    },            
+	            "standard_type": "$flow_samples.standard_type",
+	            "control_type": "$flow_samples.control_type",
+	            "channels": "$channels",
+	            "control_channel": "$flow_samples.control_channel",
+	            "instrument_configuration": "$instrument_configuration"
+	        }
+	    },
+	    {
+	        "$unwind": "$channels"
+	    },
+	    {
+	        "$match": {
+	            "$and": [
+	                { "channels": {"$regex": "^(?!FSC).*$"} }, 
+	                { "channels": {"$regex": "^(?!SSC).*$"} }
+	            ]
+	        }
+	    },
+	    {
+	        "$group": {
+	            "_id": {
+	                "experiment_id": "$experiment_id",
+	                "experiment_design_id": "$experiment_design_id",
+	                "storage_system": "$storage_system",
+	                "samples_json": "$samples_json"                
+	            },
+	            "bead_types": { "$addToSet": "$standard_type" },
+	            "control_types": { "$addToSet": "$control_type" },
+	            "fluoresence_channels": { "$addToSet": "$channels" },
+	            "control_channels": { "$addToSet": "$control_channel" },
+	            "instrument_configuration": { "$first": "$instrument_configuration" }
+	        }
+	    },
+	    {
+	        "$lookup": {
+	            "from": "experiment_flow_jobs_view",
+	            "localField": "_id",
+	            "foreignField": "_id",
+	            "as": "experiments_with_flow_sample_no_completed_jobs"
+	        }    
+	    },  
+	    {
+	        "$match": {"experiments_with_flow_sample_no_completed_jobs": {"$eq": []}}
+	    },
+	    { 
+	    	"$project": { 
+	            "bead_types": "$bead_types",
+	            "control_types": "$control_types",
+	            "fluoresence_channels": "$fluoresence_channels",
+	            "control_channels": "$control_channels",
+	            "instrument_configuration": "$instrument_configuration",
+	            "ready": {
+	                "$and": [
+	                    { "$in": ["BEAD_FLUORESCENCE", "$bead_types"] }, 
+	                    { "$gt": [{"$size":"$fluoresence_channels"}, 0] }, 
+	                    { "$or": [
+	                        { "$in": ["HIGH_FITC","$control_types"]}, 
+	                        { "$in": ["CELL_DEATH_POS_CONTROL","$control_types"] }
+	                    ] }, 
+	                    { "$or": [
+	                        { "$in": ["EMPTY_VECTOR","$control_types"] }, 
+	                        { "$in": ["CELL_DEATH_NEG_CONTROL","$control_types"] }
+	                    ] },
+	                    { "$setEquals": ["$fluoresence_channels", "$control_channels"] }
+	                ]
+	            }
+	        }
+	    },
+	    {
+	        "$sort": {
+	            "_id.experiment_id": 1
+	        }
+	    }
+    ]
+}
