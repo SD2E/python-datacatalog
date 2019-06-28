@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190614T202621+00:00; source: git@github.com:SD2E/python-datacatalog.git@1555ca2",
+    "$comment": "generated: 20190619T120500+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
     "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

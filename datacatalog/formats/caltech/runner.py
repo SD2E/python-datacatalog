@@ -61,15 +61,6 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     else:
         print("Helper not loaded")
 
-    # default values for FCS support; replace with trace information as available
-    # TODO update
-    DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
-    DEFAULT_BEAD_BATCH = "AJ02"
-    
-    # TODO update
-    CALTECH_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
-    CALTECH_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
-
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
     sbh_query.login(config["sbh"]["user"], config["sbh"]["password"])
@@ -85,7 +76,7 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     output_doc[SampleConstants.SAMPLES] = []
 
     # We don't navtively know which experiment contains which columns - they can all be different
-    # One idea: build up a map that relates column names to mapping functions
+    # Idea: build up a map that relates column names to mapping functions
     
     # columns for exp
     exp_columns = {}
@@ -124,10 +115,10 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
     exp_rel_path[flow_2] = ["0_flow", "18_flow"]
     exp_column_units[flow_2] = [None, "micromole", "micromole", None, None]
     exp_time[flow_2] = ["0:hour", "18:hour"]
-    exp_temp[flow_2] = ["37:celsius"]
+    exp_temp[flow_2] = ["37:celsius", "37:celsius"]
 
     exp_cytometer_channels[flow_2] = ["FSC-A", "SSC-A", "CFP/VioBlue-A", "GFP/FITC-A"]
-    exp_cytometer_configuration[flow_2] = "agave://data-sd2e-projects.sd2e-project-21/ReedM/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1-cc.json"
+    exp_cytometer_configuration[flow_2] = "agave://data-sd2e-projects.sd2e-project-21/ReedM-index/A_eq_B/20190214_A_eq_B_mar_1/20190214-A-B-mar-1-cc.json"
     exp_negative_controls[flow_2] = ["0_flow/blank-RDM2019-02-14.0001.fcs"]
     exp_positive_controls[flow_2] = {}
     exp_positive_controls[flow_2]["CFP/VioBlue-A"] = ["0_flow/A5.csv"]
@@ -159,63 +150,65 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
 
     for caltech_index, caltech_sample in caltech_df.iterrows():
 
-        sample_doc = {}
-        contents = []
-        well_id = None
-
-        value_string = ""
-
-        for index, column_name in enumerate(matched_exp_cols):
-            value = caltech_sample[column_name]
-            function = matched_exp_functions[index]
-
-            if function == SampleConstants.SAMPLE_ID:
-                sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(value, lab, output_doc)
-                well_id = value
-            elif function == SampleConstants.STRAIN_CONCENTRATION:
-                # add as reagent with concentration value
-                # 'x' = not present/0
-                if value == 'x':
-                    value = 0
-
-                contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
-                # build up a string of values that define this sample
-                value_string = value_string + str(value)
-            elif function == SampleConstants.REAGENT_CONCENTRATION:
-                if matched_exp_key in exp_column_units:
-                    unit = exp_column_units[matched_exp_key][index]
-                    value_unit = str(value) + ":" + str(unit)
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value_unit))
-                else:
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
-
-                value_string = value_string + str(value)
-            elif function == None:
-                # skip
-                continue
-            else:
-                raise ValueError("Unknown function {}".format(function))
-
-        # have we seen this value before?
-        if not value_string in replicate_count:
-            replicate_count[value_string] = 0
-            sample_doc[SampleConstants.REPLICATE] = 0
-        else:
-            replicate = replicate_count[value_string]
-            replicate = replicate + 1
-            replicate_count[value_string] = replicate
-
-            sample_doc[SampleConstants.REPLICATE] = replicate
-
-        if len(contents) > 0:
-            sample_doc[SampleConstants.CONTENTS] = contents
-
         measurement_key  = exp_mk[matched_exp_key]
 
-        # skip if this is a control
-        skip = False
-
         for measurement_key_index, measurement_key_value in enumerate(measurement_key):
+
+            # skip if this is a control
+            skip = False
+
+            sample_doc = {}
+            contents = []
+            well_id = None
+
+            value_string = ""
+
+            for index, column_name in enumerate(matched_exp_cols):
+                value = caltech_sample[column_name]
+                function = matched_exp_functions[index]
+
+                if function == SampleConstants.SAMPLE_ID:
+                    # 1:1 sample measurements
+                    sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(value + "_" + str(measurement_key_index), lab, output_doc)
+                    well_id = value
+                elif function == SampleConstants.STRAIN_CONCENTRATION:
+                    # add as reagent with concentration value
+                    # 'x' = not present/0
+                    if value == 'x':
+                        value = 0
+
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+                    # build up a string of values that define this sample
+                    value_string = value_string + str(value)
+                elif function == SampleConstants.REAGENT_CONCENTRATION:
+                    if matched_exp_key in exp_column_units:
+                        unit = exp_column_units[matched_exp_key][index]
+                        value_unit = str(value) + ":" + str(unit)
+                        contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value_unit))
+                    else:
+                        contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID), column_name, column_name, lab, sbh_query, value))
+
+                    value_string = value_string + str(value)
+                elif function == None:
+                    # skip
+                    continue
+                else:
+                    raise ValueError("Unknown function {}".format(function))
+
+            # have we seen this value before?
+            if not value_string in replicate_count:
+                replicate_count[value_string] = 0
+                sample_doc[SampleConstants.REPLICATE] = 0
+            else:
+                replicate = replicate_count[value_string]
+                replicate = replicate + 1
+                replicate_count[value_string] = replicate
+
+                sample_doc[SampleConstants.REPLICATE] = replicate
+
+            if len(contents) > 0:
+                sample_doc[SampleConstants.CONTENTS] = contents
+
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = exp_mt[matched_exp_key][measurement_key_index]
@@ -274,10 +267,7 @@ def convert_caltech(schema, encoding, input_file, verbose=True, output=True, out
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
-        if skip:
-            continue
-
-        output_doc[SampleConstants.SAMPLES].append(sample_doc)
+            output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
     # Add flow controls, if known
     if matched_exp_key in exp_negative_controls:

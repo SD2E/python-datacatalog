@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190521T235627+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@29f7b9e",
+    "$comment": "generated: 20190618T200539+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0abffec",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -60,6 +60,65 @@
         "replicate": {
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
+        },
+        "safegenes.NGS_protocol": {
+            "enum": [
+                "ddRADseq",
+                "WGS"
+            ],
+            "type": "string"
+        },
+        "safegenes.Sequencing Platform": {
+            "enum": [
+                "Illumina",
+                "BGIseq"
+            ],
+            "type": "string"
+        },
+        "safegenes.Sequencing chemistry": {
+            "enum": [
+                "100bp PE"
+            ],
+            "type": "string"
+        },
+        "safegenes.generation": {
+            "enum": [
+                "F0",
+                "F1",
+                "F2"
+            ],
+            "type": "string"
+        },
+        "safegenes.geographic_origin": {
+            "enum": [
+                "Cairns_AUS"
+            ],
+            "type": "string"
+        },
+        "safegenes.pedigree_ID": {
+            "enum": [
+                "pedigree_1",
+                "pedigree_2",
+                "pedigree_3",
+                "pedigree_4",
+                "colony"
+            ],
+            "type": "string"
+        },
+        "safegenes.sex": {
+            "enum": [
+                "male",
+                "female",
+                "unknown"
+            ],
+            "type": "string"
+        },
+        "safegenes.stage": {
+            "enum": [
+                "adult",
+                "larva"
+            ],
+            "type": "string"
         },
         "sample_id": {
             "$ref": "namespaced_identifier.json",
