@@ -59,8 +59,8 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     #exp file_columns
     exp_r1_r2 = {}
 
-    sg_rna_seq = "TACC-genomics-metadata"
-    exp_columns[sg_rna_seq] = ["sample ID", "pedigree_ID", "generation", "stage", "sex", "species", \
+    sg_dna_seq = "TACC-genomics-metadata"
+    exp_columns[sg_dna_seq] = ["sample ID", "pedigree_ID", "generation", "stage", "sex", "species", \
                                "geographic_origin", "NGS_protocol", "Sequencing Platform", \
                                "Sequencing chemistry", "file_type", "file_name_r1", "file_name_r2"]
 
@@ -68,11 +68,11 @@ def convert_marshall(schema, encoding, input_file, verbose=True, output=True, ou
     SAFEGENES_FIELD = "SAFEGENES_FIELD"
 
     # TODO map other metadata
-    exp_column_functions[sg_rna_seq] = [SampleConstants.SAMPLE_ID, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SampleConstants.STRAIN, \
+    exp_column_functions[sg_dna_seq] = [SampleConstants.SAMPLE_ID, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SampleConstants.STRAIN, \
                                         SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, SAFEGENES_FIELD, None, None, None]
-    exp_mt[sg_rna_seq] = [SampleConstants.MT_RNA_SEQ]
-    exp_mk[sg_rna_seq] = ["TACC-genomics-metadata RNASeq"]
-    exp_r1_r2[sg_rna_seq] = ["file_name_r1", "file_name_r2"]
+    exp_mt[sg_dna_seq] = [SampleConstants.MT_DNA_SEQ]
+    exp_mk[sg_dna_seq] = ["TACC-genomics-metadata DNASeq"]
+    exp_r1_r2[sg_dna_seq] = ["file_name_r1", "file_name_r2"]
 
     matched_exp_key = None
     matched_exp_cols = None
