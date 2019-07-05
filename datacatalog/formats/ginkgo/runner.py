@@ -423,19 +423,20 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if is_ginkgo_experiment_id(output_doc):
                 measurement_counter = measurement_counter + 1
 
-            tmt_prop = "TMT_channel"
-            if tmt_prop in measurement_props:
-                tmt_val = measurement_props[tmt_prop]
-                if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
-                    sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
-                else:
-                    if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
-                        raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+            tmt_props = ["TMT_channel", "tmt"]
+            for tmt_prop in tmt_props:
+                if tmt_prop in measurement_props:
+                    tmt_val = measurement_props[tmt_prop]
+                    if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
+                        sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
+                    else:
+                        if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
+                            raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
             control_tag_prop = "control_tag"
             if control_tag_prop in measurement_props:
                 control_tag_val = measurement_props[control_tag_prop]
-                if control_tag_val == "proteomics control":
+                if control_tag_val == "proteomics control" or control_tag_val == "proteomics_control":
                     if SampleConstants.CONTROL_TYPE not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
                 else:
