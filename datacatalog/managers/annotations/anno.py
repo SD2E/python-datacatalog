@@ -60,7 +60,7 @@ class AnnotationManager(Manager):
 
         query = {'connects_from': uuid}
         if only_visible:
-            query[self.DELETE_FIELD] = True
+            query[self.stores['association'].DELETE_FIELD] = True
         # TODO - revisit public/userspace filtering - do we want to return public & username or just username
         if owner is not None:
             query['owner'] = owner
@@ -125,7 +125,7 @@ class AnnotationManager(Manager):
         """
         del_uuids = self.listify_uuid(uuid)
         count_deleted_tag_uuids = 0
-        count_deleted_tag_uuids_list = ()
+        count_deleted_tag_uuids_list = list()
         for duuid in del_uuids:
             try:
                 self.logger.info('Deleting Tag {}'.format(duuid))
@@ -216,7 +216,7 @@ class AnnotationManager(Manager):
         tags_all = list()
         query = dict()
         if visible:
-            query[self.DELETE_FIELD] = True
+            query[self.stores['association'].DELETE_FIELD] = True
         if public is True:
             query['owner'] = self.PUBLIC_USER
         for t in self.stores['tag_annotation'].query(
