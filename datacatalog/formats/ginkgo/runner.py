@@ -303,6 +303,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         # The larger measurement ID number corresponds to the miniaturized protocol
         library_prep = []
         for measurement_key in ginkgo_measurements.keys():
+            if ginkgo_measurements[measurement_key] is None:
+                continue
             assay_type = ginkgo_measurements[measurement_key]["assay_type"]
             if assay_type == "NGS (RNA)":
                 i_measurement_key = int(measurement_key)
@@ -353,6 +355,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             measurement_doc[SampleConstants.FILES] = []
 
             measurement_props = ginkgo_measurements[measurement_key]
+
+            if measurement_props is None:
+                continue
 
             # Ginkgo uses this for control markings on proteomics
             if "measurement_type" in measurement_props and measurement_props["measurement_type"] == "proteomics control":
