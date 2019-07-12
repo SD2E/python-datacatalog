@@ -21,9 +21,10 @@ class AnnotationManager(Manager):
     def __init__(self, mongodb, agave=None, *args, **kwargs):
         Manager.__init__(self, mongodb, agave=agave, *args, **kwargs)
 
-    def _new_annotation_association(self, uuid,
+    def _new_annotation_association(self, anno_uuid,
                                     record_uuid,
                                     owner=None,
+                                    note='',
                                     token=None,
                                     **kwargs):
         """Private method to create a generic association record
@@ -32,29 +33,32 @@ class AnnotationManager(Manager):
         # Either a single or list of target UUIDs is allowed. A list of
         # ssociations is returned in either case. This allows batch association
         # of a tag to multiple UUIDs
+
         record_uuids = self.listify_uuid(record_uuid)
         associations = list()
 
         # TODO - Consider parallelizing this
-        for ruuid in record_uuids:
+        for record_uuid in record_uuids:
             try:
+                self.logger.debug('Associating anno:{} with record: {}'.format(anno_uuid, record_uuid))
                 assoc = self.stores['association'].associate(
-                    uuid, ruuid, owner=owner)
+                    anno_uuid, record_uuid, note=note, owner=owner)
                 associations.append(Association(self.sanitize(assoc)))
             except Exception as exc:
                 self.logger.error('Association not created: {}'.format(exc))
         return associations
 
-    def association_uuids_for_annotation(self, uuid,
-                                         owner=None,
-                                         sort_list=True,
-                                         only_visible=True):
-        """Find Association UUIDs referencing an Annotation
+    def _associations_for_annotation(self, uuid,
+                                     owner=None,
+                                     only_visible=True):
+        """Private method to find Associations referencing an Annotation
 
-        Args:
+        Arguments:
             uuid (str): UUID of an Annotation
             only_visible (bool, optional): Only return items not marked as deleted
-            sort_list (bool, optional): Lexically sort the response
+
+        Returns:
+            list: Unique associations linked to the specified annotation
         """
         self.logger.info('Finding associations for annotation {}'.format(uuid))
 
@@ -64,24 +68,25 @@ class AnnotationManager(Manager):
         # TODO - revisit public/userspace filtering - do we want to return public & username or just username
         if owner is not None:
             query['owner'] = owner
-        proj = {'connects_to': 1}
 
         orig_assoc = self.stores['association'].query(
-            query=query, projection=proj)
-        found_assoc_uuids = list()
+            query=query)
+        found_associations = list()
         if isinstance(orig_assoc, Cursor):
             for a in orig_assoc:
-                found_assoc_uuids.extend(a.get('connects_to', []))
-
-        found_assoc_uuids = list(set(found_assoc_uuids))
-        if sort_list:
-            found_assoc_uuids.sort()
-
+                # # When filter_field is 'uuid', the response is a single str
+                # # but is a list of str otherwise, so pass thru listify_uuid
+                # # to be safe
+                # if isinstance(fa, str):
+                #     fa = self.listify_uuid(fa)
+                # Uniqueness filter. Do not use list(set()) on strings
+                if a not in found_associations:
+                    found_associations.append(a)
         self.logger.debug(
             'Found {} associations from {}'.format(
-                len(found_assoc_uuids), uuid))
+                len(found_associations), uuid))
 
-        return found_assoc_uuids
+        return found_associations
 
     def new_tag(self,
                 name=None,
@@ -142,9 +147,11 @@ class AnnotationManager(Manager):
         count_deleted_assoc_uuids = 0
         if not keep_associations:
             self.logger.info('Deleting Associations to {}'.format(duuid))
-            del_assoc_uuids = self.association_uuids_for_annotation(uuid)
+            del_associations = self._associations_for_annotation(uuid)
+            del_association_uuids = list()
+            del_association_uuids = [a['uuid'] for a in del_associations if a['uuid'] not in del_association_uuids]
             count_deleted_assoc_uuids = self.delete_association(
-                del_assoc_uuids, token=token, **kwargs)
+                del_association_uuids, token=token, **kwargs)
 
         return (count_deleted_tag_uuids, count_deleted_assoc_uuids)
 
@@ -175,24 +182,24 @@ class AnnotationManager(Manager):
             'Deleted {} Associations'.format(count_deleted_uuids))
         return count_deleted_uuids
 
-    def new_tag_association(self, uuid,
+    def new_tag_association(self, anno_uuid,
                             record_uuid,
                             owner=None,
                             token=None, **kwargs):
         """Associate a Tag with one or more Data Catalog records
 
         Args:
-            uuid (str): UIUD for the Tag
-            record_uuid (str, list): UUID (or list) for taget Data Catalog record(s)
+            anno_uuid (str): UIUD for the Tag (connects_from)
+            record_uuid (str, list): UUID (or list) for taget Data Catalog record (connects_to)
             owner (str, optional): TACC.cloud username owning the association
 
         Returns:
             list: List of one or more created Associations
         """
-        if typeduuid.get_uuidtype(uuid) != 'tag_annotation':
+        if typeduuid.get_uuidtype(anno_uuid) != 'tag_annotation':
             raise ValueError('Function only accepts tag UUIDs')
         return self._new_annotation_association(
-            uuid, record_uuid,
+            anno_uuid, record_uuid,
             owner=owner, token=token, **kwargs)
 
     def tags_list(self,
@@ -229,6 +236,7 @@ class AnnotationManager(Manager):
                            owner=None,
                            description='',
                            tag_owner=None,
+                           association_note='',
                            token=None, **kwargs):
         """Creates a new Tag in user namespace and associates it with a
            specified metadata record.
@@ -262,7 +270,7 @@ class AnnotationManager(Manager):
         anno_uuid = anno.get('uuid', None)
         if anno_uuid is not None:
             assoc = self.stores['association'].associate(
-                anno_uuid, record_uuid, owner=owner)
+                anno_uuid, record_uuid, note=association_note, owner=owner)
             assoc_uuid = assoc.get('uuid', None)
 
         a = AnnotationResponse(annotation_uuid=anno_uuid,
@@ -271,7 +279,7 @@ class AnnotationManager(Manager):
         return a
 
     def publish_tag(self, uuid,
-                    associations=True,
+                    keep_associations=True,
                     remove_original=False,
                     token=None,
                     **kwargs):
@@ -302,17 +310,19 @@ class AnnotationManager(Manager):
             new_anno, token=None)
         resp_2 = self.stores['tag_annotation'].undelete(
             resp['uuid'], token=token)
-        cloned_uuid = resp_2.get('uuid')
+        cloned_tag_uuid = resp_2.get('uuid')
+        self.logger.info('Cloned Tag.uuid: {}'.format(cloned_tag_uuid))
 
-        if associations:
-            cloned_assoc_uuids = self.association_uuids_for_annotation(uuid)
+        if keep_associations:
+            # Fetch assoc for original tag
+            clonable_associations = self._associations_for_annotation(uuid)
             self.logger.info(
-                'Cloning {} Associations for tag {}'.format(
-                    len(cloned_assoc_uuids), uuid))
-            # New_tag_association can accept a list for cloned_assoc_uuids
-            # saving us a loop in this function
-            self.new_tag_association(
-                cloned_uuid, cloned_assoc_uuids, owner=self.PUBLIC_USER)
+                'Cloning up to {} Associations for Tag {}'.format(
+                    len(clonable_associations), uuid))
+            for clone_assoc in clonable_associations:
+                # New_tag_association can accept a list for cloned_assoc_uuids
+                # saving us a loop in this function
+                self.new_tag_association(clone_assoc['connects_to'],    cloned_tag_uuid, note=clone_assoc.get('note', ''), owner=self.PUBLIC_USER)
 
         # We do not return any details on the associations,
         # only the cloned tag
