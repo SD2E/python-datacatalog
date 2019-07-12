@@ -303,6 +303,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         # The larger measurement ID number corresponds to the miniaturized protocol
         library_prep = []
         for measurement_key in ginkgo_measurements.keys():
+            if ginkgo_measurements[measurement_key] is None:
+                continue
             assay_type = ginkgo_measurements[measurement_key]["assay_type"]
             if assay_type == "NGS (RNA)":
                 i_measurement_key = int(measurement_key)
@@ -353,6 +355,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             measurement_doc[SampleConstants.FILES] = []
 
             measurement_props = ginkgo_measurements[measurement_key]
+
+            if measurement_props is None:
+                continue
 
             # Ginkgo uses this for control markings on proteomics
             if "measurement_type" in measurement_props and measurement_props["measurement_type"] == "proteomics control":
@@ -423,19 +428,20 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if is_ginkgo_experiment_id(output_doc):
                 measurement_counter = measurement_counter + 1
 
-            tmt_prop = "TMT_channel"
-            if tmt_prop in measurement_props:
-                tmt_val = measurement_props[tmt_prop]
-                if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
-                    sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
-                else:
-                    if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
-                        raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+            tmt_props = ["TMT_channel", "tmt"]
+            for tmt_prop in tmt_props:
+                if tmt_prop in measurement_props:
+                    tmt_val = measurement_props[tmt_prop]
+                    if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
+                        sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
+                    else:
+                        if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
+                            raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
             control_tag_prop = "control_tag"
             if control_tag_prop in measurement_props:
                 control_tag_val = measurement_props[control_tag_prop]
-                if control_tag_val == "proteomics control":
+                if control_tag_val == "proteomics control" or control_tag_val == "proteomics_control":
                     if SampleConstants.CONTROL_TYPE not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
                 else:
