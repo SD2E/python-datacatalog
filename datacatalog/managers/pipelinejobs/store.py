@@ -76,6 +76,7 @@ class ManagedPipelineJob(JobManager):
         archive_patterns (list, optional): List of ``ArchiveIndexRequest`` objects
         product_patterns (list, optional): List of ``ProductIndexRequest`` objects
         instanced (bool, optional): Should ``archive_path`` be extended with a randomized session name
+        setup_archive_path (bool, optional): Should ``archive_path`` be created at job setup?
         session (str, optional): A short alphanumeric correlation string
         agave (agavepy.agave.Agave, optional): Active TACC.cloud API client. Needed only to resolve references to Agave or Abaco entities.
 
@@ -99,6 +100,7 @@ class ManagedPipelineJob(JobManager):
         ('data', False, 'data', {}),
         ('level_store', False, 'level_store', 'product'),
         ('archive_path', False, 'archive_path', None),
+        ('setup_archive_path', False, 'setup_archive_path', True),
         ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
         ('archive_patterns', False, 'archive_patterns', []),
         ('product_patterns', False, 'product_patterns', []),
@@ -292,12 +294,16 @@ class ManagedPipelineJob(JobManager):
         if new_job is None:
             new_job = self.stores['pipelinejob'].create(job_document)
 
-        # Make the destination path
-        # This is to support Reactors that don't rely on Agave archiving
-        try:
-            self.stores['pipelinejob']._helper.mkdir(self.archive_path, self.archive_system)
-        except Exception:
-            self.logger.exception('Failed to mkdir {}'.format(self.archive_path))
+        # Pre-create the destination archive_path
+        # This is for Reactors must have write access to the archive_path
+        # either because they don't delegate its creation and population to
+        # Aloe or because they need to upload to it before various
+        # processing tasks can proceed.
+        if self.setup_archive_path:
+            try:
+                self.stores['pipelinejob']._helper.mkdir(self.archive_path, self.archive_system)
+            except Exception:
+                self.logger.exception('Failed to mkdir {}'.format(self.archive_path))
 
         token = get_token(new_job['_salt'], self.stores['pipelinejob'].get_token_fields(new_job))
 
