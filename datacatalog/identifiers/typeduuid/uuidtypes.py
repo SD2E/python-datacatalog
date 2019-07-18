@@ -22,7 +22,8 @@ UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('input_classifier', '115', 'Input File Classifier'),
              ('tag_annotation', '122', 'Tag Annotation'),
              ('text_annotation', '123', 'Text Annotation'),
-             ('association', '124', 'Annotation Association')
+             ('association', '124', 'Annotation Association'),
+             ('structured_request', '125', 'Structured Experiment Request')
              ]
 
 class TypedUUID(object):
