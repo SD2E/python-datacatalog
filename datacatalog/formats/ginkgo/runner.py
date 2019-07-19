@@ -75,16 +75,17 @@ def parse_replicate(sample_properties):
 
 def parse_contents(sample, output_doc, lab, sbh_query):
     contents = []
-    for reagent in sample["content"]["reagent"]:
+    if "content" in sample:
+        for reagent in sample["content"]["reagent"]:
 
-        reagent_id = reagent["id"]
-        if int(reagent_id) not in SampleContentsFilter.GINKGO_LAB_IDS:
-            reagent_name = reagent["name"]
-            concentration_prop = "concentration"
-            if concentration_prop in reagent:
-                contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
-            else:
-                contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
+            reagent_id = reagent["id"]
+            if int(reagent_id) not in SampleContentsFilter.GINKGO_LAB_IDS:
+                reagent_name = reagent["name"]
+                concentration_prop = "concentration"
+                if concentration_prop in reagent:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
+                else:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
 
     return contents
 
@@ -203,28 +204,29 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
-        for strain in ginkgo_sample["content"]["strain"]:
-            # this can either be a dict or an int
-            strain_name = None
-            strain_id = None
-            if type(strain) == int:
-                strain_name = str(strain)
-                strain_id = str(strain)
-            elif isinstance(strain, collections.Mapping):
-                strain_name = strain["name"]
-                strain_id = strain["id"]
-            else:
-                raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
+        if "content" in ginkgo_sample:
+            for strain in ginkgo_sample["content"]["strain"]:
+                # this can either be a dict or an int
+                strain_name = None
+                strain_id = None
+                if type(strain) == int:
+                    strain_name = str(strain)
+                    strain_id = str(strain)
+                elif isinstance(strain, collections.Mapping):
+                    strain_name = strain["name"]
+                    strain_id = strain["id"]
+                else:
+                    raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
 
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
-            # TODO multiple strains?
-            continue
-
-        if "molecule" in ginkgo_sample["content"]:
-            for molecule in ginkgo_sample["content"]["molecule"]:
-                sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
-                # TODO multiple genetic constructs?
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
+                # TODO multiple strains?
                 continue
+
+            if "molecule" in ginkgo_sample["content"]:
+                for molecule in ginkgo_sample["content"]["molecule"]:
+                    sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
+                    # TODO multiple genetic constructs?
+                    continue
 
         if props_attr in ginkgo_sample:
             props = ginkgo_sample[props_attr]
