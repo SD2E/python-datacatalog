@@ -27,6 +27,7 @@ class StructuredRequestDocument(ExtensibleAttrDict):
 
     PARAMS = [('name', True, 'name', None),
               ('description', False, 'description', ''),
+              ('experiment_id', True, 'experiment id', None),
               ('_visible', False, '_visible', True)]
 
     def __init__(self, schema=None, **kwargs):
