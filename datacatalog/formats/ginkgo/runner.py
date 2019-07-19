@@ -272,6 +272,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
         if parent_props is not None:
             temperature = parse_temperature(parent_props)
+            # fall-through
+            if temperature is None:
+                temperature = parse_temperature(props)
         else:
             temperature = parse_temperature(props)
 
@@ -280,6 +283,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
         if parent_props is not None:
             replicate_val = parse_replicate(parent_props)
+            # fall-through
+            if replicate_val is None:
+                replicate_val = parse_replicate(props)
         else:
             replicate_val = parse_replicate(props)
 
@@ -411,6 +417,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
             if parent_props is not None:
                 time_val = parse_time(parent_props)
+                # fall-through
+                if time_val is None:
+                    time_val = parse_time(props)
             else:
                 time_val = parse_time(props)
             if time_val is not None:
