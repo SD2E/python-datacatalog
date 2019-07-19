@@ -382,6 +382,8 @@
     }
   },
   "required": [
+    "name",
+    "experiment_id",
     "challenge_problem",
     "experiment_reference",
     "experiment_reference_url",
