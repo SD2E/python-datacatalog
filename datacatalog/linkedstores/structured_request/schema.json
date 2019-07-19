@@ -1,0 +1,406 @@
+{
+  "additionalProperties": false,
+  "description": "A structured experiment request",
+  "definitions": {
+    "parameter": {
+      "type": "object"
+    },
+    "attribute": {
+      "type": "object"
+    },
+    "run": {
+      "type": "object",
+      "properties": {
+        "labs": {
+          "description": "the list of labs that will perform the run",
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "experiment_id": {
+          "description": "unique experiment/run ID for this experimental design",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
+        },
+        "measurements": {
+          "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
+          "items": {
+            "$ref": "#definitions/measurement"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "labs",
+        "experiment_id",
+        "measurements"
+      ]
+    },
+    "content_name": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "Unique, human-readable string",
+          "type": "string"
+        },
+        "sbh_uri": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json",
+          "description": "A SD2 SynBioHub reference"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "sbh_uri"
+      ]
+    },
+    "control": {
+      "additionalProperties": false,
+      "description": "control definition based on time, strain, contents, etc.",
+      "properties": {
+        "type": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
+        },
+        "timepoints": {
+          "items": {
+            "$ref": "#definitions/timepoint"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "strains": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "contents": {
+          "items": {
+            "$ref": "#definitions/content_item"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "timepoint": {
+      "additionalProperties": false,
+      "description": "Point in a time series",
+      "properties": {
+        "unit": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/time_unit.json",
+          "description": "Unit of temporal measure"
+        },
+        "value": {
+          "description": "Numeric value",
+          "type": "number"
+        },
+        "suppress_contents": {
+          "description": "contents this timepoint suppresses reporting for",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "type": "object"
+    },
+    "content_item": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "mapped SBH name",
+          "$ref": "#definitions/content_name"
+        },
+        "unit": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
+          "description": "Unit of fluid measure"
+        },
+        "value": {
+          "description": "Numeric amount or fraction",
+          "type": ["string", "number"]
+        },
+        "report_presence": {
+          "description": "skip reporting of the presence of this content, but use in doe",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ]
+    },
+    "content_list": {
+      "items": {
+        "$ref": "#definitions/content_item"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "measurement": {
+      "type": "object",
+      "properties": {
+        "measurement_name": {
+          "description": "user friendly measurement name",
+          "type": "string"
+        },
+        "has_fluorescence_calibration": {
+          "description": "include flow fluorescence bead calibration measurements",
+          "type": "boolean"
+        },
+        "has_size_calibration": {
+          "description": "include flow size bead calibration measurements",
+          "type": "boolean"
+        },
+        "has_igem_calibration": {
+          "description": "include plate reader igem calibration measurements",
+          "type": "boolean"
+        },
+        "measurement_type": {
+          "description": "measurement type",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/measurement_type.json"
+        },
+        "standard_type": {
+          "description": "standard type",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/standard_type.json"
+        },
+        "file_type": {
+          "description": "expected file type for this measurement",
+          "oneOf": [{
+              "$ref": "https://schema.catalog.sd2e.org/schemas/filetype_label.json"
+            },
+            {
+              "items": {
+                "$ref": "https://schema.catalog.sd2e.org/schemas/filetype_label.json"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ]
+
+        },
+        "control_types": {
+          "description": "expected control types for this measurement",
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "inoculation_densities": {
+          "description": "expected inoculation densities for this measurement",
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/optical_density.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "strains": {
+          "description": "expected strains for this measurement",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "genetic_constructs": {
+          "description": "expected genetic constructs for this measurement",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "tmt_channels": {
+          "description": "proteomics TMT tags definitions",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "temperatures": {
+          "description": "expected temperatures for this measurement",
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/temperature.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "controls": {
+          "description": "expected control elements for this run",
+          "items": {
+            "$ref": "#definitions/control"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "timepoints": {
+          "description": "expected timepoints for this run",
+          "items": {
+            "$ref": "#definitions/timepoint"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "replicates": {
+          "description": "expected number of replicates",
+          "type": "number"
+        },
+        "contents": {
+          "description": "media compenents and reagents for this experiment",
+          "items": {
+            "$ref": "#definitions/content_list"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "channels": {
+          "description": "for flow, the channel to fluorophore mapping, including functional controls for high fitc and no fluorescence",
+          "items": {
+            "$ref": "#definitions/channel"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "library_prep": {
+          "description": "for rna_seq, the library preparation used",
+          "type": "string",
+          "enum": ["mini", "normal"]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "measurement_type",
+        "file_type"
+      ]
+    },
+    "channel": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "description": "cytometer channel name",
+          "type": "string"
+        },
+        "fluorophore": {
+          "description": "fluorophore channel is intended to capture",
+          "type": "string"
+        },
+        "no_fluorescence_signal": {
+          "description": "strain under which no fluorescence is expected",
+          "type": "string"
+        },
+        "high_fluorescence_signal": {
+          "description": "strain under which high fluorescence is expected",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "channel",
+        "fluorophore",
+        "no_fluorescence_signal",
+        "high_fluorescence_signal"
+      ]
+    }
+  },
+  "properties": {
+    "name": {
+        "description": "An experiment request name",
+        "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
+        "oneOf": [
+            {
+                "type": "string",
+                "maxLength": 256,
+                "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
+            }
+        ]
+    },  
+    "experiment_id": {
+        "description": "String identifier, namespaced performer, for the experiment",
+        "$ref": "namespaced_identifier.json"
+    },    
+    "challenge_problem": {
+      "description": "name of CP",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json"
+    },
+    "experiment_reference": {
+      "description": "named experiment reference",
+      "oneOf": [{
+          "type": "string",
+          "enum": ["UNKNOWN"]
+        },
+        {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json"
+        }
+      ]
+    },
+    "experiment_reference_url": {
+      "description": "experiment reference url to prose document, e.g. google drive link",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/experiment_url.json"
+    },
+    "experiment_version": {
+      "type": "number"
+    },
+    "derived_from": {
+      "description": "Derived from experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/experiment_url.json"
+    },
+    "runs": {
+      "description": "an experiment run and its associated id, sample, and file metadata",
+      "items": {
+        "$ref": "#/definitions/run"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "parameters": {
+      "description": "",
+      "items": {
+        "$ref": "#definitions/parameter"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "attributes": {
+      "description": "",
+      "items": {
+        "$ref": "#definitions/attribute"
+      },
+      "minItems": 1,
+      "type": "array"
+    }
+  },
+  "required": [
+    "name",
+    "experiment_id",
+    "challenge_problem",
+    "experiment_reference",
+    "experiment_reference_url",
+    "experiment_version",
+    "runs"
+  ],
+  "title": "StructuredRequest",
+  "type": "object",
+  "_filename": "structured_request",
+  "__uuid_type": "structured_request",
+  "__uuid_fields": [
+      "name",
+      "experiment_id"
+  ],
+  "__collection": "structured_requests",
+  "__indexes": [],
+  "__identifiers": [
+      "uuid"
+  ]  
+}
