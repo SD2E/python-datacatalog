@@ -6,6 +6,13 @@ datacatalog.jsonschemas package
    :undoc-members:
    :show-inheritance:
 
+Subpackages
+-----------
+
+.. toctree::
+
+   datacatalog.jsonschemas.objects
+
 Submodules
 ----------
 
@@ -27,13 +34,6 @@ datacatalog.jsonschemas.formatchecker module
 --------------------------------------------
 
 .. automodule:: datacatalog.jsonschemas.formatchecker
-   :members:
-   :undoc-members:
-   :show-inheritance:
-datacatalog.jsonschemas.objects module
---------------------------------------
-
-.. automodule:: datacatalog.jsonschemas.objects
    :members:
    :undoc-members:
    :show-inheritance:

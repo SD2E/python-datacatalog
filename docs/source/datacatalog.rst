@@ -25,6 +25,7 @@ Subpackages
    datacatalog.mongo
    datacatalog.pathmappings
    datacatalog.settings
+   datacatalog.slots
    datacatalog.stores
    datacatalog.tenancy
    datacatalog.tokens
