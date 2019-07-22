@@ -70,6 +70,21 @@
                 "path": "$file",
                 "preserveNullAndEmptyArrays": false
             }
+        },
+        {
+            "$addFields": {
+                "lab": {
+                    "$arrayElemAt": [
+                        {
+                            "$split": [
+                                "$experiment.experiment_id",
+                                "."
+                            ]
+                        },
+                        1
+                    ]
+                }
+            }
         }
     ]
 }

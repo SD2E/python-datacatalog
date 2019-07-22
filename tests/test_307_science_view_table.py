@@ -43,6 +43,7 @@ def test_titration_science_view_table_read(mongodb_settings):
         "level" : "0",
         "measurement_type" : "PLATE_READER",
         "reference_sample_id" : "sample.ginkgo.12726577.experiment.ginkgo.19606.19637.19708.19709",
+        "control_type" : "EMPTY_VECTOR",
         "replicate" : 4,
         "sample_contents" : [
             {
@@ -237,6 +238,7 @@ def test_titration_science_view_table_read(mongodb_settings):
             "derived_using" : [ ],
             "generated_by" : [ ]
         },
+        "lab" : "ginkgo",
         "measurement" : {
             "timepoint" : {
                 "value" : 6.5,
