@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190628T165836+00:00; source: git@github.com:SD2E/python-datacatalog.git@155d675",
+    "$comment": "generated: 20190722T184630+00:00; source: git@github.com:SD2E/python-datacatalog.git@3e7e280",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -37,7 +37,6 @@
         "YeastSTATES-Cello-Characterization",
         "NovelChassis-NAND2-0-Omics",
         "Intent-Parser-Server-Test-Doc",
-        "NovelChassis-NAND2-0-Parts-Verification",
         "NovelChassis-NAND2-0-Titration",
         "NovelChassis-Bacillus-WT",
         "NovelChassisYeastStates-TimeSeries",
@@ -86,7 +85,6 @@
         "YeastSTATES-Cello-Characterization",
         "NovelChassis-NAND2-0-Omics",
         "Intent-Parser-Server-Test-Doc",
-        "NovelChassis-NAND2-0-Parts-Verification",
         "NovelChassis-NAND2-0-Titration",
         "NovelChassis-Bacillus-WT",
         "NovelChassisYeastStates-TimeSeries",
