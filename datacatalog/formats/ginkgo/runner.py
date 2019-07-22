@@ -24,6 +24,71 @@ def flatten(element):
     else:
         return [element]
 
+def parse_temperature(sample_properties):
+
+    temp_prop = "SD2_incubation_temperature"
+    temperature = None
+    if temp_prop in sample_properties:
+        temperature = sample_properties[temp_prop]
+        if "centigrade" in temperature:
+            temperature = temperature.replace("centigrade", "celsius")
+
+    return temperature
+
+def parse_time(sample_properties):
+
+    time_prop = "SD2_timepoint"
+    time_val = None
+    if time_prop in sample_properties:
+        time_val = sample_properties[time_prop]
+        if time_val == "pre-pre-induction":
+            print("Warning: time val is not discrete, replacing fixed value!".format(time_val))
+            time_val = "-3:hour"
+        elif time_val == "pre-induction":
+            print("Warning: time val is not discrete, replacing fixed value!".format(time_val))
+            time_val = "0:hour"
+
+        # sometimes we get integers and floats instead of autoprotocol strings
+        if type(time_val) == float or type(time_val) == int:
+            time_val = str(time_val) + ":hour"
+        elif type(time_val) == str:
+            # more cleanup
+            if time_val.endswith("hours"):
+                time_val = time_val.replace("hours", "hour")
+            if ":" not in time_val and not time_val.endswith(":hour"):
+                time_val = time_val + ":hour"
+
+    return time_val
+
+def parse_replicate(sample_properties):
+
+    replicate_prop = "SD2_replicate"
+    replicate_val = None
+    if replicate_prop in sample_properties:
+        replicate_val = sample_properties[replicate_prop]
+        if isinstance(replicate_val, six.string_types):
+            # Ginkgo sometimes sends floats here.
+            replicate_val_f = float(replicate_val)
+            replicate_val = int(replicate_val_f)
+
+    return replicate_val
+
+def parse_contents(sample, output_doc, lab, sbh_query):
+    contents = []
+    if "content" in sample:
+        for reagent in sample["content"]["reagent"]:
+
+            reagent_id = reagent["id"]
+            if int(reagent_id) not in SampleContentsFilter.GINKGO_LAB_IDS:
+                reagent_name = reagent["name"]
+                concentration_prop = "concentration"
+                if concentration_prop in reagent:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
+                else:
+                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
+
+    return contents
+
 def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -95,50 +160,73 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     else:
         ginkgo_iterator = ginkgo_doc
 
+    # cache samples for parent lookups
+    ginkgo_sample_cache = {}
+    for ginkgo_sample in ginkgo_iterator:
+        ginkgo_sample_cache[ginkgo_sample["sample_id"]] = ginkgo_sample
+
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, output_doc)
         sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, None)
-        contents = []
-        for reagent in ginkgo_sample["content"]["reagent"]:
 
-            reagent_id = reagent["id"]
-            if int(reagent_id) not in SampleContentsFilter.GINKGO_LAB_IDS:
-                reagent_name = reagent["name"]
-                concentration_prop = "concentration"
-                if concentration_prop in reagent:
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
-                else:
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
+        # record parent reference, if it exists
+        parent_props = None
+        parent_contents = None
+        parent_id_prop = "parent_id"
+        if parent_id_prop in ginkgo_sample:
+            parent_id = ginkgo_sample[parent_id_prop]
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab, output_doc)
+
+            if parent_id in ginkgo_sample_cache:
+                parent_sample = ginkgo_sample_cache[parent_id]
+                if props_attr in parent_sample:
+                    parent_props = parent_sample[props_attr]
+                parent_contents = parse_contents(parent_sample, output_doc, lab, sbh_query)
+
+        contents = parse_contents(ginkgo_sample, output_doc, lab, sbh_query)
+
+        name_attr = "name"
+        label_attr = "label"
+        value_attr = "value"
+
+        # replace sample content values, if they exist
+        if parent_contents is not None:
+            for parent_content in parent_contents:
+                for sample_content in contents:
+                    if parent_content[name_attr][label_attr] == sample_content[name_attr][label_attr] and \
+                        value_attr in sample_content and value_attr in parent_content:
+                            sample_content[value_attr] = parent_content[value_attr]
 
         # It's possible to have no reagents if they're all skipped
         # per the filter.
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
-        for strain in ginkgo_sample["content"]["strain"]:
-            # this can either be a dict or an int
-            strain_name = None
-            strain_id = None
-            if type(strain) == int:
-                strain_name = str(strain)
-                strain_id = str(strain)
-            elif isinstance(strain, collections.Mapping):
-                strain_name = strain["name"]
-                strain_id = strain["id"]
-            else:
-                raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
+        if "content" in ginkgo_sample:
+            for strain in ginkgo_sample["content"]["strain"]:
+                # this can either be a dict or an int
+                strain_name = None
+                strain_id = None
+                if type(strain) == int:
+                    strain_name = str(strain)
+                    strain_id = str(strain)
+                elif isinstance(strain, collections.Mapping):
+                    strain_name = strain["name"]
+                    strain_id = strain["id"]
+                else:
+                    raise ValueError("Strain is not an integer or a dictionary: {}".format(strain))
 
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
-            # TODO multiple strains?
-            continue
-
-        if "molecule" in ginkgo_sample["content"]:
-            for molecule in ginkgo_sample["content"]["molecule"]:
-                sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
-                # TODO multiple genetic constructs?
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), strain_name, strain_id, lab, sbh_query, strain=True)
+                # TODO multiple strains?
                 continue
+
+            if "molecule" in ginkgo_sample["content"]:
+                for molecule in ginkgo_sample["content"]["molecule"]:
+                    sample_doc[SampleConstants.GENETIC_CONSTRUCT] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), molecule["name"], molecule["id"], lab, sbh_query, strain=False)
+                    # TODO multiple genetic constructs?
+                    continue
 
         if props_attr in ginkgo_sample:
             props = ginkgo_sample[props_attr]
@@ -182,22 +270,26 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
-        # do some cleaning
-        temp_prop = "SD2_incubation_temperature"
+        if parent_props is not None:
+            temperature = parse_temperature(parent_props)
+            # fall-through
+            if temperature is None:
+                temperature = parse_temperature(props)
+        else:
+            temperature = parse_temperature(props)
 
-        if temp_prop in props:
-            temperature = props[temp_prop]
-            if "centigrade" in temperature:
-                temperature = temperature.replace("centigrade", "celsius")
+        if temperature is not None:
             sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature)
 
-        replicate_prop = "SD2_replicate"
-        if replicate_prop in props:
-            replicate_val = props[replicate_prop]
-            if isinstance(replicate_val, six.string_types):
-                # Ginkgo sometimes sends floats here.
-                replicate_val_f = float(replicate_val)
-                replicate_val = int(replicate_val_f)
+        if parent_props is not None:
+            replicate_val = parse_replicate(parent_props)
+            # fall-through
+            if replicate_val is None:
+                replicate_val = parse_replicate(props)
+        else:
+            replicate_val = parse_replicate(props)
+
+        if replicate_val is not None:
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         # PhiX for SmallRNASeq
@@ -216,14 +308,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 phix_val = phix_val.replace("_percent", ":%")
             contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), phix_prop, phix_prop, lab, sbh_query, phix_val))
 
-        # record parent reference, if it exists
-        parent_id_prop = "parent_id"
-        if parent_id_prop in ginkgo_sample:
-            parent_id = ginkgo_sample[parent_id_prop]
-            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(parent_id, lab, output_doc)
-
         reference_prop = "SD2_reference"
-
         if reference_prop in props:
             # NC NAND Iterate proteomics control baseline
             reference_val = props[reference_prop]
@@ -303,6 +388,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         # The larger measurement ID number corresponds to the miniaturized protocol
         library_prep = []
         for measurement_key in ginkgo_measurements.keys():
+            if ginkgo_measurements[measurement_key] is None:
+                continue
             assay_type = ginkgo_measurements[measurement_key]["assay_type"]
             if assay_type == "NGS (RNA)":
                 i_measurement_key = int(measurement_key)
@@ -328,31 +415,25 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if measurement_key in library_prep_dict:
                 measurement_doc[SampleConstants.MEASUREMENT_LIBRARY_PREP] = library_prep_dict[measurement_key]
 
-            time_prop = "SD2_timepoint"
-            time_val = None
-            if time_prop in props:
-                time_val = props[time_prop]
-                if time_val == "pre-pre-induction":
-                    print("Warning: time val is not discrete, replacing fixed value!".format(time_val))
-                    time_val = "-3:hour"
-                elif time_val == "pre-induction":
-                    print("Warning: time val is not discrete, replacing fixed value!".format(time_val))
-                    time_val = "0:hour"
-
-                # sometimes we get integers and floats instead of autoprotocol strings
-                if type(time_val) == float or type(time_val) == int:
-                    time_val = str(time_val) + ":hour"
-                elif type(time_val) == str:
-                    # more cleanup
-                    if time_val.endswith("hours"):
-                        time_val = time_val.replace("hours", "hour")
+            if parent_props is not None:
+                time_val = parse_time(parent_props)
+                # fall-through
+                if time_val is None:
+                    time_val = parse_time(props)
+            else:
+                time_val = parse_time(props)
+            if time_val is not None:
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+
             elif reference_time_point != None:
                 measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
 
             measurement_doc[SampleConstants.FILES] = []
 
             measurement_props = ginkgo_measurements[measurement_key]
+
+            if measurement_props is None:
+                continue
 
             # Ginkgo uses this for control markings on proteomics
             if "measurement_type" in measurement_props and measurement_props["measurement_type"] == "proteomics control":
@@ -423,19 +504,20 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if is_ginkgo_experiment_id(output_doc):
                 measurement_counter = measurement_counter + 1
 
-            tmt_prop = "TMT_channel"
-            if tmt_prop in measurement_props:
-                tmt_val = measurement_props[tmt_prop]
-                if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
-                    sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
-                else:
-                    if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
-                        raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
+            tmt_props = ["TMT_channel", "tmt"]
+            for tmt_prop in tmt_props:
+                if tmt_prop in measurement_props:
+                    tmt_val = measurement_props[tmt_prop]
+                    if SampleConstants.SAMPLE_TMT_CHANNEL not in sample_doc:
+                        sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] = tmt_val
+                    else:
+                        if sample_doc[SampleConstants.SAMPLE_TMT_CHANNEL] != tmt_val:
+                            raise ValueError("Multiple TMT channels for sample?: {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
 
             control_tag_prop = "control_tag"
             if control_tag_prop in measurement_props:
                 control_tag_val = measurement_props[control_tag_prop]
-                if control_tag_val == "proteomics control":
+                if control_tag_val == "proteomics control" or control_tag_val == "proteomics_control":
                     if SampleConstants.CONTROL_TYPE not in sample_doc:
                         sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE
                 else:
