@@ -17,3 +17,5 @@ from . import reference
 
 from . import annotations
 from . import association
+
+from . import structured_request

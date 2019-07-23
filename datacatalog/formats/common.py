@@ -36,6 +36,7 @@ class SampleConstants():
     LAB_TX = "Transcriptic"
     LAB_UWBF = "UW_BIOFAB"
     LAB_CALTECH = "Caltech"
+    LAB_MARSHALL = "Marshall"
 
     # samples
     SAMPLES = "samples"
@@ -211,6 +212,8 @@ def convert_value_unit(value_unit):
         value_unit_split[0] = int(value)
     elif type(value) == float:
         value_unit_split[0] = float(value)
+    elif type(value) == str:
+        value_unit_split[0] = str(value)
     else:
         try:
             value_unit_split[0] = float(value)
@@ -256,6 +259,9 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
     elif lab == SampleConstants.LAB_CALTECH:
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "CalTech"
+    elif lab == SampleConstants.LAB_MARSHALL:
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "Marshall"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
@@ -376,6 +382,10 @@ GINKGO_RNA_SEQ_EXPERIMENT_IDS = ["experiment.ginkgo.18256.18257", "experiment.gi
 
 def is_ginkgo_experiment_id(experiment_doc):
     return experiment_doc[SampleConstants.EXPERIMENT_ID] in GINKGO_RNA_SEQ_EXPERIMENT_IDS
+
+# namespace a field against a project identifier, e.g. safegenes. biocon.
+def namespace_field_id(field_id, project_identifier):
+    return '.'.join([project_identifier, field_id])
 
 # namespace against experiment id
 def namespace_sample_id(sample_id, lab, experiment_doc):

@@ -13,6 +13,10 @@ Subpackages
 
    datacatalog.views.challenge_problem_view
    datacatalog.views.experiment_design_view
+   datacatalog.views.experiment_flow_incomplete_jobs_view
+   datacatalog.views.experiment_flow_jobs_view
+   datacatalog.views.experiment_pending_flow_jobs_view
+   datacatalog.views.experiment_rnaseq_jobs_view
    datacatalog.views.experiment_view
    datacatalog.views.file_view
    datacatalog.views.jobs_view

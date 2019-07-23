@@ -1,0 +1,121 @@
+{
+    "view_on": "jobs",
+    "pipeline": [
+	    {
+	        "$match": {
+	            "child_of": {
+	                "$size": 1
+	            },
+	            "state": {
+	                "$nin": [
+	                    "FINISHED",
+	                    "VALIDATED"
+	                ]
+	            }
+	        }
+	    },
+	    {
+	        "$lookup": {
+	            "from": "pipelines",
+	            "localField": "pipeline_uuid",
+	            "foreignField": "uuid",
+	            "as": "flow_jobs"
+	        }
+	    },
+	    {
+	        "$unwind": "$flow_jobs"
+	    },
+	    {
+	        "$match": {
+	            "flow_jobs.name": { "$regex": "FCS Reactor"}
+	        }
+	    },
+	    {
+	        "$lookup": {
+	            "from": "experiments",
+	            "localField": "child_of",
+	            "foreignField": "uuid",
+	            "as": "experiment_flow_jobs"
+	        }
+	    },
+	    {
+	        "$unwind": "$experiment_flow_jobs"
+	    },
+	    {
+	        "$lookup": {
+	            "from": "experiment_designs",
+	            "localField": "experiment_flow_jobs.child_of",
+	            "foreignField": "uuid",
+	            "as": "experiment_design_flow_jobs"
+	        }
+	    },
+	    {
+	        "$unwind": "$experiment_design_flow_jobs"
+	    },
+	    { 
+	        "$addFields": { 
+	            "derived_from": { 
+	                "$ifNull": [ "$experiment_flow_jobs.derived_from", ["unspecified"] ] 
+	            }
+	        }
+	    },    
+	    { 
+	        "$lookup": {
+	            "from": "files",
+	            "localField": "derived_from",
+	            "foreignField": "uuid",
+	            "as": "experiment_design_files_flow_jobs"
+	        }
+	    },
+	    {
+	        "$project": {
+	            "_id": false,
+	            "experiment_id": "$experiment_flow_jobs.experiment_id",
+	            "experiment_design_id": "$experiment_design_flow_jobs.experiment_design_id",
+			    "storage_system": {
+			        "$cond": { 
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
+			            "then": "unspecified", 
+			            "else": { "$arrayElemAt": ["$experiment_design_files_flow_jobs.storage_system", 0] }
+			        }
+			    },
+			    "samples_json": {
+			        "$cond": { 
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
+			            "then": "unspecified", 
+			            "else": { "$arrayElemAt": ["$experiment_design_files_flow_jobs.name", 0] }
+			        }
+			    },            
+	            "job_uuid": "$uuid",
+	            "last_updated": "$updated",
+	            "settings": "$data",
+	            "state": "$state",
+	            "archive_path": "$archive_path"
+	        }
+	    },
+	    {
+	        "$group": {
+	            "_id": {
+	                "experiment_id": "$experiment_id",
+	                "experiment_design_id": "$experiment_design_id",
+	                "storage_system": "$storage_system",
+	                "samples_json": "$samples_json"
+	            },
+	            "jobs": {
+	                "$push": {
+	                    "job_uuid": "$job_uuid",
+	                    "last_updated": "$last_updated",
+	                    "settings": "$settings",
+	                    "state": "$state",
+	                    "archive_path": "$archive_path"
+	                }
+	            }
+	        }
+	    },
+	    {
+	        "$sort": {
+	            "_id.experiment_id": 1
+	        }
+	    }
+    ]
+}
