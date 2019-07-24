@@ -1,0 +1,3 @@
+[submodule "bootstrap/cp-request"]
+	path = bootstrap/cp-request
+	url = https://gitlab.sd2e.org/sd2program/cp-request.git
