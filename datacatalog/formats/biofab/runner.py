@@ -436,9 +436,18 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
     lab = SampleConstants.LAB_UWBF
 
-    original_experiment_id = biofab_doc["plan_id"]
-    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(biofab_doc["plan_id"], lab)
+    original_experiment_id = None
+    if "plan_id" in biofab_doc:
+        original_experiment_id = biofab_doc["plan_id"]
+    elif "experiment_id" in biofab_doc:
+         original_experiment_id = biofab_doc["experiment_id"]
+    else:
+        raise ValueError("Cannot parse plan/experiment_id")
+
+    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(original_experiment_id, lab)
     output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem")
+
+
     output_doc[SampleConstants.EXPERIMENT_REFERENCE] = biofab_doc.get(
         "attributes", {}).get("experiment_reference")
 
@@ -535,7 +544,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
             plate_source = plate[source_attr][0]
             plate_source_lookup = jq(".items[] | select(.item_id==\"" + plate_source + "\")").transform(biofab_doc)
 
-        if type_of_media_attr in plate_source_lookup[attributes_attr] and source_attr not in item:
+        if attributes_attr in plate_source_lookup and type_of_media_attr in plate_source_lookup[attributes_attr] and source_attr not in item:
             media_name = plate_source_lookup[attributes_attr][type_of_media_attr]
             # case for old files that do not have this.
             reagents.append(create_media_component(original_experiment_id, media_name, media_name, lab, sbh_query))
