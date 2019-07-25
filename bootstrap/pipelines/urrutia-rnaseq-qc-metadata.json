@@ -9,7 +9,7 @@
             "inputs": {},
             "parameters": {
                 "experiment_id": "experiment.*",
-                "CONTAINER_IMAGE": "sd2e/qc_and_metadata_app-0.1.0"
+                "CONTAINER_IMAGE": "sd2e/qc_and_metadata_app:0.1.0"
             }
         }
     ],
@@ -20,6 +20,6 @@
         "TSV"
     ],
     "produces": [
-        "TSV"
+        "CSV"
     ]
 }
