@@ -229,6 +229,7 @@ update-submodules: $(SUBMODULES)
 
 bootstrap-structured-requests: update-submodules
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
+bootstrap-structured-requests-extras: bootstrap-structured-requests
 
 bootstrap-sample-tacc-cloud:
 	files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
