@@ -4,6 +4,7 @@ PYTEST_SRC ?= tests/
 PYTEST_MAX_FAIL ?= 100
 PYTEST_FAIL_OPTS ?= --maxfail=$(PYTEST_MAX_FAIL)
 PYTEST_RUN_OPTS ?= --smoketest -s $(PYTEST_FAIL_OPTS)
+SUBMODULES ? = bootstrap/cp-request
 EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production
@@ -217,8 +218,18 @@ bootstrap-associations:
 
 bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
 
-bootstrap-structured-requests:
+# TODO - Generate targets based from SUBMODULES rather than having targets for each
+bootstrap/cp-request:
+	git submodule init && \
+	git submodule update
+
+.PHONY: update-submodules
+update-submodules: $(SUBMODULES)
+	git submodule update
+
+bootstrap-structured-requests: update-submodules
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
+bootstrap-structured-requests-extras: bootstrap-structured-requests
 
 bootstrap-sample-tacc-cloud:
 	files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
