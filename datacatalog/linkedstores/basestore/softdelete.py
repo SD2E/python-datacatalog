@@ -21,7 +21,9 @@ class SoftDelete(LinkedStore):
             document[self.DELETE_FIELD] = True
         return super(SoftDelete, self).add_document(document, token=token)
 
-    def delete_document(self, uuid, token=None, soft=True):
+    def delete_document(self, uuid, token=None, soft=True, force=False):
+        if force:
+            soft = False
         if soft is True:
             try:
                 resp = self.coll.update({'uuid': uuid},

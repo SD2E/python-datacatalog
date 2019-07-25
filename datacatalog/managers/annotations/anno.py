@@ -27,12 +27,12 @@ class AnnotationManager(Manager):
                                     note='',
                                     token=None,
                                     **kwargs):
-        """Private method to create a generic association record
+        """Private: Creates an Association between a Record and an Annotation.
         """
         self.validate_tapis_username(owner)
         # Either a single or list of target UUIDs is allowed. A list of
-        # ssociations is returned in either case. This allows batch association
-        # of a tag to multiple UUIDs
+        # associations is returned in either case. This promotes batch
+        # association of an Annotation to multiple UUIDs
 
         record_uuids = self.listify_uuid(record_uuid)
         associations = list()
@@ -46,23 +46,34 @@ class AnnotationManager(Manager):
                 associations.append(Association(self.sanitize(assoc)))
             except Exception as exc:
                 self.logger.error('Association not created: {}'.format(exc))
+
+        if len(associations) != len(record_uuids):
+            self.logger.warning('Different number of records requested as linked')
+
         return associations
 
-    def _associations_for_annotation(self, uuid,
+    def _associations_for_annotation(self,
+                                     connects_from,
+                                     connects_to=None,
                                      owner=None,
                                      only_visible=True):
-        """Private method to find Associations referencing an Annotation
+        """Private: Finds Associations referencing an Annotation
 
         Arguments:
-            uuid (str): UUID of an Annotation
-            only_visible (bool, optional): Only return items not marked as deleted
+            connects_from (str): UUID of the Annotation to query
+            connects_to (str/list, optional): Record UUID(s) to filter the response on
+            only_visible (bool, optional): Return items not marked as deleted
 
         Returns:
-            list: Unique associations linked to the specified annotation
+            list: Associations connected with the specified Annotation
         """
-        self.logger.info('Finding associations for annotation {}'.format(uuid))
+        self.logger.info(
+            'Finding associations for annotation {}'.format(connects_from))
 
-        query = {'connects_from': uuid}
+        query = {'connects_from': connects_from}
+        if connects_to is not None:
+            query['connects_to'] = connects_to
+
         if only_visible:
             query[self.stores['association'].DELETE_FIELD] = True
         # TODO - revisit public/userspace filtering - do we want to return public & username or just username
@@ -84,7 +95,7 @@ class AnnotationManager(Manager):
                     found_associations.append(a)
         self.logger.debug(
             'Found {} associations from {}'.format(
-                len(found_associations), uuid))
+                len(found_associations), connects_from))
 
         return found_associations
 
@@ -92,16 +103,17 @@ class AnnotationManager(Manager):
                 name=None,
                 owner=None,
                 description='',
-                token=None, **kwargs):
-        """Create a Tag
+                token=None,
+                **kwargs):
+        """Creates a new Tag annotation
 
         Args:
             name (str): Name of the tag
             description (str, optional): Plaintext description of the tag
-            owner (str): TACC.cloud username owning the tag
+            owner (str, optional): TACC.cloud username owning the tag
 
         Returns:
-            dict: Representation of the tag
+            TagAnnotation: Representation of the new Tag
 
         Raises:
             AnnotationError: Unable to create the tag
@@ -115,14 +127,114 @@ class AnnotationManager(Manager):
                                                      **kwargs)
         return TagAnnotation(self.sanitize(anno))
 
-    def delete_tag(self, uuid,
-                   keep_associations=False,
-                   token=None,
-                   **kwargs):
-        """Delete a Tag (and related Associations)
+    def tags_list(self,
+                  limit=None,
+                  skip=None,
+                  public=True,
+                  private=True,
+                  visible=True,
+                  **kwargs):
+        """Retrieves the list of Tags
 
         Args:
-            uuid (str, list): UUID (or list) for the Tag to be deleted
+            limit (int, optional): Maximum number of records to return
+            skip (int, optional): Skip this many matching records
+            public (bool, optional): Return public tags
+            private (bool, optional): Return private (to user) tags
+            visible (bool, optional): Return only tags that are not soft-deleted
+
+        Returns:
+            tuple: All tags matching the filter criteria
+        """
+        tags_all = list()
+        query = dict()
+        if visible:
+            query[self.stores['association'].DELETE_FIELD] = True
+        if public is True:
+            query['owner'] = self.PUBLIC_USER
+        for t in self.stores['tag_annotation'].query(
+                query, attr_dict=True, projection=None, limit=limit, skip=skip):
+            tags_all.append(t)
+        return tuple(tags_all)
+
+    def new_tag_association(self,
+                            connects_from=None,
+                            connects_to=None,
+                            owner=None,
+                            token=None,
+                            **kwargs):
+        """Associates a Tag with one or more Data Catalog records.
+
+        Args:
+            connects_from (str): UIUD of the Tag (connects_from)
+            connects_to (str/list): UUID (or list) of Records to connect with
+            owner (str, optional): TACC.cloud username owning the association
+
+        Returns:
+            tuple: The newly created (or updated) Association
+        """
+        if typeduuid.get_uuidtype(connects_from) != 'tag_annotation':
+            raise ValueError('Function only accepts tag UUIDs')
+        assoc = self._new_annotation_association(
+            connects_from, connects_to,
+            owner=owner, token=token, **kwargs)
+        return tuple(assoc)
+
+    def new_tag_annotation(self,
+                           connects_to=None,
+                           name=None,
+                           owner=None,
+                           description='',
+                           tag_owner=None,
+                           association_note='',
+                           token=None, **kwargs):
+        """Creates a Tag and associates it with metadata Record.
+
+        Args:
+            connects_to (str): UUID5 of the Record to be annotated
+            name (str): Name of the new Tag
+            description (str, optional): Plaintext description of the Tag
+            owner (str, optional): TACC.cloud username owning the Tag and Association
+            tag_owner (str, optional): TACC.cloud username owning the Tag (if different)
+
+        Returns:
+            tuple: The created or updated (TagAnnotation, Association)
+
+        Raises:
+            AnnotationError: Error prevented creation of the Tag Annotation
+            AssociationError: Error occurred creating the Association
+        """
+
+        self.validate_tapis_username(owner)
+        if tag_owner is not None:
+            self.validate_tapis_username(tag_owner)
+        else:
+            tag_owner = owner
+
+        connects_from = None
+        anno = self.stores['tag_annotation'].new_tag(name=name,
+                                                     description=description,
+                                                     owner=tag_owner,
+                                                     token=token,
+                                                     **kwargs)
+        connects_from = anno.get('uuid', None)
+        assoc = None
+        if connects_from is not None:
+            assoc = self.stores['association'].associate(
+                connects_from, connects_to, note=association_note, owner=owner)
+
+        return (anno, assoc)
+
+    def delete_tag(self,
+                   uuid,
+                   keep_associations=False,
+                   token=None,
+                   force=False,
+                   **kwargs):
+        """Deletes a Tag (and, optionally, its related Associations)
+
+        Args:
+            uuid (str/list): UUID (or list) for the Tag to be deleted
             keep_associations (bool, optional): Don't delete Associations
 
         Returns:
@@ -135,7 +247,7 @@ class AnnotationManager(Manager):
             try:
                 self.logger.info('Deleting Tag {}'.format(duuid))
                 self.stores['tag_annotation'].delete_document(
-                    duuid, token=token, **kwargs)
+                    duuid, token=token, force=force, **kwargs)
                 count_deleted_tag_uuids = count_deleted_tag_uuids + 1
                 count_deleted_tag_uuids_list.append(duuid)
             except Exception as exc:
@@ -155,16 +267,63 @@ class AnnotationManager(Manager):
 
         return (count_deleted_tag_uuids, count_deleted_assoc_uuids)
 
-    def delete_association(self, uuid,
-                           token=None,
-                           **kwargs):
-        """Delete an Association
+    def delete_association_by_nodes(self,
+                                    connects_to=None,
+                                    connects_from=None,
+                                    owner=None,
+                                    token=None,
+                                    force=False,
+                                    only_visible=True,
+                                    **kwargs):
+        """Deletes Associations between an Annotation and one or more Records.
 
         Args:
-            uuid (str, list): Association UUID (or list) to delete
+            connects_from (str): UIUD for the Annotation
+            connects_to (str/list): UUID (or list) for target Data Catalog record
+            owner (str, optional): TACC.cloud username owning the association
 
         Returns:
-            int: Count of Associations deleted
+            tuple: (0, Associations deleted)
+        """
+
+        from_uuids = self.listify_uuid(connects_from)
+        to_uuids = self.listify_uuid(connects_to)
+
+        if not len(from_uuids) > 0:
+            raise ValueError('connects_from must contain one or more UUIDs')
+        if not len(to_uuids) > 0:
+            raise ValueError('connects_to must contain one or more UUIDs')
+
+        query = {'connects_from': from_uuids,
+                 'connects_to': to_uuids,
+                 'owner': owner}
+
+        if only_visible:
+            query[self.stores['association'].DELETE_FIELD] = True
+
+        associations = self._associations_for_annotation(
+            connects_from, connects_to=to_uuids,
+            owner=owner, only_visible=only_visible)
+        association_uuids = [a['uuid'] for a in associations]
+        self.logger.debug(
+            'Up to {} associations will be deleted'.format(len(association_uuids)))
+        count_deleted_uuids = self.delete_association(
+            association_uuids, token=token, force=force,
+            only_visible=only_visible, **kwargs)
+        return tuple(0, count_deleted_uuids)
+
+    def delete_association(self,
+                           uuid=None,
+                           token=None,
+                           force=False,
+                           **kwargs):
+        """Deletes an Association by its UUID
+
+        Args:
+            uuid (str/list): Association UUID (or list) to delete
+
+        Returns:
+            tuple: (0, Associations deleted)
         """
         del_uuids = self.listify_uuid(uuid)
         count_deleted_uuids = 0
@@ -172,7 +331,7 @@ class AnnotationManager(Manager):
             try:
                 self.logger.info('Deleting Association {}'.format(duuid))
                 self.stores['association'].delete_document(
-                    duuid, token=None)
+                    duuid, token=None, force=force)
                 count_deleted_uuids = count_deleted_uuids + 1
             except Exception as exc:
                 self.logger.error(
@@ -180,213 +339,40 @@ class AnnotationManager(Manager):
 
         self.logger.debug(
             'Deleted {} Associations'.format(count_deleted_uuids))
-        return count_deleted_uuids
-
-    def new_tag_association(self, anno_uuid,
-                            record_uuid,
-                            owner=None,
-                            token=None, **kwargs):
-        """Associate a Tag with one or more Data Catalog records
-
-        Args:
-            anno_uuid (str): UIUD for the Tag (connects_from)
-            record_uuid (str, list): UUID (or list) for taget Data Catalog record (connects_to)
-            owner (str, optional): TACC.cloud username owning the association
-
-        Returns:
-            list: List of one or more created Associations
-        """
-        if typeduuid.get_uuidtype(anno_uuid) != 'tag_annotation':
-            raise ValueError('Function only accepts tag UUIDs')
-        return self._new_annotation_association(
-            anno_uuid, record_uuid,
-            owner=owner, token=token, **kwargs)
-
-    def tags_list(self,
-                  limit=None,
-                  skip=None,
-                  public=True,
-                  private=True,
-                  visible=True):
-        """Retrieve the known list of Tags
-
-        Args:
-            limit (int, optional): Maximum number of records to return
-            skip (int, optional): Skip this many matching records
-            public (bool, optional): Return public tags
-            private (bool, optional): Return private (to user) tags
-            visible (bool, optional): Return only tags that are not soft-deleted
-
-        Returns:
-            list: List of dict objects representing each tag
-        """
-        tags_all = list()
-        query = dict()
-        if visible:
-            query[self.stores['association'].DELETE_FIELD] = True
-        if public is True:
-            query['owner'] = self.PUBLIC_USER
-        for t in self.stores['tag_annotation'].query(
-                query, attr_dict=True, projection=None, limit=limit, skip=skip):
-            tags_all.append(t)
-        return tags_all
-
-    def new_tag_annotation(self, record_uuid,
-                           name=None,
-                           owner=None,
-                           description='',
-                           tag_owner=None,
-                           association_note='',
-                           token=None, **kwargs):
-        """Creates a new Tag in user namespace and associates it with a
-           specified metadata record.
-
-        Args:
-            record_uuid (str): UUID5 of record to be annotated
-            name (str): Name of the tag
-            description (str, optional): Plaintext description of the tag
-            owner (str): TACC.cloud username owning the tag and association
-            tag_owner (str, optional): TACC.cloud username owning the tag (if different)
-
-        Returns:
-            AnnotationResponse: A named tuple containing relevant UUIDs
-
-        Raises:
-            AnnotationError: Error prevented creation of the Tag Annotation
-            AssociationError: Error occurred creating the Association
-        """
-
-        self.validate_tapis_username(owner)
-        if tag_owner is not None:
-            self.validate_tapis_username(tag_owner)
-        else:
-            tag_owner = owner
-
-        assoc_uuid = None
-        anno = self.stores['tag_annotation'].new_tag(name=name,
-                                                     description=description,
-                                                     owner=tag_owner,
-                                                     token=token, **kwargs)
-        anno_uuid = anno.get('uuid', None)
-        if anno_uuid is not None:
-            assoc = self.stores['association'].associate(
-                anno_uuid, record_uuid, note=association_note, owner=owner)
-            assoc_uuid = assoc.get('uuid', None)
-
-        a = AnnotationResponse(annotation_uuid=anno_uuid,
-                               association_uuid=assoc_uuid,
-                               record_uuid=record_uuid)
-        return a
-
-    def publish_tag(self, uuid,
-                    keep_associations=True,
-                    remove_original=False,
-                    token=None,
-                    **kwargs):
-        """Copy a Tag into the public namespace
-
-        Args:
-            uuid (str): UUID of the Tag to publish
-            associations (bool, optional): Include the Tag's Associations when publishing
-            remove_original (bool, optional): Delete the original Tag after publication
-
-        Returns:
-            dict: Representation of the public Tag
-        """
-        anno = self.stores['tag_annotation'].find_one_by_uuid(uuid)
-        if anno is None:
-            raise ValueError(
-                'Tag with UUID {} does not exist'.format(uuid))
-        if anno.get('owner', None) == self.PUBLIC_USER:
-            return anno
-
-        self.logger.info('Cloning Tag {}'.format(uuid))
-        new_anno = TagAnnotationDocument(
-            name=anno['name'],
-            description=anno['description'],
-            owner=self.PUBLIC_USER)
-        # Impdepotent clone
-        resp = self.stores['tag_annotation'].add_update_document(
-            new_anno, token=None)
-        resp_2 = self.stores['tag_annotation'].undelete(
-            resp['uuid'], token=token)
-        cloned_tag_uuid = resp_2.get('uuid')
-        self.logger.info('Cloned Tag.uuid: {}'.format(cloned_tag_uuid))
-
-        if keep_associations:
-            # Fetch assoc for original tag
-            clonable_associations = self._associations_for_annotation(uuid)
-            self.logger.info(
-                'Cloning up to {} Associations for Tag {}'.format(
-                    len(clonable_associations), uuid))
-            for clone_assoc in clonable_associations:
-                # New_tag_association can accept a list for cloned_assoc_uuids
-                # saving us a loop in this function
-                self.new_tag_association(clone_assoc['connects_to'],    cloned_tag_uuid, note=clone_assoc.get('note', ''), owner=self.PUBLIC_USER)
-
-        # We do not return any details on the associations,
-        # only the cloned tag
-        return TagAnnotation(self.sanitize(resp_2))
-
-    def unpublish_tag(self, uuid,
-                      associations=True,
-                      token=None, **kwargs):
-        """Remove a Tag from the public namespace
-
-        Args:
-            tag_uuid (str): UUID of the Tag to unpublish
-
-        Returns:
-            tuple: (Tag UUID, Success)
-        """
-        anno = self.stores['tag_annotation'].find_one_by_uuid(uuid)
-        if anno is None:
-            raise ValueError(
-                'Tag with UUID {} does not exist'.format(uuid))
-        if anno.get('owner', None) != self.PUBLIC_USER:
-            raise ValueError('Only public Tags can be unpublished')
-
-        try:
-            self.stores['tag_annotation'].delete_document(
-                uuid, token=None)
-            self.delete_association(uuid, token=token)
-            return (uuid, True)
-        except Exception as exc:
-            self.logger.error(
-                'Failed to unpublish Tag {}: {}'.format(uuid, exc))
-
-        return (uuid, False)
+        return tuple(0, count_deleted_uuids)
 
     def new_text_annotation(self,
-                            record_uuid,
-                            body,
+                            connects_to=None,
+                            body=None,
                             owner=None,
                             subject=None,
                             token=None,
                             **kwargs):
-        """Create a Text Annotation linked to a Data Catalog record
+        """Creates a Text Note linked to a Data Catalog Record
 
         Args:
-            record_uuid (str): UUID of the target Data Catalog record
+            connects_to (str): UUID of the target Data Catalog record
             body (str): Body of the Text Annotation (Max size: 2 kb)
             owner (str, optional): TACC.cloud username or email owner for the Text Annotation
             subject (str, optional): Subject of the Text Annotation
 
         Returns:
-            dict: Representation of the new Text Annotation
+            TextAnnotation: Representation of the new Note
 
         Raises:
             AnnotationError: Error prevented creation of the Text Annotation
             AssociationError: Error occurred creating the final linkage
         """
         self.validate_tapis_username(owner)
-        self.validate_uuid(record_uuid)
+        self.validate_uuid(connects_to)
+        if body is None or body == '':
+            raise ValueError('"body" cannot be empty or null')
         anno = self.stores['text_annotation'].new_text(
             body=body, subject=subject, owner=owner, token=token)
         anno_uuid = anno.get('uuid', None)
         if anno_uuid is not None:
             self.stores['association'].associate(
-                anno_uuid, record_uuid, owner=owner)
+                anno_uuid, connects_to, owner=owner)
         else:
             raise AssociationError(
                 'Failed to associate record and annotation')
@@ -399,16 +385,16 @@ class AnnotationManager(Manager):
                               subject=None,
                               token=None,
                               **kwargs):
-        """Reply to a Text Annotation
+        """Adds a Reply to a Text Note
 
         Args:
-            uuid (str): UUID for the Text Annotation being responded to
+            uuid (str): UUID of the Text Annotation being replied to
             body (str): Body of the Reply (Max size: 2 kb)
             owner (str, optional): TACC.cloud username or email owner for the Reply
             subject (str, optional): Subject for the Reply (Default: Re: Parent subject)
 
         Returns:
-            dict: Representation of the Reply
+            TextAnnotation: Representation of the Reply
 
         Raises:
             AnnotationError: Error prevented creation of the Reply

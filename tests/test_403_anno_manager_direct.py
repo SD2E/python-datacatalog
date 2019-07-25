@@ -106,6 +106,7 @@ def test_new_tag_anno(mongodb_settings, agave, target_uuid, tag_name,
             doc = mgr.new_tag_annotation(*args, **opts)
             assert isinstance(doc, dict)
 
+@pytest.mark.skip(reason="currently not implemented")
 @pytest.mark.parametrize('target_uuid,tag_valid', [
     ('12236906-bfee-56cd-bbc2-616f9a32cd43', True)
 ])
@@ -119,7 +120,7 @@ def test_publish_tag(mongodb_settings, agave, target_uuid, tag_valid):
             doc = mgr.publish_tag(target_uuid)
             assert doc['owner'] == annotations.AnnotationManager.PUBLIC_USER
 
-
+@pytest.mark.skip(reason="currently not implemented")
 @pytest.mark.parametrize('target_uuid,tag_valid', [
     ('12234e7a-68ec-5547-b111-f29e18a75aa2', True)
 ])

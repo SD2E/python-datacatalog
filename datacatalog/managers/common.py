@@ -60,6 +60,8 @@ class ManagerBase(object):
     def listify_uuid(cls, uuid):
         """Cast a string UUID into a list of UUIDs
         """
+        if uuid is None:
+            raise ValueError('"uuid" cannot be None')
         uuids = None
         if isinstance(uuid, str):
             uuids = [uuid]

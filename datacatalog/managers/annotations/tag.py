@@ -68,14 +68,16 @@ class TagAnnotationManager(AnnotationManager):
 
     def unlink(self, body, token=None):
         self.logger.debug('event.unlink')
-        raise NotImplementedError()
+        return self.delete_association(token=token, **body)
 
     def publish(self, body, token=None):
         self.logger.debug('event.publish')
+        raise NotImplementedError()
         validate_admin_token(token, permissive=False)
         return self.publish_tag(token=token, **body)
 
     def unpublish(self, body, token=None):
         self.logger.debug('event.unpublish')
+        raise NotImplementedError()
         validate_admin_token(token, permissive=False)
         return self.unpublish_tag(token=token, **body)
