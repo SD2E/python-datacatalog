@@ -27,6 +27,7 @@ part_of_attr = "part_of"
 source_attr = "sources"
 item_id_attr = "item_id"
 media_attr = "media"
+alt_media_attr = "Media"
 inducer_attr = "inducer"
 experimental_media_attr = "experimental_media"
 experimental_antibiotic_attr = "experimental_antibiotic"
@@ -34,17 +35,56 @@ concentration_attr = "concentration"
 volume_attr = "volume"
 od600_attr = "od600"
 control_attr = "control"
+alt_control_attr = "Control"
 standard_attr = "standard"
 lot_attr = "Lot No."
 
 negative_control = False
 is_sytox = False
 
+jq_temperature = ".operations[].inputs[] | select (.name | contains (\"Growth Temperature\") or contains (\"Temperature\")).value"
+
 DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
 SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A", "FL4-A"]
 NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A"]
 
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
+
+def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item):
+    # new media and reagents from Cell State Reporters and Live Dead
+    if attributes_attr in item:
+        if alt_media_attr in item[attributes_attr]:
+            # alternative media:
+            # "Media": {
+            #   "YPAD": {
+            #     "item_id": 378596,
+            media_keys = item[attributes_attr][alt_media_attr].keys()
+            for media_key in media_keys:
+                media_key_id = item[attributes_attr][alt_media_attr][media_key][item_id_attr]
+                reagents.append(create_media_component(original_experiment_id, media_key, media_key_id, lab, sbh_query))
+        # Options Reagents
+        # Options": {
+        #   "Reagents": {
+        #     "Ethanol": {
+        #       "final_concentration": {
+        #         "qty": 250,
+        #         "units": "ul"
+        options_attr = "Options"
+        reagents_attr = "Reagents"
+        final_concentration_attr = "final_concentration"
+        if options_attr in item[attributes_attr] and reagents_attr in item[attributes_attr][options_attr]:
+            reagent_keys = item[attributes_attr][options_attr][reagents_attr].keys()
+            for reagent_key in reagent_keys:
+                reagent_key_item = item[attributes_attr][options_attr][reagents_attr][reagent_key]
+                reagent_obj = create_media_component(original_experiment_id, reagent_key, reagent_key, lab, sbh_query)
+                if final_concentration_attr in reagent_key_item:
+                    units = reagent_key_item[final_concentration_attr]["units"]
+                    if units == "ul":
+                        units = "microliter"
+                    volume_value_unit = create_value_unit(str(reagent_key_item[final_concentration_attr]["qty"]) + ":" + units)
+                    reagent_obj[volume_attr] = volume_value_unit
+
+                reagents.append(reagent_obj)
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
     try:
@@ -159,6 +199,20 @@ def add_control(item, sample_doc, output_doc):
             elif control_val == "positive_gfp":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
+        elif attributes_attr in item and alt_control_attr in item[attributes_attr]:
+            # New Control Definition for CellStates/LiveDead
+            # "Control": {
+            # "flourescence_control": "positive"
+            control_keys = item[attributes_attr][alt_control_attr].keys()
+            for control_key in control_keys:
+                # TODO: Spelling from UW?
+                if control_key == "flourescence_control":
+                    control_val = item[attributes_attr][alt_control_attr][control_key]
+                    if control_val == "positive":
+                        # TODO Eddie adds flow channel
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                    elif control_val == "negative":
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
         elif SampleConstants.STRAIN in sample_doc and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_YEAST_STATES:
             # Biofab does not provide control information for earlier YG plans;
             # Need to drive this from strains (WT and NOR_00)
@@ -577,15 +631,12 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temperature) + ":celsius")
         else:
             try:
-                temp_value = jq(".operations[].inputs[] | select (.name | contains (\"Growth Temperature\")).value").transform(biofab_doc)
+                temp_value = jq(jq_temperature).transform(biofab_doc)
             except StopIteration:
                 print("Warning, could not find temperature for {}".format(original_experiment_id))
                 temp_value = None
             if temp_value is not None:
                 sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temp_value) + ":celsius")
-
-        if len(reagents) > 0:
-            sample_doc[SampleConstants.CONTENTS] = reagents
 
         # could use ID
         add_strain(original_experiment_id, item, sample_doc, lab, sbh_query)
@@ -595,6 +646,11 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         add_control(item, sample_doc, output_doc)
 
         add_replicate(item, sample_doc)
+
+        parse_new_media(original_experiment_id, lab, sbh_query, reagents, item)
+
+        if len(reagents) > 0:
+            sample_doc[SampleConstants.CONTENTS] = reagents
 
         # skip controls for now
         # code from Ginkgo doc...
@@ -635,11 +691,11 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
         add_measurement_doc(measurement_doc, sample_doc, output_doc)
 
-    # alternate temperate when we lack provenance
+    # alternate temperature when we lack provenance
     temp_value = None
     if len(missing_part_of_items) > 0:
         try:
-            temp_value = jq(".operations[].inputs[] | select (.name | contains (\"Growth Temperature\")).value").transform(biofab_doc)
+            temp_value = jq(jq_temperature).transform(biofab_doc)
         except StopIteration:
             print("Warning, could not find temperature for {}".format(original_experiment_id))
             temp_value = None
@@ -703,6 +759,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 add_replicate(item_source, sample_doc)
 
+                parse_new_media(original_experiment_id, lab, sbh_query, reagents, item_source)
+
+                # previous media parsing code (older formats)
                 if attributes_attr in item_source and media_attr in item_source[attributes_attr]:
                     if sample_id_attr in item_source[attributes_attr][media_attr]:
                         media_id = item_source[attributes_attr][media_attr][sample_id_attr]
