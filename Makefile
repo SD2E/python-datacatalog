@@ -246,3 +246,5 @@ virtualenv:
 	virtualenv env && \
 	source env/bin/activate && \
 	pip install --upgrade -r requirements.txt
+
+sync: bootstrap-challenge-problems experiment_designs bootstrap-extras
