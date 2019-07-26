@@ -38,6 +38,11 @@ control_attr = "control"
 alt_control_attr = "Control"
 standard_attr = "standard"
 lot_attr = "Lot No."
+options_attr = "Options"
+reagents_attr = "Reagents"
+final_concentration_attr = "final_concentration"
+stain_attr = "Stain"
+working_volume_attr = "working_volume"
 
 negative_control = False
 is_sytox = False
@@ -50,7 +55,29 @@ NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A"]
 
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
-def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item):
+def parse_stain(original_experiment_id, lab, sbh_query, reagents, item):
+
+    # This is _extremely_ messy. Need to clean and inline parse a string back into JSON...
+    #"Stain": "{\"SYTOX Red Stain\": {\"sample_id\": \"23855\",\"item_id\": \"136422\", \"item_concentration\": \"null\", \"final_concentration\": \"null\", \"dilution_factor\": \"0.01\", \"working_volume\": {\"qty\": \"3\", \"units\": \"microliters\"}}}"
+    if attributes_attr in item and stain_attr in item[attributes_attr]:
+        stain_value = item[attributes_attr][stain_attr]
+        if "\\\"" in stain_value:
+            stain_value = stain_value.replace("\\\"", "\"")
+        stain_value_json = json.loads(stain_value)
+        stain_keys = stain_value_json.keys()
+        for stain_key in stain_keys:
+            stain_key_item = stain_value_json[stain_key]
+            stain_key_id = stain_key_item[sample_id_attr]
+            reagent_obj = create_media_component(original_experiment_id, stain_key, stain_key_id, lab, sbh_query)
+            if working_volume_attr in stain_key_item:
+                units = stain_key_item[working_volume_attr]["units"]
+                if units == "microliters":
+                    units = "microliter"
+                volume_value_unit = create_value_unit(str(stain_key_item[working_volume_attr]["qty"]) + ":" + units)
+                reagent_obj[volume_attr] = volume_value_unit
+            reagents.append(reagent_obj)
+
+def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc):
     # new media and reagents from Cell State Reporters and Live Dead
     if attributes_attr in item:
         if alt_media_attr in item[attributes_attr]:
@@ -60,8 +87,15 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item):
             #     "item_id": 378596,
             media_keys = item[attributes_attr][alt_media_attr].keys()
             for media_key in media_keys:
-                media_key_id = item[attributes_attr][alt_media_attr][media_key][item_id_attr]
-                reagents.append(create_media_component(original_experiment_id, media_key, media_key_id, lab, sbh_query))
+                media_key_id = str(item[attributes_attr][alt_media_attr][media_key][item_id_attr])
+                # look up by item id
+                try:
+                    media_key_source = jq(".items[] | select(.item_id==\"" + media_key_id + "\")").transform(biofab_doc)
+                    reagent_id = media_key_source[sample_attr][sample_id_attr]
+                    reagent_name = media_key_source[sample_attr][sample_name_attr]
+                    reagents.append(create_media_component(original_experiment_id, reagent_name, reagent_id, lab, sbh_query))
+                except StopIteration as si:
+                    raise si
         # Options Reagents
         # Options": {
         #   "Reagents": {
@@ -69,9 +103,6 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item):
         #       "final_concentration": {
         #         "qty": 250,
         #         "units": "ul"
-        options_attr = "Options"
-        reagents_attr = "Reagents"
-        final_concentration_attr = "final_concentration"
         if options_attr in item[attributes_attr] and reagents_attr in item[attributes_attr][options_attr]:
             reagent_keys = item[attributes_attr][options_attr][reagents_attr].keys()
             for reagent_key in reagent_keys:
@@ -647,7 +678,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
         add_replicate(item, sample_doc)
 
-        parse_new_media(original_experiment_id, lab, sbh_query, reagents, item)
+        parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc)
+
+        parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
 
         if len(reagents) > 0:
             sample_doc[SampleConstants.CONTENTS] = reagents
@@ -759,7 +792,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 add_replicate(item_source, sample_doc)
 
-                parse_new_media(original_experiment_id, lab, sbh_query, reagents, item_source)
+                parse_new_media(original_experiment_id, lab, sbh_query, reagents, item_source, biofab_doc)
+
+                parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
 
                 # previous media parsing code (older formats)
                 if attributes_attr in item_source and media_attr in item_source[attributes_attr]:
