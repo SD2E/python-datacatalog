@@ -4,7 +4,7 @@ PYTEST_SRC ?= tests/
 PYTEST_MAX_FAIL ?= 100
 PYTEST_FAIL_OPTS ?= --maxfail=$(PYTEST_MAX_FAIL)
 PYTEST_RUN_OPTS ?= --smoketest -s $(PYTEST_FAIL_OPTS)
-SUBMODULES ? = bootstrap/cp-request
+CP_REQUEST_DIR ?= bootstrap/cp-request
 EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production
@@ -218,16 +218,15 @@ bootstrap-associations:
 
 bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
 
-# TODO - Generate targets based from SUBMODULES rather than having targets for each
-bootstrap/cp-request:
-	git submodule init && \
-	git submodule update
+bootstrap-cp-requests-dir:
+	if [ ! -d $(CP_REQUEST_DIR) ]; then cd bootstrap && git clone https://gitlab.sd2e.org/sd2program/cp-request.git; fi
 
-.PHONY: update-submodules
-update-submodules: $(SUBMODULES)
-	git submodule update
+.PHONY: update-cp-requests
+update-cp-requests-dir: bootstrap-cp-requests-dir
+	cd $(CP_REQUEST_DIR)
+	git pull
 
-bootstrap-structured-requests: update-submodules
+bootstrap-structured-requests: update-cp-requests-dir
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
 bootstrap-structured-requests-extras: bootstrap-structured-requests
 
