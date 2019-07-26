@@ -1,0 +1,24 @@
+{
+    "name": "RNA-Seq QC and Metadata Pipeline",
+    "id": "urrutia-qc_and_metadata_app-0.1.0",
+    "description": "This app takes an experiment ID, pulls counts dataframes and metadata from the catalog, runs QC metrics and outputs new counts dataframes with appeneded metadata and QC information",
+    "components": [
+        {
+            "id": "urrutia-qc_and_metadata_app-0.1.0",
+            "inputs": {},
+            "parameters": {
+                "experiment_id": "experiment.*",
+                "CONTAINER_IMAGE": "sd2e/qc_and_metadata_app:0.1.0"
+            }
+        }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "TSV"
+    ],
+    "produces": [
+        "CSV"
+    ]
+}
