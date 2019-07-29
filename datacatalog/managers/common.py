@@ -60,7 +60,8 @@ class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
     RESOLVE_ORDER = ('file', 'reference', 'pipelinejob', 'pipeline',
                      'sample', 'measurement', 'experiment',
-                     'experiment_design', 'challenge_problem', 'process',
+                     'experiment_design', 'challenge_problem',
+                     'structured_request', 'process',
                      'fixity', 'association',
                      'tag_annotation', 'text_annotation')
     RESOLVE_RE = re.compile('^(' + '|'.join(list(RESOLVE_ORDER)) + ').')
