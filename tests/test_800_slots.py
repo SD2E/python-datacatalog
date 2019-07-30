@@ -61,3 +61,19 @@ def test_slot_defer_x2_create_write(agave):
     q.write(value, slot_name)
     assert r.ready(slot_name) is True
     assert r.read(slot_name) == value
+
+def test_slot_delete_after_read(agave):
+    """Confirm that slot can be written from another client and
+    read from yet another client.
+    """
+    value = random_string(64)
+    p = slots.client.Slot(agave=agave)
+    p.create().write(value)
+    p_name = p.name
+    # p_uuid = p.uuid
+    assert p_name is not None
+    assert p.ready() is True
+    assert p.read(delete=True) == value
+    q = slots.client.Slot(agave=agave)
+    with pytest.raises(ValueError):
+        q.read(key_name=p_name)
