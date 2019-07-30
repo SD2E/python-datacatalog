@@ -144,7 +144,8 @@ def test_tag_anno_event_unlink(mongodb_settings, agave,
 
     # Array of associations
     for a in link_resp:
-        raise Warning(a)
+        print(a)
+        # raise Warning(a)
         # unlink_opts = {'uuid': a.get('uuid', None),
         #                'owner': tag_owner}
         # unlink_msg = {'action': 'unlink',

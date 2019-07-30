@@ -310,7 +310,7 @@ class AnnotationManager(Manager):
         count_deleted_uuids = self.delete_association(
             association_uuids, token=token, force=force,
             only_visible=only_visible, **kwargs)
-        return tuple(0, count_deleted_uuids)
+        return (0, count_deleted_uuids)
 
     def delete_association(self,
                            uuid=None,
@@ -339,7 +339,7 @@ class AnnotationManager(Manager):
 
         self.logger.debug(
             'Deleted {} Associations'.format(count_deleted_uuids))
-        return tuple(0, count_deleted_uuids)
+        return (0, count_deleted_uuids)
 
     def new_text_annotation(self,
                             connects_to=None,
