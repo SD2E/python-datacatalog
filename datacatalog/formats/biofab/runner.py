@@ -87,13 +87,22 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biof
             #     "item_id": 378596,
             media_keys = item[attributes_attr][alt_media_attr].keys()
             for media_key in media_keys:
-                media_key_id = str(item[attributes_attr][alt_media_attr][media_key][item_id_attr])
+                media_key_item = item[attributes_attr][alt_media_attr][media_key]
+                media_key_id = str(media_key_item[item_id_attr])
                 # look up by item id
                 try:
                     media_key_source = jq(".items[] | select(.item_id==\"" + media_key_id + "\")").transform(biofab_doc)
                     reagent_id = media_key_source[sample_attr][sample_id_attr]
                     reagent_name = media_key_source[sample_attr][sample_name_attr]
-                    reagents.append(create_media_component(original_experiment_id, reagent_name, reagent_id, lab, sbh_query))
+
+                    reagent_obj = create_media_component(original_experiment_id, reagent_name, reagent_id, lab, sbh_query)
+                    if working_volume_attr in media_key_item:
+                        units = media_key_item[working_volume_attr]["units"]
+                        if units == "\u00b5l":
+                            units = "microliter"
+                        volume_value_unit = create_value_unit(str(media_key_item[working_volume_attr]["qty"]) + ":" + units)
+                        reagent_obj[volume_attr] = volume_value_unit
+                    reagents.append(reagent_obj)
                 except StopIteration as si:
                     raise si
         # Options Reagents
