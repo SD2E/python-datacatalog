@@ -1,41 +1,84 @@
 {
-    "$comment": "generated: 2018-12-11 16:59:54 +00:00; source: git@github.com:SD2E/python-datacatalog.git@837ead6",
+    "$comment": "generated: 20190723T140807+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@5e9b882",
     "$id": "https://schema.catalog.sd2e.org/schemas/biofab_provenance_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
-    "properties": {
-        "attributes": {
+    "oneOf": [
+        {
+            "additionalProperties": false,
+            "properties": {
+                "attributes": {
+                    "type": "object"
+                },
+                "files": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                },
+                "jobs": {
+                    "type": "array"
+                },
+                "operations": {
+                    "type": "array"
+                },
+                "plan_id": {
+                    "type": "string"
+                },
+                "plan_inputs": {
+                    "type": "array"
+                },
+                "plan_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "files",
+                "items",
+                "jobs",
+                "operations",
+                "plan_id",
+                "plan_name"
+            ],
             "type": "object"
         },
-        "files": {
-            "type": "array"
-        },
-        "items": {
-            "type": "array"
-        },
-        "jobs": {
-            "type": "array"
-        },
-        "operations": {
-            "type": "array"
-        },
-        "plan_id": {
-            "type": "string"
-        },
-        "plan_inputs": {
-            "type": "array"
-        },
-        "plan_name": {
-            "type": "string"
+        {
+            "additionalProperties": false,
+            "properties": {
+                "attributes": {
+                    "type": "object"
+                },
+                "experiment_id": {
+                    "type": "string"
+                },
+                "files": {
+                    "type": "array"
+                },
+                "inputs": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                },
+                "jobs": {
+                    "type": "array"
+                },
+                "operations": {
+                    "type": "array"
+                },
+                "plans": {
+                    "type": "array"
+                }
+            },
+            "required": [
+                "files",
+                "items",
+                "jobs",
+                "operations",
+                "experiment_id"
+            ],
+            "type": "object"
         }
-    },
-    "required": [
-        "files",
-        "items",
-        "jobs",
-        "operations",
-        "plan_id",
-        "plan_name"
     ],
     "title": "Biofab Provenance Dump Classification Schema",
     "type": "object"

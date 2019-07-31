@@ -14,7 +14,7 @@ from agavepy.agave import Agave
 from tacconfig import config
 from .utils import to_json_abstract
 
-COLLECTION = 'structured_requests'
+COLLECTION = 'cp-request/input/structured_requests'
 
 HERE = os.getcwd()
 SELF = __file__
@@ -37,8 +37,12 @@ def autobuild(idb, settings):
     ref_store = datacatalog.linkedstores.structured_request.StructuredRequestStore(idb)
     # build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
+        file_path = os.path.join(DATA, ref)
+        if os.path.isdir(file_path):
+            print("{} is dir".format(file_path))
+            continue
         logger.debug('Loading file {}'.format(ref))
-        entities = json.load(open(os.path.join(DATA, ref), 'r'))
+        entities = json.load(open(file_path, 'r'))
         if isinstance(entities, dict):
             refslist = list()
             refslist.append(entities)
