@@ -1,0 +1,67 @@
+{
+    "title": "Tag Annotation Manager Create Event",
+    "type": "object",
+    "description": "",
+    "additionalProperties": false,
+    "properties": {
+        "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "description": {
+                    "$comment": "The description should only hold clarifying or contextualizing information about the tag",
+                    "description": "Text description of the tag",
+                    "oneOf": [
+                        {
+                            "maxLength": 256,
+                            "type": "string",
+                            "value": ""
+                        }
+                    ]
+                },
+                "name": {
+                    "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
+                    "description": "An alphanumeric tag",
+                    "oneOf": [
+                        {
+                            "maxLength": 64,
+                            "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "owner": {
+                    "$comment": "Must be a valid TACC.cloud username",
+                    "description": "Account who creates or manages a tag",
+                    "oneOf": [
+                        {
+                            "$ref": "tacc_username.json",
+                            "description": "Account that manages this tag"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "name",
+                "owner"
+            ]
+        },
+        "action": {
+            "enum": [
+                "create"
+            ],
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "tag_annotation_manager_event_create"
+}

@@ -16,12 +16,13 @@ class AssociationStore(SoftDelete, LinkedStore):
         self._enforce_auth = True
         self.setup(update_indexes=kwargs.get('update_indexes', False))
 
-    def associate(self, annotation_uuid, record_uuid, owner=None, token=None):
+    def associate(self, annotation_uuid, record_uuid, note='', owner=None, token=None):
         """Create an association between an annotation and a metadata record
 
         Args:
             annotation_uuid (str): UUID5 for the annotation (connects_from)
             record_uuid (str): UUID5 for a metadata record (connects_to)
+            note (str, optional): Optional brief explanation of the association
             owner (str, optional): TACC.cloud username owning the association
 
         Returns:
@@ -33,7 +34,8 @@ class AssociationStore(SoftDelete, LinkedStore):
         """
         doc = AssociationDocument(owner=owner,
                                   connects_to=record_uuid,
-                                  connects_from=annotation_uuid)
+                                  connects_from=annotation_uuid,
+                                  note=note)
         resp = self.add_update_document(doc, strategy=strategies.REPLACE,
                                         token=token)
         return self.undelete(resp.get('uuid'), token=token)

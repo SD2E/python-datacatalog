@@ -53,12 +53,27 @@
             "maxItems": 1,
             "type": "array"
         },
+        "owner": {
+            "description": "Account who creates or manages a tag",
+            "$comment": "Must be a valid TACC.cloud username",
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                }
+            ]
+        },
+        "note": {
+            "type": "string",
+            "description": "Optional brief rationale for the association"
+        },
         "uuid": {
             "$comment": "Computed automatically",
             "$ref": "association_uuid.json",
             "description": "UUID for the specific association"
         },
         "_visible": {
+            "$comment": "Computed automatically",
             "type": "boolean",
             "value": true
         }

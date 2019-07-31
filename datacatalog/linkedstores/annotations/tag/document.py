@@ -5,6 +5,7 @@ import re
 import sys
 import validators
 
+from attrdict import AttrDict
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.identifiers import tacc
@@ -66,3 +67,6 @@ class TagAnnotationDocument(ExtensibleAttrDict):
         # Validate description with regex
         if not TAG_DESC_REGEX.search(self.description):
             raise ValueError('This is not a valid tag description')
+
+class TagAnnotation(AttrDict):
+    pass

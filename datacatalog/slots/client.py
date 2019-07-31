@@ -56,7 +56,14 @@ class Slot(object):
             raise
         return self
 
-    def read(self, key_name=None, raw=False):
+    def read(self, key_name=None, raw=False, delete=False):
+        """Returns the contents of a slot
+
+        Arguments:
+            key_name (str, optional): Slot name. Defaults to current slot if not defined.
+            raw (bool, optional): Whether to return value or entire slot body
+            delete (bool, optional): Delete the slot after reading it
+        """
         if key_name is None:
             if getattr(self, 'name', None) is None:
                 raise SlotNotReady(
@@ -72,14 +79,28 @@ class Slot(object):
         objs = self.client.meta.listMetadata(q=query)
         self.logger.debug('Response: {}'.format(objs))
 
-        if isinstance(objs, list):
+        return_val = None
+        if isinstance(objs, list) and len(objs) > 0:
             resp = objs[0]
         else:
             raise ValueError('Slot "{}" was not found'.format(key_name))
         if raw is False:
-            return resp.get('value', {}).get('body')
+            return_val = resp.get('value', {}).get('body')
         else:
-            return resp
+            return_val = resp
+
+        if delete:
+            try:
+                del_uuid = resp.get('uuid')
+                self.client.meta.deleteMetadata(uuid=del_uuid)
+                if self.uuid == del_uuid:
+                    setattr(self, 'client', None)
+                    setattr(self, 'uuid', None)
+                    setattr(self, 'name', None)
+            except Exception as err:
+                self.logger.exception(str(err))
+
+        return return_val
 
     def status(self, key_name=None):
         if key_name is None:

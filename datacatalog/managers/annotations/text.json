@@ -1,0 +1,54 @@
+{
+    "title": "Text Annotation Manager Event",
+    "type": "object",
+    "description": "",
+    "additionalProperties": false,
+    "properties": {
+        "body": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "subject": {
+                    "type": "string"
+                },
+                "body": {
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "child_of": {
+                    "items": {
+                        "$ref": "text_annotation_uuid.json"
+                    },
+                    "maxItems": 1,
+                    "minItems": 0,
+                    "type": "array"
+                }
+            },
+            "required": [
+                "subject",
+                "owner"
+            ]
+        },
+        "action": {
+            "enum": [
+                "create",
+                "reply",
+                "delete"
+            ],
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "text_annotation_manager_event"
+}

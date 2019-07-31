@@ -1,0 +1,45 @@
+{
+    "title": "Tag Annotation Manager Delete Event",
+    "type": "object",
+    "description": "",
+    "additionalProperties": false,
+    "properties": {
+        "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "uuid": {
+                    "$ref": "tag_annotation_uuid.json"
+                },
+                "keep_associations": {
+                    "type": "boolean",
+                    "value": false
+                },
+                "force": {
+                    "type": "boolean",
+                    "value": false
+                }
+            },
+            "required": [
+                "uuid"
+            ]
+        },
+        "action": {
+            "enum": [
+                "delete"
+            ],
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "tag_annotation_manager_event_delete"
+}

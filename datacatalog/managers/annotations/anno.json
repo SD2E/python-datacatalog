@@ -1,0 +1,25 @@
+{
+    "title": "Annotation Manager Event",
+    "type": "object",
+    "description": "",
+    "additionalProperties": true,
+    "properties": {
+        "body": {
+            "type": "object"
+        },
+        "action": {
+            "type": "string"
+        },
+        "token": {
+            "type": "string"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "annotation_manager_event"
+}

@@ -1,0 +1,113 @@
+{
+    "$comment": "generated: 20190731T180144+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
+    "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation_manager_event_create.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Create a Text Annotation",
+    "properties": {
+        "action": {
+            "enum": [
+                "create"
+            ],
+            "type": "string"
+        },
+        "body": {
+            "properties": {
+                "body": {
+                    "description": "Optional text body",
+                    "oneOf": [
+                        {
+                            "maxLength": 2048,
+                            "type": "string"
+                        }
+                    ]
+                },
+                "child_of": {
+                    "description": "Holds message thread relationships.",
+                    "items": {
+                        "$ref": "text_annotation_uuid.json"
+                    },
+                    "maxItems": 0,
+                    "minItems": 0,
+                    "type": "array"
+                },
+                "connects_to": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "challenge_problem_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_design_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_uuid.json"
+                            },
+                            {
+                                "$ref": "sample_uuid.json"
+                            },
+                            {
+                                "$ref": "measurement_uuid.json"
+                            },
+                            {
+                                "$ref": "file_uuid.json"
+                            },
+                            {
+                                "$ref": "pipeline_uuid.json"
+                            },
+                            {
+                                "$ref": "pipelinejob_uuid.json"
+                            },
+                            {
+                                "$ref": "reference_uuid.json"
+                            }
+                        ]
+                    },
+                    "maxItems": 100,
+                    "minItems": 0,
+                    "type": "array"
+                },
+                "owner": {
+                    "oneOf": [
+                        {
+                            "$ref": "tacc_username.json",
+                            "description": "Account that manages this Text"
+                        },
+                        {
+                            "format": "email",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "subject": {
+                    "description": "Text subject",
+                    "oneOf": [
+                        {
+                            "maxLength": 256,
+                            "type": "string",
+                            "value": ""
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "subject",
+                "owner",
+                "connects_to"
+            ],
+            "type": "object"
+        },
+        "slot": {
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "title": "Text Annotation Manager Create Event",
+    "type": "object"
+}

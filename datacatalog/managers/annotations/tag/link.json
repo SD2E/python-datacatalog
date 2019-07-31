@@ -1,0 +1,83 @@
+{
+    "title": "Tag Annotation Manager Link Event",
+    "type": "object",
+    "description": "",
+    "additionalProperties": false,
+    "properties": {
+        "body": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "connects_from": {
+                    "items": {
+                        "$ref": "tag_annotation_uuid.json"
+                    },
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "connects_to": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "challenge_problem_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_design_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_uuid.json"
+                            },
+                            {
+                                "$ref": "sample_uuid.json"
+                            },
+                            {
+                                "$ref": "measurement_uuid.json"
+                            },
+                            {
+                                "$ref": "file_uuid.json"
+                            },
+                            {
+                                "$ref": "pipeline_uuid.json"
+                            },
+                            {
+                                "$ref": "pipelinejob_uuid.json"
+                            },
+                            {
+                                "$ref": "reference_uuid.json"
+                            }
+                        ]
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "owner": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "connects_from",
+                "connects_to",
+                "owner"
+            ]
+        },
+        "action": {
+            "enum": [
+                "link"
+            ],
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "tag_annotation_manager_event_link"
+}

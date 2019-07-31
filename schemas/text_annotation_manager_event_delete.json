@@ -1,0 +1,47 @@
+{
+    "$comment": "generated: 20190731T154012+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
+    "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation_manager_event_delete.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Delete a Text Annotation or Reply",
+    "properties": {
+        "action": {
+            "enum": [
+                "delete"
+            ],
+            "type": "string"
+        },
+        "body": {
+            "additionalProperties": false,
+            "properties": {
+                "force": {
+                    "type": "boolean",
+                    "value": false
+                },
+                "keep_associations": {
+                    "type": "boolean",
+                    "value": false
+                },
+                "uuid": {
+                    "$ref": "text_annotation_uuid.json"
+                }
+            },
+            "required": [
+                "uuid"
+            ],
+            "type": "object"
+        },
+        "slot": {
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "title": "Text Annotation Manager Delete Event",
+    "type": "object"
+}

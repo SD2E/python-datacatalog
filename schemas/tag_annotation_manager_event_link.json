@@ -1,0 +1,85 @@
+{
+    "$comment": "generated: 20190731T154012+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation_manager_event_link.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "",
+    "properties": {
+        "action": {
+            "enum": [
+                "link"
+            ],
+            "type": "string"
+        },
+        "body": {
+            "additionalProperties": false,
+            "properties": {
+                "connects_from": {
+                    "items": {
+                        "$ref": "tag_annotation_uuid.json"
+                    },
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "connects_to": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "challenge_problem_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_design_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_uuid.json"
+                            },
+                            {
+                                "$ref": "sample_uuid.json"
+                            },
+                            {
+                                "$ref": "measurement_uuid.json"
+                            },
+                            {
+                                "$ref": "file_uuid.json"
+                            },
+                            {
+                                "$ref": "pipeline_uuid.json"
+                            },
+                            {
+                                "$ref": "pipelinejob_uuid.json"
+                            },
+                            {
+                                "$ref": "reference_uuid.json"
+                            }
+                        ]
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "owner": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "connects_from",
+                "connects_to",
+                "owner"
+            ],
+            "type": "object"
+        },
+        "slot": {
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "title": "Tag Annotation Manager Link Event",
+    "type": "object"
+}

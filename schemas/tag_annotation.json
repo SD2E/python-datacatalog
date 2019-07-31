@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 20190619T120459+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
+    "$comment": "generated: 20190731T154010+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
     "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "A tag annotation",
+    "description": "A Tag annotation",
     "properties": {
         "description": {
             "$comment": "The description should only hold clarifying or contextualizing information about the tag",
@@ -42,6 +42,6 @@
         "name",
         "owner"
     ],
-    "title": "TagAnnotation",
+    "title": "Tag Annotation",
     "type": "object"
 }

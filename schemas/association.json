@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190604T210641+00:00; source: git@github.com:SD2E/python-datacatalog.git@74eb017",
+    "$comment": "generated: 20190730T210307+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
     "$id": "https://schema.catalog.sd2e.org/schemas/association.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -55,6 +55,20 @@
             "maxItems": 1,
             "minItems": 1,
             "type": "array"
+        },
+        "note": {
+            "description": "Optional brief rationale for the association",
+            "type": "string"
+        },
+        "owner": {
+            "$comment": "Must be a valid TACC.cloud username",
+            "description": "Account who creates or manages a tag",
+            "oneOf": [
+                {
+                    "$ref": "tacc_username.json",
+                    "description": "Account that manages this tag"
+                }
+            ]
         }
     },
     "required": [
