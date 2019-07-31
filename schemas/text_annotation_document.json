@@ -1,9 +1,9 @@
 {
-    "$comment": "generated: 20190619T120459+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@0486e01",
+    "$comment": "generated: 20190731T154010+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
     "$id": "https://schema.catalog.sd2e.org/schemas/text_annotation_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
-    "description": "A text annotation or reply",
+    "description": "A Text annotation (or reply)",
     "properties": {
         "_admin": {
             "owner": {
@@ -52,7 +52,7 @@
         },
         "child_of": {
             "items": {
-                "$ref": "text_problem_uuid.json"
+                "$ref": "text_annotation_uuid.json"
             },
             "maxItems": 1,
             "minItems": 0,
@@ -71,10 +71,11 @@
             ]
         },
         "subject": {
-            "description": "Optional annotation subject",
+            "description": "Message subject",
             "oneOf": [
                 {
                     "maxLength": 256,
+                    "minLength": 8,
                     "type": "string",
                     "value": ""
                 }
@@ -87,9 +88,9 @@
         }
     },
     "required": [
-        "body",
+        "subject",
         "owner"
     ],
-    "title": "TextAnnotation",
+    "title": "Text Annotation",
     "type": "object"
 }

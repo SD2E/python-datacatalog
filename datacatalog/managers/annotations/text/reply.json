@@ -1,0 +1,77 @@
+{
+    "title": "Text Annotation Manager Reply Event",
+    "type": "object",
+    "description": "Reply to a Text Annotation (or another Reply)",
+    "additionalProperties": false,
+    "properties": {
+        "body": {
+            "type": "object",
+            "required": [
+                "reply_to",
+                "subject",
+                "owner"
+            ],
+            "properties": {
+                "reply_to": {
+                    "$ref": "text_annotation_uuid.json"
+                },
+                "body": {
+                    "description": "Optional reply body",
+                    "oneOf": [
+                        {
+                            "maxLength": 2048,
+                            "type": "string"
+                        }
+                    ]
+                },
+                "owner": {
+                    "oneOf": [
+                        {
+                            "$ref": "tacc_username.json",
+                            "description": "Account that manages the reply"
+                        },
+                        {
+                            "format": "email",
+                            "type": "string"
+                        }
+                    ]
+                },
+                "subject": {
+                    "description": "Reply subject",
+                    "oneOf": [
+                        {
+                            "maxLength": 256,
+                            "type": "string",
+                            "value": ""
+                        }
+                    ]
+                },
+                "child_of": {
+                    "items": {
+                        "$ref": "text_annotation_uuid.json"
+                    },
+                    "maxItems": 0,
+                    "minItems": 0,
+                    "type": "array"
+                }
+            }
+        },
+        "action": {
+            "enum": [
+                "reply"
+            ],
+            "type": "string"
+        },
+        "token": {
+            "$ref": "update_token.json"
+        },
+        "slot": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "action",
+        "body"
+    ],
+    "_filename": "text_annotation_manager_event_reply"
+}

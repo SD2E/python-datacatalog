@@ -1,13 +1,14 @@
 {
     "additionalProperties": false,
-    "description": "A text annotation or reply",
+    "description": "A Text annotation (or reply)",
     "properties": {
         "subject": {
-            "description": "Optional annotation subject",
+            "description": "Message subject",
             "oneOf": [
                 {
                     "type": "string",
                     "maxLength": 256,
+                    "minLength": 8,
                     "value": ""
                 }
             ]
@@ -29,7 +30,7 @@
         "child_of": {
             "type": "array",
             "items": {
-                "$ref": "text_problem_uuid.json"
+                "$ref": "text_annotation_uuid.json"
             },
             "minItems": 0,
             "maxItems": 1
@@ -52,10 +53,10 @@
         }
     },
     "required": [
-        "body",
+        "subject",
         "owner"
     ],
-    "title": "TextAnnotation",
+    "title": "Text Annotation",
     "type": "object",
     "_filename": "text_annotation",
     "__uuid_type": "text_annotation",

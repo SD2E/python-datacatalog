@@ -1,15 +1,14 @@
-"""Exposes Tag-related AnnotationManager functions via a messaging interface
-"""
-from datacatalog.slots import Slot, SlotNotReady
-from .anno import AnnotationManager
+from ..anno import AnnotationManager
 from datacatalog.linkedstores.basestore import (
     validate_token, validate_admin_token)
-
-EVENT_NAMES = ('create', 'delete', 'link', 'unlink', 'publish', 'unpublish')
+from datacatalog.slots import Slot, SlotNotReady
+from datacatalog.utils import dynamic_import
+from . import EVENT_NAMES
 
 class TagAnnotationManager(AnnotationManager):
 
     def handle(self, msg, slot=None, token=None, **kwargs):
+        self.logger.debug('Top of TagAnnotationManager#handle')
 
         # Body must exist and be a dict
         if 'body' not in msg:
@@ -39,8 +38,23 @@ class TagAnnotationManager(AnnotationManager):
             slot_client = Slot(self.client, name=slot_name)
 
         self.logger.info('Handling event "{}"'.format(event_name))
-        func = getattr(self, event_name)
-        resp = func(body, token=token, **kwargs)
+        mod = dynamic_import('.' + event_name, package='datacatalog.managers.annotations.tag')
+        # From the schema, materialize a Python class using 'body'
+        # This will fail if the message does not validate!
+        try:
+            self.logger.debug('Validating...')
+            mod.Schema().to_class()(**msg)
+        except Exception:
+            # TODO - Improve error handling and reporting
+            raise
+        # Each event handler is implemented in <event>.py as #action
+        # which in turn calls a named function (i.e. delete_tag)
+        # implemented in the same module.
+        self.logger.debug('Taking action...')
+        func = getattr(mod, 'action')
+        resp = func(self, body, token=token, **kwargs)
+        # func = getattr(self, event_name)
+        # resp = func(body, token=token, **kwargs)
 
         if slot_client is not None:
             self.logger.info('Writing response to slot: {}'.format(resp))
@@ -52,32 +66,3 @@ class TagAnnotationManager(AnnotationManager):
 
         return resp
 
-    def create(self, body, token=None):
-        # TODO - Allow create-and-link by passing 1+ record UUID?
-        self.logger.debug('event.create: {}'.format(body))
-        return self.new_tag(token=token, **body)
-
-    def delete(self, body, token=None):
-        self.logger.debug('event.delete')
-        validate_admin_token(token, permissive=False)
-        return self.delete_tag(token=token, **body)
-
-    def link(self, body, token=None):
-        self.logger.debug('event.link')
-        return self.new_tag_association(token=token, **body)
-
-    def unlink(self, body, token=None):
-        self.logger.debug('event.unlink')
-        return self.delete_association(token=token, **body)
-
-    def publish(self, body, token=None):
-        self.logger.debug('event.publish')
-        raise NotImplementedError()
-        validate_admin_token(token, permissive=False)
-        return self.publish_tag(token=token, **body)
-
-    def unpublish(self, body, token=None):
-        self.logger.debug('event.unpublish')
-        raise NotImplementedError()
-        validate_admin_token(token, permissive=False)
-        return self.unpublish_tag(token=token, **body)

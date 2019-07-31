@@ -1,6 +1,6 @@
 {
     "additionalProperties": false,
-    "description": "A tag annotation",
+    "description": "A Tag annotation",
     "properties": {
         "name": {
             "description": "An alphanumeric tag",
@@ -48,7 +48,7 @@
         "name",
         "owner"
     ],
-    "title": "TagAnnotation",
+    "title": "Tag Annotation",
     "type": "object",
     "_filename": "tag_annotation",
     "__uuid_type": "tag_annotation",
