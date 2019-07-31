@@ -52,7 +52,7 @@
         },
         "child_of": {
             "items": {
-                "$ref": "text_problem_uuid.json"
+                "$ref": "text_annotation_uuid.json"
             },
             "maxItems": 1,
             "minItems": 0,
