@@ -35,10 +35,10 @@ def new_text(self,
              owner=None,
              token=None,
              **kwargs):
-    """Creates a Text Note on a Data Catalog Record
+    """Creates a Text Note on one or more Data Catalog Records
 
     Args:
-        connects_to (str): UUID of the target Record
+        connects_to (str/list): UUID of the target Record(s)
         subject (str): Subject of the Text Annotation
         body (str, optional): Body of the Text Annotation (Max size: 2 kb)
         owner (str, optional): TACC.cloud username or email owner for the Text Annotation
@@ -51,7 +51,11 @@ def new_text(self,
         AssociationError: Error occurred linking to a Record
     """
     self.validate_tapis_username(owner, permissive=True)
-    self.validate_uuid(connects_to)
+    if isinstance(connects_to, str):
+        self.validate_uuid(connects_to)
+    elif isinstance(connects_to, list):
+        for u in connects_to:
+            self.validate(u)
     # if body is None or body == '':
     #     raise ValueError('"body" cannot be empty or null')
     anno = self.stores['text_annotation'].new_text(
