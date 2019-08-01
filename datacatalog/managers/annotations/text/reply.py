@@ -49,15 +49,14 @@ def new_reply(self,
     Raises:
         AnnotationError: Error prevented creation of the Reply
     """
-    self.validate_tapis_username(owner)
+    self.validate_tapis_username(owner, permissive=True)
     self.validate_uuid(reply_to)
 
     text_anno_rec = self.get_by_uuid(reply_to, permissive=False)
     # Thread the subject line, just like email 💌
-    if subject is None:
+    if subject is None or subject == '':
         orig_subject = text_anno_rec.get('subject', '')
-        if orig_subject is not None:
-            subject = 'Re: ' + orig_subject
+        subject = 'Re: ' + orig_subject
 
     # assoc_uuid = None
     anno = self.stores['text_annotation'].new_reply(
