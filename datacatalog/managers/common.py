@@ -261,7 +261,12 @@ class Manager(ManagerBase):
     def validate_uuid(self, uuid, permissive=False):
         """Verify that a UUID5 exists in the system by retrieving it
         """
-        self.get_by_uuid(uuid, permissive=permissive)
+        # TODO - save db traffic by fetching only a field from each record
+        if isinstance(uuid, str):
+            self.get_by_uuid(uuid, permissive=permissive)
+        elif isinstance(uuid, list):
+            for u in uuid:
+                self.get_by_uuid(u, permissive=False)
         return True
 
     def link(self, identifier, linked_identifier, linkage_name='child_of', token=None):

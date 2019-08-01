@@ -51,11 +51,7 @@ def new_text(self,
         AssociationError: Error occurred linking to a Record
     """
     self.validate_tapis_username(owner, permissive=True)
-    if isinstance(connects_to, str):
-        self.validate_uuid(connects_to)
-    elif isinstance(connects_to, list):
-        for u in connects_to:
-            self.validate(u)
+    self.validate_uuid(connects_to)
     # if body is None or body == '':
     #     raise ValueError('"body" cannot be empty or null')
     anno = self.stores['text_annotation'].new_text(

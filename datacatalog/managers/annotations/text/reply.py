@@ -50,12 +50,7 @@ def new_reply(self,
         AnnotationError: Error prevented creation of the Reply
     """
     self.validate_tapis_username(owner)
-
-    if isinstance(reply_to, str):
-        self.validate_uuid(reply_to)
-    elif isinstance(reply_to, list):
-        for u in reply_to:
-            self.validate(u)
+    self.validate_uuid(reply_to)
 
     text_anno_rec = self.get_by_uuid(reply_to, permissive=False)
     # Thread the subject line, just like email 💌
