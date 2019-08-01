@@ -15,3 +15,6 @@ docs/_build/
 staging/
 .env
 tests/data/sampleset/ginko-titration-recursion-depth.json
+tmp*
+samples_nc.json
+20190214-A-B-mar-1.json

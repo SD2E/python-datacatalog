@@ -1,14 +1,14 @@
 from setuptools import setup, find_packages
-
 import copy
 import sys
 from pprint import pprint
+import datacatalog.__about__ as about
 
 def get_version():
     """
-    returns version.
+    Returns version from module
     """
-    return '0.2.2'
+    return about.__version__
 
 def get_requirements(remove_links=True):
     """
@@ -69,19 +69,19 @@ with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="datacatalog",
-    version=get_version(),
-    author="Matthew Vaughn",
-    author_email="opensource@sd2e.org",
-    description="Python package implementing essential logic for SD2 Data Catalog",
+    name=about.__title__,
+    version=about.__version__,
+    author=about.__author__,
+    author_email=about.__email__,
+    license=about.__license__,
+    url=about.__uri__,
+    description=about.__summary__,
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    url="https://github.com/SD2E/python-datacatalog",
     package_data={'': ['*.json']},
     install_requires=get_requirements(),
     dependency_links=get_links(),
     packages=find_packages(),
-    license="BSD",
     include_package_data=True,
     zip_safe=False,
     classifiers=[
