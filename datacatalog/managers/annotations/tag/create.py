@@ -48,7 +48,7 @@ def new_tag(self,
         AnnotationError: Unable to create the tag
     """
 
-    self.validate_tapis_username(owner, permssive=True)
+    self.validate_tapis_username(owner, permissive=True)
     anno = self.stores['tag_annotation'].new_tag(name=name,
                                                  description=description,
                                                  owner=owner,

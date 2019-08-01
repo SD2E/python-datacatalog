@@ -50,7 +50,7 @@ def new_text(self,
         AnnotationError: Error prevented creation of the Text Annotation
         AssociationError: Error occurred linking to a Record
     """
-    self.validate_tapis_username(owner, permssive=True)
+    self.validate_tapis_username(owner, permissive=True)
     self.validate_uuid(connects_to)
     # if body is None or body == '':
     #     raise ValueError('"body" cannot be empty or null')

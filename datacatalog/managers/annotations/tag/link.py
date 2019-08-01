@@ -35,7 +35,7 @@ def new_tag_association(self,
     Returns:
         tuple: The newly created (or updated) Association
     """
-    self.validate_tapis_username(owner, permssive=True)
+    self.validate_tapis_username(owner, permissive=True)
     assoc = self._new_annotation_association(
         connects_from, connects_to,
         owner=owner, token=token, **kwargs)

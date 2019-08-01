@@ -142,7 +142,7 @@ def validate_file_to_schema(file_path, schema_file=SCHEMA_FILE, permissive=False
     Returns:
         Boolean value
     Error handling:
-        Raises validation exceptions if 'permssive' is False.
+        Raises validation exceptions if 'permissive' is False.
     """
     try:
         with open(file_path) as object_file:
