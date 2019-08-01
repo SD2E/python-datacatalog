@@ -8,11 +8,13 @@ from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.identifiers import tacc
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
+from datacatalog.settings import MONGO_DELETE_FIELD
 
 TYPE_SIGNATURE = ('association', '124', 'Association')
 
 class AssociationSchema(HeritableDocumentSchema):
     """Defines the Annotation Association schema"""
+    DELETE_FIELD = MONGO_DELETE_FIELD
 
     def __init__(self, inheritance=True, **kwargs):
         super(AssociationSchema, self).__init__(
@@ -25,10 +27,11 @@ class AssociationSchema(HeritableDocumentSchema):
 class AssociationDocument(ExtensibleAttrDict):
     """Instantiates an Annotation Association"""
 
+    DELETE_FIELD = MONGO_DELETE_FIELD
     PARAMS = [('owner', True, 'owner', None),
               ('connects_to', True, 'connects_to', []),
               ('connects_from', True, 'connects_from', []),
-              ('_visible', False, '_visible', True)]
+              (DELETE_FIELD, False, DELETE_FIELD, True)]
 
     CONNECTS_TO_UUIDTYPES = (
         'challenge_problem', 'experiment_design',

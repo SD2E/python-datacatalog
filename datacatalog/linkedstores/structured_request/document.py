@@ -3,6 +3,7 @@ import validators
 
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
+from datacatalog.settings import MONGO_DELETE_FIELD
 
 TYPE_SIGNATURE = ('structured_request', '125', 'Structured Experiment Request')
 
@@ -24,11 +25,11 @@ class StructuredRequestSchema(HeritableDocumentSchema):
 
 class StructuredRequestDocument(ExtensibleAttrDict):
     """Instantiates an instance of Structured Request"""
-
+    DELETE_FIELD = MONGO_DELETE_FIELD
     PARAMS = [('name', True, 'name', None),
               ('description', False, 'description', ''),
               ('experiment_id', True, 'experiment id', None),
-              ('_visible', False, '_visible', True)]
+              (DELETE_FIELD, False, DELETE_FIELD, True)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:

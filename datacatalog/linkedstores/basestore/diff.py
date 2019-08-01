@@ -3,6 +3,7 @@ import json
 from copy import copy
 from jsondiff import diff
 from pprint import pprint
+from ...settings import MONGO_DELETE_FIELD
 from datacatalog import linkages, settings
 from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.jsonschemas import DateTimeEncoder
@@ -16,6 +17,7 @@ ACTIONS = (CREATE, DELETE, REPLACE, UPDATE)
 DEFAULT_ACTION = UPDATE
 
 class DocumentDiff(ExtensibleAttrDict):
+
     def __init__(self, delta, uuid, admin, action):
         setattr(self, 'delta', delta)
         setattr(self, 'uuid', uuid)
@@ -24,18 +26,18 @@ class DocumentDiff(ExtensibleAttrDict):
         setattr(self, 'timestamp', msec_precision(current_time()))
 
     def __delta_dict(self):
-        return json.dumps(json.loads(self.delta), sort_keys=True, 
+        return json.dumps(json.loads(self.delta), sort_keys=True,
                           indent=0, separators=(',', ':'))
 
     def __doc(self, encoded=True):
         delta_enc = self.__delta_dict()
         if encoded:
             delta_enc = base64.urlsafe_b64encode(delta_enc.encode('utf-8'))
-        doc = {'uuid': self.uuid, 
-                'date': self.timestamp, 
-                'diff': delta_enc,
-                'action': self.action,
-                '_admin': self.admin}
+        doc = {'uuid': self.uuid,
+               'date': self.timestamp,
+               'diff': delta_enc,
+               'action': self.action,
+               '_admin': self.admin}
         return doc
 
     def document(self, encoded=True):
@@ -44,9 +46,9 @@ class DocumentDiff(ExtensibleAttrDict):
         return self.__doc(encoded)
 
     def json(self, encoded=True):
-        return json.dumps(self.document(encoded), 
-                          sort_keys=True, 
-                          separators=(',', ':'), 
+        return json.dumps(self.document(encoded),
+                          sort_keys=True,
+                          separators=(',', ':'),
                           cls=DateTimeEncoder)
 
     def __repr__(self):
@@ -65,20 +67,20 @@ def diff_list(list1, list2):
     # O(3N) time
     # index list 2
     for index, element in enumerate(list2):
-      list2_set.add(str(index) + str(element))
+        list2_set.add(str(index) + str(element))
 
     # check list1 against list2, index list1
     for index, element in enumerate(list1):
-      list1_set.add(str(index) + str(element))
-      check = str(index) + str(element)
-      if check not in list2_set:
-        list_diff.append(str(element))
+        list1_set.add(str(index) + str(element))
+        check = str(index) + str(element)
+        if check not in list2_set:
+            list_diff.append(str(element))
 
     # check list 2 against list1
     for index, element in enumerate(list2):
-      check = str(index) + str(element)
-      if check not in list1_set:
-        list_diff.append(str(element))
+        check = str(index) + str(element)
+        if check not in list1_set:
+            list_diff.append(str(element))
 
     return list_diff
 
@@ -205,7 +207,7 @@ def get_diff(source={}, target={}, action=DEFAULT_ACTION):
         raise KeyError('No "uuid" in source or target')
 
     doc_admin = source.get('_admin', target.get('_admin', {}))
-    
+
     cmp_source_doc = copy(source)
     cmp_target_doc = copy(target)
     docs = [cmp_source_doc, cmp_target_doc]
@@ -219,9 +221,9 @@ def get_diff(source={}, target={}, action=DEFAULT_ACTION):
         for filt in ('uuid', '_id'):
             if filt in doc:
                 del doc[filt]
-        # _private keys
+        # Filter _private keys save for the system-wide soft-delete field
         for key in list(doc.keys()):
-            if key.startswith('_'):
+            if key.startswith('_') and key != MONGO_DELETE_FIELD:
                 del doc[key]
         safe_docs.append(json.loads(json.dumps(doc, cls=DateTimeEncoder)))
 

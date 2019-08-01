@@ -10,20 +10,19 @@ from pprint import pprint
 from jsondiff import diff
 
 from .store import LinkedStore
+from ...settings import MONGO_DELETE_FIELD
 
 class SoftDelete(LinkedStore):
     """Adds field-based soft delete to a LinkedStore"""
 
-    DELETE_FIELD = '_visible'
+    DELETE_FIELD = MONGO_DELETE_FIELD
 
     def add_document(self, document, token=None, soft=True):
         if soft is True:
             document[self.DELETE_FIELD] = True
         return super(SoftDelete, self).add_document(document, token=token)
 
-    def delete_document(self, uuid, token=None, soft=True, force=False):
-        if force:
-            soft = False
+    def delete_document(self, uuid, token=None, soft=True):
         if soft is True:
             try:
                 resp = self.coll.update({'uuid': uuid},

@@ -4,6 +4,7 @@ from os import environ
 from datacatalog import settings
 from ..utils import camel_to_snake
 from .objects import get_class_object
+from ..settings import MONGO_DELETE_FIELD
 
 class JSONSchemaBaseObject(object):
     """Interface to JSON schema plus datacatalog-specific extensions"""
@@ -12,6 +13,8 @@ class JSONSchemaBaseObject(object):
     BASESCHEMA = settings.SCHEMA_REFERENCE
     INDENT = 4
     SORT_KEYS = True
+    DELETE_FIELD = MONGO_DELETE_FIELD
+
     PARAMS = [('schema', False, 'schema', BASESCHEMA, '$'),
               ('comment', False, 'comment', '', '$'),
               ('id', False, 'id', '', '$'),
@@ -35,7 +38,7 @@ class JSONSchemaBaseObject(object):
               ('_identifiers', False, '__identifiers', None, ''),
               ('_uuid_type', False, '__uuid_type', 'generic', ''),
               ('_uuid_fields', False, '__uuid_fields', 'id', ''),
-              ('_visible', False, '_visible', True, '')]
+              (DELETE_FIELD, False, DELETE_FIELD, True, '')]
 
     def __init__(self, **kwargs):
         for key, mandatory, param, default, keyfix in self.PARAMS:
