@@ -17,13 +17,13 @@ class SoftDelete(LinkedStore):
 
     DELETE_FIELD = MONGO_DELETE_FIELD
 
-    def add_document(self, document, token=None, soft=True):
-        if soft is True:
+    def add_document(self, document, token=None, force=True):
+        if force is True:
             document[self.DELETE_FIELD] = True
         return super(SoftDelete, self).add_document(document, token=token)
 
-    def delete_document(self, uuid, token=None, soft=True):
-        if soft is True:
+    def delete_document(self, uuid, token=None, force=False):
+        if force is False:
             try:
                 resp = self.coll.update({'uuid': uuid},
                                         {'$set': {self.DELETE_FIELD: False}})
@@ -34,8 +34,8 @@ class SoftDelete(LinkedStore):
         else:
             return super(SoftDelete, self).delete_document(uuid, token)
 
-    def undelete(self, uuid, token=None, soft=True):
-        if soft is True:
+    def undelete(self, uuid, token=None, force=False):
+        if force is False:
             resp = self.coll.update({'uuid': uuid},
                                     {'$set': {self.DELETE_FIELD: True}})
             if resp is not None:

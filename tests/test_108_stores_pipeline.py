@@ -62,7 +62,7 @@ def test_pipe_disk_delete(mongodb_settings):
     base = PipelineStore(mongodb_settings)
     for filename, pipe_uuid, noop in pipeline.CASES:
         # Note: Use hard delete here!
-        resp = base.delete_document(pipe_uuid, soft=False)
+        resp = base.delete_document(pipe_uuid, force=True)
         try:
             assert resp.raw_result == {'n': 1, 'ok': 1.0}
         except Exception:

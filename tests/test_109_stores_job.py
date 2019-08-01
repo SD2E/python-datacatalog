@@ -115,5 +115,5 @@ def test_job_list_job_dir(mongodb_settings, agave):
 def test_job_delete(mongodb_settings):
     base = PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_jobs():
-        resp = base.delete_document(data_struct['uuid'], soft=False)
+        resp = base.delete_document(data_struct['uuid'], force=True)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}

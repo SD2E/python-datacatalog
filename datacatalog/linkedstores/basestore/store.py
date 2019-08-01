@@ -832,7 +832,7 @@ class LinkedStore(LinkageManager):
                 self.get_token_fields(db_record))
             return db_record
 
-    def delete_document(self, uuid, token=None):
+    def delete_document(self, uuid, token=None, **kwargs):
         """Delete a document by UUID
 
         Managed interface for removing a document from its linkedstore
