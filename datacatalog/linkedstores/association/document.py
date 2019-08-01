@@ -31,6 +31,7 @@ class AssociationDocument(ExtensibleAttrDict):
     PARAMS = [('owner', True, 'owner', None),
               ('connects_to', True, 'connects_to', []),
               ('connects_from', True, 'connects_from', []),
+              ('note', False, 'note', None),
               (DELETE_FIELD, False, DELETE_FIELD, True)]
 
     CONNECTS_TO_UUIDTYPES = (
