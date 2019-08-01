@@ -83,7 +83,7 @@ def new_tag_annotation(self,
     """
 
     if tag_owner is not None:
-        self.validate_tapis_username(tag_owner)
+        self.validate_tapis_username(tag_owner, permissive=True)
     else:
         tag_owner = owner
 
