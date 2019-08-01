@@ -52,11 +52,19 @@
                     "minItems": 1,
                     "type": "array"
                 },
-                "note": {
-                    "type": "string"
-                },
                 "owner": {
-                    "type": "string"
+                    "description": "Account managing the association",
+                    "$comment": "Must be a valid TACC.cloud username",
+                    "oneOf": [
+                        {
+                            "$ref": "tacc_username.json"
+                        }
+                    ]
+                },
+                "note": {
+                    "type": "string",
+                    "description": "Optional rationale for the association",
+                    "maxLength": 2048
                 }
             },
             "required": [

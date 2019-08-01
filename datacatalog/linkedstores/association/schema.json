@@ -65,7 +65,8 @@
         },
         "note": {
             "type": "string",
-            "description": "Optional brief rationale for the association"
+            "description": "Optional rationale for the association",
+            "maxLength": 2048
         },
         "uuid": {
             "$comment": "Computed automatically",
