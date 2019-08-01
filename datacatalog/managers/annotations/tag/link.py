@@ -23,6 +23,7 @@ def new_tag_association(self,
                         connects_from=None,
                         connects_to=None,
                         owner=None,
+                        note=None,
                         token=None,
                         **kwargs):
     """Associates a Tag with one or more Data Catalog records.
@@ -38,5 +39,5 @@ def new_tag_association(self,
     self.validate_tapis_username(owner, permissive=True)
     assoc = self._new_annotation_association(
         connects_from, connects_to,
-        owner=owner, token=token, **kwargs)
+        owner=owner, note=note, token=token, **kwargs)
     return assoc
