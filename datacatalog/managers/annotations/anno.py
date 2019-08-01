@@ -47,7 +47,7 @@ class AnnotationManager(Manager):
                                     **kwargs):
         """Private: Creates an Association between a Record and an Annotation.
         """
-        self.validate_tapis_username(owner)
+        self.validate_tapis_username(owner, permissive=True)
         # Either a single or list of target UUIDs is allowed. A list of
         # associations is returned in either case. This promotes batch
         # association of an Annotation to multiple UUIDs

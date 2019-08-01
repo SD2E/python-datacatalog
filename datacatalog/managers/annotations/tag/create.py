@@ -48,7 +48,7 @@ def new_tag(self,
         AnnotationError: Unable to create the tag
     """
 
-    self.validate_tapis_username(owner)
+    self.validate_tapis_username(owner, permssive=True)
     anno = self.stores['tag_annotation'].new_tag(name=name,
                                                  description=description,
                                                  owner=owner,
@@ -82,7 +82,6 @@ def new_tag_annotation(self,
         AssociationError: Error occurred creating the Association
     """
 
-    self.validate_tapis_username(owner)
     if tag_owner is not None:
         self.validate_tapis_username(tag_owner)
     else:
