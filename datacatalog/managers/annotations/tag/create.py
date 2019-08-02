@@ -26,7 +26,7 @@ def get_schema():
 def action(self, body, token=None):
     # TODO - Allow create-and-link by passing 1+ record UUID?
     self.logger.info('event.create: {}'.format(body))
-    return new_tag(self, token=token, **body)
+    return new_tag_association(self, token=token, **body)
 
 def new_tag(self,
             name=None,
@@ -96,6 +96,7 @@ def new_tag_association(self,
                                                  **kwargs)
     try:
         self.validate_uuid(connects_to)
+        self.logger.debug('Automatically creating linkage(s)...')
         connects_from = anno.get('uuid', None)
         self.stores['association'].associate(
             connects_from, connects_to, note=note, owner=owner)
