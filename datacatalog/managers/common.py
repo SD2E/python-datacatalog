@@ -57,18 +57,12 @@ class ManagerBase(object):
         return typeduuid.get_uuidtype(uuid)
 
     @classmethod
-    def listify_uuid(cls, uuid):
-        """Cast a string UUID into a list of UUIDs
+    def listify_uuid(cls, uuid, validate_members=True):
+        """Wraps typeduuid.listify_uuid()
         """
-        if uuid is None:
-            raise ValueError('"uuid" cannot be None')
-        uuids = None
-        if isinstance(uuid, str):
-            uuids = [uuid]
-        elif isinstance(uuid, list):
-            uuids = uuid
-        # TODO - Enforce all are catalog UUIDs
-        return uuids
+        return typeduuid.listify_uuid(
+            uuid, validate_members=validate_members)
+
 
 class Manager(ManagerBase):
     """Manages operations across LinkedStores"""
