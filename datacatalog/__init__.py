@@ -6,6 +6,7 @@ from .__about__ import (
     __license__,
     __summary__,
     __title__,
+    __project__,
     __uri__,
     __version__
 )

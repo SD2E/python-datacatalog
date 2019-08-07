@@ -35,6 +35,9 @@ EVENT_DEFS = [('create', 'Create a new job'),
               ('reset', 'Begin to reset the job, erasing archive_path contents'),
               ('ready', 'Complete the reset process, allowing job to be re-run')]
 
+STATE_NAMES = [c for c, v in STATE_DEFS]
+EVENT_NAMES = [e for e, v in EVENT_DEFS]
+
 class EventResponse(AttrDict):
     PARAMS = [('last_event', True, None),
               ('state', True, None)]
