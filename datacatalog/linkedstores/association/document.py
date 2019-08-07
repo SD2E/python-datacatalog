@@ -5,7 +5,7 @@ import sys
 
 from attrdict import AttrDict
 from datacatalog.extensible import ExtensibleAttrDict
-from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
+from datacatalog.identifiers.typeduuid import (catalog_uuid, get_uuidtype, listify_uuid)
 from datacatalog.identifiers import tacc
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
 from datacatalog.settings import MONGO_DELETE_FIELD
@@ -58,19 +58,19 @@ class AssociationDocument(ExtensibleAttrDict):
 
         # Cast to list context for forward compatibility with multiple values
         for attr in ['connects_to', 'connects_from']:
-            val = getattr(self, attr)
-            if not isinstance(val, list):
-                val = [val]
+            val = listify_uuid(getattr(self, attr))
+            # if not isinstance(val, list):
+            #     val = [val]
             setattr(self, attr, val)
 
         # Check length of connects_* lists
         if len(getattr(self, 'connects_to')) > self.CONNECTS_TO_MAX_LENGTH:
-            raise ValueError(\
-                'connects_to may hold {} value(s)'.format(
+            raise ValueError(
+                'connects_to may hold <= {} value(s)'.format(
                     self.CONNECTS_TO_MAX_LENGTH))
         if len(getattr(self, 'connects_from')) > self.CONNECTS_FROM_MAX_LENGTH:
             raise ValueError(
-                'connects_from may hold {} value(s)'.format(
+                'connects_from may hold <= {} value(s)'.format(
                     self.CONNECTS_FROM_MAX_LENGTH))
 
         # Validate onnects_from contains refs to AnnotationDoc type
