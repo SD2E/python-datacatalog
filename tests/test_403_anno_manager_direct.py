@@ -1,16 +1,5 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from .fixtures.mongodb import mongodb_settings
-from .fixtures.agave import agave, credentials
-from . import longrun, delete
-from . import data
-
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
+import os
 
 from datacatalog.managers import annotations
 
@@ -131,6 +120,7 @@ def test_unpublish_tag(mongodb_settings, agave, target_uuid, tag_valid):
             doc = mgr.unpublish_tag(target_uuid)
             assert doc[1] is True
 
+@pytest.mark.delete
 @pytest.mark.skip(reason="currently not implemented")
 @pytest.mark.parametrize('target_uuid,tag_name,tag_desc,tag_owner,assoc_owner,test_pass', [
     ('1012da8b-663a-591f-a13d-cdf5277656a0', 'much.challenge-problem', None, 'world', 'vaughn', True),

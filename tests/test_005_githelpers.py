@@ -1,24 +1,14 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from pprint import pprint
-from . import longrun, delete, smoketest
-import datacatalog
+from datacatalog import githelpers
 
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
-
+@pytest.mark.smoktest
 def test_get_sha1():
-    githash = datacatalog.githelpers.get_sha1()
+    githash = githelpers.get_sha1()
     assert isinstance(githash, str)
     assert len(githash) == 40
 
-@smoketest
 def test_get_sha1_short():
-    githash = datacatalog.githelpers.get_sha1_short()
+    githash = githelpers.get_sha1_short()
     assert isinstance(githash, str)
     assert len(githash) == 7
 
@@ -28,5 +18,5 @@ def test_get_remote_uri():
     Todo:
         - Validate returned value
     """
-    giturl = datacatalog.githelpers.get_remote_uri()
+    giturl = githelpers.get_remote_uri()
     assert giturl is not None

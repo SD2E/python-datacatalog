@@ -21,8 +21,7 @@ GPARENT = os.path.dirname(PARENT)
 
 # Use local not installed install of datacatalog
 sys.path.insert(0, GPARENT)
-
-import datacatalog
+from datacatalog import dicthelpers, mongo
 logger = logging.getLogger(__name__)
 
 def main(args):
@@ -31,7 +30,7 @@ def main(args):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     # mongodb = project_settings.get('mongodb')
@@ -51,7 +50,7 @@ def main(args):
                     'port': mongodb['port'],
                     'username': 'root',
                     'password': mongodb['root_password']}
-    mongodb_uri = datacatalog.mongo.get_mongo_uri(mongodb_root)
+    mongodb_uri = mongo.get_mongo_uri(mongodb_root)
     logger.debug('MongoDB: {}'.format(mongodb_uri))
     myclient = MongoClient(mongodb_uri)
     database_name = mongodb.get('database', args.database)

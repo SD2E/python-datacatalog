@@ -107,7 +107,7 @@ schemas-test:
 
 # Contents of ../schemas/ are conformant JSON schema draft-04+
 schemas-validate:
-	python -m pytest -v --networked -k validate_allschemas $(PYTEST_SRC)
+	python -m pytest -v --longrun --networked -k validate_allschemas $(PYTEST_SRC)
 
 # Exemplar files from formats.runners validate to sample_set.json
 schemas-validate-products:
@@ -224,14 +224,14 @@ bootstrap-cp-requests-dir:
 .PHONY: update-cp-requests
 update-cp-requests-dir: bootstrap-cp-requests-dir
 	cd $(CP_REQUEST_DIR)
-	git pull
+	git pull origin master
 
 bootstrap-structured-requests: update-cp-requests-dir
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
 bootstrap-structured-requests-extras: bootstrap-structured-requests
 
 bootstrap-sample-tacc-cloud:
-	files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
+	#files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
 
 # Currently, export values from production to enviromnent to bootstrap directories
 exports:

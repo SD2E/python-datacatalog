@@ -1,150 +1,24 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-import inspect
-import warnings
-from pprint import pprint
-from . import longrun, delete
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-from .fixtures.agave import agave, credentials
-import datacatalog
-import traceback
-import transitions
-from datacatalog.identifiers import abaco, interestinganimal, typeduuid
+import os
+
+from datacatalog.identifiers import (abaco, interestinganimal, random_string, typeduuid)
+from datacatalog.managers.pipelinejobs import (ManagedPipelineJob,
+                                               ManagedPipelineJobInstance,
+                                               ManagedPipelineJobError)
+from datacatalog.managers.pipelinejobs.indexrequest import IndexingError
 from .data import pipelinejobs
 
-from datacatalog.identifiers import random_string, typeduuid
-from datacatalog.managers.pipelinejobs import ManagedPipelineJob, ManagedPipelineJobError
-from datacatalog.managers.pipelinejobs import ManagedPipelineJobInstance
-from datacatalog.managers.pipelinejobs.indexrequest import IndexingError
-
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
-
-@pytest.fixture(scope='session')
-def random_dir_name():
-    return random_string(32)
-
-@pytest.fixture(scope='session')
-def admin_key():
-    return datacatalog.tokens.admin.get_admin_key()
-
-@pytest.fixture(scope='session')
-def admin_token(admin_key):
-    return datacatalog.tokens.admin.get_admin_token(admin_key)
-
-@pytest.fixture(scope='session')
-def experiment_id():
-    return 'experiment.ginkgo.10001'
-
-@pytest.fixture(scope='session')
-def sample_id():
-    return 'sample.uw_biofab.143209/H1'
-
-@pytest.fixture(scope='session')
-def list_job_uuid():
-    return '107b93f3-1eae-5e79-8a18-0a480f8aa3a5'
-
-@pytest.fixture(scope='session')
-def job_data():
-    data_obj = {
-        'inputs': {
-            'file1': 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmggea748b_r1bsun4yb67e7/wt-control-1_0.00015_2.fcs',
-            'ref1': 'agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_WT/MG1655_WT.fa.ann'},
-        'parameters': {
-            'param2': 'agave://data-sd2e-community/uploads/transcriptic/201808/yeast_gates/r1bsmgdayg2yq_r1bsu7tb7bsuk/6389_0.0003_4.fcs'
-    }}
-    return data_obj
-
-@pytest.fixture(scope='session')
-def client_w_param(mongodb_settings, pipelinejobs_config,
-                   agave, pipeline_uuid, experiment_id):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave, experiment_id=experiment_id)
-
-@pytest.fixture(scope='session')
-def instanced_client_w_param(mongodb_settings, pipelinejobs_config,
-                             agave, pipeline_uuid, experiment_id):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave, experiment_id=experiment_id,
-                              instanced=True)
-
-@pytest.fixture(scope='session')
-def client_w_param_data(mongodb_settings, pipelinejobs_config,
-                        agave, pipeline_uuid, experiment_id, job_data):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave,
-                              experiment_id=experiment_id,
-                              data=job_data)
-
-@pytest.fixture(scope='session')
-def client_w_archive_path(mongodb_settings, pipelinejobs_config,
-                          agave, pipeline_uuid):
-    return ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                              agave=agave, archive_path='/products/v2/test123')
-
-@pytest.fixture(scope='session')
-def client_w_sample_archive_path(mongodb_settings, pipelinejobs_config,
-                                 agave, pipeline_uuid, admin_token):
-    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                             agave=agave, archive_path='/sample/tacc-cloud',
-                             experiment_id='experiment.tacc.10001',
-                             archive_patterns=[{'patterns': ['.json$'], 'level': '2'}],
-                             product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36', './672.png', 'agave://data-sd2e-community/sample/tacc-cloud/dawnofman.jpg']}])
-    return mpj
-
-@pytest.fixture(scope='session')
-def client_w_sample_archive_path_missed_ref(mongodb_settings, pipelinejobs_config,
-                                 agave, pipeline_uuid, admin_token):
-    mpj = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
-                             agave=agave, archive_path='/sample/tacc-cloud',
-                             experiment_id='experiment.tacc.10001',
-                             archive_patterns=[{'patterns': ['.json$'], 'level': '2'}],
-                             product_patterns=[{'patterns': ['.json$'], 'derived_using': ['1092d775-0f7c-5b4d-970f-e739711d5f36', 'modified_ecoli_MG1655_refFlat_txt-0-1-0'], 'derived_from': ['105fb204-530b-5915-9fd6-caf88ca9ad8a', '1058868c-340e-5d8c-b66e-9739cbcf8d36', './672.png', 'agave://data-sd2e-community/sample/tacc-cloud/dawnofman.jpg']}])
-    # try:
-    #     mpj.reset(token=admin_token, no_clear_path=True)
-    # except ManagedPipelineJobError:
-    def initjob():
-        mpj.setup()
-        mpj.run(token=admin_token)
-        mpj.finish(token=admin_token)
-        return mpj
-
-    job = None
-    try:
-        job = initjob()
-    except ManagedPipelineJobError:
-        mpj.reset(token=admin_token, no_clear_path=True, permissive=True)
-        job = initjob()
-
-    # print('MPJ.UUID', job.uuid)
-    return job
-
-@pytest.fixture(scope='session')
-def instance_w_sample_archive_path(client_w_sample_archive_path, mongodb_settings, agave):
-    c = client_w_sample_archive_path.setup()
-    return ManagedPipelineJobInstance(mongodb_settings, c.uuid, agave=agave)
-
 def test_pipejob_init_store_list(client_w_param):
-    """Smoke test: Can ManagedPipelineJob get through ``init()``
+    """Checks if ManagedPipelineJob can get through ``init()``
     """
     assert list(client_w_param.stores.keys()) != list()
 
 def test_pipejob_init_archive_path_instanced(instanced_client_w_param):
-    """Exercises ``instanced=True`` which causes archive path to be
+    """Exercises ``instanced=True`` which causes archive_path to be
     collision-proof
     """
     assert instanced_client_w_param.archive_path.startswith('/products/v2')
     assert instanced_client_w_param.archive_path.endswith('Z')
-
-def test_pipejob_has_uuid_after_setup(instanced_client_w_param):
-    """Ensures UUID is set correctly
-    """
-    i = instanced_client_w_param.setup()
-    assert i.uuid is not None
 
 def test_pipejob_init_archive_path_uninstanced(client_w_param):
     """Exercises ``instanced=False`` which causes archive path to be
@@ -153,16 +27,22 @@ def test_pipejob_init_archive_path_uninstanced(client_w_param):
     assert client_w_param.archive_path.startswith('/products/v2')
     assert not client_w_param.archive_path.endswith('Z')
 
+def test_pipejob_has_uuid_after_setup(instanced_client_w_param):
+    """Ensures job UUID is set
+    """
+    i = instanced_client_w_param.setup()
+    assert i.uuid is not None
+
 def test_pipejob_init_archive_path_custom(mongodb_settings, pipelinejobs_config,
                                           agave, pipeline_uuid):
-    """Checks that providing archive_path accepted as override
+    """Checks that passing archive_path=<val> overrides generated value
     """
     base = ManagedPipelineJob(mongodb_settings, pipelinejobs_config,
                               agave=agave, archive_path='/products/v2/test123')
     assert base.archive_path.startswith('/products/v2')
     assert base.archive_path.endswith('test123')
 
-@longrun
+@pytest.mark.longrun
 def test_pipejob_init_listdir(client_w_param, list_job_uuid):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
     # from data/tests/pipelinejob/tacbobot.json

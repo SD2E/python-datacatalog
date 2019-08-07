@@ -1,16 +1,11 @@
 import os
 import pytest
-import sys
-import yaml
 import json
 from pprint import pprint
-from . import longrun, delete
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import pipeline
-from datacatalog.linkedstores.pipeline import PipelineStore, SerializedPipeline
 
-CWD = os.getcwd()
+from datacatalog.linkedstores.pipeline import PipelineStore, SerializedPipeline
+from .data import pipeline
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
@@ -57,7 +52,7 @@ def test_pipe_disk_load(mongodb_settings):
             print('UUID for Pipeline {} should be {}'.format(filename, resp['uuid']))
             raise
 
-@delete
+@pytest.mark.delete
 def test_pipe_disk_delete(mongodb_settings):
     base = PipelineStore(mongodb_settings)
     for filename, pipe_uuid, noop in pipeline.CASES:

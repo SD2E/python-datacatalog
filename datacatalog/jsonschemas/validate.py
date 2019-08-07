@@ -1,5 +1,7 @@
 import jsonschema
-from tenacity import retry, retry_if_exception_type, stop_after_delay, stop_after_attempt, wait_random
+from tenacity import (retry, retry_if_exception_type,
+                      stop_after_delay, stop_after_attempt,
+                      wait_random)
 from .formatchecker import formatChecker
 
 @retry(retry=retry_if_exception_type(jsonschema.exceptions.RefResolutionError), stop=(stop_after_delay(15) | stop_after_attempt(5)), wait=wait_random(min=1, max=3), reraise=True)

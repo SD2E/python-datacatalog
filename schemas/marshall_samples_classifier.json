@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190619T121206+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@2879e5f",
+    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
     "$id": "https://schema.catalog.sd2e.org/schemas/marshall_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

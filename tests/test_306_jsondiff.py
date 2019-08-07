@@ -1,16 +1,8 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
-from pprint import pprint
-from . import longrun, delete
-from .fixtures import mongodb_settings, mongodb_authn, agave, credentials
-import datacatalog
-from .data import challenge_problem, experiment
 from datacatalog.linkedstores.basestore.diff import get_diff, diff_list
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/sampleset')

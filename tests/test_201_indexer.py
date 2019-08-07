@@ -1,18 +1,7 @@
 import os
 import pytest
-import sys
-import yaml
-import json
-from pprint import pprint
-from . import longrun, delete
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-from .fixtures.agave import agave, credentials
-from agavepy.agave import Agave
+from datacatalog import managers
 
-import datacatalog
-import transitions
-
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
@@ -24,7 +13,7 @@ PARENT = os.path.dirname(HERE)
     ])
 def test_indexer_resolve_derived_references(mongodb_settings,
                                             agave, refs, resolves):
-    base = datacatalog.managers.pipelinejobs.indexer.Indexer(
+    base = managers.pipelinejobs.indexer.Indexer(
         mongodb_settings, agave=agave)
     if resolves:
         base.resolve_derived_references(refs, permissive=False)

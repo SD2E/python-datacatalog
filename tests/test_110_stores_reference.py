@@ -1,19 +1,12 @@
 import os
 import pytest
-import sys
-import yaml
 import json
-from pprint import pprint
-from . import longrun, delete
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import reference
 from datacatalog.linkedstores.reference import ReferenceStore
+from .data import reference
 
 def test_refs_db_init(mongodb_settings):
     base = ReferenceStore(mongodb_settings)
@@ -35,7 +28,7 @@ def test_refs_add(mongodb_settings):
         resp = base.add_update_document(doc)
         assert resp['uuid'] is not None
 
-@delete
+@pytest.mark.delete
 def test_refs_delete(mongodb_settings):
     base = ReferenceStore(mongodb_settings)
     for uuid, doc in reference.DELETES:

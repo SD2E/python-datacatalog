@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190531T174212+00:00; source: git@github.com:SD2E/python-datacatalog.git@a3281ca",
+    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
     "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation_uuid.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,

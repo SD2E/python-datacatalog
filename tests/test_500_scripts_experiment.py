@@ -1,23 +1,19 @@
-import os
 import pytest
+import os
 import sys
-import yaml
-import json
-from agavepy.agave import Agave
-from pprint import pprint
-from . import longrun, networked, delete
-from .fixtures import agave, credentials, mongodb_settings, mongodb_authn
-import datacatalog
+from attrdict import AttrDict
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
-sys.path.insert(0, PARENT)
+if PARENT not in sys.path:
+    sys.path.insert(0, PARENT)
 from scripts import build_experiment_designs
 
-@networked
-def test_regenerate_experiment_des(monkeypatch, mongodb_settings):
-    monkeypatch.setenv('MAKETESTS', '1')
+@pytest.mark.networked
+def test_regenerate_experiment_des(env_make_tests, mongodb_settings):
+    """Directly call the regnerate() method to sync experiment_design records
+    """
+    args = AttrDict({'environment': 'localhost'})
     resp = build_experiment_designs.regenerate(
-        update_catalog=True, mongodb=mongodb_settings)
+        args, update_catalog=True, mongodb=mongodb_settings)
     assert resp is True

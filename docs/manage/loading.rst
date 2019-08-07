@@ -57,7 +57,7 @@ Now, if you search your local ``files`` collection for a record with the
            "project" : "sd2e-community",
            "tenant" : "sd2e"
        }
-}
+    }
 
 More detail and examples is forthcoming but hopefully this is enough to get a
 flavor for what the management tools allow one to accomplish.

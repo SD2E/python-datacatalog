@@ -17,6 +17,8 @@ GPARENT = os.path.dirname(PARENT)
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
 import datacatalog
+from datacatalog import linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 from .drivedocs.challenge import ChallengeMapping
 
 logger = logging.getLogger(os.path.basename(SELF))
@@ -27,7 +29,7 @@ logger.addHandler(loghandler)
 
 def regenerate(args, update_catalog=False, mongodb=None):
 
-    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS', '0')):
+    if settings_module.parse_boolean(os.environ.get('MAKETESTS', '0')):
         DESTPATH = os.path.join(tempfile.mkdtemp(), 'challenge_problem_id.json')
     else:
         DESTPATH = os.path.join(os.getcwd(), 'datacatalog', 'definitions', 'jsondocs', 'challenge_problem_id.json')
@@ -37,7 +39,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment
@@ -56,7 +58,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
     if update_catalog:
         if mongodb is None:
             mongodb = db['mongodb']
-        store = datacatalog.linkedstores.challenge_problem.ChallengeStore(mongodb)
+        store = linkedstores.challenge_problem.ChallengeStore(mongodb)
         for doc in mapping.filescache:
             logger.info('SYNCING {}'.format(doc.get('title', None)))
             store.add_update_document(doc)

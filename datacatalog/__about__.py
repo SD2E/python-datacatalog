@@ -6,9 +6,11 @@ import os.path
 
 __all__ = [
     "__title__",
+    "__project__",
     "__summary__",
     "__uri__",
     "__version__",
+    "__sub_version__",
     "__commit__",
     "__author__",
     "__email__",
@@ -22,9 +24,11 @@ except NameError:
     base_dir = None
 
 __title__ = 'datacatalog'
-__summary__ = 'Implementing schema, validation, and management for SD2 Data Catalog'
+__project__ = 'SD2 Data Catalog'
+__summary__ = 'Schema, business logic, and management of {}'.format(__project__)
 __uri__ = 'https://github.com/SD2E/python-datacatalog'
 __version__ = '0.2.4'
+__sub_version__ = '-dev'
 
 if base_dir is not None and os.path.exists(os.path.join(base_dir, ".commit")):
     with open(os.path.join(base_dir, ".commit")) as fp:
@@ -36,8 +40,8 @@ __author__ = "Matthew Vaughn, Mark Weston, Niall Gaffney, George Zheng"
 __email__ = "opensource@tacc.cloud"
 
 __license__ = "BSD-3"
-__copyright__ = "2018 %s" % __author__
+__copyright__ = "2018- %s" % __author__
 
 
 def version(*args, **kwargs):
-    return 'bacanora.' + str(__version__)
+    return __title__ + '.' + str(__version__)
