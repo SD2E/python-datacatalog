@@ -17,6 +17,8 @@ GPARENT = os.path.dirname(PARENT)
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
 import datacatalog
+from datacatalog import identifiers, linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 from tacconfig import config
 
 from .drivedocs.challenge import ChallengeMapping
@@ -30,7 +32,7 @@ logger.addHandler(loghandler)
 
 def regenerate(args, update_catalog=False, mongodb=None):
 
-    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS', '0')):
+    if settings_module.parse_boolean(os.environ.get('MAKETESTS', '0')):
         DESTPATH = os.path.join(tempfile.mkdtemp(), 'experiment_reference.json')
     else:
         DESTPATH = os.path.join(os.getcwd(), 'datacatalog', 'definitions', 'jsondocs', 'experiment_reference.json')
@@ -40,7 +42,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment
@@ -57,7 +59,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
     for cp in challenges.filescache:
         if cp.get('uri', None) is not None:
             google_sheets_id = os.path.basename(cp.get('uri', None))
-            cp_uuid = datacatalog.identifiers.typeduuid.catalog_uuid(cp.get('id'), 'challenge_problem')
+            cp_uuid = identifiers.typeduuid.catalog_uuid(cp.get('id'), 'challenge_problem')
             cp_settings = copy.deepcopy(settings['experiment_reference'])
             cp_settings['google_sheets_id'] = google_sheets_id
 
@@ -67,7 +69,7 @@ def regenerate(args, update_catalog=False, mongodb=None):
             if update_catalog:
                 if mongodb is None:
                     mongodb = db['mongodb']
-                store = datacatalog.linkedstores.experiment_design.ExperimentDesignStore(mongodb)
+                store = linkedstores.experiment_design.ExperimentDesignStore(mongodb)
                 for doc in mapping.filescache:
                     # print(doc)
                     if doc['experiment_design_id'] != 'Unknown':

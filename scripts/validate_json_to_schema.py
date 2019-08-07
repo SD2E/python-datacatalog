@@ -20,9 +20,9 @@ GPARENT = os.path.dirname(PARENT)
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
 
-import datacatalog
+from datacatalog import jsonschemas
 
-from datacatalog.jsonschemas.schema import BASE_URL as JSONSCHEMA_BASE_URL
+from jsonschemas.schema import BASE_URL as JSONSCHEMA_BASE_URL
 logger = logging.getLogger(__name__)
 
 CWD = os.getcwd()
