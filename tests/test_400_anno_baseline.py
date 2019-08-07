@@ -1,16 +1,12 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
-from . import longrun, delete
-from . import data
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
 from datacatalog.linkedstores import (annotations, association)
+from . import data
 
 @pytest.mark.parametrize('tag_name,tag_desc,tag_owner,tag_valid', [
     ('mi', 'Too short', 'public', False),

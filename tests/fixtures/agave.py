@@ -1,27 +1,33 @@
+import pytest
 import json
 import os
-import pytest
-import yaml
+import random
 import agavepy.agave as a
+import warnings
 from attrdict import AttrDict
+from datacatalog.identifiers import random_string
 
 PWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
+__all__ = ['credentials', 'agave',
+           'agave_app_id', 'agave_job_id',
+           'aloe_job_id']
+
 # Valid environment variable prefixes to parameterize tests
-PREFIXES = ['AGAVE', '_AGAVE', 'TACC', '_TACC']
+PREFIXES = ['TAPIS', '_TAPIS', 'AGAVE', '_AGAVE', 'TACC', '_TACC']
 
 @pytest.fixture(scope='session')
 def credentials():
-    '''
-    Import Agave credentials for a testing session
+    """
+    Imports Agave credentials into the testing session
 
-    Ordering:
+    Import order:
     1. Test credentials in PWD
     2. User's credential store
     3. Environment variables
-    '''
+    """
     credentials = {}
 
     # test credentials file
@@ -34,15 +40,19 @@ def credentials():
             # print(("Loading from file {}".format(credentials_file)))
             credentials = json.load(open(credentials_file_path, 'r'))
             return credentials
-    except Exception as e:
-        # print("Error loading credentials file: {}".format(e))
+    except Exception:
         pass
+        # warnings.warn(
+        #     'No credentials file found. Using contents of $AGAVE_CACHE_DIR')
 
     # user credential store
     try:
-        if os.environ.get('AGAVE_CACHE_DIR', None) is not None:
+        cdir = os.environ.get('TAPIS_CACHE_DIR',
+                              os.environ.get(
+                                  'AGAVE_CACHE_DIR', None))
+        if cdir is not None:
             ag_cred_store = os.path.join(
-                os.environ.get('AGAVE_CACHE_DIR'), 'current')
+                cdir, 'current')
         else:
             ag_cred_store = os.path.expanduser('~/.agave/current')
 
@@ -61,15 +71,15 @@ def credentials():
             credentials['client_name'] = tempcred.get('client_name', None)
             credentials['tenantid'] = tempcred.get('tenantid', None)
             return credentials
-    except Exception as e:
+    except Exception:
         # print("Error loading user credential store: {}".format(e))
         pass
 
     # load from environment
     # print("Loading from environment variables")
-    for env in ('apikey', 'apisecret', 'username', 'password',
-                'apiserver', 'verify_certs', 'refresh_token',
-                'token', 'client_name', 'tenantid'):
+    for env in ('apikey', 'apisecret', 'username', 'password', 'apiserver',
+                'verify_certs', 'refresh_token', 'token', 'client_name',
+                'tenantid', 'client_name'):
         for varname_root in PREFIXES:
             varname = varname_root + env.upper()
             if os.environ.get(varname, None) is not None:
@@ -81,22 +91,38 @@ def credentials():
 
 @pytest.fixture(scope='session')
 def agave(credentials):
-    '''Return a functional Agave client'''
-    aga = a.Agave(username=credentials.get('username'),
-                  password=credentials.get('password'),
-                  api_server=credentials.get('apiserver'),
-                  api_key=credentials.get('apikey'),
-                  api_secret=credentials.get('apisecret'),
-                  token=credentials.get('token'),
-                  refresh_token=credentials.get('refresh_token'),
-                  verify=True)
+    """Returns a functional Agave client
+    """
+    aga = a.Agave(
+        client_name=credentials.get('client_name'),
+        username=credentials.get('username'),
+        password=credentials.get('password'),
+        api_server=credentials.get('apiserver'),
+        api_key=credentials.get('apikey'),
+        api_secret=credentials.get('apisecret'),
+        token=credentials.get('token'),
+        refresh_token=credentials.get('refresh_token'),
+        verify=True)
     return aga
 
+@pytest.fixture(scope='session')
+def agave_app_id():
+    """Generates a random (but schema-compliant) Agave Apps identifier
+    """
+    app_name = random_string(int(random.random() * 18) + 6).lower()
+    app_version = (int(random.random() * 10),
+                   int(random.random() * 10),
+                   int(random.random() * 10))
+    return '{0}-{1}.{2}.{3}'.format(app_name, *app_version)
 
 @pytest.fixture(scope='session')
-def settings():
-    '''Read tests/config.yml and return AttrDict simulating Reactor.settings'''
-    with open(os.path.join(PWD, 'tests', 'config.yml'), "r") as conf:
-        y = yaml.safe_load(conf)
-        assert isinstance(y, dict)
-        return AttrDict(y)
+def agave_job_id():
+    """Returns an Agave Job identifier
+    """
+    return '6583653933928541720-242ac11b-0001-007'
+
+@pytest.fixture(scope='session')
+def aloe_job_id():
+    """Returns an Aloe Job identifier
+    """
+    return 'd608e5d2-6a16-41b2-bbf5-fd848cbd70a3-007'

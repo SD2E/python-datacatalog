@@ -1,19 +1,12 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from pprint import pprint
-from . import longrun, delete
+import os
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import challenge_problem
+from datacatalog import linkedstores
 from datacatalog.linkedstores.challenge_problem import ChallengeStore
+from .data import challenge_problem
 
 def test_cp_db_init(mongodb_settings):
     base = ChallengeStore(mongodb_settings)
@@ -53,7 +46,7 @@ def test_cp_update(mongodb_settings):
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
 
-@delete
+@pytest.mark.delete
 def test_cp_delete(mongodb_settings):
     base = ChallengeStore(mongodb_settings)
     for key, doc, uuid_val in challenge_problem.DELETES:

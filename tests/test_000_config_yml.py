@@ -1,15 +1,12 @@
 import os
 import sys
 import yaml
-import json
-from . import longrun, delete, bootstrap, smoketest
+import pytest
 
 CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
 
-@smoketest
-def test_config_yml_smoke():
+@pytest.mark.smoktest
+def test_load_config_yml():
     """Ensure local config.yml is available and loadable"""
     with open(os.path.join(CWD, 'config.yml'), "r") as conf:
         y = yaml.safe_load(conf)

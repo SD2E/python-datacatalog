@@ -1,29 +1,17 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
-from pprint import pprint
-from . import longrun, delete
-from .fixtures import mongodb_settings, mongodb_authn, agave, credentials
-import datacatalog
-from .data import challenge_problem, experiment
-from datacatalog.linkedstores.basestore.diff import get_diff, diff_list
+from datacatalog import (mongo, views)
 
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
-DATA_DIR = os.path.join(HERE, 'data/sampleset')
-
-@longrun
+@pytest.mark.longrun
 def test_titration_science_view_table_read(mongodb_settings):
     #  needs to run after test_titration_nan_merge above so data is available!
     # TODO add pytest dependency?
     #  ensure science_view and science_table are populating correctly
-    aggs = datacatalog.views.aggregations.get_aggregations()
+    aggs = views.aggregations.get_aggregations()
     assert "science_table" in aggs and "science_view" in aggs
 
-    db = datacatalog.mongo.db_connection(mongodb_settings)
+    db = mongo.db_connection(mongodb_settings)
 
     science_table_result = db.science_table.find_one({"sample_id":"sample.ginkgo.12757493.experiment.ginkgo.19606.19637.19708.19709"})
     del science_table_result["_id"]

@@ -1,28 +1,18 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
 import time
 import tempfile
 import warnings
-from pprint import pprint
-from . import longrun, delete
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.agave import agave, credentials
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data.fixity import files
 from datacatalog.linkedstores.fixity import FixityStore, RateLimitExceeded
 from datacatalog.linkedstores.file import FileStore
 from datacatalog.linkedstores.fixity.indexer import FixityIndexer
+from .data.fixity import files
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(PARENT, 'tests/data/fixity/files')
 
 @pytest.mark.parametrize("filename, level, ftype",
@@ -87,8 +77,8 @@ def test_fixity_normpath(mongodb_settings, filename, fuuid, agave):
     identifier_string_uuid = base.get_typeduuid(filename, binary=False)
     assert identifier_string_uuid == fuuid
 
+@pytest.mark.longrun
 @pytest.mark.skipif(True, reason='Use of local filesystem is disabled"')
-@longrun
 def test_fixity_indexer_cache(monkeypatch):
     """Confirms that caching os.stats() makes FixityIndexer faster
     """
@@ -107,7 +97,7 @@ def test_fixity_indexer_cache(monkeypatch):
         elapsed.append(time.time() - start_time)
     assert elapsed[0] > elapsed[1], 'Avoiding stat() had no apparent effect'
 
-@longrun
+@pytest.mark.longrun
 def test_fixity_indexer_cache_no_buffering(monkeypatch):
     """Confirms os.stats() cache makes FixityIndexer faster without file.read buffering
     """
@@ -128,8 +118,8 @@ def test_fixity_indexer_cache_no_buffering(monkeypatch):
     if not elapsed[0] > elapsed[1]:
         warnings.warn('Avoiding stat() had no apparent effect on performance')
 
+@pytest.mark.longrun
 @pytest.mark.skipif(True, reason='Optimal block size has been established')
-@longrun
 def test_fixity_indexer_cache_blocksize(monkeypatch):
     """This profiles the impact of block size on fixity operations
 
@@ -182,7 +172,7 @@ def test_fixity_limit_rate_pause(monkeypatch, mongodb_settings, agave):
         resp = fixity_store.index(fname)
         assert resp['type'] == ftype
 
-@delete
+@pytest.mark.delete
 def test_fixity_delete(mongodb_settings):
     fixity_store = FixityStore(mongodb_settings)
     for fname, cksum, tsize, ftype in files.TESTS:

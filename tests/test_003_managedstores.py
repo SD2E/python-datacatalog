@@ -4,8 +4,8 @@ import sys
 import yaml
 import json
 from pprint import pprint
-from . import longrun, delete
 from .data import pathmappings
+
 from datacatalog import stores
 
 CWD = os.getcwd()
