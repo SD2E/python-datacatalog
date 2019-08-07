@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022108+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20190807T152910+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ab389fc",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -337,7 +337,7 @@
             "description": "name of CP"
         },
         "experiment_id": {
-            "$ref": "namespaced_identifier.json",
+            "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
             "description": "String identifier, namespaced performer, for the experiment"
         },
         "experiment_reference": {
@@ -398,6 +398,6 @@
         "experiment_version",
         "runs"
     ],
-    "title": "StructuredRequest",
+    "title": "Structured Request Schema",
     "type": "object"
 }

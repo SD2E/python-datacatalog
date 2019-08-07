@@ -97,8 +97,11 @@ experiment_designs:
 .PHONY: schemas
 schemas: challenge_problems experiment_designs schemas-build schemas-validate
 
+copy-cp-request-schema: update-cp-requests-dir
+	cp bootstrap/cp-request/schemas/measurement-request-schema.json datacatalog/linkedstores/structured_request/schema.json
+
 # Generate new build of ../schemas/
-schemas-build:
+schemas-build: copy-cp-request-schema
 	python -m scripts.build_schemas
 
 # schemas can be built (does not overwrite ../schemas/)
@@ -223,8 +226,7 @@ bootstrap-cp-requests-dir:
 
 .PHONY: update-cp-requests
 update-cp-requests-dir: bootstrap-cp-requests-dir
-	cd $(CP_REQUEST_DIR)
-	git pull origin master
+	cd $(CP_REQUEST_DIR); git pull origin master
 
 bootstrap-structured-requests: update-cp-requests-dir
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
