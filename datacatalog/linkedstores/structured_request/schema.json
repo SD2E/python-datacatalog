@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "A structured experiment request",
   "definitions": {
@@ -316,20 +317,18 @@
   },
   "properties": {
     "name": {
-        "description": "An experiment request name",
-        "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
-        "oneOf": [
-            {
-                "type": "string",
-                "maxLength": 256,
-                "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
-            }
-        ]
-    },  
+      "description": "An experiment request name",
+      "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
+      "oneOf": [{
+        "type": "string",
+        "maxLength": 256,
+        "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
+      }]
+    },
     "experiment_id": {
-        "description": "String identifier, namespaced performer, for the experiment",
-        "$ref": "namespaced_identifier.json"
-    },    
+      "description": "String identifier, namespaced performer, for the experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
+    },
     "challenge_problem": {
       "description": "name of CP",
       "$ref": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json"
@@ -390,17 +389,17 @@
     "experiment_version",
     "runs"
   ],
-  "title": "StructuredRequest",
+  "title": "Structured Request Schema",
   "type": "object",
   "_filename": "structured_request",
   "__uuid_type": "structured_request",
   "__uuid_fields": [
-      "name",
-      "experiment_id"
+    "name",
+    "experiment_id"
   ],
   "__collection": "structured_requests",
   "__indexes": [],
   "__identifiers": [
-      "uuid"
-  ]  
+    "uuid"
+  ]
 }
