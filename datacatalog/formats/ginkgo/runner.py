@@ -7,6 +7,8 @@ import collections
 import pymongo
 import datacatalog
 
+from datacatalog import mongo
+
 from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
@@ -109,6 +111,24 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/ZE5-20180912.json"
     NC_ITERATION_TITRATION_CYTOMETER_CHANNELS = ["YFP-A", "SSC 488/10-A", "FSC 488/10-A"]
 
+    # Experiments run prior to August 2019
+    # For these experiments we will apply the defaults above
+    # All future experiments make use of the structured request control annotator to provide
+    # cytometer channels and configuration information
+    GINKGO_EXPS = ["experiment.ginkgo.13893_13904",
+                   "experiment.ginkgo.15664",
+                   "experiment.ginkgo.15724",
+                   "experiment.ginkgo.18256.18257",
+                   "experiment.ginkgo.18256.18527",
+                   "experiment.ginkgo.18536.18537",
+                   "experiment.ginkgo.19283",
+                   "experiment.ginkgo.19606.19637.19708.19709",
+                   "experiment.ginkgo.21134.18600",
+                   "experiment.ginkgo.22042",
+                   "experiment.ginkgo.23121",
+                   "experiment.ginkgo.23122",
+                   "experiment.ginkgo.e7201"]
+
     # For inference
     # Novel Chassis Nand
     NC_WF_ID = "13893_13904"
@@ -129,7 +149,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
 
-    db = datacatalog.mongo.db_connection(config['mongodb'])
+    db = mongo.db_connection(config['mongodb'])
     samples_table = db.samples
     measurements_table = db.measurements
 
@@ -144,6 +164,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "Exp-NC-NAND-Gate-Iteration" or output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Ecoli-Titration":
             is_nc_iteration_titration = True
 
+    APPLY_DEFAULTS = True
+
     if "internal_workflow_id" in ginkgo_doc:
         list_of_wf_ids = ginkgo_doc["internal_workflow_id"]
         if isinstance(list_of_wf_ids, list):
@@ -153,7 +175,14 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         else:
             raise ValueError("Could not parse internal workflow id{}".format(list_of_wf_ids))
 
-        output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(experiment_id, lab)
+        namespaced_experiment_id = namespace_experiment_id(experiment_id, lab)
+        output_doc[SampleConstants.EXPERIMENT_ID] = namespaced_experiment_id
+
+        # Are we not processing an earlier experiment that used defaults?
+        if namespaced_experiment_id not in GINKGO_EXPS:
+            APPLY_DEFAULTS = False
+
+    print("Applying defaults {}".format(APPLY_DEFAULTS))
 
     if "samples" in ginkgo_doc:
         ginkgo_iterator = ginkgo_doc["samples"]
@@ -524,18 +553,19 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     raise ValueError("Unknown control tag {}".format(control_tag_val))
 
             # apply defaults, if nothing mapped
-            if measurement_type == SampleConstants.MT_FLOW:
-                if SampleConstants.M_CHANNELS not in measurement_doc:
-                    if is_nc_iteration_titration:
-                        measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_TITRATION_CYTOMETER_CHANNELS
-                    else:
-                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+            if APPLY_DEFAULTS:
+                if measurement_type == SampleConstants.MT_FLOW:
+                    if SampleConstants.M_CHANNELS not in measurement_doc:
+                        if is_nc_iteration_titration:
+                            measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_TITRATION_CYTOMETER_CHANNELS
+                        else:
+                            measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
 
-                if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
-                    if is_nc_iteration_titration:
-                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION
-                    else:
-                        measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
+                    if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
+                        if is_nc_iteration_titration:
+                            measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = NC_ITERATON_TITRATION_CYTOMETER_CONFIGURATION
+                        else:
+                            measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # Ginkgo-specific RNASeq metadata
             rnaseq_meta_prop = "rnaseq_metadata"
@@ -545,69 +575,70 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             # Use default NC negative strain, if CP matches
             # Match on lab ID for now, as this is unambiguous given dictionary name changes
             # do the same thing for positive control
-            if SampleConstants.CONTROL_TYPE not in sample_doc and \
-                SampleConstants.STRAIN in sample_doc and \
-                    output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
-                # MG1655_WT or MG1655_empty_landing_pads
-                if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]) or \
-                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("346047", output_doc[SampleConstants.LAB]) or \
-                    sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_WT":
-                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-                # MG1655_pJS007_LALT__I1__IcaRA
-                elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]) or \
-                    sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_pJS007_LALT__I1__IcaRA":
-                    # ON without IPTG, OFF with IPTG, plasmid (high level)
-                    # we also need to indicate the control channels for the fluorescence control
-                    # this is not known by the lab typically, has to be provided externally
-                    if SampleConstants.CONTENTS not in sample_doc:
-                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                        if is_nc_iteration_titration:
-                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
-                        else:
-                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
-                    else:
-                        found = False
-                        for content in sample_doc[SampleConstants.CONTENTS]:
-                            if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
-                                content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
-                                if content_label == "IPTG":
-                                    found = True
-                        if not found:
+            if APPLY_DEFAULTS:
+                if SampleConstants.CONTROL_TYPE not in sample_doc and \
+                    SampleConstants.STRAIN in sample_doc and \
+                        output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+                    # MG1655_WT or MG1655_empty_landing_pads
+                    if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]) or \
+                        sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("346047", output_doc[SampleConstants.LAB]) or \
+                        sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_WT":
+                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+                    # MG1655_pJS007_LALT__I1__IcaRA
+                    elif sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194575", output_doc[SampleConstants.LAB]) or \
+                        sample_doc[SampleConstants.STRAIN][SampleConstants.LABEL] == "MG1655_pJS007_LALT__I1__IcaRA":
+                        # ON without IPTG, OFF with IPTG, plasmid (high level)
+                        # we also need to indicate the control channels for the fluorescence control
+                        # this is not known by the lab typically, has to be provided externally
+                        if SampleConstants.CONTENTS not in sample_doc:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                             if is_nc_iteration_titration:
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
                             else:
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
-                elif output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Ecoli-Titration" and \
-                    sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("190119", output_doc[SampleConstants.LAB]):
-                    # MG1655_NAND_Circuit
-                    # OFF with both IPTG and arabinose, ON otherwise, genomic (low level)
-                    # we also need to indicate the control channels for the fluorescence control
-                    # this is not known by the lab typically, has to be provided externally
-                    # per discussion with NC group use 18H timepoint, no inducers
-                    # this experiment does not have a constitutive positive control!
-                    if SampleConstants.CONTENTS not in sample_doc:
-                        sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                        if is_nc_iteration_titration:
-                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
                         else:
-                            sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
-                    else:
-                        found_iptg = False
-                        found_arab = False
-                        for content in sample_doc[SampleConstants.CONTENTS]:
-                            if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
-                                content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
-                                if content_label == "IPTG":
-                                    found_iptg = True
-                                if content_label == "L-arabinose":
-                                    found_arab = True
-                        if not found_arab and not found_iptg and time_val is not None and time_val=="18:hour":
+                            found = False
+                            for content in sample_doc[SampleConstants.CONTENTS]:
+                                if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
+                                    content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
+                                    if content_label == "IPTG":
+                                        found = True
+                            if not found:
+                                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                                if is_nc_iteration_titration:
+                                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                                else:
+                                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                    elif output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Ecoli-Titration" and \
+                        sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("190119", output_doc[SampleConstants.LAB]):
+                        # MG1655_NAND_Circuit
+                        # OFF with both IPTG and arabinose, ON otherwise, genomic (low level)
+                        # we also need to indicate the control channels for the fluorescence control
+                        # this is not known by the lab typically, has to be provided externally
+                        # per discussion with NC group use 18H timepoint, no inducers
+                        # this experiment does not have a constitutive positive control!
+                        if SampleConstants.CONTENTS not in sample_doc:
                             sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                             if is_nc_iteration_titration:
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
                             else:
                                 sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
+                        else:
+                            found_iptg = False
+                            found_arab = False
+                            for content in sample_doc[SampleConstants.CONTENTS]:
+                                if SampleConstants.NAME in content and SampleConstants.LABEL in content[SampleConstants.NAME]:
+                                    content_label = content[SampleConstants.NAME][SampleConstants.LABEL]
+                                    if content_label == "IPTG":
+                                        found_iptg = True
+                                    if content_label == "L-arabinose":
+                                        found_arab = True
+                            if not found_arab and not found_iptg and time_val is not None and time_val=="18:hour":
+                                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
+                                if is_nc_iteration_titration:
+                                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP-A"
+                                else:
+                                    sample_doc[SampleConstants.CONTROL_CHANNEL] = "YFP - Area"
 
             file_counter = 1
             if "dataset_files" in measurement_props:
