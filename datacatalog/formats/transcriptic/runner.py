@@ -6,6 +6,8 @@ import six
 import pymongo
 import datacatalog
 
+from datacatalog import mongo
+
 from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
@@ -62,7 +64,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     map_experiment_reference(config, output_doc)
 
-    db = datacatalog.mongo.db_connection(config['mongodb'])
+    db = mongo.db_connection(config['mongodb'])
     samples_table = db.samples
 
 
