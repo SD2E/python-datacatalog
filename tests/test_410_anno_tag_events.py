@@ -1,28 +1,9 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-import warnings
-from . import longrun, delete
-from . import data
-from .fixtures.mongodb import mongodb_settings
-from .fixtures.agave import agave, credentials
-
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
+import os
 
 from datacatalog import slots, tokens, utils
 from datacatalog.managers import annotations
-
-@pytest.fixture(scope='session')
-def admin_key():
-    return tokens.admin.get_admin_key()
-
-@pytest.fixture(scope='session')
-def admin_token(admin_key):
-    return tokens.admin.get_admin_token(admin_key)
+from . import data
 
 # create
 @pytest.mark.parametrize('tag_name,tag_desc,tag_owner,test_pass', [
@@ -101,6 +82,7 @@ def test_tag_anno_event_link(mongodb_settings, agave, admin_token,
     connects_to_test = manager.listify_uuid(connects_to)
     assert len(tag_resp) == len(connects_to_test)
 
+@pytest.mark.delete
 @pytest.mark.skip(reason="Update test to unlink rather than delete assoc by UUID.")
 @pytest.mark.parametrize('tag_name,tag_desc,tag_owner, connects_to, test_pass', [
     ('tests.pineapple', ':heavenly_light:', 'public',
@@ -157,6 +139,7 @@ def test_tag_anno_event_unlink(mongodb_settings, agave,
         unlink_resp = manager.handle(unlink_msg, token=admin_token)
         # assert unlink_resp is None
 
+@pytest.mark.delete
 @pytest.mark.parametrize('tag_name,tag_desc,tag_owner,test_pass', [
     ('tests.jello', 'Very worthy of deletion', 'sd2etest', True)
 ])

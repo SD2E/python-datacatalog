@@ -1,4 +1,5 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "A structured experiment request",
   "definitions": {
@@ -245,6 +246,18 @@
           "minItems": 1,
           "type": "array"
         },
+        "channels": {
+          "description": "expected channels for an FCS measurement",
+          "items": {
+            "type":"string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "instrument_configuration": {
+          "description": "instrument configuration for an FCS measurement",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
+        },
         "timepoints": {
           "description": "expected timepoints for this run",
           "items": {
@@ -265,14 +278,6 @@
           "minItems": 1,
           "type": "array"
         },
-        "channels": {
-          "description": "for flow, the channel to fluorophore mapping, including functional controls for high fitc and no fluorescence",
-          "items": {
-            "$ref": "#definitions/channel"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
         "library_prep": {
           "description": "for rna_seq, the library preparation used",
           "type": "string",
@@ -284,52 +289,22 @@
         "measurement_type",
         "file_type"
       ]
-    },
-    "channel": {
-      "type": "object",
-      "properties": {
-        "channel": {
-          "description": "cytometer channel name",
-          "type": "string"
-        },
-        "fluorophore": {
-          "description": "fluorophore channel is intended to capture",
-          "type": "string"
-        },
-        "no_fluorescence_signal": {
-          "description": "strain under which no fluorescence is expected",
-          "type": "string"
-        },
-        "high_fluorescence_signal": {
-          "description": "strain under which high fluorescence is expected",
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "channel",
-        "fluorophore",
-        "no_fluorescence_signal",
-        "high_fluorescence_signal"
-      ]
     }
   },
   "properties": {
     "name": {
-        "description": "An experiment request name",
-        "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
-        "oneOf": [
-            {
-                "type": "string",
-                "maxLength": 256,
-                "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
-            }
-        ]
-    },  
+      "description": "An experiment request name",
+      "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
+      "oneOf": [{
+        "type": "string",
+        "maxLength": 256,
+        "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
+      }]
+    },
     "experiment_id": {
-        "description": "String identifier, namespaced performer, for the experiment",
-        "$ref": "namespaced_identifier.json"
-    },    
+      "description": "String identifier, namespaced performer, for the experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
+    },
     "challenge_problem": {
       "description": "name of CP",
       "$ref": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json"
@@ -390,17 +365,17 @@
     "experiment_version",
     "runs"
   ],
-  "title": "StructuredRequest",
+  "title": "Structured Request Schema",
   "type": "object",
   "_filename": "structured_request",
   "__uuid_type": "structured_request",
   "__uuid_fields": [
-      "name",
-      "experiment_id"
+    "name",
+    "experiment_id"
   ],
   "__collection": "structured_requests",
   "__indexes": [],
   "__identifiers": [
-      "uuid"
-  ]  
+    "uuid"
+  ]
 }

@@ -10,6 +10,7 @@ from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.identifiers import tacc
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
+from datacatalog.settings import MONGO_DELETE_FIELD
 
 TYPE_SIGNATURE = ('tag_annotation', '122', 'Tag Annotation')
 
@@ -20,6 +21,7 @@ TAG_DESC_REGEX = re.compile('^.{0,256}$')
 
 class TagAnnotationSchema(HeritableDocumentSchema):
     """Defines the Tag Annotation schema"""
+    DELETE_FIELD = MONGO_DELETE_FIELD
 
     def __init__(self, inheritance=True, **kwargs):
         super(TagAnnotationSchema, self).__init__(
@@ -32,10 +34,11 @@ class TagAnnotationSchema(HeritableDocumentSchema):
 class TagAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Tag Annotation"""
 
+    DELETE_FIELD = MONGO_DELETE_FIELD
     PARAMS = [('name', True, 'name', 'generic.tag'),
               ('description', False, 'description', ''),
               ('owner', True, 'owner', 'public'),
-              ('_visible', False, '_visible', True)]
+              (DELETE_FIELD, False, DELETE_FIELD, True)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:

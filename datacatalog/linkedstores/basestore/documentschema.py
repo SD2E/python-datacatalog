@@ -9,6 +9,7 @@ from slugify import slugify
 from ...jsonschemas import JSONSchemaBaseObject
 from ...jsonschemas import formatChecker, DateTimeEncoder
 from ...identifiers import typeduuid
+from ...settings import MONGO_DELETE_FIELD
 from ...utils import camel_to_snake, current_time, msec_precision, time_stamp
 
 class DocumentSchema(JSONSchemaBaseObject):
@@ -24,6 +25,7 @@ class DocumentSchema(JSONSchemaBaseObject):
         _filters (list): A private attribute defining how to render document and object schemas from the larger JSON schema
 
     """
+    DELETE_FIELD = MONGO_DELETE_FIELD
     TYPED_UUID_TYPE = 'generic'
     """The named type for UUIDs assigned to this class of LinkedStore documents"""
     TYPED_UUID_FIELD = ['id']
@@ -32,7 +34,8 @@ class DocumentSchema(JSONSchemaBaseObject):
     """Filename of the JSON schema document, relative to __file__."""
     DEFAULT_FILTERS_NAME = 'filters.json'
     """Filename of the JSON schema filters document, relative to __file__."""
-    RETURN_DOC_FILTERS = ['_id', '_salt', '_admin', '_properties', '_visible', '_update_token']
+    RETURN_DOC_FILTERS = ['_id', '_salt', '_admin',
+                          '_properties', '_update_token', DELETE_FIELD]
     """These keys should never be returned in a document"""
 
     def __init__(self, **kwargs):

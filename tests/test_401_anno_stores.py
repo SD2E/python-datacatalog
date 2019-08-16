@@ -1,17 +1,7 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from .fixtures.mongodb import mongodb_settings
-from . import longrun, delete
-from . import data
-
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
-
+import os
 from datacatalog.linkedstores import (annotations, association)
+from . import data
 
 @pytest.mark.parametrize('text_subject,text_body,text_owner,text_child_of,text_valid', [
     ('Test', 'Message for test_new_reply()', 'public', None, True),

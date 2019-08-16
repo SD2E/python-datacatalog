@@ -25,7 +25,9 @@ DATA = os.path.join(THIS, COLLECTION)
 # Use local not installed install of datacatalog
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
-import datacatalog
+from datacatalog import (agavehelpers, dicthelpers, filetypes,
+                         identifiers, linkedstores, mongo)
+from datacatalog import settings as settings_module
 
 logger = logging.getLogger(os.path.basename(SELF))
 logger.setLevel(logging.DEBUG)
@@ -34,8 +36,8 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    ref_store = datacatalog.linkedstores.reference.ReferenceStore(idb)
-    file_store = datacatalog.linkedstores.file.FileStore(idb)
+    ref_store = linkedstores.reference.ReferenceStore(idb)
+    file_store = linkedstores.file.FileStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading file {}'.format(ref))
@@ -50,9 +52,9 @@ def autobuild(idb, settings):
 
             try:
                 logger.debug('Registering reference file {}'.format(ref_abs))
-                ag_sys, ag_path, ag_file = datacatalog.agavehelpers.from_agave_uri(ref['uri'])
+                ag_sys, ag_path, ag_file = agavehelpers.from_agave_uri(ref['uri'])
                 fname = os.path.join(ag_path, ag_file)
-                ftype = datacatalog.filetypes.infer_filetype(ag_file,
+                ftype = filetypes.infer_filetype(ag_file,
                                                              check_exists=False,
                                                              permissive=True)
                 fdoc = {'name': fname, 'storage_system': ag_sys,
@@ -82,7 +84,7 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known references')
-    store = datacatalog.linkedstores.reference.ReferenceStore(idb)
+    store = linkedstores.reference.ReferenceStore(idb)
     for pipe in store.query({}):
         logger.info('Reference: id={} name="{}" uuid={} updated={}'.format(
             pipe['reference_id'], pipe['name'], pipe['uuid'],
@@ -94,7 +96,7 @@ def main(args):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment

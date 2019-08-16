@@ -4,7 +4,7 @@ PYTEST_SRC ?= tests/
 PYTEST_MAX_FAIL ?= 100
 PYTEST_FAIL_OPTS ?= --maxfail=$(PYTEST_MAX_FAIL)
 PYTEST_RUN_OPTS ?= --smoketest -s $(PYTEST_FAIL_OPTS)
-SUBMODULES ? = bootstrap/cp-request
+CP_REQUEST_DIR ?= bootstrap/cp-request
 EXPORTS ?= challenge_problem experiment_design
 
 # <empty> -staging or -production
@@ -97,8 +97,11 @@ experiment_designs:
 .PHONY: schemas
 schemas: challenge_problems experiment_designs schemas-build schemas-validate
 
+copy-cp-request-schema: update-cp-requests-dir
+	cp bootstrap/cp-request/schemas/measurement-request-schema.json datacatalog/linkedstores/structured_request/schema.json
+
 # Generate new build of ../schemas/
-schemas-build:
+schemas-build: copy-cp-request-schema
 	python -m scripts.build_schemas
 
 # schemas can be built (does not overwrite ../schemas/)
@@ -107,7 +110,7 @@ schemas-test:
 
 # Contents of ../schemas/ are conformant JSON schema draft-04+
 schemas-validate:
-	python -m pytest -v --networked -k validate_allschemas $(PYTEST_SRC)
+	python -m pytest -v --longrun --networked -k validate_allschemas $(PYTEST_SRC)
 
 # Exemplar files from formats.runners validate to sample_set.json
 schemas-validate-products:
@@ -218,21 +221,19 @@ bootstrap-associations:
 
 bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
 
-# TODO - Generate targets based from SUBMODULES rather than having targets for each
-bootstrap/cp-request:
-	git submodule init && \
-	git submodule update
+bootstrap-cp-requests-dir:
+	if [ ! -d $(CP_REQUEST_DIR) ]; then cd bootstrap && git clone https://gitlab.sd2e.org/sd2program/cp-request.git; fi
 
-.PHONY: update-submodules
-update-submodules: $(SUBMODULES)
-	git submodule update
+.PHONY: update-cp-requests
+update-cp-requests-dir: bootstrap-cp-requests-dir
+	cd $(CP_REQUEST_DIR); git pull origin master
 
-bootstrap-structured-requests: update-submodules
+bootstrap-structured-requests: update-cp-requests-dir
 	python -m bootstrap.manage_structured_requests auto -$(DB_ENV)
 bootstrap-structured-requests-extras: bootstrap-structured-requests
 
 bootstrap-sample-tacc-cloud:
-	files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
+	#files-upload -S data-sd2e-community -F bootstrap/data-sd2e-community/sample/tacc-cloud /sample
 
 # Currently, export values from production to enviromnent to bootstrap directories
 exports:

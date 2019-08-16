@@ -15,4 +15,5 @@ from .extensible import ExtensibleAttrDict
 from .heritableschema import DocumentSchema, HeritableDocumentSchema
 from .heritableschema import formatChecker
 from .store import JSONSchemaCollection
+# TODO - move into ./settings.py
 from .store import DEFAULT_LINK_FIELDS, DEFAULT_MANAGED_FIELDS

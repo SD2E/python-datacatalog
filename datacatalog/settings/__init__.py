@@ -63,3 +63,4 @@ MAX_INDEX_PATTERNS = int(os.environ.get('CATALOG_MAX_INDEX_PATTERNS', '512'))
 
 # Python JSONschema Objects Cache
 PJS_CACHE_MAX_AGE = int(os.environ.get('CATALOG_PJS_CACHE_MAX_AGE', '3600'))
+PJS_CACHE_DIR = os.environ.get('CATALOG_PJS_CACHE_DIR', None)

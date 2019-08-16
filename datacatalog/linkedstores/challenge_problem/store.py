@@ -5,7 +5,11 @@ import sys
 from pprint import pprint
 
 from ...dicthelpers import data_merge
-from ..basestore import LinkedStore, CatalogUpdateFailure, HeritableDocumentSchema, JSONSchemaCollection, linkages
+from ..basestore import (LinkedStore,
+                         CatalogUpdateFailure,
+                         HeritableDocumentSchema,
+                         JSONSchemaCollection,
+                         linkages)
 DEFAULT_LINK_FIELDS = list()
 
 class ChallengeUpdateFailure(CatalogUpdateFailure):

@@ -19,6 +19,8 @@ __all__ = ["google_service_account_file",
 
 @pytest.fixture(scope='session')
 def google_service_account_file(service_account_file=None):
+    """Returns the configured Google Service Account
+    """
     if service_account_file is None:
         service_account_file = os.environ.get('GOOGLE_SERVICE_ACCOUNT_FILE', os.path.join(HERE, 'service_account.json'))
     if os.path.exists(service_account_file):
@@ -28,6 +30,8 @@ def google_service_account_file(service_account_file=None):
 
 @pytest.fixture(scope='session')
 def google_sheets_id(google_sheets_id=None):
+    """Returns the Google Sheets ID used in testing
+    """
     if google_sheets_id is None:
         google_sheets_id = os.environ.get('GOOGLE_SHEETS_ID',
                                           '0BwJXMnMq5iNMbWFqVUhwOHpzcVE')
@@ -35,10 +39,14 @@ def google_sheets_id(google_sheets_id=None):
 
 @pytest.fixture(scope='session')
 def google_sheets_dir(google_sheets_dir=None):
+    """Returns the Google Sheets virtual directory used in testing
+    """
     if google_sheets_dir is None:
         google_sheets_dir = os.environ.get('GOOGLE_SHEETS_DIR', '/')
     return google_sheets_dir
 
 @pytest.fixture(scope='session')
 def google_drive(google_service_account_file, scopes=SCOPES):
+    """Returns the file containing Google Service Account credentials
+    """
     return GoogleDriveHelper(google_service_account_file, scopes)

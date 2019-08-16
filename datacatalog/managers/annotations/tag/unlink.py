@@ -41,6 +41,7 @@ def delete_association_by_nodes(self,
         tuple: (0, Associations deleted)
     """
 
+    self.validate_tapis_username(owner, permissive=True)
     from_uuids = self.listify_uuid(connects_from)
     to_uuids = self.listify_uuid(connects_to)
 

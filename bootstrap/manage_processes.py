@@ -25,7 +25,8 @@ DATA = os.path.join(THIS, COLLECTION)
 # Use local not installed install of datacatalog
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
-import datacatalog
+from datacatalog import identifiers, linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 
 logger = logging.getLogger(os.path.basename(SELF))
 logger.setLevel(logging.DEBUG)
@@ -34,7 +35,7 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    ref_store = datacatalog.linkedstores.process.ProcessStore(idb)
+    ref_store = linkedstores.process.ProcessStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading file {}'.format(ref))
@@ -57,7 +58,7 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known Processe entities')
-    store = datacatalog.linkedstores.process.ReferenceStore(idb)
+    store = linkedstores.process.ReferenceStore(idb)
     for pipe in store.query({}):
         logger.info('Process: id={} name="{}" uuid={} updated={}'.format(
             pipe['process_id'], pipe['name'], pipe['uuid'],
@@ -69,7 +70,7 @@ def main(args):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment

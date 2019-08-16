@@ -28,9 +28,9 @@ their relationships.
     dcat tags list -l LIMIT -k SKIP --only_public
 
 Discover records associated with tags:
--------------------------------------
+--------------------------------------
 
-_Coming soon_
+*Coming soon*
 
 Create a tag
 ------------

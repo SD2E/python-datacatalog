@@ -1,38 +1,32 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
 import jsonschema
+from datacatalog import jsonschemas
 
-from pprint import pprint
-from . import longrun, delete, networked
-import datacatalog
-
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/jsonschema')
 
 # def test_identifiers_typeduuid_get_schemas():
-#     schemas = datacatalog.identifiers.typeduuid.schemas.get_schemas()
+#     schemas = identifiers.typeduuid.schemas.get_schemas()
 #     assert isinstance(schemas, dict)
 #     for k, v in schemas.items():
 #         assert isinstance(v, str)
 
 def test_get_allschemas_filter_all():
-    schemas = datacatalog.jsonschemas.get_all_schemas(filters=['will-never-be-valid'])
+    schemas = jsonschemas.get_all_schemas(filters=['will-never-be-valid'])
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) == 0
 
 def test_get_allschemas_filter_one():
-    schemas = datacatalog.jsonschemas.get_all_schemas(filters=['linkedstores.basestore'])
+    schemas = jsonschemas.get_all_schemas(filters=['linkedstores.basestore'])
     assert isinstance(schemas, dict)
     # the object and document schemas
     assert len(list(schemas.keys())) == 2
 
 def test_get_allschemas():
-    schemas = datacatalog.jsonschemas.get_all_schemas()
+    schemas = jsonschemas.get_all_schemas()
     assert isinstance(schemas, dict)
     assert len(list(schemas.keys())) > 0
 
@@ -47,11 +41,12 @@ def test_validate_allschemas_json():
             schj = json.load(sch)
             assert isinstance(schj, dict)
 
-@networked
+@pytest.mark.longrun
+@pytest.mark.networked
 @pytest.mark.parametrize("draft,response", [
     ('draft-07.json', True),
     ('draft-06.json', True),
-    ('draft-04.json', True),
+    ('draft-04.json', False),
     ('draft-03.json', False),
     ('draft-02.json', False),
     ('draft-01.json', False)])
@@ -75,8 +70,10 @@ def test_validate_allschemas_drafts(draft, response):
     else:
         assert len(raised_exceptions) > 0, "Validation or schema was expected to fail but did not"
 
+@pytest.mark.networked
 @pytest.mark.parametrize("draft,response", [
-    ('draft-07.json', True)])
+    ('draft-07.json', True),
+    ('draft-06.json', True)])
 def test_validate_allschemas_drafts_tenacity(draft, response):
     SCHEMAS_PATH = os.path.join(PARENT, 'schemas')
     schemas = os.listdir(SCHEMAS_PATH)
@@ -89,7 +86,7 @@ def test_validate_allschemas_drafts_tenacity(draft, response):
             # Can load as JSON
             schj = json.load(sch)
             try:
-                datacatalog.jsonschemas.validate(schj, draft_schema)
+                jsonschemas.validate(schj, draft_schema)
             except Exception as exc:
                 raised_exceptions.append((schema, exc))
     if response is True:
