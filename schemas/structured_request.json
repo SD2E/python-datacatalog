@@ -1,38 +1,10 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T152910+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ab389fc",
+    "$comment": "version: 2.2.0#master; generated: 20190816T122317+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@4c1495c",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
         "attribute": {
-            "type": "object"
-        },
-        "channel": {
-            "additionalProperties": false,
-            "properties": {
-                "channel": {
-                    "description": "cytometer channel name",
-                    "type": "string"
-                },
-                "fluorophore": {
-                    "description": "fluorophore channel is intended to capture",
-                    "type": "string"
-                },
-                "high_fluorescence_signal": {
-                    "description": "strain under which high fluorescence is expected",
-                    "type": "string"
-                },
-                "no_fluorescence_signal": {
-                    "description": "strain under which no fluorescence is expected",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "channel",
-                "fluorophore",
-                "no_fluorescence_signal",
-                "high_fluorescence_signal"
-            ],
             "type": "object"
         },
         "content_item": {
@@ -123,9 +95,9 @@
             "additionalProperties": false,
             "properties": {
                 "channels": {
-                    "description": "for flow, the channel to fluorophore mapping, including functional controls for high fitc and no fluorescence",
+                    "description": "expected channels for an FCS measurement",
                     "items": {
-                        "$ref": "#definitions/channel"
+                        "type": "string"
                     },
                     "minItems": 1,
                     "type": "array"
@@ -196,6 +168,10 @@
                     },
                     "minItems": 1,
                     "type": "array"
+                },
+                "instrument_configuration": {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json",
+                    "description": "instrument configuration for an FCS measurement"
                 },
                 "library_prep": {
                     "description": "for rna_seq, the library preparation used",

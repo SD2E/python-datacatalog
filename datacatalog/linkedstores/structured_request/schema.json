@@ -246,6 +246,18 @@
           "minItems": 1,
           "type": "array"
         },
+        "channels": {
+          "description": "expected channels for an FCS measurement",
+          "items": {
+            "type":"string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "instrument_configuration": {
+          "description": "instrument configuration for an FCS measurement",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
+        },
         "timepoints": {
           "description": "expected timepoints for this run",
           "items": {
@@ -266,14 +278,6 @@
           "minItems": 1,
           "type": "array"
         },
-        "channels": {
-          "description": "for flow, the channel to fluorophore mapping, including functional controls for high fitc and no fluorescence",
-          "items": {
-            "$ref": "#definitions/channel"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
         "library_prep": {
           "description": "for rna_seq, the library preparation used",
           "type": "string",
@@ -284,34 +288,6 @@
       "required": [
         "measurement_type",
         "file_type"
-      ]
-    },
-    "channel": {
-      "type": "object",
-      "properties": {
-        "channel": {
-          "description": "cytometer channel name",
-          "type": "string"
-        },
-        "fluorophore": {
-          "description": "fluorophore channel is intended to capture",
-          "type": "string"
-        },
-        "no_fluorescence_signal": {
-          "description": "strain under which no fluorescence is expected",
-          "type": "string"
-        },
-        "high_fluorescence_signal": {
-          "description": "strain under which high fluorescence is expected",
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "channel",
-        "fluorophore",
-        "no_fluorescence_signal",
-        "high_fluorescence_signal"
       ]
     }
   },
