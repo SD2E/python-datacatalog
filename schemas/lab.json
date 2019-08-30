@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022109+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20190903T193855+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@16e6a29",
     "$id": "https://schema.catalog.sd2e.org/schemas/lab.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -9,14 +9,20 @@
         "Ginkgo",
         "Transcriptic",
         "UW_BIOFAB",
-        "Marshall"
+        "Marshall",
+        "PNNL_Egbert",
+        "UCSB_Yeung",
+        "Duke_Haase"
     ],
     "examples": [
         "Caltech",
         "Ginkgo",
         "Transcriptic",
         "UW_BIOFAB",
-        "Marshall"
+        "Marshall",
+        "PNNL_Egbert",
+        "UCSB_Yeung",
+        "Duke_Haase"
     ],
     "title": "Lab",
     "type": "string"
