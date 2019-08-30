@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190816T122317+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@4c1495c",
+    "$comment": "version: 2.2.0#master; generated: 20190830T221127+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ca1961b",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -64,6 +64,10 @@
             "additionalProperties": false,
             "description": "control definition based on time, strain, contents, etc.",
             "properties": {
+                "channel": {
+                    "description": "FCS channel, if applicable",
+                    "type": "string"
+                },
                 "contents": {
                     "items": {
                         "$ref": "#definitions/content_item"
@@ -189,6 +193,14 @@
                     "$ref": "https://schema.catalog.sd2e.org/schemas/measurement_type.json",
                     "description": "measurement type"
                 },
+                "ods": {
+                    "description": "expected optical densities for this measurement",
+                    "items": {
+                        "type": "number"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
                 "replicates": {
                     "description": "expected number of replicates",
                     "type": "number"
@@ -242,18 +254,6 @@
         "run": {
             "additionalProperties": false,
             "properties": {
-                "experiment_id": {
-                    "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
-                    "description": "unique experiment/run ID for this experimental design"
-                },
-                "labs": {
-                    "description": "the list of labs that will perform the run",
-                    "items": {
-                        "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
-                    },
-                    "minItems": 1,
-                    "type": "array"
-                },
                 "measurements": {
                     "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
                     "items": {
@@ -264,8 +264,6 @@
                 }
             },
             "required": [
-                "labs",
-                "experiment_id",
                 "measurements"
             ],
             "type": "object"
@@ -337,6 +335,10 @@
         "experiment_version": {
             "type": "number"
         },
+        "lab": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json",
+            "description": "the lab that performed this experiment"
+        },
         "name": {
             "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
             "description": "An experiment request name",
@@ -368,6 +370,7 @@
     "required": [
         "name",
         "experiment_id",
+        "lab",
         "challenge_problem",
         "experiment_reference",
         "experiment_reference_url",
