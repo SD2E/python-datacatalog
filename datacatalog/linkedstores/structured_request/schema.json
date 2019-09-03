@@ -12,18 +12,6 @@
     "run": {
       "type": "object",
       "properties": {
-        "labs": {
-          "description": "the list of labs that will perform the run",
-          "items": {
-            "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
-        "experiment_id": {
-          "description": "unique experiment/run ID for this experimental design",
-          "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
-        },
         "measurements": {
           "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
           "items": {
@@ -35,8 +23,6 @@
       },
       "additionalProperties": false,
       "required": [
-        "labs",
-        "experiment_id",
         "measurements"
       ]
     },
@@ -64,6 +50,10 @@
       "properties": {
         "type": {
           "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
+        },
+        "channel": {
+          "description": "FCS channel, if applicable",
+          "type": "string"
         },
         "timepoints": {
           "items": {
@@ -214,6 +204,14 @@
           "minItems": 1,
           "type": "array"
         },
+        "ods": {
+          "description": "expected optical densities for this measurement",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
         "genetic_constructs": {
           "description": "expected genetic constructs for this measurement",
           "items": {
@@ -301,6 +299,10 @@
         "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
       }]
     },
+    "lab": {
+      "description": "the lab that performed this experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
+    },
     "experiment_id": {
       "description": "String identifier, namespaced performer, for the experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
@@ -359,6 +361,7 @@
   "required": [
     "name",
     "experiment_id",
+    "lab",
     "challenge_problem",
     "experiment_reference",
     "experiment_reference_url",

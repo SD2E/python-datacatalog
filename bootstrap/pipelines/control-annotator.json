@@ -1,0 +1,22 @@
+{
+    "name": "Control Annotator",
+    "description": "Used to annotate controls in converted lab traces",
+    "components": [
+        {
+            "id": "3XQq3N7MqrgLg",
+            "image": "index.docker.io/sd2e/control_annotator:latest",
+            "options": {}
+        }
+    ],
+    "processing_levels": [
+        "1"
+    ],
+    "accepts": [
+        "JSON"
+    ],
+    "produces": [
+        "JSON"
+    ],
+    "pipeline_type": "primary-etl",
+    "id": "sd2e-control-annotator"
+}
