@@ -2,8 +2,12 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
-    "TACC-genomics-metadata",
+    "Nick-Copy-of-NovelChassisYeastStates-TimeSeries",
+    "Nick-Copy-of-NovelChassis-Bacillus-WT",
+    "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
+    "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
     "Unknown",
+    "TACC-genomics-metadata",
     "20190214-A-B-mar-1",
     "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
     "CellGrowth-RNAseqMethodsDevelopment",

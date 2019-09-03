@@ -1,12 +1,16 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022109+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20190903T191701+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@066784c",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
-        "TACC-genomics-metadata",
+        "Nick-Copy-of-NovelChassisYeastStates-TimeSeries",
+        "Nick-Copy-of-NovelChassis-Bacillus-WT",
+        "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
+        "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Unknown",
+        "TACC-genomics-metadata",
         "20190214-A-B-mar-1",
         "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
         "CellGrowth-RNAseqMethodsDevelopment",
@@ -55,8 +59,12 @@
         "Riboswitches"
     ],
     "examples": [
-        "TACC-genomics-metadata",
+        "Nick-Copy-of-NovelChassisYeastStates-TimeSeries",
+        "Nick-Copy-of-NovelChassis-Bacillus-WT",
+        "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
+        "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Unknown",
+        "TACC-genomics-metadata",
         "20190214-A-B-mar-1",
         "20181009-top-4-A-B-cell-variants-A-B-sampling-exp-1",
         "CellGrowth-RNAseqMethodsDevelopment",
