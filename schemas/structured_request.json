@@ -1,10 +1,105 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190830T221127+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ca1961b",
+    "$comment": "version: 2.2.0#master; generated: 20190906T215610+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@6c90f21",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
         "attribute": {
+            "type": "object"
+        },
+        "comparison_kv_items": {
+            "additionalProperties": {
+                "type": "array"
+            },
+            "description": "key value pair where the value is an array",
+            "type": "object"
+        },
+        "comparison_results": {
+            "additionalProperties": false,
+            "properties": {
+                "expected": {
+                    "$ref": "#/definitions/comparison_kv_items"
+                },
+                "generated_set_length": {
+                    "type": "number"
+                },
+                "in_generated_not_in_trace": {
+                    "items": {
+                        "$ref": "#/definitions/comparison_sample_item"
+                    },
+                    "minItems": 0,
+                    "type": "array"
+                },
+                "in_trace_not_in_generated": {
+                    "items": {
+                        "$ref": "#/definitions/comparison_sample_item"
+                    },
+                    "minItems": 0,
+                    "type": "array"
+                },
+                "saw": {
+                    "$ref": "#/definitions/comparison_kv_items"
+                },
+                "trace_set_length": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "generated_set_length",
+                "trace_set_length",
+                "expected",
+                "saw",
+                "in_generated_not_in_trace",
+                "in_trace_not_in_generated"
+            ],
+            "type": "object"
+        },
+        "comparison_sample_item": {
+            "additionalProperties": false,
+            "description": "A sample record",
+            "properties": {
+                "contents": {
+                    "$ref": "#/definitions/comparison_kv_items"
+                },
+                "control_type": {
+                    "type": "string"
+                },
+                "file_types": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "genetic_construct": {
+                    "type": "string"
+                },
+                "measurement_type": {
+                    "type": "string"
+                },
+                "replicate": {
+                    "type": "number"
+                },
+                "standard_type": {
+                    "type": "string"
+                },
+                "strain": {
+                    "type": "string"
+                },
+                "temperature": {
+                    "type": "number"
+                },
+                "timepoints": {
+                    "items": {
+                        "type": "number"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "tmt_channel": {
+                    "type": "string"
+                }
+            },
             "type": "object"
         },
         "content_item": {
@@ -95,6 +190,40 @@
             },
             "type": "object"
         },
+        "inducible_strain": {
+            "additionalProperties": false,
+            "description": "lists a URI for a strain, its relevant inducers, and function. More complicated strains/circuits will require external references",
+            "properties": {
+                "function": {
+                    "description": "Simple strain functions",
+                    "enum": [
+                        "PRESENCE_ON",
+                        "PRESENCE_OFF"
+                    ],
+                    "type": "string"
+                },
+                "induced_by": {
+                    "items": {
+                        "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "strain": {
+                    "type": "string"
+                },
+                "strain_uri": {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                }
+            },
+            "required": [
+                "strain_uri",
+                "strain",
+                "induced_by",
+                "function"
+            ],
+            "type": "object"
+        },
         "measurement": {
             "additionalProperties": false,
             "properties": {
@@ -144,6 +273,9 @@
                             "type": "array"
                         }
                     ]
+                },
+                "force_replicates": {
+                    "type": "boolean"
                 },
                 "genetic_constructs": {
                     "description": "expected genetic constructs for this measurement",
@@ -202,8 +334,20 @@
                     "type": "array"
                 },
                 "replicates": {
-                    "description": "expected number of replicates",
-                    "type": "number"
+                    "oneOf": [
+                        {
+                            "description": "expected number of replicates",
+                            "type": "number"
+                        },
+                        {
+                            "description": "a list of explicit replicate numbers to use",
+                            "items": {
+                                "type": "number"
+                            },
+                            "minItems": 1,
+                            "type": "array"
+                        }
+                    ]
                 },
                 "standard_type": {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/standard_type.json",
@@ -310,6 +454,10 @@
             "$ref": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json",
             "description": "name of CP"
         },
+        "comparison_results": {
+            "$ref": "#/definitions/comparison_results",
+            "description": "results from comparing annotated lab trace and enumerated structured request"
+        },
         "experiment_id": {
             "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
             "description": "String identifier, namespaced performer, for the experiment"
@@ -334,6 +482,14 @@
         },
         "experiment_version": {
             "type": "number"
+        },
+        "inducible_strains": {
+            "description": "a list of inducible strains, their inducers, and functions, if applicable",
+            "items": {
+                "$ref": "#/definitions/inducible_strain"
+            },
+            "minItems": 0,
+            "type": "array"
         },
         "lab": {
             "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json",

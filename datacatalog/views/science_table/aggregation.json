@@ -39,6 +39,7 @@
                         1
                     ]
                 },
+                "lab_label": "$file.lab_label",
                 "level": "$file.level",
                 "library_prep": "$measurement.library_prep",
                 "measurement_type": "$measurement.measurement_type",

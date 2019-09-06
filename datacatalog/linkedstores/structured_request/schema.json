@@ -3,6 +3,101 @@
   "additionalProperties": false,
   "description": "A structured experiment request",
   "definitions": {
+    "comparison_kv_items": {
+      "description": "key value pair where the value is an array",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array"
+      }
+    },
+    "comparison_sample_item": {
+      "additionalProperties": false,
+      "description": "A sample record",
+      "type": "object",
+      "properties": {
+        "strain": {
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "timepoints": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "replicate": {
+          "type": "number"
+        },
+        "contents": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "measurement_type": {
+          "type": "string"
+        },
+        "control_type": {
+          "type": "string"
+        },
+        "standard_type": {
+          "type": "string"
+        },
+        "file_types": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "genetic_construct": {
+          "type": "string"
+        },
+        "tmt_channel": {
+          "type": "string"
+        }
+      }
+    },
+    "comparison_results": {
+      "type": "object",
+      "properties": {
+        "generated_set_length": {
+          "type": "number"
+        },
+        "trace_set_length": {
+          "type": "number"
+        },
+        "expected": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "saw": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "in_generated_not_in_trace": {
+          "items": {
+            "$ref": "#/definitions/comparison_sample_item"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "in_trace_not_in_generated": {
+          "items": {
+            "$ref": "#/definitions/comparison_sample_item"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "generated_set_length",
+        "trace_set_length",
+        "expected",
+        "saw",
+        "in_generated_not_in_trace",
+        "in_trace_not_in_generated"
+      ]
+    },
     "parameter": {
       "type": "object"
     },
@@ -138,6 +233,37 @@
       "minItems": 1,
       "type": "array"
     },
+    "inducible_strain": {
+      "additionalProperties": false,
+      "description": "lists a URI for a strain, its relevant inducers, and function. More complicated strains/circuits will require external references",
+      "properties": {
+        "strain_uri": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+        },
+        "strain": {
+          "type": "string"
+        },
+        "induced_by": {
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "function": {
+          "description": "Simple strain functions",
+          "type": "string",
+          "enum": ["PRESENCE_ON", "PRESENCE_OFF"]
+        }
+      },
+      "required": [
+        "strain_uri",
+        "strain",
+        "induced_by",
+        "function"
+      ],
+      "type": "object"
+    },
     "measurement": {
       "type": "object",
       "properties": {
@@ -247,7 +373,7 @@
         "channels": {
           "description": "expected channels for an FCS measurement",
           "items": {
-            "type":"string"
+            "type": "string"
           },
           "minItems": 1,
           "type": "array"
@@ -264,9 +390,23 @@
           "minItems": 1,
           "type": "array"
         },
+        "force_replicates": {
+          "type": "boolean"
+        },
         "replicates": {
-          "description": "expected number of replicates",
-          "type": "number"
+          "oneOf": [{
+              "description": "expected number of replicates",
+              "type": "number"
+            },
+            {
+              "description": "a list of explicit replicate numbers to use",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ]
         },
         "contents": {
           "description": "media compenents and reagents for this experiment",
@@ -329,9 +469,21 @@
     "experiment_version": {
       "type": "number"
     },
+    "comparison_results": {
+      "description": "results from comparing annotated lab trace and enumerated structured request",
+      "$ref": "#/definitions/comparison_results"
+    },
     "derived_from": {
       "description": "Derived from experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/experiment_url.json"
+    },
+    "inducible_strains": {
+      "description": "a list of inducible strains, their inducers, and functions, if applicable",
+      "items": {
+        "$ref": "#/definitions/inducible_strain"
+      },
+      "minItems": 0,
+      "type": "array"
     },
     "runs": {
       "description": "an experiment run and its associated id, sample, and file metadata",
