@@ -137,11 +137,11 @@
 	                    "job_uuid": "$job_uuid",
 	                    "last_updated": "$last_updated",
 	                    "state": "$state",
-	                    "archive_path": "$archive_path"
+	                    "archive_path": "$archive_path",
+	                    "input_gff": "$input_gff"
 	                }
 	            },
-              "outputs": {"$addToSet": "$outputs"},
-              "input_gff": {"$addToSet": "$input_gff"}
+              "outputs": {"$addToSet": "$outputs"}
 	        }
 	    },
 	    {
