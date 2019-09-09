@@ -1,7 +1,7 @@
 {
     "view_on": "jobs",
     "pipeline": [
-	    {
+      {
 	        "$match": {
 	            "child_of": { "$not": {"$size": 0} },
 	            "state": { "$in": ["FINISHED", "VALIDATED"] }
@@ -17,7 +17,7 @@
 	    },
 	    {
 	        "$match": {
-	        	"nc_rnaseq_jobs.name": { "$regex" : "Novel Chassis RNAseq Alignment Aggregation" }
+	        	"nc_rnaseq_jobs.name": { "$regex" : "RNA-Seq QC and Metadata Pipeline" }
 	        }
 	    },
 	    {
@@ -28,9 +28,9 @@
 	            "as": "experiment_rnaseq_jobs"
 	        }
 	    },
-	    { 
+	    {
 	    	"$unwind": "$experiment_rnaseq_jobs"
-	    },    
+	    },
 	    {
 	        "$lookup": {
 	            "from": "experiment_designs",
@@ -41,15 +41,15 @@
 	    },
 	    {
 	        "$unwind": "$experiment_design_rnaseq_jobs"
-	    },    
-	    { 
-	        "$addFields": { 
-	            "derived_from": { 
-	                "$ifNull": [ "$experiment_rnaseq_jobs.derived_from", ["unspecified"] ] 
+	    },
+	    {
+	        "$addFields": {
+	            "derived_from": {
+	                "$ifNull": [ "$experiment_rnaseq_jobs.derived_from", ["unspecified"] ]
 	            }
 	        }
-	    },    
-	    { 
+	    },
+	    {
 	        "$lookup": {
 	            "from": "files",
 	            "localField": "derived_from",
@@ -57,31 +57,72 @@
 	            "as": "experiment_design_files_rnaseq_jobs"
 	        }
 	    },
-	    {   
+      {
+	    	"$lookup": {
+		        "from": "files",
+		        "localField": "uuid",
+		        "foreignField": "child_of",
+		        "as": "outputs"
+		    }
+	    },
+	    {
+          "$unwind": "$outputs"
+      },
+	    {
+          "$addFields": {
+            "outputs":"$outputs.name"
+            }
+      },
+      {
+	    	"$lookup": {
+		        "from": "files",
+		        "localField": "product_patterns.derived_from",
+		        "foreignField": "name",
+		        "as": "input_dfs"
+		    }
+	    },
+	    {
+	    	"$lookup": {
+		        "from": "jobs",
+		        "localField": "input_dfs.child_of",
+		        "foreignField": "uuid",
+		        "as": "df_job"
+		    }
+	    },
+	    {
+          "$unwind": "$df_job"
+      },
+	    {
+          "$addFields": {
+            "input_gff":"$df_job.data.inputs.path_gff"
+            }
+      },
+	    {
 	        "$project": {
 	            "_id": false,
 	            "experiment_id": "$experiment_rnaseq_jobs.experiment_id",
 	            "experiment_design_id": "$experiment_design_rnaseq_jobs.experiment_design_id",
 			    "storage_system": {
-			        "$cond": { 
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
-			            "then": "unspecified", 
+			        "$cond": {
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
+			            "then": "unspecified",
 			            "else": { "$arrayElemAt": ["$experiment_design_files_rnaseq_jobs.storage_system", 0] }
 			        }
 			    },
 			    "samples_json": {
-			        "$cond": { 
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
-			            "then": "unspecified", 
+			        "$cond": {
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
+			            "then": "unspecified",
 			            "else": { "$arrayElemAt": ["$experiment_design_files_rnaseq_jobs.name", 0] }
 			        }
-			    },            
+			    },
 	            "job_uuid": "$uuid",
 	            "last_updated": "$updated",
-	            "settings": "$data",
 	            "state": "$state",
-	            "archive_path": "$archive_path"
-	        } 
+	            "archive_path": "$archive_path",
+              "outputs":"$outputs",
+              "input_gff": "$input_gff"
+	        }
 	    },
 	    {
 	        "$group": {
@@ -92,14 +133,15 @@
 	                "samples_json": "$samples_json"
 	            },
 	            "jobs": {
-	                "$push": {
+	                "$addToSet": {
 	                    "job_uuid": "$job_uuid",
 	                    "last_updated": "$last_updated",
-	                    "settings": "$settings",
 	                    "state": "$state",
 	                    "archive_path": "$archive_path"
 	                }
-	            }
+	            },
+              "outputs": {"$addToSet": "$outputs"},
+              "input_gff": {"$addToSet": "$input_gff"}
 	        }
 	    },
 	    {
