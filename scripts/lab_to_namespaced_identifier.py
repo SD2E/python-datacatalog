@@ -1,8 +1,6 @@
 import os
 import json
-import tempfile
 import logging
-from datacatalog import settings as settings_module
 
 logger = logging.getLogger(__name__)
 
