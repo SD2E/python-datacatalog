@@ -1,7 +1,7 @@
 {
     "view_on": "jobs",
     "pipeline": [
-      {
+	    {
 	        "$match": {
 	            "child_of": { "$not": {"$size": 0} },
 	            "state": { "$in": ["FINISHED", "VALIDATED"] }
@@ -57,23 +57,15 @@
 	            "as": "experiment_design_files_rnaseq_jobs"
 	        }
 	    },
-      {
+        {
 	    	"$lookup": {
 		        "from": "files",
 		        "localField": "uuid",
 		        "foreignField": "child_of",
-		        "as": "outputs"
+		        "as": "experiment_design_rnaseq_jobs_outputs"
 		    }
 	    },
-	    {
-          "$unwind": "$outputs"
-      },
-	    {
-          "$addFields": {
-            "outputs":"$outputs.name"
-            }
-      },
-      {
+        {
 	    	"$lookup": {
 		        "from": "files",
 		        "localField": "product_patterns.derived_from",
@@ -91,12 +83,12 @@
 	    },
 	    {
           "$unwind": "$df_job"
-      },
+        },
 	    {
           "$addFields": {
             "input_gff":"$df_job.data.inputs.path_gff"
             }
-      },
+        },
 	    {
 	        "$project": {
 	            "_id": false,
@@ -120,8 +112,8 @@
 	            "last_updated": "$updated",
 	            "state": "$state",
 	            "archive_path": "$archive_path",
-              "outputs":"$outputs",
-              "input_gff": "$input_gff"
+                "outputs": "$experiment_design_rnaseq_jobs_outputs.name",
+                "input_gff": "$input_gff"
 	        }
 	    },
 	    {
@@ -133,15 +125,15 @@
 	                "samples_json": "$samples_json"
 	            },
 	            "jobs": {
-	                "$addToSet": {
+	                "$push": {
 	                    "job_uuid": "$job_uuid",
 	                    "last_updated": "$last_updated",
 	                    "state": "$state",
 	                    "archive_path": "$archive_path",
+	                    "outputs": "$outputs",
 	                    "input_gff": "$input_gff"
 	                }
-	            },
-              "outputs": {"$addToSet": "$outputs"}
+	            }
 	        }
 	    },
 	    {
