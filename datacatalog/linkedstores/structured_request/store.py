@@ -1,5 +1,6 @@
 from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, JSONSchemaCollection)
 from .document import StructuredRequestSchema, StructuredRequestDocument
+from anaconda_project import status
 
 class StructuredRequestStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of StructuredRequest documents"""
@@ -25,6 +26,13 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
                                         description=description,
                                         **kwargs)
         return self.add_update_document(doc, token=token)
+    
+    def update_reactor_status(self, experiment_id, key, status, path=None):
+        structured_request = self.find_one_by_identifier(experiment_id)
+        #structured_request['status']['key'] = status
+        #self.add_update_document(structured_request, strategy=strategies.REPLACE)
+        return structured_request
+        
 
 class StoreInterface(StructuredRequestStore):
     pass
