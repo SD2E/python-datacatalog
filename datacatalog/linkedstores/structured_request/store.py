@@ -1,4 +1,4 @@
-from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, JSONSchemaCollection)
+from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, strategies)
 from .document import StructuredRequestSchema, StructuredRequestDocument
 from ...utils import time_stamp, msec_precision
 
