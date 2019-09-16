@@ -1,6 +1,7 @@
 from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, JSONSchemaCollection)
 from .document import StructuredRequestSchema, StructuredRequestDocument
 from anaconda_project import status
+from ...utils import time_stamp, msec_precision
 
 class StructuredRequestStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of StructuredRequest documents"""
@@ -11,28 +12,43 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         super(StructuredRequestStore, self).update_attrs(schema)
         self._enforce_auth = True
         self.setup(update_indexes=kwargs.get('update_indexes', False))
-
-    def new_request(self, name, description=None, owner=None, token=None, **kwargs):
-        """Create a new Structured Request
-
-        Args:
-            name (str): The structured request's name
-            description (str, optional): Optional text description of the structured request
-
-        Returns:
-            dict: Representation of the newly-created structured request
-        """
-        doc = StructuredRequestDocument(name=name,
-                                        description=description,
-                                        **kwargs)
-        return self.add_update_document(doc, token=token)
     
-    def update_reactor_status(self, experiment_id, key, status, path=None):
-        structured_request = self.find_one_by_identifier(experiment_id)
-        #structured_request['status']['key'] = status
-        #self.add_update_document(structured_request, strategy=strategies.REPLACE)
-        return structured_request
+    def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
+        query={}
+        query['experiment_id'] = experiment_id
+        matches = ref_store.query(query)
         
+        # There should be at most one match
+        if matches.count() == 0:
+            return False
+        else:
+            structured_request = matches[0]
+
+        if "status" not in structured_request:
+            structured_request["status"] = {}
+        
+        structured_request["status"][key] = {
+            "state": state,
+            "last_updated": msec_precision(time_stamp()),
+            "path": path
+        }
+        
+        self.add_update_document(structured_request, strategy=strategies.REPLACE)
+        
+        return True
+        
+    def update_request_with_status(self, structured_request, key, state, path=None):
+
+        if "status" not in structured_request:
+            structured_request["status"] = {}
+        
+        structured_request["status"][key] = {
+            "state": state,
+            "last_updated": msec_precision(time_stamp()),
+            "path": path
+        }
+        
+        self.add_update_document(structured_request, strategy=strategies.REPLACE)        
 
 class StoreInterface(StructuredRequestStore):
     pass
