@@ -1,6 +1,5 @@
 from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, JSONSchemaCollection)
 from .document import StructuredRequestSchema, StructuredRequestDocument
-from anaconda_project import status
 from ...utils import time_stamp, msec_precision
 
 class StructuredRequestStore(SoftDelete, LinkedStore):
