@@ -26,6 +26,9 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         if "status" not in structured_request:
             structured_request["status"] = {}
         
+        if path is None:
+            path = ""
+        
         structured_request["status"][key] = {
             "state": state,
             "last_updated": msec_precision(time_stamp()),
