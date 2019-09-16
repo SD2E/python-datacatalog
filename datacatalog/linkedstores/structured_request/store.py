@@ -27,7 +27,7 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
             structured_request["status"] = {}
         
         if path is None:
-            path = ""
+            path = "unspecified"
         
         structured_request["status"][key] = {
             "state": state,
