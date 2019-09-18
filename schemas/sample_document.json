@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022108+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20190918T153436+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@dadb332",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -93,6 +93,14 @@
         "lab_sample_id": {
             "$ref": "namespaced_identifier.json",
             "description": "Lab recorded sample id, can be shared among calibrated or re-used samples. Do not use as a primary key!"
+        },
+        "missing_measurements": {
+            "description": "Missing measurements for a sample",
+            "items": {
+                "$ref": "measurement.json"
+            },
+            "minItems": 0,
+            "type": "array"
         },
         "reference_sample_id": {
             "$ref": "namespaced_identifier.json",

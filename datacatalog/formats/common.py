@@ -93,6 +93,7 @@ class SampleConstants():
 
     # measurements
     MEASUREMENTS = "measurements"
+    MISSING_MEASUREMENTS = "missing_measurements"
     FILES = "files"
     FILE_ID = "file_id"
     FILE_LEVEL = "level"
