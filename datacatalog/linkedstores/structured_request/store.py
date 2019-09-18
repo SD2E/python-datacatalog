@@ -31,7 +31,7 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
     def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
         query={}
         query['experiment_id'] = experiment_id
-        matches = ref_store.query(query)
+        matches = self.query(query)
         
         # There should be at most one match
         if matches.count() == 0:
