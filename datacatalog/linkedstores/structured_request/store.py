@@ -31,7 +31,7 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
     def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
         query={}
         query['experiment_id'] = experiment_id
-        matches = ref_store.query(query)
+        matches = self.query(query)
         
         # There should be at most one match
         if matches.count() == 0:
@@ -39,9 +39,31 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         else:
             structured_request = matches[0]
 
-        update_request_with_status(structured_request, key, state, path)
+        self.update_request_with_status(structured_request, key, state, path)
         
         return True
 
+    def update_request_or_add_stub(self, experiment_id, name, challenge_problem, experiment_reference, experiment_reference_url, experiment_version, lab, key, state, path=None):
+        query={}
+        query['experiment_id'] = experiment_id
+        matches = self.query(query)
+        
+        if matches.count() == 0:
+            # create a stub
+            structured_request = { 'name': name,
+                                   'experiment_id': experiment_id,
+                                   'challenge_problem': challenge_problem,
+                                   'experiment_reference': experiment_reference,
+                                   'experiment_reference_url': experiment_reference_url,
+                                   'experiment_version': experiment_version,
+                                   'lab': lab,
+                                   'runs':[] }
+        else:
+            structured_request = matches[0]
+
+        self.update_request_with_status(structured_request, key, state, path)
+        
+        return True
+    
 class StoreInterface(StructuredRequestStore):
     pass
