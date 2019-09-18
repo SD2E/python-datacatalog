@@ -39,7 +39,7 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         else:
             structured_request = matches[0]
 
-        update_request_with_status(structured_request, key, state, path)
+        self.update_request_with_status(structured_request, key, state, path)
         
         return True
 
