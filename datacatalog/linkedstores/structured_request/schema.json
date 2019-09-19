@@ -3,6 +3,69 @@
   "additionalProperties": false,
   "description": "A structured experiment request",
   "definitions": {
+    "status_element": {
+      "type": "object",
+      "properties": {
+        "state": {
+            "oneOf": [
+                {
+                    "type": "boolean"
+                },
+                {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
+                }
+            ]
+        },
+        "last_updated": {
+            "description": "When the job record was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "path": {
+            "oneOf": [
+                {
+                	"type": "null"
+                },
+                {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
+                }
+            ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "uploaded": {
+          "$ref": "#/definitions/status_element"
+        },
+        "converted": {
+          "$ref": "#/definitions/status_element"
+        },
+        "annotated": {
+          "$ref": "#/definitions/status_element"
+        },
+        "ingested": {
+          "$ref": "#/definitions/status_element"
+        },
+        "etl_flow": {
+          "$ref": "#/definitions/status_element"
+        },
+        "etl_rna_seq": {
+          "$ref": "#/definitions/status_element"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "uploaded",
+        "converted",
+        "annotated",
+        "ingested",
+        "etl_flow",
+        "etl_rna_seq"
+      ]
+    },
     "comparison_kv_items": {
       "description": "key value pair where the value is an array",
       "type": "object",
@@ -108,6 +171,14 @@
       "type": "object",
       "properties": {
         "measurements": {
+          "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
+          "items": {
+            "$ref": "#definitions/measurement"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "missing_measurements": {
           "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
           "items": {
             "$ref": "#definitions/measurement"
@@ -468,6 +539,10 @@
     },
     "experiment_version": {
       "type": "number"
+    },
+    "status": {
+      "description": "records status of individual steps proceessing data from an experiment",
+      "$ref": "#/definitions/status"
     },
     "comparison_results": {
       "description": "results from comparing annotated lab trace and enumerated structured request",

@@ -37,6 +37,22 @@ def parse_temperature(sample_properties):
 
     return temperature
 
+def populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point):
+
+    if parent_props is not None:
+        time_val = parse_time(parent_props)
+        # fall-through
+        if time_val is None:
+            time_val = parse_time(props)
+    else:
+        time_val = parse_time(props)
+    if time_val is not None:
+        measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+    elif reference_time_point != None:
+        measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
+
+    return time_val
+
 def parse_time(sample_properties):
 
     time_prop = "SD2_timepoint"
@@ -100,6 +116,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         print("Helper not loaded")
 
     props_attr = "properties"
+    dropout_attr = "SD2_dropout_type"
 
     # default values for FCS support; replace with trace information as available
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
@@ -444,18 +461,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if measurement_key in library_prep_dict:
                 measurement_doc[SampleConstants.MEASUREMENT_LIBRARY_PREP] = library_prep_dict[measurement_key]
 
-            if parent_props is not None:
-                time_val = parse_time(parent_props)
-                # fall-through
-                if time_val is None:
-                    time_val = parse_time(props)
-            else:
-                time_val = parse_time(props)
-            if time_val is not None:
-                measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
-
-            elif reference_time_point != None:
-                measurement_doc[SampleConstants.TIMEPOINT] = reference_time_point
+            time_val = populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point)
 
             measurement_doc[SampleConstants.FILES] = []
 
@@ -716,11 +722,26 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.MEASUREMENTS] = []
         output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
+        # Handle missing measurements
+        if dropout_attr in props:
+            if props[dropout_attr] == "flow":
+                missing_measurement_doc = {}
+
+                populate_measurement_doc_with_time(missing_measurement_doc, parent_props, props, reference_time_point)
+
+                missing_measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id("missing_" + SampleConstants.MT_FLOW, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+                missing_measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+                missing_measurement_doc[SampleConstants.FILES] = [{SampleConstants.M_TYPE : SampleConstants.F_TYPE_FCS, SampleConstants.M_NAME : namespace_file_id("missing_file", output_doc[SampleConstants.LAB], missing_measurement_doc, output_doc)}]
+                sample_doc[SampleConstants.MISSING_MEASUREMENTS] = [missing_measurement_doc]
+            else:
+                raise ValueError("Unknown dropout type: {}".format(props[dropout_attr]))
+
     print('Samples in file: {}'.format(len(ginkgo_iterator)))
     print('Samples with data: {}'.format(samples_w_data))
 
     try:
         validate(output_doc, schema)
+
         # if verbose:
         # print(json.dumps(output_doc, indent=4))
 
