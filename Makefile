@@ -102,6 +102,7 @@ copy-cp-request-schema: update-cp-requests-dir
 
 # Generate new build of ../schemas/
 schemas-build: copy-cp-request-schema
+	python -m scripts.lab_to_namespaced_identifier
 	python -m scripts.build_schemas
 
 # schemas can be built (does not overwrite ../schemas/)
