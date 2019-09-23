@@ -29,13 +29,13 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         self.add_update_document(structured_request, strategy=strategies.REPLACE)   
 
     def update_request_status_for_etl(self, experiment_id, key, job_dict): 
-        print("update_request_status_for_etl for experiment_id: {}".format(experiment_id))
+        self.logger.info("update_request_status_for_etl for experiment_id: {}".format(experiment_id))
         query = {"experiment_id": experiment_id}
         matches = self.query(query)        
         
         # There should be at most one match
         if matches.count() == 0:
-            print("SR not found")
+            self.logger.info("SR not found")
             return False
         else:
             structured_request = matches[0]
