@@ -27,10 +27,22 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         }
         
         self.add_update_document(structured_request, strategy=strategies.REPLACE)   
+
+    def update_request_status_for_etl(self, experiment_id, key, job_dict): 
+        query = {"experiment_id": experiment_id}
+        matches = self.query(query)        
         
+        # There should be at most one match
+        if matches.count() == 0:
+            return False
+        else:
+            structured_request = matches[0]
+            
+        structured_request[key] = job_dict
+        self.add_update_document(structured_request, strategy=strategies.REPLACE)
+               
     def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
-        query={}
-        query['experiment_id'] = experiment_id
+        query = {"experiment_id": experiment_id}
         matches = self.query(query)
         
         # There should be at most one match
