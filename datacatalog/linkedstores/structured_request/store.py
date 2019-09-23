@@ -46,14 +46,17 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
 
         # Check if a job with the same uuid already exists and should be updated
         replaced = False
+        print("searching for replacement candidate")
         for job in structured_request["status"][key]:
             if job["job_uuid"] == job_dict["job_uuid"]:
                 job = job_dict
                 replaced = True
 
+        print("append if not replaced")
         if not replaced:
             structured_request["status"][key].append(job_dict)
 
+        print("actual replacement")
         self.add_update_document(structured_request, strategy=strategies.REPLACE)
         
         return True
