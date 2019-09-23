@@ -40,6 +40,8 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
             
         structured_request[key] = job_dict
         self.add_update_document(structured_request, strategy=strategies.REPLACE)
+        
+        return True
                
     def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
         query = {"experiment_id": experiment_id}
