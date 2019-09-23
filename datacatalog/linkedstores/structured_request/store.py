@@ -40,13 +40,12 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         else:
             structured_request = matches[0]
         
-        etl_jobs = structured_request["status"][key]
-        if etl_jobs is None:
+        if key in structured_request["status"]:
             print("adding stub")
             structured_request["status"][key] = {}
         else:
             print("appending job_dict")
-            etl_jobs.append(job_dict)
+            structured_request["status"][key].append(job_dict)
 
         self.add_update_document(structured_request, strategy=strategies.REPLACE)
         
