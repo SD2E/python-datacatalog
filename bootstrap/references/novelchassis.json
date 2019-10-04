@@ -496,5 +496,2075 @@
     "name": "amin_genes.gff",
     "reference_id": "amin_genes_gff-0-1-0",
     "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/amin_genes.gff"
+  },
+  {
+    "description": "Fasta file for the MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.ann",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.ann",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.amb",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.amb",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.bwt",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.bwt",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.fai",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.fai",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.pac",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.pac",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.fa.sa",
+    "name": "MG1655___with___RPU_Standard_Plasmid.fa.sa",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.dict",
+    "name": "MG1655___with___RPU_Standard_Plasmid.dict",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655___with___RPU_Standard_Plasmid strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655___with___RPU_Standard_Plasmid/MG1655___with___RPU_Standard_Plasmid.interval_list",
+    "name": "MG1655___with___RPU_Standard_Plasmid.interval_file",
+    "reference_id": "MG1655___with___RPU_Standard_Plasmid_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_pAmeR_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_pPhlF_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.ann",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.amb",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.bwt",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.fai",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.pac",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.sa",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.dict",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.dict",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_AraC_Sensor_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor_pBADmin_YFP/MG1655_LPV3_AraC_Sensor_pBADmin_YFP.interval_list",
+    "name": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_pBADmin_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors/MG1655_LPV3_LacI_AraC_Sensors.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_BM3R1_pBM3R1_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PhlF/MG1655_LPV3_LacI_Sensor_pTac_PhlF.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PhlF.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PhlF_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.ann",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.amb",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.bwt",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.fai",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.pac",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.sa",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.dict",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.dict",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_pJ23101_Low_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_Low_RBS_YFP/MG1655_LPV3_pJ23101_Low_RBS_YFP.interval_list",
+    "name": "MG1655_LPV3_pJ23101_Low_RBS_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_pJ23101_Low_RBS_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP/MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_pBM3R1_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_YFP/MG1655_LPV3_LacI_Sensor_pTac_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_BM3R1/MG1655_LPV3_LacI_Sensor_pTac_BM3R1.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_BM3R1_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_pPhlF_pAmeR_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA/MG1655_LPV3_LacI_Sensor_pTac_PsrA.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pPhlF_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa",
+    "name": "MG1655_LPV3.fa",
+    "reference_id": "MG1655_LPV3_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.ann",
+    "name": "MG1655_LPV3.fa.ann",
+    "reference_id": "MG1655_LPV3_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.amb",
+    "name": "MG1655_LPV3.fa.amb",
+    "reference_id": "MG1655_LPV3_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.bwt",
+    "name": "MG1655_LPV3.fa.bwt",
+    "reference_id": "MG1655_LPV3_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.fai",
+    "name": "MG1655_LPV3.fa.fai",
+    "reference_id": "MG1655_LPV3_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.pac",
+    "name": "MG1655_LPV3.fa.pac",
+    "reference_id": "MG1655_LPV3_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.fa.sa",
+    "name": "MG1655_LPV3.fa.sa",
+    "reference_id": "MG1655_LPV3_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.dict",
+    "name": "MG1655_LPV3.dict",
+    "reference_id": "MG1655_LPV3_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3/MG1655_LPV3.interval_list",
+    "name": "MG1655_LPV3.interval_file",
+    "reference_id": "MG1655_LPV3_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pPsrA_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.ann",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.ann",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.amb",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.amb",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.bwt",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.bwt",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.fai",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.fai",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.pac",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.pac",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.fa.sa",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.fa.sa",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.dict",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.dict",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_pJS007_LALT__P3__PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_pJS007_LALT__P3__PhlF/MG1655_pJS007_LALT__P3__PhlF.interval_list",
+    "name": "MG1655_pJS007_LALT__P3__PhlF.interval_file",
+    "reference_id": "MG1655_pJS007_LALT__P3__PhlF_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa",
+    "name": "Bacillus_subtilis_168_Marburg.fa",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.ann",
+    "name": "Bacillus_subtilis_168_Marburg.fa.ann",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.amb",
+    "name": "Bacillus_subtilis_168_Marburg.fa.amb",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.bwt",
+    "name": "Bacillus_subtilis_168_Marburg.fa.bwt",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.fai",
+    "name": "Bacillus_subtilis_168_Marburg.fa.fai",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.pac",
+    "name": "Bacillus_subtilis_168_Marburg.fa.pac",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.fa.sa",
+    "name": "Bacillus_subtilis_168_Marburg.fa.sa",
+    "reference_id": "Bacillus_subtilis_168_Marburg_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.dict",
+    "name": "Bacillus_subtilis_168_Marburg.dict",
+    "reference_id": "Bacillus_subtilis_168_Marburg_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the Bacillus_subtilis_168_Marburg strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/Bacillus_subtilis_168_Marburg/Bacillus_subtilis_168_Marburg.interval_list",
+    "name": "Bacillus_subtilis_168_Marburg.interval_file",
+    "reference_id": "Bacillus_subtilis_168_Marburg_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa",
+    "name": "MG1655_LPV3_AraC_Sensor.fa",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.ann",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.ann",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.amb",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.amb",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.bwt",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.bwt",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.fai",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.fai",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.pac",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.pac",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.fa.sa",
+    "name": "MG1655_LPV3_AraC_Sensor.fa.sa",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.dict",
+    "name": "MG1655_LPV3_AraC_Sensor.dict",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_AraC_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_AraC_Sensor/MG1655_LPV3_AraC_Sensor.interval_list",
+    "name": "MG1655_LPV3_AraC_Sensor.interval_file",
+    "reference_id": "MG1655_LPV3_AraC_Sensor_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa",
+    "name": "MG1655_empty_landing_pads.fa",
+    "reference_id": "MG1655_empty_landing_pads_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.ann",
+    "name": "MG1655_empty_landing_pads.fa.ann",
+    "reference_id": "MG1655_empty_landing_pads_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.amb",
+    "name": "MG1655_empty_landing_pads.fa.amb",
+    "reference_id": "MG1655_empty_landing_pads_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.bwt",
+    "name": "MG1655_empty_landing_pads.fa.bwt",
+    "reference_id": "MG1655_empty_landing_pads_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.fai",
+    "name": "MG1655_empty_landing_pads.fa.fai",
+    "reference_id": "MG1655_empty_landing_pads_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.pac",
+    "name": "MG1655_empty_landing_pads.fa.pac",
+    "reference_id": "MG1655_empty_landing_pads_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.fa.sa",
+    "name": "MG1655_empty_landing_pads.fa.sa",
+    "reference_id": "MG1655_empty_landing_pads_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.dict",
+    "name": "MG1655_empty_landing_pads.dict",
+    "reference_id": "MG1655_empty_landing_pads_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_empty_landing_pads strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/MG1655_empty_landing_pads/MG1655_empty_landing_pads.interval_list",
+    "name": "MG1655_empty_landing_pads.interval_file",
+    "reference_id": "MG1655_empty_landing_pads_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa",
+    "name": "MG1655.fa",
+    "reference_id": "MG1655_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.ann",
+    "name": "MG1655.fa.ann",
+    "reference_id": "MG1655_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.amb",
+    "name": "MG1655.fa.amb",
+    "reference_id": "MG1655_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.bwt",
+    "name": "MG1655.fa.bwt",
+    "reference_id": "MG1655_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.fai",
+    "name": "MG1655.fa.fai",
+    "reference_id": "MG1655_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.pac",
+    "name": "MG1655.fa.pac",
+    "reference_id": "MG1655_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.fa.sa",
+    "name": "MG1655.fa.sa",
+    "reference_id": "MG1655_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.dict",
+    "name": "MG1655.dict",
+    "reference_id": "MG1655_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655/MG1655.interval_list",
+    "name": "MG1655.interval_file",
+    "reference_id": "MG1655_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pTac_AmeR_pAmeR_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_pPhlF_pBM3R1_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP/MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_PsrA_pPsrA_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa",
+    "name": "B._subtilis_168_PmtlA-comKS.fa",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.ann",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.ann",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.amb",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.amb",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.bwt",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.bwt",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.fai",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.fai",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.pac",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.pac",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.fa.sa",
+    "name": "B._subtilis_168_PmtlA-comKS.fa.sa",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.dict",
+    "name": "B._subtilis_168_PmtlA-comKS.dict",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the B._subtilis_168_PmtlA-comKS strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/B._subtilis_168_PmtlA-comKS/B._subtilis_168_PmtlA-comKS.interval_list",
+    "name": "B._subtilis_168_PmtlA-comKS.interval_file",
+    "reference_id": "B._subtilis_168_PmtlA-comKS_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.dict",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor_pTac_AmeR/MG1655_LPV3_LacI_Sensor_pTac_AmeR.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor_pTac_AmeR.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_pTac_AmeR_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_AmeR_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.ann",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.amb",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.bwt",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.fai",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.pac",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.fa.sa",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.dict",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.dict",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_pJ23101_High_RBS_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_pJ23101_High_RBS_YFP/MG1655_LPV3_pJ23101_High_RBS_YFP.interval_list",
+    "name": "MG1655_LPV3_pJ23101_High_RBS_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_pJ23101_High_RBS_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1 strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PhlF_pTac_BM3R1_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa",
+    "name": "MG1655_LPV3_LacI_Sensor.fa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.ann",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.amb",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.bwt",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.fai",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.pac",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.fa.sa",
+    "name": "MG1655_LPV3_LacI_Sensor.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.dict",
+    "name": "MG1655_LPV3_LacI_Sensor.dict",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_Sensor strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_Sensor/MG1655_LPV3_LacI_Sensor.interval_list",
+    "name": "MG1655_LPV3_LacI_Sensor.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_Sensor_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_interval_file-0-1-0"
+  },
+  {
+    "description": "Fasta file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa-0-1-0"
+  },
+  {
+    "description": "BWA Index (.ann) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.ann",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.ann",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_ann-0-1-0"
+  },
+  {
+    "description": "BWA Index (.amb) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.amb",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.amb",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_mb-0-1-0"
+  },
+  {
+    "description": "BWA Index (.bwt) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.bwt",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.bwt",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_bwt-0-1-0"
+  },
+  {
+    "description": "BWA Index (.fai) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.fai",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.fai",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_fai-0-1-0"
+  },
+  {
+    "description": "BWA Index (.pac) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.pac",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.pac",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_pac-0-1-0"
+  },
+  {
+    "description": "BWA Index (.sa) of reference fasta for MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.sa",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.fa.sa",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_fa_sa-0-1-0"
+  },
+  {
+    "description": "GATK dict file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.dict",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.dict",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_dict-0-1-0"
+  },
+  {
+    "description": "Picard interval file for the MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP strain",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP/MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.interval_list",
+    "name": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP.interval_file",
+    "reference_id": "MG1655_LPV3_LacI_AraC_Sensors_pBADmin_PsrA_pTac_AmeR_pPsrA_pAmeR_YFP_interval_file-0-1-0"
+  },
+  {
+    "description": "GFF Reference annotation for all novel-chassis strains",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/uma_refs/amin_genes_1.1.0.gff",
+    "name": "amin_genes_1.1.0.gff",
+    "reference_id": "amin_genes_gff-1-1-0"
+  },
+  {
+    "description": "GFF Reference annotation for all novel-chassis strains",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/amin_refs/novel_chassis_2.0_strains_1.0.0.gff",
+    "name": "novel_chassis_2.0_strains_1.0.0.gff",
+    "reference_id": "novel_chassis_2.0_strains-1-0-0"
+  },
+  {
+    "description": "GFF Reference annotation for all novel-chassis strains",
+    "uri": "agave://data-sd2e-community/reference/novel_chassis/b_subtilis/b_subtilis_strains_1.0.1.gff",
+    "name": "b_subtilis_strains_1.0.1.gff",
+    "reference_id": "b_subtilis_strains-1-0-1"
   }
 ]
