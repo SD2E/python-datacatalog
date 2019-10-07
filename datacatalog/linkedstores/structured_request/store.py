@@ -42,12 +42,15 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
 
         # Check if a job with the same uuid already exists and should be updated
         replaced = False
+        if key not in structured_request["status"]:
+            structured_request["status"][key] = {}
+
         if key == "etl_flow":
             if subkey == "color_model":
                 self.logger.info("replacing {} job entry".format(subkey))
                 structured_request["status"][key][subkey] = job_dict
             elif subkey == "whole_dataset":
-                if key not in structured_request["status"]:
+                if subkey not in structured_request["status"][key]:
                     structured_request["status"][key][subkey] = []
 
                 for i in range(len(structured_request["status"][key][subkey])):
