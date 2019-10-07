@@ -28,7 +28,7 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
         
         self.add_update_document(structured_request, strategy=strategies.REPLACE)   
 
-    def update_request_status_for_etl(self, experiment_id, key, job_dict): 
+    def update_request_status_for_etl(self, experiment_id, key, subkey, job_dict): 
         self.logger.info("update_request_status_for_etl for experiment_id: {}".format(experiment_id))
         query = {"experiment_id": experiment_id}
         matches = self.query(query)        
@@ -39,21 +39,38 @@ class StructuredRequestStore(SoftDelete, LinkedStore):
             return False
         else:
             structured_request = matches[0]
-        
-        if key not in structured_request["status"]:
-            structured_request["status"][key] = []
 
         # Check if a job with the same uuid already exists and should be updated
         replaced = False
-        for i in range(len(structured_request["status"][key])):
-            if structured_request["status"][key][i]["job_uuid"] == job_dict["job_uuid"]:
-                self.logger.info("replacing job entry")
-                structured_request["status"][key][i] = job_dict
-                replaced = True
+        if key not in structured_request["status"]:
+            structured_request["status"][key] = {}
 
-        if not replaced:
-            self.logger.info("adding new job entry")
-            structured_request["status"][key].append(job_dict)
+        if key == "etl_flow":
+            if subkey == "color_model":
+                self.logger.info("replacing {} job entry".format(subkey))
+                structured_request["status"][key][subkey] = job_dict
+            elif subkey == "whole_dataset":
+                if subkey not in structured_request["status"][key]:
+                    structured_request["status"][key][subkey] = []
+
+                for i in range(len(structured_request["status"][key][subkey])):
+                    if structured_request["status"][key][i]["job_uuid"] == job_dict["job_uuid"]:
+                        self.logger.info("replacing {} job entry".format(subkey))
+                        structured_request["status"][key][subkey][i] = job_dict
+                        replaced = True
+    
+                if not replaced:
+                    self.logger.info("adding new job entry")
+                    structured_request["status"][key][subkey].append(job_dict)
+        elif key == "etl_rna_seq":
+            if subkey == "qc_metadata":
+                structured_request["status"][key][subkey] = job_dict
+            else:
+                structured_request["status"][key][subkey] = {
+                    "state": job_dict["state"],
+                    "last_updated": msec_precision(time_stamp()),
+                    "path": job_dict["path"]
+                }
 
         self.add_update_document(structured_request, strategy=strategies.REPLACE)
         
