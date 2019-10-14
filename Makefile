@@ -155,7 +155,7 @@ tests-formats-classify:
 bootstrap-tests: bootstrap bootstrap-extras
 
 bootstrap: bootstrap-database bootstrap-references bootstrap-pipelines bootstrap-views bootstrap-schemas bootstrap-sample-tacc-cloud bootstrap-annotations bootstrap-structured-requests
-bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra bootstrap-processes-extra bootstrap-references-extra bootstrap-pipelines-extra bootstrap-views-extra
+bootstrap-extras: bootstrap-challenge-problems-extra bootstrap-experiment-designs-extra bootstrap-experiments-extra bootstrap-samples-extra bootstrap-measurements-extra bootstrap-files-extra bootstrap-processes-extra bootstrap-references-extra bootstrap-pipelines-extra bootstrap-views-extra bootstrap-annotations-extra bootstrap-structured-requests-extras
 
 bootstrap-google: bootstrap-challenge-problems bootstrap-experiment-designs
 bootstrap-mongodb: bootstrap-database bootstrap-references bootstrap-files bootstrap-pipelines bootstrap-views
@@ -220,6 +220,7 @@ bootstrap-associations:
 	python -m bootstrap.manage_associations auto -$(DB_ENV)
 
 bootstrap-annotations: bootstrap-tags bootstrap-texts bootstrap-associations
+bootstrap-annotations-extra: bootstrap-annotations
 
 bootstrap-cp-requests-dir:
 	if [ ! -d $(CP_REQUEST_DIR) ]; then cd bootstrap && git clone https://gitlab.sd2e.org/sd2program/cp-request.git; fi
