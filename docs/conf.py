@@ -21,16 +21,8 @@ from tabulate import tabulate
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
 
-from datacatalog.jsonschemas.schema import JSONSchemaBaseObject
-from datacatalog.linkedstores.pipelinejob import fsm as pipelinejob_fsm
-from datacatalog.identifiers import typeduuid
-from datacatalog.tokens import get_admin_lifetime
-from datacatalog.views.aggregations import get_aggregations
-
-from datacatalog import __version__ as code_version
-from datacatalog import __schema_version__ as schema_version_tuple
-from datacatalog import __schema_major_version__ as schema_major_version
-from datacatalog import __jsonschema_version__ as jsonschema_version
+from datacatalog import __about__ as about
+from datacatalog import (identifiers, jsonschemas, linkedstores, tokens, views)
 
 def rstjinja(app, docname, source):
     """
@@ -49,53 +41,56 @@ def setup(app):
     app.connect("source-read", rstjinja)
 
 def table_pipelinejob_states():
-    return tabulate(pipelinejob_fsm.STATE_DEFS, ['State', 'Description'], tablefmt='rst')
+    return tabulate(linkedstores.pipelinejob.fsm.STATE_DEFS,
+                    ['State', 'Description'], tablefmt='rst')
 
 def table_pipelinejob_events():
-    return tabulate(pipelinejob_fsm.EVENT_DEFS, ['Event', 'Description'], tablefmt='rst')
+    return tabulate(linkedstores.pipelinejob.fsm.EVENT_DEFS,
+                    ['Event', 'Description'], tablefmt='rst')
 
 def opt_admin_token_lifetime():
-    return str(get_admin_lifetime())
+    return str(tokens.get_admin_lifetime()) + ' seconds'
 
 def table_typeduuid_types():
-    return tabulate(typeduuid.UUIDTYPES, ['Type', 'Prefix', 'Description'], tablefmt='rst')
-
-def text_schema_version():
-    return '.'.join(list(schema_version_tuple))
-
-def text_jsonschema_version():
-    return urllib.parse.quote(jsonschema_version)
+    return tabulate(identifiers.typeduuid.UUIDTYPES,
+                    ['Type', 'Prefix', 'Description'], tablefmt='rst')
 
 def table_views():
     view_rows = list()
-    for k, v in get_aggregations().items():
+    for k, v in views.aggregations.get_aggregations().items():
         row = [k, v.description, v.view_on, v.author]
         view_rows.append(row)
-    return tabulate(view_rows, ['Name', 'Description', 'Source', 'Author'], tablefmt='rst')
+    return tabulate(view_rows,
+                    ['Name', 'Description', 'Source', 'Author'], tablefmt='rst')
+
+def text_schema_version():
+    return jsonschemas.version.TEXT_VERSION
+
+def text_jsonschema_specification():
+    return jsonschemas.version.JSONSCHEMA_SPECIFICATION
 
 
 html_context = {
     'css_files': ['_static/theme_overrides.css'],
-    'project_schema_base_url': JSONSchemaBaseObject.BASEREF,
+    'project_schema_base_url': jsonschemas.BASEURL,
     'project_schema_browser_url': 'https://browser.catalog.sd2e.org',
     'pipelinejob_states': table_pipelinejob_states(),
     'pipelinejob_events': table_pipelinejob_events(),
     'typeduuid_types': table_typeduuid_types(),
     'current_views': table_views(),
     'schema_version': text_schema_version(),
-    'jsonschema_version': text_jsonschema_version()
+    'jsonschema_specification': text_jsonschema_specification()
 }
 
 # -- Project information -----------------------------------------------------
 
-project = 'SD2 Data Catalog'
-copyright = '2018, Matt Vaughn, Niall Gaffney, Mark Weston'
-author = 'Matt Vaughn, Niall Gaffney, Mark Weston'
-
+project = about.__project__
+author = about.__author__
+copyright = about.__copyright__
 # The short X.Y version
-version = code_version
-# The full version, including alpha/beta/rc tags
-release = '{}#{}'.format(code_version, '.'.join(list(schema_version_tuple)))
+version = about.__version__
+# The full version, including alpha/beta/rc tags and git commiit
+release = '{}{}#{}'.format(version, about.__sub_version__, about.__commit__)
 
 # -- General configuration ---------------------------------------------------
 

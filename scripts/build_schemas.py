@@ -8,7 +8,8 @@ import tempfile
 import logging
 from jinja2 import Template
 from pprint import pprint
-import datacatalog
+from datacatalog import identifiers, jsonschemas, linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 
 logger = logging.getLogger(__name__)
 
@@ -102,12 +103,12 @@ def regenerate(filters=None, args=None):
     template = Template(INDEX)
     elements = list()
 
-    if datacatalog.settings.parse_boolean(os.environ.get('MAKETESTS', '0')):
+    if settings_module.parse_boolean(os.environ.get('MAKETESTS', '0')):
         DESTDIR = tempfile.mkdtemp()
     else:
         DESTDIR = os.path.join(PARENT, 'schemas')
 
-    for fname, schema in datacatalog.jsonschemas.get_all_schemas(filters).items():
+    for fname, schema in jsonschemas.get_all_schemas(filters).items():
         destpath = os.path.join(DESTDIR, fname + '.json')
 
         logger.info('Regenerating %s', fname)

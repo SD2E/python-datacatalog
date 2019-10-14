@@ -1,5 +1,5 @@
 {
-    "$comment": "generated: 20190731T154012+00:00; source: git@github.com:SD2E/python-datacatalog.git@9e0750d",
+    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
     "$id": "https://schema.catalog.sd2e.org/schemas/tag_annotation_manager_event_create.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -14,9 +14,45 @@
         "body": {
             "additionalProperties": false,
             "properties": {
+                "connects_to": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "challenge_problem_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_design_uuid.json"
+                            },
+                            {
+                                "$ref": "experiment_uuid.json"
+                            },
+                            {
+                                "$ref": "sample_uuid.json"
+                            },
+                            {
+                                "$ref": "measurement_uuid.json"
+                            },
+                            {
+                                "$ref": "file_uuid.json"
+                            },
+                            {
+                                "$ref": "pipeline_uuid.json"
+                            },
+                            {
+                                "$ref": "pipelinejob_uuid.json"
+                            },
+                            {
+                                "$ref": "reference_uuid.json"
+                            }
+                        ]
+                    },
+                    "maxItems": 100,
+                    "minItems": 0,
+                    "type": "array"
+                },
                 "description": {
-                    "$comment": "The description should only hold clarifying or contextualizing information about the tag",
-                    "description": "Text description of the tag",
+                    "$comment": "The description should only hold clarifying or contextualizing information about the Tag",
+                    "description": "Text description of the Tag",
                     "oneOf": [
                         {
                             "maxLength": 256,
@@ -36,13 +72,18 @@
                         }
                     ]
                 },
+                "note": {
+                    "description": "Optional rationale for creating the Association",
+                    "maxLength": 2048,
+                    "type": "string"
+                },
                 "owner": {
                     "$comment": "Must be a valid TACC.cloud username",
-                    "description": "Account who creates or manages a tag",
+                    "description": "Account who creates or manages a Tag",
                     "oneOf": [
                         {
                             "$ref": "tacc_username.json",
-                            "description": "Account that manages this tag"
+                            "description": "Account that manages this Tag"
                         }
                     ]
                 }

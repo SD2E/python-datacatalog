@@ -106,15 +106,17 @@ def validate(uuid_string, permissive=False):
     Returns:
         bool: Validation result
     """
-    if validate_uuid5(uuid_string, permissive=permissive):
-        try:
-            get_uuidtype(uuid_string)
-            return True
-        except ValueError:
-            if permissive is True:
-                return False
-            else:
-                raise ValueError('Not a valid TypedUUID')
+    # Is is a UUID5
+    # Does it correspond to a known type
+    try:
+        validate_uuid5(uuid_string, permissive=False)
+        get_uuidtype(uuid_string)
+        return True
+    except Exception as err:
+        if permissive is True:
+            return False
+        else:
+            raise ValueError('Invalid TypedUUID ({})'.format(err))
 
 @picklecache.mcache(lru_cache(maxsize=256))
 def get_uuidtype(query_uuid):
@@ -131,11 +133,18 @@ def get_uuidtype(query_uuid):
     """
     if isinstance(query_uuid, uuid.UUID):
         query_uuid = str(query_uuid)
-    uuid_end = query_uuid[:3].lower()
-    for t, v in uuidtypes.items():
-        if uuid_end == v.prefix:
-            return t
-    raise ValueError('{} is not a known class of TypedUUID'.format(query_uuid))
+    try:
+        if isinstance(query_uuid, str):
+            uuid_end = query_uuid[:3].lower()
+            for t, v in uuidtypes.items():
+                if uuid_end == v.prefix:
+                    return t
+        else:
+            raise TypeError('Query must be a string type')
+        raise ValueError(
+            '{} not a known form of TypedUUID'.format(query_uuid))
+    except Exception:
+        raise
 
 @picklecache.mcache(lru_cache(maxsize=256))
 def catalog_uuid(text_value, uuid_type='generic',
@@ -191,10 +200,31 @@ def binary_uuid_to_text(binary_uuid):
 def validate_uuid5(uuid_string, permissive=False):
     """Test whether a UUID string is a valid uuid.uuid5"""
     try:
-        uuid.UUID(uuid_string, version=5)
+        to_validate = str(uuid_string)
+        uuid.UUID(to_validate, version=5)
         return True
     except ValueError:
         if permissive is False:
-            raise ValueError('{} is not a valid UUID5'.format(uuid_string))
+            raise ValueError('{} is not a UUID5'.format(uuid_string))
         else:
             return False
+
+@picklecache.mcache(lru_cache(maxsize=256))
+def listify_uuid(uuid, validate_members=True):
+    """Safely cast a string UUID into a list of UUIDs
+    """
+    uuids = list()
+    if uuid is None:
+        return uuids
+    if isinstance(uuid, str):
+        uuids = [uuid]
+    elif isinstance(uuid, list):
+        uuids = uuid
+    val_uuids = list()
+    if validate_members:
+        val_uuids = [u for u in uuids if validate(u, permissive=True)]
+        val_uuids.sort()
+        return val_uuids
+    else:
+        uuids.sort()
+        return uuids

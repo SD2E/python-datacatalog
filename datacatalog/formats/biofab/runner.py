@@ -80,6 +80,29 @@ def parse_stain(original_experiment_id, lab, sbh_query, reagents, item):
 def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc):
     # new media and reagents from Cell State Reporters and Live Dead
     if attributes_attr in item:
+        # Options Reagents
+        # Options": {
+        #   "Reagents": {
+        #     "Ethanol": {
+        #       "final_concentration": {
+        #         "qty": 250,
+        #         "units": "ul"
+        options_sum = 0.0
+        if options_attr in item[attributes_attr] and reagents_attr in item[attributes_attr][options_attr]:
+            reagent_keys = item[attributes_attr][options_attr][reagents_attr].keys()
+            for reagent_key in reagent_keys:
+                reagent_key_item = item[attributes_attr][options_attr][reagents_attr][reagent_key]
+                reagent_obj = create_media_component(original_experiment_id, reagent_key, reagent_key, lab, sbh_query)
+                if final_concentration_attr in reagent_key_item:
+                    units = reagent_key_item[final_concentration_attr]["units"]
+                    if units == "ul":
+                        units = "microliter"
+                    qty = reagent_key_item[final_concentration_attr]["qty"]
+                    options_sum = options_sum + qty
+                    volume_value_unit = create_value_unit(str(qty) + ":" + units)
+                    reagent_obj[volume_attr] = volume_value_unit
+
+                reagents.append(reagent_obj)
         if alt_media_attr in item[attributes_attr]:
             # alternative media:
             # "Media": {
@@ -100,31 +123,15 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biof
                         units = media_key_item[working_volume_attr]["units"]
                         if units == "\u00b5l":
                             units = "microliter"
-                        volume_value_unit = create_value_unit(str(media_key_item[working_volume_attr]["qty"]) + ":" + units)
+                        media_qty = media_key_item[working_volume_attr]["qty"]
+                        # media volumen calculated from working volume minus other reagents
+                        media_qty = media_qty - options_sum
+                        volume_value_unit = create_value_unit(str(media_qty) + ":" + units)
                         reagent_obj[volume_attr] = volume_value_unit
                     reagents.append(reagent_obj)
                 except StopIteration as si:
                     raise si
-        # Options Reagents
-        # Options": {
-        #   "Reagents": {
-        #     "Ethanol": {
-        #       "final_concentration": {
-        #         "qty": 250,
-        #         "units": "ul"
-        if options_attr in item[attributes_attr] and reagents_attr in item[attributes_attr][options_attr]:
-            reagent_keys = item[attributes_attr][options_attr][reagents_attr].keys()
-            for reagent_key in reagent_keys:
-                reagent_key_item = item[attributes_attr][options_attr][reagents_attr][reagent_key]
-                reagent_obj = create_media_component(original_experiment_id, reagent_key, reagent_key, lab, sbh_query)
-                if final_concentration_attr in reagent_key_item:
-                    units = reagent_key_item[final_concentration_attr]["units"]
-                    if units == "ul":
-                        units = "microliter"
-                    volume_value_unit = create_value_unit(str(reagent_key_item[final_concentration_attr]["qty"]) + ":" + units)
-                    reagent_obj[volume_attr] = volume_value_unit
 
-                reagents.append(reagent_obj)
 
 def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
     try:
@@ -529,6 +536,13 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
     output_doc = {}
 
     lab = SampleConstants.LAB_UWBF
+    output_doc[SampleConstants.LAB] = biofab_doc.get("attributes").get("lab", lab)
+
+    # The UW_BIOFAB provenance dump from Aquarium is now being used by other labs.
+    # Use the lab value if provided, and validate it
+    lab_schema = { "$ref" : "https://schema.catalog.sd2e.org/schemas/lab.json"}
+    lab = output_doc[SampleConstants.LAB]
+    validate(lab, lab_schema)
 
     original_experiment_id = None
     if "plan_id" in biofab_doc:
@@ -547,7 +561,6 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
     map_experiment_reference(config, output_doc)
 
-    output_doc[SampleConstants.LAB] = biofab_doc.get("attributes", {}).get("lab", lab)
     output_doc[SampleConstants.SAMPLES] = []
 
     # is this a Sytox plan? Per:

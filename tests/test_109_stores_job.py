@@ -1,17 +1,10 @@
 import os
 import pytest
-import sys
-import yaml
 import json
 from pprint import pprint
-from . import longrun, delete
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-from .fixtures.agave import agave, credentials
-import datacatalog
-from .data import pipelinejob
-from datacatalog.linkedstores.pipelinejob import PipelineJobStore, exceptions
 
-CWD = os.getcwd()
+from datacatalog.linkedstores.pipelinejob import PipelineJobStore, exceptions
+from .data import pipelinejob
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
@@ -41,31 +34,27 @@ def test_job_uuid_tytpe(mongodb_settings):
     base = PipelineJobStore(mongodb_settings)
     assert base.get_uuid_type() == 'pipelinejob'
 
-def test_job_create(mongodb_settings, monkeypatch):
-    monkeypatch.setenv('LOCALONLY', '1')
+def test_job_create(mongodb_settings, env_localonly):
     base = PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_jobs():
         resp = base.create(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_job_handle_event_ok(mongodb_settings, monkeypatch):
-    monkeypatch.setenv('LOCALONLY', '1')
+def test_job_handle_event_ok(mongodb_settings, env_localonly):
     base = PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events():
         resp = base.handle(data_struct['data'])
         assert resp['uuid'] == data_struct['uuid']
 
-def test_job_handle_event_wrong_uuid(mongodb_settings, monkeypatch):
-    monkeypatch.setenv('LOCALONLY', '1')
+def test_job_handle_event_wrong_uuid(mongodb_settings, env_localonly):
     base = PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_events_wrong_uuid():
         with pytest.raises(exceptions.UnknownJob):
             base.handle(data_struct['data'])
 
-def test_job_fsm_state_png(mongodb_settings, monkeypatch):
+def test_job_fsm_state_png(mongodb_settings, env_localonly):
     try:
         import pygraphviz
-        monkeypatch.setenv('LOCALONLY', '1')
         base = PipelineJobStore(mongodb_settings)
         for data_struct in pipelinejob.get_jobs():
                 graf = base.fsm_state_png(data_struct['uuid'])
@@ -101,7 +90,7 @@ def test_job_agaveclient(mongodb_settings, agave):
         mongodb_settings, agave=agave)
     assert getattr(base, '_helper') is not None
 
-@longrun
+@pytest.mark.longrun
 def test_job_list_job_dir(mongodb_settings, agave):
     # The listed path is set up for test_agavehelpers and the job_uuid is the
     # from data/tests/pipelinejob/tacbobot.json
@@ -111,9 +100,9 @@ def test_job_list_job_dir(mongodb_settings, agave):
     dirlist = base.list_job_archive_path(job_uuid, recurse=True)
     assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in dirlist
 
-@delete
+@pytest.mark.delete
 def test_job_delete(mongodb_settings):
     base = PipelineJobStore(mongodb_settings)
     for data_struct in pipelinejob.get_jobs():
-        resp = base.delete_document(data_struct['uuid'], soft=False)
+        resp = base.delete_document(data_struct['uuid'], force=True)
         assert resp.raw_result == {'n': 1, 'ok': 1.0}

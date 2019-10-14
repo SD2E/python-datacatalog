@@ -24,7 +24,8 @@ DATA = os.path.join(THIS, COLLECTION)
 # Use local not installed install of datacatalog
 if GPARENT not in sys.path:
     sys.path.insert(0, GPARENT)
-import datacatalog
+from datacatalog import identifiers, linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 
 logger = logging.getLogger(os.path.basename(SELF))
 logger.setLevel(logging.INFO)
@@ -33,7 +34,7 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    store = datacatalog.linkedstores.file.FileStore(idb)
+    store = linkedstores.file.FileStore(idb)
     build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading {}'.format(ref))
@@ -49,7 +50,7 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known files')
-    store = datacatalog.linkedstores.file.FileStore(idb)
+    store = linkedstores.file.FileStore(idb)
     for filedat in store.query({}):
         pprint(filedat)
 
@@ -59,7 +60,7 @@ def main(args):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment

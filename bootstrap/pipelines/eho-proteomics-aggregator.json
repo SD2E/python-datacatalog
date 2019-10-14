@@ -1,0 +1,27 @@
+{
+    "name": "Proetomics Aggregator Pipeline",
+    "id": "proteomics-grabber-0.1.0u1",
+    "description": "This app grabs proteomics data for a sample/experiment/measurment request along with the relevant metadata, and produces a dataset after appending the relevant metadata and normalizing across samples.",
+    "components": [
+        {
+            "id": "proteomics-grabber-0.1.0u1",
+            "inputs": {
+                "options_json": "*.json"
+            },
+            "parameter": {
+                "CONTAINER_IMAGE": "sd2e/proteomics-grabber-0.1.0"
+            }
+        }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "JSON",
+        "CSV"
+    ],
+    "produces": [
+        "CSV",
+        "PNG"
+    ]
+}

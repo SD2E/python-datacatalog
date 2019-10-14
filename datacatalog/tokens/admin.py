@@ -1,8 +1,12 @@
+import os
 import time
 import hashlib
 from datacatalog import settings
 from .classes import Token
 from .exceptions import InvalidAdminToken
+
+__all__ = ['InvalidAdminToken', 'get_admin_token', 'validate_admin_token',
+           'internal_get_admin_token', 'get_admin_key', 'get_admin_lifetime']
 
 def get_admin_token(key, previous=False):
     """Returns a token with administrative priviledges
@@ -71,16 +75,20 @@ def __get_admin_tokens(key=None):
     return toks
 
 def __get_admin_salt():
-    """Internal: Get configured secret for generating admin tokens
+    """Internal: Get current secret for generating admin tokens
     """
-    return settings.ADMIN_TOKEN_SECRET
+    return os.environ.get(
+        'CATALOG_ADMIN_TOKEN_SECRET', settings.ADMIN_TOKEN_SECRET)
 
 def get_admin_key():
-    """Get configured key for generating admin tokens
+    """Get current  key for generating admin tokens
     """
-    return settings.ADMIN_TOKEN_KEY
+    return os.environ.get(
+        'CATALOG_ADMIN_TOKEN_KEY', settings.ADMIN_TOKEN_KEY)
 
 def get_admin_lifetime():
-    """Get configured expiration time in seconds for new admin tokens
+    """Get current  expiration time (seconds) for new admin tokens
     """
-    return settings.ADMIN_TOKEN_LIFETIME
+    return int(
+        os.environ.get(
+            'CATALOG_ADMIN_TOKEN_LIFETIME', settings.ADMIN_TOKEN_LIFETIME))

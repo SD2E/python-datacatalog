@@ -1,13 +1,14 @@
-import pytest
-from datacatalog import tokens
-
-from .agave import agave, credentials, settings
-from .mongodb import mongodb_settings, mongodb_authn
-
-@pytest.fixture(scope='session')
-def admin_key():
-    return tokens.admin.get_admin_key()
-
-@pytest.fixture(scope='session')
-def admin_token(admin_key):
-    return tokens.admin.get_admin_token(admin_key)
+from .abaco import *
+from .agave import *
+from .debug import *
+from .googleapi import *
+from .jobs import *
+from .manager import *
+from .metadata import *
+from .mongodb import *
+from .pjso import *
+from .reactor import *
+from .sampleset import *
+from .system import *
+from .tenancy import *
+from .token import *

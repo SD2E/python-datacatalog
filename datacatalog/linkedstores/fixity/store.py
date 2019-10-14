@@ -71,7 +71,7 @@ class FixityStore(AgaveClient, LinkedStore, RateLimiter):
         # Invoke the RateLimiter that we've mixed in via MultipleInheritance
         self.limit()
         indexer = FixityIndexer(schema=self.schema,
-                                agave=self._helper._client,
+                                agave=self._helper.client,
                                 **db_record).sync()
         fixity_record = indexer.to_dict()
 

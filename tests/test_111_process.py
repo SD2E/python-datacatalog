@@ -1,19 +1,12 @@
 import os
 import pytest
-import sys
-import yaml
 import json
-from pprint import pprint
-from . import longrun, delete
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import process
 from datacatalog.linkedstores.process import ProcessStore
+from .data import process
 
 def test_procs_db_init(mongodb_settings):
     base = ProcessStore(mongodb_settings)
@@ -35,7 +28,7 @@ def test_procs_add(mongodb_settings):
         resp = base.add_update_document(doc)
         assert resp['uuid'] == uuid
 
-@delete
+@pytest.mark.delete
 def test_procs_delete(mongodb_settings):
     base = ProcessStore(mongodb_settings)
     for uuid, doc in process.DELETES:

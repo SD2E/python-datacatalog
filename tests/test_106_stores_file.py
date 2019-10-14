@@ -1,21 +1,14 @@
-import os
 import pytest
-import sys
-import yaml
+import os
 import json
-from pprint import pprint
-from . import longrun, delete
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import file
 from datacatalog.linkedstores.file import FileStore, FileRecord
 from datacatalog.jsonschemas import ValidationError
 from datacatalog.utils import safen_path
+from .data import file
 
 def test_files_db_init(mongodb_settings):
     base = FileStore(mongodb_settings)
@@ -156,7 +149,7 @@ def test_files_normpath(mongodb_settings, filename, fuuid):
     identifier_string_uuid = base.get_typeduuid(filename, binary=False)
     assert identifier_string_uuid == fuuid
 
-@delete
+@pytest.mark.delete
 def test_files_delete(mongodb_settings):
     base = FileStore(mongodb_settings)
     for key, doc, uuid_val in file.DELETES:
@@ -170,7 +163,7 @@ def test_files_disk_load(mongodb_settings):
         resp = base.add_update_document(doc, strategy='replace')
         assert resp['uuid'] == file_uuid
 
-@delete
+@pytest.mark.delete
 def test_files_disk_delete(mongodb_settings):
     base = FileStore(mongodb_settings)
     for filename, file_uuid in file.LOADS:

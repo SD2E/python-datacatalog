@@ -6,21 +6,29 @@ import itertools
 from pprint import pprint
 from .. import settings
 from ..utils import dynamic_import
+from .coll import JSONSchemaCollection
 
-currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+currentdir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 
-STORE_SCHEMAS = ['linkedstores.basestore', 'linkedstores.challenge_problem',
-                 'linkedstores.experiment_design', 'linkedstores.experiment',
-                 'linkedstores.sample', 'linkedstores.measurement',
-                 'linkedstores.file', 'linkedstores.fixity',
-                 'linkedstores.pipeline', 'linkedstores.pipelinejob',
-                 'linkedstores.product', 'linkedstores.reference',
+STORE_SCHEMAS = ['linkedstores.basestore',
+                 'linkedstores.challenge_problem',
+                 'linkedstores.experiment_design',
+                 'linkedstores.structured_request',
+                 'linkedstores.experiment',
+                 'linkedstores.sample',
+                 'linkedstores.measurement',
+                 'linkedstores.file',
+                 'linkedstores.fixity',
+                 'linkedstores.pipeline',
+                 'linkedstores.pipelinejob',
+                 'linkedstores.product',
+                 'linkedstores.reference',
                  'linkedstores.process',
                  'linkedstores.association',
                  'linkedstores.annotations.tag',
-                 'linkedstores.annotations.text',
-                 'linkedstores.structured_request']
+                 'linkedstores.annotations.text']
 
 """Modules that define object and document schemas for managed document
 collections linked by UUID and linkage fields. Classes in these modules inherit
@@ -45,10 +53,6 @@ SCHEMAS = [STORE_SCHEMAS, COMPOSED_SCHEMAS,
 """The union set of all schemas. This list is traversed when building the set
 of all project schemas."""
 
-class JSONSchemaCollection(dict):
-    """Collection of schemas indexed by schema filename"""
-    def __new__(cls, value):
-        return dict.__new__(cls, value)
 
 def get_all_schemas(filters=[]):
     """Top-level function to discover and return all known JSON schemas

@@ -2,7 +2,7 @@ import time
 import os
 
 from datacatalog.linkedstores.fixity.indexer import FixityIndexer
-from tests.data.fixity import files
+from .data.fixity import files
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)

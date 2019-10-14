@@ -26,7 +26,7 @@ def get_schema():
 def action(self, body, token=None):
     # TODO - Allow create-and-link by passing 1+ record UUID?
     self.logger.info('event.create: {}'.format(body))
-    return new_tag(self, token=token, **body)
+    return new_tag_association(self, token=token, **body)
 
 def new_tag(self,
             name=None,
@@ -48,31 +48,32 @@ def new_tag(self,
         AnnotationError: Unable to create the tag
     """
 
-    self.validate_tapis_username(owner)
+    self.validate_tapis_username(owner, permissive=True)
     anno = self.stores['tag_annotation'].new_tag(name=name,
                                                  description=description,
                                                  owner=owner,
                                                  token=token,
                                                  **kwargs)
+
     return TagAnnotation(self.sanitize(anno))
 
-def new_tag_annotation(self,
-                       connects_to=None,
-                       name=None,
-                       owner=None,
-                       description='',
-                       note='',
-                       tag_owner=None,
-                       token=None, **kwargs):
+def new_tag_association(self,
+                        name=None,
+                        owner=None,
+                        description='',
+                        note='',
+                        tag_owner=None,
+                        connects_to=None,
+                        token=None,
+                        **kwargs):
     """Creates a Tag and associates with Record(s).
 
     Args:
-        connects_to (str): UUID5 of the Record to be annotated
         name (str): Name of the new Tag
         description (str, optional): Plaintext description of the Tag
-        note (str, optional): Plaintext rationale for attaching Tag to Record
         owner (str, optional): TACC.cloud username owning the Tag and Association
-        tag_owner (str, optional): TACC.cloud username owning the Tag (if different)
+        note (str, optional): Plaintext rationale for attaching Tag to Record(s)
+        connects_to (str): UUID5 of the Record to be annotated
 
     Returns:
         TagAnnotation: Representation of the new Tag
@@ -82,22 +83,32 @@ def new_tag_annotation(self,
         AssociationError: Error occurred creating the Association
     """
 
-    self.validate_tapis_username(owner)
     if tag_owner is not None:
-        self.validate_tapis_username(tag_owner)
+        self.validate_tapis_username(tag_owner, permissive=True)
     else:
         tag_owner = owner
 
     connects_from = None
     anno = self.stores['tag_annotation'].new_tag(name=name,
                                                  description=description,
-                                                 owner=tag_owner,
+                                                 owner=owner,
                                                  token=token,
                                                  **kwargs)
-    connects_from = anno.get('uuid', None)
-    assoc = None
-    if connects_from is not None:
-        assoc = self.stores['association'].associate(
+    try:
+        self.validate_uuid(connects_to)
+        self.logger.debug('Automatically creating linkage(s)...')
+        connects_from = anno.get('uuid', None)
+        self.stores['association'].associate(
             connects_from, connects_to, note=note, owner=owner)
+    except ValueError:
+        pass
+    except AssociationError:
+        raise
+
+    # connects_from = anno.get('uuid', None)
+    # assoc = None
+    # if connects_from is not None:
+    #     assoc = self.stores['association'].associate(
+    #         connects_from, connects_to, note=note, owner=owner)
 
     return TagAnnotation(self.sanitize(anno))

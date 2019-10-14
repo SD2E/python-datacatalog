@@ -1,19 +1,5 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from agavepy.agave import Agave
-from pprint import pprint
-from . import longrun, delete
-from .fixtures import agave, credentials
-
 from datacatalog.stores import StorageSystem, ManagedStoreError
-
-
-CWD = os.getcwd()
-HERE = os.path.dirname(os.path.abspath(__file__))
-PARENT = os.path.dirname(HERE)
 
 @pytest.mark.parametrize("system_id, abaco_dir, jupyter_dir", [
     ('data-sd2e-community',
@@ -42,9 +28,11 @@ def test_storage_system_raises(agave, system_id):
     """Non-existent systems fail"""
     with pytest.raises(ManagedStoreError):
         store = StorageSystem(system_id, agave=agave)
+        assert store is None
 
 @pytest.mark.parametrize("system_id", [('data-sd2e-projects-users')])
 def test_storage_system_public_no_jupyter(agave, system_id):
     """Agave public system not exposed via Jupyter"""
     with pytest.raises(ManagedStoreError):
         store = StorageSystem(system_id, agave=agave).jupyter_dir
+        assert store is None

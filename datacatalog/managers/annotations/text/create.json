@@ -53,6 +53,7 @@
                     "oneOf": [
                         {
                             "maxLength": 256,
+                            "minLength": 10,
                             "type": "string",
                             "value": ""
                         }

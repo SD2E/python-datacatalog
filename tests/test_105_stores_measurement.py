@@ -1,19 +1,12 @@
-import os
 import pytest
-import sys
-import yaml
-import json
-from pprint import pprint
-from . import longrun, delete
+import os
 
-CWD = os.getcwd()
 HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 
-from .fixtures.mongodb import mongodb_settings, mongodb_authn
-import datacatalog
-from .data import measurement
+from datacatalog import linkedstores
 from datacatalog.linkedstores.measurement import MeasurementStore
+from .data import measurement
 
 def test_meas_db_init(mongodb_settings):
     base = MeasurementStore(mongodb_settings)
@@ -54,7 +47,7 @@ def test_meas_update(mongodb_settings):
         resp = base.add_update_document(doc, uuid=uuid_val)
         assert resp['uuid'] == uuid_val
 
-@delete
+@pytest.mark.delete
 def test_meas_delete(mongodb_settings):
     base = MeasurementStore(mongodb_settings)
     for key, doc, uuid_val in measurement.DELETES:

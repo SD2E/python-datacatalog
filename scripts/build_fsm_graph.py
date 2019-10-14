@@ -21,7 +21,7 @@ from datacatalog.linkedstores.pipelinejob import graphfsm
 def main(args):
     argdict = vars(args)
     try:
-        datacatalog.linkedstores.pipelinejob.graphfsm.render_graph(**argdict)
+        graphfsm.render_graph(**argdict)
     except Exception as gexc:
         logger.critical('Failed to render graph: {}'.format(gexc))
 

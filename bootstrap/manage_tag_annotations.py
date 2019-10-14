@@ -25,8 +25,9 @@ DATA = os.path.join(THIS, 'annotations', 'tags')
 
 # Use local not installed install of datacatalog
 sys.path.insert(0, GPARENT)
+from datacatalog import identifiers, linkedstores, dicthelpers
+from datacatalog import settings as settings_module
 
-import datacatalog
 logger = logging.getLogger(os.path.basename(__file__))
 logger.setLevel(logging.DEBUG)
 loghandler = logging.StreamHandler()
@@ -34,7 +35,7 @@ loghandler.setFormatter(logging.Formatter('%(name)s.%(levelname)s: %(message)s')
 logger.addHandler(loghandler)
 
 def autobuild(idb, settings):
-    ref_store = datacatalog.linkedstores.annotations.tag.TagAnnotationStore(idb)
+    ref_store = linkedstores.annotations.tag.TagAnnotationStore(idb)
     # build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
     for ref in os.listdir(DATA):
         logger.debug('Loading file {}'.format(ref))
@@ -57,7 +58,7 @@ def autobuild(idb, settings):
 
 def dblist(idb, settings):
     logger.debug('Listing known entities')
-    store = datacatalog.linkedstores.annotations.tag.TagAnnotationStore(idb)
+    store = linkedstores.annotations.tag.TagAnnotationStore(idb)
     for rec in store.query({}):
         logger.info('TAG: name="{}" uuid={} updated={}'.format(
             rec['name'], rec['uuid'],
@@ -69,7 +70,7 @@ def main(args):
     project_settings = config.read_config(places_list=[PARENT])
     logger.debug('Local config:' + THIS + '/config.yml')
     bootstrap_settings = config.read_config(places_list=[THIS])
-    settings = datacatalog.dicthelpers.data_merge(
+    settings = dicthelpers.data_merge(
         project_settings, bootstrap_settings)
 
     env = args.environment

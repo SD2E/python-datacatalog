@@ -1,7 +1,235 @@
 {
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "additionalProperties": false,
   "description": "A structured experiment request",
   "definitions": {
+    "status_element": {
+      "type": "object",
+      "properties": {
+        "state": {
+            "type": "boolean"
+        },
+        "last_updated": {
+            "description": "When the job record was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "path": {
+            "oneOf": [
+                {
+                	"type": "null"
+                },
+                {
+                	"type": "string",
+                	"enum": ["catalog_staging", "catalog"]
+                },
+                {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
+                }
+            ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "etl_job_element": {
+      "type": "object",
+      "properties": {
+        "job_uuid": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_uuid.json"
+        },
+        "last_updated": {
+            "description": "When the job record was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "settings": {
+            "description": "Run-time parameterization of the job",
+            "type": "object"
+        },
+        "state": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
+        },
+        "archive_path": {
+            "description": "Absolute path to the job products",
+            "type": "string"
+        },
+        "outputs": {
+          "items": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "input_gff": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "job_uuid",
+        "last_updated",
+        "state",
+        "archive_path",
+        "outputs"
+      ]
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "uploaded": {
+          "$ref": "#/definitions/status_element"
+        },
+        "converted": {
+          "$ref": "#/definitions/status_element"
+        },
+        "annotated": {
+          "$ref": "#/definitions/status_element"
+        },
+        "ingested": {
+          "$ref": "#/definitions/status_element"
+        },
+        "etl_flow": {
+	      "type": "object",
+	      "properties": {
+	          "color_model": {
+	            "$ref": "#/definitions/etl_job_element"
+	          },
+	          "whole_dataset": {
+	            "items": {
+	              "$ref": "#/definitions/etl_job_element"
+	            },
+	            "minItems": 1,
+	            "type": "array"
+	          }
+	      },
+	      "additionalProperties": false
+        },
+        "etl_rna_seq": {
+	      "type": "object",
+	      "properties": {
+	         "ran_preprocessing": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "ran_alignment": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "ran_dataframe_production": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "qc_metadata": {
+	           "$ref": "#/definitions/etl_job_element"
+             }
+	      },
+	      "additionalProperties": false        	  
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "uploaded",
+        "converted",
+        "annotated",
+        "ingested"
+      ]
+    },
+    "comparison_kv_items": {
+      "description": "key value pair where the value is an array",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array"
+      }
+    },
+    "comparison_sample_item": {
+      "additionalProperties": false,
+      "description": "A sample record",
+      "type": "object",
+      "properties": {
+        "strain": {
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "timepoints": {
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "replicate": {
+          "type": "number"
+        },
+        "contents": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "measurement_type": {
+          "type": "string"
+        },
+        "control_type": {
+          "type": "string"
+        },
+        "standard_type": {
+          "type": "string"
+        },
+        "file_types": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "genetic_construct": {
+          "type": "string"
+        },
+        "tmt_channel": {
+          "type": "string"
+        }
+      }
+    },
+    "comparison_results": {
+      "type": "object",
+      "properties": {
+        "generated_set_length": {
+          "type": "number"
+        },
+        "trace_set_length": {
+          "type": "number"
+        },
+        "expected": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "saw": {
+          "$ref": "#/definitions/comparison_kv_items"
+        },
+        "in_generated_not_in_trace": {
+          "items": {
+            "$ref": "#/definitions/comparison_sample_item"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "in_trace_not_in_generated": {
+          "items": {
+            "$ref": "#/definitions/comparison_sample_item"
+          },
+          "minItems": 0,
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "generated_set_length",
+        "trace_set_length",
+        "expected",
+        "saw",
+        "in_generated_not_in_trace",
+        "in_trace_not_in_generated"
+      ]
+    },
     "parameter": {
       "type": "object"
     },
@@ -11,19 +239,15 @@
     "run": {
       "type": "object",
       "properties": {
-        "labs": {
-          "description": "the list of labs that will perform the run",
+        "measurements": {
+          "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
           "items": {
-            "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
+            "$ref": "#definitions/measurement"
           },
           "minItems": 1,
           "type": "array"
         },
-        "experiment_id": {
-          "description": "unique experiment/run ID for this experimental design",
-          "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
-        },
-        "measurements": {
+        "missing_measurements": {
           "description": "measurements expected to be produced for this run, broken down by measurement type and sample conditions",
           "items": {
             "$ref": "#definitions/measurement"
@@ -34,8 +258,6 @@
       },
       "additionalProperties": false,
       "required": [
-        "labs",
-        "experiment_id",
         "measurements"
       ]
     },
@@ -63,6 +285,10 @@
       "properties": {
         "type": {
           "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
+        },
+        "channel": {
+          "description": "FCS channel, if applicable",
+          "type": "string"
         },
         "timepoints": {
           "items": {
@@ -147,6 +373,37 @@
       "minItems": 1,
       "type": "array"
     },
+    "inducible_strain": {
+      "additionalProperties": false,
+      "description": "lists a URI for a strain, its relevant inducers, and function. More complicated strains/circuits will require external references",
+      "properties": {
+        "strain_uri": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+        },
+        "strain": {
+          "type": "string"
+        },
+        "induced_by": {
+          "items": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "function": {
+          "description": "Simple strain functions",
+          "type": "string",
+          "enum": ["PRESENCE_ON", "PRESENCE_OFF"]
+        }
+      },
+      "required": [
+        "strain_uri",
+        "strain",
+        "induced_by",
+        "function"
+      ],
+      "type": "object"
+    },
     "measurement": {
       "type": "object",
       "properties": {
@@ -213,6 +470,14 @@
           "minItems": 1,
           "type": "array"
         },
+        "ods": {
+          "description": "expected optical densities for this measurement",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
         "genetic_constructs": {
           "description": "expected genetic constructs for this measurement",
           "items": {
@@ -245,6 +510,18 @@
           "minItems": 1,
           "type": "array"
         },
+        "channels": {
+          "description": "expected channels for an FCS measurement",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "instrument_configuration": {
+          "description": "instrument configuration for an FCS measurement",
+          "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
+        },
         "timepoints": {
           "description": "expected timepoints for this run",
           "items": {
@@ -253,22 +530,28 @@
           "minItems": 1,
           "type": "array"
         },
+        "force_replicates": {
+          "type": "boolean"
+        },
         "replicates": {
-          "description": "expected number of replicates",
-          "type": "number"
+          "oneOf": [{
+              "description": "expected number of replicates",
+              "type": "number"
+            },
+            {
+              "description": "a list of explicit replicate numbers to use",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 1,
+              "type": "array"
+            }
+          ]
         },
         "contents": {
           "description": "media compenents and reagents for this experiment",
           "items": {
             "$ref": "#definitions/content_list"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
-        "channels": {
-          "description": "for flow, the channel to fluorophore mapping, including functional controls for high fitc and no fluorescence",
-          "items": {
-            "$ref": "#definitions/channel"
           },
           "minItems": 1,
           "type": "array"
@@ -284,52 +567,26 @@
         "measurement_type",
         "file_type"
       ]
-    },
-    "channel": {
-      "type": "object",
-      "properties": {
-        "channel": {
-          "description": "cytometer channel name",
-          "type": "string"
-        },
-        "fluorophore": {
-          "description": "fluorophore channel is intended to capture",
-          "type": "string"
-        },
-        "no_fluorescence_signal": {
-          "description": "strain under which no fluorescence is expected",
-          "type": "string"
-        },
-        "high_fluorescence_signal": {
-          "description": "strain under which high fluorescence is expected",
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "channel",
-        "fluorophore",
-        "no_fluorescence_signal",
-        "high_fluorescence_signal"
-      ]
     }
   },
   "properties": {
     "name": {
-        "description": "An experiment request name",
-        "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
-        "oneOf": [
-            {
-                "type": "string",
-                "maxLength": 256,
-                "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
-            }
-        ]
-    },  
+      "description": "An experiment request name",
+      "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
+      "oneOf": [{
+        "type": "string",
+        "maxLength": 256,
+        "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
+      }]
+    },
+    "lab": {
+      "description": "the lab that performed this experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
+    },
     "experiment_id": {
-        "description": "String identifier, namespaced performer, for the experiment",
-        "$ref": "namespaced_identifier.json"
-    },    
+      "description": "String identifier, namespaced performer, for the experiment",
+      "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json"
+    },
     "challenge_problem": {
       "description": "name of CP",
       "$ref": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json"
@@ -352,9 +609,33 @@
     "experiment_version": {
       "type": "number"
     },
+    "status": {
+      "description": "records status of individual steps proceessing data from an experiment",
+      "$ref": "#/definitions/status"
+    },
+    "etl_flow_settings": {
+        "description": "Default run-time parameterization of the job",
+        "type": "object"
+    },
+    "etl_rna_seq_settings": {
+        "description": "Default run-time parameterization of the job",
+        "type": "object"
+    },
+    "comparison_results": {
+      "description": "results from comparing annotated lab trace and enumerated structured request",
+      "$ref": "#/definitions/comparison_results"
+    },
     "derived_from": {
       "description": "Derived from experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/experiment_url.json"
+    },
+    "inducible_strains": {
+      "description": "a list of inducible strains, their inducers, and functions, if applicable",
+      "items": {
+        "$ref": "#/definitions/inducible_strain"
+      },
+      "minItems": 0,
+      "type": "array"
     },
     "runs": {
       "description": "an experiment run and its associated id, sample, and file metadata",
@@ -384,23 +665,24 @@
   "required": [
     "name",
     "experiment_id",
+    "lab",
     "challenge_problem",
     "experiment_reference",
     "experiment_reference_url",
     "experiment_version",
     "runs"
   ],
-  "title": "StructuredRequest",
+  "title": "Structured Request Schema",
   "type": "object",
   "_filename": "structured_request",
   "__uuid_type": "structured_request",
   "__uuid_fields": [
-      "name",
-      "experiment_id"
+    "name",
+    "experiment_id"
   ],
   "__collection": "structured_requests",
   "__indexes": [],
   "__identifiers": [
-      "uuid"
-  ]  
+    "uuid"
+  ]
 }

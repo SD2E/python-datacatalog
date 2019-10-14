@@ -2,6 +2,7 @@
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
 import datacatalog
+from datacatalog import mongo
 from ..filetypes import infer_filetype
 from datacatalog.utils import safen_path
 
@@ -92,6 +93,7 @@ class SampleConstants():
 
     # measurements
     MEASUREMENTS = "measurements"
+    MISSING_MEASUREMENTS = "missing_measurements"
     FILES = "files"
     FILE_ID = "file_id"
     FILE_LEVEL = "level"
@@ -147,7 +149,7 @@ def map_experiment_reference(config, output_doc):
     global challenge_table
 
     if design_table is None:
-        db = datacatalog.mongo.db_connection(config['mongodb'])
+        db = mongo.db_connection(config['mongodb'])
         design_table = db.experiment_designs
         challenge_table = db.challenges
 

@@ -9,13 +9,14 @@ from datacatalog.extensible import ExtensibleAttrDict
 from datacatalog.identifiers import tacc
 from datacatalog.identifiers.typeduuid import catalog_uuid, get_uuidtype
 from datacatalog.linkedstores.basestore import HeritableDocumentSchema
-
+from datacatalog.settings import MONGO_DELETE_FIELD
 TYPE_SIGNATURE = ('text_annotation', '123', 'Text Annotation')
 TEXT_SUBJECT_MAX_LENGTH = 256
 TEXT_BODY_MAX_LENGTH = 2048
 
 class TextAnnotationSchema(HeritableDocumentSchema):
     """Defines the Text Annotation schema"""
+    DELETE_FIELD = MONGO_DELETE_FIELD
 
     def __init__(self, inheritance=True, **kwargs):
         super(TextAnnotationSchema, self).__init__(
@@ -27,11 +28,12 @@ class TextAnnotationSchema(HeritableDocumentSchema):
 
 class TextAnnotationDocument(ExtensibleAttrDict):
     """Instantiates an instance of Text Annotation"""
+    DELETE_FIELD = MONGO_DELETE_FIELD
 
     PARAMS = [('body', True, 'body', None),
               ('subject', False, 'subject', ''),
               ('owner', True, 'owner', None),
-              ('_visible', False, '_visible', True)]
+              (DELETE_FIELD, False, DELETE_FIELD, True)]
 
     def __init__(self, schema=None, **kwargs):
         if schema is None:
@@ -73,4 +75,5 @@ class TextAnnotationDocument(ExtensibleAttrDict):
         self.child_of = child_of
 
 class TextAnnotation(AttrDict):
+    DELETE_FIELD = MONGO_DELETE_FIELD
     pass

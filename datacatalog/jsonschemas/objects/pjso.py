@@ -18,12 +18,14 @@ from jsonschema.exceptions import RefResolutionError
 from tenacity import (retry, retry_if_exception_type, stop_after_delay,
                       stop_after_attempt, wait_random)
 from datacatalog import settings
+from . import cache
 
-PJS_CACHE_DIR = '.pjs-cache'
-PJS_SLOW_CACHE_WARN_THRESHOLD = 0.95
+__all__ = ['AVAILABLE', 'PjsCacheMiss', 'get_class_object',
+           'get_class_object_from_dict', 'get_class_object_from_file',
+           'get_class_object_from_uri']
 
 class PjsCacheMiss(Exception):
-    """Class object could not be loaded from its cache file
+    """Raised when a class object could not be loaded from its cache file
     """
     pass
 
@@ -31,7 +33,8 @@ def __normalized_classname(classname):
     return classname.title()
 
 def classname_from_long_title(schema_title):
-    # Implementation taken from python_jsonschema_objects/__init__.py#build_classes
+    # Implementation source:
+    # python_jsonschema_objects/__init__.py#build_classes
     return inflection.camelize(inflection.parameterize(
         six.text_type(schema_title), '_'))
 
@@ -46,33 +49,14 @@ def title_from_schema(schema_dict):
     else:
         return schema_dict.get('id')
 
-def __cache_path(cache_dir=None):
-    cdir = '.'
-
-    if cache_dir is None:
-        cdir = os.path.join(os.path.expanduser('~'), PJS_CACHE_DIR)
-    else:
-        cdir = cache_dir
-
-    __init_cache(cache_dir=cdir)
-    return cdir
-
-def __cache_filename(classname, cache_dir=None):
+def cache_filename(classname, cache_dir=None):
     return os.path.join(
-        __cache_path(cache_dir), __normalized_classname(classname) + '.pickle')
+        cache.cache_directory(cache_dir),
+        __normalized_classname(classname) + cache.CACHE_FILE_SUFFIX)
 
-def __init_cache(cache_dir=None):
-    if cache_dir is None:
-        cache_dir = __cache_path(cache_dir)
-    try:
-        os.makedirs(cache_dir, exist_ok=True)
-        return cache_dir
-    except OSError:
-        return None
-
-def __get_class_object_from_cache(classname, cache_dir=None):
-    __init_cache(cache_dir)
-    cfn = __cache_filename(classname, cache_dir=cache_dir)
+def fetch_class_object_from_cache(classname, cache_dir=None):
+    cache.init_cache(cache_dir)
+    cfn = cache_filename(classname, cache_dir=cache_dir)
     try:
 
         if not os.path.exists(cfn):
@@ -80,7 +64,7 @@ def __get_class_object_from_cache(classname, cache_dir=None):
             warnings.warn('Cache {} absent'.format(classname))
 
         file_age = time.time() - os.path.getmtime(cfn)
-        if file_age > settings.PJS_CACHE_MAX_AGE:
+        if file_age > cache.MAX_CACHE_AGE_SECONDS:
             raise PjsCacheMiss('Cache file found but was too old')
             warnings.warn('Cache {} expired'.format(classname))
 
@@ -94,8 +78,8 @@ def __get_class_object_from_cache(classname, cache_dir=None):
         raise
 
 def __write_class_object_to_cache(classobj, classname, cache_dir=None):
-    __init_cache(cache_dir)
-    cfn = __cache_filename(classname, cache_dir=cache_dir)
+    cache.init_cache(cache_dir)
+    cfn = cache_filename(classname, cache_dir=cache_dir)
 
     cache_file = open(cfn, 'wb')
     cloudpickle.dump(classobj, cache_file)
@@ -130,7 +114,7 @@ def get_class_object_from_dict(schema, classname=None,
 
     if use_cache:
         try:
-            return __get_class_object_from_cache(
+            return fetch_class_object_from_cache(
                 actual_classname, cache_dir=cache_dir)
         except PjsCacheMiss:
             pass

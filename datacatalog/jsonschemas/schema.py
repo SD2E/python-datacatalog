@@ -3,16 +3,20 @@ import json
 from os import environ
 from datacatalog import settings
 from ..utils import camel_to_snake
+from . import (constants, version)
 from .objects import get_class_object
 
 class JSONSchemaBaseObject(object):
     """Interface to JSON schema plus datacatalog-specific extensions"""
     COLLECTION = 'generic'
-    BASEREF = settings.SCHEMA_BASEURL
-    BASESCHEMA = settings.SCHEMA_REFERENCE
+    VERSION = version.TEXT_VERSION
+    BASEREF = constants.BASEURL
+    JSONSCHEMA_SPEC = constants.SPECIFICATION
+    DELETE_FIELD = settings.MONGO_DELETE_FIELD
     INDENT = 4
     SORT_KEYS = True
-    PARAMS = [('schema', False, 'schema', BASESCHEMA, '$'),
+
+    PARAMS = [('schema', False, 'schema', JSONSCHEMA_SPEC, '$'),
               ('comment', False, 'comment', '', '$'),
               ('id', False, 'id', '', '$'),
               ('definitions', False, 'definitions', None, ''),
@@ -35,7 +39,7 @@ class JSONSchemaBaseObject(object):
               ('_identifiers', False, '__identifiers', None, ''),
               ('_uuid_type', False, '__uuid_type', 'generic', ''),
               ('_uuid_fields', False, '__uuid_fields', 'id', ''),
-              ('_visible', False, '_visible', True, '')]
+              (DELETE_FIELD, False, DELETE_FIELD, True, '')]
 
     def __init__(self, **kwargs):
         for key, mandatory, param, default, keyfix in self.PARAMS:
@@ -74,8 +78,9 @@ class JSONSchemaBaseObject(object):
             # Dynamically loade since it's expensive to check for git
             from ..githelpers import get_sha1_short, get_remote_uri
 
-            # Create a descriptive $comment for all schema document
+            # Build up a descriptive $comment for each schema document
             comments = list()
+            comments.append('version: {}'.format(self.VERSION))
             comments.append('generated: {}'.format(
                 arrow.utcnow().format(settings.DATE_FORMAT)))
             try:

@@ -34,6 +34,14 @@
             "$ref": "optical_density.json",
             "description": "Target inoculation density"
         },
+        "missing_measurements": {
+            "description": "Missing measurements for a sample",
+            "items": {
+                "$ref": "measurement.json"
+            },
+            "minItems": 0,
+            "type": "array"
+        },
         "measurements": {
             "description": "Measurements for a sample",
             "items": {

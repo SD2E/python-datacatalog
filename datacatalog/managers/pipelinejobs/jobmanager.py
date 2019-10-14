@@ -95,7 +95,7 @@ class JobManager(Manager):
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             if getattr(self, 'cancelable') is not False:
-                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
+                self.stores['pipelinejob'].delete(self.uuid, htoken, force=True)
                 self.job = None
                 return self.job
             else:
@@ -115,7 +115,7 @@ class JobManager(Manager):
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             else:
-                self.stores['pipelinejob'].delete(self.uuid, htoken, soft=False)
+                self.stores['pipelinejob'].delete(self.uuid, htoken, force=True)
                 self.job = None
                 for param, required, key, default in self.PARAMS:
                     setattr(self, param, None)

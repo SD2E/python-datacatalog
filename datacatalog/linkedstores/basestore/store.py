@@ -95,6 +95,8 @@ class LinkedStore(LinkageManager):
     NEVER_INDEX_FIELDS = ('data')
     """Fields that should never be indexed"""
     LOG_JSONDIFF_UPDATES = settings.LOG_UPDATES
+    """Field used to mark a record as deleted"""
+    DELETE_FIELD = settings.MONGO_DELETE_FIELD
 
     def __init__(self, mongodb, config={}, session=None, **kwargs):
         self.logger = logger.get_logger(__name__, verbose=settings.LOG_VERBOSE)
@@ -255,7 +257,7 @@ class LinkedStore(LinkageManager):
         ids = self.get_identifiers()
         idss = set(ids)
         lf = set(self.LINK_FIELDS)
-        af = set(['_admin', '_properties', '_salt', '_visible'])
+        af = set(['_admin', '_properties', '_salt', self.DELETE_FIELD])
         f = set(list(getattr(self, 'schema', {}).get('properties').keys()))
         fields = sorted(list(f - idss - lf - af))
         ids.extend(fields)
@@ -830,7 +832,7 @@ class LinkedStore(LinkageManager):
                 self.get_token_fields(db_record))
             return db_record
 
-    def delete_document(self, uuid, token=None):
+    def delete_document(self, uuid, token=None, **kwargs):
         """Delete a document by UUID
 
         Managed interface for removing a document from its linkedstore
