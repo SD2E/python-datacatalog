@@ -536,6 +536,13 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
     output_doc = {}
 
     lab = SampleConstants.LAB_UWBF
+    output_doc[SampleConstants.LAB] = biofab_doc.get("attributes").get("lab", lab)
+
+    # The UW_BIOFAB provenance dump from Aquarium is now being used by other labs.
+    # Use the lab value if provided, and validate it
+    lab_schema = { "$ref" : "https://schema.catalog.sd2e.org/schemas/lab.json"}
+    lab = output_doc[SampleConstants.LAB]
+    validate(lab, lab_schema)
 
     original_experiment_id = None
     if "plan_id" in biofab_doc:
@@ -554,7 +561,6 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
     map_experiment_reference(config, output_doc)
 
-    output_doc[SampleConstants.LAB] = biofab_doc.get("attributes", {}).get("lab", lab)
     output_doc[SampleConstants.SAMPLES] = []
 
     # is this a Sytox plan? Per:

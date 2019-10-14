@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190912T211311+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@74b1440",
+    "$comment": "version: 2.2.0#master; generated: 20191001T115746+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@740752a",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -188,6 +188,52 @@
                     "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
                 }
             },
+            "type": "object"
+        },
+        "etl_job_element": {
+            "additionalProperties": false,
+            "properties": {
+                "archive_path": {
+                    "description": "Absolute path to the job products",
+                    "type": "string"
+                },
+                "input_gff": {
+                    "description": "Filename",
+                    "pattern": ".*\\..*",
+                    "type": "string"
+                },
+                "job_uuid": {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_uuid.json"
+                },
+                "last_updated": {
+                    "description": "When the job record was last updated",
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "outputs": {
+                    "items": {
+                        "description": "Filename",
+                        "pattern": ".*\\..*",
+                        "type": "string"
+                    },
+                    "minItems": 0,
+                    "type": "array"
+                },
+                "settings": {
+                    "description": "Run-time parameterization of the job",
+                    "type": "object"
+                },
+                "state": {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
+                }
+            },
+            "required": [
+                "job_uuid",
+                "last_updated",
+                "state",
+                "archive_path",
+                "outputs"
+            ],
             "type": "object"
         },
         "inducible_strain": {
@@ -430,10 +476,18 @@
                     "$ref": "#/definitions/status_element"
                 },
                 "etl_flow": {
-                    "$ref": "#/definitions/status_element"
+                    "items": {
+                        "$ref": "#/definitions/etl_job_element"
+                    },
+                    "minItems": 1,
+                    "type": "array"
                 },
                 "etl_rna_seq": {
-                    "$ref": "#/definitions/status_element"
+                    "items": {
+                        "$ref": "#/definitions/etl_job_element"
+                    },
+                    "minItems": 1,
+                    "type": "array"
                 },
                 "ingested": {
                     "$ref": "#/definitions/status_element"
@@ -446,9 +500,7 @@
                 "uploaded",
                 "converted",
                 "annotated",
-                "ingested",
-                "etl_flow",
-                "etl_rna_seq"
+                "ingested"
             ],
             "type": "object"
         },
@@ -466,19 +518,19 @@
                             "type": "null"
                         },
                         {
+                            "enum": [
+                                "catalog_staging",
+                                "catalog"
+                            ],
+                            "type": "string"
+                        },
+                        {
                             "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
                         }
                     ]
                 },
                 "state": {
-                    "oneOf": [
-                        {
-                            "type": "boolean"
-                        },
-                        {
-                            "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
-                        }
-                    ]
+                    "type": "boolean"
                 }
             },
             "type": "object"

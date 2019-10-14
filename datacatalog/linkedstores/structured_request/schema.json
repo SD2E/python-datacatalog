@@ -7,14 +7,7 @@
       "type": "object",
       "properties": {
         "state": {
-            "oneOf": [
-                {
-                    "type": "boolean"
-                },
-                {
-                    "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
-                }
-            ]
+            "type": "boolean"
         },
         "last_updated": {
             "description": "When the job record was last updated",
@@ -27,12 +20,62 @@
                 	"type": "null"
                 },
                 {
+                	"type": "string",
+                	"enum": ["catalog_staging", "catalog"]
+                },
+                {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
                 }
             ]
         }
       },
       "additionalProperties": false
+    },
+    "etl_job_element": {
+      "type": "object",
+      "properties": {
+        "job_uuid": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_uuid.json"
+        },
+        "last_updated": {
+            "description": "When the job record was last updated",
+            "format": "date-time",
+            "type": "string"
+        },
+        "settings": {
+            "description": "Run-time parameterization of the job",
+            "type": "object"
+        },
+        "state": {
+            "$ref": "https://schema.catalog.sd2e.org/schemas/pipelinejob_statename.json"
+        },
+        "archive_path": {
+            "description": "Absolute path to the job products",
+            "type": "string"
+        },
+        "outputs": {
+          "items": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+          },
+          "minItems": 0,
+          "type": "array"
+        },
+        "input_gff": {
+            "description": "Filename",
+            "pattern": ".*\\..*",
+            "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "job_uuid",
+        "last_updated",
+        "state",
+        "archive_path",
+        "outputs"
+      ]
     },
     "status": {
       "type": "object",
@@ -50,10 +93,18 @@
           "$ref": "#/definitions/status_element"
         },
         "etl_flow": {
-          "$ref": "#/definitions/status_element"
+          "items": {
+            "$ref": "#/definitions/etl_job_element"
+          },
+          "minItems": 1,
+          "type": "array"
         },
         "etl_rna_seq": {
-          "$ref": "#/definitions/status_element"
+          "items": {
+            "$ref": "#/definitions/etl_job_element"
+          },
+          "minItems": 1,
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -61,9 +112,7 @@
         "uploaded",
         "converted",
         "annotated",
-        "ingested",
-        "etl_flow",
-        "etl_rna_seq"
+        "ingested"
       ]
     },
     "comparison_kv_items": {

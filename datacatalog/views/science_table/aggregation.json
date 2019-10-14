@@ -42,6 +42,7 @@
                 "lab_label": "$file.lab_label",
                 "level": "$file.level",
                 "library_prep": "$measurement.library_prep",
+                "measurement_name": "$measurement.measurement_name",
                 "measurement_type": "$measurement.measurement_type",
                 "normalization": "$file.attributes.normalization",
                 "reference_sample_id": "$sample.reference_sample_id",
