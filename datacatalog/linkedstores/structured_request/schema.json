@@ -93,18 +93,38 @@
           "$ref": "#/definitions/status_element"
         },
         "etl_flow": {
-          "items": {
-            "$ref": "#/definitions/etl_job_element"
-          },
-          "minItems": 1,
-          "type": "array"
+	      "type": "object",
+	      "properties": {
+	          "color_model": {
+	            "$ref": "#/definitions/etl_job_element"
+	          },
+	          "whole_dataset": {
+	            "items": {
+	              "$ref": "#/definitions/etl_job_element"
+	            },
+	            "minItems": 1,
+	            "type": "array"
+	          }
+	      },
+	      "additionalProperties": false
         },
         "etl_rna_seq": {
-          "items": {
-            "$ref": "#/definitions/etl_job_element"
-          },
-          "minItems": 1,
-          "type": "array"
+	      "type": "object",
+	      "properties": {
+	         "ran_preprocessing": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "ran_alignment": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "ran_dataframe_production": {
+	           "$ref": "#/definitions/status_element"
+	         },
+	         "qc_metadata": {
+	           "$ref": "#/definitions/etl_job_element"
+             }
+	      },
+	      "additionalProperties": false        	  
         }
       },
       "additionalProperties": false,
@@ -592,6 +612,14 @@
     "status": {
       "description": "records status of individual steps proceessing data from an experiment",
       "$ref": "#/definitions/status"
+    },
+    "etl_flow_settings": {
+        "description": "Default run-time parameterization of the job",
+        "type": "object"
+    },
+    "etl_rna_seq_settings": {
+        "description": "Default run-time parameterization of the job",
+        "type": "object"
     },
     "comparison_results": {
       "description": "results from comparing annotated lab trace and enumerated structured request",

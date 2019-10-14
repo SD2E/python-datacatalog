@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191001T115746+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@740752a",
+    "$comment": "version: 2.2.0#master; generated: 20191014T154444+00:00; source: git@github.com:SD2E/python-datacatalog.git@9d09d8d",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -476,18 +476,38 @@
                     "$ref": "#/definitions/status_element"
                 },
                 "etl_flow": {
-                    "items": {
-                        "$ref": "#/definitions/etl_job_element"
+                    "additionalProperties": false,
+                    "properties": {
+                        "color_model": {
+                            "$ref": "#/definitions/etl_job_element"
+                        },
+                        "whole_dataset": {
+                            "items": {
+                                "$ref": "#/definitions/etl_job_element"
+                            },
+                            "minItems": 1,
+                            "type": "array"
+                        }
                     },
-                    "minItems": 1,
-                    "type": "array"
+                    "type": "object"
                 },
                 "etl_rna_seq": {
-                    "items": {
-                        "$ref": "#/definitions/etl_job_element"
+                    "additionalProperties": false,
+                    "properties": {
+                        "qc_metadata": {
+                            "$ref": "#/definitions/etl_job_element"
+                        },
+                        "ran_alignment": {
+                            "$ref": "#/definitions/status_element"
+                        },
+                        "ran_dataframe_production": {
+                            "$ref": "#/definitions/status_element"
+                        },
+                        "ran_preprocessing": {
+                            "$ref": "#/definitions/status_element"
+                        }
                     },
-                    "minItems": 1,
-                    "type": "array"
+                    "type": "object"
                 },
                 "ingested": {
                     "$ref": "#/definitions/status_element"
@@ -580,6 +600,14 @@
         "comparison_results": {
             "$ref": "#/definitions/comparison_results",
             "description": "results from comparing annotated lab trace and enumerated structured request"
+        },
+        "etl_flow_settings": {
+            "description": "Default run-time parameterization of the job",
+            "type": "object"
+        },
+        "etl_rna_seq_settings": {
+            "description": "Default run-time parameterization of the job",
+            "type": "object"
         },
         "experiment_id": {
             "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
