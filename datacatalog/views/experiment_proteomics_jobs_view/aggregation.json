@@ -1,145 +1,107 @@
 {
     "view_on": "jobs",
     "pipeline": [
-	    {
-	        "$match": {
-	            "child_of": { "$not": {"$size": 0} },
-	            "state": { "$in": ["FINISHED", "VALIDATED"] }
-	        }
-	    },
-	    {
-	    	"$lookup": {
-		        "from": "pipelines",
-		        "localField": "pipeline_uuid",
-		        "foreignField": "uuid",
-		        "as": "nc_rnaseq_jobs"
-		    }
-	    },
-	    {
-	        "$match": {
-	        	"nc_rnaseq_jobs.name": { "$regex" : "RNA-Seq QC and Metadata Pipeline" }
-	        }
-	    },
-	    {
-	        "$lookup": {
-	            "from": "experiments",
-	            "localField": "child_of",
-	            "foreignField": "uuid",
-	            "as": "experiment_rnaseq_jobs"
-	        }
-	    },
-	    {
-	    	"$unwind": "$experiment_rnaseq_jobs"
-	    },
-	    {
-	        "$lookup": {
-	            "from": "experiment_designs",
-	            "localField": "experiment_rnaseq_jobs.child_of",
-	            "foreignField": "uuid",
-	            "as": "experiment_design_rnaseq_jobs"
-	        }
-	    },
-	    {
-	        "$unwind": "$experiment_design_rnaseq_jobs"
-	    },
-	    {
-	        "$addFields": {
-	            "derived_from": {
-	                "$ifNull": [ "$experiment_rnaseq_jobs.derived_from", ["unspecified"] ]
-	            }
-	        }
-	    },
-	    {
-	        "$lookup": {
-	            "from": "files",
-	            "localField": "derived_from",
-	            "foreignField": "uuid",
-	            "as": "experiment_design_files_rnaseq_jobs"
-	        }
-	    },
-        {
-	    	"$lookup": {
-		        "from": "files",
-		        "localField": "uuid",
-		        "foreignField": "child_of",
-		        "as": "experiment_design_rnaseq_jobs_outputs"
-		    }
-	    },
-        {
-	    	"$lookup": {
-		        "from": "files",
-		        "localField": "product_patterns.derived_from",
-		        "foreignField": "name",
-		        "as": "input_dfs"
-		    }
-	    },
-	    {
-	    	"$lookup": {
-		        "from": "jobs",
-		        "localField": "input_dfs.child_of",
-		        "foreignField": "uuid",
-		        "as": "df_job"
-		    }
-	    },
-	    {
-          "$unwind": "$df_job"
-        },
-	    {
-          "$addFields": {
-            "input_gff":"$df_job.data.inputs.path_gff"
-            }
-        },
-	    {
-	        "$project": {
-	            "_id": false,
-	            "experiment_id": "$experiment_rnaseq_jobs.experiment_id",
-	            "experiment_design_id": "$experiment_design_rnaseq_jobs.experiment_design_id",
-			    "storage_system": {
-			        "$cond": {
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
-			            "then": "unspecified",
-			            "else": { "$arrayElemAt": ["$experiment_design_files_rnaseq_jobs.storage_system", 0] }
-			        }
+		{
+			"$match": {
+			    "child_of": { "$not": {"$size": 0} },
+			    "state": { "$in": ["FINISHED", "VALIDATED"] }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "pipelines",
+			    "localField": "pipeline_uuid",
+			    "foreignField": "uuid",
+			    "as": "pipeline"
+			}
+		},
+		{
+			"$match": {
+			    "pipeline.name": {
+			        "$regex" : "/^Pro[et][et]omics Aggregator Pipeline/i"
+			    }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "experiments",
+			    "localField": "child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment"
+			}
+		},
+		{
+			"$unwind": "$experiment"
+		},
+		{
+			"$lookup": {
+			    "from": "experiment_designs",
+			    "localField": "experiment.child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment_design"
+			}
+		},
+		{
+			"$unwind": "$experiment_design"
+		},
+		{
+			"$unwind": "$product_patterns"
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "uuid",
+			    "foreignField": "child_of",
+			    "as": "outputs"
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "product_patterns.derived_from",
+			    "foreignField": "name",
+			    "as": "inputs"
+			}
+		},
+		{
+			"$project": {
+			    "_id": false,
+			    "experiment_id": "$experiment.experiment_id",
+			    "experiment_design_id": "$experiment_design.experiment_design_id",
+			    "storage_system": "$archive_system",
+			    "experiment_design_document": "$experiment_design.uri",
+			    "job_uuid": "$uuid",
+			    "last_updated": "$updated",
+			    "state": "$state",
+			    "archive_path": "$archive_path",
+			    "outputs": "$outputs.name",
+			    "protein_score_threshold": "$data.protein_score_threshold"
+			}
+		},
+		{
+			"$group": {
+			    "_id": {
+			        "experiment_id": "$experiment_id",
+			        "experiment_design_id": "$experiment_design_id",
+			        "storage_system": "$storage_system",
+			        "experiment_design_document": "experiment_design_document"
 			    },
-			    "samples_json": {
-			        "$cond": {
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
-			            "then": "unspecified",
-			            "else": { "$arrayElemAt": ["$experiment_design_files_rnaseq_jobs.name", 0] }
+			    "jobs": {
+			        "$push": {
+			            "job_uuid": "$job_uuid",
+			            "last_updated": "$last_updated",
+			            "state": "$state",
+			            "archive_path": "$archive_path",
+			            "outputs": "$outputs",
+			            "protein_score_threshold": "protein_score_threshold"
 			        }
-			    },
-	            "job_uuid": "$uuid",
-	            "last_updated": "$updated",
-	            "state": "$state",
-	            "archive_path": "$archive_path",
-                "outputs": "$experiment_design_rnaseq_jobs_outputs.name",
-                "input_gff": "$input_gff"
-	        }
-	    },
-	    {
-	        "$group": {
-	            "_id": {
-	                "experiment_id": "$experiment_id",
-	                "experiment_design_id": "$experiment_design_id",
-	                "storage_system": "$storage_system",
-	                "samples_json": "$samples_json"
-	            },
-	            "jobs": {
-	                "$push": {
-	                    "job_uuid": "$job_uuid",
-	                    "last_updated": "$last_updated",
-	                    "state": "$state",
-	                    "archive_path": "$archive_path",
-	                    "outputs": "$outputs",
-	                    "input_gff": "$input_gff"
-	                }
-	            }
-	        }
-	    },
-	    {
-	        "$sort": {
-	            "_id.experiment_id": 1
-	        }
-	    }
-    ]
+			    }
+			}
+		},
+		{
+			"$sort": {
+			    "_id.experiment_id": 1
+			}
+		},
+	]
 }
