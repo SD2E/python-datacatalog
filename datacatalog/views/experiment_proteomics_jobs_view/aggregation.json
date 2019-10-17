@@ -105,7 +105,6 @@
 			"$sort": {
 			    "_id.experiment_id": 1
 			}
-		},
-
+		}
 	]
 }
