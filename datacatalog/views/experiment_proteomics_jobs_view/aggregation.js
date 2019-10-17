@@ -108,16 +108,19 @@ db.getCollection("jobs").aggregate(
 			        "experiment_id": "$experiment_id",
 			        "experiment_design_id": "$experiment_design_id",
 			        "storage_system": "$storage_system",
-			        "experiment_design_document": "experiment_design_document"
+			        "experiment_design_document": "$experiment_design_document"
 			    },
 			    "jobs": {
 			        "$push": {
 			            "job_uuid": "$job_uuid",
+			            "pipeline_uuid": "$pipeline_uuid",
 			            "last_updated": "$last_updated",
 			            "state": "$state",
 			            "archive_path": "$archive_path",
 			            "outputs": "$outputs",
-			            "protein_score_threshold": "protein_score_threshold"
+			            "parameters": {
+			                "protein_score_threshold": "$protein_score_threshold"
+			            }
 			        }
 			    }
 			}
