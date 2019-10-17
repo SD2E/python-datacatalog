@@ -1,0 +1,107 @@
+{
+    "view_on": "jobs",
+    "pipeline": [
+		{
+			"$match": {
+			    "child_of": { "$not": {"$size": 0} },
+			    "state": { "$in": ["FINISHED", "VALIDATED"] }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "pipelines",
+			    "localField": "pipeline_uuid",
+			    "foreignField": "uuid",
+			    "as": "pipeline"
+			}
+		},
+		{
+			"$match": {
+			    "pipeline.name": {
+			        "$regex" : "/^Pro[et][et]omics Aggregator Pipeline/i"
+			    }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "experiments",
+			    "localField": "child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment"
+			}
+		},
+		{
+			"$unwind": "$experiment"
+		},
+		{
+			"$lookup": {
+			    "from": "experiment_designs",
+			    "localField": "experiment.child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment_design"
+			}
+		},
+		{
+			"$unwind": "$experiment_design"
+		},
+		{
+			"$unwind": "$product_patterns"
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "uuid",
+			    "foreignField": "child_of",
+			    "as": "outputs"
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "product_patterns.derived_from",
+			    "foreignField": "name",
+			    "as": "inputs"
+			}
+		},
+		{
+			"$project": {
+			    "_id": false,
+			    "experiment_id": "$experiment.experiment_id",
+			    "experiment_design_id": "$experiment_design.experiment_design_id",
+			    "storage_system": "$archive_system",
+			    "experiment_design_document": "$experiment_design.uri",
+			    "job_uuid": "$uuid",
+			    "last_updated": "$updated",
+			    "state": "$state",
+			    "archive_path": "$archive_path",
+			    "outputs": "$outputs.name",
+			    "protein_score_threshold": "$data.protein_score_threshold"
+			}
+		},
+		{
+			"$group": {
+			    "_id": {
+			        "experiment_id": "$experiment_id",
+			        "experiment_design_id": "$experiment_design_id",
+			        "storage_system": "$storage_system",
+			        "experiment_design_document": "experiment_design_document"
+			    },
+			    "jobs": {
+			        "$push": {
+			            "job_uuid": "$job_uuid",
+			            "last_updated": "$last_updated",
+			            "state": "$state",
+			            "archive_path": "$archive_path",
+			            "outputs": "$outputs",
+			            "protein_score_threshold": "protein_score_threshold"
+			        }
+			    }
+			}
+		},
+		{
+			"$sort": {
+			    "_id.experiment_id": 1
+			}
+		},
+	]
+}
