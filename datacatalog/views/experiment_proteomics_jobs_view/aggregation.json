@@ -45,6 +45,17 @@
 			"$unwind": "$experiment_design"
 		},
 		{
+			"$lookup": {
+			    "from": "challenges",
+			    "localField": "experiment_design.child_of",
+			    "foreignField": "uuid",
+			    "as": "challenge_problem"
+			}
+		},
+		{
+			"$unwind": "$challenge_problem"
+		},
+		{
 			"$unwind": "$product_patterns"
 		},
 		{
@@ -67,9 +78,10 @@
 			"$project": {
 			    "_id": false,
 			    "experiment_id": "$experiment.experiment_id",
-			    "experiment_design_id": "$experiment_design.experiment_design_id",
-			    "storage_system": "$archive_system",
-			    "experiment_design_document": "$experiment_design.uri",
+			    "experiment_reference": "$experiment_design.experiment_design_id",
+			    "agave_system": "$archive_system",
+			    "experiment_reference_url": "$experiment_design.uri",
+			    "challenge_problem": "$challenge_problem.id",
 			    "job_uuid": "$uuid",
 			    "last_updated": "$updated",
 			    "state": "$state",
@@ -82,9 +94,10 @@
 			"$group": {
 			    "_id": {
 			        "experiment_id": "$experiment_id",
-			        "experiment_design_id": "$experiment_design_id",
-			        "storage_system": "$storage_system",
-			        "experiment_design_document": "$experiment_design_document"
+			        "agave_system": "$agave_system",
+			        "experiment_reference": "$experiment_reference",
+			        "experiment_reference_url": "$experiment_reference_url",
+			        "challenge_problem": "$challenge_problem"
 			    },
 			    "jobs": {
 			        "$push": {
