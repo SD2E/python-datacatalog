@@ -1,0 +1,123 @@
+{
+    "view_on": "jobs",
+    "pipeline": [
+		{
+			"$match": {
+			    "child_of": { "$not": {"$size": 0} },
+			    "state": { "$in": ["FINISHED", "VALIDATED"] }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "pipelines",
+			    "localField": "pipeline_uuid",
+			    "foreignField": "uuid",
+			    "as": "pipeline"
+			}
+		},
+		{
+			"$match": {
+			    "pipeline.name": {
+			        "$regex" : "^Pro[et][et]omics Aggregator Pipeline"
+			    }
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "experiments",
+			    "localField": "child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment"
+			}
+		},
+		{
+			"$unwind": "$experiment"
+		},
+		{
+			"$lookup": {
+			    "from": "experiment_designs",
+			    "localField": "experiment.child_of",
+			    "foreignField": "uuid",
+			    "as": "experiment_design"
+			}
+		},
+		{
+			"$unwind": "$experiment_design"
+		},
+		{
+			"$lookup": {
+			    "from": "challenges",
+			    "localField": "experiment_design.child_of",
+			    "foreignField": "uuid",
+			    "as": "challenge_problem"
+			}
+		},
+		{
+			"$unwind": "$challenge_problem"
+		},
+		{
+			"$unwind": "$product_patterns"
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "uuid",
+			    "foreignField": "child_of",
+			    "as": "outputs"
+			}
+		},
+		{
+			"$lookup": {
+			    "from": "files",
+			    "localField": "product_patterns.derived_from",
+			    "foreignField": "name",
+			    "as": "inputs"
+			}
+		},
+		{
+			"$project": {
+			    "_id": false,
+			    "experiment_id": "$experiment.experiment_id",
+			    "experiment_reference": "$experiment_design.experiment_design_id",
+			    "agave_system": "$archive_system",
+			    "experiment_reference_url": "$experiment_design.uri",
+			    "challenge_problem": "$challenge_problem.id",
+			    "job_uuid": "$uuid",
+			    "last_updated": "$updated",
+			    "state": "$state",
+			    "archive_path": "$archive_path",
+			    "outputs": "$outputs.name",
+			    "protein_score_threshold": "$data.protein_score_threshold"
+			}
+		},
+		{
+			"$group": {
+			    "_id": {
+			        "experiment_id": "$experiment_id",
+			        "agave_system": "$agave_system",
+			        "experiment_reference": "$experiment_reference",
+			        "experiment_reference_url": "$experiment_reference_url",
+			        "challenge_problem": "$challenge_problem"
+			    },
+			    "jobs": {
+			        "$push": {
+			            "job_uuid": "$job_uuid",
+			            "pipeline_uuid": "$pipeline_uuid",
+			            "last_updated": "$last_updated",
+			            "state": "$state",
+			            "archive_path": "$archive_path",
+			            "outputs": "$outputs",
+			            "parameters": {
+			                "protein_score_threshold": "$protein_score_threshold"
+			            }
+			        }
+			    }
+			}
+		},
+		{
+			"$sort": {
+			    "_id.experiment_id": 1
+			}
+		}
+	]
+}
