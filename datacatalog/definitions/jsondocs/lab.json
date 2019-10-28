@@ -10,7 +10,8 @@
         "TACC",
         "PNNL_Egbert",
         "UCSB_Yeung",
-        "Duke_Haase"
+        "Duke_Haase",
+        "PSU_Salis"
     ],
     "type": "string"
 }
