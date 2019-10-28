@@ -17,6 +17,10 @@
         "volume": {
             "description": "Volume reference for media",
             "$ref": "volume.json"
+        },
+        "timepoint": {
+            "$ref": "time_point.json",
+            "description": "time at which this media component applies"
         }
     },
     "required": [
