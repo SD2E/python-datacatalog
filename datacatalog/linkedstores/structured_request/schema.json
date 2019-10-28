@@ -89,6 +89,9 @@
         "annotated": {
           "$ref": "#/definitions/status_element"
         },
+        "comparison_passed": {
+          "$ref": "#/definitions/status_element"
+        },
         "ingested": {
           "$ref": "#/definitions/status_element"
         },
@@ -359,6 +362,9 @@
         "report_presence": {
           "description": "skip reporting of the presence of this content, but use in doe",
           "type": "boolean"
+        },
+        "timepoint": {
+          "$ref": "#definitions/timepoint"
         }
       },
       "additionalProperties": false,
