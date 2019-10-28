@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022109+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20191028T194404+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@164b65b",
     "$id": "https://schema.catalog.sd2e.org/schemas/media_component.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -8,6 +8,10 @@
         "name": {
             "$ref": "mapped_name.json",
             "description": "A mapped lab id for a media reference"
+        },
+        "timepoint": {
+            "$ref": "time_point.json",
+            "description": "time at which this media component applies"
         },
         "unit": {
             "$ref": "fluid_unit.json",
