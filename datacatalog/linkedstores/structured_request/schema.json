@@ -17,11 +17,8 @@
         "path": {
             "oneOf": [
                 {
-                	"type": "null"
-                },
-                {
                 	"type": "string",
-                	"enum": ["catalog_staging", "catalog"]
+                	"enum": ["catalog_staging", "catalog", "unspecified"]
                 },
                 {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
@@ -73,8 +70,7 @@
         "job_uuid",
         "last_updated",
         "state",
-        "archive_path",
-        "outputs"
+        "archive_path"
       ]
     },
     "status": {
