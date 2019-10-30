@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191028T191942+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@803fd33",
+    "$comment": "version: 2.2.0#master; generated: 20191030T132100+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@8b612a1",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -234,8 +234,7 @@
                 "job_uuid",
                 "last_updated",
                 "state",
-                "archive_path",
-                "outputs"
+                "archive_path"
             ],
             "type": "object"
         },
@@ -541,12 +540,10 @@
                 "path": {
                     "oneOf": [
                         {
-                            "type": "null"
-                        },
-                        {
                             "enum": [
                                 "catalog_staging",
-                                "catalog"
+                                "catalog",
+                                "unspecified"
                             ],
                             "type": "string"
                         },
