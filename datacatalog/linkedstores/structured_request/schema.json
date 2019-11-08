@@ -298,7 +298,12 @@
         },
         "strains": {
           "items": {
-            "type": "string"
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }]
           },
           "minItems": 1,
           "type": "array"
@@ -467,7 +472,12 @@
         "strains": {
           "description": "expected strains for this measurement",
           "items": {
-            "type": "string"
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }]
           },
           "minItems": 1,
           "type": "array"
@@ -533,6 +543,9 @@
           "type": "array"
         },
         "force_replicates": {
+          "type": "boolean"
+        },
+        "xplan_condition_space": {
           "type": "boolean"
         },
         "replicates": {
