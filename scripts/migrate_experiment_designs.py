@@ -56,13 +56,6 @@ for key in design_uri_map:
             if len(e_match_list) >= 1:
                 print("Found matching experiments, remapping for: {} old design uuid {} new design uuid {}".format(key, old_design["uuid"], new_design["uuid"]))
 
-                # Map over the old designs created and updated dates (both Google Docs and Mongo times)
-                previous_created = old_design["created"]
-                previous_updated = old_design["updated"]
-
-                properties_previous_created = old_design["_properties"]["created_date"]
-                properties_previous_modified = old_design["_properties"]["modified_date"]
-
                 for e_match in e_match_list:
                     e_record_id = e_match["_id"]
                     new_child_of = [new_design["uuid"]]
@@ -76,16 +69,23 @@ for key in design_uri_map:
                         }
                     })
 
-                    # update experiment design with the create/modify dates of the previous design it is replacing
-                    experiment_designs.update({ "_id" : new_design["_id"] },
-                    { "$set":
-                        {
-                            "created"  : previous_created,
-                            "updated"  : previous_updated,
-                            "_properties.created_date" : properties_previous_created,
-                            "_properties.modified_date" : properties_previous_modified
-                        }
-                    })
+            # Map over the old designs created and updated dates (both Google Docs and Mongo times)
+            previous_created = old_design["created"]
+            previous_updated = old_design["updated"]
+
+            properties_previous_created = old_design["_properties"]["created_date"]
+            properties_previous_modified = old_design["_properties"]["modified_date"]
+
+            # update experiment design with the create/modify dates of the previous design it is replacing
+            experiment_designs.update({ "_id" : new_design["_id"] },
+            { "$set":
+                {
+                    "created"  : previous_created,
+                    "updated"  : previous_updated,
+                    "_properties.created_date" : properties_previous_created,
+                    "_properties.modified_date" : properties_previous_modified
+                }
+            })
 
             # after remapping, regardless if any experiments are found, delete the old design
             print("Removing design: {}".format(old_design["uuid"]))
