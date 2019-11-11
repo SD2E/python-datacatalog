@@ -71,10 +71,10 @@ for key in design_uri_map:
                     experiments.update({ "_id" : record_id },
                     { "$set":
                         {
-                            "child_of" : new_child_of
-                            "created"  : previous_created
-                            "updated"  : previous_updated
-                            "_properties.created_date" : properties_previous_created
+                            "child_of" : new_child_of,
+                            "created"  : previous_created,
+                            "updated"  : previous_updated,
+                            "_properties.created_date" : properties_previous_created,
                             "_properties.modified_date" : properties_previous_modified
                         }
                     })
