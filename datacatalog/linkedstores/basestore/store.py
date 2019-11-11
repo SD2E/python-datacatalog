@@ -491,7 +491,7 @@ class LinkedStore(LinkageManager):
 
         self.logger.info('add_update_document()')
         self.logger.debug('type(doc_dict) is {}'.format(type(doc_dict)))
-        self.logger.debug('suppliedmvalue for uuid is {}'.format(uuid))
+        self.logger.debug('supplied value for uuid is {}'.format(uuid))
 
         # Validate value and appropriateness of uuid if passed
         if uuid is not None:
