@@ -64,20 +64,29 @@ for key in design_uri_map:
                 properties_previous_modified = old_design["_properties"]["modified_date"]
 
                 for e_match in e_match_list:
-                    record_id = e_match["_id"]
+                    e_record_id = e_match["_id"]
                     new_child_of = [new_design["uuid"]]
-                    print("Remapping {} from {} to {}".format(record_id, e_match["child_of"], new_child_of))
+                    print("Remapping {} from {} to {}".format(e_record_id, e_match["child_of"], new_child_of))
 
-                    experiments.update({ "_id" : record_id },
+                    # update child_of
+                    experiments.update({ "_id" : e_record_id },
                     { "$set":
                         {
-                            "child_of" : new_child_of,
+                            "child_of" : new_child_of
+                        }
+                    })
+
+                    # update experiment design with the create/modify dates of the previous design it is replacing
+                    experiment_designs.update({ "_id" : new_design["_id"] },
+                    { "$set":
+                        {
                             "created"  : previous_created,
                             "updated"  : previous_updated,
                             "_properties.created_date" : properties_previous_created,
                             "_properties.modified_date" : properties_previous_modified
                         }
                     })
+
             # after remapping, regardless if any experiments are found, delete the old design
             print("Removing design: {}".format(old_design["uuid"]))
             experiment_designs.delete_one({'uuid' : old_design["uuid"]})
