@@ -587,12 +587,7 @@
   "properties": {
     "name": {
       "description": "An experiment request name",
-      "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
-      "oneOf": [{
-        "type": "string",
-        "maxLength": 256,
-        "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
-      }]
+      "type": "string"
     },
     "lab": {
       "description": "the lab that performed this experiment",
