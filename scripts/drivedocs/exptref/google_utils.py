@@ -41,6 +41,7 @@ def __get_files(filename, folder_id, drive_service=None):
         spaces='drive',
         fields='files(id, name, size, modifiedTime, createdTime)',
         includeTeamDriveItems=True,
+        orderBy='name',
         supportsTeamDrives=True).execute()
     return response['files']
 
@@ -57,6 +58,7 @@ def get_folders(filename, folder_id, drive_service=None):
         spaces='drive',
         fields='files(id, name, size, modifiedTime, createdTime)',
         includeTeamDriveItems=True,
+        orderBy='name',
         supportsTeamDrives=True).execute()
     return response['files']
 
@@ -73,6 +75,7 @@ def get_files(filename, folder_id, drive_service=None):
         spaces='drive',
         fields='files(id, name, size, modifiedTime, createdTime)',
         includeTeamDriveItems=True,
+        orderBy='name',
         supportsTeamDrives=True).execute()
     return response['files']
 class GoogleAPIError(Exception):
