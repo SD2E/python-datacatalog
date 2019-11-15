@@ -10,6 +10,7 @@
         "PROTEOMICS",
         "EXPERIMENTAL_DESIGN",
         "SEQUENCING_CHROMATOGRAM",
-        "AUTOMATED_TEST"
+        "AUTOMATED_TEST",
+        "CONDITION_SPACE"
     ]
 }
