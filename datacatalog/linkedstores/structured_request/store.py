@@ -1,8 +1,8 @@
-from datacatalog.linkedstores.basestore import (LinkedStore, SoftDelete, JSONSchemaCollection, strategies)
+from datacatalog.linkedstores.basestore import (LinkedStore, JSONSchemaCollection, strategies)
 from .document import StructuredRequestSchema, StructuredRequestDocument
 from ...utils import time_stamp, msec_precision
 
-class StructuredRequestStore(SoftDelete, LinkedStore):
+class StructuredRequestStore(LinkedStore):
     """Manage storage and retrieval of StructuredRequest documents"""
 
     def __init__(self, mongodb, config={}, session=None, agave=None, **kwargs):
