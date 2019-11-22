@@ -96,7 +96,7 @@ def autobuild(idb, settings):
                 for candidate in candidates:
                     if candidate is not keep_sr:
                         logger.debug("Removing {} {} {} ".format(candidate["experiment_id"], candidate["name"], candidate["_properties"]["modified_date"]))
-                        ref_store.delete_one({'uuid' : candidate["uuid"]})
+                        ref_store.delete_document(uuid=candidate["uuid"])
 
 def dblist(idb, settings):
     logger.debug('Listing known entities')
