@@ -53,14 +53,14 @@
 	    {
 	        "$unwind": "$experiment_design_flow_jobs"
 	    },
-	    { 
-	        "$addFields": { 
-	            "derived_from": { 
-	                "$ifNull": [ "$experiment_flow_jobs.derived_from", ["unspecified"] ] 
+	    {
+	        "$addFields": {
+	            "derived_from": {
+	                "$ifNull": [ "$experiment_flow_jobs.derived_from", ["unspecified"] ]
 	            }
 	        }
-	    },    
-	    { 
+	    },
+	    {
 	        "$lookup": {
 	            "from": "files",
 	            "localField": "derived_from",
@@ -74,16 +74,16 @@
 	            "experiment_id": "$experiment_flow_jobs.experiment_id",
 	            "experiment_design_id": "$experiment_design_flow_jobs.experiment_design_id",
 			    "storage_system": {
-			        "$cond": { 
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
-			            "then": "unspecified", 
+			        "$cond": {
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
+			            "then": "unspecified",
 			            "else": { "$arrayElemAt": ["$experiment_design_files_flow_jobs.storage_system", 0] }
 			        }
 			    },
 			    "samples_json": {
-			        "$cond": { 
-			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] }, 
-			            "then": "unspecified", 
+			        "$cond": {
+			            "if": { "$eq": [ { "$arrayElemAt": [ "$derived_from", 0 ] }, "unspecified" ] },
+			            "then": "unspecified",
 			            "else": { "$arrayElemAt": ["$experiment_design_files_flow_jobs.name", 0] }
 			        }
 			    },
@@ -98,8 +98,8 @@
 	        "$group": {
 	            "_id": {
 	                "experiment_id": "$experiment_id",
-	                "experiment_design_id": "$experiment_design_id",
-	                "storage_system": "$storage_system",
+	                "experiment_reference": "$experiment_design_id",
+	                "agave_system": "$storage_system",
 	                "samples_json": "$samples_json"
 	            },
 	            "jobs": {
