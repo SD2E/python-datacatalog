@@ -56,7 +56,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     elif cp == "NC":
         cp = SampleConstants.CP_NOVEL_CHASSIS
     else:
-        raise ValueError("Unknown TX CP: {}".format(cp))
+        print("Proceeding with CP: {}".format(cp))
 
     output_doc[SampleConstants.CHALLENGE_PROBLEM] = cp
 
@@ -232,7 +232,14 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
-        sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(transcriptic_sample[SampleConstants.TEMPERATURE])
+        temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
+        # This is a special case for the growth curves experiments.
+        temp_prefix = "warm_"
+        if temperature_val.startswith(temp_prefix):
+            temperature_val = temperature_val[(temperature_val.index(temp_prefix) + len(temp_prefix)):]
+            sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature_val + ":celsius")
+        else:
+            sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature_val)
 
         # od
         if SampleConstants.INOCULATION_DENSITY in transcriptic_sample:
@@ -251,6 +258,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         time_val = None
         if SampleConstants.TIMEPOINT in transcriptic_sample:
             time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
+            # 1 hour -> 1:hour
+            if time_val.endswith(" hour"):
+                time_val = time_val.replace(" hour", ":hour")
+
             # enum fix
             if time_val.endswith("hours"):
                 time_val = time_val.replace("hours", "hour")
