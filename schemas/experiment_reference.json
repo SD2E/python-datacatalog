@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191206T225137+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@00a9315",
+    "$comment": "version: 2.2.0#master; generated: 20191208T215149+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@cd435f7",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -31,6 +31,7 @@
         "Summer-2018-SD2-Downselects",
         "TEST-Playing-with-Intent-Parser",
         "CEN-PK-Inducible-CRISPR-Characterization",
+        "Copy-of-YeastSTATES-CRISPR-Dose-Response",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
         "Engineered-CEN-PK2-DNASeq",
@@ -108,6 +109,7 @@
         "Summer-2018-SD2-Downselects",
         "TEST-Playing-with-Intent-Parser",
         "CEN-PK-Inducible-CRISPR-Characterization",
+        "Copy-of-YeastSTATES-CRISPR-Dose-Response",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
         "Engineered-CEN-PK2-DNASeq",
