@@ -81,8 +81,8 @@ class SampleSetProcessor(Manager):
         self.logger.debug('Experiment_id: {}'.format(doc_exp))
 
         # Experiment Design
-        doc_exd = document.get('experiment_reference', 'UNKNOWN')
-        exd = self.get('experiment_design', 'experiment_design_id', doc_exd)
+        doc_exd = document.get('experiment_reference_url', 'UNKNOWN')
+        exd = self.get('experiment_design', 'uri', doc_exd)
         setattr(self, 'experiment_design', exd)
         self.logger.debug('experiment_design: {}'.format(exd))
 
