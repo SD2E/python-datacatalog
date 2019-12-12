@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191212T135141+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@f3a4b86",
+    "$comment": "version: 2.2.0#master; generated: 20191212T145142+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@cf54ce9",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -64,6 +64,7 @@
         "NovelChassis-SpoGlo-StrainConstruction1",
         "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle0",
+        "NovelChassis-OR-Circuit-Cycle0-Tx",
         "NovelChassis-Parts-Discovery",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
@@ -143,6 +144,7 @@
         "NovelChassis-SpoGlo-StrainConstruction1",
         "NovelChassisYeastStates-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle0",
+        "NovelChassis-OR-Circuit-Cycle0-Tx",
         "NovelChassis-Parts-Discovery",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
