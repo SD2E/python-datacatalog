@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191212T205154+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@80b7b71",
+    "$comment": "version: 2.2.0#master; generated: 20191213T145129+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@57bff54",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -47,6 +47,7 @@
         "YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization",
         "YeastSTATES-CRISPR-Long-Duration-Time-Series-20191208",
         "YeastSTATES-CRISPR-Short-Duration-Time-Series-20191208",
+        "YeastSTATES-CRISPR-Short-Duration-Time-Series-20191213",
         "YeastSTATES-DNAseq-of-Yeastgates1-Strains",
         "YeastSTATES-Gander-Operational-Envelope",
         "YeastSTATES-gRNA-Seq-Diagnosis",
@@ -128,6 +129,7 @@
         "YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization",
         "YeastSTATES-CRISPR-Long-Duration-Time-Series-20191208",
         "YeastSTATES-CRISPR-Short-Duration-Time-Series-20191208",
+        "YeastSTATES-CRISPR-Short-Duration-Time-Series-20191213",
         "YeastSTATES-DNAseq-of-Yeastgates1-Strains",
         "YeastSTATES-Gander-Operational-Envelope",
         "YeastSTATES-gRNA-Seq-Diagnosis",
