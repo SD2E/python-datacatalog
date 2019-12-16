@@ -9,6 +9,7 @@ import sys
 import tempfile
 import pymongo
 import datetime
+import re
 from pprint import pprint
 from pymongo import MongoClient, errors
 from agavepy.agave import Agave
@@ -66,6 +67,8 @@ def autobuild(idb, settings):
             except Exception:
                 logger.exception('Structured request not written')
 
+    experiment_id_date_regex = ".*(\d{4}-\d{2}-\d{2}).*"
+
     # find old SRs (due to name migration) and remove
     for ref_url in ref_urls:
 
@@ -74,7 +77,7 @@ def autobuild(idb, settings):
         for sr_document in ref_store.query({ "experiment_reference_url" : ref_url }):
             # check derived_from and eid to make sure we don't pull in child SRs
             eid = sr_document["experiment_id"]
-            if not "xplan" in eid and len(sr_document["derived_from"]) == 0:
+            if len(sr_document["derived_from"]) == 0 and re.search(experiment_id_date_regex, eid) is not None:
                 candidates.append(sr_document)
 
         if len(candidates) > 1:
