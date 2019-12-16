@@ -273,10 +273,16 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # controls and standards
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in transcriptic_sample:
-            sample_doc[SampleConstants.STANDARD_TYPE] = transcriptic_sample[SampleConstants.STANDARD_TYPE]
+            tx_standard_type = transcriptic_sample[SampleConstants.STANDARD_TYPE]
+            if tx_standard_type not in ["CONTROL", ""]:
+                if tx_standard_type == "SIZE_BEAD_FLUORESCENCE":
+                    # TX calls this something slightly different
+                    tx_standard_type = "BEAD_SIZE"
+
+                sample_doc[SampleConstants.STANDARD_TYPE] = tx_standard_type
         if SampleConstants.STANDARD_FOR in transcriptic_sample:
             standard_for = transcriptic_sample[SampleConstants.STANDARD_FOR]
-            if len(standard_for) != 0 or sample_doc[SampleConstants.STANDARD_TYPE] != SampleConstants.STANDARD_MEDIA_BLANK:
+            if len(standard_for) > 0:
                 sample_doc[SampleConstants.STANDARD_FOR] = standard_for
 
         # map control for, type
@@ -284,10 +290,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             ct = transcriptic_sample[SampleConstants.CONTROL_TYPE]
             # not a valid control type
             # this is parsed by sample id, below
-            if ct != "SYTOX_LIVE_DEAD":
+            if ct not in ["SYTOX_LIVE_DEAD", ""]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = ct
         if SampleConstants.CONTROL_FOR in transcriptic_sample:
-            sample_doc[SampleConstants.CONTROL_FOR] = transcriptic_sample[SampleConstants.CONTROL_FOR]
+            control_for = transcriptic_sample[SampleConstants.CONTROL_FOR]
+            if len(control_for) > 0:
+                sample_doc[SampleConstants.CONTROL_FOR] = control_for
 
         # fill in attributes if we have a bead standard
         if SampleConstants.STANDARD_TYPE in sample_doc and \
