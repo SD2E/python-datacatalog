@@ -270,6 +270,10 @@
         "sbh_uri": {
           "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json",
           "description": "A SD2 SynBioHub reference"
+        },
+        "lab_id": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
+          "description": "The original value specified by the provider"
         }
       },
       "additionalProperties": false,
