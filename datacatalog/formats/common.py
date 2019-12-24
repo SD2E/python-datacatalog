@@ -239,6 +239,8 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
             # apply some normalizations
             if m_c_object[SampleConstants.UNIT] == "micromolar":
                 m_c_object[SampleConstants.UNIT] = "micromole"
+            if m_c_object[SampleConstants.UNIT] == "millimolar":
+                m_c_object[SampleConstants.UNIT] = "mM"
 
     return m_c_object
 
