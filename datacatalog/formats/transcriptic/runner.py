@@ -162,7 +162,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 arab_concentration = "25:mM"
                 iptg_concentration = "0.25:mM"
             else:
-                raise ValueError("Inducers without concentration values. TX must provide. Abort!")
+                if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                    raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
 
             if inducer != "None":
                 if "+" in inducer:
@@ -204,7 +205,13 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                         elif inducer == "IPTG":
                             concentration = iptg_concentration
                         else:
-                            raise ValueError("Unknown inducer")
+                            if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                                raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
+                            # split on fluid units
+                            # e.g. "20uM beta-estradiol"
+                            inducer_split = inducer.split(" ")
+                            inducer = inducer_split[1]
+                            concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                         contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
