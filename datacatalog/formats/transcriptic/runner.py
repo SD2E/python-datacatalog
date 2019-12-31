@@ -424,10 +424,16 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
-            if file_name.startswith('s3'):
+
+            # normalize when TX sends non-relative paths
+            # s3://sd2e-community/uploads/transcriptic/2019/11/YeastSTATES-CRISPR-Growth-Curves/r1ds8b4tdyuqxb/od_1.csv -> od_1.csv
+            # transcriptic/201911/YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization/r1dtbufcpd2ktr/od_1.csv -> od_1.csv
+
+            if file_name.startswith('s3') or file_name.count("/") >= 2:
                 file_name_final = file_name.split(original_experiment_id)[-1]
-                if file_name_final.startswith("/"):
-                    file_name_final = file_name_final[1:]
+
+            if file_name_final.startswith("/"):
+                file_name_final = file_name_final[1:]
 
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,
