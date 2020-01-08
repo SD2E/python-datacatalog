@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191217T235147+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ae5e50a",
+    "$comment": "version: 2.2.0#master; generated: 20200108T145115+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1118b73",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -539,6 +539,9 @@
                     "$ref": "#/definitions/status_element"
                 },
                 "uploaded": {
+                    "$ref": "#/definitions/status_element"
+                },
+                "xplan_request_submitted": {
                     "$ref": "#/definitions/status_element"
                 }
             },

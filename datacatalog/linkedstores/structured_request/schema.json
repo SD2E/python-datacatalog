@@ -91,6 +91,9 @@
         "ingested": {
           "$ref": "#/definitions/status_element"
         },
+        "xplan_request_submitted" : {
+          "$ref": "#/definitions/status_element"
+        },
         "etl_flow": {
 	      "type": "object",
 	      "properties": {
