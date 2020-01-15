@@ -86,41 +86,7 @@
                     "tx_sample_id"
                 ]
             }
-        },
-	    "tasbe_cytometer_configuration": {
-	      "type": "object",
-	      "properties": {
-	        "channels": {
-	          "type": "array",
-	          "items": {
-	            "type": "object",
-	            "properties": {
-	              "name": {
-	                "type": "string"
-		          },
-		          "emission_filter": {
-	                "type": "object",
-	                "properties": {
-	                  "center": {
-	                    "type": "integer"
-	                  },
-	                  "type": {
-	                    "type": "string"
-	                  },
-	                  "width": {
-	                    "type": "integer"
-	                  }
-	                }
-	              },
-	              "excitation_wavelength": {
-		            "type": "integer"
-	              }
-		        }
-		      }
-	        }        
-	      }
-	    }
-	  }
+        }
     },
     "required": [
         "challenge_problem",
