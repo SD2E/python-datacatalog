@@ -1,0 +1,39 @@
+{
+    "$comment": "version: 2.2.0#master; generated: 20200115T184108+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ad9ee95",
+    "$id": "https://schema.catalog.sd2e.org/schemas/cytometer.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "Cytometer configuration template",
+    "properties": {
+        "channels": {
+            "items": {
+                "properties": {
+                    "emission_filter": {
+                        "properties": {
+                            "center": {
+                                "type": "integer"
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "width": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "excitation_wavelength": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "title": "Cytometer",
+    "type": "object"
+}

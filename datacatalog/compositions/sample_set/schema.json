@@ -28,6 +28,9 @@
             "items": {
                 "$ref": "sample.json"
             }
+        },
+        "tasbe_cytometer_configuration": {
+            "$ref": "cytometer.json"
         }
     },
     "required": [
