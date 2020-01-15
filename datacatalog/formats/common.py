@@ -38,9 +38,6 @@ class SampleConstants():
     LAB_UWBF = "UW_BIOFAB"
     LAB_CALTECH = "Caltech"
     LAB_MARSHALL = "Marshall"
-    
-    # Flow cytometer configuration
-    CYTOMETER_CONFIG = "tasbe_cytometer_configuration"
 
     # samples
     SAMPLES = "samples"

@@ -71,8 +71,6 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
-    if SampleConstants.CYTOMETER_CONFIG in transcriptic_doc:
-        output_doc[CYTOMETER_CONFIG] = transcriptic_doc[CYTOMETER_CONFIG]
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
@@ -404,7 +402,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                     else:
                         measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
 
-                if SampleConstants.CYTOMETER_CONFIG not in output_doc and SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
+                if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # TX can repeat measurement ids
