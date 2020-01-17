@@ -323,6 +323,10 @@
           "type": "array"
         }
       },
+      "required": [
+        "type",
+        "strains"
+      ],
       "type": "object"
     },
     "timepoint": {
