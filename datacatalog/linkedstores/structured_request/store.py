@@ -12,19 +12,20 @@ class StructuredRequestStore(LinkedStore):
         self._enforce_auth = True
         self.setup(update_indexes=kwargs.get('update_indexes', False))
         
-    def update_request_with_status(self, structured_request, key, state, path=None):
+    def update_request_with_status(self, structured_request, key=None, state=None, path=None):
 
         if "status" not in structured_request:
             structured_request["status"] = {}
         
         if path is None:
             path = "unspecified"
-                    
-        structured_request["status"][key] = {
-            "state": state,
-            "last_updated": msec_precision(time_stamp()),
-            "path": path
-        }
+
+        if key is not None and state is not None:
+            structured_request["status"][key] = {
+                "state": state,
+                "last_updated": msec_precision(time_stamp()),
+                "path": path
+            }
         
         self.add_update_document(structured_request, strategy=strategies.REPLACE)   
 
