@@ -32,7 +32,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
-    DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A", "RL1-A"]
+    DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A"]
     DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
 
     # for SBH Librarian Mapping
@@ -397,12 +397,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    # NC specific channels
-                    if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS and \
-                    measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
-                        measurement_doc[SampleConstants.M_CHANNELS] = ["BL1-A", "FSC-A", "SSC-A"]
-                    else:
-                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
 
                 if SampleConstants.CYTOMETER_CONFIG not in output_doc and SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
