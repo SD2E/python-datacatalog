@@ -47,22 +47,8 @@ class StructuredRequestStore(LinkedStore):
             structured_request["status"][key] = {}
 
         if key == "etl_flow":
-            if subkey == "color_model":
-                self.logger.info("replacing {} job entry".format(subkey))
-                structured_request["status"][key][subkey] = job_dict
-            elif subkey == "whole_dataset":
-                if subkey not in structured_request["status"][key]:
-                    structured_request["status"][key][subkey] = []
-
-                for i in range(len(structured_request["status"][key][subkey])):
-                    if structured_request["status"][key][i]["job_uuid"] == job_dict["job_uuid"]:
-                        self.logger.info("replacing {} job entry".format(subkey))
-                        structured_request["status"][key][subkey][i] = job_dict
-                        replaced = True
-    
-                if not replaced:
-                    self.logger.info("adding new job entry")
-                    structured_request["status"][key][subkey].append(job_dict)
+            self.logger.info("replacing {} job entry".format(subkey))
+            structured_request["status"][key][subkey] = job_dict
         elif key == "etl_rna_seq":
             if subkey == "qc_metadata":
                 structured_request["status"][key][subkey] = job_dict
