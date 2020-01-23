@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200121T225158+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4538714",
+    "$comment": "version: 2.2.0#master; generated: 20200123T145224+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@0dc2ffc",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -72,6 +72,7 @@
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier",
+        "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-24hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour",
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
@@ -156,6 +157,7 @@
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier",
+        "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-24hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour",
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
