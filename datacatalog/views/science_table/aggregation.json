@@ -49,6 +49,17 @@
                 "replicate": "$sample.replicate",
                 "sample_contents": "$sample.contents",
                 "sample_id": "$sample.sample_id",
+                "lab_sample_id": {
+                    "$arrayElemAt": [
+                        {
+                            "$split": [
+                                "$sample.lab_sample_id",
+                                "."
+                            ]
+                        },
+                        2
+                    ]
+                },
                 "strain": "$sample.strain.label",
                 "strain_circuit": "$sample.strain.circuit",
                 "strain_input_state": "$sample.strain.input_state",
