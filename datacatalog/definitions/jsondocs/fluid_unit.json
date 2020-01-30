@@ -7,7 +7,8 @@
         "X",
         "g/L",
         "micromole",
-        "nM"
+        "nM",
+        "uM"
     ],
     "type": "string"
 }
