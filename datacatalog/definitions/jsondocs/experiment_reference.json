@@ -100,6 +100,7 @@
     "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
     "NovelChassis-HighThroughput-TimeSeries",
     "NovelChassis-TimeSeries-LowThroughput",
+    "Tight-cycle-DNASeq-Learn-Bacillus",
     "YeastStates-TimeSeries-LowThroughput",
     "YeastStates-TimeSeries-Merged",
     "Riboswitches"
