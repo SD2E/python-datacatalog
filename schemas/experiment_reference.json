@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200206T205121+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@bd31a6e",
+    "$comment": "version: 2.2.0#master; generated: 20200210T145121+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@fd9ee53",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -70,6 +70,7 @@
         "YeastSTATES-LiveDeadClassification",
         "YeastSTATES-OR-Gate-Plant-TF-Dose-Response",
         "YeastSTATES-OR-Gate-Plant-TF-Growth-Curves",
+        "YeastSTATES-OR-Gate-Plant-TF-Obstacle-Course",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -178,6 +179,7 @@
         "YeastSTATES-LiveDeadClassification",
         "YeastSTATES-OR-Gate-Plant-TF-Dose-Response",
         "YeastSTATES-OR-Gate-Plant-TF-Growth-Curves",
+        "YeastSTATES-OR-Gate-Plant-TF-Obstacle-Course",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
