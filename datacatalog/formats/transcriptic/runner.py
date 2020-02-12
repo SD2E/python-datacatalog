@@ -283,8 +283,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in transcriptic_sample:
             tx_standard_type = transcriptic_sample[SampleConstants.STANDARD_TYPE]
-            if tx_standard_type not in ["CONTROL", ""]:
-                if tx_standard_type == "SIZE_BEAD_FLUORESCENCE":
+            if tx_standard_type not in [""]:
+                # CONTROL samples are media controls (blanks)
+                if tx_standard_type == "CONTROL":
+                    tx_standard_type = "MEDIA_BLANK"
+                elif tx_standard_type == "SIZE_BEAD_FLUORESCENCE":
                     # TX calls this something slightly different
                     tx_standard_type = "BEAD_SIZE"
 
