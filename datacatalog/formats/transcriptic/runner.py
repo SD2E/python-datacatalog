@@ -144,7 +144,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 else:
                     if reagent not in seen_contents:
                         seen_contents.add(reagent)
-                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                        # if we don't have an inducer, and only one reagent, this is that reagent's concenetration
+                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample and "inducer" not in transcriptic_sample:
                             contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
                         else:
                             contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
