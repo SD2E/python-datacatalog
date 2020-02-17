@@ -7,6 +7,8 @@ configparser>=3.5.0
 filetype
 future
 GitPython<=2.1.11
+# If this is upgraded, upgrade GitPython as well
+gitdb2<=3.0.1
 google>=2.0.1
 google-api-python-client>=1.7.8
 google-auth>=1.5.1
