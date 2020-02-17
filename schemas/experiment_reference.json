@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200217T145133+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b820e76",
+    "$comment": "version: 2.2.0#master; generated: 20200217T155130+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@07e5896",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -41,6 +41,7 @@
         "181114-Gyu-Rie-Lee",
         "181127-High-Throughput",
         "190214-High-Throughput",
+        "200217-SSM",
         "Franziska-Ta-Yi-BM2",
         "Gabe-Rocklin-Aga2-Mutagenesis",
         "Gabe-Rocklin-EEHEE-miniSSM",
@@ -154,6 +155,7 @@
         "181114-Gyu-Rie-Lee",
         "181127-High-Throughput",
         "190214-High-Throughput",
+        "200217-SSM",
         "Franziska-Ta-Yi-BM2",
         "Gabe-Rocklin-Aga2-Mutagenesis",
         "Gabe-Rocklin-EEHEE-miniSSM",
