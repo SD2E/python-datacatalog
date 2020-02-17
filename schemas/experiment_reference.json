@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200214T015211+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3dfc460",
+    "$comment": "version: 2.2.0#master; generated: 20200217T145133+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b820e76",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -13,6 +13,7 @@
         "IntentParserCopy-of-NovelChassis-OR-Circuit-Cycle0-8hour",
         "IntentParserCopy-of-Plan-Requirements-B-subtilis-inducer-RNASeq",
         "IntentParserCopy-of-Engineered-CEN-PK2-DNASeq",
+        "IntentParserCopy-of-mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
         "IntentParserCopy-of-NovelChassis-Bacillus-WT-Characterization",
         "IntentParserCopy-of-NovelChassis-Ginkgo-Strain-Inducer-Characterization",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Dose-Response",
@@ -125,6 +126,7 @@
         "IntentParserCopy-of-NovelChassis-OR-Circuit-Cycle0-8hour",
         "IntentParserCopy-of-Plan-Requirements-B-subtilis-inducer-RNASeq",
         "IntentParserCopy-of-Engineered-CEN-PK2-DNASeq",
+        "IntentParserCopy-of-mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
         "IntentParserCopy-of-NovelChassis-Bacillus-WT-Characterization",
         "IntentParserCopy-of-NovelChassis-Ginkgo-Strain-Inducer-Characterization",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Dose-Response",
