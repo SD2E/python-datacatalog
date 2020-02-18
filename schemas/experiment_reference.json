@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200217T155130+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@07e5896",
+    "$comment": "version: 2.2.0#master; generated: 20200218T145128+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@6d801ae",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -55,6 +55,7 @@
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
         "smRNAseq-Protocol-Dev",
+        "TEST-YeastSTATES-CRISPR-Dose-Response",
         "Yeast-TetR-Characterization",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
@@ -169,6 +170,7 @@
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
         "smRNAseq-Protocol-Dev",
+        "TEST-YeastSTATES-CRISPR-Dose-Response",
         "Yeast-TetR-Characterization",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
