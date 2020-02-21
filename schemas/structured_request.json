@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200117T025105+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3e08d79",
+    "$comment": "version: 2.2.0#master; generated: 20200221T195207+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8bbdb02",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -290,6 +290,9 @@
         "measurement": {
             "additionalProperties": false,
             "properties": {
+                "batch": {
+                    "type": "number"
+                },
                 "channels": {
                     "description": "expected channels for an FCS measurement",
                     "items": {
@@ -454,9 +457,6 @@
                     },
                     "minItems": 1,
                     "type": "array"
-                },
-                "xplan_condition_space": {
-                    "type": "boolean"
                 }
             },
             "required": [

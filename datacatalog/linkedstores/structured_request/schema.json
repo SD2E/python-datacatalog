@@ -556,8 +556,8 @@
         "force_replicates": {
           "type": "boolean"
         },
-        "xplan_condition_space": {
-          "type": "boolean"
+        "batch": {
+          "type": "number"
         },
         "replicates": {
           "oneOf": [{
