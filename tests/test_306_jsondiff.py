@@ -26,6 +26,28 @@ def test_json_diff_recursion():
     list2 = ['12757493', '12757494']
     assert diff_list(list1, list2) == ['12757495']
 
+    # cross-type lists
+    merge_source = {'replicate': [1, 2, 3, 4, 5, 6], 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f'}
+    merge_dest =   {'replicate': 6, 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f'}
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+    assert json.loads(diff_record.delta) == {'$update': {'replicate': 6}, 'replicate': 6}
+    assert s_updated == True
+
+    # flip lists
+    merge_source = {'replicate': 6, 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f'}
+    merge_dest = {'replicate': [1, 2, 3, 4, 5, 6], 'uuid': '10342eae-c840-5c95-ad3b-4dd680a81a0f'}
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+    assert json.loads(diff_record.delta) == {'$update': {'replicate': [1, 2, 3, 4, 5, 6]}, 'replicate': 6}
+    assert s_updated == True
+
     # Not PEP8 friendly.
     # Example production documents of fluorescein controls from Ginkgo
     # Short lists - should not trigger issues with recursion
