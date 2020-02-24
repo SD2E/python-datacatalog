@@ -13,6 +13,75 @@
     "experiment_reference": {
       "type": "string"
     },
+    "experimental_start": {
+      "type": "string"
+    },
+    "experimental_end": {
+        "type": "string"
+    },
+    "experimental_reader_params": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "fluorescence": {
+                  "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "emission": {
+                                "type": "string"
+                            },
+                            "excitation": {
+                                "type": "string"
+                            },
+                            "gain": {
+                                "type": "number"
+                            }
+                        },
+                        "required": ["emission", "excitation", "gain"]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                        "emission": {
+                            "type": "string"
+                        },
+                        "excitation": {
+                            "type": "string"
+                        },
+                        "gain": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["emission", "excitation", "gain"]
+                  }]
+                }
+            },
+            "required": ["fluorescence"]
+        }
+    },
+    "calibration_reader_params": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "emission": {
+                    "type": "string"
+                },
+                "excitation": {
+                    "type": "string"
+                },
+                "gain": {
+                    "type": "number"
+                }
+            },
+            "required": ["emission", "excitation", "gain"]
+        }
+    },
     "lab": {
       "type": "string"
     },
