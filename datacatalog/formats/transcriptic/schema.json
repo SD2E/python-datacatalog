@@ -59,9 +59,17 @@
                     },
                     "required": ["emission", "excitation", "gain"]
                   }]
+                },
+                "luminescence": {
+                    "type": "object",
+                    "properties": {
+                        "integration_time": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["integration_time"]
                 }
-            },
-            "required": ["fluorescence"]
+            }
         }
     },
     "calibration_reader_params": {
