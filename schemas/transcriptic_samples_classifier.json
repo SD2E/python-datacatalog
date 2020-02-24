@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200224T210851+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@d5fd6c5",
+    "$comment": "version: 2.2.0#master; generated: 20200224T213820+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fb07902",
     "$id": "https://schema.catalog.sd2e.org/schemas/transcriptic_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -85,11 +85,19 @@
                                 "type": "object"
                             }
                         ]
+                    },
+                    "luminescence": {
+                        "properties": {
+                            "integration_time": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "integration_time"
+                        ],
+                        "type": "object"
                     }
                 },
-                "required": [
-                    "fluorescence"
-                ],
                 "type": "object"
             },
             "type": "array"
