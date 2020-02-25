@@ -212,8 +212,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                                 raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
                             # split on fluid units
                             # e.g. "20uM beta-estradiol"
-                            inducer_split = inducer.split(" ")
-                            inducer = inducer_split[1]
+                            if " " in inducer:
+                                inducer_split = inducer.split(" ")
+                                inducer = inducer_split[1]
                             concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                         contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
