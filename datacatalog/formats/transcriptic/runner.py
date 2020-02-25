@@ -167,6 +167,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             else:
                 if SampleConstants.CONCENTRATION not in transcriptic_sample:
                     raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+                else:
+                    arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                    iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
             if inducer != "None":
                 if "+" in inducer:
