@@ -35,7 +35,7 @@ def test_v1_v2_named_uuid_mapping():
 ])
 def test_validate_uuid5(uuid, permissive, result, raises):
     if raises:
-        with pytest.raises(Exception):
+        with pytest.raises(ValueError):
             typeduuid.validate_uuid5(uuid, permissive=permissive)
     else:
         assert typeduuid.validate_uuid5(uuid, permissive=permissive) == result
