@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200220T185123+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@704d8cb",
+    "$comment": "version: 2.2.0#master; generated: 20200228T015204+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@026aab1",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -106,6 +106,7 @@
         "YeastSTATES-Cello-Characterization",
         "YeastSTATES-CellStateReporters",
         "YeastSTATES-CRISPR-Dose-Response",
+        "YeastSTATES-CRISPR-Growth-Curves-35C",
         "YeastSTATES-CRISPR-Growth-Curves",
         "YeastSTATES-CRISPR-Growth-Curves-422936",
         "YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization",
@@ -226,6 +227,7 @@
         "YeastSTATES-Cello-Characterization",
         "YeastSTATES-CellStateReporters",
         "YeastSTATES-CRISPR-Dose-Response",
+        "YeastSTATES-CRISPR-Growth-Curves-35C",
         "YeastSTATES-CRISPR-Growth-Curves",
         "YeastSTATES-CRISPR-Growth-Curves-422936",
         "YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization",
