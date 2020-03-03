@@ -1,11 +1,10 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200228T025149+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@101560b",
+    "$comment": "version: 2.2.0#master; generated: 20200303T155154+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@2c695aa",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
-        "B-Subtilis-LiveDeadClassification",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -36,6 +35,7 @@
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
+        "Microbe-LiveDeadClassification",
         "NC-Penn-State-Bistability-Assay",
         "NC-Penn-State-Growth-Curve",
         "NC-Penn-State-Toggle-Switch",
@@ -127,7 +127,6 @@
         "Riboswitches"
     ],
     "examples": [
-        "B-Subtilis-LiveDeadClassification",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -158,6 +157,7 @@
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
+        "Microbe-LiveDeadClassification",
         "NC-Penn-State-Bistability-Assay",
         "NC-Penn-State-Growth-Curve",
         "NC-Penn-State-Toggle-Switch",
