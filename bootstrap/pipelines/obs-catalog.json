@@ -1,0 +1,23 @@
+{
+    "name": "Observation Catalog",
+    "description": "Updates obs table in the catalog from ETL results",
+    "components": [
+        {
+            "id": "7YOXR56DoOq3b",
+            "image": "index.docker.io/sd2e/observation-loader:latest",
+            "options": {}
+        }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "CSV",
+        "FCS"
+    ],
+    "produces": [
+        "JSON"
+    ],
+    "pipeline_type": "primary-etl",
+    "id": "sd2e-observation-loader"
+}
