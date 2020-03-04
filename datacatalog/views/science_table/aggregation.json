@@ -14,6 +14,7 @@
                 "file_type": "$file.type",
                 "filename": "$file.name",
                 "file_uuid": "$file.uuid",
+                "genetic_construct": "$sample.genetic_construct",
                 "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
                 "hpc_path": {
                     "$concat": [

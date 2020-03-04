@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191115T190633+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@af6e7dd",
+    "$comment": "version: 2.2.0#master; generated: 20200302T162740+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@f5c691a",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement_type.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -14,6 +14,7 @@
         "EXPERIMENTAL_DESIGN",
         "SEQUENCING_CHROMATOGRAM",
         "AUTOMATED_TEST",
+        "CFU",
         "CONDITION_SPACE"
     ],
     "examples": [
@@ -26,6 +27,7 @@
         "EXPERIMENTAL_DESIGN",
         "SEQUENCING_CHROMATOGRAM",
         "AUTOMATED_TEST",
+        "CFU",
         "CONDITION_SPACE"
     ],
     "title": "Measurement Type",
