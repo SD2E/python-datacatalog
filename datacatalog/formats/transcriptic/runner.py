@@ -32,7 +32,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
-    DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A", "RL1-A"]
+    DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A"]
     DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
 
     # for SBH Librarian Mapping
@@ -56,7 +56,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     elif cp == "NC":
         cp = SampleConstants.CP_NOVEL_CHASSIS
     else:
-        raise ValueError("Unknown TX CP: {}".format(cp))
+        print("Proceeding with CP: {}".format(cp))
 
     output_doc[SampleConstants.CHALLENGE_PROBLEM] = cp
 
@@ -71,6 +71,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
+    if SampleConstants.CYTOMETER_CONFIG in transcriptic_doc:
+        output_doc[SampleConstants.CYTOMETER_CONFIG] = transcriptic_doc[SampleConstants.CYTOMETER_CONFIG]
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
@@ -142,7 +144,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 else:
                     if reagent not in seen_contents:
                         seen_contents.add(reagent)
-                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample:
+                        # if we don't have an inducer, and only one reagent, this is that reagent's concenetration
+                        if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample and "inducer" not in transcriptic_sample:
                             contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query, transcriptic_sample[SampleConstants.CONCENTRATION]))
                         else:
                             contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
@@ -162,7 +165,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 arab_concentration = "25:mM"
                 iptg_concentration = "0.25:mM"
             else:
-                raise ValueError("Inducers without concentration values. TX must provide. Abort!")
+                if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                    raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+                else:
+                    arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                    iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
             if inducer != "None":
                 if "+" in inducer:
@@ -204,7 +211,14 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                         elif inducer == "IPTG":
                             concentration = iptg_concentration
                         else:
-                            raise ValueError("Unknown inducer")
+                            if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                                raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
+                            # split on fluid units
+                            # e.g. "20uM beta-estradiol"
+                            if " " in inducer:
+                                inducer_split = inducer.split(" ")
+                                inducer = inducer_split[1]
+                            concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                         contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
@@ -232,7 +246,14 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
         # temperature
-        sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(transcriptic_sample[SampleConstants.TEMPERATURE])
+        temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
+        # This is a special case for the growth curves experiments.
+        temp_prefix = "warm_"
+        if temperature_val.startswith(temp_prefix):
+            temperature_val = temperature_val[(temperature_val.index(temp_prefix) + len(temp_prefix)):]
+            sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature_val + ":celsius")
+        else:
+            sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature_val)
 
         # od
         if SampleConstants.INOCULATION_DENSITY in transcriptic_sample:
@@ -251,6 +272,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         time_val = None
         if SampleConstants.TIMEPOINT in transcriptic_sample:
             time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
+            # 1 hour -> 1:hour
+            if time_val.endswith(" hour"):
+                time_val = time_val.replace(" hour", ":hour")
+
             # enum fix
             if time_val.endswith("hours"):
                 time_val = time_val.replace("hours", "hour")
@@ -262,10 +287,19 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # controls and standards
         # map standard for, type,
         if SampleConstants.STANDARD_TYPE in transcriptic_sample:
-            sample_doc[SampleConstants.STANDARD_TYPE] = transcriptic_sample[SampleConstants.STANDARD_TYPE]
+            tx_standard_type = transcriptic_sample[SampleConstants.STANDARD_TYPE]
+            if tx_standard_type not in [""]:
+                # CONTROL samples are media controls (blanks)
+                if tx_standard_type == "CONTROL":
+                    tx_standard_type = "MEDIA_BLANK"
+                elif tx_standard_type == "SIZE_BEAD_FLUORESCENCE":
+                    # TX calls this something slightly different
+                    tx_standard_type = "BEAD_SIZE"
+
+                sample_doc[SampleConstants.STANDARD_TYPE] = tx_standard_type
         if SampleConstants.STANDARD_FOR in transcriptic_sample:
             standard_for = transcriptic_sample[SampleConstants.STANDARD_FOR]
-            if len(standard_for) != 0 or sample_doc[SampleConstants.STANDARD_TYPE] != SampleConstants.STANDARD_MEDIA_BLANK:
+            if len(standard_for) > 0:
                 sample_doc[SampleConstants.STANDARD_FOR] = standard_for
 
         # map control for, type
@@ -273,10 +307,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             ct = transcriptic_sample[SampleConstants.CONTROL_TYPE]
             # not a valid control type
             # this is parsed by sample id, below
-            if ct != "SYTOX_LIVE_DEAD":
+            if ct not in ["SYTOX_LIVE_DEAD", ""]:
                 sample_doc[SampleConstants.CONTROL_TYPE] = ct
         if SampleConstants.CONTROL_FOR in transcriptic_sample:
-            sample_doc[SampleConstants.CONTROL_FOR] = transcriptic_sample[SampleConstants.CONTROL_FOR]
+            control_for = transcriptic_sample[SampleConstants.CONTROL_FOR]
+            if len(control_for) > 0:
+                sample_doc[SampleConstants.CONTROL_FOR] = control_for
 
         # fill in attributes if we have a bead standard
         if SampleConstants.STANDARD_TYPE in sample_doc and \
@@ -369,14 +405,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    # NC specific channels
-                    if output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS and \
-                    measurement_doc[SampleConstants.MEASUREMENT_TYPE] == SampleConstants.MT_FLOW:
-                        measurement_doc[SampleConstants.M_CHANNELS] = ["BL1-A", "FSC-A", "SSC-A"]
-                    else:
-                        measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
 
-                if SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
+                if SampleConstants.CYTOMETER_CONFIG not in output_doc and SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
 
             # TX can repeat measurement ids
@@ -398,10 +429,16 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
-            if file_name.startswith('s3'):
+
+            # normalize when TX sends non-relative paths
+            # s3://sd2e-community/uploads/transcriptic/2019/11/YeastSTATES-CRISPR-Growth-Curves/r1ds8b4tdyuqxb/od_1.csv -> od_1.csv
+            # transcriptic/201911/YeastSTATES-CRISPR-Growth-Curves-with-Plate-Reader-Optimization/r1dtbufcpd2ktr/od_1.csv -> od_1.csv
+
+            if file_name.startswith('s3') or file_name.count("/") >= 2:
                 file_name_final = file_name.split(original_experiment_id)[-1]
-                if file_name_final.startswith("/"):
-                    file_name_final = file_name_final[1:]
+
+            if file_name_final.startswith("/"):
+                file_name_final = file_name_final[1:]
 
             measurement_doc[SampleConstants.FILES].append(
                 {SampleConstants.M_NAME: file_name_final,

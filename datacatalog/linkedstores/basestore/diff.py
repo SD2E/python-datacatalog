@@ -155,6 +155,14 @@ def diff_remove_long_lists(doc1, doc2):
             child1_array = doc1[candidate_list_key]
             child2_array = doc2[candidate_list_key]
 
+            # type check - make sure these are both lists
+            if not isinstance(child1_array, list) :
+                diff_dict[candidate_list_key] = child1_array
+                continue
+            if not isinstance(child2_array, list):
+                diff_dict[candidate_list_key] = child2_array
+                continue
+
             for index, child1 in enumerate(child1_array):
                 if index < len(child2_array):
                     child2 = child2_array[index]

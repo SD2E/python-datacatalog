@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190918T153436+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@dadb332",
+    "$comment": "version: 2.2.0#master; generated: 20200224T135641+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@69596c3",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -44,6 +44,10 @@
         "_visible": {
             "type": "boolean",
             "value": true
+        },
+        "batch": {
+            "description": "An integer grouping to which this sample belongs",
+            "type": "integer"
         },
         "child_of": {
             "items": {

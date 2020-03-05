@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191014T154444+00:00; source: git@github.com:SD2E/python-datacatalog.git@9d09d8d",
+    "$comment": "version: 2.2.0#master; generated: 20200221T195207+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8bbdb02",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -113,6 +113,9 @@
                     "description": "skip reporting of the presence of this content, but use in doe",
                     "type": "boolean"
                 },
+                "timepoint": {
+                    "$ref": "#definitions/timepoint"
+                },
                 "unit": {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
                     "description": "Unit of fluid measure"
@@ -140,6 +143,10 @@
         "content_name": {
             "additionalProperties": false,
             "properties": {
+                "lab_id": {
+                    "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
+                    "description": "The original value specified by the provider"
+                },
                 "label": {
                     "description": "Unique, human-readable string",
                     "type": "string"
@@ -172,7 +179,14 @@
                 },
                 "strains": {
                     "items": {
-                        "type": "string"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "type": "array"
@@ -188,6 +202,10 @@
                     "$ref": "https://schema.catalog.sd2e.org/schemas/control_type.json"
                 }
             },
+            "required": [
+                "type",
+                "strains"
+            ],
             "type": "object"
         },
         "etl_job_element": {
@@ -231,8 +249,7 @@
                 "job_uuid",
                 "last_updated",
                 "state",
-                "archive_path",
-                "outputs"
+                "archive_path"
             ],
             "type": "object"
         },
@@ -273,6 +290,9 @@
         "measurement": {
             "additionalProperties": false,
             "properties": {
+                "batch": {
+                    "type": "number"
+                },
                 "channels": {
                     "description": "expected channels for an FCS measurement",
                     "items": {
@@ -402,7 +422,14 @@
                 "strains": {
                     "description": "expected strains for this measurement",
                     "items": {
-                        "type": "string"
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                            }
+                        ]
                     },
                     "minItems": 1,
                     "type": "array"
@@ -472,6 +499,9 @@
                 "annotated": {
                     "$ref": "#/definitions/status_element"
                 },
+                "comparison_passed": {
+                    "$ref": "#/definitions/status_element"
+                },
                 "converted": {
                     "$ref": "#/definitions/status_element"
                 },
@@ -514,6 +544,9 @@
                 },
                 "uploaded": {
                     "$ref": "#/definitions/status_element"
+                },
+                "xplan_request_submitted": {
+                    "$ref": "#/definitions/status_element"
                 }
             },
             "required": [
@@ -535,12 +568,10 @@
                 "path": {
                     "oneOf": [
                         {
-                            "type": "null"
-                        },
-                        {
                             "enum": [
                                 "catalog_staging",
-                                "catalog"
+                                "catalog",
+                                "unspecified"
                             ],
                             "type": "string"
                         },
@@ -687,15 +718,8 @@
             "description": "the lab that performed this experiment"
         },
         "name": {
-            "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
             "description": "An experiment request name",
-            "oneOf": [
-                {
-                    "maxLength": 256,
-                    "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]",
-                    "type": "string"
-                }
-            ]
+            "type": "string"
         },
         "parameters": {
             "description": "",

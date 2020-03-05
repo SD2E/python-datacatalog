@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022108+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20191112T205328+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@94a46bd",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_design.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -50,13 +50,14 @@
             "format": "date-time",
             "type": "string"
         },
-        "url": {
+        "uri": {
             "$ref": "experiment_url.json",
             "description": "URI containing complete text of experimental reference"
         }
     },
     "required": [
-        "experiment_design_id"
+        "experiment_design_id",
+        "uri"
     ],
     "title": "ExperimentDesign",
     "type": "object"

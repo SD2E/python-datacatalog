@@ -11,8 +11,7 @@ from .schema import PipelineDocument
 from .serializer import SerializedPipeline
 from .exceptions import PipelineCreateFailure, PipelineUpdateFailure, DuplicatePipelineError
 
-DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM,
-                       linkages.ACTED_ON, linkages.ACTED_USING]
+DEFAULT_LINK_FIELDS = [linkages.CHILD_OF, linkages.DERIVED_FROM]
 
 class PipelineStore(SoftDelete, LinkedStore):
     """Manage storage and retrieval of PipelineDocuments"""

@@ -19,7 +19,7 @@
             "description": "Canonical string identifier for the experimental reference",
             "$ref": "experiment_reference.json"
         },
-        "url": {
+        "uri": {
             "description": "URI containing complete text of experimental reference",
             "$ref": "experiment_url.json"
         },
@@ -66,17 +66,18 @@
         }
     },
     "required": [
-        "experiment_design_id"
+        "experiment_design_id",
+        "uri"
     ],
     "_filename": "experiment_design",
     "__uuid_type": "experiment_design",
     "__uuid_fields": [
-        "experiment_design_id"
+        "uri"
     ],
     "__collection": "experiment_designs",
     "__indexes": [],
     "__identifiers": [
         "uuid",
-        "experiment_design_id"
+        "uri"
     ]
 }

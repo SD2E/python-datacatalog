@@ -17,11 +17,8 @@
         "path": {
             "oneOf": [
                 {
-                	"type": "null"
-                },
-                {
                 	"type": "string",
-                	"enum": ["catalog_staging", "catalog"]
+                	"enum": ["catalog_staging", "catalog", "unspecified"]
                 },
                 {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json"
@@ -73,8 +70,7 @@
         "job_uuid",
         "last_updated",
         "state",
-        "archive_path",
-        "outputs"
+        "archive_path"
       ]
     },
     "status": {
@@ -89,7 +85,13 @@
         "annotated": {
           "$ref": "#/definitions/status_element"
         },
+        "comparison_passed": {
+          "$ref": "#/definitions/status_element"
+        },
         "ingested": {
+          "$ref": "#/definitions/status_element"
+        },
+        "xplan_request_submitted" : {
           "$ref": "#/definitions/status_element"
         },
         "etl_flow": {
@@ -271,6 +273,10 @@
         "sbh_uri": {
           "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json",
           "description": "A SD2 SynBioHub reference"
+        },
+        "lab_id": {
+          "$ref": "https://schema.catalog.sd2e.org/schemas/namespaced_identifier.json",
+          "description": "The original value specified by the provider"
         }
       },
       "additionalProperties": false,
@@ -299,7 +305,12 @@
         },
         "strains": {
           "items": {
-            "type": "string"
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }]
           },
           "minItems": 1,
           "type": "array"
@@ -312,6 +323,10 @@
           "type": "array"
         }
       },
+      "required": [
+        "type",
+        "strains"
+      ],
       "type": "object"
     },
     "timepoint": {
@@ -359,6 +374,9 @@
         "report_presence": {
           "description": "skip reporting of the presence of this content, but use in doe",
           "type": "boolean"
+        },
+        "timepoint": {
+          "$ref": "#definitions/timepoint"
         }
       },
       "additionalProperties": false,
@@ -465,7 +483,12 @@
         "strains": {
           "description": "expected strains for this measurement",
           "items": {
-            "type": "string"
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }]
           },
           "minItems": 1,
           "type": "array"
@@ -533,6 +556,9 @@
         "force_replicates": {
           "type": "boolean"
         },
+        "batch": {
+          "type": "number"
+        },
         "replicates": {
           "oneOf": [{
               "description": "expected number of replicates",
@@ -572,12 +598,7 @@
   "properties": {
     "name": {
       "description": "An experiment request name",
-      "$comment": "Upper and lower case letters, numbers, and the \".\" and \"-\" delimiters",
-      "oneOf": [{
-        "type": "string",
-        "maxLength": 256,
-        "pattern": "^[0-9a-zA-Z][0-9a-zA-Z-.]{1,62}[0-9a-zA-Z]"
-      }]
+      "type": "string"
     },
     "lab": {
       "description": "the lab that performed this experiment",

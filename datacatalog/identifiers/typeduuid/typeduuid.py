@@ -203,7 +203,7 @@ def validate_uuid5(uuid_string, permissive=False):
         to_validate = str(uuid_string)
         uuid.UUID(to_validate, version=5)
         return True
-    except ValueError:
+    except (TypeError, ValueError):
         if permissive is False:
             raise ValueError('{} is not a UUID5'.format(uuid_string))
         else:

@@ -13,6 +13,83 @@
     "experiment_reference": {
       "type": "string"
     },
+    "experimental_start": {
+      "type": "string"
+    },
+    "experimental_end": {
+        "type": "string"
+    },
+    "experimental_reader_params": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "fluorescence": {
+                  "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "emission": {
+                                "type": "string"
+                            },
+                            "excitation": {
+                                "type": "string"
+                            },
+                            "gain": {
+                                "type": "number"
+                            }
+                        },
+                        "required": ["emission", "excitation", "gain"]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                        "emission": {
+                            "type": "string"
+                        },
+                        "excitation": {
+                            "type": "string"
+                        },
+                        "gain": {
+                            "type": "number"
+                        }
+                    },
+                    "required": ["emission", "excitation", "gain"]
+                  }]
+                },
+                "luminescence": {
+                    "type": "object",
+                    "properties": {
+                        "integration_time": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["integration_time"]
+                }
+            }
+        }
+    },
+    "calibration_reader_params": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "emission": {
+                    "type": "string"
+                },
+                "excitation": {
+                    "type": "string"
+                },
+                "gain": {
+                    "type": "number"
+                }
+            },
+            "required": ["emission", "excitation", "gain"]
+        }
+    },
     "lab": {
       "type": "string"
     },
@@ -81,6 +158,39 @@
           "temperature",
           "tx_sample_id"
         ]
+      }
+    },
+    "tasbe_cytometer_configuration": {
+      "type": "object",
+      "properties": {
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+	          },
+	          "emission_filter": {
+                "type": "object",
+                "properties": {
+                  "center": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "width": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "excitation_wavelength": {
+	            "type": "integer"
+              }
+	        }
+	      }
+        }        
       }
     }
   },

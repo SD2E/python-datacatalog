@@ -14,6 +14,7 @@
                 "file_type": "$file.type",
                 "filename": "$file.name",
                 "file_uuid": "$file.uuid",
+                "genetic_construct": "$sample.genetic_construct",
                 "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
                 "hpc_path": {
                     "$concat": [
@@ -49,6 +50,17 @@
                 "replicate": "$sample.replicate",
                 "sample_contents": "$sample.contents",
                 "sample_id": "$sample.sample_id",
+                "lab_sample_id": {
+                    "$arrayElemAt": [
+                        {
+                            "$split": [
+                                "$sample.lab_sample_id",
+                                "."
+                            ]
+                        },
+                        2
+                    ]
+                },
                 "strain": "$sample.strain.label",
                 "strain_circuit": "$sample.strain.circuit",
                 "strain_input_state": "$sample.strain.input_state",

@@ -8,6 +8,8 @@ import os
 import sys
 import tempfile
 import pymongo
+import datetime
+import re
 from pprint import pprint
 from pymongo import MongoClient, errors
 from agavepy.agave import Agave
@@ -37,6 +39,9 @@ logger.addHandler(loghandler)
 def autobuild(idb, settings):
     ref_store = linkedstores.structured_request.StructuredRequestStore(idb)
     # build_log = open(os.path.join(THIS, os.path.basename(__file__) + '.log'), 'w')
+
+    ref_urls = set()
+
     for ref in os.listdir(DATA):
         file_path = os.path.join(DATA, ref)
         if os.path.isdir(file_path):
@@ -57,8 +62,44 @@ def autobuild(idb, settings):
                 # build_log.write('{}\t{}\t{}\t{}\n'.format(
                 #     'process', resp['experiment_id'], resp['uuid'], resp['_update_token']))
                 logger.info('Registered {}'.format(resp['name']))
+
+                ref_urls.add(ref["experiment_reference_url"])
             except Exception:
                 logger.exception('Structured request not written')
+
+    experiment_id_date_regex = ".*(\d{4}-\d{2}-\d{2}).*"
+
+    # find old SRs (due to name migration) and remove
+    for ref_url in ref_urls:
+
+        candidates = []
+
+        for sr_document in ref_store.query({ "experiment_reference_url" : ref_url }):
+            # check derived_from and eid to make sure we don't pull in child SRs
+            eid = sr_document["experiment_id"]
+            if len(sr_document["derived_from"]) == 0 and re.search(experiment_id_date_regex, eid) is not None:
+                candidates.append(sr_document)
+
+        if len(candidates) > 1:
+
+            logger.debug("Resolving old SRs for reference url: {}".format(ref_url))
+            latest = datetime.datetime(2000, 1, 1)
+            keep_sr = None
+
+            for candidate in candidates:
+
+                modified_date = sr_document["_properties"]["modified_date"]
+
+                if modified_date > latest:
+                    latest = modified_date
+                    keep_sr = sr_document
+
+            if keep_sr is not None:
+                logger.debug("Keeping {} {} {} ".format(keep_sr["experiment_id"], keep_sr["name"], keep_sr["_properties"]["modified_date"]))
+                for candidate in candidates:
+                    if candidate is not keep_sr:
+                        logger.debug("Removing {} {} {} ".format(candidate["experiment_id"], candidate["name"], candidate["_properties"]["modified_date"]))
+                        ref_store.delete_document(uuid=candidate["uuid"])
 
 def dblist(idb, settings):
     logger.debug('Listing known entities')
