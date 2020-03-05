@@ -64,7 +64,7 @@ class JobStateMachine(Machine):
         {'trigger': 'validated', 'source': ['VALIDATED', 'VALIDATING'], 'dest': 'VALIDATED'},
         {'trigger': 'reject', 'source': 'VALIDATING', 'dest': 'REJECTED'},
         {'trigger': 'finalize', 'source': 'VALIDATED', 'dest': 'FINALIZED'},
-        {'trigger': 'retire', 'source': ['FAILED', 'FINALIZED', 'FINISHED', 'REJECTED'], 'dest': 'RETIRED'},
+        {'trigger': 'retire', 'source': ['FAILED', 'FINALIZED', 'FINISHED', 'REJECTED', 'VALIDATING', 'VALIDATED'], 'dest': 'RETIRED'},
         {'trigger': 'reset', 'source': '*', 'dest': 'RESET'},
         {'trigger': 'ready', 'source': ['RESET'], 'dest': 'CREATED'}
     ]
