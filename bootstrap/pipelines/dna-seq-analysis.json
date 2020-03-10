@@ -1,0 +1,46 @@
+{
+    "name": "DNA-Seq Alignment, VCF, and K-mer Pipeline",
+    "id": "urrutia-dna_alignment_app-0.1.0",
+    "description": "This pipeline takes pre-processed DNA-seq data, aligns to a reference genome, generates VCFs against that reference with deepvariant and GATK, and generates a list of 21-mers for split reads.",
+    "components": [
+        {
+            "id": "urrutia-dna_alignment_app-0.1.0",
+            "inputs": {},
+            "parameters": {
+                "read1": "*R1*.fastq.gz",
+                "read2": "*R2*.fastq.gz",
+              	"fasta": "/reference/*.fa",
+              	"fai": "/reference/*.fai",
+              	"gff": "/reference/*.gff",
+              	"interval_file": "/reference/*.interval_list",
+              	"dict_file": "/reference/*.dict",
+                "CONTAINER_IMAGE": "sd2e/dna_alignment_app:0.1.0"
+            }
+        },
+       {
+            "image": "sd2e/gatk_vcf_app:0.1.0",
+         	"hostname": "dockerhub"
+       },
+       {
+            "image": "sd2e/deepvariant_vcf_app:0.1.0",
+         	"hostname": "dockerhub"
+       }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+      	"FASTQ",
+		"FASTA",
+		"GFF3",
+        "BAM",
+      	"TXT"
+    ],
+    "produces": [
+        "BAM",
+      	"BAI",
+      	"FASTA",
+		"VCF",
+      	"BEDGRAPH"
+    ]
+}
