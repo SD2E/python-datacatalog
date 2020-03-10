@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20200310T152057+00:00; source: git@github.com:SD2E/python-datacatalog.git@4aeb62a",
     "$id": "https://schema.catalog.sd2e.org/schemas/filetype_label.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -200,6 +200,7 @@
         "GEO+JSON",
         "GETTEXT-TRANSLATION",
         "GETTEXT-TRANSLATION-TEMPLATE",
+        "GFF3",
         "GHERKIN",
         "GIF",
         "GIMP-GBR",
@@ -222,6 +223,7 @@
         "GRAPHITE",
         "GRAPHVIZ",
         "GSM",
+        "GTF",
         "GTK-BUILDER",
         "GTKTALOG",
         "GZ-FONT-LINUPSF",
