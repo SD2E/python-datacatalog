@@ -33,5 +33,7 @@ FILETYPES = [
     ('JENKINS', 'Jenkins Pipeline file', ['^Jenkinsfile$']),
     ('DOCKERFILE', 'Docker build file', ['^Dockerfile$']),
     ('REQUIREMENTS', 'Python requirements file', ['^requirements.txt$']),
-    ('COMPOSEFILE', 'Docker compose file', ['^docker-compose.yml$'])]
+    ('COMPOSEFILE', 'Docker compose file', ['^docker-compose.yml$']),
+    ('GFF3', 'Sequence Ontology General Feature Format', ['.gff$', '.gff3$']),
+    ('GTF', 'Ensembl Gene Transfer Format', ['.gtf$'])]
 """A list of tuples defining classifcation rules for filenames"""
