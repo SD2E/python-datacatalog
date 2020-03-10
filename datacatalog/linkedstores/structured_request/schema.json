@@ -557,7 +557,12 @@
           "type": "boolean"
         },
         "batch": {
-          "type": "number"
+          "description": "the batches a measurement belongs to",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1,
+          "type": "array"
         },
         "replicates": {
           "oneOf": [{
