@@ -2,13 +2,13 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
+    "NOVEL_CHASSIS",
     "INTENT_PARSER_TEST",
     "MOSQUITO_RELATEDNESS_INFERENCE",
     "BIOCON",
     "CELL_GROWTH",
     "PROTEIN_DESIGN",
     "YEAST_STATES",
-    "NOVEL_CHASSIS",
     "RIBOSWITCHES",
     "UNDEFINED"
   ]
