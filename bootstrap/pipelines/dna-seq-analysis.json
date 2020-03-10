@@ -34,7 +34,7 @@
 		"FASTA",
 		"GFF3",
         "BAM",
-      	"TXT"
+      	"PLAIN"
     ],
     "produces": [
         "BAM",
