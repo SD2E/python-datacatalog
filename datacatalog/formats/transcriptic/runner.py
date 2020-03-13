@@ -232,6 +232,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+            elif strain == "MediaControl":
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_MEDIA_BLANK
+                # this is a reagent
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
             else:
                 # new TX Live/Dead controls
                 if strain == "WT-Dead-Control":
@@ -455,6 +459,27 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             #print('sample {} / measurement {} contains {} files'.format(sample_doc[SampleConstants.SAMPLE_ID], file_name, len(measurement_doc[SampleConstants.FILES])))
 
             measurement_counter = measurement_counter + 1
+
+        # Handle missing measurements
+        if "dropout_type" in transcriptic_sample:
+            dt = transcriptic_sample["dropout_type"]
+
+            missing_measurement_doc = {}
+
+            if time_val is not None:
+                missing_measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
+
+            missing_measurement_doc[SampleConstants.MEASUREMENT_TYPE] = dt
+            if dt == SampleConstants.MT_FLOW:
+                missing_ft = SampleConstants.F_TYPE_FCS
+            elif dt == SampleConstants.MT_PLATE_READER:
+                missing_ft = SampleConstants.F_TYPE_CSV
+            else:
+                raise ValueError("Cannot determine file for missing measurement type {}".format(dt))
+
+            missing_measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id("missing_" + dt, output_doc[SampleConstants.LAB], sample_doc, output_doc)
+            missing_measurement_doc[SampleConstants.FILES] = [{SampleConstants.M_TYPE : missing_ft, SampleConstants.M_NAME : namespace_file_id("missing_file", output_doc[SampleConstants.LAB], missing_measurement_doc, output_doc)}]
+            sample_doc[SampleConstants.MISSING_MEASUREMENTS] = [missing_measurement_doc]
 
         if SampleConstants.MEASUREMENTS not in sample_doc:
             sample_doc[SampleConstants.MEASUREMENTS] = []
