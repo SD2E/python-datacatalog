@@ -55,9 +55,11 @@ class SampleSetProcessor(Manager):
         if samples_uri is not None:
             system_id, file_path, file_name = from_agave_uri(samples_uri)
             abs_file_path = os.path.join(file_path, file_name)
+            self.logger.debug("abs_file_path: {}".format(abs_file_path))
             resp = self.stores['file'].index(abs_file_path,
                                              storage_system=system_id)
             samples_file_uuid = resp.get('uuid', None)
+            self.logger.debug("samples_file_uuid: {}".format(samples_file_uuid))
         # No samples file was provided, which means we need to download URI
         if samples_file is None:
             bacanora.download(self.client, abs_file_path,
