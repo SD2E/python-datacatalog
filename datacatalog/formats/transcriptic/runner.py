@@ -33,7 +33,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["BL1-A", "FSC-A", "SSC-A"]
-    DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/cytometer_configuration.json"
+    DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/sample/transcriptic/instruments/flow/attune/1AAS220201014/11232018/uration.json"
 
     # for SBH Librarian Mapping
     sbh_query = SynBioHubQuery(SD2Constants.SD2_SERVER)
@@ -71,8 +71,13 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
+    cytometer_channels = DEFAULT_CYTOMETER_CHANNELS
     if SampleConstants.CYTOMETER_CONFIG in transcriptic_doc:
         output_doc[SampleConstants.CYTOMETER_CONFIG] = transcriptic_doc[SampleConstants.CYTOMETER_CONFIG]
+        cytometer_channels = []
+        for channel in output_doc[SampleConstants.CYTOMETER_CONFIG]['channels']:
+            if channel['name'].endswith("-A"):
+                cytometer_channels.append(channel['name'])
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
@@ -409,7 +414,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    measurement_doc[SampleConstants.M_CHANNELS] = cytometer_channels
 
                 if SampleConstants.CYTOMETER_CONFIG not in output_doc and SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
