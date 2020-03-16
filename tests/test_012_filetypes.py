@@ -10,7 +10,10 @@ DATA_DIR = os.path.join(PARENT, 'tests/data/filetypes')
                          [('/uploads/biofab/201811/23801/provenance_dump.json', 'BPROV'),
                           ('/products/sequence.fastq', 'FASTQ'),
                           ('/products/sequence-align.bedgraph', 'BEDGRAPH'),
-                          ('/products/file.ASDFGHJK123456', 'UNKNOWN')
+                          ('/products/file.ASDFGHJK123456', 'UNKNOWN'),
+                          ('/products/file.gff', 'GFF3'),
+                          ('/products/file.gff3', 'GFF3'),
+                          ('/products/file.gtf', 'GTF')
                           ])
 def test_infer_filetype(filename, label):
     ft = filetypes.infer_filetype(filename, check_exists=False)
