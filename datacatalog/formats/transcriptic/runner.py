@@ -254,6 +254,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 # ensure strain gets mapped alongside controls
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
+        #barcode
+        if SampleConstants.BARCODE in transcriptic_sample:
+            sample_doc[SampleConstants.BARCODE] = transcriptic_sample[SampleConstants.BARCODE]
+
         # temperature
         temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
         # This is a special case for the growth curves experiments.
@@ -479,6 +483,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 missing_ft = SampleConstants.F_TYPE_FCS
             elif dt == SampleConstants.MT_PLATE_READER:
                 missing_ft = SampleConstants.F_TYPE_CSV
+            elif dt == SampleConstants.MT_DNA_SEQ:
+                missing_ft = SampleConstants.F_TYPE_FASTQ
+            elif dt == SampleConstants.MT_RNA_SEQ:
+                missing_ft = SampleConstants.F_TYPE_FASTQ
             else:
                 raise ValueError("Cannot determine file for missing measurement type {}".format(dt))
 

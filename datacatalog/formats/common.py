@@ -65,6 +65,7 @@ class SampleConstants():
     UNIT = "unit"
     mM = "mM"
 
+    BARCODE = "barcode"
     LABEL = "label"
     CIRCUIT = "circuit"
     INPUT_STATE = "input_state"
@@ -244,6 +245,8 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
                 m_c_object[SampleConstants.UNIT] = "micromole"
             if m_c_object[SampleConstants.UNIT] == "millimolar":
                 m_c_object[SampleConstants.UNIT] = "mM"
+            if m_c_object[SampleConstants.UNIT] == "nanomolar":
+                m_c_object[SampleConstants.UNIT] = "nM"
 
     return m_c_object
 
