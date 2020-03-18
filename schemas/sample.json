@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200224T135641+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@69596c3",
+    "$comment": "version: 2.2.0#master; generated: 20200318T145818+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@9691b6f",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -7,6 +7,10 @@
     "properties": {
         "TMT_channel": {
             "description": "TMT tag/channel for proteomics",
+            "type": "string"
+        },
+        "barcode": {
+            "description": "A lab-specific barcode for this sample",
             "type": "string"
         },
         "batch": {

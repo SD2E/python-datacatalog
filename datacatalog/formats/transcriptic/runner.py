@@ -71,8 +71,13 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
     samples_w_data = 0
+    cytometer_channels = DEFAULT_CYTOMETER_CHANNELS
     if SampleConstants.CYTOMETER_CONFIG in transcriptic_doc:
         output_doc[SampleConstants.CYTOMETER_CONFIG] = transcriptic_doc[SampleConstants.CYTOMETER_CONFIG]
+        cytometer_channels = []
+        for channel in output_doc[SampleConstants.CYTOMETER_CONFIG]['channels']:
+            if channel['name'].endswith("-A"):
+                cytometer_channels.append(channel['name'])
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
@@ -249,6 +254,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 # ensure strain gets mapped alongside controls
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
 
+        #barcode
+        if SampleConstants.BARCODE in transcriptic_sample:
+            sample_doc[SampleConstants.BARCODE] = transcriptic_sample[SampleConstants.BARCODE]
+
         # temperature
         temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
         # This is a special case for the growth curves experiments.
@@ -409,7 +418,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             # apply defaults, if nothing mapped
             if measurement_type == SampleConstants.MT_FLOW:
                 if SampleConstants.M_CHANNELS not in measurement_doc:
-                    measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
+                    measurement_doc[SampleConstants.M_CHANNELS] = cytometer_channels
 
                 if SampleConstants.CYTOMETER_CONFIG not in output_doc and SampleConstants.M_INSTRUMENT_CONFIGURATION not in measurement_doc:
                     measurement_doc[SampleConstants.M_INSTRUMENT_CONFIGURATION] = DEFAULT_CYTOMETER_CONFIGURATION
@@ -474,6 +483,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 missing_ft = SampleConstants.F_TYPE_FCS
             elif dt == SampleConstants.MT_PLATE_READER:
                 missing_ft = SampleConstants.F_TYPE_CSV
+            elif dt == SampleConstants.MT_DNA_SEQ:
+                missing_ft = SampleConstants.F_TYPE_FASTQ
+            elif dt == SampleConstants.MT_RNA_SEQ:
+                missing_ft = SampleConstants.F_TYPE_FASTQ
             else:
                 raise ValueError("Cannot determine file for missing measurement type {}".format(dt))
 

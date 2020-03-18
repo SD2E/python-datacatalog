@@ -58,6 +58,25 @@ def autobuild(idb, settings):
 
             try:
                 logger.debug('Registering structured request record {}'.format(ref_abs))
+                # Patch parameters that have "." in them from Strateos schema
+                # Use "|" as a Mongo-compatible delimeter
+                # Mongo uses dot notation for sub-field querying, and will reject
+                # documents that contain keys with dots
+                if "parameters" in ref:
+                    for parameter_item in ref["parameters"]:
+                        new_keys = {}
+                        del_keys = []
+                        for key in parameter_item:
+                            del_keys.append(key)
+                            new_key = key
+                            if "." in new_key:
+                                new_key = new_key.replace(".", "|")
+                            new_keys[new_key] = parameter_item[key]
+                        for del_key in del_keys:
+                            del parameter_item[del_key]
+                        for new_key in new_keys:
+                            parameter_item[new_key] = new_keys[new_key]
+
                 resp = ref_store.add_update_document(ref, strategy='merge')
                 # build_log.write('{}\t{}\t{}\t{}\n'.format(
                 #     'process', resp['experiment_id'], resp['uuid'], resp['_update_token']))
