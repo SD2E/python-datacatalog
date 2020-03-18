@@ -259,8 +259,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.BARCODE] = transcriptic_sample[SampleConstants.BARCODE]
 
         #well_label
-        if SampleConstants.WELL_CODE in transcriptic_sample:
-            sample_doc[SampleConstants.WELL_CODE] = transcriptic_sample[SampleConstants.WELL_CODE]
+        if SampleConstants.WELL_LABEL in transcriptic_sample:
+            sample_doc[SampleConstants.WELL_LABEL] = transcriptic_sample[SampleConstants.WELL_LABEL]
 
         # temperature
         temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
