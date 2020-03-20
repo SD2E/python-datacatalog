@@ -258,6 +258,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         if SampleConstants.BARCODE in transcriptic_sample:
             sample_doc[SampleConstants.BARCODE] = transcriptic_sample[SampleConstants.BARCODE]
 
+        #well_label
+        if SampleConstants.WELL_LABEL in transcriptic_sample:
+            sample_doc[SampleConstants.WELL_LABEL] = transcriptic_sample[SampleConstants.WELL_LABEL]
+
         # temperature
         temperature_val = transcriptic_sample[SampleConstants.TEMPERATURE]
         # This is a special case for the growth curves experiments.
