@@ -93,6 +93,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab, output_doc)
         sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(sample_id, lab, None)
 
+        sample_doc[SampleConstants.CONTAINER_ID] = measurement_id
+
         # parse inducer, strain, and replicate from parents, if available
         if "parents" in transcriptic_sample:
             parents = transcriptic_sample["parents"]
