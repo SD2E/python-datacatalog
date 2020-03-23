@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200318T221232+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@d492d80",
+    "$comment": "version: 2.2.0#master; generated: 20200323T224257+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@a6f2cdb",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -65,6 +65,10 @@
                 ]
             },
             "type": "array"
+        },
+        "container_id": {
+            "description": "The originating container for this sample",
+            "type": "string"
         },
         "contents": {
             "description": "List of media/component references (mapped by SBH Librarian)",

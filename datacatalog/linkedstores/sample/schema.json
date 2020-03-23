@@ -2,6 +2,10 @@
     "additionalProperties": false,
     "description": "A lab sample and its metadata",
     "properties": {
+        "container_id": {
+            "description": "The originating container for this sample",
+            "type": "string"
+        },
         "barcode": {
             "description": "A lab-specific barcode for this sample",
             "type": "string"
