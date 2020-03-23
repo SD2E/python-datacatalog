@@ -67,6 +67,7 @@ class SampleConstants():
 
     BARCODE = "barcode"
     WELL_LABEL = "well_label"
+    CONTAINER_ID = "container_id"
     LABEL = "label"
     CIRCUIT = "circuit"
     INPUT_STATE = "input_state"
