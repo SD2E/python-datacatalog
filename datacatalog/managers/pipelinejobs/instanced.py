@@ -1,4 +1,3 @@
-
 import arrow
 import os
 import re
@@ -25,6 +24,7 @@ from .indexer import Indexer, IndexingError, InvalidIndexingRequest
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
+
 class ManagedPipelineJobInstance(Indexer):
     """Supports working with a existing ManagedPipelineJob
 
@@ -36,24 +36,26 @@ class ManagedPipelineJobInstance(Indexer):
     # Bring in only minimal set of fields to lift from parent document as
     # the intent of this class is not to update the ManagedPipelineJob but
     # only to take actions that depend on its specific properties
-    PARAMS = [
-        ('state', False, 'state', None),
-        ('archive_path', False, 'archive_path', None),
-        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
-        ('archive_patterns', False, 'archive_patterns', []),
-        ('product_patterns', False, 'product_patterns', []),
-        ('generated_by', False, 'generated_by', []),
-        ('child_of', False, 'child_of', []),
-        ('acted_on', False, 'acted_on', []),
-        ('acted_using', False, 'acted_using', []),
-        ('pipeline_uuid', False, 'pipeline_uuid', None)]
+    PARAMS = [('state', False, 'state', None),
+              ('archive_path', False, 'archive_path', None),
+              ('archive_system', False, 'archive_system',
+               DEFAULT_ARCHIVE_SYSTEM),
+              ('archive_patterns', False, 'archive_patterns', []),
+              ('product_patterns', False, 'product_patterns', []),
+              ('generated_by', False, 'generated_by', []),
+              ('child_of', False, 'child_of', []),
+              ('acted_on', False, 'acted_on', []),
+              ('acted_using', False, 'acted_using', []),
+              ('pipeline_uuid', False, 'pipeline_uuid', None),
+              ('last_event', False, 'last_event', None)]
 
     def __init__(self, mongodb, uuid, agave=None, **kwargs):
         super(ManagedPipelineJobInstance, self).__init__(mongodb, agave)
         self.uuid = uuid
         db_rec = self.stores['pipelinejob'].find_one_by_uuid(uuid)
         if db_rec is None:
-            raise ValueError('Failed to instantiate instance of job {}'.format(uuid))
+            raise ValueError(
+                'Failed to instantiate instance of job {}'.format(uuid))
         else:
             for param, req, attr, default in self.PARAMS:
                 setattr(self, attr, db_rec.get(param))
@@ -79,8 +81,14 @@ class ManagedPipelineJobInstance(Indexer):
         """
         return self.stores['pipelinejob'].handle(event_doc, token)
 
-    def index(self, token=None, transition=False, level='1',
-              fixity=False, filters=None, permissive=False, **kwargs):
+    def index(self,
+              token=None,
+              transition=False,
+              level='1',
+              fixity=False,
+              filters=None,
+              permissive=False,
+              **kwargs):
         """Index the contents of the job's archive path
         """
         # if filters are passed, parse thru them and assign to either archive
@@ -111,9 +119,7 @@ class ManagedPipelineJobInstance(Indexer):
         indexed = list()
         try:
             self.sync_listing(force=True)
-            event_doc = {'uuid': self.uuid,
-                         'name': 'index',
-                         'data': {}}
+            event_doc = {'uuid': self.uuid, 'name': 'index', 'data': {}}
             resp = self.handle(event_doc, token=token)
             if resp is None:
                 raise IndexingError('Empty event response')
@@ -125,10 +131,11 @@ class ManagedPipelineJobInstance(Indexer):
         for index_request_str in filter_set:
             self.logger.debug('handling request {}'.format(index_request_str))
             try:
-                just_indexed = self.single_index_request(
-                    index_request_str, token=token,
-                    refresh=False, fixity=index_fixity,
-                    permissive=permissive)
+                just_indexed = self.single_index_request(index_request_str,
+                                                         token=token,
+                                                         refresh=False,
+                                                         fixity=index_fixity,
+                                                         permissive=permissive)
                 indexed.extend(just_indexed)
             except IndexingError:
                 self.logger.exception(
