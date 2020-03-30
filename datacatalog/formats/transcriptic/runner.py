@@ -178,7 +178,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                     arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                     iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
-            if inducer != "None":
+            if inducer != "None" and len(inducer) > 0:
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
                     if inducer_split[0] not in seen_contents:
@@ -222,7 +222,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                                 raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
                             # split on fluid units
                             # e.g. "20uM beta-estradiol"
-                            if " " in inducer:
+                            if inducer[0].isdigit() and " " in inducer:
                                 inducer_split = inducer.split(" ")
                                 inducer = inducer_split[1]
                             concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
