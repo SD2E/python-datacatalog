@@ -239,10 +239,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
-            elif strain == "MediaControl":
+            elif strain in ["MediaControl", "MediaControl1", "MediaControl2", "MediaControl3"]:
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_MEDIA_BLANK
-                # this is a reagent
-                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+                # this is a reagent, normalize the value
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
             else:
                 # new TX Live/Dead controls
                 if strain == "WT-Dead-Control":
@@ -340,6 +340,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
+        # Fill in Strain for Media_Blank if it does not exist
+        if SampleConstants.STANDARD_TYPE in sample_doc and \
+            sample_doc[SampleConstants.STANDARD_TYPE] == SampleConstants.STANDARD_MEDIA_BLANK and \
+                SampleConstants.STRAIN not in sample_doc:
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
 
         # if control types are not available, infer based on sample ids
         # this is brittle, but the best we can do right now with the output provided
