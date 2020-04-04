@@ -234,6 +234,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
+
+            # Normalize TX Sphero Markers
+            if strain == "SpheroControl1":
+                strain = "SpheroControl"
+
             # TX does not mark size beads consistently
             if strain == "SizeBeadControl":
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
