@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200224T213820+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fb07902",
+    "$comment": "version: 2.2.0#master; generated: 20200410T211109+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@a656c6f",
     "$id": "https://schema.catalog.sd2e.org/schemas/transcriptic_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -121,6 +121,51 @@
                             },
                             {
                                 "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "additionalProperties": false,
+                                    "properties": {
+                                        "label": {
+                                            "description": "The label/name of this content item",
+                                            "type": "string"
+                                        },
+                                        "timepoint": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "unit": {
+                                                    "$ref": "https://schema.catalog.sd2e.org/schemas/time_unit.json",
+                                                    "description": "Unit of temporal measure"
+                                                },
+                                                "value": {
+                                                    "description": "Numeric value",
+                                                    "type": "number"
+                                                }
+                                            },
+                                            "required": [
+                                                "unit",
+                                                "value"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "unit": {
+                                            "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
+                                            "description": "Unit of fluid measure"
+                                        },
+                                        "value": {
+                                            "description": "Fluid concentration value",
+                                            "type": [
+                                                "string",
+                                                "number"
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "label"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
                             }
                         ]
                     },
