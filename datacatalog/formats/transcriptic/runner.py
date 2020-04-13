@@ -5,6 +5,7 @@ import os
 import six
 import pymongo
 import datacatalog
+import re
 
 from datacatalog import mongo
 
@@ -79,6 +80,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if channel['name'].endswith("-A"):
                 cytometer_channels.append(channel['name'])
 
+    inducer_regex = re.compile("\d{1,3}m?n?u?M\s(.*)")
+
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
 
@@ -145,11 +148,49 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if not isinstance(sample_contents, list):
                 sample_contents = [sample_contents]
 
+            # Obstacle Course
+            # Will contain sub-fields
+            # "concentration": "1.0:micromolar",
+            # "label": "100mM IPTG",
+            # "timepoint": "48:hour"
+            parsed_oc = False
             for reagent in sample_contents:
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
-                    if reagent not in seen_contents:
+
+                    if SampleConstants.LABEL in reagent and len(reagent[SampleConstants.LABEL]) > 0:
+
+                        parsed_oc = True
+
+                        reagent_label = reagent[SampleConstants.LABEL]
+
+                        # Regex split on fluid units
+                        # e.g. "100mM IPTG"
+                        if reagent_label[0].isdigit() and " " in reagent_label:
+                            inducer_match = inducer_regex.match(reagent_label)
+                            if not inducer_match:
+                                raise ValueError("Could not parse inducer {}".format(reagent_label))
+                            reagent_label = inducer_match.group(1)
+
+                        time_concentration_value = None
+                        time_concentration_unit = None
+                        has_time_unit = False
+                        if SampleConstants.TIMEPOINT in reagent:
+                            parsed_reagent_time = create_value_unit(reagent[SampleConstants.TIMEPOINT])
+                            time_concentration_value = parsed_reagent_time[SampleConstants.VALUE]
+                            time_concentration_unit = parsed_reagent_time[SampleConstants.UNIT]
+                            has_time_unit = True
+                        if SampleConstants.CONCENTRATION in reagent:
+                            contents_append_value = create_media_component(original_experiment_id, reagent_label, reagent_label, lab, sbh_query, reagent[SampleConstants.CONCENTRATION])
+                        else:
+                            contents_append_value = create_media_component(original_experiment_id, reagent_label, reagent_label, lab, sbh_query)
+                        if has_time_unit:
+                            contents_append_value["timepoint"] = { "value" : time_concentration_value, "unit" : time_concentration_unit }
+
+                        contents.append(contents_append_value)
+
+                    if type(reagent) == str and reagent not in seen_contents:
                         seen_contents.add(reagent)
                         # if we don't have an inducer, and only one reagent, this is that reagent's concenetration
                         if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample and "inducer" not in transcriptic_sample:
@@ -164,7 +205,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 seen_contents.add(media_id)
                 contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
 
-        if SampleConstants.INDUCER in transcriptic_sample:
+        # skip inducer parsing if we parsed via OC array above
+        if not parsed_oc and SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
             #"Arabinose+IPTG"
 
@@ -178,7 +220,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                     arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                     iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
-            if inducer != "None" and len(inducer) > 0:
+            # skip multi-value inducers - handled by contents array above
+            if inducer != "None" and len(inducer) > 0 and "," not in inducer:
                 if "+" in inducer:
                     inducer_split = inducer.split("+")
                     if inducer_split[0] not in seen_contents:
