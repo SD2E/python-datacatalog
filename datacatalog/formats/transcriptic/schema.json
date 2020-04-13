@@ -114,41 +114,21 @@
                     "type": "object",
                     "properties": {
                         "label": {
-                            "description":"The label/name of this content item",
-                            "type": "string"
+                          "type": "string"
                         },
-                        "unit": {
-                            "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
-                            "description": "Unit of fluid measure"
-                        },
-                        "value": {
-                            "type": ["string", "number"],
-                            "description":"Fluid concentration value"
+                        "concentration": {
+                          "type": "string"
                         },
                         "timepoint": {
-                            "additionalProperties": false,
-                            "properties": {
-                                "unit": {
-                                    "$ref": "https://schema.catalog.sd2e.org/schemas/time_unit.json",
-                                    "description": "Unit of temporal measure"
-                                },
-                                "value": {
-                                    "description": "Numeric value",
-                                    "type": "number"
-                                }
-                            },
-                            "required": [
-                                "unit",
-                                "value"
-                            ],
-                            "type": "object"
+                          "type": "string"
                         }
                     },
                     "additionalProperties": false,
                     "required": [
                         "label"
                     ]
-                }
+                },
+                "minItems": 1
             }]
           },
           "experimental_media": {

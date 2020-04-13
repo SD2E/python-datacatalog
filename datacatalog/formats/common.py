@@ -243,6 +243,8 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
         else:
             m_c_object[SampleConstants.UNIT] = value_unit_split[1]
             # apply some normalizations
+            if m_c_object[SampleConstants.UNIT] == "percent":
+                m_c_object[SampleConstants.UNIT] = "%"
             if m_c_object[SampleConstants.UNIT] == "micromolar":
                 m_c_object[SampleConstants.UNIT] = "micromole"
             if m_c_object[SampleConstants.UNIT] == "millimolar":
