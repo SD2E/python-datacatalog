@@ -1,0 +1,22 @@
+{
+    "name": "Data Converge",
+    "description": "Construct common dataframe for analysis",
+    "components": [
+        {
+            "id": "KJ5eJwLqMmvMx",
+            "image": "index.docker.io/reshg/data_converge:latest",
+            "options": {}
+        }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "JSON"
+    ],
+    "produces": [
+        "JSON"
+    ],
+    "pipeline_type": "primary-etl",
+    "id": "reshg-data_converge"
+}
