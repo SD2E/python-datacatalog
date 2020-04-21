@@ -11,7 +11,8 @@
         "PNNL_Egbert",
         "UCSB_Yeung",
         "Duke_Haase",
-        "PSU_Salis"
+        "PSU_Salis",
+        "GEO"
     ],
     "type": "string"
 }
