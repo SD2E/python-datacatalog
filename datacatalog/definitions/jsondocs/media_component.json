@@ -7,8 +7,13 @@
             "description": "A mapped lab id for a media reference"
         },
         "unit": {
+            "oneOf":[{
             "$ref": "fluid_unit.json",
             "description": "Unit of fluid measure"
+            }, {
+            "$ref": "time_unit.json",
+            "description": "Unit of temporal measurement"
+            }]
         },
         "value": {
             "description": "Label or numeric amount/fraction",
