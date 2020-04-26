@@ -363,9 +363,16 @@
           "description": "mapped SBH name",
           "$ref": "#definitions/content_name"
         },
-        "unit": {
-          "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
-          "description": "Unit of fluid measure"
+        "unit": { 
+          "oneOf" : [
+            {
+              "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
+              "description": "Unit of fluid measure"
+            },
+            {
+              "$ref": "https://schema.catalog.sd2e.org/schemas/time_unit.json",
+              "description": "Unit of temporal measure"
+            }]
         },
         "value": {
           "description": "Numeric amount or fraction",
