@@ -284,6 +284,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if strain == "SpheroControl1":
                 strain = "SpheroControl"
 
+            if strain == "SpheroControl" and SampleConstants.STANDARD_TYPE not in transcriptic_sample:
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_FLUORESCENCE
+
             # TX does not mark size beads consistently
             if strain == "SizeBeadControl":
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
