@@ -208,6 +208,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # skip inducer parsing if we parsed via OC array above
         if not parsed_oc and SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
+            if inducer == None or len(inducer) == 0:
+                continue
             #"Arabinose+IPTG"
 
             if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
