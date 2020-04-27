@@ -612,6 +612,10 @@
       "description": "An experiment request name",
       "type": "string"
     },
+    "doc_revision_id" : {
+      "description": "Revision of the experiment_reference_url this SR came from",
+      "type": "string"
+    },
     "lab": {
       "description": "the lab that performed this experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
