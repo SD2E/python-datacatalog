@@ -710,7 +710,6 @@
     "experiment_reference",
     "experiment_reference_url",
     "experiment_version",
-    "parent_git_path",
     "runs"
   ],
   "title": "Structured Request Schema",
