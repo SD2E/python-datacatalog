@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200504T175230+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1eaa161",
+    "$comment": "version: 2.2.0#master; generated: 20200506T215236+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@607fc0d",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -698,6 +698,9 @@
             "description": "An experiment request name",
             "type": "string"
         },
+        "overnight_growth": {
+            "$ref": "#definitions/timepoint"
+        },
         "parameters": {
             "description": "",
             "items": {
@@ -708,6 +711,12 @@
         },
         "parent_git_path": {
             "type": "string"
+        },
+        "recovery_loops": {
+            "items": {
+                "$ref": "#definitions/timepoint"
+            },
+            "type": "array"
         },
         "runs": {
             "description": "an experiment run and its associated id, sample, and file metadata",
