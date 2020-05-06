@@ -29,6 +29,7 @@ class StructuredRequestStore(LinkedStore):
         
         self.add_update_document(structured_request, strategy=strategies.REPLACE)   
 
+    # TO BE DEPRECATED
     def update_request_status_for_etl(self, experiment_id, key, subkey, job_dict): 
         self.logger.info("update_request_status_for_etl for experiment_id: {}".format(experiment_id))
         query = {"experiment_id": experiment_id}
@@ -42,7 +43,6 @@ class StructuredRequestStore(LinkedStore):
             structured_request = matches[0]
 
         # Check if a job with the same uuid already exists and should be updated
-        replaced = False
         if key not in structured_request["status"]:
             structured_request["status"][key] = {}
 
@@ -62,18 +62,29 @@ class StructuredRequestStore(LinkedStore):
         self.add_update_document(structured_request, strategy=strategies.REPLACE)
         
         return True
-               
-    def update_request_status_for_experiment(self, experiment_id, key, state, path=None):
+            
+    def update_request_status_for_experiment(self, experiment_id, key, dict=None, state=None, path=None):
         query = {"experiment_id": experiment_id}
         matches = self.query(query)
         
         # There should be at most one match
         if matches.count() == 0:
+            self.logger.info("SR not found")
             return False
         else:
             structured_request = matches[0]
 
-        self.update_request_with_status(structured_request, key, state, path)
+        if dict is None:
+            if state is None:
+                return False
+            
+            self.update_request_with_status(structured_request, key, state, path)
+        else:
+            if "status" not in structured_request:
+                structured_request["status"] = {}
+      
+            structured_request["status"][key] = dict
+            self.add_update_document(structured_request, strategy=strategies.REPLACE)            
         
         return True
 
