@@ -649,6 +649,15 @@
     "parent_git_path": {
       "type": "string"
     },
+    "overnight_growth" : {
+      "$ref": "#definitions/timepoint"
+    },
+    "recovery_loops": {
+      "items": {
+        "$ref": "#definitions/timepoint"
+      },
+      "type": "array"
+    },
     "status": {
       "description": "records status of individual steps proceessing data from an experiment",
       "$ref": "#/definitions/status"
