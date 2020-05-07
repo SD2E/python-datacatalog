@@ -1,0 +1,46 @@
+{
+    "view_on": "observations_dev_aggregation",
+    "pipeline": [{
+        "$project": {
+            "aligner": "$file.attributes.aligner",
+            "challenge_problem": "$id",
+            "control_type": "$sample.control_type",
+            "experiment_id": "$experiment.experiment_id",
+            "experiment_reference": "$experiment_design.experiment_design_id",
+            "experiment_reference_url": "$experiment_design.uri",
+            "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
+            "inoculation_density": "$sample.inoculation_density",
+            "lab": {
+                "$arrayElemAt": [{
+                        "$split": [
+                            "$experiment.experiment_id",
+                            "."
+                        ]
+                    },
+                    1
+                ]
+            },
+            "pipeline_id": "$pipeline_id",
+            "state": "$state",
+            "data": "$data",
+            "lab_label": "$file.lab_label",
+            "level": "$file.level",
+            "library_prep": "$measurement.library_prep",
+            "measurement_name": "$measurement.measurement_name",
+            "measurement_type": "$measurement.measurement_type",
+            "normalization": "$file.attributes.normalization",
+            "reference_sample_id": "$sample.reference_sample_id",
+            "replicate": "$sample.replicate",
+            "sample_contents": "$sample.contents",
+            "sample_id": "$sample.sample_id",
+            "strain": "$sample.strain.label",
+            "strain_circuit": "$sample.strain.circuit",
+            "strain_input_state": "$sample.strain.input_state",
+            "strain_lab_id": "$sample.strain.lab_id",
+            "strain_sbh_uri": "$sample.strain.sbh_uri",
+            "temperature": "$sample.temperature",
+            "timepoint": "$measurement.timepoint",
+            "TMT_channel": "$sample.TMT_channel"
+        }
+    }]
+}
