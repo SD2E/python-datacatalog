@@ -1,5 +1,5 @@
 {
-    "viewOn": "observations_dev",
+    "view_on": "observations_dev",
     "pipeline": [{
             "$lookup": {
                 "from": "measurements",

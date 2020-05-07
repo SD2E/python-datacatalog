@@ -1,5 +1,5 @@
 {
-    "viewOn": "observations_dev_aggregation",
+    "view_on": "observations_dev_aggregation",
     "pipeline": [{
         "$project": {
             "aligner": "$file.attributes.aligner",
