@@ -7,6 +7,7 @@
                 "agave_system": "data-sd2e-community",
                 "aligner": "$file.attributes.aligner",
                 "challenge_problem": "$id",
+                "container_id": "$sample.container_id",
                 "control_type": "$sample.control_type",
                 "experiment_id": "$experiment.experiment_id",
                 "experiment_reference": "$experiment_design.experiment_design_id",
@@ -68,7 +69,8 @@
                 "strain_sbh_uri": "$sample.strain.sbh_uri",
                 "temperature": "$sample.temperature",
                 "timepoint": "$measurement.timepoint",
-                "TMT_channel": "$sample.TMT_channel"
+                "TMT_channel": "$sample.TMT_channel",
+                "well_label": "$sample.well_label"
             }
         }
     ]
