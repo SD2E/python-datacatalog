@@ -5,7 +5,7 @@
             "$match" : {
                 "child_of" : {
                     "$not" : {
-                        "$size" : 0.0
+                        "$size" : 0
                     }
                 },
                 "state" : {
@@ -113,7 +113,7 @@
                                 {
                                     "$arrayElemAt" : [
                                         "$derived_from",
-                                        0.0
+                                        0
                                     ]
                                 },
                                 "unspecified"
@@ -123,7 +123,7 @@
                         "else" : {
                             "$arrayElemAt" : [
                                 "$experiment_design_files_dnaseq_jobs.storage_system",
-                                0.0
+                                0
                             ]
                         }
                     }
@@ -135,7 +135,7 @@
                                 {
                                     "$arrayElemAt" : [
                                         "$derived_from",
-                                        0.0
+                                        0
                                     ]
                                 },
                                 "unspecified"
@@ -145,7 +145,7 @@
                         "else" : {
                             "$arrayElemAt" : [
                                 "$experiment_design_files_dnaseq_jobs.name",
-                                0.0
+                                0
                             ]
                         }
                     }
@@ -180,7 +180,7 @@
         },
         {
             "$sort" : {
-                "_id.experiment_id" : 1.0
+                "_id.experiment_id" : 1
             }
         }
     ]
