@@ -43,6 +43,8 @@
             "normalization": "$file.attributes.normalization",
             "reference_sample_id": "$sample.reference_sample_id",
             "replicate": "$sample.replicate",
+            "replicate_group": "$sample.replicate_group",
+            "replicate_group_string": "$sample.replicate_group_string",
             "sample_contents": "$sample.contents",
             "sample_id": "$sample.sample_id",
             "strain": "$sample.strain.label",
