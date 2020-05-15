@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200506T215236+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@607fc0d",
+    "$comment": "version: 2.2.0#master; generated: 20200515T185149+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b306752",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -687,6 +687,10 @@
         },
         "doc_revision_id": {
             "description": "Revision of the experiment_reference_url this SR came from",
+            "type": "string"
+        },
+        "erf_channel": {
+            "description": "Equivalent Reference Fluorophores (ERF) channel, if applicable",
             "type": "string"
         },
         "etl_flow_settings": {
