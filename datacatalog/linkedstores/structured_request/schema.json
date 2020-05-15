@@ -658,6 +658,10 @@
       },
       "type": "array"
     },
+    "erf_channel": {
+      "description": "Equivalent Reference Fluorophores (ERF) channel, if applicable",
+      "type": "string"
+    },
     "status": {
       "description": "records status of individual steps proceessing data from an experiment",
       "$ref": "#/definitions/status"
