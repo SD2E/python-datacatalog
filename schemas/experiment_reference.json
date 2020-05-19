@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200508T195219+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@aac02cc",
+    "$comment": "version: 2.2.0#master; generated: 20200519T195158+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@d6eaabd",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -23,6 +23,7 @@
         "NovelChassis-OR-Circuit-Cycle0-24hour",
         "NovelChassis-OR-Circuit-Cycle0-8hour",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse",
+        "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-Parts-Discovery",
         "NovelChassis-Yeast-Cycle0-ObstacleCourse",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
@@ -161,6 +162,7 @@
         "NovelChassis-OR-Circuit-Cycle0-24hour",
         "NovelChassis-OR-Circuit-Cycle0-8hour",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse",
+        "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-Parts-Discovery",
         "NovelChassis-Yeast-Cycle0-ObstacleCourse",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
