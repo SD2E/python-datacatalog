@@ -1,0 +1,25 @@
+{
+    "view_on": "pipelines",
+    "pipeline": [
+    {
+        "$addFields" : {
+            "portal_views": [
+                "experiment_flow_jobs_view",
+                "experiment_rnaseq_jobs_view",
+                "experiment_dnaseq_jobs_view",
+                "experiment_proteomics_jobs_view"
+                ]
+        }
+    },
+    {
+        "$unwind": "$portal_views"
+    },
+
+    {
+        "$group" : {
+            "_id" : 0,
+            "portal_views": {"$addToSet": "$portal_views"}
+        }
+    }
+]
+}
