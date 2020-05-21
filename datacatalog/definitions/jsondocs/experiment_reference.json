@@ -43,6 +43,7 @@
     "NovelChassis-Bacillus-WT-Characterization",
     "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
     "NovelChassis-HighThroughput-TimeSeries",
+    "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
     "NovelChassis-TimeSeries-LowThroughput",
     "Tight-cycle-DNASeq-Learn-Bacillus",
     "YeastStates-TimeSeries-LowThroughput",
