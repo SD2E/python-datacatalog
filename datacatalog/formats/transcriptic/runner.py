@@ -142,6 +142,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         contents = []
         # parent can override child values, track these
         seen_contents = set()
+        parsed_oc = False
+
         if SampleConstants.CONTENTS in transcriptic_sample:
             # this is sometimes a list, sometimes a single value...
             sample_contents = transcriptic_sample[SampleConstants.CONTENTS]
@@ -153,7 +155,6 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             # "concentration": "1.0:micromolar",
             # "label": "100mM IPTG",
             # "timepoint": "48:hour"
-            parsed_oc = False
             for reagent in sample_contents:
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
