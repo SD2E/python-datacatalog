@@ -3,6 +3,7 @@
     "pipeline": [
         {
             "$project": {
+                "_id" : "$file._id",
                 "agave_path": "$file.name",
                 "agave_system": "data-sd2e-community",
                 "aligner": "$file.attributes.aligner",
