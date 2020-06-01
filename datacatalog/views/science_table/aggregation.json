@@ -65,6 +65,7 @@
                         2
                     ]
                 },
+                "standard_type" : "$sample.standard_type",
                 "strain": "$sample.strain.label",
                 "strain_circuit": "$sample.strain.circuit",
                 "strain_input_state": "$sample.strain.input_state",
