@@ -47,6 +47,7 @@
             "replicate_group_string": "$sample.replicate_group_string",
             "sample_contents": "$sample.contents",
             "sample_id": "$sample.sample_id",
+            "standard_type" : "$sample.standard_type",
             "strain": "$sample.strain.label",
             "strain_circuit": "$sample.strain.circuit",
             "strain_input_state": "$sample.strain.input_state",
