@@ -616,6 +616,11 @@
       "description": "Revision of the experiment_reference_url this SR came from",
       "type": "string"
     },
+    "protocol" : {
+      "description": "Named protocol this experiment came from",
+      "type": "string",
+      "enum": ["GrowthCurve", "ObstacleCourse", "TimeSeriesHTP"]
+    },
     "lab": {
       "description": "the lab that performed this experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
