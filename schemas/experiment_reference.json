@@ -1,10 +1,11 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200526T135142+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ed028c9",
+    "$comment": "version: 2.2.0#master; generated: 20200605T155202+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b65fe3d",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "Draft-NovelChassis-E-COLI-titration",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -145,6 +146,7 @@
         "Riboswitches"
     ],
     "examples": [
+        "Draft-NovelChassis-E-COLI-titration",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",

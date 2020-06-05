@@ -2,6 +2,7 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "Draft-NovelChassis-E-COLI-titration",
     "Bacillus-Design-Challenge-Requests",
     "Copy-of-NovelChassisYeastStates-TimeSeries",
     "NovelChassis-Bacillus-LandingPads",
