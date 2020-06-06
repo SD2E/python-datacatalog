@@ -401,27 +401,6 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 SampleConstants.STRAIN not in sample_doc:
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
 
-        # if control types are not available, infer based on sample ids
-        # this is brittle, but the best we can do right now with the output provided
-        # "wt-control-1" = precursor to "WT-Dead-Control" or "WT-Live-Control"
-        # "NOR 00 Control" = "HIGH_FITC"
-        # "WT-Dead-Control" = "CELL_DEATH_POS_CONTROL" - positive for the sytox stain
-        # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
-        # we also need to indicate the control channels the fluorescence controls
-        # this is not known by the lab typically, has to be provided externally
-        original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
-        if SampleConstants.CONTROL_TYPE not in sample_doc:
-            if original_sample_id == "wt-control-1":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-            elif original_sample_id == "NOR 00 Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
-            elif original_sample_id == "WT-Dead-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
-            elif original_sample_id == "WT-Live-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
-
         # Novel Chassis Positive and Negative Controls
         # TODO: Refactor into common function, vs. lab specific?
         # NC does not provide control mappings
