@@ -1,11 +1,10 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200605T155202+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b65fe3d",
+    "$comment": "version: 2.2.0#master; generated: 20200606T155224+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@0cb4787",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
-        "Draft-NovelChassis-E-COLI-titration",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -46,6 +45,7 @@
         "NC-Penn-State-Truth-Table",
         "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
         "NovelChassis-Bacillus-WT-Characterization",
+        "NovelChassis-E-coli-NAND2-0-Gate-Titration-RNA-Seq",
         "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
@@ -146,7 +146,6 @@
         "Riboswitches"
     ],
     "examples": [
-        "Draft-NovelChassis-E-COLI-titration",
         "Bacillus-Design-Challenge-Requests",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
@@ -187,6 +186,7 @@
         "NC-Penn-State-Truth-Table",
         "Novel-Chassis-Mini-vs-Normal-RNA-seq-prep",
         "NovelChassis-Bacillus-WT-Characterization",
+        "NovelChassis-E-coli-NAND2-0-Gate-Titration-RNA-Seq",
         "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
