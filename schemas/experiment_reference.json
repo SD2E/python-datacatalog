@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200608T205251+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@dd6ba6a",
+    "$comment": "version: 2.2.0#master; generated: 20200608T235300+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a4f5ab5",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -38,6 +38,7 @@
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
+        "mCherry-Bacillus-Control-Strain-with-RNAseq-testing-062020",
         "Microbe-LiveDeadClassification",
         "NC-Penn-State-Bistability-Assay",
         "NC-Penn-State-Growth-Curve",
@@ -180,6 +181,7 @@
         "Exp-NC-NAND-Gate-Iteration",
         "request-NC-characterization-in-Biolog-plates",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
+        "mCherry-Bacillus-Control-Strain-with-RNAseq-testing-062020",
         "Microbe-LiveDeadClassification",
         "NC-Penn-State-Bistability-Assay",
         "NC-Penn-State-Growth-Curve",
