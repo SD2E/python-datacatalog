@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200606T155224+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@0cb4787",
+    "$comment": "version: 2.2.0#master; generated: 20200608T205251+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@dd6ba6a",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -110,6 +110,7 @@
         "TEST-YeastSTATES-CRISPR-Dose-Response",
         "Updated-ER-example-on-Plant-TF-Dose-Response",
         "Yeast-TetR-Characterization",
+        "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
@@ -251,6 +252,7 @@
         "TEST-YeastSTATES-CRISPR-Dose-Response",
         "Updated-ER-example-on-Plant-TF-Dose-Response",
         "Yeast-TetR-Characterization",
+        "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
