@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200608T235300+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a4f5ab5",
+    "$comment": "version: 2.2.0#master; generated: 20200610T175258+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@507e54d",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -78,6 +78,7 @@
         "Nick-Copy-of-NovelChassis-Bacillus-WT",
         "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
+        "Nick-Copy-of-NovelChassisYeastStates-TimeSeries",
         "Test-Empty-Document",
         "Test-Parameter-Table",
         "TACC-genomics-metadata",
@@ -221,6 +222,7 @@
         "Nick-Copy-of-NovelChassis-Bacillus-WT",
         "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
+        "Nick-Copy-of-NovelChassisYeastStates-TimeSeries",
         "Test-Empty-Document",
         "Test-Parameter-Table",
         "TACC-genomics-metadata",
