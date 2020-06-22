@@ -17,7 +17,7 @@ class Indexer(Manager):
         """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
             
-            storage_system = self.stores['pipelinejob'].get_by_identifier(self.uuid).get('archive_system', None)
+            storage_system = self.stores['pipelinejob'].find_one_by_uuid(self.uuid).get('archive_system', None)
             setattr(self, '_path_storage_system', storage_system)
 
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
