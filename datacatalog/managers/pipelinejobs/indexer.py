@@ -16,7 +16,10 @@ class Indexer(Manager):
         """Updates the job's cache of archive_path contents
         """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
-            # TODO storageSystem?
+            
+            storage_system = self.stores['pipelinejob'].get_by_identifier(self.uuid).get('archive_system', None)
+            setattr(self, '_path_storage_system', storage_system)
+
             listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
             if isinstance(listing, list):
                 setattr(self, '_path_listing', listing)
@@ -209,6 +212,7 @@ class Indexer(Manager):
                                        permissive=True).label
                 fdict = {
                     'name': file_name,
+                    'storage_system': self._path_storage_system,
                     'type': ftype}
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('product_request_target: {}'.format(resp))
@@ -275,6 +279,7 @@ class Indexer(Manager):
                                        permissive=True).label
                 fdict = {
                     'name': file_name,
+                    'storage_system': self._path_storage_system,
                     'type': ftype}
                 if request.level is not None:
                     fdict['level'] = request.level
