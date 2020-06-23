@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200618T165245+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@bc234c5",
+    "$comment": "version: 2.2.0#master; generated: 20200623T195219+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@cd512c3",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -48,6 +48,7 @@
         "NovelChassis-Bacillus-WT-Characterization",
         "NovelChassis-E-coli-NAND2-0-Gate-Titration-RNA-Seq",
         "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
+        "NovelChassis-Ginkgo-Strain-Inducer-Characterization-2",
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-TimeSeries-LowThroughput",
@@ -194,6 +195,7 @@
         "NovelChassis-Bacillus-WT-Characterization",
         "NovelChassis-E-coli-NAND2-0-Gate-Titration-RNA-Seq",
         "NovelChassis-Ginkgo-Strain-Inducer-Characterization",
+        "NovelChassis-Ginkgo-Strain-Inducer-Characterization-2",
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-TimeSeries-LowThroughput",
