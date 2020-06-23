@@ -231,8 +231,7 @@ class Indexer(Manager):
                 fdict = {
                     'name': file_name,
                     'storage_system': self._path_storage_system,
-                    'type': ftype,
-                    'child_of': [self.uuid]
+                    'type': ftype
                 }
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('product_request_target: {}'.format(resp))
@@ -253,6 +252,10 @@ class Indexer(Manager):
                 self.logger.debug('add_link.derived_from')
                 self.stores['file'].add_link(resp['uuid'], derived_from,
                                              'derived_from')
+
+                self.logger.debug('product_request.add_link.child_of')
+                self.stores['file'].add_link(resp['uuid'], [self.uuid],
+                                             'child_of')
 
                 # Fixity is cheap - do it unless told not to
                 if fixity:
@@ -305,19 +308,22 @@ class Indexer(Manager):
                 fdict = {
                     'name': file_name,
                     'storage_system': self._path_storage_system,
-                    'type': ftype,
-                    'child_of': [self.uuid]
+                    'type': ftype
                 }
                 if request.level is not None:
                     fdict['level'] = request.level
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('archive_request_target: {}'.format(resp))
+
+                self.logger.debug('archive_request.add_link.child_of')
+                self.stores['file'].add_link(resp['uuid'], [self.uuid],
+                                             'child_of')
                 # if resp is not None:
-                self.logger.debug('generated_by: {}'.format(
-                    request.generated_by))
-                self.logger.debug('writing generated_by')
-                self.stores['file'].add_link(resp['uuid'],
-                                             request.generated_by)
+                # self.logger.debug('generated_by: {}'.format(
+                #     request.generated_by))
+                # self.logger.debug('writing generated_by')
+                # self.stores['file'].add_link(resp['uuid'],
+                #                              request.generated_by)
 
                 # Fixity is cheap - do it unless told not to
                 if fixity:
