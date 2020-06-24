@@ -31,6 +31,10 @@
         },
         "tasbe_cytometer_configuration": {
             "$ref": "cytometer.json"
+        },
+        "erf_channel": {
+            "description": "experiment equivalent reference fluorphores channel, if present",
+            "type": "string"
         }
     },
     "required": [

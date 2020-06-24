@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200115T184107+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ad9ee95",
+    "$comment": "version: 2.2.0#master; generated: 20200619T175321+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@310ae94",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_set.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -7,6 +7,10 @@
     "properties": {
         "challenge_problem": {
             "$ref": "challenge_problem_id.json"
+        },
+        "erf_channel": {
+            "description": "experiment equivalent reference fluorphores channel, if present",
+            "type": "string"
         },
         "experiment_id": {
             "$ref": "namespaced_identifier.json"
