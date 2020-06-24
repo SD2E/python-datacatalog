@@ -8,6 +8,7 @@ from .indexrequest import ArchiveIndexRequest, ProductIndexRequest, get_index_re
 from .indexrequest import IndexingError, IndexType, InvalidIndexingRequest
 from .indexrequest import ARCHIVE, PRODUCT
 
+
 class Indexer(Manager):
 
     _path_listing = list()
@@ -16,15 +17,21 @@ class Indexer(Manager):
         """Updates the job's cache of archive_path contents
         """
         if force or len(getattr(self, '_path_listing', [])) <= 0:
-            # TODO storageSystem?
-            listing = self.stores['pipelinejob'].list_job_archive_path(self.uuid, recurse=True, directories=False)
+
+            storage_system = self.stores['pipelinejob'].find_one_by_uuid(
+                self.uuid).get('archive_system', None)
+            setattr(self, '_path_storage_system', storage_system)
+
+            listing = self.stores['pipelinejob'].list_job_archive_path(
+                self.uuid, recurse=True, directories=False)
             if isinstance(listing, list):
                 setattr(self, '_path_listing', listing)
             else:
                 raise IndexingError('Failed to list archive path')
         return self
 
-    def index_if_exists(self, abs_filename,
+    def index_if_exists(self,
+                        abs_filename,
                         storage_system=None,
                         check_exists=True):
         """Index a file if it can be confirmed to exist
@@ -38,8 +45,10 @@ class Indexer(Manager):
         #             settings.STORAGE_SYSTEM))
 
         if check_exists:
-            if not self.stores['pipelinejob']._helper.exists(abs_filename, storage_system):
-                raise ValueError('Path does not exist: {}'.format(abs_filename))
+            if not self.stores['pipelinejob']._helper.exists(
+                    abs_filename, storage_system):
+                raise ValueError(
+                    'Path does not exist: {}'.format(abs_filename))
 
         # TODO - Add storage_system=storage_system to File/FixityStore.index()
         self.logger.info('Indexing referenced file {}'.format(
@@ -56,7 +65,8 @@ class Indexer(Manager):
                                         storage_system=storage_system)
         except Exception:
             if settings.LOG_FIXITY_ERRORS:
-                self.logger.exception('Fixity indexing failed for {}'.format(abs_filename))
+                self.logger.exception(
+                    'Fixity indexing failed for {}'.format(abs_filename))
         return resp
 
     def file_or_ref_uuid(self, string_reference):
@@ -82,7 +92,8 @@ class Indexer(Manager):
                 doc = self.index_if_exists(string_reference)
                 if doc is not None:
                     return doc['uuid']
-        raise ValueError('Not a valid file or reference identifier {}'.format(string_reference))
+        raise ValueError('Not a valid file or reference identifier {}'.format(
+            string_reference))
 
     def file_agave_url(self, string_reference, check_exists=True):
         """Resolves an Agave URL into a file UUID
@@ -92,7 +103,9 @@ class Indexer(Manager):
         try:
             system, directory, fname = from_agave_uri(string_reference)
             abs_filename = os.path.join(directory, fname)
-            resp = self.index_if_exists(abs_filename, system, check_exists=check_exists)
+            resp = self.index_if_exists(abs_filename,
+                                        system,
+                                        check_exists=check_exists)
             return self.file_or_ref_identifier(abs_filename)
         except Exception:
             raise ValueError('Unable to resolve or index Agave files URI')
@@ -101,10 +114,12 @@ class Indexer(Manager):
         """Resolves a filename relative to a job's archive path as a file UUID
         """
         if not string_reference.startswith('./'):
-            raise ValueError('Job output-relative filenames must begin with ./')
+            raise ValueError(
+                'Job output-relative filenames must begin with ./')
         abs_filename = os.path.normpath(
             os.path.join(self.archive_path, string_reference))
-        fname_uuid = self.stores['file'].get_typeduuid(abs_filename, binary=False)
+        fname_uuid = self.stores['file'].get_typeduuid(abs_filename,
+                                                       binary=False)
         if check_exists:
             self.index_if_exists(abs_filename, self.archive_system)
         return fname_uuid
@@ -155,15 +170,19 @@ class Indexer(Manager):
                 self.logger.debug('Not a relative path')
 
             if not permissive:
-                raise ValueError('String reference {} was not resolved'.format(ref))
+                raise ValueError(
+                    'String reference {} was not resolved'.format(ref))
         # list of resolved references
         resolved_list = list(resolved)
         resolved_list.sort()
         self.logger.info('Resolved {} records'.format(len(resolved_list)))
         return resolved_list
 
-    def single_index_request(self, index_request, token=None,
-                             refresh=False, fixity=True,
+    def single_index_request(self,
+                             index_request,
+                             token=None,
+                             refresh=False,
+                             fixity=True,
                              permissive=False):
         """Processes a single indexing request
         """
@@ -188,7 +207,9 @@ class Indexer(Manager):
                                                        permissive=permissive)
         return resp
 
-    def _handle_single_product_request(self, request, token=None,
+    def _handle_single_product_request(self,
+                                       request,
+                                       token=None,
                                        fixity=False,
                                        permissive=False):
         """Private: Services a products indexing request
@@ -209,7 +230,9 @@ class Indexer(Manager):
                                        permissive=True).label
                 fdict = {
                     'name': file_name,
-                    'type': ftype}
+                    'storage_system': self._path_storage_system,
+                    'type': ftype
+                }
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('product_request_target: {}'.format(resp))
 
@@ -217,16 +240,22 @@ class Indexer(Manager):
                 self.logger.debug('Adding product linkages')
                 # Resolve UUIDs, indentifiers, and finally relative paths
                 # into UUIDs that can be used for linkages
-                derived_using = self.resolve_derived_references(request.derived_using, permissive=permissive)
-                derived_from = self.resolve_derived_references(request.derived_from, permissive=permissive)
+                derived_using = self.resolve_derived_references(
+                    request.derived_using, permissive=permissive)
+                derived_from = self.resolve_derived_references(
+                    request.derived_from, permissive=permissive)
                 self.logger.debug('derived_from: {}'.format(derived_from))
                 self.logger.debug('derived_using: {}'.format(derived_using))
                 self.logger.debug('add_link.derived_using')
-                self.stores['file'].add_link(
-                    resp['uuid'], derived_using, 'derived_using')
+                self.stores['file'].add_link(resp['uuid'], derived_using,
+                                             'derived_using')
                 self.logger.debug('add_link.derived_from')
-                self.stores['file'].add_link(
-                    resp['uuid'], derived_from, 'derived_from')
+                self.stores['file'].add_link(resp['uuid'], derived_from,
+                                             'derived_from')
+
+                self.logger.debug('product_request.add_link.child_of')
+                self.stores['file'].add_link(resp['uuid'], [self.uuid],
+                                             'child_of')
 
                 # Fixity is cheap - do it unless told not to
                 if fixity:
@@ -239,8 +268,8 @@ class Indexer(Manager):
                             'Fixity indexing failed on {} for job {}'.format(
                                 file_name, self.uuid))
 
-                self.logger.info('Adding {} to list of indexed files'.format(
-                    file_name))
+                self.logger.info(
+                    'Adding {} to list of indexed files'.format(file_name))
                 indexed.add(file_name)
 
             indexed_list = list(indexed)
@@ -254,8 +283,11 @@ class Indexer(Manager):
             else:
                 raise IndexingError(mexc)
 
-    def _handle_single_archive_request(self, request, token=None,
-                                       fixity=True, permissive=False):
+    def _handle_single_archive_request(self,
+                                       request,
+                                       token=None,
+                                       fixity=True,
+                                       permissive=False):
         """Private: Services an archive path indexing request
         """
         indexed = set()
@@ -275,16 +307,23 @@ class Indexer(Manager):
                                        permissive=True).label
                 fdict = {
                     'name': file_name,
-                    'type': ftype}
+                    'storage_system': self._path_storage_system,
+                    'type': ftype
+                }
                 if request.level is not None:
                     fdict['level'] = request.level
                 resp = self.stores['file'].add_update_document(fdict)
                 self.logger.debug('archive_request_target: {}'.format(resp))
+
+                self.logger.debug('archive_request.add_link.child_of')
+                self.stores['file'].add_link(resp['uuid'], [self.uuid],
+                                             'child_of')
                 # if resp is not None:
-                self.logger.debug('generated_by: {}'.format(request.generated_by))
-                self.logger.debug('writing generated_by')
-                self.stores['file'].add_link(
-                    resp['uuid'], request.generated_by)
+                # self.logger.debug('generated_by: {}'.format(
+                #     request.generated_by))
+                # self.logger.debug('writing generated_by')
+                # self.stores['file'].add_link(resp['uuid'],
+                #                              request.generated_by)
 
                 # Fixity is cheap - do it unless told not to
                 if fixity:
@@ -296,8 +335,8 @@ class Indexer(Manager):
                         self.logger.debug(
                             'Fixity indexing failed on {} for job {}'.format(
                                 file_name, self.uuid))
-                self.logger.debug('Adding {} to list of indexed files'.format(
-                    file_name))
+                self.logger.debug(
+                    'Adding {} to list of indexed files'.format(file_name))
                 indexed.add(file_name)
 
             indexed_list = list(indexed)
