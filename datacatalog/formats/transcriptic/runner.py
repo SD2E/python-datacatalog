@@ -65,6 +65,17 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     map_experiment_reference(config, output_doc)
 
+    # We need to re-write this reference
+    # Strateos uploaded under the former URL and reference name,
+    # (“YeastSTATES CRISPR Growth Curves Request”)
+    # But the design was run under the latter reference URL and name
+    # and the former experiments were adopted into it
+    # (YeastSTATES CRISPR Growth Curves Request (422936)“)
+    # Fix this by URL
+    if output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] == "https://docs.google.com/document/d/1uv_X7CSD5cONEjW7yq4ecI89XQxPQuG5lnmaqshj47o":
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1IlR2-ufP_vVfHt15uYocExhyQfEkPnOljYf3Y-rB08g"
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-CRISPR-Growth-Curves-422936"
+
     db = mongo.db_connection(config['mongodb'])
     samples_table = db.samples
 
