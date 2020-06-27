@@ -107,6 +107,28 @@
             },
             {
               "type":"string"
+            },
+            {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "label": {
+                          "type": "string"
+                        },
+                        "concentration": {
+                          "type": "string"
+                        },
+                        "timepoint": {
+                          "type": "string"
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                        "label"
+                    ]
+                },
+                "minItems": 1
             }]
           },
           "experimental_media": {

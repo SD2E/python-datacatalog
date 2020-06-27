@@ -82,10 +82,16 @@ def test_listdir_only_files(monkeypatch, agave):
     assert '/sample/tacc-cloud/agavehelpers/upload/biofab/abcd' not in listing
     assert '/sample/tacc-cloud/agavehelpers/upload/transcriptic/hello.txt' in listing
 
-@pytest.mark.longrun
 def test_from_agave_uri():
     asys, apath, afile = agavehelpers.from_agave_uri(
         'agave://data/taco/cabana.txt')
+    assert asys == 'data'
+    assert apath == '/taco'
+    assert afile == 'cabana.txt'
+
+def test_from_agave_uri_leading_double_slash():
+    asys, apath, afile = agavehelpers.from_agave_uri(
+        'agave://data//taco/cabana.txt')
     assert asys == 'data'
     assert apath == '/taco'
     assert afile == 'cabana.txt'

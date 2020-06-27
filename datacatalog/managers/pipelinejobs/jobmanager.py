@@ -14,15 +14,16 @@ from ..common import Manager, data_merge
 from .exceptions import ManagedPipelineJobError
 from .config import DEFAULT_ARCHIVE_SYSTEM
 
+
 class JobManager(Manager):
-    PARAMS = [
-        ('archive_path', False, 'archive_path', None),
-        ('archive_patterns', False, 'archive_patterns', []),
-        ('archive_system', False, 'archive_system', DEFAULT_ARCHIVE_SYSTEM),
-        ('pipeline_uuid', False, 'pipeline_uuid', None),
-        ('token', False, 'token', None),
-        ('uuid', False, 'uuid', None),
-        ('state', False, 'state', None)]
+    PARAMS = [('archive_path', False, 'archive_path', None),
+              ('archive_patterns', False, 'archive_patterns', []),
+              ('archive_system', False, 'archive_system',
+               DEFAULT_ARCHIVE_SYSTEM),
+              ('pipeline_uuid', False, 'pipeline_uuid', None),
+              ('token', False, 'token', None), ('uuid', False, 'uuid', None),
+              ('state', False, 'state', None),
+              ('last_event', False, 'last_event', None)]
     ADMIN_EVENTS = ['reset', 'ready', 'delete', 'purge']
 
     def __init__(self, mongodb, agave=None, *args, **kwargs):
@@ -34,7 +35,8 @@ class JobManager(Manager):
         for param, required, key, default in self.PARAMS:
             kval = kwargs.get(param, None)
             if kval is None and required is True:
-                raise ManagedPipelineJobError('Parameter "{}" is required'.format(param))
+                raise ManagedPipelineJobError(
+                    'Parameter "{}" is required'.format(param))
             else:
                 if kval is None:
                     kval = default
@@ -72,7 +74,8 @@ class JobManager(Manager):
             raise ManagedPipelineJobError('Unable to load job contents')
         loaded_job = self.stores['pipelinejob'].find_one_by_uuid(job_uuid)
         if loaded_job is None:
-            raise ManagedPipelineJobError('No job {} was found'.format(job_uuid))
+            raise ManagedPipelineJobError(
+                'No job {} was found'.format(job_uuid))
         for param, required, key, default in self.PARAMS:
             kval = loaded_job.get(param, None)
             if kval is None and required is True:
@@ -95,12 +98,15 @@ class JobManager(Manager):
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             if getattr(self, 'cancelable') is not False:
-                self.stores['pipelinejob'].delete(self.uuid, htoken, force=True)
+                self.stores['pipelinejob'].delete(self.uuid,
+                                                  htoken,
+                                                  force=True)
                 self.job = None
                 return self.job
             else:
                 raise ManagedPipelineJobError(
-                    'Cannot cancel a job once it is running. Send a "fail" event instead.')
+                    'Cannot cancel a job once it is running. Send a "fail" event instead.'
+                )
         except Exception as cexc:
             raise ManagedPipelineJobError(cexc)
 
@@ -115,7 +121,9 @@ class JobManager(Manager):
             if self.uuid is None:
                 raise ValueError('Job UUID cannot be empty')
             else:
-                self.stores['pipelinejob'].delete(self.uuid, htoken, force=True)
+                self.stores['pipelinejob'].delete(self.uuid,
+                                                  htoken,
+                                                  force=True)
                 self.job = None
                 for param, required, key, default in self.PARAMS:
                     setattr(self, param, None)
@@ -142,10 +150,15 @@ class JobManager(Manager):
                 self.setup(update_indexes=kwargs.get('update_indexes', False))
 
             self.job = self.stores['pipelinejob'].handle({
-                'name': event_name.lower(),
-                'uuid': self.uuid,
-                'token': htoken,
-                'data': data})
+                'name':
+                event_name.lower(),
+                'uuid':
+                self.uuid,
+                'token':
+                htoken,
+                'data':
+                data
+            })
             if getattr(self, 'cancelable'):
                 setattr(self, 'cancelable', False)
             for param, required, key, default in self.PARAMS:
@@ -196,14 +209,17 @@ class JobManager(Manager):
         """
         return self.handle('indexed', data, token=token)
 
-    def reset(self, data={}, no_clear_path=False, token=None, permissive=False):
+    def reset(self, data={}, no_clear_path=False, token=None,
+              permissive=False):
         """Wrapper for **reset**
 
         Note: This event encapsulates both the 'reset' and subsequent 'ready'
         event, as the resetting process needs to be thread-locked.
         """
 
-        validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
+        validate_admin_token(token,
+                             key=admin.get_admin_key(),
+                             permissive=False)
         resp = self.handle('reset', data, token=token)
         if not no_clear_path:
             self._clear_archive_path(permissive=permissive)
@@ -214,7 +230,9 @@ class JobManager(Manager):
     def ready(self, data={}, token=None):
         """Wrapper for **ready*
         """
-        validate_admin_token(token, key=admin.get_admin_key(), permissive=False)
+        validate_admin_token(token,
+                             key=admin.get_admin_key(),
+                             permissive=False)
         return self.handle('ready', data, token=token)
 
     def serialize_data(self):
@@ -227,9 +245,8 @@ class JobManager(Manager):
     def archive_uri(self):
         """Formats archive system and path into a URI
         """
-        return 'agave://{}{}'.format(
-            getattr(self, 'archive_system', 'NA'),
-            getattr(self, 'archive_path', 'NA'))
+        return 'agave://{}{}'.format(getattr(self, 'archive_system', 'NA'),
+                                     getattr(self, 'archive_path', 'NA'))
 
     def __repr__(self):
         vals = list()

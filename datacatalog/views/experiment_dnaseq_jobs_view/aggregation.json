@@ -1,0 +1,187 @@
+{
+    "view_on": "jobs",
+    "pipeline": [
+        {
+            "$match" : {
+                "child_of" : {
+                    "$not" : {
+                        "$size" : 0
+                    }
+                },
+                "state" : {
+                    "$in" : [
+                        "FINISHED",
+                        "VALIDATED",
+                        "INDEXING"
+                    ]
+                }
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "pipelines",
+                "localField" : "pipeline_uuid",
+                "foreignField" : "uuid",
+                "as" : "nc_dnaseq_jobs"
+            }
+        },
+        {
+            "$match" : {
+                "nc_dnaseq_jobs.name" : {
+                    "$regex" : "DNA-seq Aggregation and IGV Pipeline"
+                }
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "experiments",
+                "localField" : "child_of",
+                "foreignField" : "uuid",
+                "as" : "experiment_dnaseq_jobs"
+            }
+        },
+        {
+            "$unwind" : "$experiment_dnaseq_jobs"
+        },
+        {
+            "$lookup" : {
+                "from" : "experiment_designs",
+                "localField" : "experiment_dnaseq_jobs.child_of",
+                "foreignField" : "uuid",
+                "as" : "experiment_design_dnaseq_jobs"
+            }
+        },
+        {
+            "$unwind" : "$experiment_design_dnaseq_jobs"
+        },
+        {
+            "$addFields" : {
+                "derived_from" : {
+                    "$ifNull" : [
+                        "$experiment_dnaseq_jobs.derived_from",
+                        [
+                            "unspecified"
+                        ]
+                    ]
+                }
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "files",
+                "localField" : "derived_from",
+                "foreignField" : "uuid",
+                "as" : "experiment_design_files_dnaseq_jobs"
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "files",
+                "localField" : "uuid",
+                "foreignField" : "child_of",
+                "as" : "experiment_design_dnaseq_jobs_outputs"
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "files",
+                "localField" : "product_patterns.derived_from",
+                "foreignField" : "name",
+                "as" : "input_bams"
+            }
+        },
+        {
+            "$lookup" : {
+                "from" : "jobs",
+                "localField" : "input_bams.child_of",
+                "foreignField" : "uuid",
+                "as" : "bam_job"
+            }
+        },
+                {
+            "$unwind": "$bam_job"
+        },
+        {
+            "$project" : {
+                "_id" : false,
+                "experiment_id" : "$experiment_dnaseq_jobs.experiment_id",
+                "experiment_design_id" : "$experiment_design_dnaseq_jobs.experiment_design_id",
+                "storage_system" : {
+                    "$cond" : {
+                        "if" : {
+                            "$eq" : [
+                                {
+                                    "$arrayElemAt" : [
+                                        "$derived_from",
+                                        0
+                                    ]
+                                },
+                                "unspecified"
+                            ]
+                        },
+                        "then" : "unspecified",
+                        "else" : {
+                            "$arrayElemAt" : [
+                                "$experiment_design_files_dnaseq_jobs.storage_system",
+                                0
+                            ]
+                        }
+                    }
+                },
+                "samples_json" : {
+                    "$cond" : {
+                        "if" : {
+                            "$eq" : [
+                                {
+                                    "$arrayElemAt" : [
+                                        "$derived_from",
+                                        0
+                                    ]
+                                },
+                                "unspecified"
+                            ]
+                        },
+                        "then" : "unspecified",
+                        "else" : {
+                            "$arrayElemAt" : [
+                                "$experiment_design_files_dnaseq_jobs.name",
+                                0
+                            ]
+                        }
+                    }
+                },
+                "job_uuid" : "$uuid",
+                "last_updated" : "$updated",
+                "state" : "$state",
+                "archive_path" : "$archive_path",
+                "outputs" : "$experiment_design_dnaseq_jobs_outputs.name",
+                "references" : "$bam_job.data.parameters.path_fasta"
+            }
+        },
+        {
+            "$group" : {
+                "_id" : {
+                    "experiment_id" : "$experiment_id",
+                    "experiment_reference" : "$experiment_design_id",
+                    "agave_system" : "$storage_system",
+                    "samples_json" : "$samples_json"
+                },
+                "jobs" : {
+                    "$addToSet" : {
+                        "job_uuid" : "$job_uuid",
+                        "last_updated" : "$last_updated",
+                        "state" : "$state",
+                        "archive_path" : "$archive_path",
+                        "outputs" : "$outputs"
+                    }
+                },
+                "references" : {"$addToSet": "$references"}
+            }
+        },
+        {
+            "$sort" : {
+                "_id.experiment_id" : 1
+            }
+        }
+    ]
+}
