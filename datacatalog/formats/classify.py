@@ -8,7 +8,7 @@ from . import *
 from .converter import Converter, ConversionError
 from ..utils import dynamic_import, detect_encoding
 
-FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes', 'Caltech', 'Marshall']
+FORMATS = ['Transcriptic', 'Ginkgo', 'Biofab', 'SampleAttributes', 'Caltech', 'Marshall', 'Duke_Haase']
 """Class names for document types that can be converted to Data Catalog records"""
 
 class NoClassifierError(ConversionError):
