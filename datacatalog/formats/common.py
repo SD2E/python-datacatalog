@@ -38,6 +38,7 @@ class SampleConstants():
     LAB_UWBF = "UW_BIOFAB"
     LAB_CALTECH = "Caltech"
     LAB_MARSHALL = "Marshall"
+    LAB_DUKE_HAASE = "Duke_Haase"
     
     # Flow cytometer configuration
     CYTOMETER_CONFIG = "tasbe_cytometer_configuration"
@@ -119,6 +120,7 @@ class SampleConstants():
     MT_RNA_SEQ = "RNA_SEQ"
     MT_DNA_SEQ = "DNA_SEQ"
     MT_FLOW = "FLOW"
+    MT_CFU = "CFU"
     MT_IMAGE = "IMAGE"
     MT_SEQUENCING_CHROMATOGRAM = "SEQUENCING_CHROMATOGRAM"
     MT_EXPERIMENTAL_DESIGN = "EXPERIMENTAL_DESIGN"
@@ -274,6 +276,10 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
     elif lab == SampleConstants.LAB_MARSHALL:
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "Marshall"
+    elif lab == SampleConstants.LAB_DUKE_HAASE:
+        # Use TX mappings for now
+        # Need to add Duke to SBH Dictionary
+        sbh_lab = SD2Constants.TRANSCRIPTIC
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
