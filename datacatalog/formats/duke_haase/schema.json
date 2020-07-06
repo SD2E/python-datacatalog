@@ -1,0 +1,74 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Duke CSV Headers Schema",
+    "$comment": "",
+    "type": "object",
+    "properties": {
+        "csv": true,
+        "headers": {
+            "oneOf": [{
+                "type": "array",
+                "items": [{
+                        "type": "string",
+                        "enum": ["Strain"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["replicate"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment concentration"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment concentration unit"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment time"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment time unit"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["CFU"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["culture cells/ml"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["estimated cells plated"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["estimated cells/ml"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["% Killed"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Date-of-experiment"]
+                    }
+                ],
+                "additionalItems": false
+            }]
+        }
+
+    },
+    "required": [
+        "csv",
+        "headers"
+    ],
+    "additionalProperties": false
+}

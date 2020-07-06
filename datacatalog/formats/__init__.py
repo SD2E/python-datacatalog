@@ -4,5 +4,6 @@ from .transcriptic import Transcriptic
 from .sample_attributes import SampleAttributes
 from .caltech import Caltech
 from .marshall import Marshall
+from .duke_haase import Duke_Haase
 
 from .classify import get_converter
