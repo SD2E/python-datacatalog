@@ -41,9 +41,9 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1D9hXd5Hmeb75FGH0sGq93KjCOjHKD26x8HXluNJLII8"
     map_experiment_reference(config, output_doc)
 
-    # TODO Duke adds this to lab trace
-    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(os.path.basename(input_file).split(".")[0], lab)
+    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("Duke_live-dead_CFUs", lab)
 
+    # TODO Duke adds this to lab trace
     experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
 
     sample_counter = 1
@@ -51,7 +51,6 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
         if row[0] == "Strain":
             continue
         else:
-
             sample_doc = {}
             contents = []
             strain = row[0]
