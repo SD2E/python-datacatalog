@@ -41,7 +41,9 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1D9hXd5Hmeb75FGH0sGq93KjCOjHKD26x8HXluNJLII8"
     map_experiment_reference(config, output_doc)
 
-    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("Duke_live-dead_CFUs", lab)
+    eid = "Duke_live-dead_CFUs"
+
+    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(eid, lab)
 
     # TODO Duke adds this to lab trace
     experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
@@ -105,7 +107,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
             file_type = SampleConstants.infer_file_type(input_file)
             measurement_doc[SampleConstants.FILES].append(
-                {SampleConstants.M_NAME: input_file,
+                {SampleConstants.M_NAME: eid + ".csv",
                  SampleConstants.M_TYPE: file_type,
                  SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                  SampleConstants.FILE_ID: file_id,
