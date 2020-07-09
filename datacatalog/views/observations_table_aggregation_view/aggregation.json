@@ -1,60 +1,11 @@
 {
-    "view_on": "observations_dev",
+    "view_on": "science_view",
     "pipeline": [{
-            "$lookup": {
-                "from": "measurements",
-                "localField": "child_of",
-                "foreignField": "uuid",
-                "as": "measurement"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$measurement",
-                "preserveNullAndEmptyArrays": false
-            }
-        },
-        {
-            "$lookup": {
-                "from": "samples",
-                "localField": "measurement.child_of",
-                "foreignField": "uuid",
-                "as": "sample"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$sample",
-                "preserveNullAndEmptyArrays": false
-            }
-        },
-        {
-            "$lookup": {
-                "from": "experiments",
-                "localField": "sample.child_of",
-                "foreignField": "uuid",
-                "as": "experiment"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$experiment",
-                "preserveNullAndEmptyArrays": false
-            }
-        },
-        {
-            "$lookup": {
-                "from": "experiment_designs",
-                "localField": "experiment.child_of",
-                "foreignField": "uuid",
-                "as": "experiment_design"
-            }
-        },
-        {
-            "$unwind": {
-                "path": "$experiment_design",
-                "preserveNullAndEmptyArrays": false
-            }
+        "$lookup": {
+            "from": "observations_dev",
+            "localField": "measurement.uuid",
+            "foreignField": "child_of",
+            "as": "observation"
         }
-    ]
+    }]
 }
