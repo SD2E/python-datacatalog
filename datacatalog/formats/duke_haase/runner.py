@@ -7,6 +7,7 @@ import collections
 import pymongo
 import datacatalog
 
+import datetime
 from jsonschema import validate, ValidationError
 from sbol import *
 from synbiohub_adapter.query_synbiohub import *
@@ -48,9 +49,11 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     # TODO Duke adds this to lab trace
     experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
 
+    headers = None
     sample_counter = 1
     for row in input_fp_csvreader:
         if row[0] == "Strain":
+            headers = row
             continue
         else:
             sample_doc = {}
@@ -88,21 +91,29 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             if len(contents) > 0:
                 sample_doc[SampleConstants.CONTENTS] = contents
 
-            # TODO populate additional sample data from CSV
-            # Samples schema cannot currently support
-            CFU = row[7]
-            culture_cells_ml = row[8]
-            estimated_cells_plated = row[9]
-            estimated_cells_ml = row[10]
-            percent_killed = row[11]
-            date_of_experiment = row[12]
-
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_CFU
 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(SampleConstants.MT_CFU + "_1", lab, sample_doc, output_doc)
+
+            #CFU 305
+            #culture_cells_ml 2.33E+07
+            #estimated_cells_plated 583
+            #estimated_cells_ml 1.22E+07
+            #percent_killed 47.60%
+            #date_of_experiment 6/10/20
+            doe_format = "%m/%d/%y"
+            cfu_data = {}
+            cfu_data[headers[7]] = int(row[7])
+            cfu_data[headers[8]] = int(float(row[8]))
+            cfu_data[headers[9]] = int(row[9])
+            cfu_data[headers[10]] = int(float(row[10]))
+            cfu_data[headers[11]] = float(row[11][:-1])
+            cfu_data[headers[12]] = datetime.datetime.strptime(row[12], doe_format).strftime(doe_format)
+
+            measurement_doc["cfu_data"] = cfu_data
 
             file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
             file_type = SampleConstants.infer_file_type(input_file)
