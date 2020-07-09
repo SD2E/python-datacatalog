@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200623T195219+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@cd512c3",
+    "$comment": "version: 2.2.0#master; generated: 20200709T155238+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5641260",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -117,6 +117,7 @@
         "Yeast-TetR-Characterization",
         "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves",
+        "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
         "YeastSTATES-Beta-Estradiol-OR-Gate-Plant-TF-Dose-Response",
@@ -264,6 +265,7 @@
         "Yeast-TetR-Characterization",
         "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves",
+        "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Aptamer-Based-Parts",
         "YeastSTATES-Beta-Estradiol-OR-Gate-Plant-TF-Dose-Response",
