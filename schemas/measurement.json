@@ -1,10 +1,44 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022108+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20200709T235223+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@46792e5",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "A measurement for a sample, including links to its output file(s)",
     "properties": {
+        "cfu_data": {
+            "additionalProperties": false,
+            "description": "Inlined CFU data",
+            "properties": {
+                "% Killed": {
+                    "type": "number"
+                },
+                "CFU": {
+                    "type": "integer"
+                },
+                "Date-of-experiment": {
+                    "format": "date",
+                    "type": "string"
+                },
+                "culture cells/ml": {
+                    "type": "integer"
+                },
+                "estimated cells plated": {
+                    "type": "integer"
+                },
+                "estimated cells/ml": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "% Killed",
+                "CFU",
+                "Date-of-experiment",
+                "culture cells/ml",
+                "estimated cells plated",
+                "estimated cells/ml"
+            ],
+            "type": "object"
+        },
         "channel": {
             "description": "For flow cytometry, the name of the channel used by this measurement",
             "type": "string"
