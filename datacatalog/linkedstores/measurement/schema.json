@@ -24,8 +24,7 @@
                     "type": "number"
                 },
                 "Date-of-experiment": {
-                    "type": "string",
-                    "format": "date"
+                    "type": "string"
                 }
             },
             "required": ["% Killed", "CFU", "Date-of-experiment", "culture cells/ml", "estimated cells plated", "estimated cells/ml"]
