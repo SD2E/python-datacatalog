@@ -21,9 +21,9 @@
                     1
                 ]
             },
-            "pipeline_id": "$pipeline_id",
-            "state": "$state",
-            "data": "$data",
+            "pipeline_id": "$observation.pipeline_id",
+            "state": "$observation.state",
+            "data": "$observation.data",
             "lab_label": "$file.lab_label",
             "lab_sample_id": {
                     "$arrayElemAt": [
