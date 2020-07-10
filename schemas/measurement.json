@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200709T235223+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@46792e5",
+    "$comment": "version: 2.2.0#master; generated: 20200710T025227+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@f5e3d36",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -16,7 +16,6 @@
                     "type": "integer"
                 },
                 "Date-of-experiment": {
-                    "format": "date",
                     "type": "string"
                 },
                 "culture cells/ml": {
