@@ -277,9 +277,8 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "Marshall"
     elif lab == SampleConstants.LAB_DUKE_HAASE:
-        # Use TX mappings for now
-        # Need to add Duke to SBH Dictionary
-        sbh_lab = SD2Constants.TRANSCRIPTIC
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "Duke"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
