@@ -22,46 +22,22 @@
                     },
                     {
                         "type": "string",
-                        "enum": ["treatment concentration"]
+                        "enum": ["treatment_concentration"]
                     },
                     {
                         "type": "string",
-                        "enum": ["treatment concentration unit"]
+                        "enum": ["treatment_concentration_unit"]
                     },
                     {
                         "type": "string",
-                        "enum": ["treatment time"]
+                        "enum": ["treatment_time"]
                     },
                     {
                         "type": "string",
-                        "enum": ["treatment time unit"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["CFU"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["culture cells/ml"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["estimated cells plated"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["estimated cells/ml"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["% Killed"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["Date-of-experiment"]
+                        "enum": ["treatment_time_unit"]
                     }
                 ],
-                "additionalItems": false
+                "additionalItems": true
             }]
         }
 
