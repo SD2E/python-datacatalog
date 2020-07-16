@@ -5,6 +5,8 @@ from ...tenancy import Projects
 class Duke_Haase(Converter):
 
     """Convert Duke run CSV to sample-set schema"""
+    VERSION = '0.0.1'
+    FILENAME = 'duke_samples'
 
     def convert(self, input_fp, output_fp=None, verbose=True, config={}, enforce_validation=True):
         """Do the conversion by running a method in runner.py"""
