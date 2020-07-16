@@ -11,19 +11,19 @@
                 "CFU": {
                     "type": "integer"
                 },
-                "culture cells/ml": {
+                "culture_cells/ml": {
                     "type": "integer"
                 },
-                "estimated cells plated": {
+                "estimated_cells_plated": {
                     "type": "integer"
                 },
-                "estimated cells/ml": {
+                "estimated_cells/ml": {
                     "type": "integer"
                 },
-                "% Killed": {
+                "percent_killed": {
                     "type": "number"
                 },
-                "Date-of-experiment": {
+                "date_of_experiment": {
                     "type": "string"
                 }
             },
