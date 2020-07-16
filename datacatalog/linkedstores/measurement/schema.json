@@ -27,7 +27,7 @@
                     "type": "string"
                 }
             },
-            "required": ["% Killed", "CFU", "Date-of-experiment", "culture cells/ml", "estimated cells plated", "estimated cells/ml"]
+            "required": ["percent_killed", "CFU", "date_of_experiment", "culture_cells/ml", "estimated_cells_plated", "estimated_cells/ml"]
         },
         "channel": {
             "description": "For flow cytometry, the name of the channel used by this measurement",
