@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200716T220304+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@dd071a8",
+    "$comment": "version: 2.2.0#master; generated: 20200716T221722+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@003d0a1",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -29,12 +29,8 @@
                 }
             },
             "required": [
-                "percent_killed",
-                "CFU",
                 "date_of_experiment",
-                "culture_cells/ml",
-                "estimated_cells_plated",
-                "estimated_cells/ml"
+                "culture_cells/ml"
             ],
             "type": "object"
         },
