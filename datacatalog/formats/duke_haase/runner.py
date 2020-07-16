@@ -38,45 +38,47 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     output_doc[SampleConstants.LAB] = lab
     output_doc[SampleConstants.SAMPLES] = []
 
-    # TODO - Duke adds this to lab trace
-    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1D9hXd5Hmeb75FGH0sGq93KjCOjHKD26x8HXluNJLII8"
-    map_experiment_reference(config, output_doc)
-
-    eid = "Duke_live-dead_CFUs"
-
-    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(eid, lab)
-
-    # TODO Duke adds this to lab trace
-    experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
-
     headers = None
-    sample_counter = 1
+    is_cfu = False
+    doe_format = "%Y%m%d"
+
     for row in input_fp_csvreader:
-        if row[0] == "Strain":
+        if row[0] == "strain":
             headers = row
+            if headers[7] == "CFU":
+                is_cfu = True
             continue
         else:
+
+            if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
+                if is_cfu:
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = row[11]
+                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[12], lab)
+                else:
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = row[10]
+                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[11], lab)
+
+                map_experiment_reference(config, output_doc)
+                experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
+
             sample_doc = {}
             contents = []
             strain = row[0]
             replicate = row[1]
             treatment = row[2]
 
-            # TODO - Duke provides unique aliquot
-            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_counter, lab, output_doc)
+            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(row[19], lab, output_doc)
+
+            if is_cfu:
+                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(row[13], lab, output_doc)
+            else:
+                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(row[12], lab, output_doc)
 
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(experiment_id, strain, strain, lab, sbh_query, strain=True)
 
             sample_doc[SampleConstants.REPLICATE] = int(replicate)
 
-            # Controls are specified in the trace
-            # TODO Rob add positive/negative
-            if treatment == "Control":
-                if strain != "NOR 00":
-                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-                else:
-                    sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-            else:
+            if len(treatment) > 0:
 
                 treatment_concentration = row[3]
                 treatment_concentration_unit = row[4]
@@ -88,12 +90,33 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
                 contents.append(contents_append_value)
 
+            # controls
+            if is_cfu:
+                strain_class = row[17]
+                control_type = row[18]
+            else:
+                strain_class = row[13]
+                control_type = row[14]
+            #
+            if strain_class == "Control" and control_type == "Negative":
+                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+
+            # Styox
+            if not is_cfu:
+                sytox = row[16]
+                if len(sytox) > 0:
+                    sytox = "sytox_" + sytox
+                    contents.append(create_media_component(experiment_id, sytox, sytox, lab, sbh_query, row[17] + ":" + row[18]))
+
             if len(contents) > 0:
                 sample_doc[SampleConstants.CONTENTS] = contents
 
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
-            measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_CFU
+            if is_cfu:
+                measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_CFU
+            else:
+                measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(SampleConstants.MT_CFU + "_1", lab, sample_doc, output_doc)
@@ -104,33 +127,46 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #estimated_cells_ml 1.22E+07
             #percent_killed 47.60%
             #date_of_experiment 6/10/20
-            doe_format = "%m/%d/%y"
             cfu_data = {}
-            cfu_data[headers[7]] = int(row[7])
-            cfu_data[headers[8]] = int(float(row[8]))
-            cfu_data[headers[9]] = int(row[9])
-            cfu_data[headers[10]] = int(float(row[10]))
-            cfu_data[headers[11]] = float(row[11][:-1])
-            cfu_data[headers[12]] = datetime.datetime.strptime(row[12], doe_format).strftime(doe_format)
+            if is_cfu:
+                cfu_data[headers[7]] = int(row[7])
+                cfu_data[headers[8]] = int(float(row[8]))
+                cfu_data[headers[14]] = int(row[14])
+                cfu_data[headers[15]] = int(float(row[15]))
+                cfu_data[headers[16]] = float(row[16][:-1])
+                cfu_data[headers[9]] = datetime.datetime.strptime(row[9], doe_format).strftime(doe_format)
+            else:
+                #culture_cells/ml
+                #date_of_experiment
+                cfu_data[headers[7]] = int(float(row[7]))
+                cfu_data[headers[8]] = datetime.datetime.strptime(row[8], doe_format).strftime(doe_format)
 
             measurement_doc["cfu_data"] = cfu_data
 
             file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
-            file_type = SampleConstants.infer_file_type(input_file)
-            measurement_doc[SampleConstants.FILES].append(
-                {SampleConstants.M_NAME: eid + ".csv",
-                 SampleConstants.M_TYPE: file_type,
-                 SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
-                 SampleConstants.FILE_ID: file_id,
-                 SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+            if is_cfu:
+                file_type = SampleConstants.infer_file_type(input_file)
+                measurement_doc[SampleConstants.FILES].append(
+                    {SampleConstants.M_NAME: experiment_id + "_cfu_and_meta.csv",
+                     SampleConstants.M_TYPE: file_type,
+                     SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                     SampleConstants.FILE_ID: file_id,
+                     SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
+            else:
+                filename = row[15]
+                file_type = SampleConstants.infer_file_type(filename)
+                measurement_doc[SampleConstants.FILES].append(
+                    {SampleConstants.M_NAME: filename,
+                     SampleConstants.M_TYPE: file_type,
+                     SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
+                     SampleConstants.FILE_ID: file_id,
+                     SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
 
             if SampleConstants.MEASUREMENTS not in sample_doc:
                 sample_doc[SampleConstants.MEASUREMENTS] = []
             sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
 
             output_doc[SampleConstants.SAMPLES].append(sample_doc)
-
-            sample_counter = sample_counter + 1
 
     try:
         validate(output_doc, schema)
