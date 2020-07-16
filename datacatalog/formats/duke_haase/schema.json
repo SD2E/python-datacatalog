@@ -37,7 +37,7 @@
                         "enum": ["treatment_time_unit"]
                     }
                 ],
-                "additionalItems": true
+                "additionalItems": false
             }]
         }
 

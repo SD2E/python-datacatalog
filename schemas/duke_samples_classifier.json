@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200716T201402+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@2214135",
+    "$comment": "version: 2.2.0#master; generated: 20200716T202240+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@713e86f",
     "$id": "https://schema.catalog.sd2e.org/schemas/duke_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -8,7 +8,7 @@
         "headers": {
             "oneOf": [
                 {
-                    "additionalItems": true,
+                    "additionalItems": false,
                     "items": [
                         {
                             "enum": [
