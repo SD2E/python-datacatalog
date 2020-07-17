@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Duke XLSX Headers Schema",
+    "$comment": "",
+    "type": "object",
+    "properties": {
+        "xlsx": true,
+        "headers": {
+            "oneOf": [{
+                "type": "array",
+                "items": [{
+                        "type": "string",
+                        "enum": ["Kit"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["SOP"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Order #"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["RIN"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Sample Name"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["customer label"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Viral Load (RNA cp/mL)"]
+                    }
+                ],
+                "additionalItems": false
+            }]
+        }
+
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "additionalProperties": false
+}
