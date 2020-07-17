@@ -2,6 +2,8 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "Duke-RNASeq-Validation",
+    "Unknown",
     "Copy-of-NovelChassisYeastStates-TimeSeries",
     "NovelChassis-Bacillus-LandingPads",
     "NovelChassis-Bacillus-WT",
@@ -52,7 +54,6 @@
     "Tight-cycle-DNASeq-Learn-Bacillus",
     "YeastStates-TimeSeries-LowThroughput",
     "YeastStates-TimeSeries-Merged",
-    "Unknown",
     "DB-Test",
     "Default-Parameters-Table",
     "IntentParserCopy-of-DB-Test",

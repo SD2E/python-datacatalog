@@ -1,10 +1,12 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200715T195226+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@2dda3f1",
+    "$comment": "version: 2.2.0#master; generated: 20200717T021602+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@b34d313",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "Duke-RNASeq-Validation",
+        "Unknown",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
         "NovelChassis-Bacillus-WT",
@@ -55,7 +57,6 @@
         "Tight-cycle-DNASeq-Learn-Bacillus",
         "YeastStates-TimeSeries-LowThroughput",
         "YeastStates-TimeSeries-Merged",
-        "Unknown",
         "DB-Test",
         "Default-Parameters-Table",
         "IntentParserCopy-of-DB-Test",
@@ -154,6 +155,8 @@
         "Riboswitches"
     ],
     "examples": [
+        "Duke-RNASeq-Validation",
+        "Unknown",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "NovelChassis-Bacillus-LandingPads",
         "NovelChassis-Bacillus-WT",
@@ -204,7 +207,6 @@
         "Tight-cycle-DNASeq-Learn-Bacillus",
         "YeastStates-TimeSeries-LowThroughput",
         "YeastStates-TimeSeries-Merged",
-        "Unknown",
         "DB-Test",
         "Default-Parameters-Table",
         "IntentParserCopy-of-DB-Test",
