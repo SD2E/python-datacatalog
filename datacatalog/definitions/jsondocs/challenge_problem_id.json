@@ -2,6 +2,7 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
+    "DUKE_VALIDATION",
     "NOVEL_CHASSIS",
     "INTENT_PARSER_TEST",
     "MOSQUITO_RELATEDNESS_INFERENCE",
