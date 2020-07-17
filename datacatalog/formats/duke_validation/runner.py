@@ -47,6 +47,9 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
 
     index_adjustment = 0 
 
+    # Hasse validation specific RNASeq metadata
+    validation_keys = ["Viral Load (RNA cp/mL)", "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
+
     for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
 
         # TODO add reference/url, challenge problem, and EID to Duke Validation trace
@@ -81,6 +84,13 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_RNA_SEQ
         measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
         measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(SampleConstants.MT_RNA_SEQ + "_1", lab, sample_doc, output_doc)
+
+        validation_metadata = {}
+        for validation_key in validation_keys:
+            validation_value = duke_validation_sample[validation_key]
+            validation_metadata[validation_key] = validation_value
+        measurement_doc["haase_validation_rnaseq_metadata"] = validation_metadata
+
         file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
 
         #FASTQ files are named with the sample name and the sample number, 
