@@ -42,6 +42,52 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     is_cfu = False
     doe_format = "%Y%m%d"
 
+    # This converter reads both CFU and FCS formatted metadata from Duke. They have different sets of fields
+    # We key on the presence of a CFU column to determine which we are parsing
+    # CFU Fields
+    # 0 strain
+    # 1 replicate
+    # 2 treatment
+    # 3 treatment_concentration
+    # 4 treatment_concentration_unit
+    # 5 treatment_time
+    # 6 treatment_time_unit
+    # 7 CFU
+    # 8 culture_cells/ml
+    # 9 date_of_experiment
+    # 10 experiment_reference_url
+    # 11 experiment_reference
+    # 12 experiment_id
+    # 13 parent_id
+    # 14 estimated_cells_plated
+    # 15 estimated_cells/ml
+    # 16 percent_killed
+    # 17 strain_class
+    # 18 control_type
+    # 19 sample_id
+    #
+    # FCS Fields
+    # 0 strain
+    # 1 replicate
+    # 2 treatment
+    # 3 treatment_concentration
+    # 4 treatment_concentration_unit
+    # 5 treatment_time
+    # 6 treatment_time_unit
+    # 7 culture_cells/ml
+    # 8 date_of_experiment
+    # 9 experiment_reference_url
+    # 10 experiment_reference
+    # 11 experiment_id
+    # 12 parent_id
+    # 13 strain_class
+    # 14 control_type
+    # 15 fcs_filename
+    # 16 sytox_color
+    # 17 sytox_concentration
+    # 18 sytox_concentration_unit
+    # 19 sample_id
+
     for row in input_fp_csvreader:
         if row[0] == "strain":
             headers = row
