@@ -64,6 +64,10 @@
             "description": "Ginkgo specific RNASeq properties object",
             "type": "object"
         },
+        "haase_validation_rnaseq_metadata": {
+            "description": "Haase Lab specific RNASeq validation properties object",
+            "type": "object"
+        },
         "reference_sequence": {
             "description": "Path to a FASTA/GFF without the extension, ex. agave://data-sd2e-community/reference/novel-chassis/MG1655 where the references are named MG1655.fa and MG1655.gff",
             "$ref": "agave_files_uri.json"

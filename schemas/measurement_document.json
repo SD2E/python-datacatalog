@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200716T221722+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@003d0a1",
+    "$comment": "version: 2.2.0#master; generated: 20200717T184747+00:00",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -90,6 +90,10 @@
         },
         "ginkgo_rnaseq_metadata": {
             "description": "Ginkgo specific RNASeq properties object",
+            "type": "object"
+        },
+        "haase_validation_rnaseq_metadata": {
+            "description": "Haase Lab specific RNASeq validation properties object",
             "type": "object"
         },
         "instrument_configuration": {
