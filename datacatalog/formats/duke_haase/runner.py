@@ -165,7 +165,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
-            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(SampleConstants.MT_CFU + "_1", lab, sample_doc, output_doc)
+            measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_doc[SampleConstants.MEASUREMENT_TYPE] + "_1", lab, sample_doc, output_doc)
 
             #CFU 305
             #culture_cells_ml 2.33E+07
