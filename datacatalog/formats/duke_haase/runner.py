@@ -98,10 +98,10 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
                 if is_cfu:
-                    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = row[11]
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[10]
                     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[12], lab)
                 else:
-                    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = row[10]
+                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[9]
                     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[11], lab)
 
                 map_experiment_reference(config, output_doc)
