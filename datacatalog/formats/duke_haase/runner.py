@@ -124,6 +124,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             sample_doc[SampleConstants.REPLICATE] = int(replicate)
 
+            m_time = None
+
             if len(treatment) > 0:
 
                 treatment_concentration = row[3]
@@ -131,10 +133,17 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 treatment_time = row[5]
                 treatment_time_unit = row[6]
 
-                contents_append_value = create_media_component(experiment_id, treatment, treatment, lab, sbh_query, treatment_concentration + ":" + treatment_concentration_unit)
-                contents_append_value[SampleConstants.TIMEPOINT] = { SampleConstants.VALUE : int(treatment_time), SampleConstants.UNIT : treatment_time_unit }
+                if treatment == "heat":
+                    if treatment_concentration_unit == "C":
+                        sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(treatment_concentration+":celsius")
+                        m_time = create_value_unit(treatment_time + ":" + treatment_time_unit)
+                    else:
+                        raise ValueError("Unknown temperature {}".format(treatment_concentration_unit))
+                else:
+                    contents_append_value = create_media_component(experiment_id, treatment, treatment, lab, sbh_query, treatment_concentration + ":" + treatment_concentration_unit)
+                    contents_append_value[SampleConstants.TIMEPOINT] = { SampleConstants.VALUE : int(treatment_time), SampleConstants.UNIT : treatment_time_unit }
 
-                contents.append(contents_append_value)
+                    contents.append(contents_append_value)
 
             # controls
             if is_cfu:
@@ -167,6 +176,9 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_doc[SampleConstants.MEASUREMENT_TYPE] + "_1", lab, sample_doc, output_doc)
 
+            if m_time is not None:
+                measurement_doc[SampleConstants.TIMEPOINT] = m_time
+
             #CFU 305
             #culture_cells_ml 2.33E+07
             #estimated_cells_plated 583
@@ -175,7 +187,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #date_of_experiment 6/10/20
             cfu_data = {}
             if is_cfu:
-                cfu_data[headers[7]] = int(row[7])
+                cfu_data[headers[7]] = int(float(row[7]))
                 cfu_data[headers[8]] = int(float(row[8]))
                 cfu_data[headers[14]] = int(row[14])
                 cfu_data[headers[15]] = int(float(row[15]))
