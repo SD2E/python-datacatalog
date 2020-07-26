@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200723T185202+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@6e40052",
+    "$comment": "version: 2.2.0#master; generated: 20200726T165159+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3a63e31",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -109,6 +109,7 @@
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
+        "Duke-YeastSTATES-Time-Series-CFU-LiveDeadClassification",
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
         "Ginkgo-UWBioFab-Binder",
@@ -259,6 +260,7 @@
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
+        "Duke-YeastSTATES-Time-Series-CFU-LiveDeadClassification",
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
         "Ginkgo-UWBioFab-Binder",
