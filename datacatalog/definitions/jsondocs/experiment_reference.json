@@ -106,6 +106,7 @@
     "Automated-High-Throughput-Hysteresis-Characterization",
     "Yeast-Gates",
     "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
+    "Duke-YeastSTATES-Time-Series-CFU-LiveDeadClassification",
     "Engineered-CEN-PK2-DNASeq",
     "ERtoStrateosMappings",
     "Ginkgo-UWBioFab-Binder",
