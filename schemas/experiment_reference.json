@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200729T175202+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1d87193",
+    "$comment": "version: 2.2.0#master; generated: 20200729T215207+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@8312cc7",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -79,6 +79,7 @@
         "IntentParserCopy-of-YeastSTATES-CRISPR-Long-Duration-Time-Series-20191208",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Short-Duration-Time-Series-20191208",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Short-Duration-Time-Series-20191213",
+        "Issue-143-Hour",
         "Nick-Copy-of-NovelChassis-Bacillus-WT",
         "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
@@ -234,6 +235,7 @@
         "IntentParserCopy-of-YeastSTATES-CRISPR-Long-Duration-Time-Series-20191208",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Short-Duration-Time-Series-20191208",
         "IntentParserCopy-of-YeastSTATES-CRISPR-Short-Duration-Time-Series-20191213",
+        "Issue-143-Hour",
         "Nick-Copy-of-NovelChassis-Bacillus-WT",
         "Nick-Copy-of-NovelChassis-NAND2-0-Omics",
         "Nick-Copy-of-NovelChassis-NAND2-0-Parts-Verification",
