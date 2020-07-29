@@ -1,10 +1,11 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200729T115158+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@9679612",
+    "$comment": "version: 2.2.0#master; generated: 20200729T175202+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1d87193",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "DNA-RNASeq-Validation-Replicates",
         "Duke-RNASeq-Validation",
         "Unknown",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
@@ -159,6 +160,7 @@
         "Riboswitches"
     ],
     "examples": [
+        "DNA-RNASeq-Validation-Replicates",
         "Duke-RNASeq-Validation",
         "Unknown",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
