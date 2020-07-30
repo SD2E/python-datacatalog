@@ -65,6 +65,7 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         sample_doc = {}
    
         sample_well = duke_validation_sample["Sample Name"]
+        sample_well_bak = sample_well
         if isinstance(sample_well, float) and math.isnan(sample_well):
             continue
 
@@ -80,6 +81,7 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         if isinstance(sample_well, str) and "-" in sample_well:
             well_split = sample_well.split("-")
             try:
+                sample_well = sample_well.replace("-","_")
                 replicate = int(well_split[-1])
             except ValueError:
                 # e.g. DHVI-PosA
@@ -110,7 +112,7 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         # sample ID first appeared in a given lane. Example:
         #<SampleName>_S1_L001_R1_001.fastq.gz\
         #A1_S1_R1_001.fastq.gz
-        filename = sample_well + "_S" + str((int(duke_validation_index) + 1 + index_adjustment)) + "_R1_001.fastq.gz"
+        filename = sample_well_bak + "_S" + str((int(duke_validation_index) + 1 + index_adjustment)) + "_R1_001.fastq.gz"
 
         file_type = SampleConstants.infer_file_type(filename)
         measurement_doc[SampleConstants.FILES].append(
