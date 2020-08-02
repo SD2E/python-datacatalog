@@ -141,7 +141,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                         raise ValueError("Unknown temperature {}".format(treatment_concentration_unit))
                 else:
                     contents_append_value = create_media_component(experiment_id, treatment, treatment, lab, sbh_query, treatment_concentration + ":" + treatment_concentration_unit)
-                    contents_append_value[SampleConstants.TIMEPOINT] = { SampleConstants.VALUE : int(treatment_time), SampleConstants.UNIT : treatment_time_unit }
+                    contents_append_value[SampleConstants.TIMEPOINT] = { SampleConstants.VALUE : int(float(treatment_time)), SampleConstants.UNIT : treatment_time_unit }
 
                     contents.append(contents_append_value)
 
