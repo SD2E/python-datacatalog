@@ -143,7 +143,13 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             treatment_time = row[5]
             treatment_time_unit = row[6]
-            m_time = create_value_unit(treatment_time + ":" + treatment_time_unit)
+
+            # normalize to hours
+            if treatment_time_unit in ["minute", "minutes"]:
+                treatment_time = float(treatment_time)/60.0
+                treatment_time_unit = "hour"
+
+            m_time = create_value_unit(str(treatment_time) + ":" + treatment_time_unit)
 
             # controls
             if is_cfu:
