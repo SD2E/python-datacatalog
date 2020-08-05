@@ -96,13 +96,14 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             continue
         else:
 
+            # Lookup experiment id, separate by measurement type
             if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
                 if is_cfu:
                     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[10]
-                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[12], lab)
+                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[12]+"_"+SampleConstants.MT_CFU, lab)
                 else:
                     output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[9]
-                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[11], lab)
+                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[11]+"_"+SampleConstants.MT_FLOW, lab)
 
                 map_experiment_reference(config, output_doc)
                 experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
@@ -130,20 +131,19 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
                 treatment_concentration = row[3]
                 treatment_concentration_unit = row[4]
-                treatment_time = row[5]
-                treatment_time_unit = row[6]
 
                 if treatment == "heat":
                     if treatment_concentration_unit == "C":
                         sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(treatment_concentration+":celsius")
-                        m_time = create_value_unit(treatment_time + ":" + treatment_time_unit)
                     else:
                         raise ValueError("Unknown temperature {}".format(treatment_concentration_unit))
                 else:
                     contents_append_value = create_media_component(experiment_id, treatment, treatment, lab, sbh_query, treatment_concentration + ":" + treatment_concentration_unit)
-                    contents_append_value[SampleConstants.TIMEPOINT] = { SampleConstants.VALUE : int(float(treatment_time)), SampleConstants.UNIT : treatment_time_unit }
-
                     contents.append(contents_append_value)
+
+            treatment_time = row[5]
+            treatment_time_unit = row[6]
+            m_time = create_value_unit(treatment_time + ":" + treatment_time_unit)
 
             # controls
             if is_cfu:
@@ -160,11 +160,26 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             if not is_cfu:
                 sytox = row[16]
                 if len(sytox) > 0:
-                    sytox = "sytox_" + sytox
-                    contents.append(create_media_component(experiment_id, sytox, sytox, lab, sbh_query, row[17] + ":" + row[18]))
+                    # concentration
+                    contents.append(create_media_component(experiment_id, "Sytox", "Sytox", lab, sbh_query, row[17] + ":" + row[18]))
+
+                    #color
+                    sytox_color_content = create_media_component(experiment_id, "Sytox_color", "Sytox_color", lab, sbh_query)
+                    sytox_color_content["value"] = sytox
+                    contents.append(sytox_color_content)
+
+            # Default Media
+            yepd_media = create_media_component(experiment_id, "Media", "Media", lab, sbh_query)
+            yepd_media["value"] = "YEPD"
+            contents.append(yepd_media)
 
             if len(contents) > 0:
                 sample_doc[SampleConstants.CONTENTS] = contents
+
+
+            if not SampleConstants.TEMPERATURE in sample_doc:
+                # default if not specified
+                sample_doc[SampleConstants.TEMPERATURE] = create_value_unit("22:celsius")
 
             measurement_doc = {}
             measurement_doc[SampleConstants.FILES] = []
