@@ -76,11 +76,18 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         elif isinstance(sample_well, float):
             sample_well = duke_validation_sample["Sample Name"]
 
-        print(sample_well)
-
         sample_well_bak = sample_well
+
         if isinstance(sample_well, float) and math.isnan(sample_well):
             continue
+
+        # clean up spaces in sample names
+        if " " in sample_well:
+            sample_well = sample_well.replace(" ", "_")
+
+        # clean up spaces in filenames
+        if " " in sample_well_bak:
+            sample_well_bak = sample_well_bak.replace(" ", "-")
 
         lib_size = duke_validation_sample["Index"]
         if isinstance(lib_size, float) and math.isnan(lib_size):
