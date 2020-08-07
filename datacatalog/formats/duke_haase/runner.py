@@ -19,6 +19,253 @@ from ..common import namespace_field_id, namespace_file_id, namespace_sample_id,
 
 def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
+    duke_cytometer_configuration = """{
+        "channels": [{
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "FSC-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "SSC-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 530,
+                    "type": "bandpass",
+                    "width": 30
+                },
+                "excitation_wavelength": 488,
+                "name": "BL1-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 590,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL2-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL3-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 780,
+                    "type": "bandpass",
+                    "width": 60
+                },
+                "excitation_wavelength": 561,
+                "name": "YL4-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 561,
+                "name": "YL3-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 620,
+                    "type": "bandpass",
+                    "width": 15
+                },
+                "excitation_wavelength": 561,
+                "name": "YL2-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 585,
+                    "type": "bandpass",
+                    "width": 16
+                },
+                "excitation_wavelength": 561,
+                "name": "YL1-A"
+            },
+            {
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "FSC-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "SSC-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 530,
+                    "type": "bandpass",
+                    "width": 30
+                },
+                "excitation_wavelength": 488,
+                "name": "BL1-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 590,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL2-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL3-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 780,
+                    "type": "bandpass",
+                    "width": 60
+                },
+                "excitation_wavelength": 561,
+                "name": "YL4-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 561,
+                "name": "YL3-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 620,
+                    "type": "bandpass",
+                    "width": 15
+                },
+                "excitation_wavelength": 561,
+                "name": "YL2-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 585,
+                    "type": "bandpass",
+                    "width": 16
+                },
+                "excitation_wavelength": 561,
+                "name": "YL1-H"
+            },
+            {
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "FSC-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 488,
+                    "type": "bandpass",
+                    "width": 10
+                },
+                "excitation_wavelength": 488,
+                "name": "SSC-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 530,
+                    "type": "bandpass",
+                    "width": 30
+                },
+                "excitation_wavelength": 488,
+                "name": "BL1-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 590,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL2-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 488,
+                "name": "BL3-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 780,
+                    "type": "bandpass",
+                    "width": 60
+                },
+                "excitation_wavelength": 561,
+                "name": "YL4-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 695,
+                    "type": "bandpass",
+                    "width": 40
+                },
+                "excitation_wavelength": 561,
+                "name": "YL3-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 620,
+                    "type": "bandpass",
+                    "width": 15
+                },
+                "excitation_wavelength": 561,
+                "name": "YL2-W"
+            },
+            {
+                "emission_filter": {
+                    "center": 585,
+                    "type": "bandpass",
+                    "width": 16
+                },
+                "excitation_wavelength": 561,
+                "name": "YL1-W"
+            }
+        ]
+    }"""
+
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
         print("Helper loaded")
@@ -193,6 +440,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_CFU
             else:
                 measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+                # add default duke cytometer configuration
+                output_doc[SampleConstants.CYTOMETER_CONFIG] = json.loads(duke_cytometer_configuration)
 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_doc[SampleConstants.MEASUREMENT_TYPE] + "_1", lab, sample_doc, output_doc)
