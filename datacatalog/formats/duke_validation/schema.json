@@ -31,10 +31,6 @@
                     {
                         "type": "string",
                         "enum": ["customer label"]
-                    },
-                    {
-                        "type": "string",
-                        "enum": ["Viral Load (RNA cp/mL)"]
                     }
                 ],
                 "additionalItems": false
