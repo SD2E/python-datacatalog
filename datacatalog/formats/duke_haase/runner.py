@@ -266,6 +266,13 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
         ]
     }"""
 
+    duke_cytometer_configuration_object = json.loads(duke_cytometer_configuration)
+
+    cytometer_channels = []
+    for channel in duke_cytometer_configuration_object['channels']:
+        if channel['name'].endswith("-A"):
+            cytometer_channels.append(channel['name'])
+
     if reactor is not None:
         helper = AgaveHelper(reactor.client)
         print("Helper loaded")
@@ -440,8 +447,10 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_CFU
             else:
                 measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
+                measurement_doc[SampleConstants.M_CHANNELS] = cytometer_channels
                 # add default duke cytometer configuration
-                output_doc[SampleConstants.CYTOMETER_CONFIG] = json.loads(duke_cytometer_configuration)
+                if SampleConstants.CYTOMETER_CONFIG not in output_doc:
+                    output_doc[SampleConstants.CYTOMETER_CONFIG] = duke_cytometer_configuration_object
 
             measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id(1, lab, sample_doc, output_doc)
             measurement_doc[SampleConstants.MEASUREMENT_GROUP_ID] = namespace_measurement_id(measurement_doc[SampleConstants.MEASUREMENT_TYPE] + "_1", lab, sample_doc, output_doc)
