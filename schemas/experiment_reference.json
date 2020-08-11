@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200811T165156+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b653082",
+    "$comment": "version: 2.2.0#master; generated: 20200811T175204+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@54ff115",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -9,6 +9,7 @@
         "DNA-RNASeq-Validation-Replicates",
         "Duke-RNASeq-Validation",
         "Unknown",
+        "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-TimeSeriesTitration-Strateos",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "Copy-of-NovelChassisYeastStates-TimeSeries-21",
         "NovelChassis-Bacillus-LandingPads",
@@ -169,6 +170,7 @@
         "DNA-RNASeq-Validation-Replicates",
         "Duke-RNASeq-Validation",
         "Unknown",
+        "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-TimeSeriesTitration-Strateos",
         "Copy-of-NovelChassisYeastStates-TimeSeries",
         "Copy-of-NovelChassisYeastStates-TimeSeries-21",
         "NovelChassis-Bacillus-LandingPads",
