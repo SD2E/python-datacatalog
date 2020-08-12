@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200811T175204+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@54ff115",
+    "$comment": "version: 2.2.0#master; generated: 20200812T225214+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b346351",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -26,6 +26,7 @@
         "NovelChassisYeastStates-TimeSeries",
         "Pseudomonas-putida-public-data-analysis",
         "Pseudomonas-putida-public-data-analysis-1",
+        "bacillus-endogenous-circuit-promoter",
         "NovelChassis-OR-Circuit-Cycle0",
         "NovelChassis-OR-Circuit-Cycle0-24hour",
         "NovelChassis-OR-Circuit-Cycle0-8hour",
@@ -187,6 +188,7 @@
         "NovelChassisYeastStates-TimeSeries",
         "Pseudomonas-putida-public-data-analysis",
         "Pseudomonas-putida-public-data-analysis-1",
+        "bacillus-endogenous-circuit-promoter",
         "NovelChassis-OR-Circuit-Cycle0",
         "NovelChassis-OR-Circuit-Cycle0-24hour",
         "NovelChassis-OR-Circuit-Cycle0-8hour",
