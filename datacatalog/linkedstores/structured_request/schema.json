@@ -310,6 +310,8 @@
             },
             {
               "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
             }]
           },
           "minItems": 1,
@@ -495,6 +497,8 @@
             },
             {
               "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
             }]
           },
           "minItems": 1,

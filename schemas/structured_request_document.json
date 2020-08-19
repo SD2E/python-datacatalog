@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200603T155246+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4bf9490",
+    "$comment": "version: 2.2.0#master; generated: 20200819T190343+00:00",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -193,6 +193,9 @@
                             },
                             {
                                 "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/mapped_name.json"
                             }
                         ]
                     },
@@ -441,6 +444,9 @@
                             },
                             {
                                 "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/mapped_name.json"
                             }
                         ]
                     },
