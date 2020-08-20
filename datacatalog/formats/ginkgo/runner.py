@@ -117,6 +117,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
     props_attr = "properties"
     dropout_attr = "SD2_dropout_type"
+    diluted_prop = "SD2_diluted_measurement"
 
     # default values for FCS support; replace with trace information as available
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
@@ -315,6 +316,11 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
+        # parse diluted
+        if diluted_prop in props:
+            diluted_val = props[diluted_prop].split("x")[0]
+            contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), "Diluted", "Diluted", lab, sbh_query, diluted_val + ":X"))
 
         if parent_props is not None:
             temperature = parse_temperature(parent_props)
