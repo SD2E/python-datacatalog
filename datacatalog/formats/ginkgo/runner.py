@@ -103,8 +103,11 @@ def parse_contents(sample, output_doc, lab, sbh_query):
                 if concentration_prop in reagent:
                     contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
                 else:
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
-
+                    mapped_media_component = create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query)
+                    # record presence/non-presence
+                    if mapped_media_component[SampleConstants.NAME][SampleConstants.LABEL] == "RNA Later":
+                        mapped_media_component[SampleConstants.VALUE] = "Y"
+                    contents.append(mapped_media_component)
     return contents
 
 def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
