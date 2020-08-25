@@ -19,6 +19,9 @@ from ..common import namespace_field_id, namespace_file_id, namespace_sample_id,
 
 def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
+    DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
+    DEFAULT_BEAD_BATCH = "AJ02"
+
     duke_cytometer_configuration = """{
         "channels": [{
                 "emission_filter": {
@@ -415,6 +418,12 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #
             if strain_class == "Control" and control_type == "Negative":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+            if strain_class == "Process" and control_type == SampleConstants.STANDARD_BEAD_FLUORESCENCE:
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_FLUORESCENCE
+                sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
+                sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
+                sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
 
             # Styox
             if not is_cfu:
@@ -466,7 +475,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #date_of_experiment 6/10/20
             cfu_data = {}
             if is_cfu:
-                cfu_data[headers[7]] = int(float(row[7]))
+                if len(row[7]) > 0:
+                    cfu_data[headers[7]] = int(float(row[7]))
                 cfu_data[headers[8]] = int(float(row[8]))
                 cfu_data[headers[14]] = int(row[14])
                 cfu_data[headers[15]] = int(float(row[15]))
@@ -475,7 +485,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             else:
                 #culture_cells/ml
                 #date_of_experiment
-                cfu_data[headers[7]] = int(float(row[7]))
+                if len(row[7]) > 0:
+                    cfu_data[headers[7]] = int(float(row[7]))
                 cfu_data[headers[8]] = datetime.datetime.strptime(row[8], doe_format).strftime(doe_format)
 
             measurement_doc["cfu_data"] = cfu_data
