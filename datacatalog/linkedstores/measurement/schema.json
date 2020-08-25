@@ -27,7 +27,7 @@
                     "type": "string"
                 }
             },
-            "required": ["date_of_experiment", "culture_cells/ml"]
+            "required": ["date_of_experiment"]
         },
         "channel": {
             "description": "For flow cytometry, the name of the channel used by this measurement",
