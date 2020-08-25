@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200717T184747+00:00",
+    "$comment": "version: 2.2.0#master; generated: 20200825T032142+00:00",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -29,8 +29,7 @@
                 }
             },
             "required": [
-                "date_of_experiment",
-                "culture_cells/ml"
+                "date_of_experiment"
             ],
             "type": "object"
         },
