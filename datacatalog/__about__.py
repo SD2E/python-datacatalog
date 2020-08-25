@@ -27,7 +27,7 @@ __title__ = 'datacatalog'
 __project__ = 'SD2 Data Catalog'
 __summary__ = 'Schema, business logic, and management of {}'.format(__project__)
 __uri__ = 'https://github.com/SD2E/python-datacatalog'
-__version__ = '0.2.5'
+__version__ = '0.2.6'
 __sub_version__ = '-dev'
 
 if base_dir is not None and os.path.exists(os.path.join(base_dir, ".commit")):
