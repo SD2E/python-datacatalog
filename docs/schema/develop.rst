@@ -30,3 +30,4 @@ JSON schema are listed here in order of increasing technical complexity.
    add_composition
    add_view
    add_linkedstore
+   add_typeduuid

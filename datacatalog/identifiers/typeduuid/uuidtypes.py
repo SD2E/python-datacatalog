@@ -1,5 +1,8 @@
+"""Defines enumerated set of Typed UUIDs
+"""
 from ..schemas import JSONSchemaBaseObject, JSONSchemaCollection
 
+# (URL-safe name, 3 digit identifier, comment/annotation)
 UUIDTYPES = [('generic', '100', 'Generic Data Catalog Record'),
              ('challenge_problem', '101', 'Challenge Problem'),
              ('experiment_design', '114', 'Experiment Design or Request'),

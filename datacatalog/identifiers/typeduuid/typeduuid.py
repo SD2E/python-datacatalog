@@ -1,3 +1,5 @@
+"""Implements TypedUUID
+"""
 import base64
 import bson
 import uuid
