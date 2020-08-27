@@ -1,10 +1,10 @@
-from ..jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
-from ..utils import dynamic_import
+"""Generates JSONschemas for the parent submodule
+"""
+from ...jsonschemas import JSONSchemaBaseObject, JSONSchemaCollection
+from ...utils import dynamic_import
+from ..schemas import IdentifierSchema
 
-MODULES = ('agave', 'abaco', 'interestinganimal', 'typeduuid')
-
-class IdentifierSchema(JSONSchemaBaseObject):
-    pass
+MODULES = ['interestinganimal']
 
 def get_schemas():
     """Discovery and return known JSON schemas
@@ -14,7 +14,7 @@ def get_schemas():
     """
     schemata = JSONSchemaCollection(dict())
     for pkg in MODULES:
-        m = dynamic_import('.' + pkg, package='datacatalog.identifiers')
+        m = dynamic_import('.' + pkg, package='datacatalog.identifiers.interestinganimal')
         package_schemas = m.get_schemas()
         schemata = {**schemata, **package_schemas}
     return JSONSchemaCollection(schemata)
