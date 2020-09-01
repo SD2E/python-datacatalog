@@ -11,7 +11,7 @@ import xlrd
 import inflection
 
 from jsonschema import validate, ValidationError
-from sbol import *
+from sbol2 import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 
