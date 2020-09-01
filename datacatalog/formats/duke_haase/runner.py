@@ -345,38 +345,43 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
     # 18 sytox_concentration_unit
     # 19 sample_id
 
+    header_map = {}
+
     for row in input_fp_csvreader:
         if row[0] == "strain":
             headers = row
-            if headers[7] == "CFU":
+
+            for header_index, header in enumerate(headers):
+                header_map[header] = header_index
+
+            if "CFU" in header_map:
                 is_cfu = True
             continue
         else:
 
             # Lookup experiment id, separate by measurement type
             if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
+
                 if is_cfu:
-                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[10]
-                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[12]+"_"+SampleConstants.MT_CFU, lab)
+                    mt = SampleConstants.MT_CFU
                 else:
-                    output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[9]
-                    output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[11]+"_"+SampleConstants.MT_FLOW, lab)
+                    mt = SampleConstants.MT_FLOW
+
+                output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[header_map["experiment_reference_url"]]
+                output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[header_map["experiment_id"]]+"_"+mt, lab)
 
                 map_experiment_reference(config, output_doc)
                 experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
 
             sample_doc = {}
             contents = []
-            strain = row[0]
-            replicate = row[1]
-            treatment = row[2]
+            strain = row[header_map["strain"]]
+            replicate = row[header_map["replicate"]]
+            treatment = row[header_map["treatment"]]
 
-            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(row[19], lab, output_doc)
+            sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(row[header_map["sample_id"]], lab, output_doc)
 
-            if is_cfu:
-                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(row[13], lab, output_doc)
-            else:
-                sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(row[12], lab, output_doc)
+            sample_doc[SampleConstants.REFERENCE_SAMPLE_ID] = namespace_sample_id(row[header_map["parent_id"]], lab, output_doc)
 
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(experiment_id, strain, strain, lab, sbh_query, strain=True)
 
@@ -386,8 +391,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             if len(treatment) > 0:
 
-                treatment_concentration = row[3]
-                treatment_concentration_unit = row[4]
+                treatment_concentration = row[header_map["treatment_concentration"]]
+                treatment_concentration_unit = row[header_map["treatment_concentration_unit"]]
 
                 if treatment == "heat":
                     if treatment_concentration_unit == "C":
@@ -398,8 +403,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                     contents_append_value = create_media_component(experiment_id, treatment, treatment, lab, sbh_query, treatment_concentration + ":" + treatment_concentration_unit)
                     contents.append(contents_append_value)
 
-            treatment_time = row[5]
-            treatment_time_unit = row[6]
+            treatment_time = row[header_map["treatment_time"]]
+            treatment_time_unit = row[header_map["treatment_time_unit"]]
 
             # normalize to hours
             if treatment_time_unit in ["minute", "minutes"]:
@@ -410,13 +415,9 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 m_time = create_value_unit(str(treatment_time) + ":" + treatment_time_unit)
 
             # controls
-            if is_cfu:
-                strain_class = row[17]
-                control_type = row[18]
-            else:
-                strain_class = row[13]
-                control_type = row[14]
-            #
+            strain_class = row[header_map["strain_class"]]
+            control_type = row[header_map["control_type"]]
+
             if strain_class == "Control" and control_type == "Negative":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
             if strain_class == "Process" and control_type == SampleConstants.STANDARD_BEAD_FLUORESCENCE:
@@ -425,17 +426,16 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
                 sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
-
             # Styox
             if not is_cfu:
-                sytox = row[16]
-                if len(sytox) > 0:
+                sytox_color = row[header_map["sytox_color"]]
+                if len(sytox_color) > 0:
                     # concentration
-                    contents.append(create_media_component(experiment_id, "Sytox", "Sytox", lab, sbh_query, row[17] + ":" + row[18]))
+                    contents.append(create_media_component(experiment_id, "Sytox", "Sytox", lab, sbh_query, row[header_map["sytox_concentration"]] + ":" + row[header_map["sytox_concentration_unit"]]))
 
                     #color
                     sytox_color_content = create_media_component(experiment_id, "Sytox_color", "Sytox_color", lab, sbh_query)
-                    sytox_color_content["value"] = sytox
+                    sytox_color_content["value"] = sytox_color
                     contents.append(sytox_color_content)
 
             # Default Media
@@ -471,24 +471,24 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #CFU 305
             #culture_cells_ml 2.33E+07
             #estimated_cells_plated 583
-            #estimated_cells_ml 1.22E+07
+            #estimated_cells/ml 1.22E+07
             #percent_killed 47.60%
             #date_of_experiment 6/10/20
             cfu_data = {}
             if is_cfu:
-                if len(row[7]) > 0:
-                    cfu_data[headers[7]] = int(float(row[7]))
-                cfu_data[headers[8]] = int(float(row[8]))
-                cfu_data[headers[14]] = int(row[14])
-                cfu_data[headers[15]] = int(float(row[15]))
-                cfu_data[headers[16]] = float(row[16][:-1])
-                cfu_data[headers[9]] = datetime.datetime.strptime(row[9], doe_format).strftime(doe_format)
+                if len(row[header_map["CFU"]]) > 0:
+                    cfu_data[headers[header_map["CFU"]]] = int(float(row[header_map["CFU"]]))
+                cfu_data[headers[header_map["culture_cells/ml"]]] = int(float(row[header_map["culture_cells/ml"]]))
+                cfu_data[headers[header_map["estimated_cells_plated"]]] = int(row[header_map["estimated_cells_plated"]])
+                cfu_data[headers[header_map["estimated_cells/ml"]]] = int(float(row[header_map["estimated_cells/ml"]]))
+                cfu_data[headers[header_map["percent_killed"]]] = float(row[header_map["percent_killed"]])
+                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(row[header_map["date_of_experiment"]], doe_format).strftime(doe_format)
             else:
                 #culture_cells/ml
                 #date_of_experiment
-                if len(row[7]) > 0:
-                    cfu_data[headers[7]] = int(float(row[7]))
-                cfu_data[headers[8]] = datetime.datetime.strptime(row[8], doe_format).strftime(doe_format)
+                if len(row[header_map["culture_cells/ml"]]) > 0:
+                    cfu_data[headers[header_map["culture_cells/ml"]]] = int(float(row[header_map["culture_cells/ml"]]))
+                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(row[header_map["date_of_experiment"]], doe_format).strftime(doe_format)
 
             measurement_doc["cfu_data"] = cfu_data
 
@@ -502,7 +502,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                      SampleConstants.FILE_ID: file_id,
                      SampleConstants.FILE_LEVEL: SampleConstants.F_LEVEL_0})
             else:
-                filename = row[15]
+                filename = row[header_map["fcs_filename"]]
                 file_type = SampleConstants.infer_file_type(filename)
                 measurement_doc[SampleConstants.FILES].append(
                     {SampleConstants.M_NAME: filename,
