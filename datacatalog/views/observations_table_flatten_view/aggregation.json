@@ -10,6 +10,7 @@
             "experiment_reference": "$experiment_design.experiment_design_id",
             "experiment_reference_url": "$experiment_design.uri",
             "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
+            "cfu_data": "$measurement.cfu_data",
             "inoculation_density": "$sample.inoculation_density",
             "lab": {
                 "$arrayElemAt": [{
