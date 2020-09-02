@@ -331,6 +331,48 @@
       ],
       "type": "object"
     },
+    "label": {
+      "additionalProperties": false,
+      "description": "a label definition based on experiment conditions such as time, strain, contents, etc.",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "timepoints": {
+          "items": {
+            "$ref": "#definitions/timepoint"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "strains": {
+          "items": {
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
+            }]
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "contents": {
+          "items": {
+            "$ref": "#definitions/content_item"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "strains"
+      ],
+      "type": "object"
+    },
     "timepoint": {
       "additionalProperties": false,
       "description": "Point in a time series",
@@ -532,6 +574,14 @@
           "description": "expected temperatures for this measurement",
           "items": {
             "$ref": "https://schema.catalog.sd2e.org/schemas/temperature.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "labels": {
+          "description": "expected label elements for this measurement",
+          "items": {
+            "$ref": "#definitions/label"
           },
           "minItems": 1,
           "type": "array"

@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200819T190343+00:00",
+    "$comment": "version: 2.2.0#master; generated: 20200902T195201+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@399e989",
     "$id": "https://schema.catalog.sd2e.org/schemas/structured_request.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -298,6 +298,51 @@
             ],
             "type": "object"
         },
+        "label": {
+            "additionalProperties": false,
+            "description": "a label definition based on experiment conditions such as time, strain, contents, etc.",
+            "properties": {
+                "contents": {
+                    "items": {
+                        "$ref": "#definitions/content_item"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "strains": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+                            },
+                            {
+                                "$ref": "https://schema.catalog.sd2e.org/schemas/mapped_name.json"
+                            }
+                        ]
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "timepoints": {
+                    "items": {
+                        "$ref": "#definitions/timepoint"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "type",
+                "strains"
+            ],
+            "type": "object"
+        },
         "measurement": {
             "additionalProperties": false,
             "properties": {
@@ -390,6 +435,14 @@
                 "instrument_configuration": {
                     "$ref": "https://schema.catalog.sd2e.org/schemas/agave_files_uri.json",
                     "description": "instrument configuration for an FCS measurement"
+                },
+                "labels": {
+                    "description": "expected label elements for this measurement",
+                    "items": {
+                        "$ref": "#definitions/label"
+                    },
+                    "minItems": 1,
+                    "type": "array"
                 },
                 "library_prep": {
                     "description": "for rna_seq, the library preparation used",
