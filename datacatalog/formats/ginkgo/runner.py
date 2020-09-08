@@ -303,6 +303,11 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE_MEDIA_PR
             else:
                 sample_doc[SampleConstants.CONTROL_TYPE] = control_type
+
+        # mock strain for baseline media PR (used by data converge)
+        if SampleConstants.CONTROL_TYPE in sample_doc and sample_doc[SampleConstants.CONTROL_TYPE] == SampleConstants.CONTROL_BASELINE_MEDIA_PR and SampleConstants.STRAIN not in sample_doc:
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), "MediaControl", "MediaControl", lab, sbh_query, strain=True)
+
         if SampleConstants.CONTROL_FOR in ginkgo_sample:
             control_for_val = ginkgo_sample[SampleConstants.CONTROL_FOR]
             # int -> str conversion
