@@ -215,6 +215,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     for ginkgo_sample in ginkgo_iterator:
         ginkgo_sample_cache[ginkgo_sample["sample_id"]] = ginkgo_sample
 
+    cache_temp = None
+
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
@@ -340,6 +342,13 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
         if temperature is not None:
             sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature)
+            if cache_temp is None:
+                cache_temp = sample_doc[SampleConstants.TEMPERATURE]
+        else:
+            if SampleConstants.CONTROL_TYPE in sample_doc and sample_doc[SampleConstants.CONTROL_TYPE] == SampleConstants.CONTROL_BASELINE_MEDIA_PR:
+                # use cached temperature
+                if cache_temp is not None:
+                    sample_doc[SampleConstants.TEMPERATURE] = cache_temp
 
         if parent_props is not None:
             replicate_val = parse_replicate(parent_props)
