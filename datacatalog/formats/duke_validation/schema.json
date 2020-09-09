@@ -34,6 +34,30 @@
                     }
                 ],
                 "additionalItems": false
+            },{
+                "type": "array",
+                "items": [{
+                        "type": "string",
+                        "enum": ["Kit"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["SOP"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Order #"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["Well"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["sample_id"]
+                    }
+                ],
+                "additionalItems": false
             }]
         }
 

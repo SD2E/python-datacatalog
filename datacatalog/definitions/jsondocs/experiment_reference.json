@@ -2,6 +2,7 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "devos-6500",
     "DNA-RNASeq-Validation-Blind",
     "DNA-RNASeq-Validation-Replicates",
     "Duke-RNASeq-Validation",
