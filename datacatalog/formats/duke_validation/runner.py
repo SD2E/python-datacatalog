@@ -127,11 +127,12 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         for validation_key in validation_keys:
             try:
                 validation_value = duke_validation_sample[validation_key]
-                if validation_key == "label_truth" and isinstance(validation_value, float) and math.isnan(validation_value):
+                if validation_key in ["label_truth","Viral Load (RNA cp/mL)"] and isinstance(validation_value, float) and math.isnan(validation_value):
                     continue
                 validation_metadata[validation_key] = validation_value
             except KeyError:
                 pass
+
         measurement_doc["haase_validation_rnaseq_metadata"] = validation_metadata
 
         file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
