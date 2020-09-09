@@ -48,38 +48,41 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
     index_adjustment = 0 
 
     # Hasse validation specific RNASeq metadata
-    validation_keys = ["Viral Load (RNA cp/mL)", "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
+    validation_keys = ["label_truth", "Viral Load (RNA cp/mL)", "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
 
     for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
 
         # TODO add reference/url, challenge problem, and EID to Duke Validation trace
         if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
-            #output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1XQ4Rt8oz-jS8otL6EC_iRHdKexMtIzx5YaUwn5_41vg"
-            #output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1Gck0rftZSsuk_se6HM4T09Pi0Cxyt80BA3YtrDrB0do"
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/169qJj64mJ4gzcdvZRVEga_hWWwaPsl4FDdsBrUZcH1E"
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1zuleuXuf5kla4VsgDQc5tPjllBQfyW5HMf7pEsexDOo"
             map_experiment_reference(config, output_doc)
 
-            #output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("DHVI-Panel_QC_Library_Dilution_Pooling_COVID-Seq-TEST", lab)
-            #output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("6406_QC_Library_Dilution_Pooling_LLR", lab)
-            output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("6432_QC_Library_Dilution_Pooling", lab)
+            output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("6500", lab)
             experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
 
         sample_doc = {}
-   
-        sample_well = duke_validation_sample["customer label"]
-        if isinstance(sample_well, str):
-            try:
-                float_check = float(sample_well)
+
+        well_label = None
+        sample_well = None
+        if "Well" in duke_validation_sample and "sample_id" in duke_validation_sample:
+            sample_well = duke_validation_sample["sample_id"]
+            well_label = duke_validation_sample["Well"]
+            sample_well_bak = sample_well
+        else:
+            sample_well = duke_validation_sample["customer label"]
+            if isinstance(sample_well, str):
+                try:
+                    float_check = float(sample_well)
+                    sample_well = duke_validation_sample["Sample Name"]
+                except ValueError:
+                    pass
+            elif isinstance(sample_well, float):
                 sample_well = duke_validation_sample["Sample Name"]
-            except ValueError:
-                pass
-        elif isinstance(sample_well, float):
-            sample_well = duke_validation_sample["Sample Name"]
 
-        sample_well_bak = sample_well
+            sample_well_bak = sample_well
 
-        if isinstance(sample_well, float) and math.isnan(sample_well):
-            continue
+            if isinstance(sample_well, float) and math.isnan(sample_well):
+                continue
 
         # clean up spaces in sample names
         if " " in sample_well:
@@ -89,11 +92,12 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         if " " in sample_well_bak:
             sample_well_bak = sample_well_bak.replace(" ", "-")
 
-        lib_size = duke_validation_sample["Index"]
-        if isinstance(lib_size, float) and math.isnan(lib_size):
-            # skip and decrement counter
-            index_adjustment = index_adjustment - 1
-            continue
+        if "Index" in duke_validation_sample:
+            lib_size = duke_validation_sample["Index"]
+            if isinstance(lib_size, float) and math.isnan(lib_size):
+                # skip and decrement counter
+                index_adjustment = index_adjustment - 1
+                continue
 
         #print(sample_well)
         #print(duke_validation_sample)
@@ -110,6 +114,9 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_well, lab, output_doc)
         sample_doc[SampleConstants.REPLICATE] = replicate
    
+        if well_label is not None:
+            sample_doc[SampleConstants.WELL_LABEL] = well_label
+
         measurement_doc = {}
         measurement_doc[SampleConstants.FILES] = []
         measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_RNA_SEQ
@@ -120,6 +127,8 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         for validation_key in validation_keys:
             try:
                 validation_value = duke_validation_sample[validation_key]
+                if validation_key == "label_truth" and isinstance(validation_value, float) and math.isnan(validation_value):
+                    continue
                 validation_metadata[validation_key] = validation_value
             except KeyError:
                 pass
