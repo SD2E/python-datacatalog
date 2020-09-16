@@ -220,70 +220,67 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         # skip inducer parsing if we parsed via OC array above
         if not parsed_oc and SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
-            if inducer == None or len(inducer) == 0:
-                continue
-            #"Arabinose+IPTG"
-
-            if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
-                arab_concentration = "25:mM"
-                iptg_concentration = "0.25:mM"
-            else:
-                if SampleConstants.CONCENTRATION not in transcriptic_sample:
-                    raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+            if inducer != None and len(inducer) > 0:
+                if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
+                    arab_concentration = "25:mM"
+                    iptg_concentration = "0.25:mM"
                 else:
-                    arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
-                    iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                    if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                        raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+                    else:
+                        arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                        iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
-            # skip multi-value inducers - handled by contents array above
-            if inducer != "None" and len(inducer) > 0 and "," not in inducer:
-                if "+" in inducer:
-                    inducer_split = inducer.split("+")
-                    if inducer_split[0] not in seen_contents:
-                        seen_contents.add(inducer_split[0])
-                        if inducer_split[0] == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer_split[0] == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            raise ValueError("Unknown inducer")
-                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, concentration))
-                    if inducer_split[1] not in seen_contents:
-                        seen_contents.add(inducer_split[1])
-                        if inducer_split[1] == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer_split[1] == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            raise ValueError("Unknown inducer")
-                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query, concentration))
-                else:
-                    # Special case for YS. Both means Arabinose and IPTG
-                    if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
-                        inducer = "Arabinose"
-                        if inducer not in seen_contents:
-                            seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, arab_concentration))
+                # skip multi-value inducers - handled by contents array above
+                if inducer != "None" and len(inducer) > 0 and "," not in inducer:
+                    if "+" in inducer:
+                        inducer_split = inducer.split("+")
+                        if inducer_split[0] not in seen_contents:
+                            seen_contents.add(inducer_split[0])
+                            if inducer_split[0] == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer_split[0] == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                raise ValueError("Unknown inducer")
+                            contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, concentration))
+                        if inducer_split[1] not in seen_contents:
+                            seen_contents.add(inducer_split[1])
+                            if inducer_split[1] == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer_split[1] == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                raise ValueError("Unknown inducer")
+                            contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query, concentration))
+                    else:
+                        # Special case for YS. Both means Arabinose and IPTG
+                        if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+                            inducer = "Arabinose"
+                            if inducer not in seen_contents:
+                                seen_contents.add(inducer)
+                                contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, arab_concentration))
 
-                        inducer = "IPTG"
-                        if inducer not in seen_contents:
+                            inducer = "IPTG"
+                            if inducer not in seen_contents:
+                                seen_contents.add(inducer)
+                                contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, iptg_concentration))
+                        elif inducer not in seen_contents:
                             seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, iptg_concentration))
-                    elif inducer not in seen_contents:
-                        seen_contents.add(inducer)
-                        if inducer == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            if SampleConstants.CONCENTRATION not in transcriptic_sample:
-                                raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
-                            # split on fluid units
-                            # e.g. "20uM beta-estradiol"
-                            if inducer[0].isdigit() and " " in inducer:
-                                inducer_split = inducer.split(" ")
-                                inducer = inducer_split[1]
-                            concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
-                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
+                            if inducer == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                                    raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
+                                # split on fluid units
+                                # e.g. "20uM beta-estradiol"
+                                if inducer[0].isdigit() and " " in inducer:
+                                    inducer_split = inducer.split(" ")
+                                    inducer = inducer_split[1]
+                                concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
