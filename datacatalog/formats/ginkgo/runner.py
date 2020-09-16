@@ -37,15 +37,15 @@ def parse_temperature(sample_properties):
 
     return temperature
 
-def populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point):
+def populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point, overnight_growth):
 
     if parent_props is not None:
-        time_val = parse_time(parent_props)
+        time_val = parse_time(parent_props, overnight_growth)
         # fall-through
         if time_val is None:
-            time_val = parse_time(props)
+            time_val = parse_time(props, overnight_growth)
     else:
-        time_val = parse_time(props)
+        time_val = parse_time(props, overnight_growth)
     if time_val is not None:
         measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
     elif reference_time_point != None:
@@ -53,7 +53,7 @@ def populate_measurement_doc_with_time(measurement_doc, parent_props, props, ref
 
     return time_val
 
-def parse_time(sample_properties):
+def parse_time(sample_properties, overnight_growth):
 
     time_prop = "SD2_timepoint"
     time_val = None
@@ -68,13 +68,15 @@ def parse_time(sample_properties):
 
         # sometimes we get integers and floats instead of autoprotocol strings
         if type(time_val) == float or type(time_val) == int:
+            time_val = overnight_growth + time_val
             time_val = str(time_val) + ":hour"
         elif type(time_val) == str:
             # more cleanup
             if time_val.endswith("hours"):
                 time_val = time_val.replace("hours", "hour")
             if ":" not in time_val and not time_val.endswith(":hour"):
-                time_val = time_val + ":hour"
+                time_val = overnight_growth + float(time_val)
+                time_val = str(time_val) + ":hour"
 
     return time_val
 
@@ -216,6 +218,18 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         ginkgo_sample_cache[ginkgo_sample["sample_id"]] = ginkgo_sample
 
     cache_temp = None
+
+    # do we have an overnight growth value from the structured request?
+    overnight_growth = 0.0
+    ginkgo_sr = db.structured_requests.find_one({'experiment_id' : output_doc[SampleConstants.EXPERIMENT_ID] })
+    if ginkgo_sr == None:
+        print('Warning, no SR for experiment: {}'.format(output_doc[SampleConstants.EXPERIMENT_ID]))
+    elif "overnight_growth" in ginkgo_sr:
+        overnight_growth_value = float(ginkgo_sr["overnight_growth"]["value"])
+        overnight_growth_value_unit = ginkgo_sr["overnight_growth"]["unit"]
+        if overnight_growth_value_unit in ["minute", "minutes"]:
+            overnight_growth_value = float(overnight_growth_value)/60.0
+        overnight_growth = overnight_growth_value
 
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
@@ -484,7 +498,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if measurement_key in library_prep_dict:
                 measurement_doc[SampleConstants.MEASUREMENT_LIBRARY_PREP] = library_prep_dict[measurement_key]
 
-            time_val = populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point)
+            time_val = populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point, overnight_growth)
 
             measurement_doc[SampleConstants.FILES] = []
 
@@ -750,7 +764,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if props[dropout_attr] == "flow":
                 missing_measurement_doc = {}
 
-                populate_measurement_doc_with_time(missing_measurement_doc, parent_props, props, reference_time_point)
+                populate_measurement_doc_with_time(missing_measurement_doc, parent_props, props, reference_time_point, overnight_growth)
 
                 missing_measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id("missing_" + SampleConstants.MT_FLOW, output_doc[SampleConstants.LAB], sample_doc, output_doc)
                 missing_measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW
