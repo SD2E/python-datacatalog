@@ -46,9 +46,26 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
     output_doc[SampleConstants.SAMPLES] = []
 
     index_adjustment = 0 
+    is_labeled = False
 
     # Hasse validation specific RNASeq metadata
-    validation_keys = ["label_truth", "Viral Load (RNA cp/mL)", "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
+    VIRAL_LOAD = "Viral Load (RNA cp/ml)"
+    LABEL_TRUTH = "label_truth"
+
+    validation_keys = [LABEL_TRUTH, VIRAL_LOAD, "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
+
+    for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
+        if VIRAL_LOAD in duke_validation_sample:
+            viral_load_value = duke_validation_sample[VIRAL_LOAD]
+            if viral_load_value > 1000:
+                is_labeled = True
+                break
+
+    if is_labeled:
+        validation_metadata_key = "labeled_haase_validation_rnaseq_metadata"
+    else:
+        validation_metadata_key = "haase_validation_rnaseq_metadata"
+
 
     for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
 
@@ -127,13 +144,13 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
         for validation_key in validation_keys:
             try:
                 validation_value = duke_validation_sample[validation_key]
-                if validation_key in ["label_truth","Viral Load (RNA cp/mL)"] and isinstance(validation_value, float) and math.isnan(validation_value):
+                if validation_key in [LABEL_TRUTH,VIRAL_LOAD] and isinstance(validation_value, float) and math.isnan(validation_value):
                     continue
                 validation_metadata[validation_key] = validation_value
             except KeyError:
                 pass
 
-        measurement_doc["haase_validation_rnaseq_metadata"] = validation_metadata
+        measurement_doc[validation_metadata_key] = validation_metadata
 
         file_id = namespace_file_id(1, lab, measurement_doc, output_doc)
 
