@@ -19,6 +19,7 @@
                 "genetic_construct": "$sample.genetic_construct",
                 "cfu_data": "$measurement.cfu_data",
                 "haase_validation_rnaseq_metadata": "$measurement.haase_validation_rnaseq_metadata",
+                "labeled_haase_validation_rnaseq_metadata": "$measurement.labeled_haase_validation_rnaseq_metadata",
                 "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
                 "hpc_path": {
                     "$concat": [
