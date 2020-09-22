@@ -52,9 +52,21 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
     VIRAL_LOAD = "Viral Load (RNA cp/ml)"
     LABEL_TRUTH = "label_truth"
 
-    validation_keys = [LABEL_TRUTH, VIRAL_LOAD, "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
+    EXPERIMENT_REFERENCE = "experiment_reference"
+    experiment_reference = None
+    EXPERIMENT_ID = "experiment_id"
+    eid = None
+
+    validation_keys = [LABEL_TRUTH, VIRAL_LOAD, "sample_group", "Well # for CovidSeq Prep", "RNA/DNA (ul)", "H2O", "Index", "Lib Qubit (ng/ul)", "Lib Size", "Molarity", "Dilute for TapeStation", "4 nM dilution", "EB", "Qubit of diluted lib (ng/ul)", "Actual nM", "Volume to Pool"]
 
     for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
+
+        if experiment_reference == None and EXPERIMENT_REFERENCE in duke_validation_sample:
+            experiment_reference = duke_validation_sample[EXPERIMENT_REFERENCE]
+
+        if eid == None and EXPERIMENT_ID in duke_validation_sample:
+            eid = duke_validation_sample[EXPERIMENT_ID]
+
         if VIRAL_LOAD in duke_validation_sample:
             viral_load_value = duke_validation_sample[VIRAL_LOAD]
             if viral_load_value > 1000:
@@ -69,13 +81,12 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
 
     for duke_validation_index, duke_validation_sample in duke_validation_df.iterrows():
 
-        # TODO add reference/url, challenge problem, and EID to Duke Validation trace
         if SampleConstants.EXPERIMENT_REFERENCE not in output_doc:
-            output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1zuleuXuf5kla4VsgDQc5tPjllBQfyW5HMf7pEsexDOo"
+
+            output_doc[SampleConstants.EXPERIMENT_REFERENCE] = experiment_reference
             map_experiment_reference(config, output_doc)
 
-            output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id("6500", lab)
-            experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
+            output_doc[SampleConstants.EXPERIMENT_ID] = eid
 
         sample_doc = {}
 
