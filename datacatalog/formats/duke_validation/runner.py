@@ -69,7 +69,7 @@ def convert_duke_validation(schema, encoding, input_file, verbose=True, output=T
 
         if VIRAL_LOAD in duke_validation_sample:
             viral_load_value = duke_validation_sample[VIRAL_LOAD]
-            if viral_load_value > 1000:
+            if viral_load_value > 20:
                 is_labeled = True
                 break
 
