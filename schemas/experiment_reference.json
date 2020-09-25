@@ -1,10 +1,11 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200911T145158+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@e40df62",
+    "$comment": "version: 2.2.0#master; generated: 20200925T182933+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@abb91ed",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "devos-6539-negatives-plus-spike",
         "devos-6500",
         "DNA-RNASeq-Validation-Blind",
         "DNA-RNASeq-Validation-Replicates",
@@ -119,6 +120,7 @@
         "TEST-Playing-with-Intent-Parser",
         "CEN-PK-Inducible-CRISPR-4-Day-Obstacle-Course",
         "CEN-PK-Inducible-CRISPR-Characterization",
+        "Copy-of-YeastSTATES-1-0-Time-Series-Round-2-0",
         "Copy-of-YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
@@ -185,6 +187,7 @@
         "Riboswitches"
     ],
     "examples": [
+        "devos-6539-negatives-plus-spike",
         "devos-6500",
         "DNA-RNASeq-Validation-Blind",
         "DNA-RNASeq-Validation-Replicates",
@@ -299,6 +302,7 @@
         "TEST-Playing-with-Intent-Parser",
         "CEN-PK-Inducible-CRISPR-4-Day-Obstacle-Course",
         "CEN-PK-Inducible-CRISPR-Characterization",
+        "Copy-of-YeastSTATES-1-0-Time-Series-Round-2-0",
         "Copy-of-YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
