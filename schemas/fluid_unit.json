@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200615T144012+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@5198ef4",
+    "$comment": "version: 2.2.0#master; generated: 20201001T212647+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@61014b8",
     "$id": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -13,7 +13,8 @@
         "ug/ml",
         "micromole",
         "nM",
-        "uM"
+        "uM",
+        "mg/ml"
     ],
     "examples": [
         "%",
@@ -24,7 +25,8 @@
         "ug/ml",
         "micromole",
         "nM",
-        "uM"
+        "uM",
+        "mg/ml"
     ],
     "title": "Fluid Unit",
     "type": "string"

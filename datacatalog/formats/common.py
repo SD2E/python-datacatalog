@@ -255,6 +255,10 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
                 m_c_object[SampleConstants.UNIT] = "nM"
             if m_c_object[SampleConstants.UNIT] == "molar":
                 m_c_object[SampleConstants.UNIT] = "M"
+            if m_c_object[SampleConstants.UNIT] == "microgram/milliliter":
+                m_c_object[SampleConstants.UNIT] = "ug/ml"
+            if m_c_object[SampleConstants.UNIT] == "mg/mL":
+                m_c_object[SampleConstants.UNIT] = "mg/ml"
 
     return m_c_object
 
