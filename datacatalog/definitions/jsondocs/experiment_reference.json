@@ -2,7 +2,7 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
-    "Copy-of",
+    "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
     "Unknown",
     "devos-6539-negatives-plus-spike",
     "devos-6500",
