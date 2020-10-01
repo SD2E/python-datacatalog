@@ -1,11 +1,11 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200929T155218+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@2891973",
+    "$comment": "version: 2.2.0#master; generated: 20201001T215211+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@41595fb",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
-        "Copy-of",
+        "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "Unknown",
         "devos-6539-negatives-plus-spike",
         "devos-6500",
@@ -188,7 +188,7 @@
         "Riboswitches"
     ],
     "examples": [
-        "Copy-of",
+        "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "Unknown",
         "devos-6539-negatives-plus-spike",
         "devos-6500",
