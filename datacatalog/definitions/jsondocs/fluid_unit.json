@@ -9,7 +9,8 @@
         "ug/ml",
         "micromole",
         "nM",
-        "uM"
+        "uM",
+        "mg/ml"
     ],
     "type": "string"
 }
