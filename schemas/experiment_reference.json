@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201002T165206+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4a33212",
+    "$comment": "version: 2.2.0#master; generated: 20201005T135220+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@f6595ca",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -39,6 +39,7 @@
         "NovelChassis-Yeast-Cycle0-ObstacleCourse",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
+        "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-CitT-PFA-TimeSeriesTitration-Strateos",
@@ -223,6 +224,7 @@
         "NovelChassis-Yeast-Cycle0-ObstacleCourse",
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
+        "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-CitT-PFA-TimeSeriesTitration-Strateos",
