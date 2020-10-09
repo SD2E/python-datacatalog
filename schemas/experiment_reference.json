@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201005T135220+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@f6595ca",
+    "$comment": "version: 2.2.0#master; generated: 20201009T171651+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3975654",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -8,6 +8,7 @@
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "Unknown",
         "devos-6539-negatives-plus-spike",
+        "devos-6575",
         "devos-6500",
         "DNA-RNASeq-Validation-Blind",
         "DNA-RNASeq-Validation-Replicates",
@@ -193,6 +194,7 @@
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "Unknown",
         "devos-6539-negatives-plus-spike",
+        "devos-6575",
         "devos-6500",
         "DNA-RNASeq-Validation-Blind",
         "DNA-RNASeq-Validation-Replicates",
