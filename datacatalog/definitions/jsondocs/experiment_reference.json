@@ -185,6 +185,7 @@
     "YeastSTATES-OR-Gate-CRISPR-Growth-Curves-30C",
     "YeastSTATES-OR-Gate-CRISPR-Obstacle-Course",
     "YeastSTATES-OR-Gate-Plant-TF-Obstacle-Course",
-    "Riboswitches"
+    "Riboswitches",
+    "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
   ]
 }
