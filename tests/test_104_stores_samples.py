@@ -66,12 +66,6 @@ def test_samp_clean(mongodb_settings):
     # should be removed from sample1.lab.experiment.lab.4
     assert "control_type" not in base.query({"sample_id" : "sample1.lab.experiment.lab.4"})[0]
     assert "standard_type" not in base.query({"sample_id" : "sample1.lab.experiment.lab.4"})[0]
-    assert "control_type" not in base.query({"sample_id" : "sample2.lab.experiment.lab.4"})[0]
-    assert "standard_type" not in base.query({"sample_id" : "sample2.lab.experiment.lab.4"})[0]
-    assert "control_type" not in base.query({"sample_id" : "sample1.lab.experiment.lab.5"})[0]
-    assert "standard_type" not in base.query({"sample_id" : "sample1.lab.experiment.lab.5"})[0]
-    assert "control_type" not in base.query({"sample_id" : "sample2.lab.experiment.lab.5"})[0]
-    assert "standard_type" not in base.query({"sample_id" : "sample2.lab.experiment.lab.5"})[0]
 
     # no effect on experiment without fields
     update_result = base.clean_fields("experiment.lab.5", ["control_type", "standard_type"])
