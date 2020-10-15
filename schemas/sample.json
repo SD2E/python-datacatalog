@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201015T125327+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ee9c7ba",
+    "$comment": "version: 2.2.0#master; generated: 20201015T135326+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@1de0b76",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -72,6 +72,10 @@
             },
             "minItems": 0,
             "type": "array"
+        },
+        "missing_pc": {
+            "description": "Whether the sample is missing point cloud",
+            "type": "boolean"
         },
         "reference_sample_id": {
             "$ref": "namespaced_identifier.json",
@@ -174,6 +178,10 @@
         "strain": {
             "$ref": "mapped_name.json",
             "description": "Strain reference (mapped by SBH Librarian)"
+        },
+        "tasbe_junit": {
+            "description": "JUnit log message from TASBE",
+            "type": "string"
         },
         "temperature": {
             "$ref": "temperature.json"
