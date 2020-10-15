@@ -1,18 +1,10 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200323T224257+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@a6f2cdb",
+    "$comment": "version: 2.2.0#master; generated: 20201015T125327+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ee9c7ba",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "A lab sample and its metadata",
     "properties": {
-        "tasbe_junit": {
-            "description": "JUnit log message from TASBE",
-            "type": "string"
-        },
-        "missing_pc": {
-            "description": "Whether the sample is missing point cloud",
-            "type": "boolean"
-        },
         "TMT_channel": {
             "description": "TMT tag/channel for proteomics",
             "type": "string"
