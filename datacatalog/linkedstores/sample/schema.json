@@ -2,6 +2,14 @@
     "additionalProperties": false,
     "description": "A lab sample and its metadata",
     "properties": {
+        "tasbe_junit": {
+            "description": "JUnit log message from TASBE",
+            "type": "string"
+        },
+        "missing_pc": {
+            "description": "Whether the sample is missing point cloud",
+            "type": "boolean"
+        },
         "container_id": {
             "description": "The originating container for this sample",
             "type": "string"
