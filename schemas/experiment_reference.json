@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201013T161422+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5d86069",
+    "$comment": "version: 2.2.0#master; generated: 20201015T145327+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@85ba861",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -144,6 +144,7 @@
         "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-1-0-Time-Series-Round-1-1",
         "YeastSTATES-1-0-Time-Series-Round-2-0",
+        "YeastSTATES-1-0-Time-Series-Round-3-0",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Activator-Circuit-BE-Growth-Curves-30C",
         "YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
@@ -331,6 +332,7 @@
         "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-1-0-Time-Series-Round-1-1",
         "YeastSTATES-1-0-Time-Series-Round-2-0",
+        "YeastSTATES-1-0-Time-Series-Round-3-0",
         "YeastSTATES-3-Node-Bistable-Circuit",
         "YeastSTATES-Activator-Circuit-BE-Growth-Curves-30C",
         "YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
