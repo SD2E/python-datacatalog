@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201015T145327+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@85ba861",
+    "$comment": "version: 2.2.0#master; generated: 20201016T204057+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@49ad712",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -189,6 +189,7 @@
         "YeastSTATES-OR-Gate-CRISPR-Growth-Curves-30C",
         "YeastSTATES-OR-Gate-CRISPR-Obstacle-Course",
         "YeastSTATES-OR-Gate-Plant-TF-Obstacle-Course",
+        "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
@@ -377,6 +378,7 @@
         "YeastSTATES-OR-Gate-CRISPR-Growth-Curves-30C",
         "YeastSTATES-OR-Gate-CRISPR-Obstacle-Course",
         "YeastSTATES-OR-Gate-Plant-TF-Obstacle-Course",
+        "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
