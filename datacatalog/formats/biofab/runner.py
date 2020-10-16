@@ -13,6 +13,7 @@ from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 # common across methods
+well_attr = "well"
 attributes_attr = "attributes"
 replicate_attr = "replicate"
 sample_attr = "sample"
@@ -580,7 +581,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         print("Warning, could not find sytox control for plan: {}".format(original_experiment_id))
 
     missing_part_of_items = set()
-
+    missing_part_of_map = {}
     # process bottom up from file -> sample
     for biofab_sample in biofab_doc["files"]:
         sample_doc = {}
@@ -592,7 +593,16 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_FLOW)
             elif type_attr in biofab_sample and biofab_sample[type_attr] == "CSV" and "filename" in biofab_sample and "experimental_design" not in biofab_sample["filename"]:
                 print("Trying to resolve as a CSV file with no source")
-                add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_PLATE_READER)
+                if "generated_by" in biofab_sample and "operation_id" in biofab_sample["generated_by"]:
+                    operation_id = biofab_sample["generated_by"]["operation_id"]
+                    operation = jq(".operations[] | select (.operation_id==\"" + operation_id + "\")").transform(biofab_doc)
+                    for input_block in operation["inputs"]:
+                        if "item_id" in input_block:
+                            input_block_id = input_block["item_id"]
+                            missing_part_of_items.add(input_block_id)
+                            missing_part_of_map[input_block_id] = operation_id
+                else:
+                    add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_PLATE_READER)
             elif "filename" in biofab_sample and biofab_sample["filename"].endswith(".ab1"):
                 print("Trying to resolve as an ab1 file with no source")
                 add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_SEQUENCING_CHROMATOGRAM)
@@ -818,6 +828,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
 
+                if well_attr in item:
+                    sample_doc[SampleConstants.WELL_LABEL] = item[well_attr]
+
                 # previous media parsing code (older formats)
                 if attributes_attr in item_source and media_attr in item_source[attributes_attr]:
                     if sample_id_attr in item_source[attributes_attr][media_attr]:
@@ -854,6 +867,12 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
             measurement_doc[SampleConstants.FILES] = []
 
             files = jq(".files[] | select(.sources[]? == \"" + missing_part_of + "\")").transform(biofab_doc, multiple_output=True)
+
+            if len(files) == 0:
+                files = []
+                mapped_operation = missing_part_of_map[missing_part_of]
+                jq_files = jq(".files[] | select(.generated_by.operation_id == \"" + mapped_operation + "\")").transform(biofab_doc, multiple_output=True)
+                files.extend(jq_files)
 
             for file in files:
                 add_measurement_type(file, measurement_doc)
