@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201019T145255+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5017f75",
+    "$comment": "version: 2.2.0#master; generated: 20201022T195248+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@d881d91",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -48,6 +48,7 @@
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-24hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour-resubmission",
+        "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
@@ -238,6 +239,7 @@
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-24hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour-resubmission",
+        "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
