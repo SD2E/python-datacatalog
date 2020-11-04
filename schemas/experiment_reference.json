@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201103T165230+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@0c03a07",
+    "$comment": "version: 2.2.0#master; generated: 20201104T045231+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@330d38b",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -50,6 +50,7 @@
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour-resubmission",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
+        "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
         "Exp-NC-NAND-Gate-Iteration",
@@ -242,6 +243,7 @@
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier-8hour-resubmission",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
+        "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
         "Exp-NC-NAND-Gate-Iteration",
