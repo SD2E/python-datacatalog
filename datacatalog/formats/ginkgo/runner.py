@@ -215,7 +215,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     # cache samples for parent lookups
     ginkgo_sample_cache = {}
     for ginkgo_sample in ginkgo_iterator:
-        ginkgo_sample_cache[ginkgo_sample["sample_id"]] = ginkgo_sample
+        ginkgo_sid = ginkgo_sample["sample_id"]
+        if ginkgo_sid not in ginkgo_sample_cache:
+            ginkgo_sample_cache[ginkgo_sid] = ginkgo_sample
 
     cache_temp = None
 
@@ -231,11 +233,20 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             overnight_growth_value = float(overnight_growth_value)/60.0
         overnight_growth = overnight_growth_value
 
+    seen_sids = set()
+
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, output_doc)
-        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, None)
+        ginkgo_sid = str(ginkgo_sample["sample_id"])
+        if ginkgo_sid in seen_sids:
+            print('Warning, duplicate sample id, skipping: {}'.format(ginkgo_sid))
+            continue
+        else:
+            seen_sids.add(ginkgo_sid)
+
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(ginkgo_sid, lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(ginkgo_sid, lab, None)
 
         # record parent reference, if it exists
         parent_props = None
