@@ -14,6 +14,9 @@ from ..common import namespace_file_id, namespace_sample_id, namespace_measureme
 
 # common across methods
 well_attr = "well"
+id_attr = "id"
+name_attr = "name"
+destination_attr = "destination"
 attributes_attr = "attributes"
 replicate_attr = "replicate"
 sample_attr = "sample"
@@ -279,14 +282,35 @@ def add_replicate(item, sample_doc):
             replicate_val = int(replicate_val)
         sample_doc[SampleConstants.REPLICATE] = replicate_val
 
-def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query):
+def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc):
     if sample_attr in item:
         if sample_id_attr not in item[sample_attr]:
             print("Warning, sample is missing a strain entry: {}".format(item))
         else:
             sample_id = item[sample_attr][sample_id_attr]
             strain = item[sample_attr][sample_name_attr]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+            if strain == "qPCR Reaction":
+                # this is a special case fpr PCR reactions, need to lookup through item destination
+                # and match against Primer/Probe Mix
+                try:
+                    pcr_item_id = item["item_id"]
+                    pcr_items = jq(".items[]").transform(biofab_doc, multiple_output=True)
+                    for pcr_item in pcr_items:
+                        if attributes_attr in pcr_item and destination_attr in pcr_item[attributes_attr]:
+                            pcr_destination_items = pcr_item[attributes_attr][destination_attr]
+                            for pcr_destination_item in pcr_destination_items:
+                                if id_attr in pcr_destination_item and name_attr in pcr_destination_item:
+                                    test_pcr_item_id = str(pcr_destination_item[id_attr])
+                                    test_pcr_item_name = pcr_destination_item[name_attr]
+                                    if test_pcr_item_id == pcr_item_id and test_pcr_item_name == "Primer/Probe Mix":
+                                        sample_id = pcr_item[sample_attr][sample_id_attr]
+                                        strain = pcr_item[sample_attr][sample_name_attr]
+                                        sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+                                        break
+                except StopIteration:
+                    print("Warning, could not find items for plan: {}".format(original_experiment_id))
+            else:
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
 
 def get_timepoint_from_item(item):
     if attributes_attr in item and timepoint_attr in item[attributes_attr]:
@@ -702,7 +726,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temp_value) + ":celsius")
 
         # could use ID
-        add_strain(original_experiment_id, item, sample_doc, lab, sbh_query)
+        add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc)
 
         add_od(item, sample_doc)
 
@@ -814,7 +838,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 else:
                     # strain
-                    add_strain(original_experiment_id, item_source, sample_doc, lab, sbh_query)
+                    add_strain(original_experiment_id, item_source, sample_doc, lab, sbh_query, biofab_doc)
 
                 add_inducer_experimental_media(original_experiment_id, item_source, lab, sbh_query, reagents, biofab_doc)
 
