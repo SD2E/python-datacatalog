@@ -112,6 +112,15 @@ def parse_contents(sample, output_doc, lab, sbh_query):
                     contents.append(mapped_media_component)
     return contents
 
+def has_files(sample):
+    if "measurements" in sample:
+        ginkgo_measurements = sample["measurements"]
+        for measurement_key in ginkgo_measurements.keys():
+            measurement_props = ginkgo_measurements[measurement_key]
+            if "dataset_files" in measurement_props:
+                return True
+    return False
+
 def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -218,6 +227,12 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         ginkgo_sid = ginkgo_sample["sample_id"]
         if ginkgo_sid not in ginkgo_sample_cache:
             ginkgo_sample_cache[ginkgo_sid] = ginkgo_sample
+        else:
+            # replace if duplicate has files
+            current_has_files = has_files(ginkgo_sample_cache[ginkgo_sid])
+            replace_has_files = has_files(ginkgo_sample)
+            if replace_has_files and not current_has_files:
+                ginkgo_sample_cache[ginkgo_sid] = ginkgo_sample
 
     cache_temp = None
 
@@ -237,11 +252,26 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
+        s_has_files = has_files(ginkgo_sample)
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
         ginkgo_sid = str(ginkgo_sample["sample_id"])
         if ginkgo_sid in seen_sids:
-            print('Warning, duplicate sample id, skipping: {}'.format(ginkgo_sid))
-            continue
+            # use sample with files
+            if s_has_files:
+                found_test_sample = None
+                test_ginkgo_sid = namespace_sample_id(ginkgo_sid, lab, output_doc)
+                for test_sample in output_doc[SampleConstants.SAMPLES]:
+                    if test_sample[SampleConstants.SAMPLE_ID] == test_ginkgo_sid:
+                        found_test_sample = test_sample
+                        break
+                if found_test_sample is not None:
+                    output_doc[SampleConstants.SAMPLES].remove(found_test_sample)
+                else:
+                    print('Warning, duplicate sample id, no remove, skipping: {}'.format(ginkgo_sid))
+                    continue
+            else:
+                print('Warning, duplicate sample id, no files, skipping: {}'.format(ginkgo_sid))
+                continue
         else:
             seen_sids.add(ginkgo_sid)
 
