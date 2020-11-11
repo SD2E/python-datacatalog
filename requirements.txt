@@ -30,7 +30,8 @@ six
 tacconfig
 tenacity
 transitions
-urllib3
+# workaround for urllib3 1.26.0 is installed but urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 is required by {'requests'}
+urllib3<=1.25.11
 validators
 xxhash
 bacanora@git+https://github.com/SD2E/bacanora.git@master
