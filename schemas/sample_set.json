@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200619T175321+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@310ae94",
+    "$comment": "version: 2.2.0#master; generated: 20201116T214649+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@a56fe04",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample_set.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -23,6 +23,10 @@
         },
         "lab": {
             "$ref": "lab.json"
+        },
+        "lab_instance": {
+            "description": "lab instance identifier",
+            "type": "string"
         },
         "samples": {
             "items": {

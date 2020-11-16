@@ -32,6 +32,7 @@ class SampleConstants():
     EXPERIMENT_REFERENCE_URL = "experiment_reference_url"
     # EXPT_DEFAULT_REFERENCE_GINKGO = "NovelChassis-NAND-Gate"
 
+    LAB_INSTANCE = "lab_instance"
     LAB = "lab"
     LAB_GINKGO = "Ginkgo"
     LAB_TX = "Transcriptic"
@@ -229,10 +230,10 @@ def convert_value_unit(value_unit):
             value_unit_split[0] = str(value)
     return value_unit_split
 
-def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None):
+def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, value_unit=None, lab_instance=None):
     m_c_object = {}
 
-    m_c_object[SampleConstants.NAME] = create_mapped_name(experiment_id, media_name, media_id, lab, sbh_query)
+    m_c_object[SampleConstants.NAME] = create_mapped_name(experiment_id, media_name, media_id, lab, sbh_query, None, lab_instance)
     if value_unit is not None:
         if type(value_unit) is int:
             value_unit_split = [value_unit]
@@ -266,7 +267,7 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
 sbh_cache = {}
 mapping_failures = {}
 
-def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, strain=False):
+def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, strain=False, lab_instance=None):
     m_n_object = {}
 
     sbh_lab = None
@@ -287,6 +288,10 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
         sbh_lab = "DUKE"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
+
+    # use the lab instance with the sbh_lab to do instance specific lookups
+    if lab_instance is not None:
+        sbh_lab = "_".join([sbh_lab, lab_instance])
 
     # SBH expects strings
     if type(id_to_map) == int:

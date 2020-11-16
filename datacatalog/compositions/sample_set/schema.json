@@ -17,6 +17,10 @@
         "experiment_reference": {
             "$ref": "experiment_reference.json"
         },
+        "lab_instance": {
+            "description": "lab instance identifier",
+            "type": "string"
+        },
         "experiment_reference_url": {
             "$ref": "experiment_url.json"
         },

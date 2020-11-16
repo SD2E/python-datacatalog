@@ -59,7 +59,7 @@ NO_SYTOX_DEFAULT_CYTOMETER_CHANNELS = ["FSC-A", "SSC-A", "FL1-A"]
 
 DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/biofab/instruments/accuri/5539/11202018/cytometer_configuration.json"
 
-def parse_stain(original_experiment_id, lab, sbh_query, reagents, item):
+def parse_stain(original_experiment_id, lab, lab_instance, sbh_query, reagents, item):
 
     # This is _extremely_ messy. Need to clean and inline parse a string back into JSON...
     #"Stain": "{\"SYTOX Red Stain\": {\"sample_id\": \"23855\",\"item_id\": \"136422\", \"item_concentration\": \"null\", \"final_concentration\": \"null\", \"dilution_factor\": \"0.01\", \"working_volume\": {\"qty\": \"3\", \"units\": \"microliters\"}}}"
@@ -72,7 +72,7 @@ def parse_stain(original_experiment_id, lab, sbh_query, reagents, item):
         for stain_key in stain_keys:
             stain_key_item = stain_value_json[stain_key]
             stain_key_id = stain_key_item[sample_id_attr]
-            reagent_obj = create_media_component(original_experiment_id, stain_key, stain_key_id, lab, sbh_query)
+            reagent_obj = create_media_component(original_experiment_id, stain_key, stain_key_id, lab, sbh_query, None, lab_instance)
             if working_volume_attr in stain_key_item:
                 units = stain_key_item[working_volume_attr]["units"]
                 if units == "microliters":
@@ -81,7 +81,7 @@ def parse_stain(original_experiment_id, lab, sbh_query, reagents, item):
                 reagent_obj[volume_attr] = volume_value_unit
             reagents.append(reagent_obj)
 
-def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc):
+def parse_new_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, item, biofab_doc):
     # new media and reagents from Cell State Reporters and Live Dead
     if attributes_attr in item:
         # Options Reagents
@@ -96,7 +96,7 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biof
             reagent_keys = item[attributes_attr][options_attr][reagents_attr].keys()
             for reagent_key in reagent_keys:
                 reagent_key_item = item[attributes_attr][options_attr][reagents_attr][reagent_key]
-                reagent_obj = create_media_component(original_experiment_id, reagent_key, reagent_key, lab, sbh_query)
+                reagent_obj = create_media_component(original_experiment_id, reagent_key, reagent_key, lab, sbh_query, None, lab_instance)
                 if final_concentration_attr in reagent_key_item:
                     units = reagent_key_item[final_concentration_attr]["units"]
                     if units == "ul":
@@ -122,7 +122,7 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biof
                     reagent_id = media_key_source[sample_attr][sample_id_attr]
                     reagent_name = media_key_source[sample_attr][sample_name_attr]
 
-                    reagent_obj = create_media_component(original_experiment_id, reagent_name, reagent_id, lab, sbh_query)
+                    reagent_obj = create_media_component(original_experiment_id, reagent_name, reagent_id, lab, sbh_query, None, lab_instance)
                     if working_volume_attr in media_key_item:
                         units = media_key_item[working_volume_attr]["units"]
                         if units == "\u00b5l":
@@ -137,14 +137,14 @@ def parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biof
                     raise si
 
 
-def add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item):
+def add_input_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, biofab_doc, item):
     try:
         media_value = jq(".operations[].inputs[] | select (.name | contains (\"Type of Media\")).value").transform(biofab_doc)
     except StopIteration:
         print("Warning, could not find media for {}".format(item))
         media_value = None
     if media_value is not None:
-        reagents.append(create_media_component(original_experiment_id, media_value, media_value, lab, sbh_query))
+        reagents.append(create_media_component(original_experiment_id, media_value, media_value, lab, sbh_query, None, lab_instance))
 
 def add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, measurement_type):
 
@@ -282,7 +282,7 @@ def add_replicate(item, sample_doc):
             replicate_val = int(replicate_val)
         sample_doc[SampleConstants.REPLICATE] = replicate_val
 
-def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc):
+def add_strain(original_experiment_id, item, sample_doc, lab, lab_instance, sbh_query, biofab_doc):
     if sample_attr in item:
         if sample_id_attr not in item[sample_attr]:
             print("Warning, sample is missing a strain entry: {}".format(item))
@@ -305,12 +305,12 @@ def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_
                                     if test_pcr_item_id == pcr_item_id and test_pcr_item_name == "Primer/Probe Mix":
                                         sample_id = pcr_item[sample_attr][sample_id_attr]
                                         strain = pcr_item[sample_attr][sample_name_attr]
-                                        sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+                                        sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True, lab_instance=lab_instance)
                                         break
                 except StopIteration:
                     print("Warning, could not find items for plan: {}".format(original_experiment_id))
             else:
-                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True, lab_instance=lab_instance)
 
 def get_timepoint_from_item(item):
     if attributes_attr in item and timepoint_attr in item[attributes_attr]:
@@ -484,7 +484,7 @@ def extend_biofab_filename(file_name, plan_id, generated_by):
         gen_id = 'unknown'
     return '/'.join([str(plan_id), gen_id, file_name])
 
-def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query, reagents, biofab_doc):
+def add_inducer_experimental_media(original_experiment_id, item, lab, lab_instance, sbh_query, reagents, biofab_doc):
     # no media attribute, try to look up through the last source
     if source_attr in item:
         last_source_ = item[source_attr][0]
@@ -506,10 +506,10 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                             if len(inducer_split) == 2:
                                 if inducer_split[1] == "None":
                                     if inducer_split[0] != "None":
-                                        reagents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query))
+                                        reagents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, None, lab_instance))
                                 else:
                                     if inducer_split[0] != "None":
-                                        reagents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, inducer_split[1]))
+                                        reagents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, inducer_split[1], lab_instance))
                             else:
                                 # now we have something unexpected like None_arab_25.0 or Kan_arab_25.0
                                 # and have to carefully try and figure out the legal pairs
@@ -526,23 +526,23 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                                             try:
                                                 float(val2)
                                                 # arab_25.0
-                                                reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query, val2))
+                                                reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query, val2, lab_instance))
                                                 seen_index.add(index)
                                                 seen_index.add(index + 1)
                                             except ValueError:
                                                 # Kan
-                                                reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query))
+                                                reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query, None, lab_instance))
                                                 seen_index.add(index)
                                         else:
                                             # Kan
                                             val1 = inducer_split[index]
-                                            reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query))
+                                            reagents.append(create_media_component(original_experiment_id, val1, val1, lab, sbh_query, None, lab_instance))
                                             seen_index.add(index)
             if experimental_antibiotic_attr in last_source_lookup[attributes_attr]:
                 if not found_inducer_media:
                     experimental_antibiotic = last_source_lookup[attributes_attr][experimental_antibiotic_attr]
                     if experimental_antibiotic != "None":
-                        reagents.append(create_media_component(original_experiment_id, experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
+                        reagents.append(create_media_component(original_experiment_id, experimental_antibiotic, experimental_antibiotic, lab, sbh_query, None, lab_instance))
 
 def convert_biofab(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -560,14 +560,21 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
     output_doc = {}
 
+    biofab_doc_attributes = biofab_doc.get(attributes_attr)
+
     lab = SampleConstants.LAB_UWBF
-    output_doc[SampleConstants.LAB] = biofab_doc.get("attributes").get("lab", lab)
+    output_doc[SampleConstants.LAB] = biofab_doc_attributes.get("lab", lab)
 
     # The UW_BIOFAB provenance dump from Aquarium is now being used by other labs.
     # Use the lab value if provided, and validate it
     lab_schema = { "$ref" : "https://schema.catalog.sd2e.org/schemas/lab.json"}
     lab = output_doc[SampleConstants.LAB]
     validate(lab, lab_schema)
+
+    lab_instance = None
+    if SampleConstants.LAB_INSTANCE in biofab_doc_attributes:
+        lab_instance = biofab_doc_attributes.get(SampleConstants.LAB_INSTANCE)
+        output_doc[SampleConstants.LAB_INSTANCE] = lab_instance
 
     original_experiment_id = None
     if "plan_id" in biofab_doc:
@@ -578,11 +585,10 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         raise ValueError("Cannot parse plan/experiment_id")
 
     output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(original_experiment_id, lab)
-    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc.get("attributes", {}).get("challenge_problem")
+    output_doc[SampleConstants.CHALLENGE_PROBLEM] = biofab_doc_attributes.get("challenge_problem")
 
 
-    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = biofab_doc.get(
-        "attributes", {}).get("experiment_reference")
+    output_doc[SampleConstants.EXPERIMENT_REFERENCE] = biofab_doc_attributes.get("experiment_reference")
 
     map_experiment_reference(config, output_doc)
 
@@ -688,7 +694,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         if attributes_attr in plate_source_lookup and type_of_media_attr in plate_source_lookup[attributes_attr] and source_attr not in item:
             media_name = plate_source_lookup[attributes_attr][type_of_media_attr]
             # case for old files that do not have this.
-            reagents.append(create_media_component(original_experiment_id, media_name, media_name, lab, sbh_query))
+            reagents.append(create_media_component(original_experiment_id, media_name, media_name, lab, sbh_query, None, lab_instance))
         else:
             if source_attr not in item:
                 print("Warning, item is missing a source {}".format(item))
@@ -701,13 +707,13 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 if attributes_attr in media_source_lookup and media_attr in media_source_lookup[attributes_attr]:
                     if sample_id_attr in media_source_lookup[attributes_attr][media_attr]:
                         media_id = media_source_lookup[attributes_attr][media_attr][sample_id_attr]
-                        reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query))
+                        reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query, None, lab_instance))
                     else:
                         raise ValueError("No media id? {}".format(media_source_lookup))
                 else:
-                    add_inducer_experimental_media(original_experiment_id, media_source_lookup, lab, sbh_query, reagents, biofab_doc)
+                    add_inducer_experimental_media(original_experiment_id, media_source_lookup, lab, lab_instance, sbh_query, reagents, biofab_doc)
                     # Alternative: lookup media by inputs
-                    add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, media_source_lookup)
+                    add_input_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, biofab_doc, media_source_lookup)
 
                 add_od(media_source_lookup, sample_doc)
 
@@ -726,7 +732,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temp_value) + ":celsius")
 
         # could use ID
-        add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc)
+        add_strain(original_experiment_id, item, sample_doc, lab, lab_instance, sbh_query, biofab_doc)
 
         add_od(item, sample_doc)
 
@@ -734,9 +740,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
         add_replicate(item, sample_doc)
 
-        parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc)
+        parse_new_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, item, biofab_doc)
 
-        parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
+        parse_stain(original_experiment_id, lab, lab_instance, sbh_query, reagents, item)
 
         if len(reagents) > 0:
             sample_doc[SampleConstants.CONTENTS] = reagents
@@ -826,9 +832,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                     media_name = item_source[sample_attr][sample_name_attr]
                     reagent_obj = None
                     if concentration_attr in item_source[attributes_attr]:
-                        reagent_obj = create_media_component(original_experiment_id, media_name, media_id, lab, sbh_query, item_source[attributes_attr][concentration_attr])
+                        reagent_obj = create_media_component(original_experiment_id, media_name, media_id, lab, sbh_query, item_source[attributes_attr][concentration_attr], lab_instance)
                     else:
-                        reagent_obj = create_media_component(original_experiment_id, media_name, media_id, lab, sbh_query)
+                        reagent_obj = create_media_component(original_experiment_id, media_name, media_id, lab, sbh_query, None, lab_instance)
 
                     if volume_attr in item_source[attributes_attr]:
                         volume_value_unit = create_value_unit(item_source[attributes_attr][volume_attr])
@@ -838,9 +844,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 else:
                     # strain
-                    add_strain(original_experiment_id, item_source, sample_doc, lab, sbh_query, biofab_doc)
+                    add_strain(original_experiment_id, item_source, sample_doc, lab, lab_instance, sbh_query, biofab_doc)
 
-                add_inducer_experimental_media(original_experiment_id, item_source, lab, sbh_query, reagents, biofab_doc)
+                add_inducer_experimental_media(original_experiment_id, item_source, lab, lab_instance, sbh_query, reagents, biofab_doc)
 
                 add_od(item_source, sample_doc)
 
@@ -848,9 +854,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 add_replicate(item_source, sample_doc)
 
-                parse_new_media(original_experiment_id, lab, sbh_query, reagents, item_source, biofab_doc)
+                parse_new_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, item_source, biofab_doc)
 
-                parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
+                parse_stain(original_experiment_id, lab, lab_instance, sbh_query, reagents, item)
 
                 if well_attr in item:
                     sample_doc[SampleConstants.WELL_LABEL] = item[well_attr]
@@ -859,7 +865,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 if attributes_attr in item_source and media_attr in item_source[attributes_attr]:
                     if sample_id_attr in item_source[attributes_attr][media_attr]:
                         media_id = item_source[attributes_attr][media_attr][sample_id_attr]
-                        reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query))
+                        reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query, None, lab_instance))
                     else:
                         raise ValueError("No media id? {}".format(item_source))
                 else:
@@ -869,11 +875,11 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                         if attributes_attr in media_source_lookup and media_attr in media_source_lookup[attributes_attr]:
                             if sample_id_attr in media_source_lookup[attributes_attr][media_attr]:
                                 media_id = media_source_lookup[attributes_attr][media_attr][sample_id_attr]
-                                reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query))
+                                reagents.append(create_media_component(original_experiment_id, media_id, media_id, lab, sbh_query, None, lab_instance))
                             else:
                                 raise ValueError("No media id? {}".format(media_source_lookup))
                     else:
-                        add_input_media(original_experiment_id, lab, sbh_query, reagents, biofab_doc, item_source)
+                        add_input_media(original_experiment_id, lab, lab_instance, sbh_query, reagents, biofab_doc, item_source)
 
                 if len(reagents) > 0:
                     sample_doc[SampleConstants.CONTENTS] = reagents
