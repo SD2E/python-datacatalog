@@ -78,6 +78,14 @@
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
         },
+        "replicate_group": {
+            "description": "A string sha1 hash of the replicate_group_string",
+            "type": "string"
+        },
+        "replicate_group_string": {
+            "description": "A human readable string of the attributes that define this sample's common conditions as a replicate_group",
+            "type": "string"
+        },
         "sample_id": {
             "description": "Unique sample id",
             "$ref": "namespaced_identifier.json"
