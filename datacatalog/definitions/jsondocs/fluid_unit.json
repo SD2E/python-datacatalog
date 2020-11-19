@@ -10,7 +10,8 @@
         "micromole",
         "nM",
         "uM",
-        "mg/ml"
+        "mg/ml",
+        "ng/ul"
     ],
     "type": "string"
 }
