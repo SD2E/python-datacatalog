@@ -18,6 +18,25 @@ from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
+
+def parse_time(transcriptic_sample_or_file):
+    if SampleConstants.TIMEPOINT in transcriptic_sample_or_file:
+        time_val = transcriptic_sample_or_file[SampleConstants.TIMEPOINT]
+        # 1 hour -> 1:hour
+        if time_val.endswith(" hour"):
+            time_val = time_val.replace(" hour", ":hour")
+
+        # enum fix
+        if time_val.endswith("hours"):
+            time_val = time_val.replace("hours", "hour")
+        if time_val.endswith("minutes"):
+            minute_split = time_val.split(":minutes")
+            minute_val = float(minute_split[0])/60.0
+            time_val = str(minute_val) + ":hour"
+        return time_val
+    else:
+        return None
+
 """
 Schema closely aligns with V1 target schema
 Walk and expand to dictionary/attribute blocks
@@ -354,20 +373,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         # time
-        time_val = None
-        if SampleConstants.TIMEPOINT in transcriptic_sample:
-            time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
-            # 1 hour -> 1:hour
-            if time_val.endswith(" hour"):
-                time_val = time_val.replace(" hour", ":hour")
-
-            # enum fix
-            if time_val.endswith("hours"):
-                time_val = time_val.replace("hours", "hour")
-            if time_val.endswith("minutes"):
-                minute_split = time_val.split(":minutes")
-                minute_val = float(minute_split[0])/60.0
-                time_val = str(minute_val) + ":hour"
+        time_val = parse_time(transcriptic_sample)
 
         # controls and standards
         # map standard for, type,
@@ -450,6 +456,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
         for file in transcriptic_sample[SampleConstants.FILES]:
             measurement_doc = {}
+
+            # try to parse the file directly
+            if time_val is None:
+                time_val = parse_time(file)
 
             if time_val is not None:
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
