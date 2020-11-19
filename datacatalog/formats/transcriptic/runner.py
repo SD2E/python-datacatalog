@@ -304,6 +304,15 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
+        #"dna_concentration": "0:nanogram:microliter",
+        if "dna_concentration" in transcriptic_sample:
+            dna_content = "DNA Reaction Concentration"
+            dna_content_concentration = transcriptic_sample["dna_concentration"]
+            # clean up inconsistencies
+            if dna_content_concentration.endswith("nanogram/microliter"):
+                dna_content_concentration = dna_content_concentration.replace("nanogram/microliter", "nanogram:microliter")
+            contents.append(create_media_component(original_experiment_id, dna_content, dna_content, lab, sbh_query, dna_content_concentration))
+
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
