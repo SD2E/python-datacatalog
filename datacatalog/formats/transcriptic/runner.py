@@ -467,8 +467,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             measurement_doc = {}
 
             # try to parse the file directly
-            if time_val is None:
-                time_val = parse_time(file)
+            file_time_val = parse_time(file)
+            if file_time_val is not None:
+                time_val = file_time_val
 
             if time_val is not None:
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
