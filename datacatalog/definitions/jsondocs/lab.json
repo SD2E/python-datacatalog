@@ -12,7 +12,9 @@
         "UCSB_Yeung",
         "Duke_Haase",
         "PSU_Salis",
-        "GEO"
+        "GEO",
+        "UW_LUTZ",
+        "Duke_Genomics"
     ],
     "type": "string"
 }
