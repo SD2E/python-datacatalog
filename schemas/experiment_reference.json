@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20201120T195236+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@df2d5cf",
+    "$comment": "version: 2.2.0#master; generated: 20201203T135338+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@2f81207",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -131,6 +131,7 @@
         "Yeast-Gates",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-Time-Series-LiveDeadClassification",
+        "Duke-YeastSTATES-Ethanol-TS-2-0-LiveDeadClassification",
         "Duke-YeastSTATES-Time-Series-CFU-LiveDeadClassification",
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
@@ -325,6 +326,7 @@
         "Yeast-Gates",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-Time-Series-LiveDeadClassification",
+        "Duke-YeastSTATES-Ethanol-TS-2-0-LiveDeadClassification",
         "Duke-YeastSTATES-Time-Series-CFU-LiveDeadClassification",
         "Engineered-CEN-PK2-DNASeq",
         "ERtoStrateosMappings",
