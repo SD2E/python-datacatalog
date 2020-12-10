@@ -33,6 +33,11 @@ item_id_attr = "item_id"
 media_attr = "media"
 alt_media_attr = "Media"
 inducer_attr = "inducer"
+alt_inducer_attr = "Inducer(s)"
+units_attr = "units"
+qty_attr = "qty"
+alt_temperature_attr = "temperature"
+alt_duration_attr = "duration"
 experimental_media_attr = "experimental_media"
 experimental_antibiotic_attr = "experimental_antibiotic"
 concentration_attr = "concentration"
@@ -43,6 +48,7 @@ alt_control_attr = "Control"
 standard_attr = "standard"
 lot_attr = "Lot No."
 options_attr = "Options"
+alt_options_attr = "Option(s)"
 reagents_attr = "Reagents"
 final_concentration_attr = "final_concentration"
 stain_attr = "Stain"
@@ -543,6 +549,76 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                     experimental_antibiotic = last_source_lookup[attributes_attr][experimental_antibiotic_attr]
                     if experimental_antibiotic != "None":
                         reagents.append(create_media_component(original_experiment_id, experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
+# new format December 2020
+def parse_new_time_val(item):
+
+    time_val = None
+    if attributes_attr in item:
+        # "Option(s)": {
+        # "duration": {
+        # "qty": 180,
+        # "units": "minute"
+        # }
+        if alt_options_attr in item[attributes_attr]:
+            options_keys = item[attributes_attr][alt_options_attr].keys()
+            for option_key in options_keys:
+                option_key_item = item[attributes_attr][alt_options_attr][option_key]
+                if option_key == alt_duration_attr:
+                    time_qty = option_key_item[qty_attr]
+                    time_units = option_key_item[units_attr]
+
+                    if time_units == "minute":
+                        time_qty = (float(time_qty))/60.0
+                        time_units = "hour"
+
+                    time_val = str(time_qty) + ":" + time_units
+    return time_val
+
+# new format December 2020
+def parse_new_attributes(original_experiment_id, lab, sbh_query, reagents, item, sample_doc):
+
+    if attributes_attr in item:
+
+        if alt_media_attr in item[attributes_attr]:
+            # alternative media:
+            # "Media": {
+            # "SC": {
+            media_keys = item[attributes_attr][alt_media_attr].keys()
+            for media_key in media_keys:
+                reagent_obj = create_media_component(original_experiment_id, media_key, media_key, lab, sbh_query)
+                reagents.append(reagent_obj)
+
+        if alt_inducer_attr in item[attributes_attr]:
+            # alternative inducer:
+            # "Inducer(s)": {
+            # "beta-estradiol": {
+            inducer_keys = item[attributes_attr][alt_inducer_attr].keys()
+            for inducer_key in inducer_keys:
+                # concentration
+                reagent_key_item = item[attributes_attr][alt_inducer_attr][inducer_key]
+                if final_concentration_attr in reagent_key_item:
+                    reagent_qty = reagent_key_item[final_concentration_attr][qty_attr]
+                    reagent_units = reagent_key_item[final_concentration_attr][units_attr]
+                    concentration_value_unit = str(reagent_qty) + ":" + reagent_units
+                    reagent_obj = create_media_component(original_experiment_id, inducer_key, inducer_key, lab, sbh_query, concentration_value_unit)
+                    reagents.append(reagent_obj)
+        # "Option(s)": {
+        # "temperature": {
+        # "qty": 30,
+        # "units": "C"
+        # }
+        if alt_options_attr in item[attributes_attr]:
+            options_keys = item[attributes_attr][alt_options_attr].keys()
+            for option_key in options_keys:
+                option_key_item = item[attributes_attr][alt_options_attr][option_key]
+                if option_key == alt_temperature_attr:
+                    temperature_qty = option_key_item[qty_attr]
+                    temperature_units = option_key_item[units_attr]
+
+                    if temperature_units == "C":
+                        temperature_units = "celsius"
+
+                    sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temperature_qty) + ":" + temperature_units)
 
 def convert_biofab(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -737,6 +813,22 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc)
 
         parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
+
+        #"attributes": {
+        #"source": [
+        #  {
+        #    "id": 496595
+        #  }
+        #]
+        # }
+        if attributes_attr in item and "source" in item[attributes_attr] and len(item[attributes_attr]["source"]) == 1:
+            new_item_id = str(item[attributes_attr]["source"][0]["id"])
+            new_item = jq(".items[] | select(.item_id==\"" + new_item_id + "\")").transform(biofab_doc)
+
+            parse_new_attributes(original_experiment_id, lab, sbh_query, reagents, new_item, sample_doc)
+
+            if time_val is None:
+                time_val = parse_new_time_val(new_item)
 
         if len(reagents) > 0:
             sample_doc[SampleConstants.CONTENTS] = reagents
