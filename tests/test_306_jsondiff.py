@@ -7,6 +7,32 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PARENT = os.path.dirname(HERE)
 DATA_DIR = os.path.join(HERE, 'data/sampleset')
 
+def test_json_diff_mixed_lists():
+
+    foo = { 'uuid': 1, 'parameters' : [ { 'recovery_info' : {'recovery_media': 'foo', 'recovery_sample_vol': '100:microliter', 'recovery_media_vol': '400:microliter', 'inc_time_2': '3:hour'}}]}
+    bar = { 'uuid': 1, 'parameters' : [ { 'recovery_info' : [{'recovery_media': 'bar', 'recovery_sample_vol': '100:microliter', 'recovery_media_vol': '400:microliter', 'inc_time_2': '3:hour'}]}]}
+
+    merge_source = foo
+    merge_dest = bar
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+    assert json.loads(diff_record.delta) != dict()
+    assert s_updated == True
+
+    # ensure inverse works
+    merge_source = bar
+    merge_dest = foo
+
+    diff_record = get_diff(source=merge_source,
+                           target=merge_dest,
+                           action='update')
+    s_updated = diff_record.updated
+    assert json.loads(diff_record.delta) != dict()
+    assert s_updated == True
+
 def test_json_diff_recursion():
 
     # check diff list functions
