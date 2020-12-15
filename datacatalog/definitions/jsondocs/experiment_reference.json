@@ -2,8 +2,10 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
-    "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
+    "ARL-P-putida-Growth-Curves-30C",
+    "ARL-P-putida-Promoters-Short-Duration-Time-Series-30C",
     "Unknown",
+    "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
     "devos-6539-negatives-plus-spike",
     "devos-6575",
     "devos-6500",
