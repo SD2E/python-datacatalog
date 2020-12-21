@@ -420,11 +420,14 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             if strain_class == "Control" and control_type == "Negative":
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-            if strain_class == "Process" and control_type == SampleConstants.STANDARD_BEAD_FLUORESCENCE:
-                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_FLUORESCENCE
-                sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
-                sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
-                sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+            if strain_class == "Process":
+                if control_type == SampleConstants.STANDARD_BEAD_FLUORESCENCE:
+                    sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_FLUORESCENCE
+                    sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
+                    sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
+                    sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+                elif control_type == SampleConstants.STANDARD_BEAD_SIZE:
+                    sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
 
             # Styox
             if not is_cfu:
