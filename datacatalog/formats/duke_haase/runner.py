@@ -368,7 +368,10 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                     mt = SampleConstants.MT_FLOW
 
                 output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = row[header_map["experiment_reference_url"]]
-                output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(row[header_map["experiment_id"]]+"_"+mt, lab)
+
+                # without measurement type - for filenames
+                experiment_id_bak = row[header_map["experiment_id"]]
+                output_doc[SampleConstants.EXPERIMENT_ID] = namespace_experiment_id(experiment_id_bak+"_"+mt, lab)
 
                 map_experiment_reference(config, output_doc)
                 experiment_id = output_doc.get(SampleConstants.EXPERIMENT_ID)
@@ -499,7 +502,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             if is_cfu:
                 file_type = SampleConstants.infer_file_type(input_file)
                 measurement_doc[SampleConstants.FILES].append(
-                    {SampleConstants.M_NAME: experiment_id + "_cfu_and_meta.csv",
+                    {SampleConstants.M_NAME: experiment_id_bak + "__cfu_and_meta.csv",
                      SampleConstants.M_TYPE: file_type,
                      SampleConstants.M_LAB_LABEL: [SampleConstants.M_LAB_LABEL_RAW],
                      SampleConstants.FILE_ID: file_id,
