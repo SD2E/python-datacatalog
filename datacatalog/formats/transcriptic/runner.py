@@ -95,6 +95,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1IlR2-ufP_vVfHt15uYocExhyQfEkPnOljYf3Y-rB08g"
         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-CRISPR-Growth-Curves-422936"
 
+    # Group all endogenous promoter experiments together
+    if output_doc[SampleConstants.EXPERIMENT_REFERENCE].startswith("NovelChassis-Endogenous-Promoter-"):
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE]= "NovelChassis-Endogenous-Promoter"
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/162OXD2SacWUb4aN1WK7vA2rlKupmcstDpPheAt49ADQ"
+
     db = mongo.db_connection(config['mongodb'])
     samples_table = db.samples
 
