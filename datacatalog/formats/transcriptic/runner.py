@@ -322,6 +322,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
 
+            # local override
+            if "Full Name" in transcriptic_sample:
+                strain = transcriptic_sample["Full Name"]
+
             # Normalize TX Sphero Markers
             if strain == "SpheroControl1":
                 strain = "SpheroControl"
