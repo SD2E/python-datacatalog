@@ -301,8 +301,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                                 # split on fluid units
                                 # e.g. "20uM beta-estradiol"
                                 if inducer[0].isdigit() and " " in inducer:
-                                    inducer_split = inducer.split(" ")
-                                    inducer = inducer_split[1]
+                                    inducer_match = inducer_regex.match(inducer)
+                                    if not inducer_match:
+                                        raise ValueError("Could not parse inducer {}".format(reagent_label))
+                                    inducer = inducer_match.group(1)
                                 concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                             contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
