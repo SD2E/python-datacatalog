@@ -1,12 +1,14 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210115T155358+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@0d07dd0",
+    "$comment": "version: 2.2.0#master; generated: 20210121T165338+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3ad5518",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
         "ARL-P-putida-Growth-Curves-30C",
+        "ARL-P-putida-Growth-Curves-30C-1",
         "ARL-P-putida-Promoters-Short-Duration-Time-Series-30C",
+        "Strateos-ARL-plate-1-csv",
         "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "devos-6539-negatives-plus-spike",
@@ -209,12 +211,15 @@
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-A",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-B-3-Nov-2020",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-B-3-Nov-2020-small-test",
+        "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-C-21-Jan-2021",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
     "examples": [
         "ARL-P-putida-Growth-Curves-30C",
+        "ARL-P-putida-Growth-Curves-30C-1",
         "ARL-P-putida-Promoters-Short-Duration-Time-Series-30C",
+        "Strateos-ARL-plate-1-csv",
         "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "devos-6539-negatives-plus-spike",
@@ -417,6 +422,7 @@
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-A",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-B-3-Nov-2020",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-B-3-Nov-2020-small-test",
+        "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-1-32-C-21-Jan-2021",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
