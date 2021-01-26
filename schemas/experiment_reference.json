@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210126T065442+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ffb5682",
+    "$comment": "version: 2.2.0#master; generated: 20210126T175352+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5ec1522",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -68,6 +68,7 @@
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
         "Exp-NC-NAND-Gate-Iteration",
+        "for-Landing-pad-strain-sequencing",
         "request-NC-characterization-in-Biolog-plates",
         "Requests",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
@@ -281,6 +282,7 @@
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-24hour",
         "ER-NovelChassis-mCherryControlStrains-GBW-Cycle0-8hour",
         "Exp-NC-NAND-Gate-Iteration",
+        "for-Landing-pad-strain-sequencing",
         "request-NC-characterization-in-Biolog-plates",
         "Requests",
         "mCherry-Bacillus-Control-Strain-with-RNAseq-testing",
