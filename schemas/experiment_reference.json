@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210125T205529+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@a1fa4ce",
+    "$comment": "version: 2.2.0#master; generated: 20210126T065442+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ffb5682",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -55,6 +55,7 @@
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
+        "Plan-Requirements-P-brassicacaerum-inducer-RNASeq",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-CitT-PFA-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier",
@@ -267,6 +268,7 @@
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
+        "Plan-Requirements-P-brassicacaerum-inducer-RNASeq",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
         "Plan-Requirements-UCSB-B-subtilis-CitT-PFA-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-B-subtilis-PositiveFeedbackAmplifier",
