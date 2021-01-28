@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210126T175352+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5ec1522",
+    "$comment": "version: 2.2.0#master; generated: 20210128T165354+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@f865c32",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -200,6 +200,7 @@
         "YeastSTATES-Doxycycline-OR-Gate-Plant-TF-Growth-Curves-30C",
         "YeastSTATES-Dual-Response-CRISPR-Growth-Curves-30C",
         "YeastSTATES-Dual-Response-CRISPR-Growth-Curves-35C",
+        "YeastSTATES-Dual-Response-CRISPR-Redesigns-Short-Duration-Time-Series-30C",
         "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C",
         "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-35C",
         "YeastSTATES-Gander-Operational-Envelope",
@@ -414,6 +415,7 @@
         "YeastSTATES-Doxycycline-OR-Gate-Plant-TF-Growth-Curves-30C",
         "YeastSTATES-Dual-Response-CRISPR-Growth-Curves-30C",
         "YeastSTATES-Dual-Response-CRISPR-Growth-Curves-35C",
+        "YeastSTATES-Dual-Response-CRISPR-Redesigns-Short-Duration-Time-Series-30C",
         "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C",
         "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-35C",
         "YeastSTATES-Gander-Operational-Envelope",
