@@ -2,6 +2,7 @@
   "description": "Challenge problem enumeration",
   "type": "string",
   "enum": [
+    "ARL_PROMOTER_TEST",
     "RDT_QPCR",
     "DUKE_VALIDATION",
     "NOVEL_CHASSIS",
