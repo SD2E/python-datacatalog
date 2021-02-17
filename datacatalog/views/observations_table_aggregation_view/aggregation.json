@@ -1,5 +1,5 @@
 {
-    "view_on": "science_view",
+    "view_on": "science_view_filtered",
     "pipeline": [{
         "$lookup": {
             "from": "observations_dev",
