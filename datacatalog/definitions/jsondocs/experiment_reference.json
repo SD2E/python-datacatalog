@@ -84,6 +84,7 @@
     "NovelChassis-HighThroughput-TimeSeries",
     "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
     "NovelChassis-TimeSeries-LowThroughput",
+    "TBS10-nanopore-DNASeq",
     "Tight-cycle-DNASeq-Learn-Bacillus",
     "UCSB-CitT-Sequencing-Stub",
     "YeastStates-TimeSeries-LowThroughput",

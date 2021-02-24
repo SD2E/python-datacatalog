@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210218T225251+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@73d025c",
+    "$comment": "version: 2.2.0#master; generated: 20210224T165239+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ecd64bc",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -87,6 +87,7 @@
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-TimeSeries-LowThroughput",
+        "TBS10-nanopore-DNASeq",
         "Tight-cycle-DNASeq-Learn-Bacillus",
         "UCSB-CitT-Sequencing-Stub",
         "YeastStates-TimeSeries-LowThroughput",
@@ -305,6 +306,7 @@
         "NovelChassis-HighThroughput-TimeSeries",
         "NovelChassis-OR-Circuit-Cycle1-ObstacleCourse-wRNASeq",
         "NovelChassis-TimeSeries-LowThroughput",
+        "TBS10-nanopore-DNASeq",
         "Tight-cycle-DNASeq-Learn-Bacillus",
         "UCSB-CitT-Sequencing-Stub",
         "YeastStates-TimeSeries-LowThroughput",
