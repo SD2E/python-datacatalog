@@ -158,6 +158,78 @@
           "sample_id"
         ]
       }
+    },
+    {
+  "type": "object",
+  "properties": {
+    "lab": {
+      "type": "string"
+    },
+    "internal_workflow_id": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "experimental_reference": {
+      "type": "string"
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sample_id": {
+            "type": "string"
+          },
+          "content": {
+            "type": "object",
+            "properties": {
+              "strain": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["id", "name"]
+                }
+              }
+            },
+            "required": ["strain"]
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "SD2_replicate": {
+                "type": "integer"
+              }
+            },
+            "required": ["SD2_replicate"]
+          },
+          "measurements": {
+            "type": "object"
+          }
+        },
+        "required": ["content", "measurements", "properties", "sample_id"]
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "properties": {
+        "NGS (Long Read)": {
+          "type": "integer"
+        }
+      },
+      "required": ["NGS (Long Read)"]
     }
+  },
+  "required": ["experimental_reference", "internal_workflow_id", "lab", "manifest", "samples"]
+}
   ]
 }
