@@ -95,7 +95,7 @@ def parse_replicate(sample_properties):
 
 def parse_contents(sample, output_doc, lab, sbh_query):
     contents = []
-    if "content" in sample:
+    if "content" in sample and "reagent" in sample["content"]:
         for reagent in sample["content"]["reagent"]:
 
             reagent_id = reagent["id"]
@@ -564,6 +564,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             elif assay_type == "NGS (Genome)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
             elif assay_type == "NGS (Cellfie)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
+            elif assay_type == "NGS (Long Read)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
