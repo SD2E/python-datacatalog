@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20210224T202606+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@73d025c",
     "$id": "https://schema.catalog.sd2e.org/schemas/ginkgo_samples_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -184,6 +184,98 @@
                 "type": "object"
             },
             "type": "array"
+        },
+        {
+            "properties": {
+                "experimental_reference": {
+                    "type": "string"
+                },
+                "internal_workflow_id": {
+                    "items": {
+                        "type": "integer"
+                    },
+                    "type": "array"
+                },
+                "lab": {
+                    "type": "string"
+                },
+                "manifest": {
+                    "properties": {
+                        "NGS (Long Read)": {
+                            "type": "integer"
+                        }
+                    },
+                    "required": [
+                        "NGS (Long Read)"
+                    ],
+                    "type": "object"
+                },
+                "samples": {
+                    "items": {
+                        "properties": {
+                            "content": {
+                                "properties": {
+                                    "strain": {
+                                        "items": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "id",
+                                                "name"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "type": "array"
+                                    }
+                                },
+                                "required": [
+                                    "strain"
+                                ],
+                                "type": "object"
+                            },
+                            "measurements": {
+                                "type": "object"
+                            },
+                            "properties": {
+                                "properties": {
+                                    "SD2_replicate": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "SD2_replicate"
+                                ],
+                                "type": "object"
+                            },
+                            "sample_id": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "content",
+                            "measurements",
+                            "properties",
+                            "sample_id"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "experimental_reference",
+                "internal_workflow_id",
+                "lab",
+                "manifest",
+                "samples"
+            ],
+            "type": "object"
         }
     ],
     "title": "Ginkgo Samples Format Classification Schema",
