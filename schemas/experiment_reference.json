@@ -1,12 +1,12 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210224T165239+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ecd64bc",
+    "$comment": "version: 2.2.0#master; generated: 20210225T205340+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@298bd26",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
         "ARL-P-putida-Growth-Curves-30C",
-        "Copy-of-Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
+        "ARL-Pputida-starvation-assay-TimeSeriesTitration-Strateos",
         "Strateos-ARL-plate-1-csv",
         "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
@@ -225,7 +225,7 @@
     ],
     "examples": [
         "ARL-P-putida-Growth-Curves-30C",
-        "Copy-of-Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
+        "ARL-Pputida-starvation-assay-TimeSeriesTitration-Strateos",
         "Strateos-ARL-plate-1-csv",
         "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
