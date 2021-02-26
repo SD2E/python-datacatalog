@@ -90,7 +90,7 @@ def safen_path(file_path, no_unicode=settings.UNICODE_PATHS, no_spaces=False, ur
 
 def msec_precision(datetimeval):
     dt = arrow.get(datetimeval)
-    dts = dt.timestamp
+    dts = dt.int_timestamp
     dtsp = ((dts * 1000) / 1000)
     return datetime.datetime.fromtimestamp(dtsp)
 
