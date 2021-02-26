@@ -3,8 +3,7 @@
   "type": "string",
   "enum": [
     "ARL-P-putida-Growth-Curves-30C",
-    "ARL-Pputida-starvation-assay-TimeSeriesTitration-Strateos",
-    "Copy-of-Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
+    "P-putida-starvation-TimeSeriesTitration-Strateos",
     "Strateos-ARL-plate-1-csv",
     "Unknown",
     "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
