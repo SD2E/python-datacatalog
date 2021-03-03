@@ -814,6 +814,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
         parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
 
+        if well_attr in item:
+            sample_doc[SampleConstants.WELL_LABEL] = item[well_attr]
+
         #"attributes": {
         #"source": [
         #  {
