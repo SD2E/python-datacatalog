@@ -14,12 +14,18 @@ def get_tapis_jobs_for_experiment(db_uri, ex_id):
     for e in experiments:
         jobs = e["jobs"]
         for j in jobs:
+            #print(f"j: {j}")
             for tj in j["agave_jobs"]:
-                tjob = agave.jobs.get(jobId=tj)
-                if tjob.status in ["RUNNING"]:
-                    if j["pipeline_name"] not in jobs_map:
-                        jobs_map[j["pipeline_name"]] = []
-                    jobs_map[j["pipeline_name"]].append(tj)
+                #print(f"tj: {tj}")
+                try:
+                    tjob = agave.jobs.get(jobId=tj)
+                    if tjob.status in ["RUNNING"]:
+                        if j["pipeline_name"] not in jobs_map:
+                            jobs_map[j["pipeline_name"]] = []
+                        analysis = j["analysis"] if "analysis" in j else None
+                        jobs_map[j["pipeline_name"]].append([analysis, tj])
+                except Exception as exc:
+                    print(f"exc: {exc}")
     return jobs_map
 
 def get_tapis_jobs_for_experiment_reference(db_uri, ex_ref):
@@ -40,21 +46,25 @@ def get_tapis_jobs_for_experiment_reference(db_uri, ex_ref):
                     jobs_map[k] = v
     return jobs_map
 
-def stop_tapis_jobs(jobs_map, pipelines):
+def stop_tapis_jobs(jobs_map, pipelines, analysis=None):
     agave = Agave.restore()
     for p in pipelines:
         tapis_jobs = jobs_map[p] if p in jobs_map else []
         for tj in tapis_jobs:
-            print(f"stopping job {tj}")
-            agave.jobs.manage(jobId=tj, body={"action":"stop"})
+            if analysis is None or p == "Precomputed data table" and analysis == tj[0]:
+                try:
+                    print(f"stopping job {tj[1]}")
+                    agave.jobs.manage(jobId=tj[1], body={"action":"stop"})
+                except Exception as exc:
+                    print(f"exc: {exc}")
     
 def main():
     if len(sys.argv) < 2:
-        print('python experiment_tapis_jobs.py db_uri')
+        print('python tapis_job_cleanup.py db_uri')
         sys.exit(2)
 
     print(sys.argv[1])
-    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "YeastSTATES-CRISPR-Dox-Dose-Response-2021-UWBF")
+    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "NovelChassis-Endogenous-Promoter")
     print(f"jobs_map: {jobs_map}")
     stop_tapis_jobs(jobs_map, ["Precomputed data table"])
   
