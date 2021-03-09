@@ -1,0 +1,8 @@
+{
+    "description": "A state for a strain circuit. Currently only encodes two values: on and off.",
+    "enum": [
+        "ON",
+        "OFF"
+    ],
+    "type": "string"
+}

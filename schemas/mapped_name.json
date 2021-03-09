@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022109+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20210309T154331+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@b9b9a8b",
     "$id": "https://schema.catalog.sd2e.org/schemas/mapped_name.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -11,6 +11,10 @@
         "circuit": {
             "$ref": "circuit.json",
             "description": "A logic circuit enum for this sbh_uri, if available (e.g. a strain)"
+        },
+        "circuit_state": {
+            "$ref": "circuit_state.json",
+            "description": "A circuit state enum for this sbh_uri, if available (e.g. a strain)"
         },
         "input_state": {
             "$ref": "input_state.json",
