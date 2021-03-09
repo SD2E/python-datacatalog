@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022109+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20210309T154540+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@47ba7ab",
     "$id": "https://schema.catalog.sd2e.org/schemas/mapped_name.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -23,6 +23,10 @@
         "label": {
             "description": "Unique, human-readable string",
             "type": "string"
+        },
+        "predicted_circuit_state": {
+            "$ref": "circuit_state.json",
+            "description": "A predicted circuit state enum for this sbh_uri, if available (e.g. a strain)"
         },
         "sbh_uri": {
             "$ref": "sd2_synbiohub_uri.json",
