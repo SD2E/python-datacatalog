@@ -13,6 +13,10 @@
             "$ref": "input_state.json",
             "description": "An input state enum for this sbh_uri, if available (e.g. a strain)"
         },
+        "predicted_circuit_state": {
+            "$ref": "circuit_state.json",
+            "description": "A predicted circuit state enum for this sbh_uri, if available (e.g. a strain)"
+        },
         "lab_id": {
             "description": "The original value specified by the provider",
             "$ref": "namespaced_identifier.json"
