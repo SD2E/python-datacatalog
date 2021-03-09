@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210309T154331+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@b9b9a8b",
+    "$comment": "version: 2.2.0#master; generated: 20210309T154540+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@47ba7ab",
     "$id": "https://schema.catalog.sd2e.org/schemas/mapped_name.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -12,10 +12,6 @@
             "$ref": "circuit.json",
             "description": "A logic circuit enum for this sbh_uri, if available (e.g. a strain)"
         },
-        "circuit_state": {
-            "$ref": "circuit_state.json",
-            "description": "A circuit state enum for this sbh_uri, if available (e.g. a strain)"
-        },
         "input_state": {
             "$ref": "input_state.json",
             "description": "An input state enum for this sbh_uri, if available (e.g. a strain)"
@@ -27,6 +23,10 @@
         "label": {
             "description": "Unique, human-readable string",
             "type": "string"
+        },
+        "predicted_circuit_state": {
+            "$ref": "circuit_state.json",
+            "description": "A predicted circuit state enum for this sbh_uri, if available (e.g. a strain)"
         },
         "sbh_uri": {
             "$ref": "sd2_synbiohub_uri.json",
