@@ -47,8 +47,9 @@ def get_tapis_jobs_for_experiment_reference(db_uri, ex_ref, agave=None):
                     jobs_map[k] = v
     return jobs_map
 
-def stop_tapis_jobs(jobs_map, pipelines, analysis=None):
-    agave = Agave.restore()
+def stop_tapis_jobs(jobs_map, pipelines, analysis=None, agave=None):
+    if agave is None:
+        agave = Agave.restore()
     for p in pipelines:
         tapis_jobs = jobs_map[p] if p in jobs_map else []
         for tj in tapis_jobs:
@@ -65,10 +66,11 @@ def main():
         sys.exit(2)
 
     print(sys.argv[1])
+    agave = Agave.restore()
     #jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "NovelChassis-Endogenous-Promoter")
-    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C", Agave.restore())
+    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C", agave=agave)
     print(f"jobs_map: {jobs_map}")
-    stop_tapis_jobs(jobs_map, ["Precomputed data table"])
+    stop_tapis_jobs(jobs_map, ["Precomputed data table"], agave=agave)
   
 if __name__ == '__main__':
   main() 
