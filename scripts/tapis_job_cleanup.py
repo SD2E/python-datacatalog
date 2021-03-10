@@ -39,7 +39,7 @@ def get_tapis_jobs_for_experiment_reference(db_uri, ex_ref, agave=None):
         jobs_map = get_tapis_jobs_for_experiment(db_uri, ex["experiment_id"], agave)
     else:
         for ex in matches:
-            jm = get_tapis_jobs_for_experiment(db_uri, ex["experiment_id"])
+            jm = get_tapis_jobs_for_experiment(db_uri, ex["experiment_id"], agave)
             for k, v in jm.items():
                 if k in jobs_map:
                     jobs_map[k].extend(v)
@@ -68,7 +68,7 @@ def main():
     #jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "NovelChassis-Endogenous-Promoter")
     jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C", Agave.restore())
     print(f"jobs_map: {jobs_map}")
-    #stop_tapis_jobs(jobs_map, ["Precomputed data table"])
+    stop_tapis_jobs(jobs_map, ["Precomputed data table"])
   
 if __name__ == '__main__':
   main() 
