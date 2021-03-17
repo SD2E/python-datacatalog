@@ -3,12 +3,12 @@ import sys
 from agavepy.agave import Agave
 
 def get_tapis_jobs_for_experiment(db_uri, ex_id, agave=None):
-    print(f"db_uri: {db_uri} ex_id: {db_uri}")
+    print(f"checking ex_id: {ex_id}")
     client = pymongo.MongoClient(db_uri)
     if agave is None:
         agave = Agave.restore()
     
-    # The view runs only RUNNING pipeline jobs
+    # The view contains only RUNNING pipeline jobs
     etjv = client.catalog_staging.experiment_tapis_jobs_view
     experiments = etjv.find({"_id.experiment_id": ex_id})
     jobs_map = {}
@@ -20,13 +20,13 @@ def get_tapis_jobs_for_experiment(db_uri, ex_id, agave=None):
                 #print(f"tj: {tj}")
                 try:
                     tjob = agave.jobs.get(jobId=tj)
-                    if tjob.status in ["RUNNING"]:
+                    if tjob.status in ["RUNNING", "BLOCKED"]:
                         if j["pipeline_name"] not in jobs_map:
                             jobs_map[j["pipeline_name"]] = []
                         analysis = j["analysis"] if "analysis" in j else None
                         jobs_map[j["pipeline_name"]].append([analysis, tj])
                 except Exception as exc:
-                    print(f"exc: {exc}")
+                    print(f"j: {j} exc: {exc}")
     return jobs_map
 
 def get_tapis_jobs_for_experiment_reference(db_uri, ex_ref, agave=None):
@@ -67,8 +67,8 @@ def main():
 
     print(sys.argv[1])
     agave = Agave.restore()
-    #jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "NovelChassis-Endogenous-Promoter")
-    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "YeastSTATES-Dual-Response-CRISPR-Short-Duration-Time-Series-30C", agave=agave)
+    jobs_map = get_tapis_jobs_for_experiment_reference(sys.argv[1], "NovelChassis-Endogenous-Promoter", agave=agave)
+    #jobs_map = get_tapis_jobs_for_experiment(sys.argv[1], ex_id = "experiment.transcriptic.r1f7aux4qxty6b", agave=agave)
     print(f"jobs_map: {jobs_map}")
     stop_tapis_jobs(jobs_map, ["Precomputed data table"], agave=agave)
   
