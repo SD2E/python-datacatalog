@@ -20,7 +20,7 @@ def get_tapis_jobs_for_experiment(db_uri, ex_id, agave=None):
                 #print(f"tj: {tj}")
                 try:
                     tjob = agave.jobs.get(jobId=tj)
-                    if tjob.status in ["RUNNING", "BLOCKED"]:
+                    if tjob.status not in ["FINISHED", "FAILED", "STOPPED"]:
                         if j["pipeline_name"] not in jobs_map:
                             jobs_map[j["pipeline_name"]] = []
                         analysis = j["analysis"] if "analysis" in j else None
