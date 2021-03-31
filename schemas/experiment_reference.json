@@ -1,10 +1,11 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210305T215239+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@b9b9a8b",
+    "$comment": "version: 2.2.0#master; generated: 20210331T165323+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@88cbf94",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "Copy-of-Pseudomonad-Growth-Curves-30C",
         "P-putida-starvation-TimeSeriesTitration-Strateos",
         "Pseudomonad-Growth-Curves-30C",
         "Strateos-ARL-plate-1-csv",
@@ -227,6 +228,7 @@
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
     "examples": [
+        "Copy-of-Pseudomonad-Growth-Curves-30C",
         "P-putida-starvation-TimeSeriesTitration-Strateos",
         "Pseudomonad-Growth-Curves-30C",
         "Strateos-ARL-plate-1-csv",
