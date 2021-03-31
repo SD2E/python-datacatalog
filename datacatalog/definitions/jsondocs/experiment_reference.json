@@ -2,6 +2,7 @@
   "description": "Experiment reference enumeration",
   "type": "string",
   "enum": [
+    "Copy-of-Pseudomonad-Growth-Curves-30C",
     "P-putida-starvation-TimeSeriesTitration-Strateos",
     "Pseudomonad-Growth-Curves-30C",
     "Strateos-ARL-plate-1-csv",
