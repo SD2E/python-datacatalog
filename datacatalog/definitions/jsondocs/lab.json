@@ -14,7 +14,8 @@
         "PSU_Salis",
         "GEO",
         "UW_LUTZ",
-        "Duke_Genomics"
+        "Duke_Genomics",
+        "Tulane"
     ],
     "type": "string"
 }
