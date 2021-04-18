@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210417T235355+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@af21465",
+    "$comment": "version: 2.2.0#master; generated: 20210418T155310+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@808a2fb",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -73,6 +73,7 @@
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
+        "Endogenous-Promoter-Blue-1-21-Run-04",
         "Endogenous-Promoter-Blue-43-48-Final-Set",
         "Endogenous-Promoter-Yellow-11-20-Run-04",
         "Endogenous-Promoter-Yellow-1-10-Run-04",
@@ -305,6 +306,7 @@
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-rerun-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-E-coli-nissle-antibiotic-TimeSeriesTitration-Strateos",
         "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
+        "Endogenous-Promoter-Blue-1-21-Run-04",
         "Endogenous-Promoter-Blue-43-48-Final-Set",
         "Endogenous-Promoter-Yellow-11-20-Run-04",
         "Endogenous-Promoter-Yellow-1-10-Run-04",
