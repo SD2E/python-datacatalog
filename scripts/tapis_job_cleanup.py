@@ -1,5 +1,6 @@
 import pymongo
 import sys
+import time
 from agavepy.agave import Agave
 
 def get_tapis_jobs_for_experiment(db_uri, ex_id, agave=None):
@@ -59,6 +60,8 @@ def stop_tapis_jobs(jobs_map, pipelines, analysis=None, agave=None):
                     agave.jobs.manage(jobId=tj[1], body={"action":"stop"})
                 except Exception as exc:
                     print(f"exc: {exc}")
+    # avoid race condition by waiting for 1 minute to give Tapis jobs ample time to react
+    time.sleep(60)
     
 def main():
     if len(sys.argv) < 2:
