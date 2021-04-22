@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210419T135601+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@e1c5d5c",
+    "$comment": "version: 2.2.0#master; generated: 20210422T155610+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@fb1e370",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -160,6 +160,7 @@
         "Copy-of-YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
+        "DualInducerConcentrations",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-Time-Series-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-TS-2-0-LiveDeadClassification",
@@ -394,6 +395,7 @@
         "Copy-of-YeastSTATES-Activator-Circuit-BE-Growth-Curves-35C",
         "Automated-High-Throughput-Hysteresis-Characterization",
         "Yeast-Gates",
+        "DualInducerConcentrations",
         "Duke-YeastSTATES-4-Strain-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-Time-Series-LiveDeadClassification",
         "Duke-YeastSTATES-Ethanol-TS-2-0-LiveDeadClassification",
