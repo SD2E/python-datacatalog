@@ -115,7 +115,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if channel['name'].endswith("-A"):
                 cytometer_channels.append(channel['name'])
 
-    inducer_regex = re.compile("\d{1,3}?\.?\d{1,3}?s?m?n?u?M\s(.*)")
+    inducer_regex = re.compile("\d{1,3}?\.?\d{1,3}?\s?m?n?u?M\s(.*)")
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
