@@ -1,0 +1,17 @@
+{
+    "view_on": "science_view_filtered",
+    "pipeline": [{
+        "$lookup": {
+            "from": "observations_dev",
+            "localField": "measurement.uuid",
+            "foreignField": "child_of",
+            "as": "observation"
+        }
+    },
+    {
+        "$unwind": {
+            "path": "$observation",
+            "preserveNullAndEmptyArrays": false
+        }
+    }]
+}

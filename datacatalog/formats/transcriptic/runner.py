@@ -5,17 +5,37 @@ import os
 import six
 import pymongo
 import datacatalog
+import re
 
 from datacatalog import mongo
 
 from jsonschema import validate, ValidationError
-from sbol import *
+from sbol2 import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
+
+
+def parse_time(transcriptic_sample_or_file):
+    if SampleConstants.TIMEPOINT in transcriptic_sample_or_file:
+        time_val = transcriptic_sample_or_file[SampleConstants.TIMEPOINT]
+        # 1 hour -> 1:hour
+        if time_val.endswith(" hour"):
+            time_val = time_val.replace(" hour", ":hour")
+
+        # enum fix
+        if time_val.endswith("hours"):
+            time_val = time_val.replace("hours", "hour")
+        if time_val.endswith("minutes"):
+            minute_split = time_val.split(":minutes")
+            minute_val = float(minute_split[0])/60.0
+            time_val = str(minute_val) + ":hour"
+        return time_val
+    else:
+        return None
 
 """
 Schema closely aligns with V1 target schema
@@ -64,6 +84,22 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
     map_experiment_reference(config, output_doc)
 
+    # We need to re-write this reference
+    # Strateos uploaded under the former URL and reference name,
+    # (“YeastSTATES CRISPR Growth Curves Request”)
+    # But the design was run under the latter reference URL and name
+    # and the former experiments were adopted into it
+    # (YeastSTATES CRISPR Growth Curves Request (422936)“)
+    # Fix this by URL
+    if output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] == "https://docs.google.com/document/d/1uv_X7CSD5cONEjW7yq4ecI89XQxPQuG5lnmaqshj47o":
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/1IlR2-ufP_vVfHt15uYocExhyQfEkPnOljYf3Y-rB08g"
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE] = "YeastSTATES-CRISPR-Growth-Curves-422936"
+
+    # Group all endogenous promoter experiments together
+    if output_doc[SampleConstants.EXPERIMENT_REFERENCE].startswith("NovelChassis-Endogenous-Promoter-"):
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE]= "NovelChassis-Endogenous-Promoter"
+        output_doc[SampleConstants.EXPERIMENT_REFERENCE_URL] = "https://docs.google.com/document/d/162OXD2SacWUb4aN1WK7vA2rlKupmcstDpPheAt49ADQ"
+
     db = mongo.db_connection(config['mongodb'])
     samples_table = db.samples
 
@@ -79,6 +115,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if channel['name'].endswith("-A"):
                 cytometer_channels.append(channel['name'])
 
+    inducer_regex = re.compile("\d{1,3}?\.?\d{1,3}?\s?m?n?u?M\s(.*)")
+
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
 
@@ -92,6 +130,8 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
         sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(sample_id, lab, output_doc)
         sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(sample_id, lab, None)
+
+        sample_doc[SampleConstants.CONTAINER_ID] = measurement_id
 
         # parse inducer, strain, and replicate from parents, if available
         if "parents" in transcriptic_sample:
@@ -137,17 +177,56 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
         contents = []
         # parent can override child values, track these
         seen_contents = set()
+        parsed_oc = False
+
         if SampleConstants.CONTENTS in transcriptic_sample:
             # this is sometimes a list, sometimes a single value...
             sample_contents = transcriptic_sample[SampleConstants.CONTENTS]
             if not isinstance(sample_contents, list):
                 sample_contents = [sample_contents]
 
+            # Obstacle Course
+            # Will contain sub-fields
+            # "concentration": "1.0:micromolar",
+            # "label": "100mM IPTG",
+            # "timepoint": "48:hour"
             for reagent in sample_contents:
                 if reagent is None or len(reagent) == 0:
                     print("Warning, reagent value is null or empty string {}".format(sample_doc[SampleConstants.SAMPLE_ID]))
                 else:
-                    if reagent not in seen_contents:
+
+                    if SampleConstants.LABEL in reagent and len(reagent[SampleConstants.LABEL]) > 0:
+
+                        parsed_oc = True
+
+                        reagent_label = reagent[SampleConstants.LABEL]
+
+                        # Regex split on fluid units
+                        # e.g. "100mM IPTG"
+                        if reagent_label[0].isdigit() and " " in reagent_label:
+                            inducer_match = inducer_regex.match(reagent_label)
+                            if not inducer_match:
+                                raise ValueError("Could not parse inducer {}".format(reagent_label))
+                            reagent_label = inducer_match.group(1)
+
+                        time_concentration_value = None
+                        time_concentration_unit = None
+                        has_time_unit = False
+                        if SampleConstants.TIMEPOINT in reagent:
+                            parsed_reagent_time = create_value_unit(reagent[SampleConstants.TIMEPOINT])
+                            time_concentration_value = parsed_reagent_time[SampleConstants.VALUE]
+                            time_concentration_unit = parsed_reagent_time[SampleConstants.UNIT]
+                            has_time_unit = True
+                        if SampleConstants.CONCENTRATION in reagent:
+                            contents_append_value = create_media_component(original_experiment_id, reagent_label, reagent_label, lab, sbh_query, reagent[SampleConstants.CONCENTRATION])
+                        else:
+                            contents_append_value = create_media_component(original_experiment_id, reagent_label, reagent_label, lab, sbh_query)
+                        if has_time_unit:
+                            contents_append_value["timepoint"] = { "value" : time_concentration_value, "unit" : time_concentration_unit }
+
+                        contents.append(contents_append_value)
+
+                    if type(reagent) == str and reagent not in seen_contents:
                         seen_contents.add(reagent)
                         # if we don't have an inducer, and only one reagent, this is that reagent's concenetration
                         if len(sample_contents) == 1 and SampleConstants.CONCENTRATION in transcriptic_sample and "inducer" not in transcriptic_sample:
@@ -162,85 +241,113 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                 seen_contents.add(media_id)
                 contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
 
-        if SampleConstants.INDUCER in transcriptic_sample:
+        # skip inducer parsing if we parsed via OC array above
+        if not parsed_oc and SampleConstants.INDUCER in transcriptic_sample:
             inducer = transcriptic_sample[SampleConstants.INDUCER]
-            #"Arabinose+IPTG"
-
-            if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
-                arab_concentration = "25:mM"
-                iptg_concentration = "0.25:mM"
-            else:
-                if SampleConstants.CONCENTRATION not in transcriptic_sample:
-                    raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+            if inducer != None and len(inducer) > 0:
+                if output_doc[SampleConstants.EXPERIMENT_REFERENCE] == "NovelChassis-NAND-Gate":
+                    arab_concentration = "25:mM"
+                    iptg_concentration = "0.25:mM"
                 else:
-                    arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
-                    iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                    if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                        raise ValueError("Inducers without concentration values. TX must provide. Abort! {}".format(inducer))
+                    else:
+                        arab_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                        iptg_concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
 
-            if inducer != "None":
-                if "+" in inducer:
-                    inducer_split = inducer.split("+")
-                    if inducer_split[0] not in seen_contents:
-                        seen_contents.add(inducer_split[0])
-                        if inducer_split[0] == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer_split[0] == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            raise ValueError("Unknown inducer")
-                        contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, concentration))
-                    if inducer_split[1] not in seen_contents:
-                        seen_contents.add(inducer_split[1])
-                        if inducer_split[1] == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer_split[1] == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            raise ValueError("Unknown inducer")
-                        contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query, concentration))
-                else:
-                    # Special case for YS. Both means Arabinose and IPTG
-                    if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
-                        inducer = "Arabinose"
-                        if inducer not in seen_contents:
-                            seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, arab_concentration))
+                # skip multi-value inducers - handled by contents array above
+                if inducer != "None" and len(inducer) > 0 and "," not in inducer:
+                    if "+" in inducer:
+                        inducer_split = inducer.split("+")
+                        if inducer_split[0] not in seen_contents:
+                            seen_contents.add(inducer_split[0])
+                            if inducer_split[0] == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer_split[0] == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                raise ValueError("Unknown inducer")
+                            contents.append(create_media_component(original_experiment_id, inducer_split[0], inducer_split[0], lab, sbh_query, concentration))
+                        if inducer_split[1] not in seen_contents:
+                            seen_contents.add(inducer_split[1])
+                            if inducer_split[1] == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer_split[1] == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                raise ValueError("Unknown inducer")
+                            contents.append(create_media_component(original_experiment_id, inducer_split[1], inducer_split[1], lab, sbh_query, concentration))
+                    else:
+                        # Special case for YS. Both means Arabinose and IPTG
+                        if inducer == "Both" and output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
+                            inducer = "Arabinose"
+                            if inducer not in seen_contents:
+                                seen_contents.add(inducer)
+                                contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, arab_concentration))
 
-                        inducer = "IPTG"
-                        if inducer not in seen_contents:
+                            inducer = "IPTG"
+                            if inducer not in seen_contents:
+                                seen_contents.add(inducer)
+                                contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, iptg_concentration))
+                        elif inducer not in seen_contents:
                             seen_contents.add(inducer)
-                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, iptg_concentration))
-                    elif inducer not in seen_contents:
-                        seen_contents.add(inducer)
-                        if inducer == "Arabinose":
-                            concentration = arab_concentration
-                        elif inducer == "IPTG":
-                            concentration = iptg_concentration
-                        else:
-                            if SampleConstants.CONCENTRATION not in transcriptic_sample:
-                                raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
-                            # split on fluid units
-                            # e.g. "20uM beta-estradiol"
-                            if " " in inducer:
-                                inducer_split = inducer.split(" ")
-                                inducer = inducer_split[1]
-                            concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
-                        contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
+                            if inducer == "Arabinose":
+                                concentration = arab_concentration
+                            elif inducer == "IPTG":
+                                concentration = iptg_concentration
+                            else:
+                                if SampleConstants.CONCENTRATION not in transcriptic_sample:
+                                    raise ValueError("Unknown inducer or missing concentration value {}".format(inducer))
+                                # split on fluid units
+                                # e.g. "20uM beta-estradiol"
+                                if inducer[0].isdigit() and " " in inducer:
+                                    inducer_match = inducer_regex.match(inducer)
+                                    if not inducer_match:
+                                        raise ValueError("Could not parse inducer {}".format(inducer))
+                                    inducer = inducer_match.group(1)
+                                concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
+                            contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
             sample_doc[SampleConstants.CONTENTS] = contents
 
+        #"dna_concentration": "0:nanogram:microliter",
+        if "dna_concentration" in transcriptic_sample:
+            dna_content = "DNA Reaction Concentration"
+            dna_content_concentration = transcriptic_sample["dna_concentration"]
+            # clean up inconsistencies
+            if dna_content_concentration.endswith("nanogram/microliter"):
+                dna_content_concentration = dna_content_concentration.replace("nanogram/microliter", "nanogram:microliter")
+            contents.append(create_media_component(original_experiment_id, dna_content, dna_content, lab, sbh_query, dna_content_concentration))
+
         # strain
         if SampleConstants.STRAIN in transcriptic_sample:
             strain = transcriptic_sample[SampleConstants.STRAIN]
+
+            # local override
+            if "Full Name" in transcriptic_sample:
+                strain = transcriptic_sample["Full Name"]
+
+            # Normalize TX Sphero Markers
+            if strain == "SpheroControl1":
+                strain = "SpheroControl"
+
+            if strain == "SpheroControl" and SampleConstants.STANDARD_TYPE not in transcriptic_sample:
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_FLUORESCENCE
+
+            # Normalize Size Markers
+            if strain == "SizeControl":
+                strain = "SizeBeadControl"
+
             # TX does not mark size beads consistently
             if strain == "SizeBeadControl":
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_BEAD_SIZE
                 # this is a reagent
                 sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
-            elif strain == "MediaControl":
+            elif strain in ["MediaControl", "MediaControl1", "MediaControl2", "MediaControl3"]:
                 sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_MEDIA_BLANK
-                # this is a reagent
-                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
+                # this is a reagent, normalize the value
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
             else:
                 # new TX Live/Dead controls
                 if strain == "WT-Dead-Control":
@@ -286,20 +393,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.REPLICATE] = replicate_val
 
         # time
-        time_val = None
-        if SampleConstants.TIMEPOINT in transcriptic_sample:
-            time_val = transcriptic_sample[SampleConstants.TIMEPOINT]
-            # 1 hour -> 1:hour
-            if time_val.endswith(" hour"):
-                time_val = time_val.replace(" hour", ":hour")
-
-            # enum fix
-            if time_val.endswith("hours"):
-                time_val = time_val.replace("hours", "hour")
-            if time_val.endswith("minutes"):
-                minute_split = time_val.split(":minutes")
-                minute_val = float(minute_split[0])/60.0
-                time_val = str(minute_val) + ":hour"
+        time_val = parse_time(transcriptic_sample)
 
         # controls and standards
         # map standard for, type,
@@ -339,26 +433,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
-        # if control types are not available, infer based on sample ids
-        # this is brittle, but the best we can do right now with the output provided
-        # "wt-control-1" = precursor to "WT-Dead-Control" or "WT-Live-Control"
-        # "NOR 00 Control" = "HIGH_FITC"
-        # "WT-Dead-Control" = "CELL_DEATH_POS_CONTROL" - positive for the sytox stain
-        # "WT-Live-Control" = "CELL_DEATH_NEG_CONTROL" - negative for the sytox stain
-        # we also need to indicate the control channels the fluorescence controls
-        # this is not known by the lab typically, has to be provided externally
-        original_sample_id = transcriptic_sample[SampleConstants.SAMPLE_ID]
-        if SampleConstants.CONTROL_TYPE not in sample_doc:
-            if original_sample_id == "wt-control-1":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
-            elif original_sample_id == "NOR 00 Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "BL1-A"
-            elif original_sample_id == "WT-Dead-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_POS_CONTROL
-                sample_doc[SampleConstants.CONTROL_CHANNEL] = "RL1-A"
-            elif original_sample_id == "WT-Live-Control":
-                sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_CELL_DEATH_NEG_CONTROL
+        # Fill in Strain for Media_Blank if it does not exist
+        if SampleConstants.STANDARD_TYPE in sample_doc and \
+            sample_doc[SampleConstants.STANDARD_TYPE] == SampleConstants.STANDARD_MEDIA_BLANK and \
+                SampleConstants.STRAIN not in sample_doc:
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
 
         # Novel Chassis Positive and Negative Controls
         # TODO: Refactor into common function, vs. lab specific?
@@ -397,6 +476,11 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
 
         for file in transcriptic_sample[SampleConstants.FILES]:
             measurement_doc = {}
+
+            # try to parse the file directly
+            file_time_val = parse_time(file)
+            if file_time_val is not None:
+                time_val = file_time_val
 
             if time_val is not None:
                 measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)

@@ -5,7 +5,7 @@ import os
 import six
 from jq import jq
 from jsonschema import validate, ValidationError
-from sbol import *
+from sbol2 import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 from ...agavehelpers import AgaveHelper
@@ -13,6 +13,10 @@ from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
 
 # common across methods
+well_attr = "well"
+id_attr = "id"
+name_attr = "name"
+destination_attr = "destination"
 attributes_attr = "attributes"
 replicate_attr = "replicate"
 sample_attr = "sample"
@@ -29,6 +33,11 @@ item_id_attr = "item_id"
 media_attr = "media"
 alt_media_attr = "Media"
 inducer_attr = "inducer"
+alt_inducer_attr = "Inducer(s)"
+units_attr = "units"
+qty_attr = "qty"
+alt_temperature_attr = "temperature"
+alt_duration_attr = "duration"
 experimental_media_attr = "experimental_media"
 experimental_antibiotic_attr = "experimental_antibiotic"
 concentration_attr = "concentration"
@@ -39,6 +48,7 @@ alt_control_attr = "Control"
 standard_attr = "standard"
 lot_attr = "Lot No."
 options_attr = "Options"
+alt_options_attr = "Option(s)"
 reagents_attr = "Reagents"
 final_concentration_attr = "final_concentration"
 stain_attr = "Stain"
@@ -278,14 +288,35 @@ def add_replicate(item, sample_doc):
             replicate_val = int(replicate_val)
         sample_doc[SampleConstants.REPLICATE] = replicate_val
 
-def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query):
+def add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc):
     if sample_attr in item:
         if sample_id_attr not in item[sample_attr]:
             print("Warning, sample is missing a strain entry: {}".format(item))
         else:
             sample_id = item[sample_attr][sample_id_attr]
             strain = item[sample_attr][sample_name_attr]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+            if strain == "qPCR Reaction":
+                # this is a special case fpr PCR reactions, need to lookup through item destination
+                # and match against Primer/Probe Mix
+                try:
+                    pcr_item_id = item["item_id"]
+                    pcr_items = jq(".items[]").transform(biofab_doc, multiple_output=True)
+                    for pcr_item in pcr_items:
+                        if attributes_attr in pcr_item and destination_attr in pcr_item[attributes_attr]:
+                            pcr_destination_items = pcr_item[attributes_attr][destination_attr]
+                            for pcr_destination_item in pcr_destination_items:
+                                if id_attr in pcr_destination_item and name_attr in pcr_destination_item:
+                                    test_pcr_item_id = str(pcr_destination_item[id_attr])
+                                    test_pcr_item_name = pcr_destination_item[name_attr]
+                                    if test_pcr_item_id == pcr_item_id and test_pcr_item_name == "Primer/Probe Mix":
+                                        sample_id = pcr_item[sample_attr][sample_id_attr]
+                                        strain = pcr_item[sample_attr][sample_name_attr]
+                                        sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
+                                        break
+                except StopIteration:
+                    print("Warning, could not find items for plan: {}".format(original_experiment_id))
+            else:
+                sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, sample_id, lab, sbh_query, strain=True)
 
 def get_timepoint_from_item(item):
     if attributes_attr in item and timepoint_attr in item[attributes_attr]:
@@ -518,6 +549,76 @@ def add_inducer_experimental_media(original_experiment_id, item, lab, sbh_query,
                     experimental_antibiotic = last_source_lookup[attributes_attr][experimental_antibiotic_attr]
                     if experimental_antibiotic != "None":
                         reagents.append(create_media_component(original_experiment_id, experimental_antibiotic, experimental_antibiotic, lab, sbh_query))
+# new format December 2020
+def parse_new_time_val(item):
+
+    time_val = None
+    if attributes_attr in item:
+        # "Option(s)": {
+        # "duration": {
+        # "qty": 180,
+        # "units": "minute"
+        # }
+        if alt_options_attr in item[attributes_attr]:
+            options_keys = item[attributes_attr][alt_options_attr].keys()
+            for option_key in options_keys:
+                option_key_item = item[attributes_attr][alt_options_attr][option_key]
+                if option_key == alt_duration_attr:
+                    time_qty = option_key_item[qty_attr]
+                    time_units = option_key_item[units_attr]
+
+                    if time_units == "minute":
+                        time_qty = (float(time_qty))/60.0
+                        time_units = "hour"
+
+                    time_val = str(time_qty) + ":" + time_units
+    return time_val
+
+# new format December 2020
+def parse_new_attributes(original_experiment_id, lab, sbh_query, reagents, item, sample_doc):
+
+    if attributes_attr in item:
+
+        if alt_media_attr in item[attributes_attr]:
+            # alternative media:
+            # "Media": {
+            # "SC": {
+            media_keys = item[attributes_attr][alt_media_attr].keys()
+            for media_key in media_keys:
+                reagent_obj = create_media_component(original_experiment_id, media_key, media_key, lab, sbh_query)
+                reagents.append(reagent_obj)
+
+        if alt_inducer_attr in item[attributes_attr]:
+            # alternative inducer:
+            # "Inducer(s)": {
+            # "beta-estradiol": {
+            inducer_keys = item[attributes_attr][alt_inducer_attr].keys()
+            for inducer_key in inducer_keys:
+                # concentration
+                reagent_key_item = item[attributes_attr][alt_inducer_attr][inducer_key]
+                if final_concentration_attr in reagent_key_item:
+                    reagent_qty = reagent_key_item[final_concentration_attr][qty_attr]
+                    reagent_units = reagent_key_item[final_concentration_attr][units_attr]
+                    concentration_value_unit = str(reagent_qty) + ":" + reagent_units
+                    reagent_obj = create_media_component(original_experiment_id, inducer_key, inducer_key, lab, sbh_query, concentration_value_unit)
+                    reagents.append(reagent_obj)
+        # "Option(s)": {
+        # "temperature": {
+        # "qty": 30,
+        # "units": "C"
+        # }
+        if alt_options_attr in item[attributes_attr]:
+            options_keys = item[attributes_attr][alt_options_attr].keys()
+            for option_key in options_keys:
+                option_key_item = item[attributes_attr][alt_options_attr][option_key]
+                if option_key == alt_temperature_attr:
+                    temperature_qty = option_key_item[qty_attr]
+                    temperature_units = option_key_item[units_attr]
+
+                    if temperature_units == "C":
+                        temperature_units = "celsius"
+
+                    sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temperature_qty) + ":" + temperature_units)
 
 def convert_biofab(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -580,7 +681,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         print("Warning, could not find sytox control for plan: {}".format(original_experiment_id))
 
     missing_part_of_items = set()
-
+    missing_part_of_map = {}
     # process bottom up from file -> sample
     for biofab_sample in biofab_doc["files"]:
         sample_doc = {}
@@ -592,7 +693,16 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_FLOW)
             elif type_attr in biofab_sample and biofab_sample[type_attr] == "CSV" and "filename" in biofab_sample and "experimental_design" not in biofab_sample["filename"]:
                 print("Trying to resolve as a CSV file with no source")
-                add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_PLATE_READER)
+                if "generated_by" in biofab_sample and "operation_id" in biofab_sample["generated_by"]:
+                    operation_id = biofab_sample["generated_by"]["operation_id"]
+                    operation = jq(".operations[] | select (.operation_id==\"" + operation_id + "\")").transform(biofab_doc)
+                    for input_block in operation["inputs"]:
+                        if "item_id" in input_block:
+                            input_block_id = input_block["item_id"]
+                            missing_part_of_items.add(input_block_id)
+                            missing_part_of_map[input_block_id] = operation_id
+                else:
+                    add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_PLATE_READER)
             elif "filename" in biofab_sample and biofab_sample["filename"].endswith(".ab1"):
                 print("Trying to resolve as an ab1 file with no source")
                 add_file_no_source(biofab_sample, output_doc, config, lab, original_experiment_id, SampleConstants.MT_SEQUENCING_CHROMATOGRAM)
@@ -692,7 +802,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(str(temp_value) + ":celsius")
 
         # could use ID
-        add_strain(original_experiment_id, item, sample_doc, lab, sbh_query)
+        add_strain(original_experiment_id, item, sample_doc, lab, sbh_query, biofab_doc)
 
         add_od(item, sample_doc)
 
@@ -703,6 +813,25 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
         parse_new_media(original_experiment_id, lab, sbh_query, reagents, item, biofab_doc)
 
         parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
+
+        if well_attr in item:
+            sample_doc[SampleConstants.WELL_LABEL] = item[well_attr]
+
+        #"attributes": {
+        #"source": [
+        #  {
+        #    "id": 496595
+        #  }
+        #]
+        # }
+        if attributes_attr in item and "source" in item[attributes_attr] and len(item[attributes_attr]["source"]) == 1:
+            new_item_id = str(item[attributes_attr]["source"][0]["id"])
+            new_item = jq(".items[] | select(.item_id==\"" + new_item_id + "\")").transform(biofab_doc)
+
+            parse_new_attributes(original_experiment_id, lab, sbh_query, reagents, new_item, sample_doc)
+
+            if time_val is None:
+                time_val = parse_new_time_val(new_item)
 
         if len(reagents) > 0:
             sample_doc[SampleConstants.CONTENTS] = reagents
@@ -804,7 +933,7 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
 
                 else:
                     # strain
-                    add_strain(original_experiment_id, item_source, sample_doc, lab, sbh_query)
+                    add_strain(original_experiment_id, item_source, sample_doc, lab, sbh_query, biofab_doc)
 
                 add_inducer_experimental_media(original_experiment_id, item_source, lab, sbh_query, reagents, biofab_doc)
 
@@ -817,6 +946,9 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 parse_new_media(original_experiment_id, lab, sbh_query, reagents, item_source, biofab_doc)
 
                 parse_stain(original_experiment_id, lab, sbh_query, reagents, item)
+
+                if well_attr in item:
+                    sample_doc[SampleConstants.WELL_LABEL] = item[well_attr]
 
                 # previous media parsing code (older formats)
                 if attributes_attr in item_source and media_attr in item_source[attributes_attr]:
@@ -854,6 +986,12 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
             measurement_doc[SampleConstants.FILES] = []
 
             files = jq(".files[] | select(.sources[]? == \"" + missing_part_of + "\")").transform(biofab_doc, multiple_output=True)
+
+            if len(files) == 0:
+                files = []
+                mapped_operation = missing_part_of_map[missing_part_of]
+                jq_files = jq(".files[] | select(.generated_by.operation_id == \"" + mapped_operation + "\")").transform(biofab_doc, multiple_output=True)
+                files.extend(jq_files)
 
             for file in files:
                 add_measurement_type(file, measurement_doc)

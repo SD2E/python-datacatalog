@@ -2,6 +2,18 @@
     "additionalProperties": false,
     "description": "A lab sample and its metadata",
     "properties": {
+        "tasbe_junit": {
+            "description": "JUnit log message from TASBE",
+            "type": "string"
+        },
+        "missing_pc": {
+            "description": "Whether the sample is missing point cloud",
+            "type": "boolean"
+        },
+        "container_id": {
+            "description": "The originating container for this sample",
+            "type": "string"
+        },
         "barcode": {
             "description": "A lab-specific barcode for this sample",
             "type": "string"
@@ -65,6 +77,14 @@
         "replicate": {
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
+        },
+        "replicate_group": {
+            "description": "A string sha1 hash of the replicate_group_string",
+            "type": "string"
+        },
+        "replicate_group_string": {
+            "description": "A human readable string of the attributes that define this sample's common conditions as a replicate_group",
+            "type": "string"
         },
         "sample_id": {
             "description": "Unique sample id",

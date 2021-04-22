@@ -35,5 +35,8 @@ FILETYPES = [
     ('REQUIREMENTS', 'Python requirements file', ['^requirements.txt$']),
     ('COMPOSEFILE', 'Docker compose file', ['^docker-compose.yml$']),
     ('GFF3', 'Sequence Ontology General Feature Format', ['.gff$', '.gff3$']),
-    ('GTF', 'Ensembl Gene Transfer Format', ['.gtf$'])]
+    ('GTF', 'Ensembl Gene Transfer Format', ['.gtf$']),
+    ('AB1', 'ABI Sequencer Chromatogram file', ['.ab1$']),
+    ('JPG', 'Alias for JPEG file', ['.jpg$']),
+]
 """A list of tuples defining classifcation rules for filenames"""

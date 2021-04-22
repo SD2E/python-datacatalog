@@ -139,7 +139,10 @@ def diff_remove_long_lists(doc1, doc2):
             child1 = doc1[candidate_dict_key]
             child2 = doc2[candidate_dict_key]
 
-            (child1, child2, child_diff_dict) = diff_remove_long_lists(child1, child2)
+            if type(child1) == dict and type(child2) == dict:
+                (child1, child2, child_diff_dict) = diff_remove_long_lists(child1, child2)
+            else:
+                child_diff_dict = {}
 
             # update children in case they are modified
             doc1[candidate_dict_key] = child1

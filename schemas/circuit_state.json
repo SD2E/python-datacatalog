@@ -1,0 +1,17 @@
+{
+    "$comment": "version: 2.2.0#master; generated: 20210304T152417+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@b9b9a8b",
+    "$id": "https://schema.catalog.sd2e.org/schemas/circuit_state.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "description": "A state for a strain circuit. Currently only encodes two values: on and off.",
+    "enum": [
+        "ON",
+        "OFF"
+    ],
+    "examples": [
+        "ON",
+        "OFF"
+    ],
+    "title": "Circuit State",
+    "type": "string"
+}

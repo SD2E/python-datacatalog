@@ -620,6 +620,12 @@ class LinkedStore(LinkageManager):
         diff_record = None
         was_updated = True
 
+        self.logger.debug('comparing linkages fields')
+        diff_linkages = linkages.merge_linkages(source_document,
+                                                target_document,
+                                                link_fields=self.LINK_FIELDS)
+        self.logger.debug('diff_linkages: {}'.format(diff_linkages))
+
         if self.LOG_JSONDIFF_UPDATES:
             self.logger.debug('calculating diff for replace')
             diff_record = get_diff(source=source_document,
@@ -629,7 +635,7 @@ class LinkedStore(LinkageManager):
         else:
             self.logger.debug('skip calculating diff for replace')
 
-        if was_updated:
+        if was_updated or diff_linkages.updated:
             self.logger.debug('proceeding with replace()')
             # self.logger.debug('diff: {}'.format(diff_record))
             # Transfer _private and identifier fields to document

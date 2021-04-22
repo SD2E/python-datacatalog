@@ -1,0 +1,67 @@
+{
+    "$comment": "version: 2.2.0#master; generated: 20200716T202721+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@300ebf7",
+    "$id": "https://schema.catalog.sd2e.org/schemas/duke_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "csv": true,
+        "headers": {
+            "oneOf": [
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "strain"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "replicate"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "treatment"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "treatment_concentration"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "treatment_concentration_unit"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "treatment_time"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "treatment_time_unit"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ]
+        }
+    },
+    "required": [
+        "csv",
+        "headers"
+    ],
+    "title": "Duke CSV Headers Schema",
+    "type": "object"
+}

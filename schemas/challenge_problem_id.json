@@ -1,10 +1,13 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200310T152056+00:00; source: git@github.com:SD2E/python-datacatalog.git@4aeb62a",
+    "$comment": "version: 2.2.0#master; generated: 20210203T194014+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@15118ad",
     "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Challenge problem enumeration",
     "enum": [
+        "ARL_PROMOTER_TEST",
+        "RDT_QPCR",
+        "DUKE_VALIDATION",
         "NOVEL_CHASSIS",
         "INTENT_PARSER_TEST",
         "MOSQUITO_RELATEDNESS_INFERENCE",
@@ -16,6 +19,9 @@
         "UNDEFINED"
     ],
     "examples": [
+        "ARL_PROMOTER_TEST",
+        "RDT_QPCR",
+        "DUKE_VALIDATION",
         "NOVEL_CHASSIS",
         "INTENT_PARSER_TEST",
         "MOSQUITO_RELATEDNESS_INFERENCE",

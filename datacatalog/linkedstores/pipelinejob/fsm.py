@@ -56,7 +56,7 @@ class JobStateMachine(Machine):
         {'trigger': 'run', 'source': ['CREATED', 'RUNNING'], 'dest': 'RUNNING'},
         {'trigger': 'update', 'source': ['CREATED', 'RUNNING', 'VALIDATING', 'INDEXING'], 'dest': '='},
         {'trigger': 'resource', 'source': ['CREATED', 'RUNNING'], 'dest': '='},
-        {'trigger': 'fail', 'source': ['RUNNING', 'VALIDATING', 'INDEXING'], 'dest': 'FAILED'},
+        {'trigger': 'fail', 'source': ['CREATED', 'RUNNING', 'VALIDATING', 'INDEXING'], 'dest': 'FAILED'},
         {'trigger': 'finish', 'source': ['RUNNING', 'FINISHED'], 'dest': 'FINISHED'},
         {'trigger': 'index', 'source': ['INDEXING', 'FINISHED'], 'dest': 'INDEXING'},
         {'trigger': 'indexed', 'source': ['FINISHED', 'INDEXING'], 'dest': 'FINISHED'},

@@ -8,7 +8,7 @@ from tenacity import (retry, retry_if_exception_type,
                       stop_after_delay, wait_exponential)
 
 from .stores import ManagedStores
-from .utils import normalize
+from .utils import normalize, normpath
 
 # TODO Factor the command runners into a class that handles the setup
 # TODO Implement a more declarative form of support for these commands based on plugins
@@ -305,6 +305,7 @@ def from_agave_uri(uri=None, validate=False):
         systemId = resourcepath[0:firstSlash]
         origDirPath = resourcepath[firstSlash + 1:]
         dirPath = '/' + os.path.dirname(origDirPath)
+        dirPath = normpath(dirPath)
         fileName = os.path.basename(origDirPath)
         return (systemId, dirPath, fileName)
     except Exception as e:

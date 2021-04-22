@@ -10,7 +10,7 @@ import datacatalog
 from datacatalog import mongo
 
 from jsonschema import validate, ValidationError
-from sbol import *
+from sbol2 import *
 from synbiohub_adapter.query_synbiohub import *
 from synbiohub_adapter.SynBioHubUtil import *
 
@@ -37,15 +37,15 @@ def parse_temperature(sample_properties):
 
     return temperature
 
-def populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point):
+def populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point, overnight_growth):
 
     if parent_props is not None:
-        time_val = parse_time(parent_props)
+        time_val = parse_time(parent_props, overnight_growth)
         # fall-through
         if time_val is None:
-            time_val = parse_time(props)
+            time_val = parse_time(props, overnight_growth)
     else:
-        time_val = parse_time(props)
+        time_val = parse_time(props, overnight_growth)
     if time_val is not None:
         measurement_doc[SampleConstants.TIMEPOINT] = create_value_unit(time_val)
     elif reference_time_point != None:
@@ -53,7 +53,7 @@ def populate_measurement_doc_with_time(measurement_doc, parent_props, props, ref
 
     return time_val
 
-def parse_time(sample_properties):
+def parse_time(sample_properties, overnight_growth):
 
     time_prop = "SD2_timepoint"
     time_val = None
@@ -68,13 +68,15 @@ def parse_time(sample_properties):
 
         # sometimes we get integers and floats instead of autoprotocol strings
         if type(time_val) == float or type(time_val) == int:
+            time_val = overnight_growth + time_val
             time_val = str(time_val) + ":hour"
         elif type(time_val) == str:
             # more cleanup
             if time_val.endswith("hours"):
                 time_val = time_val.replace("hours", "hour")
             if ":" not in time_val and not time_val.endswith(":hour"):
-                time_val = time_val + ":hour"
+                time_val = overnight_growth + float(time_val)
+                time_val = str(time_val) + ":hour"
 
     return time_val
 
@@ -93,7 +95,7 @@ def parse_replicate(sample_properties):
 
 def parse_contents(sample, output_doc, lab, sbh_query):
     contents = []
-    if "content" in sample:
+    if "content" in sample and "reagent" in sample["content"]:
         for reagent in sample["content"]["reagent"]:
 
             reagent_id = reagent["id"]
@@ -103,9 +105,21 @@ def parse_contents(sample, output_doc, lab, sbh_query):
                 if concentration_prop in reagent:
                     contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query, reagent[concentration_prop]))
                 else:
-                    contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query))
-
+                    mapped_media_component = create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), reagent_name, reagent_id, lab, sbh_query)
+                    # record presence/non-presence
+                    if mapped_media_component[SampleConstants.NAME][SampleConstants.LABEL] == "RNA Later":
+                        mapped_media_component[SampleConstants.VALUE] = "Y"
+                    contents.append(mapped_media_component)
     return contents
+
+def has_files(sample):
+    if "measurements" in sample:
+        ginkgo_measurements = sample["measurements"]
+        for measurement_key in ginkgo_measurements.keys():
+            measurement_props = ginkgo_measurements[measurement_key]
+            if "dataset_files" in measurement_props:
+                return True
+    return False
 
 def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
@@ -117,6 +131,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
     props_attr = "properties"
     dropout_attr = "SD2_dropout_type"
+    diluted_prop = "SD2_diluted_measurement"
 
     # default values for FCS support; replace with trace information as available
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
@@ -209,13 +224,59 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     # cache samples for parent lookups
     ginkgo_sample_cache = {}
     for ginkgo_sample in ginkgo_iterator:
-        ginkgo_sample_cache[ginkgo_sample["sample_id"]] = ginkgo_sample
+        ginkgo_sid = ginkgo_sample["sample_id"]
+        if ginkgo_sid not in ginkgo_sample_cache:
+            ginkgo_sample_cache[ginkgo_sid] = ginkgo_sample
+        else:
+            # replace if duplicate has files
+            current_has_files = has_files(ginkgo_sample_cache[ginkgo_sid])
+            replace_has_files = has_files(ginkgo_sample)
+            if replace_has_files and not current_has_files:
+                ginkgo_sample_cache[ginkgo_sid] = ginkgo_sample
+
+    cache_temp = None
+
+    # do we have an overnight growth value from the structured request?
+    overnight_growth = 0.0
+    ginkgo_sr = db.structured_requests.find_one({'experiment_id' : output_doc[SampleConstants.EXPERIMENT_ID] })
+    if ginkgo_sr == None:
+        print('Warning, no SR for experiment: {}'.format(output_doc[SampleConstants.EXPERIMENT_ID]))
+    elif "overnight_growth" in ginkgo_sr:
+        overnight_growth_value = float(ginkgo_sr["overnight_growth"]["value"])
+        overnight_growth_value_unit = ginkgo_sr["overnight_growth"]["unit"]
+        if overnight_growth_value_unit in ["minute", "minutes"]:
+            overnight_growth_value = float(overnight_growth_value)/60.0
+        overnight_growth = overnight_growth_value
+
+    seen_sids = set()
 
     for ginkgo_sample in ginkgo_iterator:
         sample_doc = {}
+        s_has_files = has_files(ginkgo_sample)
         # sample_doc[SampleConstants.SAMPLE_ID] = str(ginkgo_sample["sample_id"])
-        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, output_doc)
-        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(str(ginkgo_sample["sample_id"]), lab, None)
+        ginkgo_sid = str(ginkgo_sample["sample_id"])
+        if ginkgo_sid in seen_sids:
+            # use sample with files
+            if s_has_files:
+                found_test_sample = None
+                test_ginkgo_sid = namespace_sample_id(ginkgo_sid, lab, output_doc)
+                for test_sample in output_doc[SampleConstants.SAMPLES]:
+                    if test_sample[SampleConstants.SAMPLE_ID] == test_ginkgo_sid:
+                        found_test_sample = test_sample
+                        break
+                if found_test_sample is not None:
+                    output_doc[SampleConstants.SAMPLES].remove(found_test_sample)
+                else:
+                    print('Warning, duplicate sample id, no remove, skipping: {}'.format(ginkgo_sid))
+                    continue
+            else:
+                print('Warning, duplicate sample id, no files, skipping: {}'.format(ginkgo_sid))
+                continue
+        else:
+            seen_sids.add(ginkgo_sid)
+
+        sample_doc[SampleConstants.SAMPLE_ID] = namespace_sample_id(ginkgo_sid, lab, output_doc)
+        sample_doc[SampleConstants.LAB_SAMPLE_ID] = namespace_sample_id(ginkgo_sid, lab, None)
 
         # record parent reference, if it exists
         parent_props = None
@@ -299,6 +360,11 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                 sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_BASELINE_MEDIA_PR
             else:
                 sample_doc[SampleConstants.CONTROL_TYPE] = control_type
+
+        # mock strain for baseline media PR (used by data converge)
+        if SampleConstants.CONTROL_TYPE in sample_doc and sample_doc[SampleConstants.CONTROL_TYPE] == SampleConstants.CONTROL_BASELINE_MEDIA_PR and SampleConstants.STRAIN not in sample_doc:
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), "MediaControl", "MediaControl", lab, sbh_query, strain=True)
+
         if SampleConstants.CONTROL_FOR in ginkgo_sample:
             control_for_val = ginkgo_sample[SampleConstants.CONTROL_FOR]
             # int -> str conversion
@@ -316,6 +382,11 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
 
+        # parse diluted
+        if diluted_prop in props:
+            diluted_val = props[diluted_prop].split("x")[0]
+            contents.append(create_media_component(output_doc.get(SampleConstants.EXPERIMENT_ID, "not bound yet"), "Diluted", "Diluted", lab, sbh_query, diluted_val + ":X"))
+
         if parent_props is not None:
             temperature = parse_temperature(parent_props)
             # fall-through
@@ -326,6 +397,13 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
 
         if temperature is not None:
             sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(temperature)
+            if cache_temp is None:
+                cache_temp = sample_doc[SampleConstants.TEMPERATURE]
+        else:
+            if SampleConstants.CONTROL_TYPE in sample_doc and sample_doc[SampleConstants.CONTROL_TYPE] == SampleConstants.CONTROL_BASELINE_MEDIA_PR:
+                # use cached temperature
+                if cache_temp is not None:
+                    sample_doc[SampleConstants.TEMPERATURE] = cache_temp
 
         if parent_props is not None:
             replicate_val = parse_replicate(parent_props)
@@ -461,7 +539,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if measurement_key in library_prep_dict:
                 measurement_doc[SampleConstants.MEASUREMENT_LIBRARY_PREP] = library_prep_dict[measurement_key]
 
-            time_val = populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point)
+            time_val = populate_measurement_doc_with_time(measurement_doc, parent_props, props, reference_time_point, overnight_growth)
 
             measurement_doc[SampleConstants.FILES] = []
 
@@ -486,6 +564,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             elif assay_type == "NGS (Genome)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
             elif assay_type == "NGS (Cellfie)":
+                measurement_type = SampleConstants.MT_DNA_SEQ
+            elif assay_type == "NGS (Long Read)":
                 measurement_type = SampleConstants.MT_DNA_SEQ
             else:
                 raise ValueError("Could not parse MT: {}".format(assay_type))
@@ -727,7 +807,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if props[dropout_attr] == "flow":
                 missing_measurement_doc = {}
 
-                populate_measurement_doc_with_time(missing_measurement_doc, parent_props, props, reference_time_point)
+                populate_measurement_doc_with_time(missing_measurement_doc, parent_props, props, reference_time_point, overnight_growth)
 
                 missing_measurement_doc[SampleConstants.MEASUREMENT_ID] = namespace_measurement_id("missing_" + SampleConstants.MT_FLOW, output_doc[SampleConstants.LAB], sample_doc, output_doc)
                 missing_measurement_doc[SampleConstants.MEASUREMENT_TYPE] = SampleConstants.MT_FLOW

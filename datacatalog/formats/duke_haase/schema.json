@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Duke CSV Headers Schema",
+    "$comment": "",
+    "type": "object",
+    "properties": {
+        "csv": true,
+        "headers": {
+            "oneOf": [{
+                "type": "array",
+                "items": [{
+                        "type": "string",
+                        "enum": ["strain"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["replicate"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment_concentration"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment_concentration_unit"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment_time"]
+                    },
+                    {
+                        "type": "string",
+                        "enum": ["treatment_time_unit"]
+                    }
+                ],
+                "additionalItems": false
+            }]
+        }
+
+    },
+    "required": [
+        "csv",
+        "headers"
+    ],
+    "additionalProperties": false
+}

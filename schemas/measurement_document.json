@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022108+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20200917T190201+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@e075819",
     "$id": "https://schema.catalog.sd2e.org/schemas/measurement_document.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -41,6 +41,34 @@
             "type": "boolean",
             "value": true
         },
+        "cfu_data": {
+            "additionalProperties": false,
+            "description": "Inlined CFU data",
+            "properties": {
+                "CFU": {
+                    "type": "integer"
+                },
+                "culture_cells/ml": {
+                    "type": "integer"
+                },
+                "date_of_experiment": {
+                    "type": "string"
+                },
+                "estimated_cells/ml": {
+                    "type": "integer"
+                },
+                "estimated_cells_plated": {
+                    "type": "integer"
+                },
+                "percent_killed": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "date_of_experiment"
+            ],
+            "type": "object"
+        },
         "channel": {
             "description": "For flow cytometry, the name of the channel used by this measurement",
             "type": "string"
@@ -63,9 +91,17 @@
             "description": "Ginkgo specific RNASeq properties object",
             "type": "object"
         },
+        "haase_validation_rnaseq_metadata": {
+            "description": "Haase Lab specific RNASeq validation properties object",
+            "type": "object"
+        },
         "instrument_configuration": {
             "$ref": "agave_files_uri.json",
             "description": "e.g. Cytometer configuration"
+        },
+        "labeled_haase_validation_rnaseq_metadata": {
+            "description": "Labeled Haase Lab specific RNASeq validation properties object",
+            "type": "object"
         },
         "library_prep": {
             "$ref": "library_prep.json",

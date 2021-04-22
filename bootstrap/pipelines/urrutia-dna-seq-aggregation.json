@@ -1,0 +1,28 @@
+{
+    "name": "DNA-seq Aggregation and IGV Pipeline",
+    "id": "urrutia-dna-aggregation-0.1.0",
+    "description": "This app takes an experiment ID, queries for DNA-seq outputs, and loads them into an IGV server in a jupyter notebook",
+    "components": [
+        {
+            "id": "urrutia-dna-aggregation-app-0.1.0",
+            "inputs": {},
+            "parameters": {
+                "experiment_id": "experiment.*",
+                "CONTAINER_IMAGE": "sd2e/dnaseq-aggregation-app:0.1.0"
+            }
+        }
+    ],
+    "processing_levels": [
+        "2"
+    ],
+    "accepts": [
+        "BAM",
+        "BAI",
+        "VCF",
+        "FASTA",
+        "GFF3"
+    ],
+    "produces": [
+        "IPYNB+JSON"
+    ]
+}

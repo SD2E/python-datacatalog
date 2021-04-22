@@ -6,9 +6,12 @@
         "mM",
         "X",
         "g/L",
+        "ug/ml",
         "micromole",
         "nM",
-        "uM"
+        "uM",
+        "mg/ml",
+        "ng/ul"
     ],
     "type": "string"
 }

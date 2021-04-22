@@ -310,6 +310,50 @@
             },
             {
               "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
+            }]
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "contents": {
+          "items": {
+            "$ref": "#definitions/content_item"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "strains"
+      ],
+      "type": "object"
+    },
+    "label": {
+      "additionalProperties": false,
+      "description": "a label definition based on experiment conditions such as time, strain, contents, etc.",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "timepoints": {
+          "items": {
+            "$ref": "#definitions/timepoint"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "strains": {
+          "items": {
+            "anyOf": [{
+              "type": "string"
+            },
+            {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
             }]
           },
           "minItems": 1,
@@ -363,9 +407,16 @@
           "description": "mapped SBH name",
           "$ref": "#definitions/content_name"
         },
-        "unit": {
-          "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
-          "description": "Unit of fluid measure"
+        "unit": { 
+          "oneOf" : [
+            {
+              "$ref": "https://schema.catalog.sd2e.org/schemas/fluid_unit.json",
+              "description": "Unit of fluid measure"
+            },
+            {
+              "$ref": "https://schema.catalog.sd2e.org/schemas/time_unit.json",
+              "description": "Unit of temporal measure"
+            }]
         },
         "value": {
           "description": "Numeric amount or fraction",
@@ -488,6 +539,8 @@
             },
             {
               "$ref":"https://schema.catalog.sd2e.org/schemas/sd2_synbiohub_uri.json"
+            }, {
+              "$ref":"https://schema.catalog.sd2e.org/schemas/mapped_name.json"
             }]
           },
           "minItems": 1,
@@ -521,6 +574,14 @@
           "description": "expected temperatures for this measurement",
           "items": {
             "$ref": "https://schema.catalog.sd2e.org/schemas/temperature.json"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "labels": {
+          "description": "expected label elements for this measurement",
+          "items": {
+            "$ref": "#definitions/label"
           },
           "minItems": 1,
           "type": "array"
@@ -605,6 +666,15 @@
       "description": "An experiment request name",
       "type": "string"
     },
+    "doc_revision_id" : {
+      "description": "Revision of the experiment_reference_url this SR came from",
+      "type": "string"
+    },
+    "protocol" : {
+      "description": "Named protocol this experiment came from",
+      "type": "string",
+      "enum": ["GrowthCurve", "ObstacleCourse", "TimeSeriesHTP"]
+    },
     "lab": {
       "description": "the lab that performed this experiment",
       "$ref": "https://schema.catalog.sd2e.org/schemas/lab.json"
@@ -634,6 +704,22 @@
     },
     "experiment_version": {
       "type": "number"
+    },
+    "parent_git_path": {
+      "type": "string"
+    },
+    "overnight_growth" : {
+      "$ref": "#definitions/timepoint"
+    },
+    "recovery_loops": {
+      "items": {
+        "$ref": "#definitions/timepoint"
+      },
+      "type": "array"
+    },
+    "erf_channel": {
+      "description": "Equivalent Reference Fluorophores (ERF) channel, if applicable",
+      "type": "string"
     },
     "status": {
       "description": "records status of individual steps proceessing data from an experiment",

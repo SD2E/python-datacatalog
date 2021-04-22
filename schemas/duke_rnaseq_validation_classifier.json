@@ -1,0 +1,97 @@
+{
+    "$comment": "version: 2.2.0#master; generated: 20200909T123008+00:00",
+    "$id": "https://schema.catalog.sd2e.org/schemas/duke_rnaseq_validation_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "headers": {
+            "oneOf": [
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "Kit"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "SOP"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Order #"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "RIN"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Sample Name"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "customer label"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                },
+                {
+                    "additionalItems": false,
+                    "items": [
+                        {
+                            "enum": [
+                                "Kit"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "SOP"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Order #"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "Well"
+                            ],
+                            "type": "string"
+                        },
+                        {
+                            "enum": [
+                                "sample_id"
+                            ],
+                            "type": "string"
+                        }
+                    ],
+                    "type": "array"
+                }
+            ]
+        },
+        "xlsx": true
+    },
+    "required": [
+        "xlsx",
+        "headers"
+    ],
+    "title": "Duke XLSX Headers Schema",
+    "type": "object"
+}

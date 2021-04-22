@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200318T221232+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@d492d80",
+    "$comment": "version: 2.2.0#master; generated: 20201118T163618+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@a56fe04",
     "$id": "https://schema.catalog.sd2e.org/schemas/sample.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -16,6 +16,10 @@
         "batch": {
             "description": "An integer grouping to which this sample belongs",
             "type": "integer"
+        },
+        "container_id": {
+            "description": "The originating container for this sample",
+            "type": "string"
         },
         "contents": {
             "description": "List of media/component references (mapped by SBH Librarian)",
@@ -69,6 +73,10 @@
             "minItems": 0,
             "type": "array"
         },
+        "missing_pc": {
+            "description": "Whether the sample is missing point cloud",
+            "type": "boolean"
+        },
         "reference_sample_id": {
             "$ref": "namespaced_identifier.json",
             "description": "A reference sample id, internal to the lab, when referring to samples from another lab, e.g. Ginkgo processing samples from Transcriptic"
@@ -76,6 +84,14 @@
         "replicate": {
             "description": "An integer number representing the biological replicate parent sample (initial glycerol stock) from which this sample was ultimately derived",
             "type": "integer"
+        },
+        "replicate_group": {
+            "description": "A string sha1 hash of the replicate_group_string",
+            "type": "string"
+        },
+        "replicate_group_string": {
+            "description": "A human readable string of the attributes that define this sample's common conditions as a replicate_group",
+            "type": "string"
         },
         "safegenes-generation": {
             "enum": [
@@ -170,6 +186,10 @@
         "strain": {
             "$ref": "mapped_name.json",
             "description": "Strain reference (mapped by SBH Librarian)"
+        },
+        "tasbe_junit": {
+            "description": "JUnit log message from TASBE",
+            "type": "string"
         },
         "temperature": {
             "$ref": "temperature.json"

@@ -14,7 +14,7 @@ from pprint import pprint
 from pymongo import MongoClient, errors
 from agavepy.agave import Agave
 from tacconfig import config
-from .utils import to_json_abstract
+from .utils import to_json_abstract, clean_keys
 
 COLLECTION = 'cp-request/input/structured_requests'
 
@@ -64,18 +64,7 @@ def autobuild(idb, settings):
                 # documents that contain keys with dots
                 if "parameters" in ref:
                     for parameter_item in ref["parameters"]:
-                        new_keys = {}
-                        del_keys = []
-                        for key in parameter_item:
-                            del_keys.append(key)
-                            new_key = key
-                            if "." in new_key:
-                                new_key = new_key.replace(".", "|")
-                            new_keys[new_key] = parameter_item[key]
-                        for del_key in del_keys:
-                            del parameter_item[del_key]
-                        for new_key in new_keys:
-                            parameter_item[new_key] = new_keys[new_key]
+                        clean_keys(parameter_item)
 
                 resp = ref_store.add_update_document(ref, strategy='merge')
                 # build_log.write('{}\t{}\t{}\t{}\n'.format(

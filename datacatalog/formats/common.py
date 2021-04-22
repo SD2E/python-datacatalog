@@ -38,6 +38,7 @@ class SampleConstants():
     LAB_UWBF = "UW_BIOFAB"
     LAB_CALTECH = "Caltech"
     LAB_MARSHALL = "Marshall"
+    LAB_DUKE_HAASE = "Duke_Haase"
     
     # Flow cytometer configuration
     CYTOMETER_CONFIG = "tasbe_cytometer_configuration"
@@ -67,6 +68,7 @@ class SampleConstants():
 
     BARCODE = "barcode"
     WELL_LABEL = "well_label"
+    CONTAINER_ID = "container_id"
     LABEL = "label"
     CIRCUIT = "circuit"
     INPUT_STATE = "input_state"
@@ -118,6 +120,7 @@ class SampleConstants():
     MT_RNA_SEQ = "RNA_SEQ"
     MT_DNA_SEQ = "DNA_SEQ"
     MT_FLOW = "FLOW"
+    MT_CFU = "CFU"
     MT_IMAGE = "IMAGE"
     MT_SEQUENCING_CHROMATOGRAM = "SEQUENCING_CHROMATOGRAM"
     MT_EXPERIMENTAL_DESIGN = "EXPERIMENTAL_DESIGN"
@@ -236,18 +239,33 @@ def create_media_component(experiment_id, media_name, media_id, lab, sbh_query, 
         else:
             value_unit_split = convert_value_unit(value_unit)
         m_c_object[SampleConstants.VALUE] = value_unit_split[0]
-        if len(value_unit_split) == 1:
+        l_value_unit_split = len(value_unit_split)
+        if l_value_unit_split == 1:
             # no unit provided
             m_c_object[SampleConstants.UNIT] = SampleConstants.mM
-        else:
+        elif l_value_unit_split == 2:
             m_c_object[SampleConstants.UNIT] = value_unit_split[1]
             # apply some normalizations
+            if m_c_object[SampleConstants.UNIT] == "percent":
+                m_c_object[SampleConstants.UNIT] = "%"
             if m_c_object[SampleConstants.UNIT] == "micromolar":
                 m_c_object[SampleConstants.UNIT] = "micromole"
             if m_c_object[SampleConstants.UNIT] == "millimolar":
                 m_c_object[SampleConstants.UNIT] = "mM"
             if m_c_object[SampleConstants.UNIT] == "nanomolar":
                 m_c_object[SampleConstants.UNIT] = "nM"
+            if m_c_object[SampleConstants.UNIT] == "molar":
+                m_c_object[SampleConstants.UNIT] = "M"
+            if m_c_object[SampleConstants.UNIT] == "microgram/milliliter":
+                m_c_object[SampleConstants.UNIT] = "ug/ml"
+            if m_c_object[SampleConstants.UNIT] == "mg/mL":
+                m_c_object[SampleConstants.UNIT] = "mg/ml"
+        elif l_value_unit_split > 2:
+            # special cases
+            if value_unit.endswith("nanogram:microliter"):
+                m_c_object[SampleConstants.UNIT] = "ng/ul"
+            else:
+                raise ValueError("Could not parse value unit {}".format(value_unit))
 
     return m_c_object
 
@@ -271,6 +289,9 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
     elif lab == SampleConstants.LAB_MARSHALL:
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "Marshall"
+    elif lab == SampleConstants.LAB_DUKE_HAASE:
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "DUKE"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 

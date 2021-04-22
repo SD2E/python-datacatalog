@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20191028T201749+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@fbc5121",
+    "$comment": "version: 2.2.0#master; generated: 20210415T190029+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@ced2ab2",
     "$id": "https://schema.catalog.sd2e.org/schemas/lab.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -15,7 +15,11 @@
         "PNNL_Egbert",
         "UCSB_Yeung",
         "Duke_Haase",
-        "PSU_Salis"
+        "PSU_Salis",
+        "GEO",
+        "UW_LUTZ",
+        "Duke_Genomics",
+        "Tulane"
     ],
     "examples": [
         "Caltech",
@@ -28,7 +32,11 @@
         "PNNL_Egbert",
         "UCSB_Yeung",
         "Duke_Haase",
-        "PSU_Salis"
+        "PSU_Salis",
+        "GEO",
+        "UW_LUTZ",
+        "Duke_Genomics",
+        "Tulane"
     ],
     "title": "Lab",
     "type": "string"

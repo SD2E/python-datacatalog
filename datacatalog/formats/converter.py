@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import inspect
+import csv
 from openpyxl import load_workbook
 from shutil import copyfile
 from jsonschema import validate, FormatChecker, ValidationError
@@ -183,6 +184,47 @@ class Converter(object):
                     raise ConversionError(e)
 
             wb.close()
+
+            # If we have not returned True, all schemas failed
+            if permissive:
+                return False
+            else:
+                raise ValidationError(validation_errors)
+        #CSV PATH
+        elif input_fp.endswith(".csv"):
+            try:
+                input_fp_csvreader = csv.reader(open(input_fp))
+            except Exception as exc:
+                raise ConversionError('Failed to load {} for validation'.format(input_fp), exc)
+
+            # Iterate through our schemas
+            validation_errors = []
+            for schema_path in self.schemas:
+                try:
+                    with open(schema_path) as schema:
+                        schema_json = json.loads(schema.read())
+                except Exception as e:
+                    raise ConversionError(
+                        'Failed to load schema for validation', e)
+
+                try:
+                    # pull headers from schema and check
+                    schema_properties = schema_json["properties"]
+                    if "csv" in schema_properties and schema_properties["csv"] and "headers" in schema_properties:
+
+                        header_values_list = schema_properties["headers"]["oneOf"]
+
+                        for header_values in header_values_list:
+                            enum_values = [enum_item["enum"][0] for enum_item in header_values["items"]]
+
+                            for row in input_fp_csvreader:
+                                csv_headers = row
+                                valid = all([header in csv_headers for header in enum_values])
+                                if valid:
+                                    return valid
+                                break
+                except Exception as e:
+                    raise ConversionError(e)
 
             # If we have not returned True, all schemas failed
             if permissive:
