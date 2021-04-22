@@ -115,7 +115,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if channel['name'].endswith("-A"):
                 cytometer_channels.append(channel['name'])
 
-    inducer_regex = re.compile("\d{1,3}m?n?u?M\s(.*)")
+    inducer_regex = re.compile("\d{1,3}?\.?\d{1,3}?\s?m?n?u?M\s(.*)")
 
     for transcriptic_sample in transcriptic_doc[SampleConstants.SAMPLES]:
         sample_doc = {}
@@ -303,7 +303,7 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                                 if inducer[0].isdigit() and " " in inducer:
                                     inducer_match = inducer_regex.match(inducer)
                                     if not inducer_match:
-                                        raise ValueError("Could not parse inducer {}".format(reagent_label))
+                                        raise ValueError("Could not parse inducer {}".format(inducer))
                                     inducer = inducer_match.group(1)
                                 concentration = transcriptic_sample[SampleConstants.CONCENTRATION]
                             contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
