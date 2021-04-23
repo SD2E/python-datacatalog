@@ -1,5 +1,5 @@
-agavepy==0.7.3
-arrow
+agavepy>=0.9.3
+arrow>=1.0.2
 attrdict
 chardet
 cloudpickle
