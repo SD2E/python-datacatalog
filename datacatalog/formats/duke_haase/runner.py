@@ -388,7 +388,7 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
 
             sample_doc[SampleConstants.STRAIN] = create_mapped_name(experiment_id, strain, strain, lab, sbh_query, strain=True)
 
-            sample_doc[SampleConstants.REPLICATE] = int(replicate)
+            sample_doc[SampleConstants.REPLICATE] = int(float(replicate))
 
             m_time = None
 
@@ -398,7 +398,8 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 treatment_concentration_unit = row[header_map["treatment_concentration_unit"]]
 
                 if treatment == "heat":
-                    if treatment_concentration_unit == "C":
+                    treatment_concentration_unit = treatment_concentration_unit.strip()
+                    if treatment_concentration_unit in ["C", "celsius"]:
                         sample_doc[SampleConstants.TEMPERATURE] = create_value_unit(treatment_concentration+":celsius")
                     else:
                         raise ValueError("Unknown temperature {}".format(treatment_concentration_unit))
@@ -481,6 +482,14 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
             #percent_killed 47.60%
             #date_of_experiment 6/10/20
             cfu_data = {}
+
+            doe = row[header_map["date_of_experiment"]]
+            # excel trailing zeroes on strings: 20210430.0
+            if type(doe) == float:
+                doe = str(int(doe))
+            if type(doe) == str and doe.endswith(".0"):
+                doe = str(int(float(doe)))
+
             if is_cfu:
                 if len(row[header_map["CFU"]]) > 0:
                     cfu_data[headers[header_map["CFU"]]] = int(float(row[header_map["CFU"]]))
@@ -488,13 +497,13 @@ def convert_duke_haase(schema, encoding, input_file, verbose=True, output=True, 
                 cfu_data[headers[header_map["estimated_cells_plated"]]] = int(row[header_map["estimated_cells_plated"]])
                 cfu_data[headers[header_map["estimated_cells/ml"]]] = int(float(row[header_map["estimated_cells/ml"]]))
                 cfu_data[headers[header_map["percent_killed"]]] = float(row[header_map["percent_killed"]])
-                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(row[header_map["date_of_experiment"]], doe_format).strftime(doe_format)
+                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(doe, doe_format).strftime(doe_format)
             else:
                 #culture_cells/ml
                 #date_of_experiment
                 if len(row[header_map["culture_cells/ml"]]) > 0:
                     cfu_data[headers[header_map["culture_cells/ml"]]] = int(float(row[header_map["culture_cells/ml"]]))
-                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(row[header_map["date_of_experiment"]], doe_format).strftime(doe_format)
+                cfu_data[headers[header_map["date_of_experiment"]]] = datetime.datetime.strptime(doe, doe_format).strftime(doe_format)
 
             measurement_doc["cfu_data"] = cfu_data
 
