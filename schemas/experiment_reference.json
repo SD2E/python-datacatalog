@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210423T195641+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@c1a99b2",
+    "$comment": "version: 2.2.0#master; generated: 20210511T185347+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@e82a3a1",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -62,6 +62,7 @@
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
+        "Plan-Requirements-MultiOrganism-MixedMedia-TimeSeries-GrowthAssay-UCSB",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-P-brassicacaerum-inducer-RNASeq",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
@@ -298,6 +299,7 @@
         "Plan-Requirements-B-subtilis-inducer-RNASeq",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-2",
         "Plan-Requirements-B-subtilis-inducer-RNASeq-3",
+        "Plan-Requirements-MultiOrganism-MixedMedia-TimeSeries-GrowthAssay-UCSB",
         "Plan-Requirements-Netrias-B-subtilis-landing-pad-characterization",
         "Plan-Requirements-P-brassicacaerum-inducer-RNASeq",
         "Plan-Requirements-PNNL-B-subtilis-MultiSiteIntegration",
