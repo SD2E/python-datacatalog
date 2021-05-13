@@ -39,6 +39,7 @@ class SampleConstants():
     LAB_CALTECH = "Caltech"
     LAB_MARSHALL = "Marshall"
     LAB_DUKE_HAASE = "Duke_Haase"
+    LAB_TULANE = "Tulane"
     
     # Flow cytometer configuration
     CYTOMETER_CONFIG = "tasbe_cytometer_configuration"
@@ -292,6 +293,9 @@ def create_mapped_name(experiment_id, name_to_map, id_to_map, lab, sbh_query, st
     elif lab == SampleConstants.LAB_DUKE_HAASE:
         # TODO: replace with SBHA constant when DR team updates
         sbh_lab = "DUKE"
+    elif lab == SampleConstants.LAB_TULANE:
+        # TODO: replace with SBHA constant when DR team updates
+        sbh_lab = "Tulane"
     else:
         raise ValueError("Could not parse lab for SBH lookup: {}".format(lab))
 
