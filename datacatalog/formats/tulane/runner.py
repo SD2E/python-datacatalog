@@ -69,7 +69,7 @@ def convert_tulane(schema, encoding, input_file, verbose=True, output=True, outp
 
         if SampleConstants.STRAIN in tulane_sample:
             strain = tulane_sample[SampleConstants.STRAIN]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=False)
             
         if SampleConstants.CONTROL_TYPE in tulane_sample:
             sample_doc[SampleConstants.CONTROL_TYPE] = tulane_sample[SampleConstants.CONTROL_TYPE]
