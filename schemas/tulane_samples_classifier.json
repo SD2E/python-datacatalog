@@ -1,0 +1,119 @@
+{
+    "$comment": "version: 2.2.0#master; generated: 20210513T115824+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@2fcd5a2",
+    "$id": "https://schema.catalog.sd2e.org/schemas/tulane_samples_classifier.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "additionalProperties": false,
+    "properties": {
+        "challenge_problem": {
+            "type": "string"
+        },
+        "experiment_id": {
+            "type": "string"
+        },
+        "experiment_reference": {
+            "type": "string"
+        },
+        "lab": {
+            "type": "string"
+        },
+        "tasbe_cytometer_configuration": {
+            "properties": {
+                "channels": {
+                    "items": {
+                        "properties": {
+                            "emission_filter": {
+                                "properties": {
+                                    "center": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "width": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": [
+                                    "center",
+                                    "type",
+                                    "width"
+                                ],
+                                "type": "object"
+                            },
+                            "excitation_wavelength": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "emission_filter",
+                            "excitation_wavelength",
+                            "name"
+                        ],
+                        "type": "object"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "channels"
+            ],
+            "type": "object"
+        },
+        "tulane_samples": {
+            "items": {
+                "properties": {
+                    "control_channel": {
+                        "type": "string"
+                    },
+                    "control_type": {
+                        "type": "string"
+                    },
+                    "files": {
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "name",
+                                "type"
+                            ],
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "sample_id": {
+                        "type": "string"
+                    },
+                    "strain": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "files",
+                    "sample_id",
+                    "strain"
+                ],
+                "type": "object"
+            },
+            "type": "array"
+        }
+    },
+    "required": [
+        "challenge_problem",
+        "experiment_id",
+        "experiment_reference",
+        "lab",
+        "tulane_samples",
+        "tasbe_cytometer_configuration"
+    ],
+    "title": "Tulane JSON Headers Schema",
+    "type": "object"
+}
