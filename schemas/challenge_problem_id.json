@@ -1,11 +1,12 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210203T194014+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@15118ad",
+    "$comment": "version: 2.2.0#master; generated: 20210513T115554+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@2fcd5a2",
     "$id": "https://schema.catalog.sd2e.org/schemas/challenge_problem_id.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Challenge problem enumeration",
     "enum": [
-        "ARL_PROMOTER_TEST",
+        "TULANE_PILOT",
+        "ARL_PILOT_TEST",
         "RDT_QPCR",
         "DUKE_VALIDATION",
         "NOVEL_CHASSIS",
@@ -19,7 +20,8 @@
         "UNDEFINED"
     ],
     "examples": [
-        "ARL_PROMOTER_TEST",
+        "TULANE_PILOT",
+        "ARL_PILOT_TEST",
         "RDT_QPCR",
         "DUKE_VALIDATION",
         "NOVEL_CHASSIS",

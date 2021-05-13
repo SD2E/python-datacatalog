@@ -6,5 +6,6 @@ from .caltech import Caltech
 from .marshall import Marshall
 from .duke_haase import Duke_Haase
 from .duke_validation import Duke_Validation
+from .tulane import Tulane
 
 from .classify import get_converter
