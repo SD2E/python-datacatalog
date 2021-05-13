@@ -1,15 +1,16 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210511T185347+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@e82a3a1",
+    "$comment": "version: 2.2.0#master; generated: 20210513T105520+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@2fcd5a2",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Experiment reference enumeration",
     "enum": [
+        "Tulane-Pilot-Test",
+        "Unknown",
         "Copy-of-Pseudomonad-Growth-Curves-30C",
         "P-putida-starvation-TimeSeriesTitration-Strateos",
         "Pseudomonad-Growth-Curves-30C",
         "Strateos-ARL-plate-1-csv",
-        "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "devos-6539-negatives-plus-spike",
         "devos-6575",
@@ -242,11 +243,12 @@
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
     "examples": [
+        "Tulane-Pilot-Test",
+        "Unknown",
         "Copy-of-Pseudomonad-Growth-Curves-30C",
         "P-putida-starvation-TimeSeriesTitration-Strateos",
         "Pseudomonad-Growth-Curves-30C",
         "Strateos-ARL-plate-1-csv",
-        "Unknown",
         "Resilient-Diagnostic-qPCR-Testing-Modified-CDC-Swabs",
         "devos-6539-negatives-plus-spike",
         "devos-6575",
