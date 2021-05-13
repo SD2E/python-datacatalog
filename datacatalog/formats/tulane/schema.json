@@ -1,0 +1,92 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Tulane JSON Headers Schema",
+    "type": "object",
+    "properties": {
+        "challenge_problem": {
+            "type": "string"
+        },
+        "experiment_id": {
+            "type": "string"
+        },
+        "experiment_reference": {
+            "type": "string"
+        },
+        "lab": {
+            "type": "string"
+        },
+        "tulane_samples": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "files": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "type": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": ["name", "type"]
+                        }
+                    },
+                    "sample_id": {
+                        "type": "string"
+                    },
+                    "strain": {
+                        "type": "string"
+                    },
+                    "control_type": {
+                        "type": "string"
+                    },
+                    "control_channel": {
+                        "type": "string"
+                    }
+                },
+                "required": ["files", "sample_id", "strain"]
+            }
+        },
+        "tasbe_cytometer_configuration": {
+            "type": "object",
+            "properties": {
+                "channels": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "emission_filter": {
+                                "type": "object",
+                                "properties": {
+                                    "center": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "width": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "required": ["center", "type", "width"]
+                            },
+                            "excitation_wavelength": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["emission_filter", "excitation_wavelength", "name"]
+                    }
+                }
+            },
+            "required": ["channels"]
+        }
+    },
+    "required": ["challenge_problem", "experiment_id", "experiment_reference", "lab", "tulane_samples", "tasbe_cytometer_configuration"]
+}
