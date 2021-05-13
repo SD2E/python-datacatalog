@@ -109,6 +109,9 @@ def convert_tulane(schema, encoding, input_file, verbose=True, output=True, outp
             file_type = SampleConstants.infer_file_type(file_name)
             file_name_final = file_name
 
+            if file_name.startswith('s3') or file_name.count("/") >= 2:
+                file_name_final = file_name.split(original_experiment_id)[-1]
+
             if file_name_final.startswith("/"):
                 file_name_final = file_name_final[1:]
 
