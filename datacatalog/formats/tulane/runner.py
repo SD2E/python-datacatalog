@@ -92,6 +92,11 @@ def convert_tulane(schema, encoding, input_file, verbose=True, output=True, outp
 
             measurement_doc[SampleConstants.MEASUREMENT_TYPE] = measurement_type
 
+            # apply channels, if nothing mapped
+            if measurement_type == SampleConstants.MT_FLOW:
+                if SampleConstants.M_CHANNELS not in measurement_doc:
+                    measurement_doc[SampleConstants.M_CHANNELS] = cytometer_channels
+
             # append the type so we have a distinct id per actual grouped measurement
             typed_measurement_id = '.'.join([str(measurement_counter), measurement_type])
 
