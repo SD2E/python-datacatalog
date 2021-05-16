@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210513T175352+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3ddbe93",
+    "$comment": "version: 2.2.0#master; generated: 20210516T185449+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4fda975",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -77,6 +77,7 @@
         "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
         "Endogenous-Promoter-Blue-1-21-Run-04",
         "Endogenous-Promoter-Blue-43-48-Final-Set",
+        "Endogenous-Promoter-Circuits-RNASeq",
         "Endogenous-Promoter-Yellow-11-20-Run-04",
         "Endogenous-Promoter-Yellow-1-10-Run-04",
         "Endogenous-Promoter-Yellow-41-48-Final-Set",
@@ -316,6 +317,7 @@
         "Plan-Requirements-UCSB-P-protegens-PF5-antibiotic-spectinomycin-TimeSeriesTitration-Strateos",
         "Endogenous-Promoter-Blue-1-21-Run-04",
         "Endogenous-Promoter-Blue-43-48-Final-Set",
+        "Endogenous-Promoter-Circuits-RNASeq",
         "Endogenous-Promoter-Yellow-11-20-Run-04",
         "Endogenous-Promoter-Yellow-1-10-Run-04",
         "Endogenous-Promoter-Yellow-41-48-Final-Set",
