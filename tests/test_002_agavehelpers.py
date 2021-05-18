@@ -19,20 +19,20 @@ PARENT = os.path.dirname(HERE)
                                               ])
 def test_mapped_posix_path(agave, filename, system):
     h = agavehelpers.AgaveHelper(agave)
-    target = '/work/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'
+    target = '/work2/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'
     pp = h.mapped_posix_path(filename, storage_system=system)
     assert pp == target
 
 @pytest.mark.parametrize("filename, system, mapped_path",
                          [('/sample/tacc-cloud/123.txt',
                            'data-sd2e-community',
-                           '/work/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'),
+                           '/work2/projects/SD2E-Community/prod/data/sample/tacc-cloud/123.txt'),
                           ('/taconaut.txt',
-                           'data-tacc-work-sd2eadm',
-                           '/work/05201/sd2eadm/taconaut.txt'),
+                           'data-tacc-work2-sd2eadm',
+                           '/work2/05201/sd2eadm/taconaut.txt'),
                           ('rabbit-9.jpg',
                            'data-sd2e-projects.sd2e-project-10',
-                           '/work/projects/SD2E-Community/prod/projects/sd2e-project-10/rabbit-9.jpg')])
+                           '/work2/projects/SD2E-Community/prod/projects/sd2e-project-10/rabbit-9.jpg')])
 def test_mapping_other_systems(agave, filename, system, mapped_path):
     h = agavehelpers.AgaveHelper(agave)
     pp = h.mapped_posix_path(filename, storage_system=system)
