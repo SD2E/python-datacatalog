@@ -6,7 +6,7 @@ DEFAULT_STORAGE_SYSTEM = 'data-sd2e-community'
 DEFAULT_PATH_TYPE = 'native'
 
 STORES = {'data-sd2e-community': {
-    'native': '/work/projects/SD2E-Community/prod/data',
+    'native': '/work2/projects/SD2E-Community/prod/data',
     'jupyter': '/home/jupyter/sd2e-community',
     'jupyterhub': '\{User\}/tree/sd2e-community',
     'agave': '/'}
