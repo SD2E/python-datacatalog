@@ -23,7 +23,7 @@
                 "ginkgo_rnaseq_metadata": "$measurement.ginkgo_rnaseq_metadata",
                 "hpc_path": {
                     "$concat": [
-                        "/work/projects/SD2E-Community/prod/data",
+                        "/work2/projects/SD2E-Community/prod/data",
                         "$file.name"
                     ]
                 },
