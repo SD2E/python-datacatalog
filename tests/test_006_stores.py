@@ -3,19 +3,19 @@ from datacatalog.stores import StorageSystem, ManagedStoreError
 
 @pytest.mark.parametrize("system_id, abaco_dir, jupyter_dir", [
     ('data-sd2e-community',
-        '/work2/projects/SD2E-Community/prod/data',
+        '/work/projects/SD2E-Community/prod/data',
             '/user/{User}/tree/sd2e-community'),
-    ('data-tacc-work2-sd2eadm',
-        '/work2/05201/sd2eadm',
-            '/user/sd2eadm/tree/tacc-work2'),
+    ('data-tacc-work-sd2eadm',
+        '/work/05201/sd2eadm',
+            '/user/sd2eadm/tree/tacc-work'),
     ('data-projects-biocon',
-        '/work2/projects/DARPA-SD2-Partners/biocon',
+        '/work/projects/DARPA-SD2-Partners/biocon',
             '/user/{User}/tree/sd2e-partners/biocon'),
     ('data-sd2e-projects.sd2e-project-10',
-        '/work2/projects/SD2E-Community/prod/projects/sd2e-project-10',
+        '/work/projects/SD2E-Community/prod/projects/sd2e-project-10',
             '/user/{User}/tree/sd2e-projects/sd2e-project-10'),
     ('data-sd2e-projects.sd2e-project-21',
-        '/work2/projects/SD2E-Community/prod/projects/sd2e-project-21',
+        '/work/projects/SD2E-Community/prod/projects/sd2e-project-21',
             '/user/{User}/tree/sd2e-projects/sd2e-project-21')])
 def test_storage_system_base_dirs(agave, system_id, abaco_dir, jupyter_dir):
     """General test for system mappings"""

@@ -25,7 +25,7 @@ def test_titration_science_view_table_read(mongodb_settings):
         "experiment_reference_url" : "https://docs.google.com/document/d/1oMC5VM3XcFn6zscxLKLUe4U-TXbBsz8H6OQwHal1h4g",
         "file_type" : "PLAIN",
         "filename" : "/uploads/attachments/biotek_multi_csv/e10244/c224255.txt",
-        "hpc_path" : "/work2/projects/SD2E-Community/prod/data/uploads/attachments/biotek_multi_csv/e10244/c224255.txt",
+        "hpc_path" : "/work/projects/SD2E-Community/prod/data/uploads/attachments/biotek_multi_csv/e10244/c224255.txt",
         "jupyter_path" : "/home/jupyter/sd2e-community/uploads/attachments/biotek_multi_csv/e10244/c224255.txt",
         "lab" : "ginkgo",
         "level" : "0",
