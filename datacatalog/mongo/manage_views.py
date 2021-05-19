@@ -61,7 +61,7 @@ def test(db):
           "$agave_path.path_prefix",
           "/",
           "$file.filename"]},
-        "hpc_path": {"$concat": ["/work2/projects/SD2E-Community/prod/data",
+        "hpc_path": {"$concat": ["/work/projects/SD2E-Community/prod/data",
           "$agave_path.path_prefix",
           "/",
           "$file.filename"]},

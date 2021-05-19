@@ -27,7 +27,7 @@
             },
             "publicAppsDir": null,
             "host": "data.sd2e.org",
-            "rootDir": "/work2/projects/SD2E-Community/prod/data",
+            "rootDir": "/work/projects/SD2E-Community/prod/data",
             "homeDir": "/"
         },
         "type": "STORAGE",

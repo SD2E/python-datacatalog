@@ -11,7 +11,7 @@
                 "archive_path": "$job.archive_path",
                 "hpc_path": {
                     "$concat": [
-                        "/work2/projects/SD2E-Community/prod/data",
+                        "/work/projects/SD2E-Community/prod/data",
                         "$job.archive_path"
                     ]
                 },
