@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210516T185449+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@4fda975",
+    "$comment": "version: 2.2.0#master; generated: 20210602T185414+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@3536611",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -179,6 +179,7 @@
         "Updated-ER-example-on-Plant-TF-Dose-Response",
         "Yeast-TetR-Characterization",
         "YeastStates-1-0-Dose-Response",
+        "YeastSTATES-1-0-Growth-Curves-Increased-Recovery-Volume",
         "YeastSTATES-1-0-Growth-Curves",
         "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-1-0-Time-Series-Round-1-1",
@@ -419,6 +420,7 @@
         "Updated-ER-example-on-Plant-TF-Dose-Response",
         "Yeast-TetR-Characterization",
         "YeastStates-1-0-Dose-Response",
+        "YeastSTATES-1-0-Growth-Curves-Increased-Recovery-Volume",
         "YeastSTATES-1-0-Growth-Curves",
         "YeastSTATES-1-0-Time-Series-Round-1",
         "YeastSTATES-1-0-Time-Series-Round-1-1",
