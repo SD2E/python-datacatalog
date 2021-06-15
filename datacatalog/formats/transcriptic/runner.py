@@ -17,6 +17,7 @@ from synbiohub_adapter.SynBioHubUtil import *
 from ...agavehelpers import AgaveHelper
 from ..common import SampleConstants
 from ..common import namespace_file_id, namespace_sample_id, namespace_measurement_id, namespace_lab_id, create_media_component, create_mapped_name, create_value_unit, map_experiment_reference, namespace_experiment_id, safen_filename
+from ..common import process_contents_for_media_inducers
 
 
 def parse_time(transcriptic_sample_or_file):
@@ -309,6 +310,9 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                             contents.append(create_media_component(original_experiment_id, inducer, inducer, lab, sbh_query, concentration))
 
         if len(contents) > 0:
+
+            contents = process_contents_for_media_inducers(contents, original_experiment_id, lab, sbh_query)
+
             sample_doc[SampleConstants.CONTENTS] = contents
 
         #"dna_concentration": "0:nanogram:microliter",

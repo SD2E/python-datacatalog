@@ -2,6 +2,7 @@
 from synbiohub_adapter.SynBioHubUtil import SD2Constants
 import pymongo
 import datacatalog
+import re
 from datacatalog import mongo
 from ..filetypes import infer_filetype
 from datacatalog.utils import safen_path
@@ -215,6 +216,37 @@ def map_experiment_reference(config, output_doc):
             print("Overwriting challenge problem with lookup {} ".format(match["id"]))
             output_doc[SampleConstants.CHALLENGE_PROBLEM] = match["id"]
             break
+
+def process_contents_for_media_inducers(contents, original_experiment_id, lab, sbh_query):
+
+    # handle combined media+inducer like "High Osm Media with 200nM beta-estradiol"
+    split_media_inducer_regex = re.compile("(.*)\swith\s(\d{1,3})(.M)\s(.*)")
+
+    delete_contents = []
+    add_contents = []
+    # check for media/inducer splits
+    for content_item in contents:
+        if "name" in content_item and "label" in content_item["name"]:
+            content_label_for_regex = content_item["name"]["label"]
+            split_match = split_media_inducer_regex.match(content_label_for_regex)
+            if split_match:
+                split_media = split_match.group(1)
+                split_inducer_concentration = split_match.group(2)
+                split_inducer_unit = split_match.group(3)
+                split_inducer = split_match.group(4)
+
+                delete_contents.append(content_item)
+
+                add_contents.append(create_media_component(original_experiment_id, split_inducer, split_inducer, lab, sbh_query, split_inducer_concentration + ":" + split_inducer_unit))
+                add_contents.append(create_media_component(original_experiment_id, split_media, split_media, lab, sbh_query))
+
+    if len(delete_contents) > 0:
+        contents = [item for item in contents if item not in delete_contents]
+
+    if len(add_contents) > 0:
+        contents.extend(add_contents)
+
+    return contents
 
 def convert_value_unit(value_unit):
     value_unit_split = value_unit.split(":")
