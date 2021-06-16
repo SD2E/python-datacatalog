@@ -1,10 +1,14 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20200422T002335+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@3b1e349",
+    "$comment": "version: 2.2.0#master; generated: 20210616T170206+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@237967a",
     "$id": "https://schema.catalog.sd2e.org/schemas/media_component.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "description": "Component in a fluid growth medium",
     "properties": {
+        "in_media": {
+            "description": "Whether the component is mixed in the media or not",
+            "type": "boolean"
+        },
         "name": {
             "$ref": "mapped_name.json",
             "description": "A mapped lab id for a media reference"
@@ -12,6 +16,13 @@
         "timepoint": {
             "$ref": "time_point.json",
             "description": "time at which this media component applies"
+        },
+        "type": {
+            "enum": [
+                "inducer",
+                "media"
+            ],
+            "type": "string"
         },
         "unit": {
             "oneOf": [
