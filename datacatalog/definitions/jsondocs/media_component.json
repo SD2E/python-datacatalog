@@ -26,6 +26,14 @@
         "timepoint": {
             "$ref": "time_point.json",
             "description": "time at which this media component applies"
+        },
+        "type": {
+            "type": "string",
+            "enum": ["inducer", "media"]
+        },
+        "in_media" : {
+            "description": "Whether the component is mixed in the media or not",
+            "type": "boolean"
         }
     },
     "required": [
