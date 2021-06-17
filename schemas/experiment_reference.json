@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210617T025432+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@5e2ab24",
+    "$comment": "version: 2.2.0#master; generated: 20210617T185349+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@c7cc54a",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -186,6 +186,7 @@
         "Yeast-Gates6",
         "Yeast-Gates7",
         "Yeast-Gates8",
+        "Yeast-Gates9",
         "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves-Increased-Recovery-Volume",
         "YeastSTATES-1-0-Growth-Curves",
@@ -435,6 +436,7 @@
         "Yeast-Gates6",
         "Yeast-Gates7",
         "Yeast-Gates8",
+        "Yeast-Gates9",
         "YeastStates-1-0-Dose-Response",
         "YeastSTATES-1-0-Growth-Curves-Increased-Recovery-Volume",
         "YeastSTATES-1-0-Growth-Curves",
