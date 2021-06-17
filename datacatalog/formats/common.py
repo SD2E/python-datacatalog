@@ -237,8 +237,13 @@ def process_contents_for_media_inducers(contents, original_experiment_id, lab, s
 
                 delete_contents.append(content_item)
 
-                add_contents.append(create_media_component(original_experiment_id, split_inducer, split_inducer, lab, sbh_query, split_inducer_concentration + ":" + split_inducer_unit))
-                add_contents.append(create_media_component(original_experiment_id, split_media, split_media, lab, sbh_query))
+                add_inducer = create_media_component(original_experiment_id, split_inducer, split_inducer, lab, sbh_query, split_inducer_concentration + ":" + split_inducer_unit)
+                add_inducer["in_media"] = True
+                add_media = create_media_component(original_experiment_id, split_media, split_media, lab, sbh_query)
+                add_media["in_media"] = True
+
+                add_contents.append(add_inducer)
+                add_contents.append(add_media)
 
     if len(delete_contents) > 0:
         contents = [item for item in contents if item not in delete_contents]
