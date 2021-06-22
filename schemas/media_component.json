@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210616T170206+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@237967a",
+    "$comment": "version: 2.2.0#master; generated: 20210622T132802+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@f39e514",
     "$id": "https://schema.catalog.sd2e.org/schemas/media_component.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -20,7 +20,8 @@
         "type": {
             "enum": [
                 "inducer",
-                "media"
+                "media",
+                "buffer"
             ],
             "type": "string"
         },
