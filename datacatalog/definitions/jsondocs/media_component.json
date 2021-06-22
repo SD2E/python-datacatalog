@@ -29,7 +29,7 @@
         },
         "type": {
             "type": "string",
-            "enum": ["inducer", "media"]
+            "enum": ["inducer", "media", "buffer"]
         },
         "in_media" : {
             "description": "Whether the component is mixed in the media or not",
