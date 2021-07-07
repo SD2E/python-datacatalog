@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20210309T154540+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@47ba7ab",
+    "$comment": "version: 2.2.0#master; generated: 20210707T230825+00:00; source: https://gitlab.sd2e.org/sd2program/python-datacatalog.git@08774fc",
     "$id": "https://schema.catalog.sd2e.org/schemas/mapped_name.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -15,6 +15,22 @@
         "input_state": {
             "$ref": "input_state.json",
             "description": "An input state enum for this sbh_uri, if available (e.g. a strain)"
+        },
+        "input_state_labels": {
+            "description": "Human readable labels for the elements that map to the input state",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "input_state_uris": {
+            "description": "URIs for the elements that map to the input state",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
         },
         "lab_id": {
             "$ref": "namespaced_identifier.json",
