@@ -17,6 +17,22 @@
             "$ref": "circuit_state.json",
             "description": "A predicted circuit state enum for this sbh_uri, if available (e.g. a strain)"
         },
+        "input_state_labels": {
+            "description": "Human readable labels for the elements that map to the input state",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
+        "input_state_uris" : {
+            "description": "URIs for the elements that map to the input state",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "type": "array"
+        },
         "lab_id": {
             "description": "The original value specified by the provider",
             "$ref": "namespaced_identifier.json"
