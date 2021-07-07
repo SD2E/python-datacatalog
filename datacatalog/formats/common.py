@@ -217,10 +217,13 @@ def map_experiment_reference(config, output_doc):
             output_doc[SampleConstants.CHALLENGE_PROBLEM] = match["id"]
             break
 
-def process_contents_for_media_inducers(contents, original_experiment_id, lab, sbh_query):
+def process_contents_for_media_inducers(contents, original_experiment_id, lab, sbh_query, normalize_split_to_nM=True):
 
     # handle combined media+inducer like "High Osm Media with 200nM beta-estradiol"
     split_media_inducer_regex = re.compile("(.*)\swith\s(\d{1,3})(.M)\s(.*)")
+
+    # split combined inducer like BE_8.5uM_Dox_2.45uM
+    split_combined_inducer = re.compile("(.*)_(\d{1,3}\.\d{1,3})(.M)_(.*)_(\d{1,3}\.\d{1,3})(.M)")
 
     delete_contents = []
     add_contents = []
@@ -244,6 +247,42 @@ def process_contents_for_media_inducers(contents, original_experiment_id, lab, s
 
                 add_contents.append(add_inducer)
                 add_contents.append(add_media)
+
+            split_combined_inducer_match = split_combined_inducer.match(content_label_for_regex)
+            if split_combined_inducer_match:
+
+                content_value = content_item["value"]
+                content_unit = content_item["unit"]
+
+                split_inducer_1 = split_combined_inducer_match.group(1)
+                split_inducer_1_concentration = float(split_combined_inducer_match.group(2))
+                split_inducer_1_unit = split_combined_inducer_match.group(3)
+
+                split_inducer_2 = split_combined_inducer_match.group(4)
+                split_inducer_2_concentration = float(split_combined_inducer_match.group(5))
+                split_inducer_2_unit = split_combined_inducer_match.group(6)
+
+                delete_contents.append(content_item)
+
+                if normalize_split_to_nM and split_inducer_1_unit == "uM" and content_unit == "%":
+                    split_inducer_1_unit = "nM"
+                    if content_value == 0.0:
+                        split_inducer_1_concentration = "0.0"
+                    else:
+                        split_inducer_1_concentration = str((split_inducer_1_concentration * 1000) / ( 1 / (content_value / 100)))
+
+                if normalize_split_to_nM and split_inducer_2_unit == "uM" and content_unit == "%":
+                    split_inducer_2_unit = "nM"
+                    if content_value == 0.0:
+                        split_inducer_2_concentration = "0.0"
+                    else:
+                        split_inducer_2_concentration = str((split_inducer_2_concentration * 1000) / ( 1 / (content_value / 100)))
+
+                add_inducer_1 = create_media_component(original_experiment_id, split_inducer_1, split_inducer_1, lab, sbh_query, split_inducer_1_concentration + ":" + split_inducer_1_unit)
+                add_inducer_2 = create_media_component(original_experiment_id, split_inducer_2, split_inducer_2, lab, sbh_query, split_inducer_2_concentration + ":" + split_inducer_2_unit)
+
+                add_contents.append(add_inducer_1)
+                add_contents.append(add_inducer_2)
 
     if len(delete_contents) > 0:
         contents = [item for item in contents if item not in delete_contents]
