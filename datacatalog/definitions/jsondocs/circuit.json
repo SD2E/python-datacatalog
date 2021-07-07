@@ -6,7 +6,9 @@
         "NOR",
         "OR",
         "XNOR",
-        "XOR"
+        "XOR",
+        "TRUE",
+        "FALSE"
     ],
     "type": "string",
     "examples": [
@@ -15,6 +17,8 @@
         "NOR",
         "OR",
         "XNOR",
-        "XOR"
+        "XOR",
+        "TRUE",
+        "FALSE"
     ]
 }
