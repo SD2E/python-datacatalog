@@ -241,6 +241,12 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
             if media_id not in seen_contents:
                 seen_contents.add(media_id)
                 contents.append(create_media_component(original_experiment_id, media, media_id, lab, sbh_query))
+        elif "experimental_media" in transcriptic_sample and SampleConstants.STANDARD_TYPE not in transcriptic_sample and SampleConstants.CONTROL_TYPE not in transcriptic_sample and SampleConstants.STRAIN not in transcriptic_sample:
+            media = transcriptic_sample["experimental_media"]
+            if media not in seen_contents:
+                seen_contents.add(media)
+                contents.append(create_media_component(original_experiment_id, media, media, lab, sbh_query))
+                sample_doc[SampleConstants.STANDARD_TYPE] = SampleConstants.STANDARD_MEDIA_BLANK
 
         # skip inducer parsing if we parsed via OC array above
         if not parsed_oc and SampleConstants.INDUCER in transcriptic_sample:
