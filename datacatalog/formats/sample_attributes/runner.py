@@ -49,7 +49,10 @@ def get_tx_data(eid, email, token):
             return elem
             
     return None
-    
+
+# invalid FCS, skip
+skip_samples = ["https://hub.sd2e.org/user/sd2e/transcriptic_yeast_gates_q0_r1bgtnn6nxy85/s83_R85_R118_R208/1"]
+
 def convert_sample_attributes(schema, encoding, input_file, email, token, verbose=True, output=True, output_file=None, config={}, enforce_validation=True, reactor=None):
 
     if reactor is not None:
@@ -80,6 +83,12 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
         sample_doc = {}
         sample_doc[SampleConstants.MEASUREMENTS] = []
         
+        sample_id = str(sample_attributes_sample["sample"])
+        if sample_id in skip_samples:
+            # problematic sample - skip!
+            print("Specific filter - invalid FCS - skipping sample: {}".format(sample_id))
+            continue
+
         # try to figure out the lab, experiment_id, cp, etc from the filename
         attr_matches = [attr for attr in sample_attributes_sample if attr.endswith(attributes_attr)]
         attr_sample_content = []
