@@ -147,6 +147,7 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
                     # Tricky. Parse experiment id out of the below (r1bbktv6x4xke)
                     # agave://data-sd2e-community/transcriptic/yeast-gates_q0/r1bbktv6x4xke/3/instrument_output/s877_R31509.fcs ?                
                     if exp_match and SampleConstants.EXPERIMENT_ID not in output_doc:
+                        original_experiment_id = eid
                         experiment_id = namespace_experiment_id(eid, lab)
                         output_doc[SampleConstants.EXPERIMENT_ID] = experiment_id
                         #print("experiment_id: {}".format(experiment_id))
@@ -213,12 +214,14 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
         contents = []
         if SampleConstants.MEDIA in attr_sample_content:
             reagent = attr_sample_content[SampleConstants.MEDIA]
-            contents.append(create_media_component(experiment_id, reagent, reagent, lab, sbh_query))
+            contents.append(create_media_component(original_experiment_id, reagent, reagent, lab, sbh_query))
 
         # strain
         if SampleConstants.STRAIN in attr_sample_content:
             strain = attr_sample_content[SampleConstants.STRAIN]
-            sample_doc[SampleConstants.STRAIN] = create_mapped_name(experiment_id, strain, strain, lab, sbh_query, strain=True)
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain, strain, lab, sbh_query, strain=True)
+        elif "bead_colony"  not in attr_sample_content:
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "MediaControl", "MediaControl", lab, sbh_query, strain=False)
 
         # fill in attributes if we have a bead standard
         if "bead_colony" in attr_sample_content and "beads_spherotech_rainbow" in attr_sample_content["bead_colony"] and \
@@ -227,6 +230,8 @@ def convert_sample_attributes(schema, encoding, input_file, email, token, verbos
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES] = {}
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_MODEL] = DEFAULT_BEAD_MODEL
             sample_doc[SampleConstants.STANDARD_ATTRIBUTES][SampleConstants.BEAD_BATCH] = DEFAULT_BEAD_BATCH
+
+            sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, "SpheroControl", "SpheroControl", lab, sbh_query, strain=True)
 
         if SampleConstants.CONTROL_TYPE not in sample_doc and SampleConstants.STRAIN in sample_doc:
             #print("strain: {}".format(sample_doc[SampleConstants.STRAIN]))
