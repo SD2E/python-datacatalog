@@ -73,6 +73,8 @@
                 "strain_circuit": "$sample.strain.circuit",
                 "strain_input_state": "$sample.strain.input_state",
                 "strain_predicted_circuit_state": "$sample.strain.predicted_circuit_state",
+                "strain_input_state_uris": "$sample.strain.input_state_uris",
+                "strain_input_state_labels": "$sample.strain.input_state_labels",
                 "strain_lab_id": "$sample.strain.lab_id",
                 "strain_sbh_uri": "$sample.strain.sbh_uri",
                 "experiment_tasbe_junit" : "$experiment.tasbe_junit",
