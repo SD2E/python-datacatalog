@@ -26,7 +26,7 @@ def get_drive_service(credential_path=SERVICE_ACCOUNT_FILE, scopes=SCOPES):
     credentials = service_account.Credentials.from_service_account_file(
         credential_path, scopes=scopes)
     service = googleapiclient.discovery.build(
-        'drive', 'v3', credentials=credentials)
+        'drive', 'v3', credentials=credentials, always_use_jwt_access=False)
     return service
 
 
