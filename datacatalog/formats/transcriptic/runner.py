@@ -418,6 +418,10 @@ def convert_transcriptic(schema, encoding, input_file, verbose=True, output=True
                     tx_standard_type = "BEAD_SIZE"
 
                 sample_doc[SampleConstants.STANDARD_TYPE] = tx_standard_type
+                if SampleConstants.STRAIN not in sample_doc and sample_doc[SampleConstants.STANDARD_TYPE] != SampleConstants.STANDARD_MEDIA_BLANK:
+                    strain_for_control = tx_standard_type.lower().capitalize() + "Control"
+                    sample_doc[SampleConstants.STRAIN] = create_mapped_name(original_experiment_id, strain_for_control, strain_for_control, lab, sbh_query, strain=False)
+
         if SampleConstants.STANDARD_FOR in transcriptic_sample:
             standard_for = transcriptic_sample[SampleConstants.STANDARD_FOR]
             if len(standard_for) > 0:
