@@ -4,6 +4,8 @@ attrdict
 chardet
 cloudpickle
 configparser>=3.5.0
+# https://github.com/sphinx-doc/sphinx/issues/9777
+docutils>=0.14,<0.18
 filetype
 future
 GitPython<=2.1.11
