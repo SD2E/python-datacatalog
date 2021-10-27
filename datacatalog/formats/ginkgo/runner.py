@@ -137,6 +137,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     DEFAULT_BEAD_MODEL = "SpheroTech URCP-38-2K"
     DEFAULT_BEAD_BATCH = "AJ02"
     DEFAULT_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "YFP - Area"]
+    E7201_CYTOMETER_CHANNELS = ["SSC - Area", "FSC - Area", "GFP - Area"]
     DEFAULT_CYTOMETER_CONFIGURATION = "agave://data-sd2e-community/ginkgo/instruments/SA3800-20180912.json"
 
     # changed for NC Exp-NC-NAND-Gate-Iteration, NovelChassis-NAND-Ecoli-Titration
@@ -186,6 +187,7 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
     measurements_table = db.measurements
 
     is_nc_iteration_titration = False
+    is_ginkgo_e7201 = False
 
     if "experimental_reference" in ginkgo_doc:
         output_doc[SampleConstants.EXPERIMENT_REFERENCE] = ginkgo_doc["experimental_reference"]
@@ -213,6 +215,9 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
         # Are we not processing an earlier experiment that used defaults?
         if namespaced_experiment_id not in GINKGO_EXPS:
             APPLY_DEFAULTS = False
+
+        if namespaced_experiment_id == "experiment.ginkgo.e7201":
+            is_ginkgo_e7201 = True
 
     print("Applying defaults {}".format(APPLY_DEFAULTS))
 
@@ -644,6 +649,8 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
                     if SampleConstants.M_CHANNELS not in measurement_doc:
                         if is_nc_iteration_titration:
                             measurement_doc[SampleConstants.M_CHANNELS] = NC_ITERATION_TITRATION_CYTOMETER_CHANNELS
+                        elif is_ginkgo_e7201:
+                            measurement_doc[SampleConstants.M_CHANNELS] = E7201_CYTOMETER_CHANNELS
                         else:
                             measurement_doc[SampleConstants.M_CHANNELS] = DEFAULT_CYTOMETER_CHANNELS
 
