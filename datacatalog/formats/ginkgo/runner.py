@@ -664,6 +664,15 @@ def convert_ginkgo(schema, encoding, input_file, verbose=True, output=True, outp
             if APPLY_DEFAULTS:
                 if SampleConstants.CONTROL_TYPE not in sample_doc and \
                     SampleConstants.STRAIN in sample_doc and \
+                        output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_YEAST_STATES:
+
+                    required_props = ["killing", "treatment", "stain", "dilution"]
+                    if all([reqprop in props for reqprop in required_props]) and "strain" in props:
+                        if props["strain"] == "w303diploid" and all([props[reqprop] == "none" for reqprop in required_props]):
+                            sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_EMPTY_VECTOR
+
+                if SampleConstants.CONTROL_TYPE not in sample_doc and \
+                    SampleConstants.STRAIN in sample_doc and \
                         output_doc[SampleConstants.CHALLENGE_PROBLEM] == SampleConstants.CP_NOVEL_CHASSIS:
                     # MG1655_WT or MG1655_empty_landing_pads
                     if sample_doc[SampleConstants.STRAIN][SampleConstants.LAB_ID] == namespace_lab_id("194568", output_doc[SampleConstants.LAB]) or \
