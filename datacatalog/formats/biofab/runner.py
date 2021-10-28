@@ -3,6 +3,7 @@ import json
 import sys
 import os
 import six
+import copy
 from jq import jq
 from jsonschema import validate, ValidationError
 from sbol2 import *
@@ -56,6 +57,8 @@ working_volume_attr = "working_volume"
 
 negative_control = False
 is_sytox = False
+
+samples_map = {}
 
 jq_temperature = ".operations[].inputs[] | select (.name | contains (\"Growth Temperature\") or contains (\"Temperature\")).value"
 
@@ -410,6 +413,18 @@ def add_measurement_type(file, measurement_doc):
 
 def add_measurement_doc(measurement_doc, sample_doc, output_doc):
 
+    # substitute in cached sample to inline
+    # measurements if we have already seen this sid before
+    sid = sample_doc[SampleConstants.SAMPLE_ID]
+    if sid in samples_map:
+        # ensure we're working off a copy so this doc does not get persisted across samples
+        measurement_copy = copy.deepcopy(measurement_doc)
+        if samples_map[sid][SampleConstants.MEASUREMENTS][0][SampleConstants.MEASUREMENT_TYPE] == measurement_copy[SampleConstants.MEASUREMENT_TYPE]:
+            samples_map[sid][SampleConstants.MEASUREMENTS][0][SampleConstants.FILES].extend(measurement_copy[SampleConstants.FILES])
+        else:
+            samples_map[sid][SampleConstants.MEASUREMENTS].append(measurement_copy)
+        return
+
     if SampleConstants.MEASUREMENTS not in sample_doc:
         sample_doc[SampleConstants.MEASUREMENTS] = []
     sample_doc[SampleConstants.MEASUREMENTS].append(measurement_doc)
@@ -446,6 +461,7 @@ def add_measurement_doc(measurement_doc, sample_doc, output_doc):
                     sample_doc[SampleConstants.CONTROL_TYPE] = SampleConstants.CONTROL_HIGH_FITC
                     sample_doc[SampleConstants.CONTROL_CHANNEL] = "FL1-A"
 
+    samples_map[sid] = sample_doc
     output_doc[SampleConstants.SAMPLES].append(sample_doc)
 
 def add_file_name(config, file, measurement_doc, original_experiment_id, lab, output_doc):
@@ -735,14 +751,18 @@ def convert_biofab(schema, encoding, input_file, verbose=True, output=True, outp
                 # (PlateReader in particular does this)
                 # Special case for FCS files: some plans attach these to the
                 # plate, which causes lots of issues. Skip these.
-                if type_attr in biofab_sample and biofab_sample[type_attr] == "FCS":
+                is_ab1 = False
+                if "filename" in biofab_sample and biofab_sample["filename"].endswith(".ab1"):
+                    is_ab1 = True
+                if (type_attr in biofab_sample and biofab_sample[type_attr] == "FCS") or is_ab1:
                     lookup_source = jq(".items[] | select(.item_id==\"" + file_source + "\")").transform(biofab_doc)
                     if type_attr in lookup_source and lookup_source[type_attr] == "collection":
                         print("Skipping non-sample FCS source: {}".format(file_source))
                     else:
-                        print("Adding non-sample FCS source: {}".format(file_source))
+                        print("Adding non-sample FCS source (1): {}".format(file_source))
                         missing_part_of_items.add(file_source)
                 else:
+                    print("Adding non-sample FCS source (2): {}".format(file_source))
                     missing_part_of_items.add(file_source)
                 continue
         else:
