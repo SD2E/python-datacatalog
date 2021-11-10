@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20190807T022110+00:00; source: git@github.com:SD2E/python-datacatalog.git@a69d370",
+    "$comment": "version: 2.2.0#master; generated: 20211110T225421+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@20791c6",
     "$id": "https://schema.catalog.sd2e.org/schemas/biofab_provenance_classifier.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": true,
@@ -76,6 +76,50 @@
                 "jobs",
                 "operations",
                 "experiment_id"
+            ],
+            "type": "object"
+        },
+        {
+            "additionalProperties": false,
+            "properties": {
+                "attributes": {
+                    "type": "object"
+                },
+                "experiment_id": {
+                    "type": "string"
+                },
+                "files": {
+                    "type": "array"
+                },
+                "items": {
+                    "type": "array"
+                },
+                "jobs": {
+                    "type": "array"
+                },
+                "operations": {
+                    "type": "array"
+                },
+                "plan_id": {
+                    "type": "string"
+                },
+                "plan_inputs": {
+                    "type": "array"
+                },
+                "plan_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "attributes",
+                "experiment_id",
+                "files",
+                "items",
+                "jobs",
+                "operations",
+                "plan_id",
+                "plan_inputs",
+                "plan_name"
             ],
             "type": "object"
         }
