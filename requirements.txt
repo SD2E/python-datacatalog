@@ -18,7 +18,7 @@ jq
 jsondiff
 openpyxl
 petname
-pymongo
+pymongo<=3.12.1
 python-magic
 python-slugify
 pytz
