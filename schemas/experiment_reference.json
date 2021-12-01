@@ -1,5 +1,5 @@
 {
-    "$comment": "version: 2.2.0#master; generated: 20211201T165302+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@be713b3",
+    "$comment": "version: 2.2.0#master; generated: 20211201T185309+00:00; source: git@gitlab.sd2e.org:sd2program/python-datacatalog.git@ab41558",
     "$id": "https://schema.catalog.sd2e.org/schemas/experiment_reference.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
@@ -252,6 +252,7 @@
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63A-April-2021",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63A-July-2021",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63B-Dec-2021",
+        "Copy-of-Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63B-Dec-2021",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
@@ -503,6 +504,7 @@
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63A-April-2021",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63A-July-2021",
         "Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63B-Dec-2021",
+        "Copy-of-Cell-Free-Transcriptional-Riboswitch-Characterization-Sequences-33-63B-Dec-2021",
         "Riboswitches",
         "Test-Cell-Free-Transcriptional-Riboswitch-Characterization"
     ],
